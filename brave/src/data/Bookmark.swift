@@ -6,7 +6,7 @@ import CoreData
 import Foundation
 import Shared
 
-class Bookmark: NSManagedObject, WebsitePresentable {
+class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     
     @NSManaged var isFolder: Bool
     @NSManaged var title: String?
@@ -125,7 +125,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
             DataController.saveContext()
         }
         
-        Sync.shared.sendSyncRecords(.bookmark, action: .update, bookmarks: [self])
+        Sync.shared.sendSyncRecords(.bookmark, action: .update, records: [self])
     }
 
     // Should not be used for updating, modify to increase protection
@@ -188,7 +188,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
             
             // Submit to server
             if sendToSync {
-                Sync.shared.sendSyncRecords(.bookmark, action: .update, bookmarks: [bk])
+                Sync.shared.sendSyncRecords(.bookmark, action: .update, records: [bk])
             }
             
             DataController.saveContext()
@@ -384,7 +384,7 @@ extension Bookmark {
     
     class func remove(bookmark bookmark: Bookmark, save: Bool = true) {
         // Must happen before, otherwise bookmark is gone
-        Sync.shared.sendSyncRecords(.bookmark, action: .delete, bookmarks: [bookmark])
+        Sync.shared.sendSyncRecords(.bookmark, action: .delete, records: [bookmark])
 
         DataController.moc.deleteObject(bookmark)
         if save {

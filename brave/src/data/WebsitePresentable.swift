@@ -6,3 +6,7 @@ import Foundation
     var title: String? { get }
     var url: String? { get }
 }
+
+protocol Syncable {
+    func asDictionary(deviceId deviceId: [Int]?, action: Int?) -> [String: AnyObject]
+}

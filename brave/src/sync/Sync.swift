@@ -239,9 +239,13 @@ class Sync: JSInjector {
             }
             
             if lastFetchedRecordTimestamp == 0 {
+                // Send device
+                
+                
                 // Sync local bookmarks, then proceed with fetching
                 // Pull all local bookmarks
-                self.sendSyncRecords(.bookmark, action: .create, bookmarks: Bookmark.getAllBookmarks()) { error in
+                // Insane .map required for mapping obj-c class to Swift, in order to use protocol instead of class for array param
+                self.sendSyncRecords(.bookmark, action: .create, records: Bookmark.getAllBookmarks().map{$0}) { error in
                     startFetching()
                 }
             } else {
@@ -261,9 +265,9 @@ class Sync: JSInjector {
 // MARK: Native-initiated Message category
 extension Sync {
     // TODO: Rename
-    func sendSyncRecords(recordType: SyncRecordType, action: SyncActions, bookmarks: [Bookmark], completion: (NSError? -> Void)? = nil) {
+    func sendSyncRecords(recordType: SyncRecordType, action: SyncActions, records: [Syncable], completion: (NSError? -> Void)? = nil) {
         
-        if bookmarks.isEmpty {
+        if records.isEmpty {
             completion?(nil)
             return
         }
@@ -275,9 +279,7 @@ extension Sync {
         
         executeBlockOnReady() {
             
-            let syncRecords = bookmarks.map {
-                SyncRoot(bookmark: $0, deviceId: self.syncDeviceId, action: action.rawValue).dictionaryRepresentation()
-            }
+            let syncRecords = records.map { $0.asDictionary(deviceId: self.syncDeviceId, action: action.rawValue) }
             
             guard let json = NSJSONSerialization.jsObject(withNative: syncRecords, escaped: false) else {
                 // Huge error
@@ -286,7 +288,7 @@ extension Sync {
 
             /* browser -> webview, sends this to the webview with the data that needs to be synced to the sync server.
              @param {string} categoryName, @param {Array.<Object>} records */
-            let evaluate = "callbackList['send-sync-records'](null, 'BOOKMARKS',\(json))"
+            let evaluate = "callbackList['send-sync-records'](null, \(recordType.rawValue),\(json))"
             self.webView.evaluateJavaScript(evaluate,
                                        completionHandler: { (result, error) in
                                         if error != nil {
