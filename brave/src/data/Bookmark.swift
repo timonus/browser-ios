@@ -32,12 +32,6 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     // For instance, when a favicon is set on a domain, to notify any bookmarks or history items that
     // are displayed in a table and waiting for a favicon, you can change markDirty, and the favicon will update
     @NSManaged var markDirty: Int16
-
-    // Is conveted to better store in CD
-    var syncUUID: [Int]? {
-        get { return syncUUID(fromString: syncDisplayUUID) }
-        set(value) { syncDisplayUUID = Bookmark.syncDisplay(fromUUID: value) }
-    }
     
     var syncParentUUID: [Int]? {
         get { return syncUUID(fromString: syncParentDisplayUUID) }
@@ -276,17 +270,6 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             print(fetchError)
         }
         return [Bookmark]()
-    }
-    
-    
-    /// UUID -> DisplayUUID
-    private static func syncDisplay(fromUUID uuid: [Int]?) -> String? {
-        return uuid?.map{ $0.description }.joinWithSeparator(",")
-    }
-    
-    /// DisplayUUID -> UUID
-    private func syncUUID(fromString string: String?) -> [Int]? {
-        return string?.componentsSeparatedByString(",").map { Int($0) }.flatMap { $0 }
     }
 }
 
