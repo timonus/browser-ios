@@ -14,8 +14,12 @@ class Device: NSManagedObject, Syncable {
 
     // Just a facade around the displayId, for easier access and better CD storage
     var deviceId: [Int]? {
-        get { return syncUUID(fromString: deviceDisplayId) }
-        set(value) { deviceDisplayId = Bookmark.syncDisplay(fromUUID: value) }
+        get { return SyncHelpers.syncUUID(fromString: deviceDisplayId) }
+        set(value) { deviceDisplayId = SyncHelpers.syncDisplay(fromUUID: value) }
+    }
+    
+    static func entity(context: NSManagedObjectContext) -> NSEntityDescription {
+        return NSEntityDescription()
     }
     
     func asDictionary(deviceId deviceId: [Int]?, action: Int?) -> [String: AnyObject] {

@@ -20,10 +20,25 @@ import Shared
 
 let NotificationSyncReady = "NotificationSyncReady"
 
-enum SyncRecordType : String {
+// TODO: Make capitals - pluralize - call 'categories' not 'type'
+public enum SyncRecordType : String {
     case bookmark = "BOOKMARKS"
     case history = "HISTORY_SITES"
     case prefs = "PREFERENCES"
+    
+    var fetchedModelType: SyncRecord.Type? {
+        let map = [SyncRecordType.bookmark : SyncBookmark.self]
+        return map[self]
+    }
+    
+    var coredataModelType: Syncable.Type? {
+        let map = [SyncRecordType.bookmark : Bookmark.self]
+        return map[self]
+    }
+}
+
+public enum SyncObjectDataType : String {
+    case Bookmark = "bookmark"
 }
 
 enum SyncActions: Int {
@@ -87,9 +102,6 @@ class Sync: JSInjector {
     
     override init() {
         super.init()
-        
-        // TODO: Remove - currently for sync testing
-//        syncSeed = nil
         
         self.isJavascriptReadyCheck = checkIsSyncReady
         self.maximumDelayAttempts = 15
@@ -227,6 +239,9 @@ class Sync: JSInjector {
         let mirror = Mirror(reflecting: isSyncFullyInitialized)
         let ready = mirror.children.reduce(true) { $0 && $1.1 as! Bool }
         if ready {
+            // Attempt to authorize device
+            
+            
             syncReadyLock = true
             NSNotificationCenter.defaultCenter().postNotificationName(NotificationSyncReady, object: nil)
             
@@ -238,10 +253,8 @@ class Sync: JSInjector {
                 fetchTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(Sync.fetchWrapper), userInfo: nil, repeats: true)
             }
             
+            // Use proper variable and store in defaults
             if lastFetchedRecordTimestamp == 0 {
-                // Send device
-                
-                
                 // Sync local bookmarks, then proceed with fetching
                 // Pull all local bookmarks
                 // Insane .map required for mapping obj-c class to Swift, in order to use protocol instead of class for array param
@@ -330,19 +343,24 @@ extension Sync {
         }
     }
 
-    func resolvedSyncRecords(data: [SyncRoot]?) {
-        guard let syncRecords = data else { return }
+    func resolvedSyncRecords(data: SyncResponse?) {
         
-        for fetchedRoot in syncRecords {
-            if fetchedRoot.objectData != "bookmark" { return }
+        // TODO: Abstract this logic, same used as in getExistingObjects
+        guard let recordJSON = data?.rootElements, let apiRecodType = data?.arg1, let recordType = SyncRecordType(rawValue: apiRecodType) else { return }
+        
+        guard let fetchedRecords = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
+
+        
+        for fetchedRoot in fetchedRecords {
             
             guard
                 let fetchedId = fetchedRoot.objectId
                 else { return }
             
-            let singleBookmark = Bookmark.get(syncUUIDs: [fetchedId])?.first
+            // Bad force unwrapping
+            let singleBookmark = (Bookmark.get(syncUUIDs: [fetchedId]) as [Bookmark]?)?.first
             
-            let action = SyncActions.init(rawValue: fetchedRoot.action ?? -1)
+            let action = SyncActions(rawValue: fetchedRoot.action ?? -1)
             if action == SyncActions.delete {
                 // TODO: Remove check and just let delete handle this
                 guard let singleBookmark = singleBookmark else {
@@ -352,6 +370,7 @@ extension Sync {
                 
                 // Remove record
                 print("Deleting record!")
+                // TODO: Must be generalized!
                 Bookmark.remove(bookmark: singleBookmark)
                 continue
             } else if action == SyncActions.create {
@@ -362,19 +381,19 @@ extension Sync {
                     
                 // TODO: Needs favicon
                 // TODO: Create better `add` method to accept sync bookmark
-                Bookmark.add(rootObject: fetchedRoot, save: false)
+                Bookmark.add(rootObject: fetchedRoot as! SyncBookmark, save: false)
             } else if action == SyncActions.update {
-                singleBookmark?.update(rootObject: fetchedRoot, save: false)
+                singleBookmark?.update(syncRecord: fetchedRoot as! SyncBookmark, save: false)
             }
         }
         
         DataController.saveContext()
-        print("\(syncRecords.count) records processed")
+        print("\(fetchedRecords.count) records processed")
         
         // After records have been written, without crash, save timestamp
         if let stamp = self.lastFetchedRecordTimestamp { self.lastSuccessfulSync = stamp }
         
-        if syncRecords.count > Sync.RecordRateLimitCount {
+        if fetchedRecords.count > Sync.RecordRateLimitCount {
             // Do fast refresh, do not wait for timer
             self.fetch()
         }
@@ -398,33 +417,32 @@ extension Sync {
 extension Sync {
 
     func getExistingObjects(data: SyncResponse?) {
-        //  as? [[String: AnyObject]]
-        guard let syncRecords = data?.rootElements, let recordType = data?.arg1 else { return }
         
-        /* Top level keys: "bookmark", "action","objectId", "objectData:bookmark","deviceId" */
-        
-        // Root "AnyObject" here should either be [String:AnyObject] or the string literal "null"
-        var matchedBookmarks = [[AnyObject]]()
-        
-        for fetchedBookmark in syncRecords {
-            guard let fetchedId = fetchedBookmark.objectId else {
-                continue
-            }
-            
-            // TODO: Updated `get` method to accept only one record
-            // Pulls bookmarks individually from CD to verify duplicates do not get added
-            let bookmarks = Bookmark.get(syncUUIDs: [fetchedId])
-            
-            // TODO: Validate count, should never be more than one!
+        guard let recordJSON = data?.rootElements, let apiRecodType = data?.arg1, let recordType = SyncRecordType(rawValue: apiRecodType) else { return }
 
-            var localSide: AnyObject = "null"
-            if let bm = bookmarks?.first {
-                localSide = bm.asDictionary(deviceId: syncDeviceId, action: fetchedBookmark.action)
+        guard let records2 = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
+
+        let ids = records2.map { $0.objectId }.flatMap { $0 }
+        let localbookmarks = recordType.coredataModelType?.get(syncUUIDs: ids) as [Bookmark]?
+        
+        
+        var matchedBookmarks = [[AnyObject]]()
+        for fetchedBM in records2 {
+            
+            // TODO: Replace with find(where:) in Swift3
+            var localBM: AnyObject = "null"
+            for l in localbookmarks ?? [] {
+                if let localId = l.syncUUID, let fetchedId = fetchedBM.objectId where localId == fetchedId {
+                    // TODO: deviceId should be stored on CD model!
+                    localBM = l.asDictionary(deviceId: syncDeviceId, action: fetchedBM.action)
+                    break
+                }
             }
             
-            matchedBookmarks.append([fetchedBookmark.dictionaryRepresentation(), localSide])
+            matchedBookmarks.append([fetchedBM.dictionaryRepresentation(), localBM])
         }
-        
+
+        /* Top level keys: "bookmark", "action","objectId", "objectData:bookmark","deviceId" */
         
         // TODO: Check if parsing not required
         guard let serializedData = NSJSONSerialization.jsObject(withNative: matchedBookmarks, escaped: false) else {
@@ -435,7 +453,7 @@ extension Sync {
         // Store the last record's timestamp, to know what timestamp to pass in next time if this one does not fail
         self.lastFetchedRecordTimestamp = data?.lastFetchedTimestamp
         
-        self.webView.evaluateJavaScript("callbackList['resolve-sync-records'](null, '\(recordType)', \(serializedData))",
+        self.webView.evaluateJavaScript("callbackList['resolve-sync-records'](null, '\(recordType.rawValue)', \(serializedData))",
             completionHandler: { (result, error) in })
     }
 
@@ -494,7 +512,7 @@ extension Sync: WKScriptMessageHandler {
         case "get-existing-objects":
             getExistingObjects(syncResponse)
         case "resolved-sync-records":
-            resolvedSyncRecords(syncResponse.rootElements)
+            resolvedSyncRecords(syncResponse)
         case "sync-debug":
             let data = JSON(string: message.body as? String ?? "")
             print("---- Sync Debug: \(data)")

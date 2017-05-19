@@ -34,10 +34,10 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     @NSManaged var markDirty: Int16
     
     var syncParentUUID: [Int]? {
-        get { return syncUUID(fromString: syncParentDisplayUUID) }
+        get { return SyncHelpers.syncUUID(fromString: syncParentDisplayUUID) }
         set(value) {
             // Save actual instance variable
-            syncParentDisplayUUID = Bookmark.syncDisplay(fromUUID: value)
+            syncParentDisplayUUID = SyncHelpers.syncDisplay(fromUUID: value)
 
             // Attach parent, only works if parent exists.
             let parent = Bookmark.get(parentSyncUUID: value)
@@ -65,7 +65,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     }
     
     func asDictionary(deviceId deviceId: [Int]?, action: Int?) -> [String: AnyObject] {
-        return SyncRoot(bookmark: self, deviceId: deviceId, action: action).dictionaryRepresentation()
+        return SyncBookmark(record: self, deviceId: deviceId, action: action).dictionaryRepresentation()
     }
 
     static func entity(context:NSManagedObjectContext) -> NSEntityDescription {
@@ -87,13 +87,13 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:DataController.moc, sectionNameKeyPath: nil, cacheName: nil)
     }
     
-    func update(rootObject root: SyncRoot, save: Bool = false) {
-        guard let bm = root.bookmark, let site = bm.site else { return }
+    func update(syncRecord record: SyncBookmark, save: Bool = false) {
+        guard let site = record.site else { return }
         title = site.title
         customTitle = site.customTitle
         url = site.location
         lastVisited = NSDate(timeIntervalSince1970:(Double(site.lastAccessedTime ?? 0) / 1000.0))
-        syncParentUUID = bm.parentFolderObjectId
+        syncParentUUID = record.parentFolderObjectId
         
         if save {
             DataController.saveContext()
@@ -123,12 +123,12 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     }
 
     // Should not be used for updating, modify to increase protection
-    class func add(rootObject root: SyncRoot, save: Bool = false, sendToSync: Bool = false, parentFolder: Bookmark? = nil) -> Bookmark? {
-        let bookmark = root.bookmark
-        let site = bookmark?.site
+    class func add(rootObject root: SyncBookmark, save: Bool = false, sendToSync: Bool = false, parentFolder: Bookmark? = nil) -> Bookmark? {
+        let bookmark = root
+        let site = bookmark.site
      
         var bk: Bookmark!
-        if let id = root.objectId, let foundBK = Bookmark.get(syncUUIDs: [id])?.first {
+        if let id = root.objectId, let foundbks = Bookmark.get(syncUUIDs: [id]) as [Bookmark]?, let foundBK = foundbks.first {
             // Found a pre-existing bookmark, cannot add duplicate
             // Turn into 'update' record instead
             bk = foundBK
@@ -145,7 +145,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.url = site?.location ?? bk.url
         bk.title = site?.title ?? bk.title
         bk.customTitle = site?.customTitle ?? bk.customTitle // TODO: Check against empty titles
-        bk.isFolder = bookmark?.isFolder ?? bk.isFolder ?? false
+        bk.isFolder = bookmark.isFolder ?? bk.isFolder ?? false
         bk.syncUUID = root.objectId ?? bk.syncUUID ?? (0..<16).map { _ in Int(arc4random_uniform(256)) }
         
         if let created = site?.creationTime {
@@ -166,7 +166,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         // Must assign both, in cae parentFolder does not exist, need syncParentUUID to attach later
         bk.parentFolder = parentFolder
-        bk.syncParentUUID = bookmark?.parentFolderObjectId ?? bk.syncParentUUID
+        bk.syncParentUUID = bookmark.parentFolderObjectId ?? bk.syncParentUUID
         
         if save {
             // For folders that are saved _with_ a syncUUID, there may be child bookmarks
@@ -208,16 +208,12 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
         
-        let root = SyncRoot()
-        root.bookmark = bookmark
-        
-        return self.add(rootObject: root, save: true, sendToSync: true, parentFolder: parentFolder)
+        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder)
     }
     
     // TODO: Migration syncUUIDS still needs to be solved
     // Should only ever be used for migration from old db
     class func addForMigration(url url: String?, title: String, customTitle: String, parentFolder: Bookmark?, isFolder: Bool?) -> Bookmark? {
-        // isFolder = true
         
         let site = SyncSite()
         site.title = title
@@ -229,10 +225,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
 //        bookmark.parentFolderObjectId = [parentFolder]
         bookmark.site = site
         
-        let root = SyncRoot()
-        root.bookmark = bookmark
-        
-        return self.add(rootObject: root, save: true)
+        return self.add(rootObject: bookmark, save: true)
     }
 
     class func contains(url url: NSURL, completionOnMain completion: ((Bool)->Void)) {
@@ -295,35 +288,8 @@ extension Bookmark {
         return nil
     }
     
-    private static func get(predicate predicate: NSPredicate?) -> [Bookmark]? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = Bookmark.entity(DataController.moc)
-        fetchRequest.predicate = predicate
-        
-        do {
-            return try DataController.moc.executeFetchRequest(fetchRequest) as? [Bookmark]
-        } catch {
-            let fetchError = error as NSError
-            print(fetchError)
-        }
-        
-        return nil
-    }
-    
-    static func get(syncUUIDs syncUUIDs: [[Int]]?) -> [Bookmark]? {
-        
-        guard let syncUUIDs = syncUUIDs else {
-            return nil
-        }
-        
-        // TODO: filter a unique set of syncUUIDs
-        
-        let searchableUUIDs = syncUUIDs.map { Bookmark.syncDisplay(fromUUID: $0) }.flatMap { $0 }
-        return get(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs ))
-    }
-    
     static func getChildren(forFolderUUID syncUUID: [Int]?) -> [Bookmark]? {
-        guard let searchableUUID = Bookmark.syncDisplay(fromUUID: syncUUID) else {
+        guard let searchableUUID = SyncHelpers.syncDisplay(fromUUID: syncUUID) else {
             return nil
         }
         
@@ -331,7 +297,7 @@ extension Bookmark {
     }
     
     static func get(parentSyncUUID parentUUID: [Int]?) -> Bookmark? {
-        guard let searchableUUID = Bookmark.syncDisplay(fromUUID: parentUUID) else {
+        guard let searchableUUID = SyncHelpers.syncDisplay(fromUUID: parentUUID) else {
             return nil
         }
         
