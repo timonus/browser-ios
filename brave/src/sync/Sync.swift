@@ -254,7 +254,7 @@ class Sync: JSInjector {
             }
             
             // Use proper variable and store in defaults
-            if lastFetchedRecordTimestamp == 0 {
+            if lastSuccessfulSync == 0 {
                 // Sync local bookmarks, then proceed with fetching
                 // Pull all local bookmarks
                 // Insane .map required for mapping obj-c class to Swift, in order to use protocol instead of class for array param
