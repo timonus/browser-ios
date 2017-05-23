@@ -146,7 +146,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.title = site?.title ?? bk.title
         bk.customTitle = site?.customTitle ?? bk.customTitle // TODO: Check against empty titles
         bk.isFolder = bookmark.isFolder ?? bk.isFolder ?? false
-        bk.syncUUID = root.objectId ?? bk.syncUUID ?? (0..<16).map { _ in Int(arc4random_uniform(256)) }
+        bk.syncUUID = root.objectId ?? bk.syncUUID ?? Niceware.shared.uniqueSerialBytes(count: 16)
         
         if let created = site?.creationTime {
             bk.created = NSDate(timeIntervalSince1970:(Double(created) / 1000.0))
