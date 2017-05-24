@@ -42,6 +42,7 @@ extension Syncable {
         return get(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs ))
     }
     
+    // Maybe use 'self'?
     static func get<T: NSManagedObject where T: Syncable>(predicate predicate: NSPredicate?) -> [T]? {
         let fetchRequest = NSFetchRequest()
         
@@ -56,6 +57,20 @@ extension Syncable {
         }
         
         return nil
+    }
+}
+
+extension Syncable where Self: NSManagedObject {
+    func remove(save: Bool = true) {
+        // Must happen before, otherwise bookmark is gone
+        
+        // TODO: Make type dynamic
+        Sync.shared.sendSyncRecords(.bookmark, action: .delete, records: [self])
+        
+        DataController.moc.deleteObject(self)
+        if save {
+            DataController.saveContext()
+        }
     }
 }
 

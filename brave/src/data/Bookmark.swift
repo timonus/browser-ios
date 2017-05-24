@@ -321,7 +321,7 @@ extension Bookmark {
     }
 }
 
-// Removals
+// TODO: REMOVE!! This should be located in abstraction
 extension Bookmark {
     class func remove(forUrl url: NSURL, save: Bool = true) -> Bool {
         if let bm = get(forUrl: url, context: DataController.moc) as? Bookmark {

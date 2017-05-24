@@ -7,7 +7,15 @@ import Foundation
 import Shared
 
 class Device: NSManagedObject, Syncable {
+    
+    // Check if this can be nested inside the method
+    private static var sharedCurrentDevice: Device?
+    
+    // Assign on parent model via CD
+//    @NSManaged var isSynced: Bool
+    
     @NSManaged var created: NSDate?
+    @NSManaged var isCurrentDevice: Bool
     @NSManaged var deviceDisplayId: String?
     @NSManaged var syncDisplayUUID: String?
     @NSManaged var name: String?
@@ -19,12 +27,39 @@ class Device: NSManagedObject, Syncable {
     }
     
     static func entity(context: NSManagedObjectContext) -> NSEntityDescription {
-        return NSEntityDescription()
+        return NSEntityDescription.entityForName("Device", inManagedObjectContext: context)!
     }
     
+    // This should be abstractable
     func asDictionary(deviceId deviceId: [Int]?, action: Int?) -> [String: AnyObject] {
-        // TODO:
-        return ["": ""]
+        return SyncDevice(record: self, deviceId: deviceId, action: action).dictionaryRepresentation()
+    }
+    
+    class func add(save save: Bool = false) -> Device? {
+        var device = Device(entity: Device.entity(DataController.moc), insertIntoManagedObjectContext: DataController.moc)
+        device.syncUUID = Niceware.shared.uniqueSerialBytes(count: 16)
+        device.created = NSDate()
+        return device
+    }
+    
+    static func currentDevice() -> Device? {
+        
+        if sharedCurrentDevice == nil {
+            // Create device
+            let predicate = NSPredicate(format: "isCurrentDevice = %@", true)
+            // Should only ever be one current device!
+            var localDevice: Device? = get(predicate: predicate)?.first
+            
+            if localDevice == nil {
+                // Create
+                localDevice = add()
+                localDevice?.isCurrentDevice = true
+                DataController.saveContext()
+            }
+            
+            sharedCurrentDevice = localDevice
+        }
+        return sharedCurrentDevice
     }
     
 }
