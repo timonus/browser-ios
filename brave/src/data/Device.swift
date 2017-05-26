@@ -42,6 +42,11 @@ class Device: NSManagedObject, Syncable {
         return device
     }
     
+    func update(syncRecord record: SyncRecord) {
+        guard let device = record as? SyncDevice else { return }
+        // TODO: Handle updating
+    }
+    
     static func currentDevice() -> Device? {
         
         if sharedCurrentDevice == nil {

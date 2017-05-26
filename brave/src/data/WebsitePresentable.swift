@@ -19,6 +19,39 @@ protocol Syncable {
     var syncUUID: [Int]? { get }
     
     func asDictionary(deviceId deviceId: [Int]?, action: Int?) -> [String: AnyObject]
+    
+    func update(syncRecord record: SyncRecord)
+}
+
+// ??
+extension Syncable where Self: Syncable {
+    static func get(syncUUIDs syncUUIDs: [[Int]]?) -> [NSManagedObject]? {
+        
+        guard let syncUUIDs = syncUUIDs else {
+            return nil
+        }
+        
+        // TODO: filter a unique set of syncUUIDs
+        
+        let searchableUUIDs = syncUUIDs.map { SyncHelpers.syncDisplay(fromUUID: $0) }.flatMap { $0 }
+        return get2(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs ))
+    }
+    
+    static func get2(predicate predicate: NSPredicate?) -> [NSManagedObject]? {
+        let fetchRequest = NSFetchRequest()
+        
+        fetchRequest.entity = Self.entity(DataController.moc)
+        fetchRequest.predicate = predicate
+        
+        do {
+            return try DataController.moc.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+        } catch {
+            let fetchError = error as NSError
+            print(fetchError)
+        }
+        
+        return nil
+    }
 }
 
 //extension Syncable where Self: NSManagedObject {
@@ -28,18 +61,6 @@ extension Syncable {
     var syncUUID: [Int]? { 
         get { return SyncHelpers.syncUUID(fromString: syncDisplayUUID) }
         set(value) { syncDisplayUUID = SyncHelpers.syncDisplay(fromUUID: value) }
-    }
-    
-    static func get<T: NSManagedObject where T: Syncable>(syncUUIDs syncUUIDs: [[Int]]?) -> [T]? {
-        
-        guard let syncUUIDs = syncUUIDs else {
-            return nil
-        }
-        
-        // TODO: filter a unique set of syncUUIDs
-        
-        let searchableUUIDs = syncUUIDs.map { SyncHelpers.syncDisplay(fromUUID: $0) }.flatMap { $0 }
-        return get(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs ))
     }
     
     // Maybe use 'self'?
@@ -60,14 +81,19 @@ extension Syncable {
     }
 }
 
-extension Syncable where Self: NSManagedObject {
+extension Syncable /* where Self: NSManagedObject */ {
     func remove(save: Bool = true) {
+        
+        // This is super annoying, and can be fixed in Swift 4, but since objects can't be cast to a class & protocol,
+        //  but given extension on Syncable, if this passes the object is both Syncable and an NSManagedObject subclass
+        guard let s = self as? NSManagedObject else { return }
+        
         // Must happen before, otherwise bookmark is gone
         
         // TODO: Make type dynamic
         Sync.shared.sendSyncRecords(.bookmark, action: .delete, records: [self])
         
-        DataController.moc.deleteObject(self)
+        DataController.moc.deleteObject(s)
         if save {
             DataController.saveContext()
         }

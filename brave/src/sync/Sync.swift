@@ -378,24 +378,13 @@ extension Sync {
                 else { return }
             
             // Bad force unwrapping
+
+            // Rename
+            let singleBookmark = recordType.coredataModelType?.get(syncUUIDs: [fetchedId])?.first as? Syncable
             
-//            let singleRecord = recordType.coredataModelType?.get(syncUUIDs: [fetchedId])?.first
-            let singleBookmark = (recordType.coredataModelType?.get(syncUUIDs: [fetchedId]) as [Bookmark]?)?.first
-            
-            let action = SyncActions(rawValue: fetchedRoot.action ?? -1)
+            var action = SyncActions(rawValue: fetchedRoot.action ?? -1)
             if action == SyncActions.delete {
-                // TODO: Remove check and just let delete handle this
-                guard let singleBookmark = singleBookmark else {
-                    // Record already exists
-                    continue
-                }
-                
-                // Remove record
-                print("Deleting record!")
-                // TODO: Must be generalized!
-                Bookmark.remove(bookmark: singleBookmark)
-//                singleBookmark.remove()
-                continue
+                singleBookmark?.remove()
             } else if action == SyncActions.create {
                 
                 if singleBookmark != nil {
@@ -409,16 +398,20 @@ extension Sync {
                 if singleBookmark == nil {
                     Bookmark.add(rootObject: fetchedRoot as! SyncBookmark, save: false)
                 } else {
-                    // Really an update, unfortunately
+                    action = .update
                 }
-            } else if action == SyncActions.update {
-                singleBookmark?.update(syncRecord: fetchedRoot as! SyncBookmark, save: false)
+            }
+            
+            // Handled outside of else block since .create, can modify to an .update
+            if action == .update {
+                singleBookmark?.update(syncRecord: fetchedRoot)
             }
         }
         
         DataController.saveContext()
         print("\(fetchedRecords.count) records processed")
         
+        // TODO: Re-add after testing
         // After records have been written, without crash, save timestamp
 //        if let stamp = self.lastFetchedRecordTimestamp { self.lastSuccessfulSync = stamp }
         
@@ -452,7 +445,7 @@ extension Sync {
         guard let records2 = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
 
         let ids = records2.map { $0.objectId }.flatMap { $0 }
-        let localbookmarks = recordType.coredataModelType?.get(syncUUIDs: ids) as [Bookmark]?
+        let localbookmarks = recordType.coredataModelType?.get(syncUUIDs: ids) as? [Bookmark]
         
         
         var matchedBookmarks = [[AnyObject]]()

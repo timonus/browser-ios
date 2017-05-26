@@ -87,17 +87,15 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:DataController.moc, sectionNameKeyPath: nil, cacheName: nil)
     }
     
-    func update(syncRecord record: SyncBookmark, save: Bool = false) {
-        guard let site = record.site else { return }
+    // Syncable
+    func update(syncRecord record: SyncRecord) {
+        guard let bookmark = record as? SyncBookmark, let site = bookmark.site else { return }
         title = site.title
         customTitle = site.customTitle
         url = site.location
         lastVisited = NSDate(timeIntervalSince1970:(Double(site.lastAccessedTime ?? 0) / 1000.0))
-        syncParentUUID = record.parentFolderObjectId
-        
-        if save {
-            DataController.saveContext()
-        }
+        syncParentUUID = bookmark.parentFolderObjectId
+        // No auto-save, must be handled by caller if desired
     }
     
     func update(customTitle customTitle: String?, url: String?, save: Bool = false) {
@@ -128,7 +126,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         let site = bookmark.site
      
         var bk: Bookmark!
-        if let id = root.objectId, let foundbks = Bookmark.get(syncUUIDs: [id]) as [Bookmark]?, let foundBK = foundbks.first {
+        if let id = root.objectId, let foundbks = Bookmark.get(syncUUIDs: [id]) as? [Bookmark], let foundBK = foundbks.first {
             // Found a pre-existing bookmark, cannot add duplicate
             // Turn into 'update' record instead
             bk = foundBK
