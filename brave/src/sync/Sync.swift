@@ -387,7 +387,7 @@ extension Sync {
                 // TODO: Remove check and just let delete handle this
                 guard let singleBookmark = singleBookmark else {
                     // Record already exists
-                    return
+                    continue
                 }
                 
                 // Remove record
