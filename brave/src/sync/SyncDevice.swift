@@ -8,10 +8,13 @@ class SyncDevice: SyncRecord {
     // MARK: Declaration for string constants to be used to decode and also serialize.
     private struct SerializationKeys {
         static let name = "name"
+        static let syncTimestamp = "syncTimestamp"
     }
     
     // MARK: Properties
     var name: String?
+    // Not on 'device' object
+    var syncTimestamp: Int?
     
     required init(record: Syncable?, deviceId: [Int]?, action: Int?) {
         super.init(record: record, deviceId: deviceId, action: action)
@@ -25,8 +28,9 @@ class SyncDevice: SyncRecord {
     
     required init(json: JSON?) {
         super.init(json: json)
-        // This won't work
-        self.name = json?[SerializationKeys.name].asString
+
+        self.name = json?[SyncObjectDataType.Device.rawValue][SerializationKeys.name].asString
+        self.syncTimestamp = json?[SerializationKeys.syncTimestamp].asInt
         
         // Preference
         self.objectData = nil
@@ -39,13 +43,13 @@ class SyncDevice: SyncRecord {
         
         // Notice there is no objectData type, this is technically part of Preferences, which does not use that key/value pair
         
-        // Create nested bookmark dictionary
+        // Device specific
         var deviceDict = [String: AnyObject]()
-        deviceDict[SerializationKeys.name] = self.name
+        if let value = self.name { deviceDict[SerializationKeys.name] = value }
 
-        // Fetch parent, and assign bookmark
         var dictionary = super.dictionaryRepresentation()
         dictionary[SyncObjectDataType.Device.rawValue] = deviceDict
+        if let value = self.syncTimestamp { dictionary[SerializationKeys.syncTimestamp] = value }
         
         return dictionary
     }

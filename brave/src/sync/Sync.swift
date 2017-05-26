@@ -380,14 +380,14 @@ extension Sync {
             // Bad force unwrapping
 
             // Rename
-            let singleBookmark = recordType.coredataModelType?.get(syncUUIDs: [fetchedId])?.first as? Syncable
+            let singleRecord = recordType.coredataModelType?.get(syncUUIDs: [fetchedId])?.first as? Syncable
             
             var action = SyncActions(rawValue: fetchedRoot.action ?? -1)
             if action == SyncActions.delete {
-                singleBookmark?.remove()
+                singleRecord?.remove()
             } else if action == SyncActions.create {
                 
-                if singleBookmark != nil {
+                if singleRecord != nil {
                     // This can happen pretty often, especially for records that don't use diffs (e.g. prefs>devices)
                     // They always return a create command, even if they already "exist", since there is no real 'resolving'
                     //  Hence check below to prevent duplication
@@ -395,7 +395,7 @@ extension Sync {
                     
                 // TODO: Needs favicon
                 // TODO: Create better `add` method to accept sync bookmark
-                if singleBookmark == nil {
+                if singleRecord == nil {
                     Bookmark.add(rootObject: fetchedRoot as! SyncBookmark, save: false)
                 } else {
                     action = .update
@@ -404,7 +404,7 @@ extension Sync {
             
             // Handled outside of else block since .create, can modify to an .update
             if action == .update {
-                singleBookmark?.update(syncRecord: fetchedRoot)
+                singleRecord?.update(syncRecord: fetchedRoot)
             }
         }
         
