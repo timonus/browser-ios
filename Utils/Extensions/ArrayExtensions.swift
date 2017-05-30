@@ -6,6 +6,7 @@ import Foundation
 
 public extension Array {
 
+    // Finds the first item that matches a comparator, and then stops execution
     func find(f: (Generator.Element) -> Bool) -> Generator.Element? {
         for x in self {
             if f(x) {
@@ -20,6 +21,7 @@ public extension Array {
         return self.count == arr.count && every { arr.contains($0, f: f) }
     }
 
+    /// Check if an object contains an item with a custom comparator
     func contains(x: Element, f: (Element, Element) -> Bool) -> Bool {
         for y in self {
             if f(x, y) {
@@ -27,6 +29,18 @@ public extension Array {
             }
         }
         return false
+    }
+    
+    /// Returns a unique list of Elements using a custom comparator
+    ///     Super inefficient
+    func unique(f: (Element, Element) -> Bool) -> [Element] {
+        var result = [Element]()
+        self.forEach {
+            if !result.contains($0, f: f) {
+                result.append($0)
+            }
+        }
+        return result
     }
 }
 

@@ -368,8 +368,14 @@ extension Sync {
         // TODO: Abstract this logic, same used as in getExistingObjects
         guard let recordJSON = data?.rootElements, let apiRecodType = data?.arg1, let recordType = SyncRecordType(rawValue: apiRecodType) else { return }
         
-        guard let fetchedRecords = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
+        guard var fetchedRecords = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
 
+        // Currently only prefs are device related
+        if recordType == .prefs, let data = fetchedRecords as? [SyncDevice] {
+            // Devices have really bad data filtering, so need to manually process more of it
+            // Sort to not rely on API - Reverse sort, so unique pulls the `latest` not just the `first`
+            fetchedRecords = data.sort { $0.0.syncTimestamp > $0.1.syncTimestamp }.unique { $0.objectId ?? [] == $1.objectId ?? [] }
+        }
         
         for fetchedRoot in fetchedRecords {
             
@@ -398,6 +404,7 @@ extension Sync {
                 if singleRecord == nil {
                     Bookmark.add(rootObject: fetchedRoot as! SyncBookmark, save: false)
                 } else {
+                    // TODO: use Switch with `fallthrough`
                     action = .update
                 }
             }
