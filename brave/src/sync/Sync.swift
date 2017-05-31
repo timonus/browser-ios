@@ -402,7 +402,7 @@ extension Sync {
                 // TODO: Needs favicon
                 // TODO: Create better `add` method to accept sync bookmark
                 if singleRecord == nil {
-                    Bookmark.add(rootObject: fetchedRoot as! SyncBookmark, save: false)
+                    recordType.coredataModelType?.add(rootObject: fetchedRoot, save: false, sendToSync: false)
                 } else {
                     // TODO: use Switch with `fallthrough`
                     action = .update
