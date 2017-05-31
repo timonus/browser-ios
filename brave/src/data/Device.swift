@@ -35,11 +35,19 @@ class Device: NSManagedObject, Syncable {
         return SyncDevice(record: self, deviceId: deviceId, action: action).dictionaryRepresentation()
     }
     
-    class func add(save save: Bool = false) -> Device? {
+    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool) -> Syncable? {
+        guard let root = root as? SyncDevice else { return nil }
         var device = Device(entity: Device.entity(DataController.moc), insertIntoManagedObjectContext: DataController.moc)
-        device.syncUUID = Niceware.shared.uniqueSerialBytes(count: 16)
-        device.created = NSDate()
+        
+        device.created = root.syncNativeTimestamp ?? NSDate()
+        device.syncUUID = root.objectId ?? Niceware.shared.uniqueSerialBytes(count: 16)
+        device.name = root.name
+        
         return device
+    }
+    
+    class func add(save save: Bool = false) -> Device? {
+        return add(rootObject: nil, save: save, sendToSync: false) as? Device
     }
     
     func update(syncRecord record: SyncRecord) {

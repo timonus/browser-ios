@@ -16,6 +16,10 @@ class SyncDevice: SyncRecord {
     // Not on 'device' object
     var syncTimestamp: Int?
     
+    var syncNativeTimestamp: NSDate? {
+        return NSDate.fromTimestamp(Timestamp(syncTimestamp ?? 0))
+    }
+    
     required init(record: Syncable?, deviceId: [Int]?, action: Int?) {
         super.init(record: record, deviceId: deviceId, action: action)
         

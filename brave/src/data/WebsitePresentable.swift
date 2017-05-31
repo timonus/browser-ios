@@ -21,6 +21,8 @@ protocol Syncable {
     func asDictionary(deviceId deviceId: [Int]?, action: Int?) -> [String: AnyObject]
     
     func update(syncRecord record: SyncRecord)
+    
+    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool) -> Syncable?
 }
 
 // ??

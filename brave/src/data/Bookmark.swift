@@ -120,6 +120,11 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         Sync.shared.sendSyncRecords(.bookmark, action: .update, records: [self])
     }
 
+    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool) -> Syncable? {
+        // Explicit parentFolder to force method decision
+        return add(rootObject: root as? SyncBookmark, save: save, sendToSync: sendToSync, parentFolder: nil)
+    }
+    
     // Should not be used for updating, modify to increase protection
     class func add(rootObject root: SyncBookmark?, save: Bool = false, sendToSync: Bool = false, parentFolder: Bookmark? = nil) -> Bookmark? {
         let bookmark = root
@@ -304,6 +309,7 @@ extension Bookmark {
         return get(predicate: predicate) ?? [Bookmark]()
     }
     
+    // TODO: Remove
     static func getAllBookmarks() -> [Bookmark] {
         return get(predicate: nil) ?? [Bookmark]()
     }
