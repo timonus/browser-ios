@@ -30,6 +30,15 @@ class Device: NSManagedObject, Syncable {
         return NSEntityDescription.entityForName("Device", inManagedObjectContext: context)!
     }
     
+    class func deviceSettings(profile profile: Profile) -> [SyncDeviceSetting]? {
+        // Building settings off of device objects
+        let deviceSettings: [SyncDeviceSetting]? = (Device.get2(predicate: nil) as? [Device])?.map {
+            // Even if no 'real' title, still want it to show up in list
+            return SyncDeviceSetting(profile: profile, title: $0.name ?? "")
+        }
+        return deviceSettings
+    }
+    
     // This should be abstractable
     func asDictionary(deviceId deviceId: [Int]?, action: Int?) -> [String: AnyObject] {
         return SyncDevice(record: self, deviceId: deviceId, action: action).dictionaryRepresentation()

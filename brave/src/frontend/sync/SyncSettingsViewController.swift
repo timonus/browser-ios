@@ -48,14 +48,9 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         let syncPrefTabs = "syncTabsKey"
         let syncPrefHistory = "syncHistoryKey"
         
-        // Generate devices array
-        var devices:[Setting] = []
-        
-        let device1 = SyncDeviceSetting(settings: self, title: "James's Macbook Pro")
-        device1.onTap = {
-            debugPrint("Show action menu with delete option")
+        guard let devices = Device.deviceSettings(profile: self.profile) else {
+            return [SettingSection]()
         }
-        devices.append(device1)
         
         settings += [
             SettingSection(title: NSAttributedString(string: Strings.Devices.uppercaseString), children: devices),

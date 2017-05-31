@@ -183,8 +183,8 @@ class SyncDeviceSetting: Setting {
     
     override var accessibilityIdentifier: String? { return "SyncDevice" }
     
-    init(settings: SettingsTableViewController, title: String) {
-        self.profile = settings.profile
+    init(profile profile: Profile, title: String) {
+        self.profile = profile
         self.displayTitle = title
         super.init(title: NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
     }
