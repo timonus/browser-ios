@@ -121,12 +121,12 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     }
 
     // Should not be used for updating, modify to increase protection
-    class func add(rootObject root: SyncBookmark, save: Bool = false, sendToSync: Bool = false, parentFolder: Bookmark? = nil) -> Bookmark? {
+    class func add(rootObject root: SyncBookmark?, save: Bool = false, sendToSync: Bool = false, parentFolder: Bookmark? = nil) -> Bookmark? {
         let bookmark = root
-        let site = bookmark.site
+        let site = bookmark?.site
      
         var bk: Bookmark!
-        if let id = root.objectId, let foundbks = Bookmark.get(syncUUIDs: [id]) as? [Bookmark], let foundBK = foundbks.first {
+        if let id = root?.objectId, let foundbks = Bookmark.get(syncUUIDs: [id]) as? [Bookmark], let foundBK = foundbks.first {
             // Found a pre-existing bookmark, cannot add duplicate
             // Turn into 'update' record instead
             bk = foundBK
@@ -143,20 +143,10 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.url = site?.location ?? bk.url
         bk.title = site?.title ?? bk.title
         bk.customTitle = site?.customTitle ?? bk.customTitle // TODO: Check against empty titles
-        bk.isFolder = bookmark.isFolder ?? bk.isFolder ?? false
-        bk.syncUUID = root.objectId ?? bk.syncUUID ?? Niceware.shared.uniqueSerialBytes(count: 16)
-        
-        if let created = site?.creationTime {
-            bk.created = NSDate(timeIntervalSince1970:(Double(created) / 1000.0))
-        } else if bk.created == nil {
-            bk.created = NSDate()
-        }
-        
-        if let visited = site?.lastAccessedTime {
-            bk.lastVisited = NSDate(timeIntervalSince1970:(Double(visited) / 1000.0))
-        } else if bk.lastVisited == nil {
-            bk.lastVisited = NSDate()
-        }
+        bk.isFolder = bookmark?.isFolder ?? bk.isFolder ?? false
+        bk.syncUUID = root?.objectId ?? bk.syncUUID ?? Niceware.shared.uniqueSerialBytes(count: 16)
+        bk.created = site?.creationNativeDate ?? NSDate()
+        bk.lastVisited = site?.lastAccessedNativeDate ?? NSDate()
         
         if let location = site?.location, let url = NSURL(string: location) {
             bk.domain = Domain.getOrCreateForUrl(url, context: DataController.moc)
@@ -164,7 +154,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         // Must assign both, in cae parentFolder does not exist, need syncParentUUID to attach later
         bk.parentFolder = parentFolder
-        bk.syncParentUUID = bookmark.parentFolderObjectId ?? bk.syncParentUUID
+        bk.syncParentUUID = bookmark?.parentFolderObjectId ?? bk.syncParentUUID
         
         if save {
             // For folders that are saved _with_ a syncUUID, there may be child bookmarks
