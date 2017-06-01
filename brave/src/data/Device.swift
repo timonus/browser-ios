@@ -34,7 +34,8 @@ class Device: NSManagedObject, Syncable {
         // Building settings off of device objects
         let deviceSettings: [SyncDeviceSetting]? = (Device.get2(predicate: nil) as? [Device])?.map {
             // Even if no 'real' title, still want it to show up in list
-            return SyncDeviceSetting(profile: profile, title: $0.name ?? "")
+            let title = "\($0.deviceDisplayId ?? "") :: \($0.name ?? "")"
+            return SyncDeviceSetting(profile: profile, title: title)
         }
         return deviceSettings
     }
