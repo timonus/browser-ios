@@ -44,7 +44,7 @@ enum ThirdPartyPasswordManagerType: Int {
     }()
     
     // Same as icon, just sets a default as a fallback
-    static func icon(type: ThirdPartyPasswordManagerType?) -> UIImage? {
+    static func icon(_ type: ThirdPartyPasswordManagerType?) -> UIImage? {
         return (type ?? .showPicker).icon
     }
     
@@ -174,7 +174,7 @@ extension LoginsHelper {
             old.removeFromSuperview()
         }
 
-        let image = ThirdPartyPasswordManagerType.icon(type: PasswordManagerButtonSetting.currentSetting)
+        let image = ThirdPartyPasswordManagerType.icon(PasswordManagerButtonSetting.currentSetting)
 
         let managerButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         managerButton.tag = tagForManagerButton

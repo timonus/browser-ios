@@ -210,7 +210,7 @@ protocol TabTrayDelegate: class {
     func tabTrayDidDismiss(_ tabTray: TabTrayController)
     func tabTrayDidAddBookmark(_ tab: Browser)
     func tabTrayDidAddToReadingList(_ tab: Browser) -> ReadingListClientRecord?
-    func tabTrayRequestsPresentationOf(viewController: UIViewController)
+    func tabTrayRequestsPresentationOf(_ viewController: UIViewController)
 }
 
 class TabTrayController: UIViewController {
@@ -696,7 +696,7 @@ extension TabTrayController: UIScrollViewAccessibilityDelegate {
     }
 }
 
-private func removeTabUtil(_ tabManager: TabManager, tab: Browser) {
+fileprivate func removeTabUtil(_ tabManager: TabManager, tab: Browser) {
     let isAlwaysPrivate = getApp().profile?.prefs.boolForKey(kPrefKeyPrivateBrowsingAlwaysOn) ?? false
     let createIfNone =  isAlwaysPrivate ? true : !PrivateBrowsing.singleton.isOn
     tabManager.removeTab(tab, createTabIfNoneLeft: createIfNone)
@@ -728,7 +728,7 @@ extension TabTrayController: SettingsDelegate {
     }
 }
 
-private class TabManagerDataSource: NSObject, UICollectionViewDataSource {
+fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
     unowned var cellDelegate: TabCellDelegate & SwipeAnimatorDelegate
 
     fileprivate var tabList = WeakList<Browser>()
@@ -807,7 +807,7 @@ private class TabManagerDataSource: NSObject, UICollectionViewDataSource {
     func didSelectTabAtIndex(_ index :Int)
 }
 
-private class TabLayoutDelegate: NSObject, UICollectionViewDelegateFlowLayout {
+fileprivate class TabLayoutDelegate: NSObject, UICollectionViewDelegateFlowLayout {
     weak var tabSelectionDelegate: TabSelectionDelegate?
 
     fileprivate var traitCollection: UITraitCollection
@@ -870,7 +870,7 @@ private class TabLayoutDelegate: NSObject, UICollectionViewDelegateFlowLayout {
 // This workaround forces the contentSize to always be larger than the frame size so the animation happens more
 // smoothly. This also makes the tabs be able to 'bounce' when there are not enough to fill the screen, which I
 // think is fine, but if needed we can disable user scrolling in this case.
-private class TabTrayCollectionViewLayout: UICollectionViewFlowLayout {
+fileprivate class TabTrayCollectionViewLayout: UICollectionViewFlowLayout {
     fileprivate override var collectionViewContentSize : CGSize {
         var calculatedSize = super.collectionViewContentSize
         let collectionViewHeight = collectionView?.bounds.size.height ?? 0

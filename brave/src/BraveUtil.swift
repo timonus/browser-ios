@@ -30,7 +30,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 var mixpanelInstance: MixpanelInstance?
 
-func telemetry(action: String, props: [String: String]?) {
+func telemetry(_ action: String, props: [String: String]?) {
     #if NO_FABRIC
         return
     #else

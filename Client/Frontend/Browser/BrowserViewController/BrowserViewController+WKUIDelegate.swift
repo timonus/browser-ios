@@ -18,13 +18,13 @@ extension BrowserViewController: WKUIDelegate {
         // If the page uses window.open() or target="_blank", open the page in a new tab.
         // TODO: This doesn't work for window.open() without user action (bug 1124942).
         let newTab: Browser
-        newTab = tabManager.addTab(request: navigationAction.request, configuration: configuration, zombie: currentTab.isPrivate)!
+        newTab = tabManager.addTab(navigationAction.request, configuration: configuration, zombie: currentTab.isPrivate)!
         tabManager.selectTab(newTab)
 
         // If the page we just opened has a bad scheme, we return nil here so that JavaScript does not
         // get a reference to it which it can return from window.open() - this will end up as a
         // CFErrorHTTPBadURL being presented.
-        guard let scheme = (navigationAction.request as NSURLRequest).url?.scheme?.lowercased(), SchemesAllowedToOpenPopups.contains(scheme) else {
+        guard let scheme = (navigationAction.request as URLRequest).url?.scheme?.lowercased(), SchemesAllowedToOpenPopups.contains(scheme) else {
             return nil
         }
 
@@ -51,7 +51,7 @@ extension BrowserViewController: WKUIDelegate {
     }
     #endif
     #if !BRAVE
-    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping @escaping (Bool) -> Void) {
         var confirmAlert = ConfirmPanelAlert(message: message, frame: frame, completionHandler: completionHandler)
         if canDisplayJSAlertForWebView(webView) {
             present(confirmAlert.alertController(), animated: true, completion: nil)
@@ -63,7 +63,7 @@ extension BrowserViewController: WKUIDelegate {
     }
     #endif
     #if !BRAVE
-    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping @escaping (String?) -> Void) {
         var textInputAlert = TextInputAlert(message: prompt, frame: frame, completionHandler: completionHandler, defaultText: defaultText)
         if canDisplayJSAlertForWebView(webView) {
             present(textInputAlert.alertController(), animated: true, completion: nil)

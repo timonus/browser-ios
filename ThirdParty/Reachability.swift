@@ -61,7 +61,9 @@ open class Reach {
         zeroAddress.sin_family = sa_family_t(AF_INET)
 
         guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, $0)
+            }
         }) else {
             return .unknown
         }
@@ -89,7 +91,7 @@ open class Reach {
 
             }, &context)
 
-        SCNetworkReachabilityScheduleWithRunLoop(reachability, CFRunLoopGetMain(), CFRunLoopMode.commonModes)
+        SCNetworkReachabilityScheduleWithRunLoop(reachability, CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue)
     }
 
 }

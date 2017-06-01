@@ -413,7 +413,7 @@ extension Sync {
         
         
         // TODO: Check if parsing not required
-        guard let serializedData = JSONSerialization.jsObject(withNative: matchedBookmarks, escaped: false) else {
+        guard let serializedData = JSONSerialization.jsObject(withNative: matchedBookmarks as AnyObject, escaped: false) else {
             // Huge error
             return
         }

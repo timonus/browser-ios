@@ -258,7 +258,7 @@ class AdBlocker {
                 break
             }
         }
-        fifoCacheOfUrlsChecked.addItem(key, value: isBlocked)
+        fifoCacheOfUrlsChecked.addItem(key, value: isBlocked as AnyObject)
 
 
         #if LOG_AD_BLOCK

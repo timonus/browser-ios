@@ -19,7 +19,7 @@ class PrivateBrowsing {
 
     // On startup we are no longer in private mode, if there is a .public cookies file, it means app was killed in private mode, so restore the cookies file
     func startupCheckIfKilledWhileInPBMode() {
-        webkitDirLocker(lock: false)
+        webkitDirLocker(false)
         cookiesFileDiskOperation(.restore)
     }
 
@@ -32,7 +32,7 @@ class PrivateBrowsing {
     // GeolocationSites.plist cannot be blocked any other way than locking the filesystem so that webkit can't write it out
     // TODO: after unlocking, verify that sites from PB are not in the written out GeolocationSites.plist, based on manual testing this
     // doesn't seem to be the case, but more rigourous test cases are needed
-    fileprivate func webkitDirLocker(lock: Bool) {
+    fileprivate func webkitDirLocker(_ lock: Bool) {
         let fm = FileManager.default
         let baseDir = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]
         let webkitDirs = [baseDir + "/WebKit", baseDir + "/Caches"]
@@ -100,7 +100,7 @@ class PrivateBrowsing {
 
         NotificationCenter.default.addObserver(self, selector: #selector(PrivateBrowsing.cookiesChanged(_:)), name: NSNotification.Name.NSHTTPCookieManagerCookiesChanged, object: nil)
 
-        webkitDirLocker(lock: true)
+        webkitDirLocker(true)
 
         UserDefaults.standard.set(true, forKey: "WebKitPrivateBrowsingEnabled")
         
@@ -176,7 +176,7 @@ class PrivateBrowsing {
                 }
             }
 
-            self.webkitDirLocker(lock: false)
+            self.webkitDirLocker(false)
             getApp().profile?.shutdown()
             getApp().profile?.db.reopenIfClosed()
             BraveApp.setupCacheDefaults()

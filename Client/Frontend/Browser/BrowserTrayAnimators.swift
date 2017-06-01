@@ -39,7 +39,7 @@ private extension TrayToBrowserAnimator {
 
         // Hide browser components
         bvc.toggleSnackBarVisibility(show: false)
-        toggleWebViewVisibility(show: false, usingTabManager: bvc.tabManager)
+        toggleWebViewVisibility(false, usingTabManager: bvc.tabManager)
         bvc.homePanelController?.view.isHidden = true
         bvc.webViewContainerBackdrop.isHidden = true
 
@@ -98,7 +98,7 @@ private extension TrayToBrowserAnimator {
             tabCollectionViewSnapshot.removeFromSuperview()
             bvc.footer.alpha = 1
             bvc.toggleSnackBarVisibility(show: true)
-            toggleWebViewVisibility(show: true, usingTabManager: bvc.tabManager)
+            toggleWebViewVisibility(true, usingTabManager: bvc.tabManager)
             bvc.webViewContainerBackdrop.isHidden = false
             bvc.homePanelController?.view.isHidden = false
             bvc.urlBar.isTransitioning = false
@@ -158,7 +158,7 @@ private extension BrowserToTrayAnimator {
         // Hide views we don't want to show during the animation in the BVC
         bvc.homePanelController?.view.isHidden = true
         bvc.toggleSnackBarVisibility(show: false)
-        toggleWebViewVisibility(show: false, usingTabManager: bvc.tabManager)
+        toggleWebViewVisibility(false, usingTabManager: bvc.tabManager)
         bvc.urlBar.isTransitioning = true
 
         // Since we are hiding the collection view and the snapshot API takes the snapshot after the next screen update,
@@ -197,7 +197,7 @@ private extension BrowserToTrayAnimator {
                 tabTray.collectionView.isHidden = false
 
                 bvc.toggleSnackBarVisibility(show: true)
-                toggleWebViewVisibility(show: true, usingTabManager: bvc.tabManager)
+                toggleWebViewVisibility(true, usingTabManager: bvc.tabManager)
                 bvc.homePanelController?.view.isHidden = false
 
                 bvc.urlBar.isTransitioning = false
@@ -272,7 +272,7 @@ private func shouldDisplayFooterForBVC(_ bvc: BrowserViewController) -> Bool {
     return bvc.shouldShowFooterForTraitCollection(bvc.traitCollection) && !AboutUtils.isAboutURL(bvc.tabManager.selectedTab?.url)
 }
 
-private func toggleWebViewVisibility(show: Bool, usingTabManager tabManager: TabManager) {
+private func toggleWebViewVisibility(_ show: Bool, usingTabManager tabManager: TabManager) {
     for i in 0..<tabManager.tabCount {
         let tab = tabManager.tabs.internalTabList[i]
         tab.webView?.isHidden = !show

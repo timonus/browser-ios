@@ -34,7 +34,7 @@ extension TabManager {
                 currentPage = -forwardList.count
             }
             if let id = tab.tabID {
-                let data = SavedTab(id, tab.title ?? "", tab.url!.absoluteString!, self.selectedTab === tab, Int16(i), tab.screenshot.image, urls, Int16(currentPage))
+                let data = SavedTab(id, tab.title ?? "", tab.url!.absoluteString, self.selectedTab === tab, Int16(i), tab.screenshot.image, urls, Int16(currentPage))
                 _tabs.append(data)
                 i += 1
             }

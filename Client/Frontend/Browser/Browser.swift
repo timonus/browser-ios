@@ -197,7 +197,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
         }
     }
 
-    func createWebview(useDesktopUserAgent:Bool = false) {
+    func createWebview(_ useDesktopUserAgent:Bool = false) {
         assert(Thread.isMainThread)
         if !Thread.isMainThread {
             return
@@ -264,12 +264,12 @@ class Browser: NSObject, BrowserWebViewDelegate {
             for urlString in sessionData.history {
                 guard let url = URL(string: urlString) else { continue }
                 let updatedURL = WebServer.sharedInstance.updateLocalURL(url)!.absoluteString
-                guard let curr = updatedURL?.regexReplacePattern("https?:..", with: "") else { continue }
+                guard let curr = updatedURL.regexReplacePattern("https?:..", with: "") else { continue }
                 if curr.characters.count > 1 && curr == prev {
                     updatedURLs.removeLast()
                 }
                 prev = curr
-                updatedURLs.append(updatedURL!)
+                updatedURLs.append(updatedURL)
             }
             let currentPage = sessionData.historyIndex
             self.sessionData = nil
@@ -288,7 +288,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
 
     }
 
-    func deleteWebView(isTabDeleted: Bool) {
+    func deleteWebView(_ isTabDeleted: Bool) {
         assert(Thread.isMainThread) // to find and remove these cases in debug
         guard let wv = webView else { return }
 
@@ -316,7 +316,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
     }
 
     deinit {
-        deleteWebView(isTabDeleted: true)
+        deleteWebView(true)
     }
 
     var loading: Bool {

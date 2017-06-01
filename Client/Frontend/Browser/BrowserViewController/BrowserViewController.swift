@@ -183,7 +183,7 @@ class BrowserViewController: UIViewController {
     }
 
 
-    func toggleSnackBarVisibility(show: Bool) {
+    func toggleSnackBarVisibility(_ show: Bool) {
         if show {
             UIView.animate(withDuration: 0.1, animations: { self.snackBars.isHidden = false })
         } else {
@@ -604,7 +604,7 @@ class BrowserViewController: UIViewController {
         }
     }
 
-    func showHomePanelController(inline: Bool) {
+    func showHomePanelController(_ inline: Bool) {
         log.debug("BVC showHomePanelController.")
         homePanelIsInline = inline
 
@@ -679,7 +679,7 @@ class BrowserViewController: UIViewController {
         if !urlBar.inSearchMode {
             if AboutUtils.isAboutHomeURL(url){
                 urlBar.updateBookmarkStatus(false)
-                showHomePanelController(inline: (tabManager.selectedTab?.canGoForward ?? false || tabManager.selectedTab?.canGoBack ?? false))
+                showHomePanelController((tabManager.selectedTab?.canGoForward ?? false || tabManager.selectedTab?.canGoBack ?? false))
             } else {
                 hideHomePanelController()
             }
@@ -710,7 +710,7 @@ class BrowserViewController: UIViewController {
 
     func addBookmark(_ url: URL?, title: String?, parentFolder: Bookmark? = nil) {
         // Custom title can only be applied during an edit
-        Bookmark.add(url: url as! NSURL, title: title, parentFolder: parentFolder)
+        Bookmark.add(url: url as! NSURL as URL, title: title, parentFolder: parentFolder)
         self.urlBar.updateBookmarkStatus(true)
     }
 
@@ -839,7 +839,7 @@ class BrowserViewController: UIViewController {
         tabManager.addTabAndSelect(request)
     }
 
-    func openBlankNewTabAndFocus(isPrivate: Bool = false) {
+    func openBlankNewTabAndFocus(_ isPrivate: Bool = false) {
         popToBrowser()
         tabManager.selectTab(nil)
         openURLInNewTab(nil)
@@ -881,7 +881,7 @@ class BrowserViewController: UIViewController {
         var activities = [UIActivity]()
         
         let findInPageActivity = FindInPageActivity() { [unowned self] in
-            self.updateFindInPageVisibility(visible: true)
+            self.updateFindInPageVisibility(true)
         }
         activities.append(findInPageActivity)
         
@@ -933,7 +933,7 @@ class BrowserViewController: UIViewController {
         self.present(controller, animated: true, completion: nil)
     }
 
-    func updateFindInPageVisibility(visible: Bool) {
+    func updateFindInPageVisibility(_ visible: Bool) {
         if visible {
             if findInPageBar == nil {
                 let findInPageBar = FindInPageBar()
@@ -1027,7 +1027,7 @@ extension BrowserViewController: SearchViewControllerDelegate {
     
     func searchViewController(_ searchViewController: SearchViewController, shouldFindInPage query: String) {
         cancelSearch()
-        updateFindInPageVisibility(visible: true)
+        updateFindInPageVisibility(true)
         findInPageBar?.text = query
     }
     
@@ -1181,7 +1181,7 @@ extension BrowserViewController: TabTrayDelegate {
         return profile.readingList?.createRecordWithURL(url, title: tab.title ?? url, addedBy: UIDevice.currentDevice().name).successValue
     }
 
-    func tabTrayRequestsPresentationOf(viewController: UIViewController) {
+    func tabTrayRequestsPresentationOf(_ viewController: UIViewController) {
         self.present(viewController, animated: false, completion: nil)
     }
 }

@@ -460,7 +460,7 @@ class BraveURLBarView : URLBarView {
         leftSidePanelButton.setStarImageBookmarked(isBookmarked)
     }
 
-    func setBraveButtonState(shieldsUp: Bool, animated: Bool) {
+    func setBraveButtonState(_ shieldsUp: Bool, animated: Bool) {
         let selected = !shieldsUp
         if braveButton.isSelected == selected {
             return

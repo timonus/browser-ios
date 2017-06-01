@@ -23,10 +23,10 @@ extension BrowserViewController: ContextMenuHelperDelegate {
                 return
             }
         #endif
-        showContextMenu(elements: elements, touchPoint: touchPoint)
+        showContextMenu(elements, touchPoint: touchPoint)
     }
 
-    func showContextMenu(elements: ContextMenuHelper.Elements, touchPoint: CGPoint) {
+    func showContextMenu(_ elements: ContextMenuHelper.Elements, touchPoint: CGPoint) {
         let touchSize = CGSize(width: 0, height: 16)
 
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -34,7 +34,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         actionSheetController.view.tag = BraveWebViewConstants.kContextMenuBlockNavigation
 
         if let url = elements.link, let currentTab = tabManager.selectedTab {
-            dialogTitle = url.absoluteString?.regexReplacePattern("^mailto:", with: "")
+            dialogTitle = url.absoluteString.regexReplacePattern("^mailto:", with: "")
             let isPrivate = currentTab.isPrivate
             let newTabTitle = Strings.Open_In_Background_Tab
             let openNewTabAction =  UIAlertAction(title: newTabTitle, style: UIAlertActionStyle.Default) { (action: UIAlertAction) in

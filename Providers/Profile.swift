@@ -89,7 +89,7 @@ protocol Profile: class {
 }
 
 open class BrowserProfile: Profile {
-    private static var __once1: () = {
+    fileprivate static var __once1: () = {
             if KeychainWrapper.hasValueForKey(key) {
                 let value = KeychainWrapper.stringForKey(key)
                 Singleton.instance = value
@@ -100,7 +100,7 @@ open class BrowserProfile: Profile {
                 Singleton.instance = secret
             }
         }()
-    private static var __once: () = {
+    fileprivate static var __once: () = {
             Singleton.instance = BrowserDB(filename: "browser.db", files: self.files)
             BrowserProfile.dbCreated = true
         }()

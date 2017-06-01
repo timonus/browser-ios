@@ -208,7 +208,7 @@ extension TabWidget : UIGestureRecognizerDelegate {
 }
 
 extension TabWidget {
-    func remakeLayout(prev: UIView, width: CGFloat, scrollView: UIView) {
+    func remakeLayout(_ prev: UIView, width: CGFloat, scrollView: UIView) {
         snp_remakeConstraints("tab: \(title.titleLabel?.text) ") {
             make in
             widthConstraint = make.width.equalTo(width).constraint

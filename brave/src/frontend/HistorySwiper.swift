@@ -53,7 +53,7 @@ class HistorySwiper : NSObject {
     var topLevelView: UIView!
     var webViewContainer: UIView!
 
-    func setup(topLevelView: UIView, webViewContainer: UIView) {
+    func setup(_ topLevelView: UIView, webViewContainer: UIView) {
         self.topLevelView = topLevelView
         self.webViewContainer = webViewContainer
 

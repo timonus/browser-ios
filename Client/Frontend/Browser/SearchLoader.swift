@@ -37,7 +37,7 @@ class _SearchLoader<UnusedA, UnusedB>: Loader<[Site], SearchViewController> {
     }()
 
     // TODO: This is not a proper frecency query, it just gets sites from the past week
-    fileprivate func getSitesByFrecency(containing: String? = nil) -> Deferred<[Site]> {
+    fileprivate func getSitesByFrecency(_ containing: String? = nil) -> Deferred<[Site]> {
         let result = Deferred<[Site]>()
 
         let context = DataController.shared.workerContext()

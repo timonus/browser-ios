@@ -44,7 +44,7 @@ struct ReaderModeHandlers {
                         if let html = ReaderModeUtils.generateReaderContent(readabilityResult, initialStyle: readerModeStyle) {
                             let response = GCDWebServerDataResponse(html: html)
                             // Apply a Content Security Policy that disallows everything except images from anywhere and fonts and css from our internal server
-                            response.setValue("default-src 'none'; img-src *; style-src http://localhost:*; font-src http://localhost:*", forAdditionalHeader: "Content-Security-Policy")
+                            response?.setValue("default-src 'none'; img-src *; style-src http://localhost:*; font-src http://localhost:*", forAdditionalHeader: "Content-Security-Policy")
                             return response
                         }
                     } catch _ {
@@ -58,7 +58,7 @@ struct ReaderModeHandlers {
                         ReadabilityService.sharedInstance.process(url, cache: readerModeCache)
                         if let readerViewLoadingPath = Bundle.main.path(forResource: "ReaderViewLoading", ofType: "html") {
                             do {
-                                let readerViewLoading = try NSMutableString(contentsOfFile: readerViewLoadingPath, encoding: String.Encoding.utf8)
+                                let readerViewLoading = try NSMutableString(contentsOfFile: readerViewLoadingPath, encoding: String.Encoding.utf8.rawValue)
                                 readerViewLoading.replaceOccurrences(of: "%ORIGINAL-URL%", with: url.absoluteString ?? "",
                                     options: NSString.CompareOptions.literal, range: NSMakeRange(0, readerViewLoading.length))
                                 readerViewLoading.replaceOccurrencesOfString("%LOADING-TEXT%", withString: Strings.LoadingContent,

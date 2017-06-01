@@ -70,7 +70,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         lastVisited = created
     }
     
-    func asDictionary(deviceId: [Int]?, action: Int?) -> [String: AnyObject] {
+    func asDictionary(_ deviceId: [Int]?, action: Int?) -> [String: AnyObject] {
         return SyncRoot(bookmark: self, deviceId: deviceId, action: action).dictionaryRepresentation()
     }
 
@@ -78,7 +78,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         return NSEntityDescription.entity(forEntityName: "Bookmark", in: context)!
     }
 
-    class func frc(parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
+    class func frc(_ parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Bookmark.entity(DataController.moc)
         fetchRequest.fetchBatchSize = 20
@@ -106,7 +106,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         }
     }
     
-    func update(customTitle: String?, url: String?, save: Bool = false) {
+    func update(_ customTitle: String?, url: String?, save: Bool = false) {
         
         // See if there has been any change
         if self.customTitle == customTitle && self.url == url {
@@ -198,7 +198,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
     }
     
     // TODO: DELETE
-    class func add(url: URL?,
+    class func add(_ url: URL?,
                        title: String?,
                        customTitle: String? = nil, // Folders only use customTitle
                        parentFolder:Bookmark? = nil,
@@ -222,7 +222,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
     
     // TODO: Migration syncUUIDS still needs to be solved
     // Should only ever be used for migration from old db
-    class func addForMigration(url: String?, title: String, customTitle: String, parentFolder: Bookmark?, isFolder: Bool?) -> Bookmark? {
+    class func addForMigration(_ url: String?, title: String, customTitle: String, parentFolder: Bookmark?, isFolder: Bool?) -> Bookmark? {
         // isFolder = true
         
         let site = SyncSite()
@@ -241,7 +241,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         return self.add(rootObject: root, save: true)
     }
 
-    class func contains(url: URL, completionOnMain completion: @escaping ((Bool)->Void)) {
+    class func contains(_ url: URL, completionOnMain completion: @escaping ((Bool)->Void)) {
         var found = false
         let context = DataController.shared.workerContext()
         context.perform {
@@ -261,7 +261,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         fetchRequest.fetchLimit = 5
         fetchRequest.entity = Bookmark.entity(context)
         
-        var predicate = NSPredicate(format: "lastVisited > %@", History.ThisWeek)
+        var predicate = NSPredicate(format: "lastVisited > %@", History.ThisWeek as CVarArg)
         if let query = containing {
             predicate = NSPredicate(format: predicate.predicateFormat + " AND url CONTAINS %@", query)
         }
@@ -312,7 +312,7 @@ extension Bookmark {
         return nil
     }
     
-    fileprivate static func get(predicate: NSPredicate?) -> [Bookmark]? {
+    fileprivate static func get(_ predicate: NSPredicate?) -> [Bookmark]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Bookmark.entity(DataController.moc)
         fetchRequest.predicate = predicate
@@ -327,7 +327,7 @@ extension Bookmark {
         return nil
     }
     
-    static func get(syncUUIDs: [[Int]]?) -> [Bookmark]? {
+    static func get(_ syncUUIDs: [[Int]]?) -> [Bookmark]? {
         
         guard let syncUUIDs = syncUUIDs else {
             return nil
@@ -382,7 +382,7 @@ extension Bookmark {
         return false
     }
     
-    class func remove(bookmark: Bookmark, save: Bool = true) {
+    class func remove(_ bookmark: Bookmark, save: Bool = true) {
         // Must happen before, otherwise bookmark is gone
         Sync.shared.sendSyncRecords(.bookmark, action: .delete, bookmarks: [bookmark])
 

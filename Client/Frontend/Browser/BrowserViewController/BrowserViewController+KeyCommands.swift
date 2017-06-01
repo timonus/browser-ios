@@ -47,14 +47,14 @@ extension BrowserViewController {
     func closeTab() {
         guard let tab = tabManager.selectedTab else { return }
         let priv = tab.isPrivate
-        nextOrPrevTabShortcut(isNext: false)
+        nextOrPrevTabShortcut(false)
         tabManager.removeTab(tab, createTabIfNoneLeft: !priv)
         if priv && tabManager.tabs.privateTabs.count == 0 {
             urlBarDidPressTabs(urlBar)
         }
     }
 
-    fileprivate func nextOrPrevTabShortcut(isNext: Bool) {
+    fileprivate func nextOrPrevTabShortcut(_ isNext: Bool) {
         guard let tab = tabManager.selectedTab else { return }
         let step = isNext ? 1 : -1
         let tabList: [Browser] = tabManager.tabs.displayedTabsForCurrentPrivateMode
@@ -67,11 +67,11 @@ extension BrowserViewController {
     }
 
     func nextTab() {
-        nextOrPrevTabShortcut(isNext: true)
+        nextOrPrevTabShortcut(true)
     }
 
     func previousTab() {
-        nextOrPrevTabShortcut(isNext: false)
+        nextOrPrevTabShortcut(false)
     }
 
     override var keyCommands: [UIKeyCommand]? {

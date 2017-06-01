@@ -19,7 +19,7 @@ class LegacyUserContentController
         scriptHandlersMainFrame[name] = scriptMessageHandler
     }
 
-    func removeScriptMessageHandler(name: String) {
+    func removeScriptMessageHandler(_ name: String) {
         scriptHandlersMainFrame.removeValue(forKey: name)
         scriptHandlersSubFrames.removeValue(forKey: name)
     }

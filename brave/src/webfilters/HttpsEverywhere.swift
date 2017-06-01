@@ -96,7 +96,7 @@ private func unzipFile(dir: String, data: Data) {
 
 
 extension HttpsEverywhere: NetworkDataFileLoaderDelegate {
-    func unzipAndLoad(dir: String, data: Data) {
+    func unzipAndLoad(_ dir: String, data: Data) {
         httpseDb.close()
         succeed().upon() { _ in
 
@@ -115,7 +115,7 @@ extension HttpsEverywhere: NetworkDataFileLoaderDelegate {
     func fileLoader(_ loader: NetworkDataFileLoader, setDataFile data: Data?) {
         guard let data = data else { return }
         let (dir, _) = loader.createAndGetDataDirPath()
-        unzipAndLoad(dir: dir, data: data)
+        unzipAndLoad(dir, data: data)
     }
 
     func fileLoaderHasDataFile(_ loader: NetworkDataFileLoader) -> Bool {

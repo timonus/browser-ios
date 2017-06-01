@@ -1,4 +1,4 @@
-github "Alamofire/Alamofire"                "4.4.0"
+github "Alamofire/Alamofire"                ~> 4.0
 github "sleroux/Deferred"                   "Swift3.0"
 github "swisspol/GCDWebServer"       "3.3.2"
 github "kif-framework/KIF"          "v3.5.1"

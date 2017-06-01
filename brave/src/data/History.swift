@@ -4,9 +4,9 @@
 import CoreData
 import Shared
 
-private func getDate(dayOffset: Int) -> Date {
+private func getDate(_ dayOffset: Int) -> Date {
     let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-    let nowComponents = (calendar as NSCalendar).components([NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day], from: Date())
+    let nowComponents = (calendar as NSCalendar).components([Calendar.Unit.year, Calendar.Unit.month, Calendar.Unit.day], from: Date())
     let today = calendar.date(from: nowComponents)!
     return (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: dayOffset, to: today, options: [])!
 }
@@ -49,16 +49,16 @@ class History: NSManagedObject, WebsitePresentable {
     // are displayed in a table and waiting for a favicon, you can change markDirty, and the favicon will update
     @NSManaged var markDirty: Int16
     
-    static let Today = getDate(dayOffset: 0)
-    static let Yesterday = getDate(dayOffset: -1)
-    static let ThisWeek = getDate(dayOffset: -7)
-    static let ThisMonth = getDate(dayOffset: -31)
+    static let Today = getDate(0)
+    static let Yesterday = getDate(-1)
+    static let ThisWeek = getDate(-7)
+    static let ThisMonth = getDate(-31)
 
     static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entity(forEntityName: "History", in: context)!
     }
 
-    class func add(title: String, url: URL) {
+    class func add(_ title: String, url: URL) {
         let context = DataController.shared.workerContext()
         context.perform {
             var item = History.getExisting(url, context: context)

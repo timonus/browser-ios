@@ -80,7 +80,7 @@ class Domain: NSManagedObject {
         return [Domain]()
     }
 
-    class func topSitesQuery(limit: Int, context: NSManagedObjectContext) -> [Domain] {
+    class func topSitesQuery(_ limit: Int, context: NSManagedObjectContext) -> [Domain] {
         assert(!Thread.isMainThread)
 
         let minVisits = 5

@@ -172,7 +172,7 @@ class URLBarView: UIView {
         }
 
         set(newURL) {
-            locationView.url = newURL as! NSURL
+            locationView.url = newURL as! NSURL as URL
         }
     }
 
@@ -428,7 +428,7 @@ extension URLBarView: BrowserToolbarProtocol {
         locationView.stopReloadButtonIsLoading(isLoading)
     }
 
-    func updatePageStatus(isWebPage: Bool) {
+    func updatePageStatus(_ isWebPage: Bool) {
         locationView.stopReloadButton.isEnabled = isWebPage
         shareButton.isEnabled = isWebPage
     }

@@ -99,7 +99,7 @@ class TabsBarViewController: UIViewController {
         return overflow > 0 ? overflow : 0
     }
 
-    func updateTabWidthConstraint(width: CGFloat) {
+    func updateTabWidthConstraint(_ width: CGFloat) {
         tabs.forEach {
             $0.widthConstraint?.updateOffset(width)
         }
@@ -115,7 +115,7 @@ class TabsBarViewController: UIViewController {
         struct staticWidth { static var val = CGFloat(0) }
         if abs(staticWidth.val - scrollView.bounds.width) > 10 {
             let w = calcTabWidth(tabs.count)
-            updateTabWidthConstraint(width: w)
+            updateTabWidthConstraint(w)
             overflowIndicators()
         }
         staticWidth.val = scrollView.bounds.width
@@ -172,19 +172,19 @@ class TabsBarViewController: UIViewController {
     
     func recalculateTabView() {
         let w = calcTabWidth(tabs.count)
-        updateTabWidthConstraint(width: w)
+        updateTabWidthConstraint(w)
 
         updateContentSize(tabs.count)
         overflowIndicators()
         
         scrollView.layoutIfNeeded()
         
-        addLeftRightScrollHint(isRightSide: false, maskLayer: leftOverflowIndicator)
-        addLeftRightScrollHint(isRightSide: true, maskLayer: rightOverflowIndicator)
+        addLeftRightScrollHint(false, maskLayer: leftOverflowIndicator)
+        addLeftRightScrollHint(true, maskLayer: rightOverflowIndicator)
     }
 
 
-    func addTab(browser: Browser) -> TabWidget {
+    func addTab(_ browser: Browser) -> TabWidget {
         let t = TabWidget(browser: browser, parentScrollView: scrollView)
         t.delegate = self
         
@@ -269,7 +269,7 @@ class TabsBarViewController: UIViewController {
         }
     }
 
-    func addLeftRightScrollHint(isRightSide: Bool, maskLayer: CAGradientLayer) {
+    func addLeftRightScrollHint(_ isRightSide: Bool, maskLayer: CAGradientLayer) {
         maskLayer.removeFromSuperlayer()
         let colors = PrivateBrowsing.singleton.isOn ? [BraveUX.DarkToolbarsBackgroundSolidColor.withAlphaComponent(0).cgColor, BraveUX.DarkToolbarsBackgroundSolidColor.cgColor] : [BraveUX.ToolbarsBackgroundSolidColor.withAlphaComponent(0).cgColor, BraveUX.ToolbarsBackgroundSolidColor.cgColor]
         let locations = [0.9, 1.0]
@@ -344,7 +344,7 @@ extension TabsBarViewController: TabManagerDelegate {
         tabs.removeAll()
 
         tabManager.tabs.internalTabList.forEach {
-            let t = addTab(browser: $0)
+            let t = addTab($0)
             t.setTitle($0.lastTitle)
             if tabManager.selectedTab === $0 {
                 tabWidgetSelected(t)
@@ -371,7 +371,7 @@ extension TabsBarViewController: TabManagerDelegate {
             return
         }
 
-        let t = addTab(browser: tab)
+        let t = addTab(tab)
         if let url = url {
             let title = url.baseDomain()
             t.setTitle(title)
@@ -454,7 +454,7 @@ extension TabsBarViewController {
 
     }
 
-    func newIndexOfMovedTab(indexOfMovedTab: Int, dragDistance: CGFloat) -> Int {
+    func newIndexOfMovedTab(_ indexOfMovedTab: Int, dragDistance: CGFloat) -> Int {
         var newIndex = -1
         guard let tabXPositions = tabXPositions else { assert(false); return 0 }
         assert(0 ..< tabXPositions.count ~= indexOfMovedTab)
@@ -486,7 +486,7 @@ extension TabsBarViewController {
         }
 
         guard let movedIndex = tabs.index(of: tab) else { print("ERROR"); return }
-        let newIndex = newIndexOfMovedTab(indexOfMovedTab: movedIndex, dragDistance: dragDistance)
+        let newIndex = newIndexOfMovedTab(movedIndex, dragDistance: dragDistance)
 
         let moveCloneTo = newIndex < 0 ? tab.dragClone?.lastLocation : CGPoint(x: tabXPositions![newIndex], y: tab.center.y)
 
@@ -560,7 +560,7 @@ extension TabsBarViewController {
         //let newPoint = CGPointMake(, tab.center.y)
 
         var hitSpacer: UIView? = tab.spacerRight
-        let newIndex = newIndexOfMovedTab(indexOfMovedTab: movedIndex, dragDistance: distance)
+        let newIndex = newIndexOfMovedTab(movedIndex, dragDistance: distance)
 
         if newIndex < 0 {
             hitSpacer = tab.spacerRight
@@ -603,8 +603,8 @@ extension TabsBarViewController {
         leftOverflowIndicator.opacity = 0
         rightOverflowIndicator.opacity = 0
         postAsyncToMain(0.1) {
-            self.addLeftRightScrollHint(isRightSide: false, maskLayer: self.leftOverflowIndicator)
-            self.addLeftRightScrollHint(isRightSide: true, maskLayer: self.rightOverflowIndicator)
+            self.addLeftRightScrollHint(false, maskLayer: self.leftOverflowIndicator)
+            self.addLeftRightScrollHint(true, maskLayer: self.rightOverflowIndicator)
             self.overflowIndicators()
         }
     }

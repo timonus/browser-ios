@@ -247,7 +247,7 @@ class TopSitesPanel: UIViewController {
         let url = URL(string: "https://github.com/brave/browser-laptop/wiki/What-a-Private-Tab-actually-does")!
         postAsyncToMain(0) {
             let t = getApp().tabManager
-            t.addTabAndSelect(URLRequest(url: url))
+            t?.addTabAndSelect(URLRequest(url: url))
         }
     }
 
@@ -475,7 +475,7 @@ extension TopSitesPanel: ThumbnailCellDelegate {
     }
 }
 
-private class TopSitesCollectionView: UICollectionView {
+fileprivate class TopSitesCollectionView: UICollectionView {
     fileprivate override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Hide the keyboard if this view is touched.
         window?.rootViewController?.view.endEditing(true)
@@ -628,7 +628,7 @@ class TopSitesLayout: UICollectionViewLayout {
     }
 }
 
-private class TopSitesDataSource: NSObject, UICollectionViewDataSource {
+fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     var editingThumbnails: Bool = false
     var suggestedSites = [SuggestedSite]()
     var sites = [Site]()

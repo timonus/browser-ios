@@ -190,7 +190,7 @@ open class WebViewProgress
         injectLoadDetection()
     }
 
-    open func webViewDidFinishLoad(documentReadyState:String?) {
+    open func webViewDidFinishLoad(_ documentReadyState:String?) {
         loadingCount -= 1
         incrementProgress()
 
@@ -216,6 +216,6 @@ open class WebViewProgress
     }
     
     open func didFailLoadWithError() {
-        webViewDidFinishLoad(documentReadyState: nil)
+        webViewDidFinishLoad(nil)
     }
 }

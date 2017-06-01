@@ -67,7 +67,7 @@ class SafeBrowsing {
 
         let isBlocked = abpFilterLibWrapper.isBlockedIgnoringType(url.absoluteString, mainDocumentUrl: host)
 
-        fifoCacheOfUrlsChecked.addItem(key, value: isBlocked)
+        fifoCacheOfUrlsChecked.addItem(key, value: isBlocked as AnyObject)
 
         // #if LOG_AD_BLOCK
         if isBlocked {

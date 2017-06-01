@@ -544,7 +544,7 @@ class BraveWebView: UIWebView {
             let wrapped = "var result = \(javaScriptString); JSON.stringify(result)"
             let string = self.stringByEvaluatingJavaScript(from: wrapped)
             let dict = self.convertStringToDictionary(string)
-            completionHandler?(dict, NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotOpenFile, userInfo: nil))
+            completionHandler?(dict as AnyObject, NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotOpenFile, userInfo: nil))
         }
     }
 
@@ -875,7 +875,7 @@ extension BraveWebView: UIWebViewDelegate {
             if !handled && URL?.absoluteString == errorUrl.absoluteString && error.code != kPluginIsHandlingLoad {
                 if let nd = navigationDelegate {
                     globalContainerWebView.legacyWebView = self
-                    nd.webViewDidFailNavigation(self, withError: error ?? NSError.init(domain: "", code: 0, userInfo: nil))
+                    nd.webViewDidFailNavigation(self, withError: error as NSError ?? NSError.init(domain: "", code: 0, userInfo: nil))
                 }
             }
         }

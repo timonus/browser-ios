@@ -179,7 +179,7 @@ class URLProtocol: Foundation.URLProtocol {
             if url == request.mainDocumentURL {
                 returnEmptyResponse()
                 postAsyncToMain(0) {
-                    BrowserTabToUAMapper.userAgentToBrowserTab(ua)?.webView?.loadRequest(newRequest)
+                    BrowserTabToUAMapper.userAgentToBrowserTab(ua)?.webView?.loadRequest(newRequest as URLRequest)
                 }
             } else {
                 connection = NSURLConnection(request: newRequest as URLRequest, delegate: self)

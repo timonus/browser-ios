@@ -110,7 +110,7 @@ class BraveContextMenu {
 
         let hit: (url: String?, image: String?, urlTarget: String?)?
 
-        if [".jpg", ".png", ".gif"].filter({ webView.URL?.absoluteString?.endsWith($0) ?? false }).count > 0 {
+        if [".jpg", ".png", ".gif"].filter({ webView.URL?.absoluteString.endsWith($0) ?? false }).count > 0 {
             // web view is just showing an image
             hit = (url:nil, image:webView.URL!.absoluteString, urlTarget:nil)
         } else {

@@ -5,7 +5,7 @@ import SnapKit
 import SafariServices
 
 class BraveBrowserViewController : BrowserViewController {
-    private static var __once: () = {
+    fileprivate static var __once: () = {
             if BraveApp.shouldRestoreTabs() && !PrivateBrowsing.singleton.isOn {
                 // Only do tab restoration if in normal mode.
                 //  If in PM, restoration happens on leaving.
@@ -72,7 +72,7 @@ class BraveBrowserViewController : BrowserViewController {
         footerBackdrop.accessibilityLabel = "footerBackdrop"
     }
 
-    func updateBraveShieldButtonState(animated: Bool) {
+    func updateBraveShieldButtonState(_ animated: Bool) {
         guard let s = tabManager.selectedTab?.braveShieldStateSafeAsync.get() else { return }
         let up = s.isNotSet() || !s.isAllOff()
         (urlBar as! BraveURLBarView).setBraveButtonState(shieldsUp: up, animated: animated)
@@ -94,7 +94,7 @@ class BraveBrowserViewController : BrowserViewController {
 
             urlBar.updateProgressBar(Float(webView.estimatedProgress), dueToTabChange: true)
             urlBar.updateReloadStatus(webView.isLoading)
-            updateBraveShieldButtonState(animated: false)
+            updateBraveShieldButtonState(false)
 
             let bravePanel = getApp().braveTopViewController.rightSidePanel
             bravePanel.setShieldBlockedStats(webView.shieldStats)
@@ -148,7 +148,7 @@ class BraveBrowserViewController : BrowserViewController {
         }
     }
 
-    override func showHomePanelController(inline:Bool) {
+    override func showHomePanelController(_ inline:Bool) {
         super.showHomePanelController(inline: inline)
         postAsyncToMain(0.1) {
             if UIResponder.currentFirstResponder() == nil {
@@ -180,7 +180,7 @@ class BraveBrowserViewController : BrowserViewController {
         }
     }
 
-    func newTabForDesktopSite(url: URL) {
+    func newTabForDesktopSite(_ url: URL) {
         let tab = tabManager.addTabForDesktopSite()
         tab.loadRequest(URLRequest(url: url))
     }
@@ -231,7 +231,7 @@ extension BraveBrowserViewController: BraveTermsViewControllerDelegate {
 
         let mixpanelToken = Bundle.main.infoDictionary?["MIXPANEL_TOKEN"] ?? "no-token"
         let callbackData = "{'event':'install','properties':{'product':'brave-ios','token':'\(mixpanelToken)','version':'/\(getApp().appVersion)'}}".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? "no-data"
-        let base64Encoded = callbackData.data(using: String.Encoding.utf8)?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0)) ?? "no-base64"
+        let base64Encoded = callbackData.data(using: String.Encoding.utf8)?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0)) ?? "no-base64"
         let callbackUrl = "https://metric-proxy.brave.com/track?data=" + base64Encoded
 
         let sf = SFSafariViewController(url: URL(string: callbackUrl)!)

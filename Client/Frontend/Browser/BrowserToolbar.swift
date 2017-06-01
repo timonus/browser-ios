@@ -23,7 +23,7 @@ protocol BrowserToolbarProtocol {
     func updateBackStatus(_ canGoBack: Bool)
     func updateForwardStatus(_ canGoForward: Bool)
     func updateReloadStatus(_ isLoading: Bool)
-    func updatePageStatus(isWebPage: Bool)
+    func updatePageStatus(_ isWebPage: Bool)
 }
 
 @objc
@@ -167,7 +167,7 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
         getApp().browserViewController.urlBar.locationView.stopReloadButtonIsLoading(isLoading)
     }
 
-    func updatePageStatus(isWebPage: Bool) {
+    func updatePageStatus(_ isWebPage: Bool) {
         stopReloadButton.isEnabled = isWebPage
         shareButton.isEnabled = isWebPage
     }

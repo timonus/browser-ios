@@ -142,7 +142,7 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
         }
     }
 
-    override func updatePageStatus(isWebPage: Bool) {
+    override func updatePageStatus(_ isWebPage: Bool) {
         super.updatePageStatus(isWebPage: isWebPage)
         
         let isPrivate = getApp().browserViewController.tabManager.selectedTab?.isPrivate ?? false

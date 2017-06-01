@@ -314,7 +314,7 @@ class BraveSupportLinkSetting: Setting {
             getApp().braveTopViewController.dismissAllSidePanels()
             postAsyncToMain(0.1) {
                 let t = getApp().tabManager
-                t.addTabAndSelect(URLRequest(url: url))
+                t?.addTabAndSelect(URLRequest(url: url))
             }
         }
     }

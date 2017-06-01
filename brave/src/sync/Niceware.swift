@@ -40,8 +40,8 @@ class Niceware: JSInjector {
         executeBlockOnReady {
             self.nicewareWebView.evaluateJavaScript("JSON.stringify(niceware.passphraseToBytes(niceware.generatePassphrase(\(byteCount))))") { (result, error) in
                 
-                let bytes = JSONSerialization.swiftObject(withJSON: result)?["data"] as? [Int]
-                completion(bytes, error)
+                let bytes = JSONSerialization.swiftObject(withJSON: result as AnyObject)?["data"] as? [Int]
+                completion(bytes, error as! NSError)
             }
         }
     }
@@ -134,8 +134,8 @@ class Niceware: JSInjector {
             self.nicewareWebView.evaluateJavaScript(jsToExecute, completionHandler: {
                 (result, error) in
                 
-                let bytes = JSONSerialization.swiftObject(withJSON: result)?["data"] as? [Int]
-                completion?(bytes, error)
+                let bytes = JSONSerialization.swiftObject(withJSON: result as AnyObject)?["data"] as? [Int]
+                completion?(bytes, error as! NSError)
             })
         }
     }
