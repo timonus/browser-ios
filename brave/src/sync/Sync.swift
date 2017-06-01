@@ -273,8 +273,8 @@ class Sync: JSInjector {
                 fetchTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(Sync.fetchWrapper), userInfo: nil, repeats: true)
             }
             
+            // Just throw by itself, does not need to recover or retry due to lack of importance
             self.fetch(.devices)
-            return true
             
             // Use proper variable and store in defaults
             if lastSuccessfulSync == 0 {
@@ -361,8 +361,6 @@ extension Sync {
         
         executeBlockOnReady() {
             
-            self.lastSuccessfulSync = 0
-            
             // Pass in `lastFetch` to get records since that time
             self.webView.evaluateJavaScript("callbackList['\(type.syncFetchMethod)'](null, ['\(type.rawValue)'], \(self.lastSuccessfulSync), true)",
                                        completionHandler: { (result, error) in
@@ -408,7 +406,6 @@ extension Sync {
                 }
                     
                 // TODO: Needs favicon
-                // TODO: Create better `add` method to accept sync bookmark
                 if singleRecord == nil {
                     recordType.coredataModelType?.add(rootObject: fetchedRoot, save: false, sendToSync: false)
                 } else {
@@ -424,11 +421,17 @@ extension Sync {
         }
         
         DataController.saveContext()
-        print("\(fetchedRecords.count) records processed")
+        print("\(fetchedRecords.count) \(recordType.rawValue) processed")
+        
+        // Make generic when other record types are supported
+        if recordType != .bookmark {
+            // Currently only support bookmark timestamp, so do not want to adjust that
+            return
+        }
         
         // TODO: Re-add after testing
         // After records have been written, without crash, save timestamp
-//        if let stamp = self.lastFetchedRecordTimestamp { self.lastSuccessfulSync = stamp }
+        if let stamp = self.lastFetchedRecordTimestamp { self.lastSuccessfulSync = stamp }
         
         if fetchedRecords.count > Sync.RecordRateLimitCount {
             // Do fast refresh, do not wait for timer
