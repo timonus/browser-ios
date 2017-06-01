@@ -213,6 +213,7 @@ class Sync: JSInjector {
             
             lastFetchedRecordTimestamp = 0
             lastSuccessfulSync = 0
+            lastFetchWasTrimmed = false
             syncReadyLock = false
             isSyncFullyInitialized = (false, false, false, false, false, false, false, false)
             
@@ -244,6 +245,10 @@ class Sync: JSInjector {
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
+    
+    // Same abstraction note as above
+    //  Used to know if data on get-existing-objects was trimmed, this value is used inside resolved-sync-records
+    private var lastFetchWasTrimmed: Bool = false
     ////////////////////////////////
     
 
@@ -433,9 +438,10 @@ extension Sync {
         // After records have been written, without crash, save timestamp
         if let stamp = self.lastFetchedRecordTimestamp { self.lastSuccessfulSync = stamp }
         
-        if fetchedRecords.count > Sync.RecordRateLimitCount {
+        if self.lastFetchWasTrimmed {
             // Do fast refresh, do not wait for timer
             self.fetch(.bookmark)
+            self.lastFetchWasTrimmed = false
         }
     }
 
@@ -490,8 +496,12 @@ extension Sync {
             return
         }
         
-        // Store the last record's timestamp, to know what timestamp to pass in next time if this one does not fail
-        self.lastFetchedRecordTimestamp = data?.lastFetchedTimestamp
+        // Only currently support bookmarks, this data will be abstracted (see variable definition note)
+        if recordType == .bookmark {
+            // Store the last record's timestamp, to know what timestamp to pass in next time if this one does not fail
+            self.lastFetchedRecordTimestamp = data?.lastFetchedTimestamp
+            self.lastFetchWasTrimmed = data?.isTruncated ?? false
+        }
         
         self.webView.evaluateJavaScript("callbackList['resolve-sync-records'](null, '\(recordType.rawValue)', \(serializedData))",
             completionHandler: { (result, error) in })
