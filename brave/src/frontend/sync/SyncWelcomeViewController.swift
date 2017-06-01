@@ -159,10 +159,9 @@ class SyncWelcomeViewController: UIViewController {
                 _ in attemptPush()
             }
             
-            self.loadingView.hidden = false
             
             // TODO: Move to strings file
-            let alert = UIAlertController.userTextInputAlert(title: "Device Name", message: "Please enter a name for this device") {
+            getDeviceName {
                 input in
                 
                 if let input = input {
@@ -172,7 +171,6 @@ class SyncWelcomeViewController: UIViewController {
                 // Forced timeout
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(25.0) * Int64(NSEC_PER_SEC)), dispatch_get_main_queue(), attemptPush)
             }
-            self.presentViewController(alert, animated: true, completion: nil)
             
         } else {
             attemptPush()
@@ -180,8 +178,23 @@ class SyncWelcomeViewController: UIViewController {
     }
     
     func SEL_existingUser() {
-        let view = SyncPairCameraViewController()
-        navigationController?.pushViewController(view, animated: true)
+        getDeviceName {
+            input in
+            let view = SyncPairCameraViewController()
+            view.deviceName = input
+            self.navigationController?.pushViewController(view, animated: true)
+        }
+    }
+    
+    func getDeviceName(callback: String? -> ()) {
+        self.loadingView.hidden = false
+
+        // TODO: Move to strings file
+        let alert = UIAlertController.userTextInputAlert(title: "Device Name", message: "Please enter a name for this device") {
+            callback($0)
+            self.loadingView.hidden = true
+        }
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
 }
