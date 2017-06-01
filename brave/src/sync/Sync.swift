@@ -367,7 +367,8 @@ extension Sync {
         executeBlockOnReady() {
             
             // Pass in `lastFetch` to get records since that time
-            self.webView.evaluateJavaScript("callbackList['\(type.syncFetchMethod)'](null, ['\(type.rawValue)'], \(self.lastSuccessfulSync), true)",
+            let evaluate = "callbackList['\(type.syncFetchMethod)'](null, ['\(type.rawValue)'], \(self.lastSuccessfulSync), 1000)"
+            self.webView.evaluateJavaScript(evaluate,
                                        completionHandler: { (result, error) in
                                         completion?(error)
             })
