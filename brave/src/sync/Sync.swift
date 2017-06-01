@@ -3,6 +3,7 @@
 import UIKit
 import WebKit
 import Shared
+import SwiftKeychainWrapper
 
 /*
  module.exports.categories = {
@@ -182,10 +183,9 @@ class Sync: JSInjector {
         print(#function)
     }
 
-    // TODO: Move to keychain
     private var syncSeed: String? {
         get {
-            return NSUserDefaults.standardUserDefaults().stringForKey(prefNameSeed)
+            return KeychainWrapper.defaultKeychainWrapper().stringForKey(prefNameSeed)
         }
         set(value) {
             // TODO: Move syncSeed validation here, remove elsewhere
@@ -196,22 +196,30 @@ class Sync: JSInjector {
                 return
             }
             
-            if value == nil {
-                // Clean up group specific items
-                
-                // TODO: Destroy all devices
-                
-                lastFetchedRecordTimestamp = 0
-                lastSuccessfulSync = 0
-                syncReadyLock = false
-                isSyncFullyInitialized = (false, false, false, false, false, false, false, false)
-                
-                fetchTimer?.invalidate()
-                fetchTimer = nil
+            if let value = value {
+                KeychainWrapper.defaultKeychainWrapper().setString(value, forKey: prefNameSeed)
+                return
             }
             
-            NSUserDefaults.standardUserDefaults().setObject(value, forKey: prefNameSeed)
-            NSUserDefaults.standardUserDefaults().synchronize()
+            // Leave group:
+            
+            // Clean up group specific items
+            
+            // TODO: Destroy all local devices
+            // TODO: Make sure isCurrent device is gone
+            
+            // TODO: Update all records with originalSyncSeed
+            
+            
+            lastFetchedRecordTimestamp = 0
+            lastSuccessfulSync = 0
+            syncReadyLock = false
+            isSyncFullyInitialized = (false, false, false, false, false, false, false, false)
+            
+            fetchTimer?.invalidate()
+            fetchTimer = nil
+            
+            KeychainWrapper.defaultKeychainWrapper().removeObjectForKey(prefNameSeed)
         }
     }
     
@@ -265,8 +273,8 @@ class Sync: JSInjector {
                 fetchTimer = NSTimer.scheduledTimerWithTimeInterval(30.0, target: self, selector: #selector(Sync.fetchWrapper), userInfo: nil, repeats: true)
             }
             
-//            self.fetch(.devices)
-//            return true
+            self.fetch(.devices)
+            return true
             
             // Use proper variable and store in defaults
             if lastSuccessfulSync == 0 {
