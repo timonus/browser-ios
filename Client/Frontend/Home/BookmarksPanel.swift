@@ -114,7 +114,7 @@ class BookmarkEditingViewController: FormViewController {
         self.bookmarkIndexPath = indexPath
 
         // get top-level folders
-        folders = Bookmark.getFolders(nil)
+        folders = Bookmark.getFolders(nil, context: DataController.moc)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -317,7 +317,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         }
 
         // TODO: Needs to be recursive
-        Bookmark.remove(bookmark: currentFolder)
+        currentFolder.remove()
 
         self.navigationController?.popViewControllerAnimated(true)
     }
@@ -546,7 +546,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Destructive, title: Strings.Delete, handler: { (action, indexPath) in
 
             func delete() {
-                Bookmark.remove(bookmark: item, save: true)
+                item.remove(save: true)
                 
                 // Updates the bookmark state
                 getApp().browserViewController.updateURLBarDisplayURL(tab: nil)

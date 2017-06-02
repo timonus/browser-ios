@@ -40,7 +40,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             syncParentDisplayUUID = SyncHelpers.syncDisplay(fromUUID: value)
 
             // Attach parent, only works if parent exists.
-            let parent = Bookmark.get(parentSyncUUID: value)
+            let parent = Bookmark.get(parentSyncUUID: value, context: self.managedObjectContext)
             parentFolder = parent
         }
     }
@@ -114,29 +114,29 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         }
         
         if save {
-            DataController.saveContext()
+            DataController.saveContext(self.managedObjectContext)
         }
         
         Sync.shared.sendSyncRecords(.bookmark, action: .update, records: [self])
     }
 
-    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool) -> Syncable? {
+    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable? {
         // Explicit parentFolder to force method decision
-        return add(rootObject: root as? SyncBookmark, save: save, sendToSync: sendToSync, parentFolder: nil)
+        return add(rootObject: root as? SyncBookmark, save: save, sendToSync: sendToSync, parentFolder: nil, context: context)
     }
     
     // Should not be used for updating, modify to increase protection
-    class func add(rootObject root: SyncBookmark?, save: Bool = false, sendToSync: Bool = false, parentFolder: Bookmark? = nil) -> Bookmark? {
+    class func add(rootObject root: SyncBookmark?, save: Bool = false, sendToSync: Bool = false, parentFolder: Bookmark? = nil, context: NSManagedObjectContext) -> Bookmark? {
         let bookmark = root
         let site = bookmark?.site
      
         var bk: Bookmark!
-        if let id = root?.objectId, let foundbks = Bookmark.get(syncUUIDs: [id]) as? [Bookmark], let foundBK = foundbks.first {
+        if let id = root?.objectId, let foundbks = Bookmark.get(syncUUIDs: [id], context: context) as? [Bookmark], let foundBK = foundbks.first {
             // Found a pre-existing bookmark, cannot add duplicate
             // Turn into 'update' record instead
             bk = foundBK
         } else {
-            bk = Bookmark(entity: Bookmark.entity(DataController.moc), insertIntoManagedObjectContext: DataController.moc)
+            bk = Bookmark(entity: Bookmark.entity(context), insertIntoManagedObjectContext: context)
         }
         
         // Should probably have visual indication before reaching this point
@@ -154,7 +154,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.lastVisited = site?.lastAccessedNativeDate ?? NSDate()
         
         if let location = site?.location, let url = NSURL(string: location) {
-            bk.domain = Domain.getOrCreateForUrl(url, context: DataController.moc)
+            bk.domain = Domain.getOrCreateForUrl(url, context: context)
         }
         
         // Must assign both, in cae parentFolder does not exist, need syncParentUUID to attach later
@@ -166,7 +166,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             //  (e.g. sync sent down bookmark before parent folder)
             if bk.isFolder {
                 // Find all children and attach them
-                if let children = Bookmark.getChildren(forFolderUUID: bk.syncUUID) {
+                if let children = Bookmark.getChildren(forFolderUUID: bk.syncUUID, context: context) {
                     
                     // TODO: Setup via bk.children property instead
                     children.forEach { $0.parentFolder = bk }
@@ -178,13 +178,14 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
                 Sync.shared.sendSyncRecords(.bookmark, action: .create, records: [bk])
             }
             
-            DataController.saveContext()
+            DataController.saveContext(context)
         }
         
         return bk
     }
     
     // TODO: DELETE
+    // Aways uses main context
     class func add(url url: NSURL?,
                        title: String?,
                        customTitle: String? = nil, // Folders only use customTitle
@@ -201,11 +202,12 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
         
-        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder)
+        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder, context: DataController.moc)
     }
     
     // TODO: Migration syncUUIDS still needs to be solved
     // Should only ever be used for migration from old db
+    // Always uses worker context
     class func addForMigration(url url: String?, title: String, customTitle: String, parentFolder: Bookmark?, isFolder: Bool?) -> Bookmark? {
         
         let site = SyncSite()
@@ -218,7 +220,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
 //        bookmark.parentFolderObjectId = [parentFolder]
         bookmark.site = site
         
-        return self.add(rootObject: bookmark, save: true)
+        return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext())
     }
 
     class func contains(url url: NSURL, completionOnMain completion: ((Bool)->Void)) {
@@ -281,23 +283,23 @@ extension Bookmark {
         return nil
     }
     
-    static func getChildren(forFolderUUID syncUUID: [Int]?) -> [Bookmark]? {
+    static func getChildren(forFolderUUID syncUUID: [Int]?, context: NSManagedObjectContext) -> [Bookmark]? {
         guard let searchableUUID = SyncHelpers.syncDisplay(fromUUID: syncUUID) else {
             return nil
         }
         
-        return get(predicate: NSPredicate(format: "syncParentDisplayUUID == %@", searchableUUID))
+        return get(predicate: NSPredicate(format: "syncParentDisplayUUID == %@", searchableUUID), context: context)
     }
     
-    static func get(parentSyncUUID parentUUID: [Int]?) -> Bookmark? {
+    static func get(parentSyncUUID parentUUID: [Int]?, context: NSManagedObjectContext?) -> Bookmark? {
         guard let searchableUUID = SyncHelpers.syncDisplay(fromUUID: parentUUID) else {
             return nil
         }
         
-        return get(predicate: NSPredicate(format: "syncDisplayUUID == %@", searchableUUID))?.first
+        return get(predicate: NSPredicate(format: "syncDisplayUUID == %@", searchableUUID), context: context)?.first
     }
     
-    static func getFolders(bookmark: Bookmark?) -> [Bookmark] {
+    static func getFolders(bookmark: Bookmark?, context: NSManagedObjectContext) -> [Bookmark] {
     
         var predicate: NSPredicate?
         if let parent = bookmark?.parentFolder {
@@ -306,33 +308,23 @@ extension Bookmark {
             predicate = NSPredicate(format: "isFolder == true and parentFolder.@count = 0")
         }
         
-        return get(predicate: predicate) ?? [Bookmark]()
+        return get(predicate: predicate, context: context) ?? [Bookmark]()
     }
     
     // TODO: Remove
-    static func getAllBookmarks() -> [Bookmark] {
-        return get(predicate: nil) ?? [Bookmark]()
+    static func getAllBookmarks(context: NSManagedObjectContext) -> [Bookmark] {
+        return get(predicate: nil, context: context) ?? [Bookmark]()
     }
 }
 
 // TODO: REMOVE!! This should be located in abstraction
 extension Bookmark {
-    class func remove(forUrl url: NSURL, save: Bool = true) -> Bool {
-        if let bm = get(forUrl: url, context: DataController.moc) as? Bookmark {
-            self.remove(bookmark: bm, save: save)
+    class func remove(forUrl url: NSURL, save: Bool = true, context: NSManagedObjectContext) -> Bool {
+        if let bm = get(forUrl: url, context: context) as? Bookmark {
+            bm.remove(save: save)
             return true
         }
         return false
-    }
-    
-    class func remove(bookmark bookmark: Bookmark, save: Bool = true) {
-        // Must happen before, otherwise bookmark is gone
-        Sync.shared.sendSyncRecords(.bookmark, action: .delete, records: [bookmark])
-
-        DataController.moc.deleteObject(bookmark)
-        if save {
-            DataController.saveContext()
-        }
     }
 }
 

@@ -3,6 +3,7 @@
 import UIKit
 import WebKit
 import Shared
+import CoreData
 import SwiftKeychainWrapper
 
 /*
@@ -151,7 +152,7 @@ class Sync: JSInjector {
         // Check to not override deviceName with `nil` on sync init, which happens every app launch
         if let deviceName = deviceName {
             Device.currentDevice()?.name = deviceName
-            DataController.saveContext()
+            DataController.saveContext(Device.currentDevice()?.managedObjectContext)
         }
         
         // Autoload sync if already connected to a sync group, otherwise just wait for user initiation
@@ -167,7 +168,7 @@ class Sync: JSInjector {
         }
         
         Device.currentDevice()?.name = name
-        DataController.saveContext()
+        DataController.saveContext(Device.currentDevice()?.managedObjectContext)
         
         self.webView.loadHTMLString("<body>TEST</body>", baseURL: nil)
     }
@@ -286,7 +287,7 @@ class Sync: JSInjector {
                 // Sync local bookmarks, then proceed with fetching
                 // Pull all local bookmarks
                 // Insane .map required for mapping obj-c class to Swift, in order to use protocol instead of class for array param
-                self.sendSyncRecords(.bookmark, action: .create, records: Bookmark.getAllBookmarks().map{$0}) { error in
+                self.sendSyncRecords(.bookmark, action: .create, records: Bookmark.getAllBookmarks(DataController.shared.workerContext()).map{$0}) { error in
                     startFetching()
                 }
             } else {
@@ -389,16 +390,14 @@ extension Sync {
             fetchedRecords = data.sort { $0.0.syncTimestamp > $0.1.syncTimestamp }.unique { $0.objectId ?? [] == $1.objectId ?? [] }
         }
         
+        let context = DataController.shared.workerContext()
         for fetchedRoot in fetchedRecords {
             
             guard
                 let fetchedId = fetchedRoot.objectId
                 else { return }
             
-            // Bad force unwrapping
-
-            // Rename
-            let singleRecord = recordType.coredataModelType?.get(syncUUIDs: [fetchedId])?.first as? Syncable
+            let singleRecord = recordType.coredataModelType?.get(syncUUIDs: [fetchedId], context: context)?.first as? Syncable
             
             var action = SyncActions(rawValue: fetchedRoot.action ?? -1)
             if action == SyncActions.delete {
@@ -413,7 +412,7 @@ extension Sync {
                     
                 // TODO: Needs favicon
                 if singleRecord == nil {
-                    recordType.coredataModelType?.add(rootObject: fetchedRoot, save: false, sendToSync: false)
+                    recordType.coredataModelType?.add(rootObject: fetchedRoot, save: false, sendToSync: false, context: context)
                 } else {
                     // TODO: use Switch with `fallthrough`
                     action = .update
@@ -426,7 +425,7 @@ extension Sync {
             }
         }
         
-        DataController.saveContext()
+        DataController.saveContext(context)
         print("\(fetchedRecords.count) \(recordType.rawValue) processed")
         
         // Make generic when other record types are supported
@@ -473,7 +472,7 @@ extension Sync {
         guard let records2 = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
 
         let ids = records2.map { $0.objectId }.flatMap { $0 }
-        let localbookmarks = recordType.coredataModelType?.get(syncUUIDs: ids) as? [Bookmark]
+        let localbookmarks = recordType.coredataModelType?.get(syncUUIDs: ids, context: DataController.shared.workerContext()) as? [Bookmark]
         
         
         var matchedBookmarks = [[AnyObject]]()
@@ -534,7 +533,7 @@ extension Sync {
         if let deviceArray = data["arg2"].asArray where deviceArray.count > 0 {
             // TODO: Just don't set, if bad, allow sync to recover on next init
             Device.currentDevice()?.deviceId = deviceArray.map { $0.asInt ?? 0 }
-            DataController.saveContext()
+            DataController.saveContext(Device.currentDevice()?.managedObjectContext)
         } else if Device.currentDevice()?.deviceId == nil {
             print("Device Id expected!")
         }

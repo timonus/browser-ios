@@ -22,12 +22,12 @@ protocol Syncable {
     
     func update(syncRecord record: SyncRecord)
     
-    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool) -> Syncable?
+    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable?
 }
 
 // ??
 extension Syncable where Self: Syncable {
-    static func get(syncUUIDs syncUUIDs: [[Int]]?) -> [NSManagedObject]? {
+    static func get(syncUUIDs syncUUIDs: [[Int]]?, context: NSManagedObjectContext) -> [NSManagedObject]? {
         
         guard let syncUUIDs = syncUUIDs else {
             return nil
@@ -36,17 +36,17 @@ extension Syncable where Self: Syncable {
         // TODO: filter a unique set of syncUUIDs
         
         let searchableUUIDs = syncUUIDs.map { SyncHelpers.syncDisplay(fromUUID: $0) }.flatMap { $0 }
-        return get2(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs ))
+        return get2(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs), context: context)
     }
     
-    static func get2(predicate predicate: NSPredicate?) -> [NSManagedObject]? {
+    static func get2(predicate predicate: NSPredicate?, context: NSManagedObjectContext) -> [NSManagedObject]? {
         let fetchRequest = NSFetchRequest()
         
-        fetchRequest.entity = Self.entity(DataController.moc)
+        fetchRequest.entity = Self.entity(context)
         fetchRequest.predicate = predicate
         
         do {
-            return try DataController.moc.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+            return try context.executeFetchRequest(fetchRequest) as? [NSManagedObject]
         } catch {
             let fetchError = error as NSError
             print(fetchError)
@@ -66,14 +66,18 @@ extension Syncable {
     }
     
     // Maybe use 'self'?
-    static func get<T: NSManagedObject where T: Syncable>(predicate predicate: NSPredicate?) -> [T]? {
+    static func get<T: NSManagedObject where T: Syncable>(predicate predicate: NSPredicate?, context: NSManagedObjectContext?) -> [T]? {
+        guard let context = context else {
+            // error
+            return nil
+        }
         let fetchRequest = NSFetchRequest()
         
-        fetchRequest.entity = T.entity(DataController.moc)
+        fetchRequest.entity = T.entity(context)
         fetchRequest.predicate = predicate
         
         do {
-            return try DataController.moc.executeFetchRequest(fetchRequest) as? [T]
+            return try context.executeFetchRequest(fetchRequest) as? [T]
         } catch {
             let fetchError = error as NSError
             print(fetchError)
@@ -84,7 +88,7 @@ extension Syncable {
 }
 
 extension Syncable /* where Self: NSManagedObject */ {
-    func remove(save: Bool = true) {
+    func remove(save save: Bool = true) {
         
         // This is super annoying, and can be fixed in Swift 4, but since objects can't be cast to a class & protocol,
         //  but given extension on Syncable, if this passes the object is both Syncable and an NSManagedObject subclass
@@ -95,9 +99,9 @@ extension Syncable /* where Self: NSManagedObject */ {
         // TODO: Make type dynamic
         Sync.shared.sendSyncRecords(.bookmark, action: .delete, records: [self])
         
-        DataController.moc.deleteObject(s)
+        s.managedObjectContext?.deleteObject(s)
         if save {
-            DataController.saveContext()
+            DataController.saveContext(s.managedObjectContext)
         }
     }
 }

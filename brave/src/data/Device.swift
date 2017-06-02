@@ -32,7 +32,7 @@ class Device: NSManagedObject, Syncable {
     
     class func deviceSettings(profile profile: Profile) -> [SyncDeviceSetting]? {
         // Building settings off of device objects
-        let deviceSettings: [SyncDeviceSetting]? = (Device.get2(predicate: nil) as? [Device])?.map {
+        let deviceSettings: [SyncDeviceSetting]? = (Device.get2(predicate: nil, context: DataController.shared.workerContext()) as? [Device])?.map {
             // Even if no 'real' title, still want it to show up in list
             let title = "\($0.deviceDisplayId ?? "") :: \($0.name ?? "")"
             return SyncDeviceSetting(profile: profile, title: title)
@@ -45,19 +45,24 @@ class Device: NSManagedObject, Syncable {
         return SyncDevice(record: self, deviceId: deviceId, action: action).dictionaryRepresentation()
     }
     
-    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool) -> Syncable? {
+    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable? {
         guard let root = root as? SyncDevice else { return nil }
-        var device = Device(entity: Device.entity(DataController.moc), insertIntoManagedObjectContext: DataController.moc)
+        
+        var device = Device(entity: Device.entity(context), insertIntoManagedObjectContext: context)
         
         device.created = root.syncNativeTimestamp ?? NSDate()
         device.syncUUID = root.objectId ?? Niceware.shared.uniqueSerialBytes(count: 16)
         device.name = root.name
         
+        if save {
+            DataController.saveContext(context)
+        }
+        
         return device
     }
     
-    class func add(save save: Bool = false) -> Device? {
-        return add(rootObject: nil, save: save, sendToSync: false) as? Device
+    class func add(save save: Bool = false, context: NSManagedObjectContext) -> Device? {
+        return add(rootObject: nil, save: save, sendToSync: false, context: context) as? Device
     }
     
     func update(syncRecord record: SyncRecord) {
@@ -68,16 +73,17 @@ class Device: NSManagedObject, Syncable {
     static func currentDevice() -> Device? {
         
         if sharedCurrentDevice == nil {
+            let context = DataController.shared.workerContext()
             // Create device
             let predicate = NSPredicate(format: "isCurrentDevice = %@", true)
             // Should only ever be one current device!
-            var localDevice: Device? = get(predicate: predicate)?.first
+            var localDevice: Device? = get(predicate: predicate, context: context)?.first
             
             if localDevice == nil {
                 // Create
-                localDevice = add()
+                localDevice = add(context: context)
                 localDevice?.isCurrentDevice = true
-                DataController.saveContext()
+                DataController.saveContext(context)
             }
             
             sharedCurrentDevice = localDevice
