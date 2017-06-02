@@ -435,9 +435,12 @@ extension Sync {
             return
         }
         
-        // TODO: Re-add after testing
-        // After records have been written, without crash, save timestamp
-        if let stamp = self.lastFetchedRecordTimestamp { self.lastSuccessfulSync = stamp }
+        // After records have been written, without issue, save timestamp
+        // We increment by a single millisecond to make sure we don't re-fetch the same duplicate records over and over
+        // If there are more records with the same timestamp than the batch size, they will be dropped,
+        //  however this is unimportant, as it actually prevents an infinitely recursive loop, of refetching the same records over
+        //  and over again
+        if let stamp = self.lastFetchedRecordTimestamp { self.lastSuccessfulSync = stamp + 1 }
         
         if self.lastFetchWasTrimmed {
             // Do fast refresh, do not wait for timer
