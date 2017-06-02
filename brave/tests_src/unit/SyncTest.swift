@@ -7,6 +7,10 @@ import Shared
 
 class SyncTest: XCTestCase {
     
+    override func setUp() {
+        // Clear CD
+    }
+    
     func testSync() {
         expectationForNotification(NotificationSyncReady, object: nil, handler:nil)
         
@@ -34,7 +38,9 @@ class SyncTest: XCTestCase {
                 "creationTime: 4 }," +
                 "isFolder: false," +
                 "parentFolderObjectId: undefined } }]"
-//        sync.sendSyncRecords(.bookmark, recordJson: bm)
+        
+        let syncbm = SyncBookmark(json: JSON(string:bm))
+        let realbm = Bookmark.add(rootObject: syncbm, save: true, sendToSync: true)
 
         sleep(5)
         
