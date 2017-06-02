@@ -12,7 +12,7 @@ class Device: NSManagedObject, Syncable {
     private static var sharedCurrentDevice: Device?
     
     // Assign on parent model via CD
-//    @NSManaged var isSynced: Bool
+    @NSManaged var isSynced: Bool
     
     @NSManaged var created: NSDate?
     @NSManaged var isCurrentDevice: Bool

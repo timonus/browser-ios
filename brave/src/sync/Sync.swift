@@ -267,8 +267,12 @@ class Sync: JSInjector {
             syncReadyLock = true
             NSNotificationCenter.defaultCenter().postNotificationName(NotificationSyncReady, object: nil)
             
-            if let device = Device.currentDevice() { // where { !device.isSynced {
+            if let device = Device.currentDevice() where !device.isSynced {
                 self.sendSyncRecords(.prefs, action: .create, records: [device])
+                
+                // Currently just force this, should use network, but too error prone currently
+                Device.currentDevice()?.isSynced = true
+                DataController.saveContext(Device.currentDevice()?.managedObjectContext)
             }
             
             func startFetching() {

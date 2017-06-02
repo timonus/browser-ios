@@ -17,7 +17,7 @@
         <relationship name="domain" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Domain" inverseName="bookmarks" inverseEntity="Domain" syncable="YES"/>
         <relationship name="parentFolder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bookmark" inverseName="children" inverseEntity="Bookmark" syncable="YES"/>
     </entity>
-    <entity name="Device" representedClassName=".Device" syncable="YES">
+    <entity name="Device" representedClassName=".Device" parentEntity="Syncable" syncable="YES">
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="deviceDisplayId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isCurrentDevice" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -56,6 +56,9 @@
         <attribute name="visitedOn" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="domain" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Domain" inverseName="historyItems" inverseEntity="Domain" syncable="YES"/>
     </entity>
+    <entity name="Syncable" representedClassName="Syncable" syncable="YES" codeGenerationType="class">
+        <attribute name="isSynced" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="TabMO" representedClassName=".TabMO" syncable="YES">
         <attribute name="isClosed" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isSelected" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -74,6 +77,7 @@
         <element name="Domain" positionX="225" positionY="-321" width="128" height="240"/>
         <element name="Favicon" positionX="439" positionY="-414" width="128" height="120"/>
         <element name="History" positionX="493" positionY="-150" width="128" height="150"/>
+        <element name="Syncable" positionX="-261" positionY="-450" width="128" height="58"/>
         <element name="TabMO" positionX="-488" positionY="-229" width="128" height="193"/>
     </elements>
 </model>
