@@ -177,9 +177,12 @@ class SyncWelcomeViewController: UIViewController {
     func SEL_existingUser() {
         getDeviceName {
             input in
-            let view = SyncPairCameraViewController()
-            view.deviceName = input
-            self.navigationController?.pushViewController(view, animated: true)
+            
+            if let input = input {
+                let view = SyncPairCameraViewController()
+                view.deviceName = input
+                self.navigationController?.pushViewController(view, animated: true)
+            }
         }
     }
     
