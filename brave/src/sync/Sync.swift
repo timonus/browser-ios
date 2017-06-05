@@ -186,6 +186,12 @@ class Sync: JSInjector {
 
     private var syncSeed: String? {
         get {
+            if !NSUserDefaults.standardUserDefaults().boolForKey(prefNameSeed) {
+                // This must be true to stay in sync group
+                KeychainWrapper.defaultKeychainWrapper().removeObjectForKey(prefNameSeed)
+                return nil
+            }
+            
             return KeychainWrapper.defaultKeychainWrapper().stringForKey(prefNameSeed)
         }
         set(value) {
@@ -199,6 +205,9 @@ class Sync: JSInjector {
             
             if let value = value {
                 KeychainWrapper.defaultKeychainWrapper().setString(value, forKey: prefNameSeed)
+                // Here, we are storing a value to signify a group has been joined
+                //  this is _only_ used on a re-installation to know that the app was deleted and re-installed
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: prefNameSeed)
                 return
             }
             
