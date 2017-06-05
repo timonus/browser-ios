@@ -95,4 +95,25 @@ class Device: NSManagedObject, Syncable {
         return sharedCurrentDevice
     }
     
+    class func deleteAll(completionOnMain: ()->()) {
+        let context = DataController.shared.workerContext()
+        context.performBlock {
+            let fetchRequest = NSFetchRequest()
+            fetchRequest.entity = Device.entity(context)
+            fetchRequest.includesPropertyValues = false
+            do {
+                let results = try context.executeFetchRequest(fetchRequest)
+                for result in results {
+                    context.deleteObject(result as! NSManagedObject)
+                }
+                
+            } catch {
+                let fetchError = error as NSError
+                print(fetchError)
+            }
+
+            DataController.saveContext(context)
+        }
+    }
+    
 }
