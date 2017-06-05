@@ -363,7 +363,6 @@ extension Sync {
         let syncSeed = isInSyncGroup ? "new Uint8Array(\(self.syncSeed!))" : "null"
         
         let args = "(null, \(syncSeed), \(deviceId), {apiVersion: '\(apiVersion)', serverUrl: '\(serverUrl)', debug:\(isDebug)})"
-        print(args)
         webView.evaluateJavaScript("callbackList['got-init-data']\(args)",
                                    completionHandler: { (result, error) in
 //                                    print(result)
