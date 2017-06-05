@@ -72,17 +72,22 @@ extension UIAlertController {
         return deleteAlert
     }
     
+    
+    // Enabled this facade for much easier discoverability, instead of using class directly
     /**
      Creates an alert view to collect a string from the user
      
      - parameter title: String to display as the alert title.
      - parameter message: String to display as the alert message.
+     - parameter startingText: String to prefill the textfield with.
+     - parameter placeholder: String to use for the placeholder text on the text field.
+     - parameter forcedInput: Bool whether the user needs to enter _something_ in order to enable OK button.
      - paramter callbackOnMain: Block to run on main thread when the user performs an action.
      
      - returns: UIAlertController instance
      */
-    class func userTextInputAlert(title title: String, message: String, callbackOnMain: (input: String?) -> ()) -> UIAlertController {
-        return UserTextInputAlert(title: title, message: message, callbackOnMain: callbackOnMain)
+    class func userTextInputAlert(title title: String, message: String, startingText: String? = nil, placeholder: String? = "Name", forcedInput: Bool = true, callbackOnMain: (input: String?) -> ()) -> UIAlertController {
+        return UserTextInputAlert(title: title, message: message, startingText: startingText, placeholder: placeholder, forcedInput: forcedInput, callbackOnMain: callbackOnMain)
     }
 }
 
@@ -91,7 +96,7 @@ extension UIAlertController {
 class UserTextInputAlert: UIAlertController {
     private weak var okAction: UIAlertAction!
 
-    init(title: String, message: String, callbackOnMain: (input: String?) -> ()) {
+    init(title: String, message: String, startingText: String?, placeholder: String?, forcedInput: Bool = true, callbackOnMain: (input: String?) -> ()) {
         super.init(nibName: nil, bundle: nil)
         self.title = title
         self.message = message
@@ -111,20 +116,24 @@ class UserTextInputAlert: UIAlertController {
             actionSelected(input: nil)
         }
         
-        okAction.enabled = false
+        okAction.enabled = !forcedInput
         
         self.addAction(okAction)
         self.addAction(cancelAction)
         
         self.addTextFieldWithConfigurationHandler {
             textField in
-            textField.placeholder = "Name"
+            textField.placeholder = placeholder
             textField.secureTextEntry = false
             textField.keyboardAppearance = .Dark
             textField.autocapitalizationType = .Words
             textField.autocorrectionType = .Default
             textField.returnKeyType = .Done
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.notificationReceived(_:)), name: UITextFieldTextDidChangeNotification, object: textField)
+            textField.text = startingText
+            
+            if forcedInput {
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.notificationReceived(_:)), name: UITextFieldTextDidChangeNotification, object: textField)
+            }
         }
     }
     

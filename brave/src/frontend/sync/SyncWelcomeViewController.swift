@@ -187,7 +187,7 @@ class SyncWelcomeViewController: UIViewController {
         self.loadingView.hidden = false
 
         // TODO: Move to strings file
-        let alert = UIAlertController.userTextInputAlert(title: "Device Name", message: "Please enter a name for this device") {
+        let alert = UIAlertController.userTextInputAlert(title: "Device Name", message: "Please enter a name for this device", startingText: UIDevice.currentDevice().name, forcedInput: false) {
             callback($0)
             self.loadingView.hidden = true
         }
