@@ -75,7 +75,9 @@ class Device: NSManagedObject, Syncable {
     static func currentDevice() -> Device? {
         
         if sharedCurrentDevice == nil {
-            let context = DataController.shared.workerContext()
+            // Since we cache this, we want it in a consistent context.
+            //  Worker context is constantly changing out, main thread does not.
+            let context = DataController.moc
             // Create device
             let predicate = NSPredicate(format: "isCurrentDevice = %@", true)
             // Should only ever be one current device!
