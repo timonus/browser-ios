@@ -59,8 +59,6 @@ class SyncPairCameraViewController: UIViewController {
                     return
                 }
                 
-                debugPrint("Check data \(data)")
-                
                 Scanner.Lock = true
                 self.cameraView.cameraOverlaySucess()
                 
