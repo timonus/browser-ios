@@ -486,7 +486,6 @@ extension Sync {
             var localBM: AnyObject = "null"
             for l in localbookmarks ?? [] {
                 if let localId = l.syncUUID, let fetchedId = fetchedBM.objectId where localId == fetchedId {
-                    // TODO: deviceId should be stored on CD model!
                     localBM = l.asDictionary(deviceId: Device.currentDevice()?.deviceId, action: fetchedBM.action)
                     break
                 }
