@@ -10,6 +10,10 @@ These steps should be sufficient to build, but if you need more info, refer to t
 
 Either ensure your app supports [opening urls in a share menu](https://github.com/brave/browser-ios/wiki) or use this project https://github.com/brave/ios-open-thirdparty-browser to open links directly.
 
+## Swift 3 Update
+
+We are currently in the process of migrating Brave from Swift 2.3 to Swift 3.1. To inquire or ask any questions plesae see #799. All related PRs should be pointed at the associated Swift3 branch.
+
 ## Setup
 
 The master branch (i.e. the mainline) is Xcode8 + Swift2.3
