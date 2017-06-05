@@ -12,7 +12,7 @@ Either ensure your app supports [opening urls in a share menu](https://github.co
 
 ## Swift 3 Update
 
-We are currently in the process of migrating Brave from Swift 2.3 to Swift 3.1. To inquire or ask any questions plesae see #799. All related PRs should be pointed at the associated Swift3 branch.
+We are currently in the process of migrating Brave from Swift 2.3 to Swift 3.1. To inquire or ask any questions please see #799. All related PRs should be pointed at the associated Swift3 branch.
 
 ## Setup
 
