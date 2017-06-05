@@ -801,12 +801,12 @@ private class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         self.sites += historySites
         
         // Only do this once.
-        let prefs: Prefs = getApp().profile!.prefs
+        let prefs: Prefs? = getApp().profile?.prefs
         let key = "PrefSetDefaultTopSites"
-        if prefs.boolForKey(key) {
+        if prefs?.boolForKey(key) == nil {
             mergeBuiltInSuggestedSites { completion() }
+            prefs?.setBool(true, forKey: key)
         }
-        prefs.setBool(true, forKey: key)
     }
 
     private func mergeBuiltInSuggestedSites(completion: ()->()) {
