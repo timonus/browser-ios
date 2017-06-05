@@ -215,11 +215,10 @@ class Sync: JSInjector {
             
             // Clean up group specific items
             
-            // TODO: Destroy all local devices
-            // TODO: Make sure isCurrent device is gone
-            
             // TODO: Update all records with originalSyncSeed
             
+            
+            Device.deleteAll {}
             
             lastFetchedRecordTimestamp = 0
             lastSuccessfulSync = 0
