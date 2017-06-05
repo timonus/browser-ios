@@ -55,9 +55,10 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         settings += [
             SettingSection(title: NSAttributedString(string: Strings.Devices.uppercaseString), children: devices),
             SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercaseString), children:
-                [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true, titleText: Strings.Bookmarks),
-                    BoolSetting(prefs: prefs, prefKey: syncPrefTabs, defaultValue: true, titleText: Strings.Tabs),
-                    BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)]
+                [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true, titleText: Strings.Bookmarks)
+//                    ,BoolSetting(prefs: prefs, prefKey: syncPrefTabs, defaultValue: true, titleText: Strings.Tabs)
+//                    ,BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)
+                ]
             ),
             SettingSection(title: nil, children:
                 [RemoveDeviceSetting(settings: self)]
