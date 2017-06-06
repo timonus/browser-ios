@@ -760,7 +760,7 @@ private class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         self.sites += historySites
         
         let prefs: Prefs? = getApp().profile?.prefs
-        if prefs?.boolForKey("ClearedBrowsingHistory") == false {
+        if prefs?.boolForKey("ClearedBrowsingHistory") == false || prefs?.boolForKey("ClearedBrowsingHistory") == nil {
             mergeBuiltInSuggestedSites { completion() }
         }
         else {
