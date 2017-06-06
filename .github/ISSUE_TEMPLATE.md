@@ -1,22 +1,36 @@
-Description:
-
 **Did you search for similar issues before submitting this one?**
 
-**Expected behavior:**
+**Description:**
 
-- Device (iPhone5, iPhone6s plus, iPad 3, ?):
 
-- Brave Version:
+**Device (iPhone5, iPhone6s plus, iPad 3, ?):**
 
-- Steps to reproduce:
+**Brave Version:**
+
+**Steps to reproduce:**
     1.
     2.
     3.
 
-** Website problems only:
+**Actual Behavior**
+
+**Expected Behavior**
+
+**Is this an issue with Beta build?**
+
+**Is this an issue in the currently released version?**
+
+**Can this issue be consistently reproduced?**
+
+**Extra QA steps:**
+    1. 
+    2. 
+    3.
+
+** Website problems only:**
 - did you check with Brave Shields down?
-- did you check in Puffin/Dolphin/iCab/Maxthon (UIWebView-based browsers)?
+- did you check in Puffin/Dolphin/iCab/Firefox (UIWebView-based browsers)?
 
-- Screenshot if needed:
+**Screenshot if needed:**
 
-- Any related issues:
+**Any related issues:**
