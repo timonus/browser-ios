@@ -38,6 +38,10 @@
         <source>Add Bookmark</source>
         <note>Button to add a bookmark</note>
       </trans-unit>
+      <trans-unit id="Add Device">
+        <source>Add Device</source>
+        <note>Add device to sync</note>
+      </trans-unit>
       <trans-unit id="Add Tab">
         <source>Add Tab</source>
         <note>Accessibility label for the Add Tab button in the Tab Tray.</note>
@@ -158,6 +162,10 @@
         <source>Brave Shield Defaults</source>
         <note>Section title for adbblock, tracking protection, HTTPS-E, and cookies</note>
       </trans-unit>
+      <trans-unit id="Brave Sync">
+        <source>Brave Sync</source>
+        <note>Brave sync page title</note>
+      </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
         <source>Brave blocks ads.
 Brave stops trackers.
@@ -217,6 +225,10 @@ and here's why...</source>
         <source>Changes font type.</source>
         <note>Accessibility hint for the font type buttons in reader mode display settings</note>
       </trans-unit>
+      <trans-unit id="Changing settings will only affect data that this device shares with others.">
+        <source>Changing settings will only affect data that this device shares with others.</source>
+        <note>Sync device settings footer details</note>
+      </trans-unit>
       <trans-unit id="Clear">
         <source>Clear</source>
         <note>Used as a button label in the dialog to Clear private data dialog</note>
@@ -248,6 +260,10 @@ and here's why...</source>
       <trans-unit id="Closing tab">
         <source>Closing tab</source>
         <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Code Words">
+        <source>Code Words</source>
+        <note>Code words section title</note>
       </trans-unit>
       <trans-unit id="Cookie Control">
         <source>Cookie Control</source>
@@ -293,10 +309,6 @@ and here's why...</source>
         <source>Delete</source>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Delete Folder">
-        <source>Delete Folder</source>
-        <note>No comment provided by engineer.</note>
-      </trans-unit>
       <trans-unit id="Deselect All">
         <source>Deselect All</source>
         <note>Title for deselecting all selected logins</note>
@@ -304,6 +316,14 @@ and here's why...</source>
       <trans-unit id="Desktop Bookmarks">
         <source>Desktop Bookmarks</source>
         <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
+      </trans-unit>
+      <trans-unit id="Devices">
+        <source>Devices</source>
+        <note>Sync device settings page title.</note>
+      </trans-unit>
+      <trans-unit id="Devices &amp; Settings">
+        <source>Devices &amp; Settings</source>
+        <note>Sync you browser settings across devices.</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
         <source>Don't block cookies</source>
@@ -329,9 +349,25 @@ and here's why...</source>
         <source>Enter Search Mode</source>
         <note>Accessibility label for entering search mode for logins</note>
       </trans-unit>
+      <trans-unit id="Enter code words">
+        <source>Enter code words</source>
+        <note>Sync enter code words</note>
+      </trans-unit>
+      <trans-unit id="Enter code words below">
+        <source>Enter code words below</source>
+        <note>Enter sync code words below</note>
+      </trans-unit>
+      <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
+        <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <note>Private tab details</note>
+      </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
         <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Find &quot;%@&quot;">
+        <source>Find "%@"</source>
+        <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
         <source>Find in Page</source>
@@ -362,6 +398,10 @@ Protection</source>
         <source>General</source>
         <note>General settings section title</note>
       </trans-unit>
+      <trans-unit id="Get a new sync code">
+        <source>Get a new sync code</source>
+        <note>New sync code button title</note>
+      </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
         <source>Get ready to experience a Faster, Safer, Better Web.</source>
         <note>Shown in intro screens</note>
@@ -369,6 +409,10 @@ Protection</source>
       <trans-unit id="Go Back">
         <source>Go Back</source>
         <note>Label for button to go back from the error page</note>
+      </trans-unit>
+      <trans-unit id="Grant camera access">
+        <source>Grant camera access</source>
+        <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
         <source>HTTPS Everywhere</source>
@@ -425,6 +469,10 @@ Protection</source>
       <trans-unit id="Learn More">
         <source>Learn More</source>
         <note>Text button displayed when there are no tabs open while in private mode</note>
+      </trans-unit>
+      <trans-unit id="Learn about private tabs.">
+        <source>Learn about private tabs.</source>
+        <note>Private tab information link</note>
       </trans-unit>
       <trans-unit id="Light">
         <source>Light</source>
@@ -562,6 +610,10 @@ Protection</source>
         <source>Open in…</source>
         <note>String indicating that the file can be opened in another application on the device</note>
       </trans-unit>
+      <trans-unit id="Pair">
+        <source>Pair</source>
+        <note>Sync pair device settings section title</note>
+      </trans-unit>
       <trans-unit id="Panel Chooser">
         <source>Panel Chooser</source>
         <note>Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list).</note>
@@ -614,6 +666,10 @@ Protection</source>
         <source>Private mode icon</source>
         <note>Private mode icon next to location string</note>
       </trans-unit>
+      <trans-unit id="QR Code">
+        <source>QR Code</source>
+        <note>QR Code section title</note>
+      </trans-unit>
       <trans-unit id="Quick-search Engines">
         <source>Quick-search Engines</source>
         <note>Title for quick-search engines settings section.</note>
@@ -649,6 +705,10 @@ Protection</source>
       <trans-unit id="Remove page">
         <source>Remove page</source>
         <note>Button shown in editing mode to remove this site from the top sites panel.</note>
+      </trans-unit>
+      <trans-unit id="Remove this device">
+        <source>Remove this device</source>
+        <note>Sync remove device.</note>
       </trans-unit>
       <trans-unit id="Report a bug">
         <source>Report a bug</source>
@@ -690,6 +750,10 @@ Protection</source>
         <source>Saved Logins</source>
         <note>Settings item for clearing passwords and login data</note>
       </trans-unit>
+      <trans-unit id="Scan or enter code">
+        <source>Scan or enter code</source>
+        <note>Scan sync code button title</note>
+      </trans-unit>
       <trans-unit id="Scripts Blocked">
         <source>Scripts Blocked</source>
         <note>individual blocking statistic title</note>
@@ -704,6 +768,10 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Search Settings">
         <source>Search Settings</source>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search in page">
+        <source>Search in page</source>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search or enter address">
@@ -822,9 +890,29 @@ Protection</source>
         <source>Swipe right or left with three fingers to close the tab.</source>
         <note>Accessibility hint for tab tray's displayed tab.</note>
       </trans-unit>
+      <trans-unit id="Sync">
+        <source>Sync</source>
+        <note>Sync settings section title</note>
+      </trans-unit>
+      <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
+        <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <note>Sync settings welcome</note>
+      </trans-unit>
+      <trans-unit id="Sync on this device">
+        <source>Sync on this device</source>
+        <note>Sync device settings section title</note>
+      </trans-unit>
+      <trans-unit id="Sync to device">
+        <source>Sync to device</source>
+        <note>Sync to existing device</note>
+      </trans-unit>
       <trans-unit id="Tab %@ of %@">
         <source>Tab %1$@ of %2$@</source>
         <note>Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total.</note>
+      </trans-unit>
+      <trans-unit id="Tabs">
+        <source>Tabs</source>
+        <note>Accessibility label for the Tabs.</note>
       </trans-unit>
       <trans-unit id="Tabs %@ to %@ of %@">
         <source>Tabs %1$@ to %2$@ of %3$@</source>
@@ -865,6 +953,10 @@ Protection</source>
       <trans-unit id="This folder isn't empty.">
         <source>This folder isn't empty.</source>
         <note>Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders.</note>
+      </trans-unit>
+      <trans-unit id="This is a Private Tab">
+        <source>This is a Private Tab</source>
+        <note>Private tab title</note>
       </trans-unit>
       <trans-unit id="Today">
         <source>Today</source>
@@ -917,6 +1009,14 @@ Protection</source>
       <trans-unit id="Use regional adblock">
         <source>Use regional adblock</source>
         <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
+      </trans-unit>
+      <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
+        <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <note>Sync add device description</note>
+      </trans-unit>
+      <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
+        <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <note>Sync to existing device description</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">
         <source>Version %1$@ (%2$@)</source>
