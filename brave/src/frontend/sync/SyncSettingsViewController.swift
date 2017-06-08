@@ -62,7 +62,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         footerView.font = UIFont.systemFontOfSize(13)
         footerView.textColor = UIColor(rgb: 0x696969)
         
-        if section == SyncSection.devices.rawValue {
+        if section == SyncSection.options.rawValue {
             footerView.text = Strings.SyncDeviceSettingsFooter
         }
         
@@ -70,7 +70,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == SyncSection.devices.rawValue ? 40 : 20
+        return section == SyncSection.options.rawValue ? 40 : 20
     }
     
     deinit {
