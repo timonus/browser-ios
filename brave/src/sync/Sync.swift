@@ -131,12 +131,8 @@ class Sync: JSInjector {
     }
     
     func leaveSyncGroup() {
+        // No, `leaving` logic should be here, any related logic should be in `syncSeed` setter
         syncSeed = nil
-        if let device = Device.currentDevice() {
-            // TODO: Find better way to handle deletions
-            self.sendSyncRecords(.prefs, action: .delete, records: [device])
-            // TODO: Remove ALL devices, since using solf deletes, this will just set isCurrentDevice = false for currentDevice
-        }
     }
     
     /// Sets up sync to actually start pulling/pushing data. This method can only be called once
@@ -214,9 +210,12 @@ class Sync: JSInjector {
             // Leave group:
             
             // Clean up group specific items
-            
             // TODO: Update all records with originalSyncSeed
             
+            if let device = Device.currentDevice() {
+                // Not even verified if this works on the sync side.
+                self.sendSyncRecords(.prefs, action: .delete, records: [device])
+            }
             
             Device.deleteAll {}
             
