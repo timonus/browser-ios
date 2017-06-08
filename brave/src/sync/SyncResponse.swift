@@ -3,7 +3,6 @@
 import Foundation
 import Shared
 
-
 // TODO: Make follow API convetion (e.g. super generic names)
 // TODO: Remove public declarations
 
@@ -35,12 +34,6 @@ public final class SyncResponse {
         self.init(json: JSON(string: object as? String ?? ""))
     }
     
-    // This ever used??
-    /// Useful for specifying a different generic type
-    public convenience init(anotherInstance: SyncResponse) {
-        self.init(object: anotherInstance.dictionaryRepresentation())
-    }
-    
     /// Initiates the instance based on the JSON that was passed.
     ///
     /// - parameter json: JSON object from SwiftyJSON.
@@ -52,20 +45,4 @@ public final class SyncResponse {
         lastFetchedTimestamp = json?[SerializationKeys.arg3].asInt
         isTruncated = json?[SerializationKeys.arg4].asBool
     }
-    
-    /// Generates description of the object in the form of a NSDictionary.
-    ///
-    /// - returns: A Key value pair containing all valid values in the object.
-    public func dictionaryRepresentation() -> [String: AnyObject] {
-        var dictionary: [String: AnyObject] = [:]
-        
-        // Ugh..
-//        if let value = rootElements { dictionary[SerializationKeys.arg2] = value.map { $0.dictionaryRepresentation() } }
-        if let value = message { dictionary[SerializationKeys.message] = value }
-        if let value = arg1 { dictionary[SerializationKeys.arg1] = value }
-        if let value = lastFetchedTimestamp { dictionary[SerializationKeys.arg3] = value }
-        if let value = isTruncated { dictionary[SerializationKeys.arg4] = value }
-        return dictionary
-    }
-    
 }
