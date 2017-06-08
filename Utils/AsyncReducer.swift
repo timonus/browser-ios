@@ -54,7 +54,7 @@ open class AsyncReducer<T, U> {
         self.init(initialValue: deferMaybe(initialValue), queue: queue, combine: combine)
     }
 
-    public init(initialValue: Deferred<Maybe<T>>, queue: DispatchQueue = DefaultDispatchQueue, combine: Combine) {
+    public init(initialValue: Deferred<Maybe<T>>, queue: DispatchQueue = DefaultDispatchQueue, combine: @escaping Combine) {
         self.dispatchQueue = queue
         self.combine = combine
         self.initialValueDeferred = initialValue

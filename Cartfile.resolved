@@ -1,7 +1,7 @@
 github "Alamofire/Alamofire" "4.4.0"
 github "DaveWoodCom/XCGLogger" "Version_4.0.0"
 github "SnapKit/SnapKit" "3.0.0"
-github "brave/sync" "ca3f0e0c717adce5ed428b5ec1e2e7d216a99e1e"
+github "brave/sync" "9325e6df733a0f6f5dc2c3a0daf4c5ba28144902"
 github "diracdeltas/niceware" "v1.0.4"
 github "drmohundro/SWXMLHash" "3.0.4"
 github "jrendel/SwiftKeychainWrapper" "3.0.1"
