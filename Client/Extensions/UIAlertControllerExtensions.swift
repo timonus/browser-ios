@@ -86,7 +86,7 @@ extension UIAlertController {
      
      - returns: UIAlertController instance
      */
-    class func userTextInputAlert(title title: String, message: String, startingText: String? = nil, placeholder: String? = "Name", forcedInput: Bool = true, callbackOnMain: (input: String?) -> ()) -> UIAlertController {
+    class func userTextInputAlert(title title: String, message: String, startingText: String? = nil, placeholder: String? = Strings.Name, forcedInput: Bool = true, callbackOnMain: (input: String?) -> ()) -> UIAlertController {
         return UserTextInputAlert(title: title, message: message, startingText: startingText, placeholder: placeholder, forcedInput: forcedInput, callbackOnMain: callbackOnMain)
     }
 }
@@ -108,11 +108,11 @@ class UserTextInputAlert: UIAlertController {
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: self.textFields?.first)
         }
         
-        okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (alertA: UIAlertAction!) in
+        okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.Default) { (alertA: UIAlertAction!) in
             actionSelected(input: self.textFields?.first?.text)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (alertA: UIAlertAction!) in
+        let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.Cancel) { (alertA: UIAlertAction!) in
             actionSelected(input: nil)
         }
         

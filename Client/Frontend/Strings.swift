@@ -56,8 +56,15 @@ extension Strings {
 
 extension Strings {
 
-    public static let NewFolder = NSLocalizedString("New Folder", comment: "")
+    public static let NewFolder = NSLocalizedString("New Folder", comment: "Title for new folder popup")
+    public static let EnterFolderName = NSLocalizedString("Enter folder name", comment: "Description for new folder popup")
     public static let Edit = NSLocalizedString("Edit", comment: "")
+    
+    public static let NewDevice = NSLocalizedString("Device Name", comment: "Title for new device popup")
+    public static let DeviceFolderName = NSLocalizedString("Please enter a name for this device", comment: "Description for new device popup")
+    
+    public static let SyncUnsuccessful = NSLocalizedString("Unsuccessful", comment: "")
+    public static let SyncUnableCreateGroup = NSLocalizedString("Unable to create new sync group.", comment: "Description on popup when setting up a sync group fails")
 
     public static let ShowTour = NSLocalizedString("Show Tour", comment: "Show the on-boarding screen again from the settings")
     public static let DefaultSearchEngine = NSLocalizedString("Default Search Engine", comment: "Open search section of settings")
@@ -145,7 +152,7 @@ extension Strings {
     public static let Are_you_sure_you_want_to_delete_it_and_its_contents = NSLocalizedString("Are you sure you want to delete it and its contents?", comment: "Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders.")
     public static let Bookmark_Folder = NSLocalizedString("Bookmark Folder", comment: "Bookmark Folder Section Title")
     public static let Bookmark_Info = NSLocalizedString("Bookmark Info", comment: "Bookmark Info Section Title")
-    public static let Name = NSLocalizedString("Name", comment: "Bookmark name/title")
+    public static let Name = NSLocalizedString("Name", comment: "Bookmark title / Device name")
     public static let URL = NSLocalizedString("URL", comment: "Bookmark URL")
     public static let Location = NSLocalizedString("Location", comment: "Bookmark folder location")
     public static let Folder = NSLocalizedString("Folder", comment: "Folder")

@@ -148,8 +148,8 @@ class SyncWelcomeViewController: UIViewController {
                 navigationController?.pushViewController(view, animated: true)
             } else {
                 self.loadingView.hidden = true
-                let alert = UIAlertController(title: "Unsuccessful", message: "Unable to create new sync group.", preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+                let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: Strings.OK, style: .Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         }
@@ -159,8 +159,6 @@ class SyncWelcomeViewController: UIViewController {
                 _ in attemptPush()
             }
             
-            
-            // TODO: Move to strings file
             getDeviceName {
                 input in
                 
@@ -189,8 +187,7 @@ class SyncWelcomeViewController: UIViewController {
     func getDeviceName(callback: String? -> ()) {
         self.loadingView.hidden = false
 
-        // TODO: Move to strings file
-        let alert = UIAlertController.userTextInputAlert(title: "Device Name", message: "Please enter a name for this device", startingText: UIDevice.currentDevice().name, forcedInput: false) {
+        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.currentDevice().name, forcedInput: false) {
             callback($0)
             self.loadingView.hidden = true
         }
