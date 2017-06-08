@@ -112,6 +112,9 @@ class Device: NSManagedObject, Syncable {
                 print(fetchError)
             }
 
+            // Destroy handle to local device instance, otherwise it is locally retained and will throw console errors
+            sharedCurrentDevice = nil
+            
             DataController.saveContext(context)
         }
     }
