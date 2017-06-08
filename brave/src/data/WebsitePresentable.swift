@@ -36,10 +36,10 @@ extension Syncable where Self: Syncable {
         // TODO: filter a unique set of syncUUIDs
         
         let searchableUUIDs = syncUUIDs.map { SyncHelpers.syncDisplay(fromUUID: $0) }.flatMap { $0 }
-        return get2(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs), context: context)
+        return get(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs), context: context)
     }
     
-    static func get2(predicate predicate: NSPredicate?, context: NSManagedObjectContext) -> [NSManagedObject]? {
+    static func get(predicate predicate: NSPredicate?, context: NSManagedObjectContext) -> [NSManagedObject]? {
         let fetchRequest = NSFetchRequest()
         
         fetchRequest.entity = Self.entity(context)

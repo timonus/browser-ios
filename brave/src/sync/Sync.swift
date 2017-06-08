@@ -480,14 +480,14 @@ extension Sync {
         
         guard let recordJSON = data?.rootElements, let apiRecodType = data?.arg1, let recordType = SyncRecordType(rawValue: apiRecodType) else { return }
 
-        guard let records2 = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
+        guard let records = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
 
-        let ids = records2.map { $0.objectId }.flatMap { $0 }
+        let ids = records.map { $0.objectId }.flatMap { $0 }
         let localbookmarks = recordType.coredataModelType?.get(syncUUIDs: ids, context: DataController.shared.workerContext()) as? [Bookmark]
         
         
         var matchedBookmarks = [[AnyObject]]()
-        for fetchedBM in records2 {
+        for fetchedBM in records {
             
             // TODO: Replace with find(where:) in Swift3
             var localBM: AnyObject = "null"
