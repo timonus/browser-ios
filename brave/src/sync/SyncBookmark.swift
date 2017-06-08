@@ -33,8 +33,10 @@ final class SyncBookmark: SyncRecord {
         super.init(record: record, deviceId: deviceId, action: action)
         
         let bm = record as? Bookmark
-        let unixCreated = Int((bm?.created?.timeIntervalSince1970 ?? 0) * 1000)
-        let unixAccessed = Int((bm?.lastVisited?.timeIntervalSince1970 ?? 0) * 1000)
+        
+        
+        let unixCreated = Int(bm?.created?.toTimestamp() ?? 0)
+        let unixAccessed = Int(bm?.lastVisited?.toTimestamp() ?? 0)
         
         let site = SyncSite()
         site.title = bm?.title
