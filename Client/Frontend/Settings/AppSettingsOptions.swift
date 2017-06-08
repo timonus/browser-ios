@@ -205,8 +205,8 @@ class RemoveDeviceSetting: Setting {
     
     override var textAlignment: NSTextAlignment { return .Center }
     
-    init(settings: SettingsTableViewController) {
-        self.profile = settings.profile
+    init(profile: Profile) {
+        self.profile = profile
         let clearTitle = Strings.SyncRemoveThisDevice
         super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIColor.redColor(), NSFontAttributeName: UIFont.systemFontOfSize(17, weight: UIFontWeightRegular)]))
     }

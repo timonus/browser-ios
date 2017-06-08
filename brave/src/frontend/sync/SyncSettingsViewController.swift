@@ -5,6 +5,54 @@ import Shared
 
 class SyncSettingsViewController: AppSettingsTableViewController {
     
+    private enum SyncSection: Int {
+        
+        // To disable a section, just remove it from this enum, and it will no longer be loaded
+        case devices = 0, options, reset
+        
+        static let allSections: [SyncSection] = [.devices, .options, .reset]
+        
+        func settings(profile profile: Profile) -> SettingSection? {
+            // TODO: move these prefKeys somewhere else
+            let syncPrefBookmarks = "syncBookmarksKey"
+//            let syncPrefTabs = "syncTabsKey"
+//            let syncPrefHistory = "syncHistoryKey"
+            
+            switch self {
+            case .devices:
+                guard let devices = Device.deviceSettings(profile: profile) else {
+                    return nil
+                }
+                
+                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercaseString), children: devices)
+            case .options:
+                let prefs = profile.prefs
+                return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercaseString), children:
+                    [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true, titleText: Strings.Bookmarks)
+//                    ,BoolSetting(prefs: prefs, prefKey: syncPrefTabs, defaultValue: true, titleText: Strings.Tabs)
+//                    ,BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)
+                    ]
+                )
+            case .reset:
+                return SettingSection(title: nil, children: [RemoveDeviceSetting(profile: profile)])
+            }
+        }
+        
+        static func allSyncSettings(profile profile: Profile) -> [SettingSection] {
+            
+            var settings = [SettingSection]()
+            SyncSection.allSections.forEach {
+                if let section = $0.settings(profile: profile) {
+                    settings.append(section)
+                }
+            }
+            
+            return settings
+        }
+    }
+    
+
+    
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = InsetLabel(frame: CGRectMake(0, 5, tableView.frame.size.width, 60))
         footerView.leftInset = CGFloat(20)
@@ -14,7 +62,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         footerView.font = UIFont.systemFontOfSize(13)
         footerView.textColor = UIColor(rgb: 0x696969)
         
-        if section == 1 {
+        if section == SyncSection.devices.rawValue {
             footerView.text = Strings.SyncDeviceSettingsFooter
         }
         
@@ -22,7 +70,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == 1 ? 40 : 20
+        return section == SyncSection.devices.rawValue ? 40 : 20
     }
     
     deinit {
@@ -41,29 +89,9 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     }
     
     override func generateSettings() -> [SettingSection] {
-        let prefs = profile.prefs
+
+        settings += SyncSection.allSyncSettings(profile: self.profile)
         
-        // TODO: move these prefKeys somewhere else
-        let syncPrefBookmarks = "syncBookmarksKey"
-        let syncPrefTabs = "syncTabsKey"
-        let syncPrefHistory = "syncHistoryKey"
-        
-        guard let devices = Device.deviceSettings(profile: self.profile) else {
-            return [SettingSection]()
-        }
-        
-        settings += [
-            SettingSection(title: NSAttributedString(string: Strings.Devices.uppercaseString), children: devices),
-            SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercaseString), children:
-                [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true, titleText: Strings.Bookmarks)
-//                    ,BoolSetting(prefs: prefs, prefKey: syncPrefTabs, defaultValue: true, titleText: Strings.Tabs)
-//                    ,BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)
-                ]
-            ),
-            SettingSection(title: nil, children:
-                [RemoveDeviceSetting(settings: self)]
-            )
-        ]
         return settings
     }
     
