@@ -7,10 +7,10 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     
     private enum SyncSection: Int {
         
-        // To disable a section, just remove it from this enum, and it will no longer be loaded
-        case devices = 0, options, reset
+        case devices, options, reset
         
-        static let allSections: [SyncSection] = [.devices, .options, .reset]
+        // To disable a section, just remove it from this enum, and it will no longer be loaded
+        static let allSections: [SyncSection] = [.options, .reset]
         
         func settings(profile profile: Profile) -> SettingSection? {
             // TODO: move these prefKeys somewhere else
