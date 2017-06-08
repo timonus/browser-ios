@@ -392,7 +392,7 @@ extension Sync {
         // TODO: Abstract this logic, same used as in getExistingObjects
         guard let recordJSON = data?.rootElements, let apiRecodType = data?.arg1, let recordType = SyncRecordType(rawValue: apiRecodType) else { return }
         
-        guard var fetchedRecords = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
+        guard var fetchedRecords = recordType.fetchedModelType?.syncRecords(recordJSON) else { return }
 
         // Currently only prefs are device related
         if recordType == .prefs, let data = fetchedRecords as? [SyncDevice] {
@@ -480,14 +480,14 @@ extension Sync {
         
         guard let recordJSON = data?.rootElements, let apiRecodType = data?.arg1, let recordType = SyncRecordType(rawValue: apiRecodType) else { return }
 
-        guard let records = recordType.fetchedModelType?.syncRecords3(recordJSON) else { return }
+        guard let fetchedRecords = recordType.fetchedModelType?.syncRecords(recordJSON) else { return }
 
-        let ids = records.map { $0.objectId }.flatMap { $0 }
+        let ids = fetchedRecords.map { $0.objectId }.flatMap { $0 }
         let localbookmarks = recordType.coredataModelType?.get(syncUUIDs: ids, context: DataController.shared.workerContext()) as? [Bookmark]
         
         
         var matchedBookmarks = [[AnyObject]]()
-        for fetchedBM in records {
+        for fetchedBM in fetchedRecords {
             
             // TODO: Replace with find(where:) in Swift3
             var localBM: AnyObject = "null"

@@ -88,37 +88,15 @@ class SyncRecord: SyncRecordProtocol {
 // Uses same mappings above, but for arrays
 extension SyncRecordProtocol where Self: SyncRecord {
     
-    static func syncRecords3(rootJSON: [JSON]?) -> [Self]? {
+    static func syncRecords(rootJSON: [JSON]?) -> [Self]? {
         return rootJSON?.map {
             return self.init(json: $0)
         }
     }
     
-    static func syncRecords3(rootJSON: JSON) -> [Self]? {
-        return self.syncRecords3(rootJSON.asArray)
-    }
-    
-    
-    static func syncRecords2(rootJSON: [JSON]?, type: SyncRecord.Type) -> [SyncRecord]? {
-        return rootJSON?.map { type.init(json: $0) }
-    }
-    
-    static func syncRecords2(rootJSON: JSON, type: SyncRecord.Type) -> [SyncRecord]? {
-        return self.syncRecords2(rootJSON.asArray, type: type)
-    }
-    
-    
-    static func syncRecords(rootJSON: [JSON]?) -> [Self]? {
-        return rootJSON?.map { Self(json: $0) }
-    }
-    
     static func syncRecords(rootJSON: JSON) -> [Self]? {
         return self.syncRecords(rootJSON.asArray)
     }
-    
-//    static func syncRecords(data: [[String: AnyObject]]) -> [Self]? {
-//        return data.map { Self(object: $0) }
-//    }
 }
 
 
