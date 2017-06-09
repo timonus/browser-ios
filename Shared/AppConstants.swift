@@ -24,6 +24,8 @@ public struct AppConstants {
             return AppBuildChannel.beta
         #elseif MOZ_CHANNEL_FENNEC
             return AppBuildChannel.developer
+        #else
+            return AppBuildChannel.developer
         #endif
     }()
 
