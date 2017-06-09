@@ -19,9 +19,9 @@ open class IgnoredSiteError: MaybeErrorType {
  * `clear` might or might not need to set a bunch of flags to upload deletions.
  */
 public protocol BrowserHistory {
-    func addLocalVisit(_ visit: SiteVisit) -> Success
+    @discardableResult func addLocalVisit(_ visit: SiteVisit) -> Success
     func clearHistory() -> Success
-    func removeHistoryForURL(_ url: String) -> Success
+    @discardableResult func removeHistoryForURL(_ url: String) -> Success
     func removeSiteFromTopSites(_ site: Site) -> Success
     func removeHostFromTopSites(_ host: String) -> Success
 
@@ -35,8 +35,17 @@ public protocol BrowserHistory {
     func updateTopSitesCacheIfInvalidated() -> Deferred<Maybe<Bool>>
     func setTopSitesCacheSize(_ size: Int32)
     func clearTopSitesCache() -> Success
-    func refreshTopSitesCache() -> Success
+    @discardableResult func refreshTopSitesCache() -> Success
     func areTopSitesDirty(withLimit limit: Int) -> Deferred<Maybe<Bool>>
+}
+
+/**
+ * An interface for accessing recommendation content from Storage
+ */
+public protocol HistoryRecommendations {
+    func getHighlights() -> Deferred<Maybe<Cursor<Site>>>
+    func removeHighlightForURL(_ url: String) -> Success
+    func invalidateHighlights() -> Success
 }
 
 /**

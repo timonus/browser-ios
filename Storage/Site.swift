@@ -43,8 +43,8 @@ public enum IconType: Int {
     case noneFound = 5
 }
 
-open class Favicon: NSObject, Identifiable, NSCoding {
-    open var id: Int? = nil
+open class Favicon: Identifiable {
+    open var id: Int?
 
     open let url: String
     open let date: Date
@@ -57,50 +57,25 @@ open class Favicon: NSObject, Identifiable, NSCoding {
         self.date = date
         self.type = type
     }
-    
-    required public init?(coder: NSCoder) {
-        self.id = Int(coder.decodeInt64(forKey: "id"))
-        self.url = coder.decodeObject(forKey: "url") as? String ?? ""
-        self.date = coder.decodeObject(forKey: "date") as? Date ?? Date()
-        self.width = Int(coder.decodeInt64(forKey: "width"))
-        self.height = Int(coder.decodeInt64(forKey: "height"))
-        self.type = IconType(rawValue: Int(coder.decodeInt64(forKey: "type"))) ?? .noneFound
-    }
-    
-    open func encode(with coder: NSCoder) {
-        if let id = id {
-            coder.encode(Int64(id), forKey: "id")
-        }
-        coder.encode(url, forKey: "url")
-        coder.encode(date, forKey: "date")
-        if let width = width {
-            coder.encode(Int64(width), forKey: "width")
-        }
-        
-        if let height = height {
-            coder.encode(Int64(height), forKey: "height")
-        }
-        
-        coder.encode(Int64(type.rawValue), forKey: "type")
-    }
 }
 
 // TODO: Site shouldn't have all of these optional decorators. Include those in the
 // cursor results, perhaps as a tuple.
-open class Site: Identifiable, Hashable {
-    open var id: Int? = nil
-    var guid: String? = nil
+open class Site: Identifiable {
+    open var id: Int?
+    var guid: String?
 
     open var tileURL: URL {
-        return URL(string: url)?.domainURL() ?? URL(string: "about:blank")!
+        return URL(string: url)?.domainURL ?? URL(string: "about:blank")!
     }
 
     open let url: String
     open let title: String
+    open var metadata: PageMetadata?
      // Sites may have multiple favicons. We'll return the largest.
     open var icon: Favicon?
     open var latestVisit: Visit?
-    open let bookmarked: Bool?
+    open fileprivate(set) var bookmarked: Bool?
 
     public convenience init(url: String, title: String) {
         self.init(url: url, title: title, bookmarked: false)
@@ -111,10 +86,9 @@ open class Site: Identifiable, Hashable {
         self.title = title
         self.bookmarked = bookmarked
     }
-    
-    // This hash is a bit limited in scope, but contains enough data to make a unique distinction.
-    //  If modified, verify usage elsewhere, as places may rely on the hash only including these two elements.
-    open var hashValue: Int {
-        return 31 &* self.url.hash &+ self.title.hash
+
+    open func setBookmarked(_ bookmarked: Bool) {
+        self.bookmarked = bookmarked
     }
+
 }

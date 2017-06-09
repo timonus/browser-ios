@@ -4,38 +4,36 @@
 
 import Foundation
 
-public let kSchemaTableName = "tableList"
-
 // A table for holding info about other tables (also holds info about itself :)). This is used
 // to let us handle table upgrades when the table is first accessed, rather than when the database
 // itself is created.
 class SchemaTable: GenericTable<TableInfo> {
-    override var name: String { return kSchemaTableName }
+    override var name: String { return "tableList" }
     override var version: Int { return 1 }
 
     override var rows: String { return "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
         "name TEXT NOT NULL UNIQUE, " +
         "version INTEGER NOT NULL" }
 
-    override func getInsertAndArgs(_ item: inout TableInfo) -> (String, [AnyObject?])? {
-        var args = [AnyObject?]()
-        args.append(item.name as AnyObject)
-        args.append(item.version as AnyObject)
+    override func getInsertAndArgs(_ item: inout TableInfo) -> (String, Args)? {
+        var args = Args()
+        args.append(item.name as String )
+        args.append(item.version  )
         return ("INSERT INTO \(name) (name, version) VALUES (?,?)", args)
     }
 
-    override func getUpdateAndArgs(_ item: inout TableInfo) -> (String, [AnyObject?])? {
-        var args = [AnyObject?]()
-        args.append(item.version as AnyObject)
-        args.append(item.name as AnyObject)
+    override func getUpdateAndArgs(_ item: inout TableInfo) -> (String, Args)? {
+        var args = Args()
+        args.append(item.version  )
+        args.append(item.name  as String )
         return ("UPDATE \(name) SET version = ? WHERE name = ?", args)
     }
 
-    override func getDeleteAndArgs(_ item: inout TableInfo?) -> (String, [AnyObject?])? {
-        var args = [AnyObject?]()
+    override func getDeleteAndArgs(_ item: inout TableInfo?) -> (String, Args)? {
+        var args = Args()
         var sql = "DELETE FROM \(name)"
         if let table = item {
-            args.append(table.name as AnyObject)
+            args.append(table.name as String )
             sql += " WHERE name = ?"
         }
         return (sql, args)
@@ -47,9 +45,9 @@ class SchemaTable: GenericTable<TableInfo> {
         }
     }
 
-    override func getQueryAndArgs(_ options: QueryOptions?) -> (String, [AnyObject?])? {
-        var args = [AnyObject?]()
-        if let filter: AnyObject = options?.filter {
+    override func getQueryAndArgs(_ options: QueryOptions?) -> (String, Args)? {
+        var args = Args()
+        if let filter: Any = options?.filter {
             args.append(filter)
             return ("SELECT name, version FROM \(name) WHERE name = ?", args)
         }

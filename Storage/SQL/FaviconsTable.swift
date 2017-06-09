@@ -3,30 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l >= r
-  default:
-    return !(lhs < rhs)
-  }
-}
-
 
 // This is our default favicons store.
 class FaviconsTable<T>: GenericTable<Favicon> {
@@ -37,30 +13,30 @@ class FaviconsTable<T>: GenericTable<Favicon> {
         return true
     }
 
-    override func getInsertAndArgs(_ item: inout Favicon) -> (String, [AnyObject?])? {
-        var args = [AnyObject?]()
-        args.append(item.url as AnyObject)
-        args.append(item.width as AnyObject)
-        args.append(item.height as AnyObject)
+    override func getInsertAndArgs(_ item: inout Favicon) -> (String, Args)? {
+        var args: Args = []
+        args.append(item.url)
+        args.append(item.width)
+        args.append(item.height)
         args.append(item.date)
-        args.append(item.type.rawValue as AnyObject)
+        args.append(item.type.rawValue)
         return ("INSERT INTO \(TableFavicons) (url, width, height, date, type) VALUES (?,?,?,?,?)", args)
     }
 
-    override func getUpdateAndArgs(_ item: inout Favicon) -> (String, [AnyObject?])? {
-        var args = [AnyObject?]()
-        args.append(item.width as AnyObject)
-        args.append(item.height as AnyObject)
+    override func getUpdateAndArgs(_ item: inout Favicon) -> (String, Args)? {
+        var args = Args()
+        args.append(item.width)
+        args.append(item.height)
         args.append(item.date)
-        args.append(item.type.rawValue as AnyObject)
-        args.append(item.url as AnyObject)
+        args.append(item.type.rawValue)
+        args.append(item.url)
         return ("UPDATE \(TableFavicons) SET width = ?, height = ?, date = ?, type = ? WHERE url = ?", args)
     }
 
-    override func getDeleteAndArgs(_ item: inout Favicon?) -> (String, [AnyObject?])? {
-        var args = [AnyObject?]()
+    override func getDeleteAndArgs(_ item: inout Favicon?) -> (String, Args)? {
+        var args = Args()
         if let icon = item {
-            args.append(icon.url as AnyObject)
+            args.append(icon.url)
             return ("DELETE FROM \(TableFavicons) WHERE url = ?", args)
         }
 
@@ -76,10 +52,10 @@ class FaviconsTable<T>: GenericTable<Favicon> {
         }
     }
 
-    override func getQueryAndArgs(_ options: QueryOptions?) -> (String, [AnyObject?])? {
-        var args = [AnyObject?]()
-        if let filter: AnyObject = options?.filter {
-            args.append("%\(filter)%" as AnyObject)
+    override func getQueryAndArgs(_ options: QueryOptions?) -> (String, Args)? {
+        var args = Args()
+        if let filter: Any = options?.filter {
+            args.append("%\(filter)%")
             return ("SELECT id, url, date, type FROM \(TableFavicons) WHERE url LIKE ?", args)
         }
         return ("SELECT id, url, date, type FROM \(TableFavicons)", args)
@@ -87,10 +63,10 @@ class FaviconsTable<T>: GenericTable<Favicon> {
 
     func getIDFor(_ db: SQLiteDBConnection, obj: Favicon) -> Int? {
         let opts = QueryOptions()
-        opts.filter = obj.url as AnyObject
+        opts.filter = obj.url
 
         let cursor = query(db, options: opts)
-        if (cursor.count != 1) {
+        if cursor.count != 1 {
             return nil
         }
         return cursor[0]?.id
@@ -98,7 +74,10 @@ class FaviconsTable<T>: GenericTable<Favicon> {
 
     func insertOrUpdate(_ db: SQLiteDBConnection, obj: Favicon) -> Int? {
         var err: NSError? = nil
-        let id = self.insert(db, item: obj, err: &err)
+        guard let id = self.insert(db, item: obj, err: &err) else {
+            return nil
+        }
+
         if id >= 0 {
             obj.id = id
             return id
@@ -113,14 +92,14 @@ class FaviconsTable<T>: GenericTable<Favicon> {
         return obj.id
     }
 
-    func getCleanupCommands() -> (String, Args?) {
-        return ("DELETE FROM \(TableFavicons) " +
+    func getCleanupCommands() -> (sql: String, args: Args?) {
+        return (sql: "DELETE FROM \(TableFavicons) " +
             "WHERE \(TableFavicons).id NOT IN (" +
                 "SELECT faviconID FROM \(TableFaviconSites) " +
                 "UNION ALL " +
                 "SELECT faviconID FROM \(TableBookmarksLocal) WHERE faviconID IS NOT NULL " +
                 "UNION ALL " +
                 "SELECT faviconID FROM \(TableBookmarksMirror) WHERE faviconID IS NOT NULL" +
-            ")", nil)
+            ")", args: nil)
     }
 }

@@ -2,6 +2,7 @@
 
 import Foundation
 import Shared
+import SwiftyJSON
 
 public final class SyncSite {
     

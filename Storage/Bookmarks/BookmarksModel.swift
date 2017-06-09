@@ -6,15 +6,17 @@ import Deferred
 import Foundation
 import Shared
 
+private let log = Logger.syncLogger
+
 /**
  * The kinda-immutable base interface for bookmarks and folders.
  */
-open class BookmarkNode : Equatable {
-    open var id: Int? = nil
+open class BookmarkNode {
+    open var id: Int?
     open let guid: GUID
     open let title: String
     open let isEditable: Bool
-    open var favicon: Favicon? = nil
+    open var favicon: Favicon?
 
     init(guid: GUID, title: String, isEditable: Bool=false) {
         self.guid = guid
@@ -25,11 +27,6 @@ open class BookmarkNode : Equatable {
     open var canDelete: Bool {
         return self.isEditable
     }
-}
-
-//Brave added
-public func==(lhs:BookmarkNode, rhs:BookmarkNode) -> Bool {
-    return lhs.guid == rhs.guid
 }
 
 open class BookmarkSeparator: BookmarkNode {
@@ -66,6 +63,10 @@ open class BookmarkFolder: BookmarkNode {
 
     override open var canDelete: Bool {
         return false
+    }
+
+    open func removeItemWithGUID(_ guid: GUID) -> BookmarkFolder? {
+        return nil
     }
 }
 
@@ -111,6 +112,17 @@ open class BookmarksModel: BookmarksModelFactorySource {
     }
 
     /**
+     * Produce a new model with a memory-backed root with the given GUID removed from the current folder
+     */
+    open func removeGUIDFromCurrent(_ guid: GUID) -> BookmarksModel {
+        if let removedRoot = self.current.removeItemWithGUID(guid) {
+            return BookmarksModel(modelFactory: self.factory, root: removedRoot)
+        }
+        log.warning("BookmarksModel.removeGUIDFromCurrent did not remove anything. Check to make sure you're not using the abstract BookmarkFolder class.")
+        return self
+    }
+
+    /**
      * Produce a new model rooted at the same place as this model. Can fail if
      * the folder has been deleted from the backing store.
      */
@@ -140,9 +152,7 @@ public protocol BookmarksModelFactory {
 
     func isBookmarked(_ url: String) -> Deferred<Maybe<Bool>>
     func removeByGUID(_ guid: GUID) -> Success
-    func removeByURL(_ url: String) -> Success
-
-    func clearBookmarks() -> Success
+    @discardableResult func removeByURL(_ url: String) -> Success
 }
 
 /*
@@ -178,7 +188,7 @@ open class MemoryBookmarkFolder: BookmarkFolder, Sequence {
         get {
             if let path = Bundle.main.path(forResource: "bookmarkFolder", ofType: "png") {
                 let url = URL(fileURLWithPath: path)
-                return Favicon(url: url.absoluteString ?? "", date: Date(), type: IconType.local)
+                return Favicon(url: url.absoluteString, date: Date(), type: IconType.local)
             }
             return nil
         }
@@ -200,6 +210,11 @@ open class MemoryBookmarkFolder: BookmarkFolder, Sequence {
         return true
     }
 
+    override open func removeItemWithGUID(_ guid: GUID) -> BookmarkFolder? {
+        let without = children.filter { $0.guid != guid }
+        return MemoryBookmarkFolder(guid: self.guid, title: self.title, children: without)
+    }
+
     open func makeIterator() -> BookmarkNodeGenerator {
         return BookmarkNodeGenerator(children: self.children)
     }
@@ -209,7 +224,7 @@ open class MemoryBookmarkFolder: BookmarkFolder, Sequence {
      * but also contains the new items.
      */
     func append(_ items: [BookmarkNode]) -> MemoryBookmarkFolder {
-        if (items.isEmpty) {
+        if items.isEmpty {
             return self
         }
         return MemoryBookmarkFolder(guid: self.guid, title: self.title, children: self.children + items)
@@ -230,7 +245,7 @@ open class MemoryBookmarksSink: ShareToDestination {
         }
 
         // Don't create duplicates.
-        if (!queue.contains(where: exists)) {
+        if !queue.contains(where: exists) {
             queue.append(BookmarkItem(guid: Bytes.generateGUID(), title: title, url: item.url))
         }
 
@@ -271,6 +286,14 @@ open class PrependedBookmarkFolder: BookmarkFolder {
     override open func itemIsEditableAtIndex(_ index: Int) -> Bool {
         return index > 0 && self.main.itemIsEditableAtIndex(index - 1)
     }
+
+    override open func removeItemWithGUID(_ guid: GUID) -> BookmarkFolder? {
+        guard let removedFolder = main.removeItemWithGUID(guid) else {
+            log.warning("Failed to remove child item from prepended folder. Check that main folder overrides removeItemWithGUID.")
+            return nil
+        }
+        return PrependedBookmarkFolder(main: removedFolder, prepend: prepend)
+    }
 }
 
 /**
@@ -304,7 +327,7 @@ open class MockMemoryBookmarksStore: BookmarksModelFactory, ShareToDestination {
 
     open func modelForFolder(_ guid: GUID, title: String) -> Deferred<Maybe<BookmarksModel>> {
         var m: BookmarkFolder
-        switch (guid) {
+        switch guid {
         case BookmarkRoots.MobileFolderGUID:
             // Transparently merges in any queued items.
             m = self.mobile.append(self.sink.queue)
@@ -327,8 +350,8 @@ open class MockMemoryBookmarksStore: BookmarksModelFactory, ShareToDestination {
     }
 
     /**
-     * This class could return the full data immediately. We don't, because real DB-backed code won't.
-     */
+    * This class could return the full data immediately. We don't, because real DB-backed code won't.
+    */
     open var nullModel: BookmarksModel {
         let f = MemoryBookmarkFolder(guid: BookmarkRoots.RootGUID, title: "Root", children: [])
         return BookmarksModel(modelFactory: self, root: f)
@@ -345,11 +368,11 @@ open class MockMemoryBookmarksStore: BookmarksModelFactory, ShareToDestination {
     open func removeByGUID(_ guid: GUID) -> Success {
         return deferMaybe(DatabaseError(description: "Not implemented"))
     }
-    
+
     open func removeByURL(_ url: String) -> Success {
         return deferMaybe(DatabaseError(description: "Not implemented"))
     }
-    
+
     open func clearBookmarks() -> Success {
         return succeed()
     }

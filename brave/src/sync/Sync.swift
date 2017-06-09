@@ -3,6 +3,7 @@
 import UIKit
 import WebKit
 import Shared
+import SwiftyJSON
 
 /*
  module.exports.categories = {

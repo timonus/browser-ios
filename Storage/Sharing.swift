@@ -12,17 +12,16 @@ public struct ShareItem {
     public let url: String
     public let title: String?
     public let favicon: Favicon?
-    public let folderId: String?
-    public let folderTitle: String?
-    public let completion: ()->()?
 
-    public init(url: String, title: String?, favicon: Favicon?, folderId:String? = nil, folderTitle:String? = nil, completion: @escaping ()->()? = nil) {
+    public init(url: String, title: String?, favicon: Favicon?) {
         self.url = url
         self.title = title
         self.favicon = favicon
-        self.folderId = folderId
-        self.folderTitle = folderTitle
-        self.completion = completion
+    }
+
+    // We only support sharing HTTP and HTTPS URLs, as well as data URIs.
+    public var isShareable: Bool {
+        return URL(string: url)?.isWebPage() ?? false
     }
 }
 

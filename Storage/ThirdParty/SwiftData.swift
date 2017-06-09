@@ -61,13 +61,13 @@ open class SwiftData {
 
     /// Shared connection to this database.
     fileprivate var sharedConnection: ConcreteSQLiteDBConnection?
-    fileprivate var key: String? = nil
-    fileprivate var prevKey: String? = nil
+    fileprivate var key: String?
+    fileprivate var prevKey: String?
 
     /// A simple state flag to track whether we should accept new connection requests.
     /// If a connection request is made while the database is closed, a
     /// FailedSQLiteDBConnection will be returned.
-    fileprivate (set) var closed = false
+    fileprivate(set) var closed = false
 
     init(filename: String, key: String? = nil, prevKey: String? = nil) {
         self.filename = filename
@@ -90,7 +90,7 @@ open class SwiftData {
             }
 
             if self.sharedConnection == nil {
-                log.debug(">>> Creating shared SQLiteDBConnection for \(self.filename) on thread \(Thread.currentThread()).")
+                log.debug(">>> Creating shared SQLiteDBConnection for \(self.filename) on thread \(Thread.current).")
                 self.sharedConnection = ConcreteSQLiteDBConnection(filename: self.filename, flags: SwiftData.Flags.readWriteCreate.toSQL(), key: self.key, prevKey: self.prevKey)
             }
             connection = self.sharedConnection
@@ -104,51 +104,45 @@ open class SwiftData {
      * close a database connection and run a block of code inside it.
      */
     func withConnection(_ flags: SwiftData.Flags, synchronous: Bool=true, cb: @escaping (_ db: SQLiteDBConnection) -> NSError?) -> NSError? {
-        let conn: ConcreteSQLiteDBConnection?
-
-        if SwiftData.ReuseConnections {
-            conn = getSharedConnection()
-        } else {
-            log.debug(">>> Creating non-shared SQLiteDBConnection for \(self.filename) on thread \(Thread.currentThread()).")
-            conn = ConcreteSQLiteDBConnection(filename: filename, flags: flags.toSQL(), key: self.key, prevKey: self.prevKey)
-        }
-
-        guard let connection = conn else {
-            // Run the callback with a fake failed connection.
-            // Yeah, that means we have an error return value but we still run the callback.
-            let failed = FailedSQLiteDBConnection()
-            let queue = self.sharedConnectionQueue
-            let noConnection = NSError(domain: "mozilla", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not create a connection"])
-
-            if synchronous {
-                var error: NSError? = nil
-                queue.sync {
-                    error = cb(failed)
-                }
-                return error ?? noConnection
-            }
-
-            queue.async {
-                cb(failed)
-            }
-
-            return noConnection
-        }
-
+        /**
+         * We use a weak reference here instead of strongly retaining the connection because we don't want
+         * any control over when the connection deallocs. If the only owner of the connection (SwiftData)
+         * decides to dealloc it, we should respect that since the deinit method of the connection is tied
+         * to the app lifecycle. This is to prevent background disk access causing springboard crashes.
+         */
+        weak var conn = getSharedConnection()
+        let queue = self.sharedConnectionQueue
         if synchronous {
             var error: NSError? = nil
-            if Thread.isMainThread {
-                print("SwiftData synchronous call detected on main thread. Try move these off-main.")
-            }
-            connection.queue.sync {
+            queue.sync {
+                /**
+                 * By the time this dispatch block runs, it is possible the user has backgrounded the app
+                 * and the connection has been dealloc'ed since we last grabbed the reference
+                 */
+
+                guard let connection = SwiftData.ReuseConnections ? conn :
+                    ConcreteSQLiteDBConnection(filename: filename, flags: flags.toSQL(), key: self.key, prevKey: self.prevKey) else {
+                    error = cb(FailedSQLiteDBConnection()) ?? NSError(domain: "mozilla",
+                                                                          code: 0,
+                                                                          userInfo: [NSLocalizedDescriptionKey: "Could not create a connection"])
+                    return
+                }
+
                 error = cb(connection)
             }
             return error
         }
 
-        connection.queue.async {
-            cb(connection)
+        queue.async {
+            guard let connection = SwiftData.ReuseConnections ? conn :
+                    ConcreteSQLiteDBConnection(filename: self.filename, flags: flags.toSQL(), key: self.key, prevKey: self.prevKey) else {
+                let _ = cb(FailedSQLiteDBConnection())
+                return
+            }
+                
+            let _ = cb(connection)
         }
+
         return nil
     }
 
@@ -163,7 +157,7 @@ open class SwiftData {
     func transaction(synchronous: Bool=true, transactionClosure: @escaping (_ db: SQLiteDBConnection) -> Bool) -> NSError? {
         return withConnection(SwiftData.Flags.readWriteCreate, synchronous: synchronous) { db in
             if let err = db.executeChange("BEGIN EXCLUSIVE") {
-                log.error("BEGIN EXCLUSIVE failed.")
+                log.warning("BEGIN EXCLUSIVE failed.")
                 return err
             }
 
@@ -171,11 +165,11 @@ open class SwiftData {
                 log.verbose("Op in transaction succeeded. Committing.")
                 if let err = db.executeChange("COMMIT") {
                     log.error("COMMIT failed. Rolling back.")
-                    db.executeChange("ROLLBACK")
+                    let _ = db.executeChange("ROLLBACK")
                     return err
                 }
             } else {
-                log.error("Op in transaction failed. Rolling back.")
+                log.debug("Op in transaction failed. Rolling back.")
                 if let err = db.executeChange("ROLLBACK") {
                     return err
                 }
@@ -227,10 +221,10 @@ open class SwiftData {
  * finalizing the SQL statement once it goes out of scope.
  */
 private class SQLiteDBStatement {
-    var pointer: OpaquePointer? = nil
+    var pointer: OpaquePointer?
     fileprivate let connection: ConcreteSQLiteDBConnection
 
-    init(connection: ConcreteSQLiteDBConnection, query: String, args: [AnyObject?]?) throws {
+    init(connection: ConcreteSQLiteDBConnection, query: String, args: [Any?]?) throws {
         self.connection = connection
 
         let status = sqlite3_prepare_v2(connection.sqliteDB, query, -1, &pointer, nil)
@@ -245,12 +239,12 @@ private class SQLiteDBStatement {
     }
 
     /// Binds arguments to the statement.
-    fileprivate func bind(_ objects: [AnyObject?]) -> NSError? {
+    fileprivate func bind(_ objects: [Any?]) -> NSError? {
         let count = Int(sqlite3_bind_parameter_count(pointer))
-        if (count < objects.count) {
+        if count < objects.count {
             return connection.createErr("During: Bind", status: 202)
         }
-        if (count > objects.count) {
+        if count > objects.count {
             return connection.createErr("During: Bind", status: 201)
         }
 
@@ -265,15 +259,17 @@ private class SQLiteDBStatement {
             } else if obj is Bool {
                 status = sqlite3_bind_int(pointer, Int32(index+1), (obj as! Bool) ? 1 : 0)
             } else if obj is String {
-                typealias CFunction = @convention(c) (UnsafeMutableRawPointer) -> Void
+                typealias CFunction = @convention(c) (UnsafeMutableRawPointer?) -> Void
                 let transient = unsafeBitCast(-1, to: CFunction.self)
-                status = sqlite3_bind_text(pointer, Int32(index+1), (obj as! String).cString(using: String.Encoding.utf8)!, -1, transient as! @convention(c) (UnsafeMutableRawPointer?) -> Void)
-            } else if obj is NSData {
+                status = sqlite3_bind_text(pointer, Int32(index+1), (obj as! String).cString(using: String.Encoding.utf8)!, -1, transient)
+            } else if obj is Data {
                 status = sqlite3_bind_blob(pointer, Int32(index+1), ((obj as! Data) as NSData).bytes, -1, nil)
-            } else if obj is NSDate {
+            } else if obj is Date {
                 let timestamp = (obj as! Date).timeIntervalSince1970
                 status = sqlite3_bind_double(pointer, Int32(index+1), timestamp)
-            } else if obj === nil {
+            } else if obj is UInt64 {
+                status = sqlite3_bind_double(pointer, Int32(index+1), Double(obj as! UInt64))
+            } else if obj == nil {
                 status = sqlite3_bind_null(pointer, Int32(index+1))
             }
 
@@ -299,14 +295,17 @@ private class SQLiteDBStatement {
     }
 }
 
-public protocol SQLiteDBConnection {
+protocol SQLiteDBConnection {
     var lastInsertedRowID: Int { get }
     var numberOfRowsModified: Int { get }
+
     func executeChange(_ sqlStr: String) -> NSError?
-    func executeChange(_ sqlStr: String, withArgs args: [AnyObject?]?) -> NSError?
-    func executeQuery<T>(_ sqlStr: String, factory: ((SDRow) -> T)) -> Cursor<T>
-    func executeQuery<T>(_ sqlStr: String, factory: ((SDRow) -> T), withArgs args: [AnyObject?]?) -> Cursor<T>
-    func executeQueryUnsafe<T>(_ sqlStr: String, factory: ((SDRow) -> T), withArgs args: [AnyObject?]?) -> Cursor<T>
+    func executeChange(_ sqlStr: String, withArgs args: Args?) -> NSError?
+
+    func executeQuery<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T)) -> Cursor<T>
+    func executeQuery<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T), withArgs args: Args?) -> Cursor<T>
+    func executeQueryUnsafe<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T), withArgs args: Args?) -> Cursor<T>
+
     func interrupt()
     func checkpoint()
     func checkpoint(_ mode: Int32)
@@ -315,6 +314,11 @@ public protocol SQLiteDBConnection {
 
 // Represents a failure to open.
 class FailedSQLiteDBConnection: SQLiteDBConnection {
+
+    func executeChange(_ sqlStr: String, withArgs args: Args?) -> NSError? {
+        return self.fail("Non-open connection; can't execute change.")
+    }
+
     fileprivate func fail(_ str: String) -> NSError {
         return NSError(domain: "mozilla", code: 0, userInfo: [NSLocalizedDescriptionKey: str])
     }
@@ -324,18 +328,19 @@ class FailedSQLiteDBConnection: SQLiteDBConnection {
     func executeChange(_ sqlStr: String) -> NSError? {
         return self.fail("Non-open connection; can't execute change.")
     }
-    func executeChange(_ sqlStr: String, withArgs args: [AnyObject?]?) -> NSError? {
-        return self.fail("Non-open connection; can't execute change.")
-    }
-    func executeQuery<T>(_ sqlStr: String, factory: ((SDRow) -> T)) -> Cursor<T> {
-        return self.executeQuery(sqlStr, factory: factory, withArgs: nil)
-    }
-    func executeQuery<T>(_ sqlStr: String, factory: ((SDRow) -> T), withArgs args: [AnyObject?]?) -> Cursor<T> {
+    func executeQuery<T>(_ sqlStr: String) -> Cursor<T> {
         return Cursor<T>(err: self.fail("Non-open connection; can't execute query."))
     }
-    func executeQueryUnsafe<T>(_ sqlStr: String, factory: ((SDRow) -> T), withArgs args: [AnyObject?]?) -> Cursor<T> {
+    func executeQuery<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T)) -> Cursor<T> {
         return Cursor<T>(err: self.fail("Non-open connection; can't execute query."))
     }
+    func executeQuery<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T), withArgs args: Args?) -> Cursor<T> {
+        return Cursor<T>(err: self.fail("Non-open connection; can't execute query."))
+    }
+    func executeQueryUnsafe<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T), withArgs args: Args?) -> Cursor<T> {
+        return Cursor<T>(err: self.fail("Non-open connection; can't execute query."))
+    }
+
     func interrupt() {}
     func checkpoint() {}
     func checkpoint(_ mode: Int32) {}
@@ -345,7 +350,8 @@ class FailedSQLiteDBConnection: SQLiteDBConnection {
 }
 
 open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
-    fileprivate var sqliteDB: OpaquePointer? = nil
+
+    fileprivate var sqliteDB: OpaquePointer?
     fileprivate let filename: String
     fileprivate let debug_enabled = false
     fileprivate let queue: DispatchQueue
@@ -356,13 +362,13 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
         }
 
         set {
-            executeChange("PRAGMA user_version = \(newValue)")
+            let _ = executeChange("PRAGMA user_version = \(newValue)")
         }
     }
 
     fileprivate func setKey(_ key: String?) -> NSError? {
         sqlite3_key(sqliteDB, key ?? "", Int32((key ?? "").characters.count))
-        let cursor = executeQuery("SELECT count(*) FROM sqlite_master;", factory: IntFactory, withArgs: nil)
+        let cursor = executeQuery("SELECT count(*) FROM sqlite_master;", factory: IntFactory, withArgs: nil as Args?)
         if cursor.status != .success {
             return NSError(domain: "mozilla", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid key"])
         }
@@ -374,7 +380,7 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
         sqlite3_rekey(sqliteDB, newKey ?? "", Int32((newKey ?? "").characters.count))
         // Check that the new key actually works
         sqlite3_key(sqliteDB, newKey ?? "", Int32((newKey ?? "").characters.count))
-        let cursor = executeQuery("SELECT count(*) FROM sqlite_master;", factory: IntFactory, withArgs: nil)
+        let cursor = executeQuery("SELECT count(*) FROM sqlite_master;", factory: IntFactory, withArgs: nil as Args?)
         if cursor.status != .success {
             return NSError(domain: "mozilla", code: 0, userInfo: [NSLocalizedDescriptionKey: "Rekey failed"])
         }
@@ -382,28 +388,28 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
         return nil
     }
 
-    open func interrupt() {
+    func interrupt() {
         log.debug("Interrupt")
         sqlite3_interrupt(sqliteDB)
     }
 
-    fileprivate func pragma<T: Equatable>(_ pragma: String, expected: T?, factory: (SDRow) -> T, message: String) throws {
-        let cursorResult = self.pragma(pragma, expected: <#T?#>, factory: factory, message: <#String#>)
+    fileprivate func pragma<T: Equatable>(_ pragma: String, expected: T?, factory: @escaping (SDRow) -> T, message: String) throws {
+        let cursorResult = self.pragma(pragma, factory: factory)
         if cursorResult != expected {
-            log.error("\(message): \(cursorResult), \(expected)")
+            log.error("\(message): \(cursorResult.debugDescription), \(expected.debugDescription)")
             throw NSError(domain: "mozilla", code: 0, userInfo: [NSLocalizedDescriptionKey: "PRAGMA didn't return expected output: \(message)."])
         }
     }
 
     fileprivate func pragma<T>(_ pragma: String, factory: @escaping (SDRow) -> T) -> T? {
-        let cursor = executeQueryUnsafe("PRAGMA \(pragma)", factory: factory, withArgs: nil)
+        let cursor = executeQueryUnsafe("PRAGMA \(pragma)", factory: factory, withArgs: [] as Args)
         defer { cursor.close() }
         return cursor[0]
     }
 
     fileprivate func prepareShared() {
         if SwiftData.EnableForeignKeys {
-            pragma("foreign_keys=ON", factory: IntFactory)
+            let _ = pragma("foreign_keys=ON", factory: IntFactory)
         }
 
         // Retry queries before returning locked errors.
@@ -445,7 +451,7 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
         // because it needs to be set from day one.
 
         let desiredPageSize = 32 * 1024
-        pragma("page_size=\(desiredPageSize)", factory: IntFactory)
+        let _ = pragma("page_size=\(desiredPageSize)", factory: IntFactory)
 
         let currentPageSize = pragma("page_size", factory: IntFactory)
 
@@ -457,7 +463,7 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
             try pragma("page_size=\(desiredPageSize)", expected: nil,
                        factory: IntFactory, message: "Page size set")
 
-            log.info("Vacuuming to alter database page size from \(currentPageSize) to \(desiredPageSize).")
+            log.info("Vacuuming to alter database page size from \(currentPageSize ?? 0) to \(desiredPageSize).")
             if let err = self.vacuum() {
                 log.error("Vacuuming failed: \(err).")
             } else {
@@ -525,8 +531,8 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
     }
 
     deinit {
-        log.debug("deinit: closing connection on thread \(Thread.currentThread()).")
-        self.queue.sync {
+        log.debug("deinit: closing connection on thread \(Thread.current).")
+        let _ = self.queue.sync {
             self.closeCustomConnection()
         }
     }
@@ -539,25 +545,25 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
         return Int(sqlite3_changes(sqliteDB))
     }
 
-    open func checkpoint() {
+    func checkpoint() {
         self.checkpoint(SQLITE_CHECKPOINT_FULL)
     }
 
     /**
      * Blindly attempts a WAL checkpoint on all attached databases.
      */
-    open func checkpoint(_ mode: Int32) {
+    func checkpoint(_ mode: Int32) {
         guard sqliteDB != nil else {
             log.warning("Trying to checkpoint a nil DB!")
             return
         }
 
-        log.debug("Running WAL checkpoint on \(self.filename) on thread \(Thread.currentThread()).")
+        log.debug("Running WAL checkpoint on \(self.filename) on thread \(Thread.current).")
         sqlite3_wal_checkpoint_v2(sqliteDB, nil, mode, nil, nil)
         log.debug("WAL checkpoint done on \(self.filename).")
     }
 
-    open func vacuum() -> NSError? {
+    func vacuum() -> NSError? {
         return self.executeChange("VACUUM")
     }
 
@@ -566,14 +572,14 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
     fileprivate func createErr(_ description: String, status: Int) -> NSError {
         var msg = SDError.errorMessageFromCode(status)
 
-        if (debug_enabled) {
+        if debug_enabled {
             log.debug("SwiftData Error -> \(description)")
             log.debug("                -> Code: \(status) - \(msg)")
         }
 
         if let errMsg = String(validatingUTF8: sqlite3_errmsg(sqliteDB)) {
             msg += " " + errMsg
-            if (debug_enabled) {
+            if debug_enabled {
                 log.debug("                -> Details: \(errMsg)")
             }
         }
@@ -592,7 +598,7 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
 
     /// Closes a connection. This is called via deinit. Do not call this yourself.
     fileprivate func closeCustomConnection(immediately: Bool=false) -> NSError? {
-        log.debug("Closing custom connection for \(self.filename) on \(Thread.currentThread()).")
+        log.debug("Closing custom connection for \(self.filename) on \(Thread.current).")
         // TODO: add a lock here?
         let db = self.sqliteDB
         self.sqliteDB = nil
@@ -621,7 +627,7 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
     }
 
     /// Executes a change on the database.
-    open func executeChange(_ sqlStr: String, withArgs args: [AnyObject?]?) -> NSError? {
+    open func executeChange(_ sqlStr: String, withArgs args: Args?) -> NSError? {
         var error: NSError?
         let statement: SQLiteDBStatement?
         do {
@@ -654,13 +660,13 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
         return error
     }
 
-    open func executeQuery<T>(_ sqlStr: String, factory: ((SDRow) -> T)) -> Cursor<T> {
+    func executeQuery<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T)) -> Cursor<T> {
         return self.executeQuery(sqlStr, factory: factory, withArgs: nil)
     }
 
     /// Queries the database.
     /// Returns a cursor pre-filled with the complete result set.
-    open func executeQuery<T>(_ sqlStr: String, factory: ((SDRow) -> T), withArgs args: [AnyObject?]?) -> Cursor<T> {
+    func executeQuery<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T), withArgs args: Args?) -> Cursor<T> {
         var error: NSError?
         let statement: SQLiteDBStatement?
         do {
@@ -688,7 +694,7 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
     }
 
     func writeCorruptionInfoForDBNamed(_ dbFilename: String, toLogger logger: XCGLogger) {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync {
+        DispatchQueue.global(qos: DispatchQoS.default.qosClass).sync {
             guard !SwiftData.corruptionLogsWritten.contains(dbFilename) else { return }
 
             logger.error("Corrupt DB detected! DB filename: \(dbFilename)")
@@ -697,7 +703,9 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
             logger.error("DB file size: \(dbFileSize) bytes")
 
             logger.error("Integrity check:")
-            let messages = self.executeQueryUnsafe("PRAGMA integrity_check", factory: StringFactory, withArgs: nil)
+
+            let args: [Any?]? = nil
+            let messages = self.executeQueryUnsafe("PRAGMA integrity_check", factory: StringFactory, withArgs: args)
             defer { messages.close() }
 
             if messages.status == CursorStatus.success {
@@ -728,12 +736,16 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
         }
     }
 
+//    func executeQueryUnsafe<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T), withArgs args: Args?) -> Cursor<T> {
+//        return self.executeQueryUnsafe(sqlStr, factory: factory, withArgs: args)
+//    }
+
     /**
      * Queries the database.
      * Returns a live cursor that holds the query statement and database connection.
      * Instances of this class *must not* leak outside of the connection queue!
      */
-    open func executeQueryUnsafe<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T), withArgs args: [AnyObject?]?) -> Cursor<T> {
+    func executeQueryUnsafe<T>(_ sqlStr: String, factory: @escaping ((SDRow) -> T), withArgs args: Args?) -> Cursor<T> {
         var error: NSError?
         let statement: SQLiteDBStatement?
         do {
@@ -751,18 +763,18 @@ open class ConcreteSQLiteDBConnection: SQLiteDBConnection {
 }
 
 /// Helper for queries that return a single integer result.
-public func IntFactory(_ row: SDRow) -> Int {
+func IntFactory(_ row: SDRow) -> Int {
     return row[0] as! Int
 }
 
 /// Helper for queries that return a single String result.
-public func StringFactory(_ row: SDRow) -> String {
+func StringFactory(_ row: SDRow) -> String {
     return row[0] as! String
 }
 
 /// Wrapper around a statement for getting data from a row. This provides accessors for subscript indexing
 /// and a generator for iterating over columns.
-open class SDRow: Sequence {
+class SDRow: Sequence {
     // The sqlite statement this row came from.
     fileprivate let statement: SQLiteDBStatement
 
@@ -776,26 +788,27 @@ open class SDRow: Sequence {
     }
 
     // Return the value at this index in the row
-    fileprivate func getValue(_ index: Int) -> AnyObject? {
+    fileprivate func getValue(_ index: Int) -> Any? {
         let i = Int32(index)
 
         let type = sqlite3_column_type(statement.pointer, i)
-        var ret: AnyObject? = nil
+        var ret: Any? = nil
 
         switch type {
         case SQLITE_NULL, SQLITE_INTEGER:
-            ret = NSNumber(value: sqlite3_column_int64(statement.pointer, i) as Int64)
+            //Everyone expects this to be an Int. On Ints larger than 2^31 this will lose information.
+            ret = Int(truncatingBitPattern: sqlite3_column_int64(statement.pointer, i))
         case SQLITE_TEXT:
-            let text = UnsafePointer<Int8>(sqlite3_column_text(statement.pointer, i))
-            ret = String(cString: text!) as AnyObject
+            if let text = sqlite3_column_text(statement.pointer, i) {
+                return String(cString: text)
+            }
         case SQLITE_BLOB:
-            let blob = sqlite3_column_blob(statement.pointer, i)
-            if blob != nil {
+            if let blob = sqlite3_column_blob(statement.pointer, i) {
                 let size = sqlite3_column_bytes(statement.pointer, i)
-                ret = Data(bytes: UnsafePointer<UInt8>(blob), count: Int(size))
+                ret = Data(bytes: blob, count: Int(size))
             }
         case SQLITE_FLOAT:
-            ret = Double(sqlite3_column_double(statement., i)) as AnyObject
+            ret = Double(sqlite3_column_double(statement.pointer, i))
         default:
             log.warning("SwiftData Warning -> Column: \(index) is of an unrecognized type, returning nil")
         }
@@ -804,13 +817,13 @@ open class SDRow: Sequence {
     }
 
     // Accessor getting column 'key' in the row
-    open subscript(key: Int) -> AnyObject? {
+    subscript(key: Int) -> Any? {
         return getValue(key)
     }
 
     // Accessor getting a named column in the row. This (currently) depends on
     // the columns array passed into this Row to find the correct index.
-    open subscript(key: String) -> AnyObject? {
+    subscript(key: String) -> Any? {
         get {
             if let index = columnNames.index(of: key) {
                 return getValue(index)
@@ -820,11 +833,11 @@ open class SDRow: Sequence {
     }
 
     // Allow iterating through the row. This is currently broken.
-    open func makeIterator() -> AnyIterator<Any> {
+    func makeIterator() -> AnyIterator<Any> {
         let nextIndex = 0
         return AnyIterator() {
             // This crashes the compiler. Yay!
-            if (nextIndex < self.columnNames.count) {
+            if nextIndex < self.columnNames.count {
                 return nil // self.getValue(nextIndex)
             }
             return nil
@@ -1019,7 +1032,7 @@ private class LiveSQLiteCursor<T>: Cursor<T> {
     fileprivate var position: Int = -1 {
         didSet {
             // If we're already there, shortcut out.
-            if (oldValue == position) {
+            if oldValue == position {
                 return
             }
 
@@ -1027,7 +1040,7 @@ private class LiveSQLiteCursor<T>: Cursor<T> {
 
             // If we're currently somewhere in the list after this position
             // we'll have to jump back to the start.
-            if (position < oldValue) {
+            if position < oldValue {
                 sqlite3_reset(self.statement.pointer)
                 stepStart = -1
             }

@@ -8,7 +8,7 @@ import UIKit
 import Deferred
 import XCGLogger
 
-private var log = XCGLogger.defaultInstance()
+private var log = XCGLogger.default
 
 private class DiskImageStoreErrorType: MaybeErrorType {
     let description: String
@@ -49,9 +49,9 @@ open class DiskImageStore {
         }
 
         return deferDispatchAsync(queue) { () -> Deferred<Maybe<UIImage>> in
-            let imagePath = (self.filesDir as NSString).stringByAppendingPathComponent(key)
-            if let data = NSData(contentsOfFile: imagePath),
-                let image = UIImage.imageFromDataThreadSafe(data) {
+            let imagePath = URL(fileURLWithPath: self.filesDir).appendingPathComponent(key)
+            if let data = try? Data(contentsOf: imagePath),
+                   let image = UIImage.imageFromDataThreadSafe(data) {
                 return deferMaybe(image)
             }
 
@@ -62,17 +62,20 @@ open class DiskImageStore {
     /// Adds an image for the given key.
     /// This put is asynchronous; the image is not recorded in the cache until the write completes.
     /// Does nothing if this key already exists in the store.
-    open func put(_ key: String, image: UIImage) -> Success {
+    @discardableResult open func put(_ key: String, image: UIImage) -> Success {
         if keys.contains(key) {
             return deferMaybe(DiskImageStoreErrorType(description: "Key already in store"))
         }
 
         return deferDispatchAsync(queue) { () -> Success in
-            let imagePath = (self.filesDir as NSString).stringByAppendingPathComponent(key)
+            let imageURL = URL(fileURLWithPath: self.filesDir).appendingPathComponent(key)
             if let data = UIImageJPEGRepresentation(image, self.quality) {
-                if data.writeToFile(imagePath, atomically: false) {
+                do {
+                    try data.write(to: imageURL, options: .noFileProtection)
                     self.keys.insert(key)
                     return succeed()
+                } catch {
+                    log.error("Unable to write image to disk: \(error)")
                 }
             }
 
@@ -85,14 +88,14 @@ open class DiskImageStore {
         let keysToDelete = self.keys.subtracting(keys)
 
         for key in keysToDelete {
-            let path = NSString(string: filesDir).appendingPathComponent(key)
+            let url = URL(fileURLWithPath: filesDir).appendingPathComponent(key)
             do {
-                try FileManager.default.removeItem(atPath: path)
+                try FileManager.default.removeItem(at: url)
             } catch {
-                log.warning("Failed to remove DiskImageStore item at \(path): \(error)")
+                log.warning("Failed to remove DiskImageStore item at \(url.absoluteString): \(error)")
             }
         }
-        
+
         self.keys = self.keys.intersection(keys)
     }
 }

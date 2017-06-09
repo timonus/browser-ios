@@ -51,11 +51,11 @@ public enum NonCommutativeLoginField: Indexable {
             return 3
         case .formSubmitURL:
             return 4
-        case .TimeCreated:
+        case .timeCreated:
             return 5
-        case .TimeLastUsed:
+        case .timeLastUsed:
             return 6
-        case .TimePasswordChanged:
+        case .timePasswordChanged:
             return 7
         }
     }
@@ -139,16 +139,16 @@ open class Login: CustomStringConvertible, LoginData, LoginUsageData, Equatable 
 
     open var username: String? { return credentials.user }
     open var password: String { return credentials.password! }
-    open var usernameField: String? = nil
-    open var passwordField: String? = nil
+    open var usernameField: String?
+    open var passwordField: String?
 
-    fileprivate var _httpRealm: String? = nil
+    fileprivate var _httpRealm: String?
     open var httpRealm: String? {
         get { return self._httpRealm ?? protectionSpace.realm }
         set { self._httpRealm = newValue }
     }
 
-    fileprivate var _formSubmitURL: String? = nil
+    fileprivate var _formSubmitURL: String?
     open var formSubmitURL: String? {
         get {
             return self._formSubmitURL
@@ -217,10 +217,10 @@ open class Login: CustomStringConvertible, LoginData, LoginUsageData, Equatable 
     // Desktop ignores usernameField and hostnameField.
     open func isSignificantlyDifferentFrom(_ login: LoginData) -> Bool {
         return login.password != self.password ||
-            login.hostname != self.hostname ||
-            login.username != self.username ||
-            login.formSubmitURL != self.formSubmitURL ||
-            login.httpRealm != self.httpRealm
+               login.hostname != self.hostname ||
+               login.username != self.username ||
+               login.formSubmitURL != self.formSubmitURL ||
+               login.httpRealm != self.httpRealm
     }
 
     /* Used for testing purposes since formSubmitURL should be given back to use from the Logins.js script */
@@ -248,7 +248,7 @@ open class Login: CustomStringConvertible, LoginData, LoginUsageData, Equatable 
         let scheme = hostnameURL?.scheme ?? ""
 
         // We should ignore any SSL or normal web ports in the URL.
-        var port = hostnameURL?.port?.integerValue ?? 0
+        var port = hostnameURL?.port ?? 0
         if port == 443 || port == 80 {
             port = 0
         }
@@ -283,17 +283,13 @@ open class Login: CustomStringConvertible, LoginData, LoginUsageData, Equatable 
         ]
     }
 
-    open class func fromScript(_ url: URL, script: [String: AnyObject]) -> LoginData? {
+    open class func fromScript(_ url: URL, script: [String: Any]) -> LoginData? {
         guard let username = script["username"] as? String,
-            let password = script["password"] as? String else {
+              let password = script["password"] as? String else {
                 return nil
         }
 
-        guard let origin = getPasswordOrigin(url.absoluteString ?? "") else {
-            return nil
-        }
-
-        let login = Login(hostname: origin, username: username, password: password)
+        let login = Login(hostname: getPasswordOrigin(url.absoluteString)!, username: username, password: password)
 
         if let formSubmit = script["formSubmitURL"] as? String {
             login.formSubmitURL = formSubmit
@@ -322,7 +318,7 @@ open class Login: CustomStringConvertible, LoginData, LoginUsageData, Equatable 
 
             // If the URI explicitly specified a port, only include it when
             // it's not the default. (We never want "http://foo.com:80")
-            if let port = (uri as NSURL).port {
+            if let port = uri.port {
                 realm? += ":\(port)"
             }
         } else {
@@ -380,13 +376,13 @@ open class Login: CustomStringConvertible, LoginData, LoginUsageData, Equatable 
             nonCommutative.append(NonCommutativeLoginField.formSubmitURL(to: self.formSubmitURL))
         }
         if self.timeCreated > 0 && self.timeCreated != from.timeCreated {
-            nonCommutative.append(NonCommutativeLoginField.TimeCreated(to: self.timeCreated))
+            nonCommutative.append(NonCommutativeLoginField.timeCreated(to: self.timeCreated))
         }
         if self.timeLastUsed > 0 && self.timeLastUsed != from.timeLastUsed {
-            nonCommutative.append(NonCommutativeLoginField.TimeLastUsed(to: self.timeLastUsed))
+            nonCommutative.append(NonCommutativeLoginField.timeLastUsed(to: self.timeLastUsed))
         }
         if self.timeLastUsed > 0 && self.timePasswordChanged != from.timePasswordChanged {
-            nonCommutative.append(NonCommutativeLoginField.TimePasswordChanged(to: self.timePasswordChanged))
+            nonCommutative.append(NonCommutativeLoginField.timePasswordChanged(to: self.timePasswordChanged))
         }
 
         var nonConflicting = [NonConflictingLoginField]()
@@ -503,13 +499,13 @@ open class Login: CustomStringConvertible, LoginData, LoginUsageData, Equatable 
             case let .formSubmitURL(to):
                 formSubmitURL = to
                 break
-            case let .TimeCreated(to):
+            case let .timeCreated(to):
                 timeCreated = to
                 break
-            case let .TimeLastUsed(to):
+            case let .timeLastUsed(to):
                 timeLastUsed = to
                 break
-            case let .TimePasswordChanged(to):
+            case let .timePasswordChanged(to):
                 timePasswordChanged = to
                 break
             }
@@ -577,12 +573,12 @@ public protocol BrowserLogins {
 
     // Add a new login regardless of whether other logins might match some fields. Callers
     // are responsible for querying first if they care.
-    func addLogin(_ login: LoginData) -> Success
+    @discardableResult func addLogin(_ login: LoginData) -> Success
 
-    func updateLoginByGUID(_ guid: GUID, new: LoginData, significant: Bool) -> Success
+    @discardableResult func updateLoginByGUID(_ guid: GUID, new: LoginData, significant: Bool) -> Success
 
     // Add the use of a login by GUID.
-    func addUseOfLoginByGUID(_ guid: GUID) -> Success
+    @discardableResult func addUseOfLoginByGUID(_ guid: GUID) -> Success
     func removeLoginByGUID(_ guid: GUID) -> Success
     func removeLoginsWithGUIDs(_ guids: [GUID]) -> Success
 
@@ -605,7 +601,7 @@ public protocol SyncableLogins: AccountRemovalDelegate {
      */
     func markAsSynchronized<T: Collection>(_: T, modified: Timestamp) -> Deferred<Maybe<Timestamp>> where T.Iterator.Element == GUID
     func markAsDeleted<T: Collection>(_ guids: T) -> Success where T.Iterator.Element == GUID
-    
+
     /**
      * For inspecting whether we're an active participant in login sync.
      */

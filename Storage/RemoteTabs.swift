@@ -11,7 +11,7 @@ public struct ClientAndTabs: Equatable, CustomStringConvertible {
     public let tabs: [RemoteTab]
 
     public var description: String {
-        return "<Client \(client.guid), \(tabs.count) tabs.>"
+        return "<Client guid: \(client.guid ?? "nil"), \(tabs.count) tabs.>"
     }
 
     // See notes in RemoteTabsPanel.swift.
@@ -20,7 +20,7 @@ public struct ClientAndTabs: Equatable, CustomStringConvertible {
             return client.modified
         }
 
-        return tabs.reduce(Timestamp(0), combine: { m, tab in
+        return tabs.reduce(Timestamp(0), { m, tab in
             return max(m, tab.lastUsed)
         })
     }
@@ -28,7 +28,7 @@ public struct ClientAndTabs: Equatable, CustomStringConvertible {
 
 public func ==(lhs: ClientAndTabs, rhs: ClientAndTabs) -> Bool {
     return (lhs.client == rhs.client) &&
-        (lhs.tabs == rhs.tabs)
+           (lhs.tabs == rhs.tabs)
 }
 
 public protocol RemoteClientsAndTabs: SyncCommands {
@@ -37,10 +37,11 @@ public protocol RemoteClientsAndTabs: SyncCommands {
     func wipeTabs() -> Deferred<Maybe<()>>
     func getClientGUIDs() -> Deferred<Maybe<Set<GUID>>>
     func getClients() -> Deferred<Maybe<[RemoteClient]>>
+    func getClientWithId(_ clientID: GUID) -> Deferred<Maybe<RemoteClient?>>
     func getClientsAndTabs() -> Deferred<Maybe<[ClientAndTabs]>>
     func getTabsForClientWithGUID(_ guid: GUID?) -> Deferred<Maybe<[RemoteTab]>>
-    func insertOrUpdateClient(_ client: RemoteClient) -> Deferred<Maybe<()>>
-    func insertOrUpdateClients(_ clients: [RemoteClient]) -> Deferred<Maybe<()>>
+    func insertOrUpdateClient(_ client: RemoteClient) -> Deferred<Maybe<Int>>
+    func insertOrUpdateClients(_ clients: [RemoteClient]) -> Deferred<Maybe<Int>>
 
     // Returns number of tabs inserted.
     func insertOrUpdateTabs(_ tabs: [RemoteTab]) -> Deferred<Maybe<Int>> // Insert into the local client.
@@ -98,6 +99,6 @@ public func ==(lhs: RemoteTab, rhs: RemoteTab) -> Bool {
 
 extension RemoteTab: CustomStringConvertible {
     public var description: String {
-        return "<RemoteTab clientGUID: \(clientGUID), URL: \(URL), title: \(title), lastUsed: \(lastUsed)>"
+        return "<RemoteTab clientGUID: \(clientGUID ?? "nil"), URL: \(URL), title: \(title), lastUsed: \(lastUsed)>"
     }
 }

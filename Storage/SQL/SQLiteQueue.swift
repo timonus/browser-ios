@@ -15,12 +15,12 @@ open class SQLiteQueue: TabQueue {
     public init(db: BrowserDB) {
         // BrowserTable exists only to perform create/update etc. operations -- it's not
         // a queryable thing that needs to stick around.
-        db.createOrUpdate(BrowserTable())
+        _ = db.createOrUpdate(BrowserTable())
         self.db = db
     }
 
     open func addToQueue(_ tab: ShareItem) -> Success {
-        let args: Args = [tab.url as AnyObject, tab.title as AnyObject]
+        let args: Args = [tab.url, tab.title]
         return db.run("INSERT OR IGNORE INTO \(TableQueuedTabs) (url, title) VALUES (?, ?)", withArgs: args)
     }
 

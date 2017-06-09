@@ -4,6 +4,7 @@
 
 import Shared
 import Deferred
+import SwiftyJSON
 
 public struct SyncCommand: Equatable {
     public let value: String
@@ -33,13 +34,15 @@ public struct SyncCommand: Equatable {
         self.commandID = id
     }
 
-
-    public static func fromShareItem(_ shareItem: ShareItem, withAction action: String) -> SyncCommand {
-        let jsonObj: [String: AnyObject] = [
-            "command": action as AnyObject,
-            "args": [shareItem.url, "", shareItem.title ?? ""]
+    /**
+     * Sent displayURI commands include the sender client GUID.
+     */
+    public static func displayURIFromShareItem(_ shareItem: ShareItem, asClient sender: GUID) -> SyncCommand {
+        let jsonObj: [String: Any] = [
+            "command": "displayURI",
+            "args": [shareItem.url, sender, shareItem.title ?? ""]
         ]
-        return SyncCommand(value: JSON.stringify(jsonObj, pretty: false))
+        return SyncCommand(value: JSON(object: jsonObj).stringValue()!)
     }
 
     public func withClientGUID(_ clientGUID: String?) -> SyncCommand {

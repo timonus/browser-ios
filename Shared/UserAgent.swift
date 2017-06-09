@@ -6,37 +6,44 @@ import AVFoundation
 import UIKit
 
 open class UserAgent {
-    fileprivate static var defaults = UserDefaults(suiteName: AppInfo.sharedContainerIdentifier())!
+    private static var defaults = UserDefaults(suiteName: AppInfo.sharedContainerIdentifier)!
+
+    private static func clientUserAgent(prefix: String) -> String {
+        return "\(prefix)/\(AppInfo.appVersion)b\(AppInfo.buildNumber) " +
+               "(\(DeviceInfo.deviceModel()); iPhone OS \(UIDevice.current.systemVersion)) (\(DeviceInfo.appName()))"
+    }
 
     open static var syncUserAgent: String {
-        let appName = DeviceInfo.appName()
-        return "Firefox-iOS-Sync/\(AppInfo.appVersion) (\(appName))"
+        return clientUserAgent(prefix: "Firefox-iOS-Sync")
     }
 
     open static var tokenServerClientUserAgent: String {
-        let appName = DeviceInfo.appName()
-        return "Firefox-iOS-Token/\(AppInfo.appVersion) (\(appName))"
+        return clientUserAgent(prefix: "Firefox-iOS-Token")
     }
 
     open static var fxaUserAgent: String {
-        let appName = DeviceInfo.appName()
-        return "Firefox-iOS-FxA/\(AppInfo.appVersion) (\(appName))"
+        return clientUserAgent(prefix: "Firefox-iOS-FxA")
     }
 
     /**
      * Use this if you know that a value must have been computed before your
      * code runs, or you don't mind failure.
      */
-    open static func cachedUserAgent(checkiOSVersion: Bool = true, checkFirefoxVersion: Bool = true) -> String? {
+    open static func cachedUserAgent(checkiOSVersion: Bool = true,
+                                     checkFirefoxVersion: Bool = true,
+                                     checkFirefoxBuildNumber: Bool = true) -> String? {
         let currentiOSVersion = UIDevice.current.systemVersion
         let lastiOSVersion = defaults.string(forKey: "LastDeviceSystemVersionNumber")
 
+        let currentFirefoxBuildNumber = AppInfo.buildNumber
         let currentFirefoxVersion = AppInfo.appVersion
         let lastFirefoxVersion = defaults.string(forKey: "LastFirefoxVersionNumber")
-
+        let lastFirefoxBuildNumber = defaults.string(forKey: "LastFirefoxBuildNumber")
+        
         if let firefoxUA = defaults.string(forKey: "UserAgent") {
             if (!checkiOSVersion || (lastiOSVersion == currentiOSVersion))
-                && (!checkFirefoxVersion || (lastFirefoxVersion == currentFirefoxVersion)){
+                && (!checkFirefoxVersion || (lastFirefoxVersion == currentFirefoxVersion)
+                && (!checkFirefoxBuildNumber || (lastFirefoxBuildNumber == currentFirefoxBuildNumber))) {
                 return firefoxUA
             }
         }
@@ -51,30 +58,26 @@ open class UserAgent {
     open static func defaultUserAgent() -> String {
         assert(Thread.current.isMainThread, "This method must be called on the main thread.")
 
-        struct staticUA {
-            static var value = ""
+        if let firefoxUA = UserAgent.cachedUserAgent(checkiOSVersion: true) {
+            return firefoxUA
         }
-
-        if !staticUA.value.isEmpty {
-            return staticUA.value
-        }
-//        if let firefoxUA = UserAgent.cachedUserAgent(checkiOSVersion: true) {
-//            return firefoxUA
-//        }
 
         let webView = UIWebView()
 
         let appVersion = AppInfo.appVersion
+        let buildNumber = AppInfo.buildNumber
         let currentiOSVersion = UIDevice.current.systemVersion
-        defaults.set(currentiOSVersion,forKey: "LastDeviceSystemVersionNumber")
+        defaults.set(currentiOSVersion, forKey: "LastDeviceSystemVersionNumber")
         defaults.set(appVersion, forKey: "LastFirefoxVersionNumber")
+        defaults.set(buildNumber, forKey: "LastFirefoxBuildNumber")
+
         let userAgent = webView.stringByEvaluatingJavaScript(from: "navigator.userAgent")!
 
         // Extract the WebKit version and use it as the Safari version.
         let webKitVersionRegex = try! NSRegularExpression(pattern: "AppleWebKit/([^ ]+) ", options: [])
 
         let match = webKitVersionRegex.firstMatch(in: userAgent, options:[],
-                                                          range: NSMakeRange(0, userAgent.characters.count))
+            range: NSRange(location: 0, length: userAgent.characters.count))
 
         if match == nil {
             print("Error: Unable to determine WebKit version in UA.")
@@ -91,20 +94,21 @@ open class UserAgent {
         }
 
         let mutableUA = NSMutableString(string: userAgent)
-        //mutableUA.insertString(" Brave/\(appVersion) ", atIndex: mobileRange.location)
-        mutableUA.insert("CriOS/52.0.2743.84 ", at: mobileRange.location)
+        mutableUA.insert("FxiOS/\(appVersion)b\(AppInfo.buildNumber) ", at: mobileRange.location)
 
-        staticUA.value = "\(mutableUA) Safari/\(webKitVersion)"
-        defaults.set(staticUA.value, forKey: "UserAgent")
-        return staticUA.value
+        let firefoxUA = "\(mutableUA) Safari/\(webKitVersion)"
+
+        defaults.set(firefoxUA, forKey: "UserAgent")
+
+        return firefoxUA
     }
-    
+
     open static func desktopUserAgent() -> String {
         let userAgent = NSMutableString(string: defaultUserAgent())
 
         // Spoof platform section
         let platformRegex = try! NSRegularExpression(pattern: "\\([^\\)]+\\)", options: [])
-        guard let platformMatch = platformRegex.firstMatch(in: userAgent as String, options:[], range: NSMakeRange(0, userAgent.length)) else {
+        guard let platformMatch = platformRegex.firstMatch(in: userAgent as String, options:[], range: NSRange(location: 0, length: userAgent.length)) else {
             print("Error: Unable to determine platform in UA.")
             return String(userAgent)
         }
@@ -112,7 +116,8 @@ open class UserAgent {
 
         // Strip mobile section
         let mobileRegex = try! NSRegularExpression(pattern: " FxiOS/[^ ]+ Mobile/[^ ]+", options: [])
-        guard let mobileMatch = mobileRegex.firstMatch(in: userAgent as String, options:[], range: NSMakeRange(0, userAgent.length)) else {
+        
+        guard let mobileMatch = mobileRegex.firstMatch(in: userAgent as String, options:[], range: NSRange(location: 0, length: userAgent.length)) else {
             print("Error: Unable to find Mobile section in UA.")
             return String(userAgent)
         }

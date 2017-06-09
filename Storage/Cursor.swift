@@ -32,16 +32,16 @@ open class Cursor<T>: TypedCursor {
 
     // Extra status information
     open var status: CursorStatus
-    open var statusMessage: String
+    public var statusMessage: String
 
     init(err: NSError) {
         self.status = .failure
         self.statusMessage = err.description
     }
 
-    public init(status: CursorStatus = CursorStatus.success, msg: String = "") {
-        self.status = status
+    public init(status: CursorStatus = .success, msg: String = "") {
         self.statusMessage = msg
+        self.status = status
     }
 
     // Collection iteration and access functions
@@ -65,7 +65,7 @@ open class Cursor<T>: TypedCursor {
     open func makeIterator() -> AnyIterator<T?> {
         var nextIndex = 0
         return AnyIterator() {
-            if (nextIndex >= self.count || self.status != CursorStatus.success) {
+            if nextIndex >= self.count || self.status != CursorStatus.success {
                 return nil
             }
 
@@ -90,17 +90,17 @@ open class Cursor<T>: TypedCursor {
  * A cursor implementation that wraps an array.
  */
 open class ArrayCursor<T> : Cursor<T> {
-    fileprivate var data : [T]
+    fileprivate var data: [T]
 
-    open override var count : Int {
-        if (status != .success) {
+    open override var count: Int {
+        if status != .success {
             return 0
         }
         return data.count
     }
 
     public init(data: [T], status: CursorStatus, statusMessage: String) {
-        self.data = data;
+        self.data = data
         super.init(status: status, msg: statusMessage)
     }
 
@@ -110,7 +110,7 @@ open class ArrayCursor<T> : Cursor<T> {
 
     open override subscript(index: Int) -> T? {
         get {
-            if (index >= data.count || index < 0 || status != .success) {
+            if index >= data.count || index < 0 || status != .success {
                 return nil
             }
             return data[index]

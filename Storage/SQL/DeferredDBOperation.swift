@@ -11,20 +11,20 @@ private let log = Logger.syncLogger
 private let DeferredQueue = DispatchQueue(label: "BrowserDBQueue", attributes: [])
 
 /**
- This class is written to mimick an NSOperation, but also provide Deferred capabilities as well.
+    This class is written to mimick an NSOperation, but also provide Deferred capabilities as well.
+    
+    Usage:
+    let deferred = DeferredDBOperation({ (db, err) -> Int
+      // ... Do something long running
+      return 1
+    }, withDb: myDb, onQueue: myQueue).start(onQueue: myQueue)
+    deferred.upon { res in
+      // if cancelled res.isFailure = true
+    })
 
- Usage:
- let deferred = DeferredDBOperation({ (db, err) -> Int
- // ... Do something long running
- return 1
- }, withDb: myDb, onQueue: myQueue).start(onQueue: myQueue)
- deferred.upon { res in
- // if cancelled res.isFailure = true
- })
-
- // ... Some time later
- deferred.cancel()
- */
+    // ... Some time later
+    deferred.cancel()
+*/
 class DeferredDBOperation<T>: Deferred<Maybe<T>>, Cancellable {
     /// Cancelled is wrapping a ReadWrite lock to make access to it thread-safe.
     fileprivate var cancelledLock = LockProtected<Bool>(item: false)
@@ -35,7 +35,7 @@ class DeferredDBOperation<T>: Deferred<Maybe<T>>, Cancellable {
             })
         }
         set {
-            cancelledLock.withWriteLock { cancelled -> T? in
+            _ = cancelledLock.withWriteLock { cancelled -> T? in
                 cancelled = newValue
                 return nil
             }
@@ -51,7 +51,7 @@ class DeferredDBOperation<T>: Deferred<Maybe<T>>, Cancellable {
             return nil
         }
         set {
-            connectionLock.withWriteLock { connection -> T? in
+            _ = connectionLock.withWriteLock { connection -> T? in
                 connection = newValue
                 return nil
             }
@@ -87,7 +87,7 @@ class DeferredDBOperation<T>: Deferred<Maybe<T>>, Cancellable {
             }
 
             var error: NSError? = nil
-            result = self.block(connection: db, err: &error)
+            result = self.block(db, &error)
             if error == nil {
                 log.verbose("Modified rows: \(db.numberOfRowsModified).")
             }
@@ -104,10 +104,9 @@ class DeferredDBOperation<T>: Deferred<Maybe<T>>, Cancellable {
 
     func cancel() {
         self.cancelled = true
-        self.connectionLock.withReadLock({ connection -> () in
+        self.connectionLock.withReadLock({ connection -> Void in
             connection?.interrupt()
             return ()
         })
     }
 }
-
