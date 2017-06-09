@@ -28,6 +28,14 @@ extension NSDate {
     public class func nowMicroseconds() -> MicrosecondTimestamp {
         return UInt64(1000000 * NSDate().timeIntervalSince1970)
     }
+    
+    public func toTimestamp() -> Timestamp {
+        return UInt64(self.timeIntervalSince1970 * 1000)
+    }
+    
+    public func toMicrosecondTimestamp() -> MicrosecondTimestamp {
+        return self.toTimestamp() * 1000
+    }
 
     public class func fromTimestamp(timestamp: Timestamp) -> NSDate {
         return NSDate(timeIntervalSince1970: Double(timestamp) / 1000)

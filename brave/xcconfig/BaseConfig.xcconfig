@@ -10,7 +10,7 @@ MOZ_BUNDLE_DISPLAY_NAME = Brave$(BETA)
 MOZ_PRODUCT_NAME = Brave$(BETA)
 
 // App Version
-MOZ_VERSION = 1.3.3
+MOZ_VERSION = 1.4
 MOZ_BUILD_ID = $(GENERATED_BUILD_ID)
 ProvisioningStyle = Automatic
 

@@ -31,7 +31,7 @@ var username = process.env.USERNAME
 var password = process.env.PASSWORD
 if (!(username && password)) {
   username = 'brave.dev'
-  password = '' + fs.readFileSync(path.join(process.env.HOME, '.transifex-password'))
+  password = ('' + fs.readFileSync(path.join(process.env.HOME, '.brave-transifex-password'))).trim()
   if (!(username && password)) {
     throw new Error('The USERNAME and PASSWORD environment variables must be set to the Transifex credentials')
   }

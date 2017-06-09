@@ -112,6 +112,12 @@ class ClearPrivateDataTableViewController: UITableViewController {
 
         clearables.enumerate().map { clearable in
                 print("Clearing \(clearable.element).")
+            
+                if "\(clearable.element)" == "Client.HistoryClearable" {
+                    let prefs: Prefs? = getApp().profile?.prefs
+                    prefs?.setBool(true, forKey: "ClearedBrowsingHistory")
+                }
+            
                 let res = Success()
                 succeed().upon() { _ in // move off main thread
                     clearable.element.clear().upon() { result in

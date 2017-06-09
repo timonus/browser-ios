@@ -691,7 +691,7 @@ class BrowserViewController: UIViewController {
     }
 
     func removeBookmark(url: NSURL) {
-        if Bookmark.remove(forUrl: url) {
+        if Bookmark.remove(forUrl: url, context: DataController.moc) {
             self.urlBar.updateBookmarkStatus(false)
         }
     }

@@ -317,6 +317,10 @@ and here's why...</source>
         <source>Desktop Bookmarks</source>
         <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
       </trans-unit>
+      <trans-unit id="Device Name">
+        <source>Device Name</source>
+        <note>Title for new device popup</note>
+      </trans-unit>
       <trans-unit id="Devices">
         <source>Devices</source>
         <note>Sync device settings page title.</note>
@@ -356,6 +360,10 @@ and here's why...</source>
       <trans-unit id="Enter code words below">
         <source>Enter code words below</source>
         <note>Enter sync code words below</note>
+      </trans-unit>
+      <trans-unit id="Enter folder name">
+        <source>Enter folder name</source>
+        <note>Description for new folder popup</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
@@ -516,7 +524,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Name">
         <source>Name</source>
-        <note>Bookmark name/title</note>
+        <note>Bookmark title / Device name</note>
       </trans-unit>
       <trans-unit id="Navigation Toolbar">
         <source>Navigation Toolbar</source>
@@ -528,7 +536,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="New Folder">
         <source>New Folder</source>
-        <note>No comment provided by engineer.</note>
+        <note>Title for new folder popup</note>
       </trans-unit>
       <trans-unit id="New Private Tab">
         <source>New Private Tab</source>
@@ -633,6 +641,10 @@ Protection</source>
       <trans-unit id="Paste &amp; Go">
         <source>Paste &amp; Go</source>
         <note>Paste the URL into the location bar and visit</note>
+      </trans-unit>
+      <trans-unit id="Please enter a name for this device">
+        <source>Please enter a name for this device</source>
+        <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
         <source>Previous in-page result</source>
@@ -982,9 +994,17 @@ Protection</source>
         <source>URL</source>
         <note>Bookmark URL</note>
       </trans-unit>
+      <trans-unit id="Unable to create new sync group.">
+        <source>Unable to create new sync group.</source>
+        <note>Description on popup when setting up a sync group fails</note>
+      </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
         <source>Unsorted Bookmarks</source>
         <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Unsuccessful">
+        <source>Unsuccessful</source>
+        <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">
         <source>Untitled</source>

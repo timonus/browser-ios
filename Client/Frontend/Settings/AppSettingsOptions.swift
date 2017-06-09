@@ -173,6 +173,29 @@ class SyncDevicesSetting: Setting {
     }
 }
 
+class SyncDeviceSetting: Setting {
+    let profile: Profile
+    
+    var onTap: (()->Void)?
+    internal var displayTitle: String!
+    
+    override var accessoryType: UITableViewCellAccessoryType { return .None }
+    
+    override var accessibilityIdentifier: String? { return "SyncDevice" }
+    
+    init(profile profile: Profile, title: String) {
+        self.profile = profile
+        self.displayTitle = title
+        super.init(title: NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
+    }
+    
+    override func onClick(navigationController: UINavigationController?) {
+        if onTap != nil {
+            onTap!()
+        }
+    }
+}
+
 class RemoveDeviceSetting: Setting {
     let profile: Profile
     
@@ -182,8 +205,8 @@ class RemoveDeviceSetting: Setting {
     
     override var textAlignment: NSTextAlignment { return .Center }
     
-    init(settings: SettingsTableViewController) {
-        self.profile = settings.profile
+    init(profile: Profile) {
+        self.profile = profile
         let clearTitle = Strings.SyncRemoveThisDevice
         super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIColor.redColor(), NSFontAttributeName: UIFont.systemFontOfSize(17, weight: UIFontWeightRegular)]))
     }

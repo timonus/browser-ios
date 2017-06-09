@@ -21,8 +21,6 @@ extension CGSize {
 }
 
 struct TopSitesPanelUX {
-    private static let EmptyStateTitleTextColor = UIColor.darkGrayColor()
-    private static let EmptyStateTopPaddingInBetweenItems: CGFloat = 15
     private static let WelcomeScreenPadding: CGFloat = 15
     private static let WelcomeScreenItemTextColor = UIColor.grayColor()
     private static let WelcomeScreenItemWidth = 170
@@ -30,7 +28,6 @@ struct TopSitesPanelUX {
 
 class TopSitesPanel: UIViewController {
     weak var homePanelDelegate: HomePanelDelegate?
-    private lazy var emptyStateOverlayView: UIView = self.createEmptyStateOverlayView()
     private var collection: TopSitesCollectionView? = nil
     private var privateTabMessageContainer: UIView!
     private var privateTabGraphic: UIImageView!
@@ -142,7 +139,6 @@ class TopSitesPanel: UIViewController {
         self.collection = collection
         
         let braveShieldStatsView = BraveShieldStatsView(frame: CGRectZero)
-        braveShieldStatsView.hidden = true
         collection.addSubview(braveShieldStatsView)
         self.braveShieldStatsView = braveShieldStatsView
         
@@ -162,7 +158,6 @@ class TopSitesPanel: UIViewController {
 
         self.dataSource.collectionView = self.collection
         self.refreshTopSites(self.maxFrecencyLimit)
-        self.updateEmptyPanelState()
         
         privateTabMessageContainer.snp_makeConstraints { (make) in
             make.centerX.equalTo(self.view)
@@ -251,45 +246,9 @@ class TopSitesPanel: UIViewController {
         }
     }
 
-    private func createEmptyStateOverlayView() -> UIView {
-        let overlayView = UIView()
-        overlayView.backgroundColor = UIColor.whiteColor()
-
-        let descriptionLabel = UILabel()
-        descriptionLabel.text = Strings.TopSitesEmptyStateDescription
-        descriptionLabel.textAlignment = NSTextAlignment.Center
-        descriptionLabel.font = DynamicFontHelper.defaultHelper.DeviceFontLight
-        descriptionLabel.textColor = TopSitesPanelUX.WelcomeScreenItemTextColor
-        descriptionLabel.numberOfLines = 2
-        descriptionLabel.adjustsFontSizeToFitWidth = true
-        overlayView.addSubview(descriptionLabel)
-
-        descriptionLabel.snp_makeConstraints { make in
-            make.center.equalTo(overlayView)
-            make.width.equalTo(TopSitesPanelUX.WelcomeScreenItemWidth)
-        }
-
-        return overlayView
-    }
-
-    private func updateEmptyPanelState() {
-        if dataSource.count() == 0 && !PrivateBrowsing.singleton.isOn {
-            if self.emptyStateOverlayView.superview == nil {
-                self.view.addSubview(self.emptyStateOverlayView)
-                self.emptyStateOverlayView.snp_makeConstraints { make -> Void in
-                    make.edges.equalTo(self.view)
-                }
-            }
-        } else {
-            self.emptyStateOverlayView.removeFromSuperview()
-            self.braveShieldStatsView?.hidden = false
-        }
-    }
-
     //MARK: Private Helpers
     private func updateDataSourceWithSites(result: [Site], completion: ()->()) {
         self.dataSource.setHistorySites(result) {
-            self.updateEmptyPanelState()
             completion()
         }
     }
@@ -799,7 +758,14 @@ private class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         }
 
         self.sites += historySites
-        mergeBuiltInSuggestedSites { completion() }
+        
+        let prefs: Prefs? = getApp().profile?.prefs
+        if prefs?.boolForKey("ClearedBrowsingHistory") == false || prefs?.boolForKey("ClearedBrowsingHistory") == nil {
+            mergeBuiltInSuggestedSites { completion() }
+        }
+        else {
+            completion()
+        }
     }
 
     private func mergeBuiltInSuggestedSites(completion: ()->()) {
