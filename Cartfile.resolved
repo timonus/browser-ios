@@ -1,6 +1,6 @@
 github "Alamofire/Alamofire" "3.5.0"
 github "SnapKit/SnapKit" "0.22.0"
-github "brave/sync" "6baa48cad381fefe677935c389a9f3aa2e9c6bb6"
+github "brave/sync" "f4b5d75078e3bdf32d59d7c6b0c553622bca3fc4"
 github "diracdeltas/niceware" "v1.0.4"
 github "drmohundro/SWXMLHash" "2.5.1"
 github "jrendel/SwiftKeychainWrapper" "701a27dfc4502645122f8db5e7be4479e85e831c"
