@@ -398,6 +398,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Device Name">
         <source>Device Name</source>
+        <target>Имя устройства</target>
         <note>Title for new device popup</note>
       </trans-unit>
       <trans-unit id="Devices">
@@ -452,6 +453,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Enter folder name">
         <source>Enter folder name</source>
+        <target>Введите имя папки</target>
         <note>Description for new folder popup</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
@@ -803,6 +805,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
+        <target>Пожалуйста, введите имя для этого устройства</target>
         <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
@@ -1242,6 +1245,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Unable to create new sync group.">
         <source>Unable to create new sync group.</source>
+        <target>Не удалось создать новую группу синхронизации.</target>
         <note>Description on popup when setting up a sync group fails</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
@@ -1251,6 +1255,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Unsuccessful">
         <source>Unsuccessful</source>
+        <target>Не удается</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">

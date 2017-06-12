@@ -47,6 +47,7 @@
       </trans-unit>
       <trans-unit id="Add Device">
         <source>Add Device</source>
+        <target>Adicionar Dispositivo</target>
         <note>Add device to sync</note>
       </trans-unit>
       <trans-unit id="Add Tab">
@@ -201,6 +202,7 @@
       </trans-unit>
       <trans-unit id="Brave Sync">
         <source>Brave Sync</source>
+        <target>Brave Sync</target>
         <note>Brave sync page title</note>
       </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
@@ -281,6 +283,7 @@ saiba por que...</target>
       </trans-unit>
       <trans-unit id="Changing settings will only affect data that this device shares with others.">
         <source>Changing settings will only affect data that this device shares with others.</source>
+        <target>A alteração das configurações afetará apenas os dados que este dispositivo compartilha com outros.</target>
         <note>Sync device settings footer details</note>
       </trans-unit>
       <trans-unit id="Clear">
@@ -325,6 +328,7 @@ saiba por que...</target>
       </trans-unit>
       <trans-unit id="Code Words">
         <source>Code Words</source>
+        <target>Palavras Secretas</target>
         <note>Code words section title</note>
       </trans-unit>
       <trans-unit id="Cookie Control">
@@ -394,14 +398,17 @@ saiba por que...</target>
       </trans-unit>
       <trans-unit id="Device Name">
         <source>Device Name</source>
+        <target>Nome do Dispositivo</target>
         <note>Title for new device popup</note>
       </trans-unit>
       <trans-unit id="Devices">
         <source>Devices</source>
+        <target>Dispositivos</target>
         <note>Sync device settings page title.</note>
       </trans-unit>
       <trans-unit id="Devices &amp; Settings">
         <source>Devices &amp; Settings</source>
+        <target>Dispositivos e Configurações</target>
         <note>Sync you browser settings across devices.</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
@@ -436,18 +443,22 @@ saiba por que...</target>
       </trans-unit>
       <trans-unit id="Enter code words">
         <source>Enter code words</source>
+        <target>Digite as palavras secretas</target>
         <note>Sync enter code words</note>
       </trans-unit>
       <trans-unit id="Enter code words below">
         <source>Enter code words below</source>
+        <target>Digite as palavras secretas abaixo</target>
         <note>Enter sync code words below</note>
       </trans-unit>
       <trans-unit id="Enter folder name">
         <source>Enter folder name</source>
+        <target>Digite o nome da pasta</target>
         <note>Description for new folder popup</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <target>Embora os sites que você visita em guias privadas não sejam salvos localmente, eles não deixam você anônimo ou invisível para o seu ISP, para seu empregador ou para os sites que você visita.</target>
         <note>Private tab details</note>
       </trans-unit>
       <trans-unit id="Find">
@@ -457,6 +468,7 @@ saiba por que...</target>
       </trans-unit>
       <trans-unit id="Find &quot;%@&quot;">
         <source>Find &quot;%@&quot;</source>
+        <target>Encontrar &quot;%@&quot;</target>
         <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
@@ -498,6 +510,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Get a new sync code">
         <source>Get a new sync code</source>
+        <target>Receber um novo código de sincronização</target>
         <note>New sync code button title</note>
       </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
@@ -512,6 +525,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Grant camera access">
         <source>Grant camera access</source>
+        <target>Conceder acesso à câmera</target>
         <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
@@ -586,6 +600,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Learn about private tabs.">
         <source>Learn about private tabs.</source>
+        <target>Saiba mais sobre as guias privadas.</target>
         <note>Private tab information link</note>
       </trans-unit>
       <trans-unit id="Light">
@@ -690,6 +705,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
         <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
+        <target>Nota: alguns sites podem exigir scripts para funcionar corretamente, por isso esta proteção é desativada por padrão.</target>
         <note>shields overview footer message</note>
       </trans-unit>
       <trans-unit id="OK">
@@ -724,6 +740,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Open Image In New Tab">
         <source>Open Image In New Tab</source>
+        <target>Abrir Imagem em Nova Aba</target>
         <note>Context menu for opening image in new tab</note>
       </trans-unit>
       <trans-unit id="Open In New Private Tab">
@@ -733,6 +750,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Open In New Tab">
         <source>Open In New Tab</source>
+        <target>Abrir em Nova Aba</target>
         <note>Context menu item for opening a link in a new tab</note>
       </trans-unit>
       <trans-unit id="Open Settings">
@@ -757,6 +775,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
+        <target>Parear</target>
         <note>Sync pair device settings section title</note>
       </trans-unit>
       <trans-unit id="Panel Chooser">
@@ -766,10 +785,12 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Password Manager">
         <source>Password Manager</source>
+        <target>Gerenciador de Senhas</target>
         <note>Accessibility Label for the browser toolbar Password Manager button</note>
       </trans-unit>
       <trans-unit id="Password Manager Button">
         <source>Password Manager Button</source>
+        <target>Botão do Gerenciador de Senhas</target>
         <note>Setting for behaviour of password manager button</note>
       </trans-unit>
       <trans-unit id="Paste">
@@ -784,6 +805,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
+        <target>Digite um nome para este dispositivo</target>
         <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
@@ -828,6 +850,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="QR Code">
         <source>QR Code</source>
+        <target>Código QR</target>
         <note>QR Code section title</note>
       </trans-unit>
       <trans-unit id="Quick-search Engines">
@@ -837,6 +860,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Reader Mode Settings">
         <source>Reader Mode Settings</source>
+        <target>Configurações do Modo Leitura</target>
         <note>Name for display settings button in reader mode. Display in the meaning of presentation, not monitor.</note>
       </trans-unit>
       <trans-unit id="Reader View">
@@ -876,6 +900,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Remove this device">
         <source>Remove this device</source>
+        <target>Remover este dispositivo</target>
         <note>Sync remove device.</note>
       </trans-unit>
       <trans-unit id="Report a bug">
@@ -930,6 +955,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Scan or enter code">
         <source>Scan or enter code</source>
+        <target>Escanear ou digitar código</target>
         <note>Scan sync code button title</note>
       </trans-unit>
       <trans-unit id="Scripts Blocked">
@@ -954,6 +980,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Search in page">
         <source>Search in page</source>
+        <target>Buscar na página</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search or enter address">
@@ -988,6 +1015,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Send crash reports and metrics">
         <source>Send crash reports and metrics</source>
+        <target>Envie relatórios e métricas de travamento</target>
         <note>option in settings screen</note>
       </trans-unit>
       <trans-unit id="Sepia">
@@ -1072,6 +1100,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
         <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
+        <target>Proteções do Site permitem controlar quando anúncios e rastreadores são bloqueados para cada site que você visita. Se você preferir ver os anúncios de um site específico, é possível habilitá-los aqui.</target>
         <note>shields overview message</note>
       </trans-unit>
       <trans-unit id="Site shield settings">
@@ -1101,18 +1130,22 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Sync">
         <source>Sync</source>
+        <target>Sincronizar</target>
         <note>Sync settings section title</note>
       </trans-unit>
       <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
         <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <target>Sincronize os dados do navegador entre seus dispositivos de forma segura usando o Brave Sync, não é necessário criar uma conta. Toque abaixo para começar.</target>
         <note>Sync settings welcome</note>
       </trans-unit>
       <trans-unit id="Sync on this device">
         <source>Sync on this device</source>
+        <target>Sincronizar neste dispositivo</target>
         <note>Sync device settings section title</note>
       </trans-unit>
       <trans-unit id="Sync to device">
         <source>Sync to device</source>
+        <target>Sincronizar no dispositivo</target>
         <note>Sync to existing device</note>
       </trans-unit>
       <trans-unit id="Tab %@ of %@">
@@ -1122,6 +1155,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Tabs">
         <source>Tabs</source>
+        <target>Abas</target>
         <note>Accessibility label for the Tabs.</note>
       </trans-unit>
       <trans-unit id="Tabs %@ to %@ of %@">
@@ -1176,6 +1210,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="This is a Private Tab">
         <source>This is a Private Tab</source>
+        <target>Esta é uma Aba Privada</target>
         <note>Private tab title</note>
       </trans-unit>
       <trans-unit id="Today">
@@ -1210,6 +1245,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Unable to create new sync group.">
         <source>Unable to create new sync group.</source>
+        <target>Não foi possível criar um novo grupo de sincronização.</target>
         <note>Description on popup when setting up a sync group fails</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
@@ -1219,6 +1255,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Unsuccessful">
         <source>Unsuccessful</source>
+        <target>Malsucedido</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">
@@ -1248,14 +1285,17 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="Use regional adblock">
         <source>Use regional adblock</source>
+        <target>Usar adblock regional</target>
         <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
       </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <target>Usando um segundo dispositivo. Acesse Configurações do Brave &gt; Sincronização. Capture o Código QR (acima) com o segundo dispositivo ou digite as palavras secretas caso não haja uma câmera disponível.</target>
         <note>Sync add device description</note>
       </trans-unit>
       <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
         <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <target>Usando um dispositivo existente sincronizado. Abra as Configurações do Brave e acesse &quot;Dispositivos e Configurações&quot;, toque em &quot;+&quot; para adicionar um novo dispositivo e mostrar um código de sincronização.</target>
         <note>Sync to existing device description</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">
@@ -1310,6 +1350,7 @@ Identificação</target>
       </trans-unit>
       <trans-unit id="You can choose to show a popup to pick your password manager, or have the selected one open automatically.">
         <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
+        <target>Você pode escolher mostrar um popup para selecionar seu gerenciador de senhas ou deixar que o selecionado seja aberto automaticamente.</target>
         <note>Footer message on picker for 3rd party password manager setting</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
@@ -1392,18 +1433,22 @@ Identificação</target>
     <body>
       <trans-unit id="Accept &amp; Continue">
         <source>Accept &amp; Continue</source>
+        <target>Aceitar e Continuar</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="By using this application, you agree to Brave’s Terms of Use.">
         <source>By using this application, you agree to Brave’s Terms of Use.</source>
+        <target>Ao usar este aplicativo, você concorda com os Termos de Uso do Brave.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Help make Brave better by sending usage statistics and crash reports to us.">
         <source>Help make Brave better by sending usage statistics and crash reports to us.</source>
+        <target>Ajude a melhorar o Brave enviando-nos estatísticas de uso e relatórios de travamento.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Terms of Use.">
         <source>Terms of Use.</source>
+        <target>Termos de Uso.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
     </body>
