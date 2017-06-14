@@ -194,7 +194,9 @@ class SyncPairCameraViewController: UIViewController {
     }
     
     func SEL_enterWords() {
-        navigationController?.pushViewController(SyncPairWordsViewController(), animated: true)
+        let pairWords = SyncPairWordsViewController()
+        pairWords.deviceName = self.deviceName
+        navigationController?.pushViewController(pairWords, animated: true)
     }
 }
 

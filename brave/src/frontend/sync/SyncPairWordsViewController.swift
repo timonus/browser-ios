@@ -10,6 +10,9 @@ class SyncPairWordsViewController: UIViewController {
     var helpLabel: UILabel!
     var codewordsView: SyncCodewordsView!
     
+    // Kind of an odd mechanism for passing this info
+    var deviceName: String?
+    
     var loadingView: UIView!
     let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
     
@@ -154,7 +157,7 @@ class SyncPairWordsViewController: UIViewController {
                 return
             }
             
-            Sync.shared.initializeSync(result)
+            Sync.shared.initializeSync(result, deviceName: self.deviceName)
         }
     }
 }
