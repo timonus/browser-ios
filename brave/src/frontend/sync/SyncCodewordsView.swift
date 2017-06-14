@@ -53,17 +53,17 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         let spaceY: CGFloat = 7
         var x: CGFloat = 0
         var y: CGFloat = 0
-        let w: CGFloat = (UIScreen.mainScreen().bounds.width - spaceX * 4) / 3
+        let w: CGFloat = (bounds.width - spaceX * 4) / 3
         let h: CGFloat = 26
         for i in 0..<fields.count {
             x = x + spaceX
-            if x + w > UIScreen.mainScreen().bounds.width {
+            if x + w > bounds.width {
                 x = spaceX
                 y = y + h + spaceY
             }
             if i == fields.count - 1 {
                 // Center last.
-                x = (UIScreen.mainScreen().bounds.width - w) / 2
+                x = (bounds.width - w) / 2
             }
             // debugPrint("w \(w) x \(x) y\(y)")
             
@@ -82,7 +82,7 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     override func sizeToFit() {
         let field = fields[fields.count - 1]
         var f = frame
-        f.size.width = UIScreen.mainScreen().bounds.width
+        f.size.width = bounds.width
         f.size.height = CGRectGetMaxY(field.frame)
         frame = f
     }

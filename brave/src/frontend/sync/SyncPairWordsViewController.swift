@@ -72,6 +72,7 @@ class SyncPairWordsViewController: UIViewController {
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
             make.height.equalTo(295)
+            make.width.equalTo(self.view)
         }
         
         helpLabel.snp_makeConstraints { (make) in
