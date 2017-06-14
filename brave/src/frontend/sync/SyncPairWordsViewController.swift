@@ -116,6 +116,10 @@ class SyncPairWordsViewController: UIViewController {
         debugPrint("check codes")
         
         func alert(title title: String? = nil, message: String? = nil) {
+            if Sync.shared.isInSyncGroup {
+                // No alert
+                return
+            }
             let title = title ?? "Unable to Connect"
             let message = message ?? "Unable to join sync group. Please check the entered words and try again."
             let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
@@ -139,8 +143,8 @@ class SyncPairWordsViewController: UIViewController {
         self.view.endEditing(true)
         loading()
         
-        // forced timeout
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(25.0) * Int64(NSEC_PER_SEC)), dispatch_get_main_queue(), {
+        // Forced timeout
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(35.0) * Int64(NSEC_PER_SEC)), dispatch_get_main_queue(), {
             loading(false)
             alert()
         })
