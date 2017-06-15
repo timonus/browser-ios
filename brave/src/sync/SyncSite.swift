@@ -40,12 +40,12 @@ public final class SyncSite {
     ///
     /// - parameter json: JSON object from SwiftyJSON.
     public required init(json: JSON?) {
-        customTitle = json?[SerializationKeys.customTitle].asString
-        title = json?[SerializationKeys.title].asString
-        favicon = json?[SerializationKeys.favicon].asString
-        location = json?[SerializationKeys.location].asString
-        creationTime = json?[SerializationKeys.creationTime].asInt
-        lastAccessedTime = json?[SerializationKeys.lastAccessedTime].asInt
+        customTitle = json?[SerializationKeys.customTitle].string
+        title = json?[SerializationKeys.title].string
+        favicon = json?[SerializationKeys.favicon].string
+        location = json?[SerializationKeys.location].string
+        creationTime = json?[SerializationKeys.creationTime].int
+        lastAccessedTime = json?[SerializationKeys.lastAccessedTime].int
     }
     
     /// Generates description of the object in the form of a NSDictionary.

@@ -35,7 +35,6 @@
 		10443C68C8505F7FDDE1C6F2 /* ThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03435436D07EB2E82C401AA6 /* ThumbnailCell.swift */; };
 		10C180E6F7D11D40D45A8F88 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75C80BE236B7505B69C6511 /* History.swift */; };
 		10D0875B5899750ABE8AF0B8 /* ReadingListServerMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDCB9A9BE94C1AA75F29565 /* ReadingListServerMetadata.swift */; };
-		10D3B4433DAA1DFE87703174 /* ExtensionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4437752A4BCEA31464EF010B /* ExtensionUtils.swift */; };
 		10DF79DE9188E0B7D4188CA0 /* HomePanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD27FD57D57C14AE7F1A5D6 /* HomePanelViewController.swift */; };
 		10EAA024996482D72088EBEF /* BrowserViewController+WKUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B38010CBB5F7DD8B2735223 /* BrowserViewController+WKUIDelegate.swift */; };
 		1204E92DCEECF3540EA648CF /* filter_block.cc in Sources */ = {isa = PBXBuildFile; fileRef = C504B043B95B6E6E53B51F03 /* filter_block.cc */; };
@@ -214,6 +213,13 @@
 		5C10DFFE1EEB2BDF00203C93 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C10DF941EE9BF4F00203C93 /* Info.plist */; };
 		5C10DFFF1EEB2BE200203C93 /* Shared-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C10DFC61EEAF1D900203C93 /* Shared-Bridging-Header.h */; };
 		5C10E0001EEB2BF300203C93 /* Storage-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8EF46DEDD284137E2279BB /* Storage-Bridging-Header.h */; };
+		5C10E0C31EEF07DF00203C93 /* SQLiteMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0AF1EEF07D400203C93 /* SQLiteMetadata.swift */; };
+		5C10E0C41EEF07DF00203C93 /* SQLiteHistoryRecommendations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0B01EEF07D400203C93 /* SQLiteHistoryRecommendations.swift */; };
+		5C10E0C51EEF07DF00203C93 /* SQLiteHistoryFactories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0B11EEF07D400203C93 /* SQLiteHistoryFactories.swift */; };
+		5C10E0CE1EEF07F800203C93 /* RecentlyClosedTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C61EEF07F400203C93 /* RecentlyClosedTabs.swift */; };
+		5C10E0CF1EEF07F800203C93 /* PageMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C71EEF07F400203C93 /* PageMetadata.swift */; };
+		5C10E0D01EEF07F800203C93 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C81EEF07F400203C93 /* Metadata.swift */; };
+		5C10E0D11EEF07F800203C93 /* ExtensionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */; };
 		5C32C7B6034B41A9C822555E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE1D74E40F9E392FFCE9F2F /* main.swift */; };
 		5C404E1B2531DC2E178F80F8 /* ReaderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8C87651157C51F01D4D96F /* ReaderPanel.swift */; };
 		5C44C0CF1E3847A100B1FD81 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C44C0C21E38479200B1FD81 /* CoreData.framework */; };
@@ -938,7 +944,6 @@
 		42E7370C905EB0AE722AA0C5 /* block_builder.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = block_builder.cc; path = ./brave/ThirdParty/leveldb/table/block_builder.cc; sourceTree = "<group>"; };
 		430FDA25DAA3C35191998991 /* SwizzlingToHideSharePicker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SwizzlingToHideSharePicker.h; path = ./brave/src/frontend/SwizzlingToHideSharePicker.h; sourceTree = "<group>"; };
 		43D1777F9AA8762221511A28 /* BraveScrollController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BraveScrollController.swift; path = ./brave/src/frontend/BraveScrollController.swift; sourceTree = "<group>"; };
-		4437752A4BCEA31464EF010B /* ExtensionUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = ExtensionUtils.swift; path = ./Utils/ExtensionUtils.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		44A1D7CEF39DC47354E3383E /* ABPFilterLibWrapper.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = ABPFilterLibWrapper.mm; path = ./brave/src/webfilters/ABPFilterLibWrapper.mm; sourceTree = "<group>"; };
 		44B732CC7870DC69264D3197 /* FBSnapshotTestCase-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "FBSnapshotTestCase-Info.plist"; path = "./ThirdParty/FBSnapshotTestCase/FBSnapshotTestCase-Info.plist"; sourceTree = "<group>"; };
 		452C39CD747B928F9CF126B1 /* SearchInputView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SearchInputView.swift; path = ./Client/Frontend/Widgets/SearchInputView.swift; sourceTree = "<group>"; };
@@ -1056,6 +1061,13 @@
 		5C10DFC21EE9C90100203C93 /* HashExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HashExtensions.swift; path = Shared/Extensions/HashExtensions.swift; sourceTree = "<group>"; };
 		5C10DFC31EE9C90100203C93 /* SetExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetExtensions.swift; path = Shared/Extensions/SetExtensions.swift; sourceTree = "<group>"; };
 		5C10DFC61EEAF1D900203C93 /* Shared-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Shared-Bridging-Header.h"; path = "Shared/Shared-Bridging-Header.h"; sourceTree = "<group>"; };
+		5C10E0AF1EEF07D400203C93 /* SQLiteMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLiteMetadata.swift; path = Storage/SQL/SQLiteMetadata.swift; sourceTree = "<group>"; };
+		5C10E0B01EEF07D400203C93 /* SQLiteHistoryRecommendations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLiteHistoryRecommendations.swift; path = Storage/SQL/SQLiteHistoryRecommendations.swift; sourceTree = "<group>"; };
+		5C10E0B11EEF07D400203C93 /* SQLiteHistoryFactories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLiteHistoryFactories.swift; path = Storage/SQL/SQLiteHistoryFactories.swift; sourceTree = "<group>"; };
+		5C10E0C61EEF07F400203C93 /* RecentlyClosedTabs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecentlyClosedTabs.swift; path = Storage/RecentlyClosedTabs.swift; sourceTree = "<group>"; };
+		5C10E0C71EEF07F400203C93 /* PageMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageMetadata.swift; path = Storage/PageMetadata.swift; sourceTree = "<group>"; };
+		5C10E0C81EEF07F400203C93 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Metadata.swift; path = Storage/Metadata.swift; sourceTree = "<group>"; };
+		5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionUtils.swift; path = Storage/ExtensionUtils.swift; sourceTree = "<group>"; };
 		5C39A9721F0FECF98A48015E /* BraveBrowserViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BraveBrowserViewController.swift; path = ./brave/src/frontend/BraveBrowserViewController.swift; sourceTree = "<group>"; };
 		5C44C0C21E38479200B1FD81 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5C44C0D11E384AE700B1FD81 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataController.swift; path = brave/src/data/DataController.swift; sourceTree = "<group>"; };
@@ -2251,6 +2263,10 @@
 		7E05E6D54DEE4A7D2F5C4051 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				5C10E0C61EEF07F400203C93 /* RecentlyClosedTabs.swift */,
+				5C10E0C71EEF07F400203C93 /* PageMetadata.swift */,
+				5C10E0C81EEF07F400203C93 /* Metadata.swift */,
+				5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */,
 				A3A43D91ECCD3E0E4DAAC5F0 /* Bookmarks */,
 				EA9AEBF65F0394D67D7135DC /* CertStore.swift */,
 				19E95A110371DA6DCBFE6EB3 /* Clients.swift */,
@@ -2860,7 +2876,6 @@
 			children = (
 				7A31D3A52214549AEB2B3AF6 /* AboutUtils.swift */,
 				05DE4CC5A534AD91F7BDD7C2 /* DynamicFontHelper.swift */,
-				4437752A4BCEA31464EF010B /* ExtensionUtils.swift */,
 				AADDAA844E92035E243155AA /* FaviconFetcher.swift */,
 				044A09CA3AB626543290E03B /* MenuHelper.swift */,
 				816CE109F94469972C475A8C /* Swizzling.h */,
@@ -3016,6 +3031,9 @@
 		F206877D2439C0DE543791D2 /* SQL */ = {
 			isa = PBXGroup;
 			children = (
+				5C10E0AF1EEF07D400203C93 /* SQLiteMetadata.swift */,
+				5C10E0B01EEF07D400203C93 /* SQLiteHistoryRecommendations.swift */,
+				5C10E0B11EEF07D400203C93 /* SQLiteHistoryFactories.swift */,
 				F187557596215A3C41963EF0 /* BrowserDB.swift */,
 				FB11AE05F20D82A81CDDB0D0 /* BrowserTable.swift */,
 				C4FCC64BEAD27781355801AA /* DeferredDBOperation.swift */,
@@ -3934,11 +3952,14 @@
 				815A4AE3431456563368FCDE /* CachingItemSource.swift in Sources */,
 				617490D0B2A36246C3AE520C /* Trees.swift in Sources */,
 				DB6F105D6978BD4C74D042E1 /* CertStore.swift in Sources */,
+				5C10E0C41EEF07DF00203C93 /* SQLiteHistoryRecommendations.swift in Sources */,
 				9BA1B7040752CAF5BBAB416E /* Clients.swift in Sources */,
+				5C10E0D01EEF07F800203C93 /* Metadata.swift in Sources */,
 				B1D77D25E3AC4F2605A518E1 /* CompletionOps.swift in Sources */,
 				D72F5C6D06CE2CE698BA7DE3 /* Cursor.swift in Sources */,
 				27A77BA035CE5E1E6BDA8A44 /* DatabaseError.swift in Sources */,
 				E74857EF8CE5864799349B87 /* DefaultSuggestedSites.swift in Sources */,
+				5C10E0C31EEF07DF00203C93 /* SQLiteMetadata.swift in Sources */,
 				807DED80523E0126A326727B /* DiskImageStore.swift in Sources */,
 				270142C3D6364478D3CF1CE8 /* Favicons.swift in Sources */,
 				E5F985933155B3E4117AFC18 /* FileAccessor.swift in Sources */,
@@ -3962,16 +3983,19 @@
 				2DA597E7258FBF56677C8BED /* SQLiteBookmarksResetting.swift in Sources */,
 				395AE47342666E8B07D1C1ED /* SQLiteBookmarksSyncing.swift in Sources */,
 				FEE054125202A09D9B35CAB0 /* SQLiteHistory.swift in Sources */,
+				5C10E0C51EEF07DF00203C93 /* SQLiteHistoryFactories.swift in Sources */,
 				14FF09190A6F4A5C98928A83 /* SQLiteLogins.swift in Sources */,
 				38C6079808773B8CF97618FF /* SQLiteQueue.swift in Sources */,
 				DEE9B5332A9B859D6CA0A6C9 /* SQLiteRemoteClientsAndTabs.swift in Sources */,
+				5C10E0CE1EEF07F800203C93 /* RecentlyClosedTabs.swift in Sources */,
 				76A4A0A9ADFBF2A1FA0098C1 /* SyncCommandsTable.swift in Sources */,
 				4DF3CF5669941F5C9031E019 /* SuggestedSites.swift in Sources */,
 				759CCF8C1F35C49E34CD60A0 /* Syncable.swift in Sources */,
+				5C10E0CF1EEF07F800203C93 /* PageMetadata.swift in Sources */,
 				B8D98177EF45872E5DBFF377 /* SyncQueue.swift in Sources */,
 				4FC949269A0D93381345F653 /* SwiftData.swift in Sources */,
+				5C10E0D11EEF07F800203C93 /* ExtensionUtils.swift in Sources */,
 				4649D0E412F24DB5EB918AD5 /* Visit.swift in Sources */,
-				10D3B4433DAA1DFE87703174 /* ExtensionUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

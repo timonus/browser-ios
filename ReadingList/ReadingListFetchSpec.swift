@@ -14,7 +14,7 @@ class ReadingListFetchSpec {
     }
 
     func getURL(serviceURL: URL) -> URL? {
-        if let components = URLComponents(url: serviceURL, resolvingAgainstBaseURL: true) {
+        if var components = URLComponents(url: serviceURL, resolvingAgainstBaseURL: true) {
             components.query = queryString
             return components.url
         }
@@ -22,7 +22,7 @@ class ReadingListFetchSpec {
     }
 
     func getURL(serviceURL: URL, path: String) -> URL? {
-        if let components = URLComponents(url: serviceURL, resolvingAgainstBaseURL: true) {
+        if var components = URLComponents(url: serviceURL, resolvingAgainstBaseURL: true) {
             components.path = path
             components.query = queryString
             return components.url
@@ -33,7 +33,7 @@ class ReadingListFetchSpec {
     // This should really generate a dictionary of values that we can pass to NSURLComponents instead of building the query string by hand
 
     class Builder {
-        var buffer = ""
+        var buffer: String = ""
         var first = true
 
         func build() -> ReadingListFetchSpec {
@@ -75,12 +75,12 @@ class ReadingListFetchSpec {
         }
 
         func setMinAttribute(_ attribute: String, value: String) -> Builder {
-            qualifyAttribute(attribute, withQualifier: "min_", value: value)
+            _ = qualifyAttribute(attribute, withQualifier: "min_", value: value)
             return self
         }
 
         func setMaxAttribute(_ attribute: String, value: String) -> Builder {
-            qualifyAttribute(attribute, withQualifier: "max_", value: value)
+            _ = qualifyAttribute(attribute, withQualifier: "max_", value: value)
             return self
         }
     }

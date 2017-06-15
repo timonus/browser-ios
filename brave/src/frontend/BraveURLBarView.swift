@@ -9,7 +9,7 @@ extension UILabel {
         if let text = self.attributedText {
             let attr = NSMutableAttributedString(attributedString: text)
             let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
-            let length = <#T##String.CharacterView corresponding to your index##String.CharacterView#>.distance(from: range.lowerBound, to: range.upperBound)
+            let length = range.distance(from: range.lowerBound, to: range.upperBound)
             attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: self.font.pointSize)], range: NSMakeRange(start, length))
             self.attributedText = attr
         }

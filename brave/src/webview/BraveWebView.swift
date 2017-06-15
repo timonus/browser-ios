@@ -91,7 +91,7 @@ class BrowserTabToUAMapper {
             // the first created webview doesn't have this id set (see webviewBuiltinUserAgent to explain)
             return idToBrowserTab.object(forKey: 1) as? Browser
         }
-        let keyString = ua.substring(with: loc.upperBound..<<#T##String.CharacterView corresponding to your index##String.CharacterView#>.index(loc.upperBound, offsetBy: 6))
+        let keyString = ua.substring(with: loc.upperBound..<loc.index(loc.upperBound, offsetBy: 6))
         guard let key = Int(keyString) else { return nil }
         return idToBrowserTab.object(forKey: key) as? Browser
     }
