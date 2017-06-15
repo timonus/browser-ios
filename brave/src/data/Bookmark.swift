@@ -160,25 +160,25 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         // Must assign both, in cae parentFolder does not exist, need syncParentUUID to attach later
         bk.parentFolder = parentFolder
         bk.syncParentUUID = bookmark?.parentFolderObjectId ?? bk.syncParentUUID
+
+        // For folders that are saved _with_ a syncUUID, there may be child bookmarks
+        //  (e.g. sync sent down bookmark before parent folder)
+        if bk.isFolder {
+            // Find all children and attach them
+            if let children = Bookmark.getChildren(forFolderUUID: bk.syncUUID, context: context) {
+                
+                // TODO: Setup via bk.children property instead
+                children.forEach { $0.parentFolder = bk }
+            }
+        }
         
         if save {
-            // For folders that are saved _with_ a syncUUID, there may be child bookmarks
-            //  (e.g. sync sent down bookmark before parent folder)
-            if bk.isFolder {
-                // Find all children and attach them
-                if let children = Bookmark.getChildren(forFolderUUID: bk.syncUUID, context: context) {
-                    
-                    // TODO: Setup via bk.children property instead
-                    children.forEach { $0.parentFolder = bk }
-                }
-            }
-            
-            // Submit to server
-            if sendToSync {
-                Sync.shared.sendSyncRecords(.bookmark, action: .create, records: [bk])
-            }
-            
             DataController.saveContext(context)
+        }
+        
+        if sendToSync {
+            // Submit to server
+            Sync.shared.sendSyncRecords(.bookmark, action: .create, records: [bk])
         }
         
         return bk
