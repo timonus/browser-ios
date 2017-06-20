@@ -662,7 +662,6 @@ class BrowserViewController: UIViewController {
         }
     }
 
-    
     func finishEditingAndSubmit(url: NSURL) {
         guard let tab = tabManager.selectedTab else {
             return

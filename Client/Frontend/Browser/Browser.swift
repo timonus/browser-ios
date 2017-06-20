@@ -380,13 +380,15 @@ class Browser: NSObject, BrowserWebViewDelegate {
         }
         return largest ?? self.sessionData?.currentFavicon
     }
-
+    
     var url: NSURL? {
-        guard let resolvedURL = webView?.URL ?? lastRequest?.URL else {
-            guard let sessionData = sessionData else { return nil }
-            return sessionData.urls.last
+        get {
+            guard let resolvedURL = webView?.URL ?? lastRequest?.URL else {
+                guard let sessionData = sessionData else { return nil }
+                return sessionData.urls.last
+            }
+            return resolvedURL
         }
-        return resolvedURL
     }
 
     var displayURL: NSURL? {
@@ -462,7 +464,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
             lastRequest = request
             webView.loadRequest(request)
             return DangerousReturnWKNavigation.emptyNav
-          }
+        }
         return nil
     }
 
