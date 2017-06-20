@@ -1,8 +1,6 @@
-Description:
+- Did you search for similar issues before submitting this one?
 
-**Did you search for similar issues before submitting this one?**
-
-**Expected behavior:**
+- Description:
 
 - Device (iPhone5, iPhone6s plus, iPad 3, ?):
 
@@ -13,9 +11,24 @@ Description:
     2.
     3.
 
-** Website problems only:
-- did you check with Brave Shields down?
-- did you check in Puffin/Dolphin/iCab/Maxthon (UIWebView-based browsers)?
+- Actual Behavior
+
+- Expected Behavior
+
+- Is this an issue with Beta build?
+
+- Is this an issue in the currently released version?
+
+- Can this issue be consistently reproduced?
+
+- Extra QA steps:
+    1. 
+    2. 
+    3.
+
+- Website problems only: 
+- did you check with Brave Shields down? 
+- did you check in Puffin/Dolphin/iCab/Firefox (UIWebView-based browsers)? 
 
 - Screenshot if needed:
 
