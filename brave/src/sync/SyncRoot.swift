@@ -66,11 +66,11 @@ public final class SyncRoot {
     /// - parameter json: JSON object from SwiftyJSON.
     public required init(json: JSON?) {
         // objectId can come in two different formats
-        if let items = json?[SerializationKeys.objectId].asArray { objectId = items.map { $0.asInt ?? 0 } }
-        if let items = json?[SerializationKeys.deviceId].asArray { deviceId = items.map { $0.asInt ?? 0 } }
-        action = json?[SerializationKeys.action].asInt
+        if let items = json?[SerializationKeys.objectId].array { objectId = items.map { $0.intValue } }
+        if let items = json?[SerializationKeys.deviceId].array { deviceId = items.map { $0.intValue } }
+        action = json?[SerializationKeys.action].int
         bookmark = SyncBookmark(json: json?[SerializationKeys.bookmark])
-        objectData = json?[SerializationKeys.objectData].asString
+        objectData = json?[SerializationKeys.objectData].string
     }
     
     /// Generates description of the object in the form of a NSDictionary.

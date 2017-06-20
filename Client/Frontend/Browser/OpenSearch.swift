@@ -97,7 +97,7 @@ class OpenSearchEngine {
         if let escapedQuery = query.addingPercentEncoding(withAllowedCharacters: allowedCharacters) {
             // Escape the search template as well in case it contains not-safe characters like symbols
             let templateAllowedSet = NSMutableCharacterSet()
-            templateAllowedSet.formUnionWithCharacterSet(CharacterSet.URLAllowedCharacterSet())
+            templateAllowedSet.formUnion(with: CharacterSet.URLAllowedCharacterSet())
 
             // Allow brackets since we use them in our template as our insertion point
             templateAllowedSet.formUnion(with: CharacterSet(charactersIn: "{}"))

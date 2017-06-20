@@ -14,7 +14,7 @@ extension BrowserViewController: WKCompatNavigationDelegate {
             // remove the open in overlay view if it is present
             removeOpenInView()
         #endif
-        updateFindInPageVisibility(visible: false)
+        updateFindInPageVisibility(false)
 
         // If we are going to navigate to a new page, hide the reader mode button. Unless we
         // are going to a about:reader page. Then we keep it on screen: it will change status
@@ -108,7 +108,7 @@ extension BrowserViewController: WKCompatNavigationDelegate {
                                          buttons: [
                                             SnackButton(title: "Open", accessibilityIdentifier: "", callback: { bar in
                                                 self.tabManager.selectedTab?.removeSnackbar(bar)
-                                                UIApplication.sharedApplication().openURL(url)
+                                                UIApplication.shared.openURL(url)
                                             }),
                                             SnackButton(title: "Not now", accessibilityIdentifier: "", callback: { bar in
                                                 self.tabManager.selectedTab?.removeSnackbar(bar)
@@ -176,7 +176,7 @@ extension BrowserViewController: WKCompatNavigationDelegate {
             return
         }
 
-        History.add(title: title, url: historyUrl)
+        History.add(title, url: historyUrl)
         //history.setTopSitesNeedsInvalidation()
     }
 

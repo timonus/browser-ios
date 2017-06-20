@@ -100,8 +100,8 @@ class BraveApp {
         #if !TEST
             //  these quiet the logging from the core of fx ios
             // GCDWebServer.setLogLevel(5)
-            Logger.syncLogger.setup(.None)
-            Logger.browserLogger.setup(.None)
+            Logger.syncLogger.setup(level: .none)
+            Logger.browserLogger.setup(level: .none)
         #endif
 
         #if DEBUG
@@ -141,12 +141,11 @@ class BraveApp {
                 }
             }
         }
-        if args.contains("BRAVE-UI-TEST") || AppConstants.IsRunningTestNonUI {
+        if args.contains("BRAVE-UI-TEST") || AppConstants.IsRunningTest {
             // Maybe we will need a specific flag to keep tabs for restoration testing
             BraveApp.isSafeToRestoreTabs = false
-            AppConstants.IsRunningUITest = !AppConstants.IsRunningTestNonUI
             
-            if args.filter({ $0.startsWith("BRAVE") }).count == 1 || AppConstants.IsRunningTestNonUI { // only contains 1 arg
+            if args.filter({ $0.startsWith("BRAVE") }).count == 1 || AppConstants.IsRunningTest { // only contains 1 arg
                 BraveApp.getPrefs()!.setInt(1, forKey: IntroViewControllerSeenProfileKey)
                 BraveApp.getPrefs()!.setInt(1, forKey: BraveUX.PrefKeyOptInDialogWasSeen)
             }
@@ -170,7 +169,7 @@ class BraveApp {
 
         Domain.loadShieldsIntoMemory {
             guard let shieldState = getApp().tabManager.selectedTab?.braveShieldStateSafeAsync.get() else { return }
-            if let wv = getCurrentWebView(), let url = wv.URL, let dbState = BraveShieldState.perNormalizedDomain[url.normalizedHost()], shieldState.isNotSet() {
+            if let wv = getCurrentWebView(), let url = wv.URL, let dbState = BraveShieldState.perNormalizedDomain[url.normalizedHost!], shieldState.isNotSet() {
                 // on init, the webview's shield state doesn't match the db
                 getApp().tabManager.selectedTab?.braveShieldStateSafeAsync.set(dbState)
                 wv.reloadFromOrigin()
@@ -283,7 +282,7 @@ extension BraveApp {
             }
             return
         }
-        let task = URLSession.sharedSession().dataTaskWithURL(url) {
+        let task = URLSession.shared.dataTask(with: url) {
             (_, _, error) in
             if let e = error { NSLog("status update error: \(e)") }
         }

@@ -63,8 +63,8 @@ class MigrateData: NSObject {
     }
     
     fileprivate func hasOldDb() -> Bool {
-        let file = ((try! files.getAndEnsureDirectory()) as NSString).stringByAppendingPathComponent("browser.db")
-        let status = sqlite3_open_v2(file.cStringUsingEncoding(String.Encoding.utf8)!, &db, SQLITE_OPEN_READONLY, nil)
+        let file = ((try! files.getAndEnsureDirectory()) as NSString).appendingPathComponent("browser.db")
+        let status = sqlite3_open_v2(file.cString(using: String.Encoding.utf8)!, &db, SQLITE_OPEN_READONLY, nil)
         if status != SQLITE_OK {
             debugPrint("Error: Opening Database with Flags")
             return false
@@ -111,7 +111,7 @@ class MigrateData: NSObject {
                 let url = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 0))) ?? ""
                 let title = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 1))) ?? ""
                 
-                History.add(title: title, url: URL(string: url)!)
+                History.add(title, url: URL(string: url)!)
             }
         } else {
             debugPrint("SELECT statement could not be prepared")
@@ -170,7 +170,7 @@ class MigrateData: NSObject {
                 
                 if let domain = domainFaviconHash[id] {
                     if let url = domain.url {
-                        FaviconMO.add(favicon: favicon, forSiteUrl: URL(string: url)!)
+                        FaviconMO.add(favicon, forSiteUrl: URL(string: url)!)
                     }
                 }
             }

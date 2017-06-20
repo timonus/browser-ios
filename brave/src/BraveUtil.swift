@@ -160,7 +160,7 @@ func stripLocalhostWebServer(_ url: String?) -> String {
     let token = "?url="
     let range = url.range(of: token)
     if let range = range {
-        return url.substring(from: range.upperBound).stringByRemovingPercentEncoding ?? ""
+        return url.substring(from: range.upperBound).removingPercentEncoding ?? ""
     } else {
         return url
     }
@@ -173,7 +173,7 @@ func stripGenericSubdomainPrefixFromUrl(_ url: String) -> String {
 func addSkipBackupAttributeToItemAtURL(_ url:URL) {
     let fileManager = FileManager.default
     #if DEBUG
-    assert(fileManager.fileExistsAtPath(url.path!))
+    assert(fileManager.fileExists(atPath: url.path))
     #endif
 
     do {
@@ -205,8 +205,8 @@ func getBestFavicon(_ favicons: [Favicon]) -> Favicon? {
             func extractNumberFromUrl(_ url: String) -> Int? {
                 var end = (url as NSString).lastPathComponent
                 end = end.regexReplacePattern("\\D", with: " ")
-                var parts = end.componentsSeparatedByString(" ")
-                for i in (0..<parts.count).reverse() {
+                var parts = end.components(separatedBy: " ")
+                for i in (0..<parts.count).reversed() {
                     if let result = Int(parts[i]) {
                         return result
                     }
@@ -226,19 +226,19 @@ func getBestFavicon(_ favicons: [Favicon]) -> Favicon? {
 
 #if DEBUG
 func report_memory() {
-    let MACH_TASK_BASIC_INFO_COUNT = (sizeof(mach_task_basic_info_data_t) / sizeof(natural_t))
-    let name   = mach_task_self_
-    let flavor = task_flavor_t(MACH_TASK_BASIC_INFO)
-    var size   = mach_msg_type_number_t(MACH_TASK_BASIC_INFO_COUNT)
-    let infoPointer = UnsafeMutablePointer<mach_task_basic_info>.alloc(1)
-    let kerr = task_info(name, flavor, UnsafeMutablePointer(infoPointer), &size)
-    let info = infoPointer.move()
-    infoPointer.dealloc(1)
-    if kerr == KERN_SUCCESS {
-        print("Memory in use (in MB): \(info.resident_size/1000000)")
-    } else {
-        let errorString = String(CString: mach_error_string(kerr), encoding: NSASCIIStringEncoding)
-        print(errorString ?? "Error: couldn't parse error string")
-    }
+//    let MACH_TASK_BASIC_INFO_COUNT = (sizeof(mach_task_basic_info_data_t) / sizeof(natural_t))
+//    let name   = mach_task_self_
+//    let flavor = task_flavor_t(MACH_TASK_BASIC_INFO)
+//    var size   = mach_msg_type_number_t(MACH_TASK_BASIC_INFO_COUNT)
+//    let infoPointer = UnsafeMutablePointer<mach_task_basic_info>.allocate(capacity: 1)
+//    let kerr = task_info(name, flavor, UnsafeMutablePointer.withMemoryRebound(infoPointer), &size)
+//    let info = infoPointer.move()
+//    infoPointer.deallocate(capacity: 1)
+//    if kerr == KERN_SUCCESS {
+//        print("Memory in use (in MB): \(info.resident_size/1000000)")
+//    } else {
+//        let errorString = String(CString: mach_error_string(kerr), encoding: String.Encoding.ascii)
+//        print(errorString)
+//    }
 }
 #endif

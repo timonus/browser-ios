@@ -68,7 +68,7 @@ extension BrowserViewController {
 
                     #if BRAVE
                         // this is not really correct, the original code is ignoring the navigation
-                        webView.loadRequest(NSURLRequest(URL: readerModeURL))
+                        webView.loadRequest(URLRequest(url: readerModeURL))
                     #else
                         if let nav = webView.loadRequest(URLRequest(url: readerModeURL)) {
                             self.ignoreNavigationInTab(tab, navigation: nav)
@@ -99,7 +99,7 @@ extension BrowserViewController {
                     } else {
                         #if BRAVE
                             // this is not really correct, the original code is ignoring the navigation
-                            webView.loadRequest(NSURLRequest(URL: originalURL))
+                            webView.loadRequest(URLRequest(url: originalURL))
                         #else
                             if let nav = webView.loadRequest(URLRequest(url: originalURL)) {
                                 self.ignoreNavigationInTab(tab, navigation: nav)
@@ -116,7 +116,7 @@ extension BrowserViewController {
 
         var readerModeStyle = DefaultReaderModeStyle
         if let dict = profile.prefs.dictionaryForKey(ReaderModeProfileKeyStyle) {
-            if let style = ReaderModeStyle(dict: dict) {
+            if let style = ReaderModeStyle(dict: dict as [String : AnyObject]) {
                 readerModeStyle = style
             }
         }
@@ -134,7 +134,7 @@ extension BrowserViewController: ReaderModeBarViewDelegate {
         }
         var readerModeStyle = DefaultReaderModeStyle
         if let dict = profile.prefs.dictionaryForKey(ReaderModeProfileKeyStyle) {
-            if let style = ReaderModeStyle(dict: dict) {
+            if let style = ReaderModeStyle(dict: dict as [String : AnyObject]) {
                 readerModeStyle = style
             }
         }

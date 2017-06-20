@@ -129,7 +129,7 @@ class TabsButton: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func clone() -> UIView {
+    func clone() -> UIView {
         let button = TabsButton()
 
         button.accessibilityLabel = accessibilityLabel

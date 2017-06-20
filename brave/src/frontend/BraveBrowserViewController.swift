@@ -75,11 +75,11 @@ class BraveBrowserViewController : BrowserViewController {
     func updateBraveShieldButtonState(_ animated: Bool) {
         guard let s = tabManager.selectedTab?.braveShieldStateSafeAsync.get() else { return }
         let up = s.isNotSet() || !s.isAllOff()
-        (urlBar as! BraveURLBarView).setBraveButtonState(shieldsUp: up, animated: animated)
+        (urlBar as! BraveURLBarView).setBraveButtonState(up, animated: animated)
     }
 
     override func selectedTabChanged(_ selected: Browser) {
-        historySwiper.setup(topLevelView: self.view, webViewContainer: self.webViewContainer)
+        historySwiper.setup(self.view, webViewContainer: self.webViewContainer)
         for swipe in [historySwiper.goBackSwipe, historySwiper.goForwardSwipe] {
             selected.webView?.scrollView.panGestureRecognizer.require(toFail: swipe)
             scrollController.panGesture.require(toFail: swipe)
@@ -134,14 +134,14 @@ class BraveBrowserViewController : BrowserViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        webViewContainerTopOffset?.updateOffset(BraveURLBarView.CurrentHeight)
-        heightConstraint?.updateOffset(-BraveApp.statusBarHeight())
+        webViewContainerTopOffset?.updateOffset(amount: BraveURLBarView.CurrentHeight)
+        heightConstraint?.updateOffset(amount: -BraveApp.statusBarHeight())
     }
     
     override func updateToolbarStateForTraitCollection(_ newCollection: UITraitCollection) {
         super.updateToolbarStateForTraitCollection(newCollection)
 
-        heightConstraint?.updateOffset(-BraveApp.statusBarHeight())
+        heightConstraint?.updateOffset(amount: -BraveApp.statusBarHeight())
 
         postAsyncToMain(0) {
             self.urlBar.updateTabsBarShowing()
@@ -149,7 +149,7 @@ class BraveBrowserViewController : BrowserViewController {
     }
 
     override func showHomePanelController(_ inline:Bool) {
-        super.showHomePanelController(inline: inline)
+        super.showHomePanelController(inline)
         postAsyncToMain(0.1) {
             if UIResponder.currentFirstResponder() == nil {
                 self.becomeFirstResponder()

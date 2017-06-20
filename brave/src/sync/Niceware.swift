@@ -35,14 +35,14 @@ class Niceware: JSInjector {
     /// Used to retrive unique bytes for UUIDs (e.g. bookmarks), that will map well with niceware
     /// count: The number of unique bytes desired
     /// returns (via completion): Array of unique bytes
-    func uniqueBytes(count byteCount: Int, completion: @escaping (([Int]?, NSError?) -> Void)) {
+    func uniqueBytes(count byteCount: Int, completion: @escaping (([Int]?, Error?) -> Void)) {
         // TODO: Add byteCount validation (e.g. must be even)
         
         executeBlockOnReady {
             self.nicewareWebView.evaluateJavaScript("JSON.stringify(niceware.passphraseToBytes(niceware.generatePassphrase(\(byteCount))))") { (result, error) in
                 
-                let bytes = JSONSerialization.swiftObject(withJSON: result as AnyObject)?["data"] as? [Int]
-                completion(bytes, error as! NSError)
+                let bytes = JSON(result ?? []).array?.map({ $0.intValue })
+                completion(bytes, error)
             }
         }
     }
@@ -51,7 +51,7 @@ class Niceware: JSInjector {
     /// fromBytes: Array of hex strings (no "0x" prefix) : ["00", "ee", "4a", "42"]
     /// returns (via completion): Array of words from niceware that map to those hex values : ["administrational", "experimental"]
     // TODO: Massage data a bit more for completion block
-    func passphrase(fromBytes bytes: [Int], completion: @escaping (([String]?, NSError?) -> Void)) {
+    func passphrase(fromBytes bytes: [Int], completion: @escaping (([String]?, Error?) -> Void)) {
         
         executeBlockOnReady {
             
@@ -75,7 +75,7 @@ class Niceware: JSInjector {
     }
     
     /// Takes joined string of unique hex bytes (e.g. from QR code) and returns
-    func passphrase(fromJoinedBytes bytes: String, completion: @escaping (([String]?, NSError?) -> Void)) {
+    func passphrase(fromJoinedBytes bytes: String, completion: @escaping (([String]?, Error?) -> Void)) {
         if let split = splitBytes(fromJoinedBytes: bytes) {
             return passphrase(fromBytes: split, completion: completion)
         }
@@ -135,7 +135,7 @@ class Niceware: JSInjector {
             self.nicewareWebView.evaluateJavaScript(jsToExecute, completionHandler: {
                 (result, error) in
                 
-                let bytes = JSONSerialization.swiftObject(withJSON: result as AnyObject)?["data"] as? [Int]
+                let bytes = JSON(result ?? []).array?.map({ $0.intValue })
                 completion?(bytes, error as! NSError)
             })
         }

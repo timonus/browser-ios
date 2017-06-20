@@ -95,7 +95,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
             }
 
             postAsyncToMain(0.2) { // update the UI, wait a bit for loading to have started
-                (getApp().browserViewController as! BraveBrowserViewController).updateBraveShieldButtonState(animated: false)
+                (getApp().browserViewController as! BraveBrowserViewController).updateBraveShieldButtonState(false)
             }
         }
 
@@ -167,7 +167,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
     class func toTab(_ browser: Browser) -> RemoteTab? {
         if let displayURL = browser.displayURL {
             let hl = browser.historyList;
-            let history = Array(hl.filter(RemoteTab.shouldIncludeURL).reverse())
+            let history = Array(hl.filter(RemoteTab.shouldIncludeURL).reversed())
             return RemoteTab(clientGUID: nil,
                 URL: displayURL,
                 title: browser.displayTitle,
@@ -175,7 +175,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
                 lastUsed: NSDate.now(),
                 icon: nil)
         } else if let sessionData = browser.sessionData, !sessionData.urls.isEmpty {
-            let history = Array(sessionData.urls.filter(RemoteTab.shouldIncludeURL).reverse())
+            let history = Array(sessionData.urls.filter(RemoteTab.shouldIncludeURL).reversed())
             if let displayURL = history.first {
                 return RemoteTab(clientGUID: nil,
                     URL: displayURL,
@@ -370,10 +370,10 @@ class Browser: NSObject, BrowserWebViewDelegate {
         var width = 0
         var largest: Favicon?
         for icon in favicons {
-            if icon.0 != webView?.URL?.normalizedHost() {
+            if icon.0 != webView?.URL?.normalizedHost {
                 continue
             }
-            if icon.1.width > width {
+            if icon.1.width! > width {
                 width = icon.1.width!
                 largest = icon.1
             }
@@ -619,7 +619,7 @@ private class HelperManager: NSObject, WKScriptMessageHandler {
 
     func removeHelper<T>(_ classType: T.Type) {
         if let t = T.self as? BrowserHelper.Type, let name = t.scriptMessageHandlerName() {
-            webView?.configuration.userContentController.removeScriptMessageHandler(name: name)
+            webView?.configuration.userContentController.removeScriptMessageHandler(name)
         }
         helpers.removeValue(forKey: "\(classType)")
     }

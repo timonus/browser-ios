@@ -160,7 +160,7 @@ class HistoryClearable: Clearable {
         History.deleteAll {
             SDImageCache.shared().clearDisk()
             SDImageCache.shared().clearMemory()
-            NotificationCenter.defaultCenter().postNotificationName(NotificationPrivateDataClearedHistory, object: nil)
+            NotificationCenter.default.post(name: NotificationPrivateDataClearedHistory, object: nil)
             result.fill(Maybe<()>(success: ()))
         }
         return result

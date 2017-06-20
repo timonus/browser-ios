@@ -80,7 +80,7 @@ class TabWidget : UIView {
         [close, title, separatorLine].forEach { addSubview($0) }
 
         close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
-        close.snp_makeConstraints(closure: { (make) in
+        close.snp_makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
             make.left.equalTo(self).inset(4)
             make.width.equalTo(24)
@@ -185,7 +185,7 @@ class TabWidget : UIView {
 
 extension TabWidget : WebPageStateDelegate {
     func webView(_ webView: UIWebView, urlChanged: String) {
-        if let t = browser?.url?.baseDomain(),  title.titleLabel?.text?.isEmpty ?? true {
+        if let t = browser?.url?.baseDomain,  title.titleLabel?.text?.isEmpty ?? true {
             setTitle(t)
         }
 
@@ -217,14 +217,14 @@ extension TabWidget {
             make.top.equalTo(0)
         }
 
-        spacerRight.snp_remakeConstraints("spacer: \(title.titleLabel?.text) ", closure:
+        spacerRight.snp_remakeConstraints("spacer: \(title.titleLabel?.text) ")
             { (make) in
                 make.top.equalTo(scrollView)
                 make.height.equalTo(tabHeight)
                 make.left.equalTo(snp_right)
                 make.width.equalTo(0)
                 make.top.equalTo(0)
-        })
+        }
     }
 
     func longPress(_ g: UILongPressGestureRecognizer) {

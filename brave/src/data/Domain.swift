@@ -33,7 +33,7 @@ class Domain: NSManagedObject {
 
     // Always use this function to save or lookup domains in the table
     class func domainAndScheme(fromUrl url: URL?) -> String {
-        let domainUrl = (url?.scheme ?? "http") + "://" + (url?.normalizedHost() ?? "")
+        let domainUrl = (url?.scheme ?? "http") + "://" + (url?.normalizedHost ?? "")
         return domainUrl
     }
 
@@ -106,12 +106,12 @@ class Domain: NSManagedObject {
         let domain = Domain.getOrCreateForUrl(url, context: context)
         let shield = state.0
         switch (shield) {
-            case .AllOff: domain?.shield_allOff = state.1 as! NSNumber
-            case .AdblockAndTp: domain?.shield_adblockAndTp = state.1 as! NSNumber
-            case .HTTPSE: domain?.shield_httpse = state.1 as! NSNumber
-            case .SafeBrowsing: domain?.shield_safeBrowsing = state.1 as! NSNumber
-            case .FpProtection: domain?.shield_fpProtection = state.1 as! NSNumber
-            case .NoScript: domain?.shield_noScript = state.1 as! NSNumber
+            case .AllOff: domain?.shield_allOff = state.1 as NSNumber?
+            case .AdblockAndTp: domain?.shield_adblockAndTp = state.1 as NSNumber?
+            case .HTTPSE: domain?.shield_httpse = state.1 as NSNumber?
+            case .SafeBrowsing: domain?.shield_safeBrowsing = state.1 as NSNumber?
+            case .FpProtection: domain?.shield_fpProtection = state.1 as NSNumber?
+            case .NoScript: domain?.shield_noScript = state.1 as NSNumber?
         }
         DataController.saveContext(context)
     }
@@ -128,7 +128,7 @@ class Domain: NSManagedObject {
                 for obj in results {
                     let domain = obj as! Domain
                     guard let urlString = domain.url, let url = URL(string: urlString) else { continue }
-                    let normalizedUrl = url.normalizedHost()
+                    let normalizedUrl = url.normalizedHost ?? ""
 
                     print(normalizedUrl)
                     if let shield = domain.shield_allOff {

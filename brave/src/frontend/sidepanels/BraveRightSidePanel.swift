@@ -59,7 +59,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     let screenHeightRequiredForSectionHeader = CGFloat(600)
 
     override var canShow: Bool {
-        let site = BraveApp.getCurrentWebView()?.URL?.normalizedHost()
+        let site = BraveApp.getCurrentWebView()?.URL?.normalizedHost
         return site != nil
     }
 
@@ -164,8 +164,8 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             $0.removeFromSuperview()
         }
         sections.forEach { containerView.addSubview($0) }
-        sections.enumerate().forEach { i, section in
-            section.snp_makeConstraints(closure: { (make) in
+        sections.enumerated().forEach { i, section in
+            section.snp_makeConstraints({ (make) in
                 make.left.right.equalTo(section.superview!)
 
                 if i == 0 {
@@ -173,8 +173,8 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                     // Updated dynamically, setting to 0 just to setup height constraint
                     headerContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
                 } else if section !== sections.last {
-                    make.top.equalTo(sections[i - 1].snp_bottom)
-                    make.bottom.equalTo(sections[i + 1].snp_top)
+                    make.top.equalTo(sections[i - 1].snp.bottom)
+                    make.bottom.equalTo(sections[i + 1].snp.top)
                 }
 
                 if section === siteNameContainer {
@@ -346,7 +346,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             }
 
             rows.enumerated().forEach { i, row in
-                row.snp_remakeConstraints(closure: { (make) in
+                row.snp_remakeConstraints({ (make) in
                     make.left.right.equalTo(row.superview!).inset(ui_edgeInset)
                     if i == 0 {
                         make.height.equalTo(ui_togglesContainerRowHeight)
@@ -409,7 +409,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                     make.width.equalTo(40)
                 }
 
-                label.snp_makeConstraints(closure: { (make) in
+                label.snp_makeConstraints({ (make) in
                     make.left.equalTo(stat.snp_right).offset(6 + 14)
                     make.centerY.equalTo(stat)
                     make.right.equalTo(label.superview!.snp_right)
@@ -443,13 +443,13 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             } else {
                 // state matches the prefs setting
                 let pref = BraveApp.getPrefs()?.boolForKey(globalPrefKey) ?? globalPrefDefaultValue
-                if sender.on != pref {
+                if sender.isOn != pref {
                     state = sender.isOn
                 }
             }
 
             BraveShieldState.set(forDomain:site, state: (siteShieldKey, state))
-            (getApp().browserViewController as! BraveBrowserViewController).updateBraveShieldButtonState(animated: true)
+            (getApp().browserViewController as! BraveBrowserViewController).updateBraveShieldButtonState(true)
             BraveApp.getCurrentWebView()?.reload()
         }
 
@@ -476,7 +476,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         let current = stripLocalhostWebServer(BraveApp.getCurrentWebView()?.URL?.absoluteString ?? "")
         guard let url = URL(string:current) else { return }
         // hostName will generally be "localhost" if home page is showing, so checking home page
-        siteName.text = isShowingShieldOverview() ? "" : url.normalizedHost()
+        siteName.text = isShowingShieldOverview() ? "" : url.normalizedHost
 
         shieldToggle.isEnabled = !isShowingShieldOverview()
         
@@ -490,8 +490,8 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             toggleBlockAds.isOn = state?.isOnAdBlockAndTp() ?? AdBlocker.singleton.isNSPrefEnabled
             toggleHttpse.isOn = state?.isOnHTTPSE() ?? HttpsEverywhere.singleton.isNSPrefEnabled
             toggleBlockMalware.isOn = state?.isOnSafeBrowsing() ?? SafeBrowsing.singleton.isNSPrefEnabled
-            toggleBlockScripts.on = state?.isOnScriptBlocking() ?? (BraveApp.getPrefs()?.boolForKey(kPrefKeyNoScriptOn) ?? false)
-            toggleBlockFingerprinting.on = state?.isOnFingerprintProtection() ?? (BraveApp.getPrefs()?.boolForKey(kPrefKeyFingerprintProtection) ?? false)
+            toggleBlockScripts.isOn = state?.isOnScriptBlocking() ?? (BraveApp.getPrefs()?.boolForKey(kPrefKeyNoScriptOn) ?? false)
+            toggleBlockFingerprinting.isOn = state?.isOnFingerprintProtection() ?? (BraveApp.getPrefs()?.boolForKey(kPrefKeyFingerprintProtection) ?? false)
         } else {
             views_toggles.forEach { $0.isOn = false }
         }

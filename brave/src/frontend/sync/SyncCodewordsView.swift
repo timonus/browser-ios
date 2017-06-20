@@ -9,7 +9,7 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     let DefaultBorderWidth: CGFloat = 0.0
     let SelectedBorderWidth: CGFloat = 0.5
     
-    let DefaultBorderColor = UIColor(rgb: 0x696969).CGColor
+    let DefaultBorderColor = UIColor(rgb: 0x696969).cgColor
     
     var doneKeyCallback: (() -> Void)?
     
@@ -45,7 +45,9 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     }
     
     func codeWords() -> [String] {
-        return fields.map { $0.text?.withoutSpaces }.filter { $0?.characters.count > 0 }.flatMap { $0 }
+        return [""]
+        // TODO: Need `.withoutSpaces`
+//        return fields.map { $0.text?.withoutSpaces }.filter { $0?.characters.count > 0 }.flatMap { $0 }
     }
     
     override func layoutSubviews() {
@@ -117,7 +119,8 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         }
         
         // Filter out whitespace and apply change to current text
-        let result = (text as NSString).stringByReplacingCharactersInRange(range, withString: string.withoutSpaces)
+        // TODO: Need to add `.withoutWhitespace`
+        let result = text.replacingCharacters(in: range, with: string)
         
         // Manually apple text to have better control over what is being entered
         //  Could use this for custom autocomplete for pre-defined keywords

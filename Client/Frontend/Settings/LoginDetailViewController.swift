@@ -62,8 +62,8 @@ class LoginDetailViewController: UIViewController {
         self.profile = profile
         super.init(nibName: nil, bundle: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginDetailViewController.SELwillShowMenuController), name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginDetailViewController.SELwillHideMenuController), name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginDetailViewController.SELwillShowMenuController), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginDetailViewController.SELwillHideMenuController), name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -300,12 +300,12 @@ extension LoginDetailViewController {
     func deleteLogin() {
         profile.logins.hasSyncedLogins().uponQueue(DispatchQueue.main) { yes in
             let deleteAlert = UIAlertController.deleteLoginAlertWithDeleteCallback({ [unowned self] _ in
-                self.profile.logins.removeLoginByGUID(self.login.guid).uponQueue(dispatch_get_main_queue()) { _ in
-                    self.navigationController?.popViewControllerAnimated(true)
+                self.profile.logins.removeLoginByGUID(self.login.guid).uponQueue(DispatchQueue.main) { _ in
+                    self.navigationController?.popViewController(animated: true)
                 }
             }, hasSyncedLogins: yes.successValue ?? true)
 
-            self.presentViewController(deleteAlert, animated: true, completion: nil)
+            self.present(deleteAlert, animated: true, completion: nil)
         }
     }
 
@@ -393,7 +393,7 @@ extension LoginDetailViewController: LoginTableViewCellDelegate {
             return
         }
 
-        navigationController?.dismissViewControllerAnimated(true, completion: {
+        navigationController?.dismiss(animated: true, completion: {
             self.settingsDelegate?.settingsOpenURLInNewTab(url)
         })
     }

@@ -351,14 +351,14 @@ class BrowserViewController: UIViewController {
 
         // UIAccessibilityCustomAction subclass holding an AccessibleAction instance does not work, thus unable to generate AccessibleActions and UIAccessibilityCustomActions "on-demand" and need to make them "persistent" e.g. by being stored in BVC
         pasteGoAction = AccessibleAction(name: Strings.Paste_and_Go, handler: { () -> Bool in
-            if let pasteboardContents = UIPasteboard.generalPasteboard().string {
+            if let pasteboardContents = UIPasteboard.general.string {
                 self.urlBar(self.urlBar, didSubmitText: pasteboardContents)
                 return true
             }
             return false
         })
         pasteAction = AccessibleAction(name: Strings.Paste, handler: { () -> Bool in
-            if let pasteboardContents = UIPasteboard.generalPasteboard().string {
+            if let pasteboardContents = UIPasteboard.general.string {
                 // Enter overlay mode and fire the text entered callback to make the search controller appear.
                 self.urlBar.enterSearchMode(pasteboardContents, pasted: true)
                 self.urlBar(self.urlBar, didEnterText: pasteboardContents)
@@ -368,7 +368,7 @@ class BrowserViewController: UIViewController {
         })
         copyAddressAction = AccessibleAction(name: Strings.Copy_Address, handler: { () -> Bool in
             if let url = self.urlBar.currentURL {
-                UIPasteboard.generalPasteboard().URL = url
+                UIPasteboard.general.url = url
             }
             return true
         })
@@ -396,7 +396,7 @@ class BrowserViewController: UIViewController {
         
         statusBarOverlay.snp_makeConstraints { make in
             make.top.right.left.equalTo(statusBarOverlay.superview!)
-            make.bottom.equalTo(topLayoutGuide)
+            make.bottom.equalTo(topLayoutGuide as! ConstraintRelatableTarget)
         }
         
         header.snp_makeConstraints { make in
@@ -766,7 +766,7 @@ class BrowserViewController: UIViewController {
         urlBar.currentURL = tab.displayURL
 
         let isPage = tab.displayURL?.isWebPage() ?? false
-        navigationToolbar.updatePageStatus(isWebPage: isPage)
+        navigationToolbar.updatePageStatus(isPage)
 
         guard let url = tab.url else {
             return
@@ -839,7 +839,7 @@ class BrowserViewController: UIViewController {
         tabManager.addTabAndSelect(request)
     }
 
-    func openBlankNewTabAndFocus(_ isPrivate: Bool = false) {
+    func openBlankNewTabAndFocus(isPrivate: Bool = false) {
         popToBrowser()
         tabManager.selectTab(nil)
         openURLInNewTab(nil)
@@ -888,7 +888,7 @@ class BrowserViewController: UIViewController {
         //if let tab = tab where (tab.getHelper(name: ReaderMode.name()) as? ReaderMode)?.state != .Active { // needed for reader mode?
         let requestDesktopSiteActivity = RequestDesktopSiteActivity() { [weak tab] in
             if let url = tab?.url {
-                (getApp().browserViewController as! BraveBrowserViewController).newTabForDesktopSite(url: url)
+                (getApp().browserViewController as! BraveBrowserViewController).newTabForDesktopSite(url)
             }
             //tab?.toggleDesktopSite()
         }
@@ -1106,7 +1106,7 @@ extension BrowserViewController: KeyboardHelperDelegate {
         keyboardState = state
         updateViewConstraints()
 
-        UIView.animateWithDuration(state.animationDuration) {
+        UIView.animate(withDuration: state.animationDuration) {
             UIView.setAnimationCurve(state.animationCurve)
             self.findInPageContainer.layoutIfNeeded()
             self.snackBars.layoutIfNeeded()
@@ -1124,7 +1124,7 @@ extension BrowserViewController: KeyboardHelperDelegate {
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     self.urlBar.pwdMgrButton.isHidden = !shouldShow
                     
-                    let icon = ThirdPartyPasswordManagerType.icon(type: PasswordManagerButtonSetting.currentSetting)
+                    let icon = ThirdPartyPasswordManagerType.icon(PasswordManagerButtonSetting.currentSetting)
                     self.urlBar.pwdMgrButton.setImage(icon, for: UIControlState())
 
                     self.urlBar.setNeedsUpdateConstraints()
@@ -1140,7 +1140,7 @@ extension BrowserViewController: KeyboardHelperDelegate {
         keyboardState = nil
         updateViewConstraints()
 
-        UIView.animateWithDuration(state.animationDuration) {
+        UIView.animate(withDuration: state.animationDuration) {
             UIView.setAnimationCurve(state.animationCurve)
             self.findInPageContainer.layoutIfNeeded()
             self.snackBars.layoutIfNeeded()
@@ -1178,7 +1178,7 @@ extension BrowserViewController: TabTrayDelegate {
 
     func tabTrayDidAddToReadingList(_ tab: Browser) -> ReadingListClientRecord? {
         guard let url = tab.url?.absoluteString, url.characters.count > 0 else { return nil }
-        return profile.readingList?.createRecordWithURL(url, title: tab.title ?? url, addedBy: UIDevice.currentDevice().name).successValue
+        return profile.readingList?.createRecordWithURL(url, title: tab.title ?? url, addedBy: UIDevice.current.name).successValue
     }
 
     func tabTrayRequestsPresentationOf(_ viewController: UIViewController) {

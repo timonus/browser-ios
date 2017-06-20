@@ -34,8 +34,8 @@ public final class SyncBookmark {
     ///
     /// - parameter json: JSON object from SwiftyJSON.
     public required init(json: JSON?) {
-        isFolder = json?[SerializationKeys.isFolder].asBool
-        if let items = json?[SerializationKeys.parentFolderObjectId].asArray { parentFolderObjectId = items.map { $0.asInt ?? 0 } }
+        isFolder = json?[SerializationKeys.isFolder].bool
+        if let items = json?[SerializationKeys.parentFolderObjectId].array { parentFolderObjectId = items.map { $0.intValue } }
         site = SyncSite(json: json?[SerializationKeys.site])
     }
     

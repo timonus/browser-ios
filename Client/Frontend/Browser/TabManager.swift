@@ -118,7 +118,7 @@ class TabManager : NSObject {
 
         addNavigationDelegate(self)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabManager.prefsDidChange), name: NSUserDefaultsDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TabManager.prefsDidChange), name: UserDefaults.didChangeNotification, object: nil)
     }
 
     deinit {
@@ -276,7 +276,7 @@ class TabManager : NSObject {
         }
         if let browser = oldestBrowser {
             if selectedTab != browser {
-                browser.deleteWebView(isTabDeleted: false)
+                browser.deleteWebView(false)
             } else {
                 print("limitInMemoryTabs: tab to delete is selected!")
             }
@@ -314,7 +314,7 @@ class TabManager : NSObject {
             delegate.value?.tabManager(self, didAddTab: tab)
         }
 
-        tab.createWebview(useDesktopUserAgent: useDesktopUserAgent)
+        tab.createWebview(useDesktopUserAgent)
 
         for delegate in delegates {
             delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url)
@@ -382,7 +382,7 @@ class TabManager : NSObject {
     func removeAllPrivateTabsAndNotify(_ notify: Bool) {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         for tab in tabs.internalTabList {
-            tab.deleteWebView(isTabDeleted: false)
+            tab.deleteWebView(false)
         }
         _selectedTab = nil
         tabs.privateTabs.forEach{
@@ -433,7 +433,7 @@ extension TabManager {
     // Only call from PB class
     func enterPrivateBrowsingMode(_: PrivateBrowsing) {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
-        tabs.internalTabList.forEach{ $0.deleteWebView(isTabDeleted: false) }
+        tabs.internalTabList.forEach{ $0.deleteWebView(false) }
         delegates.forEach {
             $0.value?.tabManagerDidEnterPrivateBrowsingMode(self)
         }

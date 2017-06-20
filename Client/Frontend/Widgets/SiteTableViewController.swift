@@ -8,9 +8,9 @@ import Storage
 struct SiteTableViewControllerUX {
     static let HeaderHeight = CGFloat(25)
     static let RowHeight = CGFloat(58)
-    static let HeaderBorderColor = UIColor(rgb: 0xCFD5D9).colorWithAlphaComponent(0.8)
+    static let HeaderBorderColor = UIColor(rgb: 0xCFD5D9).withAlphaComponent(0.8)
     static let HeaderTextColor = UIAccessibilityDarkerSystemColorsEnabled() ? UIColor.black : UIColor(rgb: 0x232323)
-    static let HeaderBackgroundColor = UIColor(rgb: 0xECF0F3).colorWithAlphaComponent(0.3)
+    static let HeaderBackgroundColor = UIColor(rgb: 0xECF0F3).withAlphaComponent(0.3)
     static let HeaderFont = UIFont.systemFont(ofSize: 12, weight: UIFontWeightMedium)
     static let HeaderTextMargin = CGFloat(10)
 }
@@ -166,6 +166,6 @@ class SiteTableViewController: UIViewController, UITableViewDelegate, UITableVie
         let tappedElement = ContextMenuHelper.Elements(link: getLongPressUrl(forIndexPath: indexPath), image: nil)
         var p = getApp().window!.convert(cell.center, from:cell.superview!)
         p.x += cell.frame.width * 0.33
-        getApp().browserViewController.showContextMenu(elements: tappedElement, touchPoint: p)
+        getApp().browserViewController.showContextMenu(tappedElement, touchPoint: p)
     }
 }

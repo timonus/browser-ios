@@ -127,7 +127,7 @@ class URLBarView: UIView {
         let cancelButton = InsetButton()
         cancelButton.setTitleColor(UIColor.black, for: UIControlState())
         let cancelTitle = Strings.Cancel
-        cancelButton.setTitle(cancelTitle, forState: UIControlState.Normal)
+        cancelButton.setTitle(cancelTitle, for: UIControlState.normal)
         cancelButton.titleLabel?.font = UIConstants.DefaultChromeFont
         cancelButton.addTarget(self, action: #selector(URLBarView.SELdidClickCancel), for: UIControlEvents.touchUpInside)
         cancelButton.titleEdgeInsets = UIEdgeInsetsMake(10, 12, 10, 12)
@@ -352,7 +352,7 @@ class URLBarView: UIView {
             let tabsButtonTransform = CGAffineTransform(translationX: self.tabsButton.frame.width + URLBarViewUX.URLBarCurveOffset, y: 0)
             self.tabsButton.transform = tabsButtonTransform
             self.clonedTabsButton?.transform = tabsButtonTransform
-            self.rightBarConstraint?.updateOffset(URLBarViewUX.URLBarCurveOffset + URLBarViewUX.URLBarCurveBounceBuffer + tabsButton.frame.width)
+            self.rightBarConstraint?.updateOffset(amount: URLBarViewUX.URLBarCurveOffset + URLBarViewUX.URLBarCurveBounceBuffer + tabsButton.frame.width)
 
             // Make the editable text field span the entire URL bar, covering the lock and reader icons.
             self.locationTextField?.snp_remakeConstraints { make in
@@ -433,7 +433,7 @@ extension URLBarView: BrowserToolbarProtocol {
         shareButton.isEnabled = isWebPage
     }
 
-    override var accessibilityElements: [AnyObject]? {
+    override var accessibilityElements: [Any]? {
         get {
             if inSearchMode {
                 guard let locationTextField = locationTextField else { return nil }

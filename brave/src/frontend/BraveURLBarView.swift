@@ -30,9 +30,9 @@ class ButtonWithUnderlayView : UIButton {
         self.addSubview(v)
         v.isUserInteractionEnabled = false
 
-        v.snp_makeConstraints {
+        v.snp.makeConstraints {
             make in
-            make.center.equalTo(self.snp_center)
+            make.center.equalTo(self.snp.center)
         }
         return v
     }()
@@ -127,8 +127,8 @@ class BraveURLBarView : URLBarView {
         let showingPolicy = TabsBarShowPolicy(rawValue: Int(BraveApp.getPrefs()?.intForKey(kPrefKeyTabsBarShowPolicy) ?? Int32(kPrefKeyTabsBarOnDefaultValue.rawValue))) ?? kPrefKeyTabsBarOnDefaultValue
 
         let bvc = getApp().browserViewController
-        let noShowDueToPortrait =  UIDevice.currentDevice().userInterfaceIdiom == .Phone &&
-            bvc.shouldShowFooterForTraitCollection(bvc.traitCollection) &&
+        let noShowDueToPortrait =  UIDevice.currentDevice.userInterfaceIdiom == .Phone &&
+            bvc!.shouldShowFooterForTraitCollection(bvc!.traitCollection) &&
             showingPolicy == TabsBarShowPolicy.LandscapeOnly
 
         let isShowing = tabsBarController.view.alpha > 0
@@ -136,8 +136,8 @@ class BraveURLBarView : URLBarView {
         let shouldShow = showingPolicy != TabsBarShowPolicy.Never && tabCount > 1 && !noShowDueToPortrait
 
         func updateOffsets() {
-            bvc.headerHeightConstraint?.updateOffset(BraveURLBarView.CurrentHeight)
-            bvc.webViewContainerTopOffset?.updateOffset(BraveURLBarView.CurrentHeight)
+            bvc?.headerHeightConstraint?.updateOffset(amount: BraveURLBarView.CurrentHeight)
+            bvc?.webViewContainerTopOffset?.updateOffset(amount: BraveURLBarView.CurrentHeight)
         }
 
         if !isShowing && shouldShow {
@@ -191,7 +191,7 @@ class BraveURLBarView : URLBarView {
     }
 
     @objc func onClickBraveButton() {
-        telemetry(action: "Show Brave Panel", props: nil)
+        telemetry("Show Brave Panel", props: nil)
         NotificationCenter.default.post(name: Notification.Name(rawValue: kNotificationBraveButtonClicked), object: braveButton)
     }
 
@@ -205,7 +205,7 @@ class BraveURLBarView : URLBarView {
         instance.delegate?.urlBarDidPressTabs(instance)
     }
 
-    override var accessibilityElements: [AnyObject]? {
+    override var accessibilityElements: [Any]? {
         get {
             if inSearchMode {
                 guard let locationTextField = locationTextField else { return nil }
@@ -474,7 +474,7 @@ class BraveURLBarView : URLBarView {
 
         let v = InsetLabel(frame: CGRect(x: 0, y: 0, width: locationContainer.frame.width, height: locationContainer.frame.height))
         v.rightInset = CGFloat(40)
-        v.text = braveButton.selected ? Strings.Shields_Up : Strings.Shields_Down
+        v.text = braveButton.isSelected ? Strings.Shields_Up : Strings.Shields_Down
         if v.text!.endsWith(" Up") || v.text!.endsWith(" Down") {
             // english translation gets bolded text
             if var range = v.text!.range(of: " ", options:NSString.CompareOptions.backwards) {

@@ -104,7 +104,7 @@ class PrivateBrowsing {
 
         UserDefaults.standard.set(true, forKey: "WebKitPrivateBrowsingEnabled")
         
-        NotificationCenter.defaultCenter().postNotificationName(NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.postNotificationName(NotificationPrivacyModeChanged, object: nil)
     }
 
     fileprivate var exitDeferred = Deferred<Void>()
@@ -142,7 +142,7 @@ class PrivateBrowsing {
             }
         }
         
-        NotificationCenter.defaultCenter().postNotificationName(NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.postNotificationName(NotificationPrivacyModeChanged, object: nil)
 
         return exitDeferred
     }

@@ -6,7 +6,7 @@ import Shared
 
 private func getDate(_ dayOffset: Int) -> Date {
     let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-    let nowComponents = (calendar as NSCalendar).components([Calendar.Unit.year, Calendar.Unit.month, Calendar.Unit.day], from: Date())
+    let nowComponents = calendar.dateComponents([Calendar.Component.year, Calendar.Component.month, Calendar.Component.day], from: Date())
     let today = calendar.date(from: nowComponents)!
     return (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: dayOffset, to: today, options: [])!
 }
@@ -106,10 +106,9 @@ class History: NSManagedObject, WebsitePresentable {
     class func getExisting(_ url: URL, context: NSManagedObjectContext) -> History? {
         assert(!Thread.isMainThread)
 
-        guard let urlString = url.absoluteString else { return nil }
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = History.entity(context)
-        fetchRequest.predicate = NSPredicate(format: "url == %@", urlString)
+        fetchRequest.predicate = NSPredicate(format: "url == %@", url.absoluteString)
         var result: History? = nil
         do {
             let results = try context.fetch(fetchRequest) as? [History]

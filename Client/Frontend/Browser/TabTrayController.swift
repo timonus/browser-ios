@@ -189,7 +189,7 @@ class TabCell: UICollectionViewCell {
     }
 
     override func accessibilityScroll(_ direction: UIAccessibilityScrollDirection) -> Bool {
-        animator.close(right: direction == .right)
+        animator.close(direction == .right)
         return true
     }
 
@@ -267,7 +267,7 @@ class TabTrayController: UIViewController {
 
     lazy var togglePrivateMode: UIButton = {
         let button = UIButton()
-        button.setTitle(Strings.Private, forState: .Normal)
+        button.setTitle(Strings.Private, for: .Normal)
         button.setTitleColor(UIColor.black, for: UIControlState())
         button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 2)
         button.contentEdgeInsets = UIEdgeInsetsMake(0, 4 /* left */, 0, 4 /* right */)
@@ -502,10 +502,10 @@ class TabTrayController: UIViewController {
 
         privateMode = !privateMode
         if privateMode {
-            telemetry(action: "Entering Private Mode", props: nil)
+            telemetry("Entering Private Mode", props: nil)
             PrivateBrowsing.singleton.enter()
         } else {
-            telemetry(action: "Leaving Private Mode", props: nil)
+            telemetry("Leaving Private Mode", props: nil)
             view.isUserInteractionEnabled = false
             let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
             activityView.center = view.center
@@ -688,10 +688,10 @@ extension TabTrayController: UIScrollViewAccessibilityDelegate {
 
         if (firstTab == lastTab) {
             let format = Strings.Tab_xofx_template
-            return String(format: format, NSNumber(integer: firstTab), NSNumber(integer: tabCount))
+            return String(format: format, NSNumber(value: firstTab), NSNumber(value: tabCount))
         } else {
             let format = Strings.Tabs_xtoxofx_template
-            return String(format: format, NSNumber(integer: firstTab), NSNumber(integer: lastTab), NSNumber(integer: tabCount))
+            return String(format: format, NSNumber(value: firstTab), NSNumber(value: lastTab), NSNumber(value: tabCount))
         }
     }
 }

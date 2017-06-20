@@ -188,7 +188,7 @@ class ClearPrivateDataTableViewController: UITableViewController {
             getApp().tabManager.removeAll()
             postAsyncToMain(0.5, closure: {
                 if !self.gotNotificationDeathOfAllWebViews {
-                    getApp().tabManager.tabs.internalTabList.forEach { $0.deleteWebView(isTabDeleted: true) }
+                    getApp().tabManager.tabs.internalTabList.forEach { $0.deleteWebView(true) }
                     self.allWebViewsKilled()
                 }
             })

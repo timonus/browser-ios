@@ -21,9 +21,9 @@ class SearchSuggestClient {
     fileprivate weak var request: Request?
     fileprivate let userAgent: String
 
-    lazy fileprivate var alamofire: Alamofire.Manager = {
+    lazy fileprivate var alamofire: Alamofire.SessionManager = {
         let configuration = URLSessionConfiguration.ephemeral
-        return Alamofire.Manager.managerWithUserAgent(self.userAgent, configuration: configuration)
+        return Alamofire.SessionManager.managerWithUserAgent(self.userAgent, configuration: configuration)
     }()
 
     init(searchEngine: OpenSearchEngine, userAgent: String) {

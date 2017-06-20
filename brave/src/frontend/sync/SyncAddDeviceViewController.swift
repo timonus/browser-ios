@@ -27,7 +27,7 @@ class SyncAddDeviceViewController: UIViewController {
         containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.backgroundColor = UIColor.white
-        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).CGColor
+        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).cgColor
         containerView.layer.shadowRadius = 0
         containerView.layer.shadowOpacity = 1.0
         containerView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
@@ -88,7 +88,7 @@ class SyncAddDeviceViewController: UIViewController {
         
         doneButton = UIButton(type: .roundedRect)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
-        doneButton.setTitle(Strings.Done, forState: .Normal)
+        doneButton.setTitle(Strings.Done, for: .Normal)
         doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         doneButton.setTitleColor(UIColor.white, for: UIControlState())
         doneButton.backgroundColor = BraveUX.DefaultBlue

@@ -152,7 +152,7 @@ class LoginListViewController: UIViewController {
         // Show delete bar button item if we have selected any items
         if loginSelectionController.selectedCount > 0 {
             if (navigationItem.rightBarButtonItem == nil) {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: deleteLoginTitle, style: .Plain, target: self, action: #selector(LoginListViewController.SELdelete))
+                navigationItem.rightBarButtonItem = UIBarButtonItem(title: deleteLoginTitle, style: .plain, target: self, action: #selector(LoginListViewController.SELdelete))
                 navigationItem.rightBarButtonItem?.tintColor = UIColor.red
             }
         } else {
@@ -226,13 +226,13 @@ extension LoginListViewController {
                     self.loginDataSource.loginAtIndexPath(indexPath)!.guid
                 }
 
-                self.profile.logins.removeLoginsWithGUIDs(guidsToDelete).uponQueue(dispatch_get_main_queue()) { _ in
+                self.profile.logins.removeLoginsWithGUIDs(guidsToDelete).uponQueue(DispatchQueue.main) { _ in
                     self.SELcancel()
                     self.loadLogins()
                 }
             }, hasSyncedLogins: yes.successValue ?? true)
 
-            self.presentViewController(deleteAlert, animated: true, completion: nil)
+            self.present(deleteAlert, animated: true, completion: nil)
         }
     }
 
@@ -462,7 +462,7 @@ fileprivate class LoginCursorDataSource: NSObject, UITableViewDataSource {
         var domainLookup = [GUID: (baseDomain: String?, host: String?, hostname: String)]()
         allLogins.forEach { login in
             domainLookup[login.guid] = (
-                login.hostname.asURL?.baseDomain(),
+                login.hostname.asURL?.baseDomain,
                 login.hostname.asURL?.host,
                 login.hostname
             )
@@ -496,13 +496,13 @@ fileprivate class LoginCursorDataSource: NSObject, UITableViewDataSource {
         var titleSet = Set<Character>()
         allLogins.forEach { login in
             // Fallback to hostname if we can't extract a base domain.
-            let sortBy = login.hostname.asURL?.baseDomain()?.uppercaseString ?? login.hostname
+            let sortBy = login.hostname.asURL?.baseDomain?.uppercased() ?? login.hostname
             let sectionTitle = sortBy.characters.first ?? Character("")
             titleSet.insert(sectionTitle)
 
             var logins = sections[sectionTitle] ?? []
             logins.append(login)
-            logins.sortInPlace(sortByDomain)
+            logins.sort(by: sortByDomain)
             sections[sectionTitle] = logins
         }
         titles = Array(titleSet).sorted()

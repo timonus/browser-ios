@@ -14,7 +14,7 @@ class BackForwardListViewController: UIViewController, UITableViewDelegate, UITa
         let toolbar = UIToolbar()
         view.addSubview(toolbar)
 
-        let doneItem = UIBarButtonItem(title: Strings.Done, style: .Done, target: self, action: #selector(BackForwardListViewController.SELdidClickDone))
+        let doneItem = UIBarButtonItem(title: Strings.Done, style: .done, target: self, action: #selector(BackForwardListViewController.SELdidClickDone))
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         toolbar.items = [doneItem, spacer]
 

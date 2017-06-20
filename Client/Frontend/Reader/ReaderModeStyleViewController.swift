@@ -250,17 +250,17 @@ class FontTypeButton: UIButton {
     convenience init(fontType: ReaderModeFontType) {
         self.init(frame: CGRect.zero)
         self.fontType = fontType
-        setTitleColor(ReaderModeStyleViewControllerUX.FontTypeTitleSelectedColor, for: UIControlState.Selected)
+        setTitleColor(ReaderModeStyleViewControllerUX.FontTypeTitleSelectedColor, for: UIControlState.selected)
         setTitleColor(ReaderModeStyleViewControllerUX.FontTypeTitleNormalColor, for: UIControlState())
         backgroundColor = ReaderModeStyleViewControllerUX.FontTypeRowBackground
         accessibilityHint = Strings.Changes_font_type
         switch fontType {
         case .SansSerif:
-            setTitle(Strings.SansSerif, forState: UIControlState.Normal)
+            setTitle(Strings.SansSerif, for: UIControlState.Normal)
             let f = UIFont(name: "FiraSans-Book", size: DynamicFontHelper.defaultHelper.ReaderStandardFontSize)
             titleLabel?.font = f
         case .Serif:
-            setTitle(Strings.Serif, forState: UIControlState.Normal)
+            setTitle(Strings.Serif, for: UIControlState.Normal)
             let f = UIFont(name: "Charis SIL", size: DynamicFontHelper.defaultHelper.ReaderStandardFontSize)
             titleLabel?.font = f
         }
@@ -288,12 +288,12 @@ class FontSizeButton: UIButton {
         case .smaller:
             let smallerFontLabel = Strings.Minus
             let smallerFontAccessibilityLabel = Strings.Decrease_text_size
-            setTitle(smallerFontLabel, forState: .Normal)
+            setTitle(smallerFontLabel, for: .Normal)
             accessibilityLabel = smallerFontAccessibilityLabel
         case .bigger:
             let largerFontLabel = Strings.Plus
             let largerFontAccessibilityLabel = Strings.Increase_text_size
-            setTitle(largerFontLabel, forState: .Normal)
+            setTitle(largerFontLabel, for: .Normal)
             accessibilityLabel = largerFontAccessibilityLabel
         }
 
@@ -344,15 +344,15 @@ class ThemeButton: UIButton {
         
         switch theme {
         case .Light:
-            setTitle(Strings.Light, forState: .Normal)
+            setTitle(Strings.Light, for: .Normal)
             setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorLight, for: UIControlState.Normal)
             backgroundColor = ReaderModeStyleViewControllerUX.ThemeBackgroundColorLight
         case .Dark:
-            setTitle(Strings.Dark, forState: .Normal)
+            setTitle(Strings.Dark, for: .Normal)
             setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorDark, for: UIControlState())
             backgroundColor = ReaderModeStyleViewControllerUX.ThemeBackgroundColorDark
         case .Sepia:
-            setTitle(Strings.Sepia, forState: .Normal)
+            setTitle(Strings.Sepia, for: .Normal)
             setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorSepia, for: UIControlState.Normal)
             backgroundColor = ReaderModeStyleViewControllerUX.ThemeBackgroundColorSepia
         }

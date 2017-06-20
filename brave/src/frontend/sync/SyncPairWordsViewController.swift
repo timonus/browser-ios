@@ -30,7 +30,7 @@ class SyncPairWordsViewController: UIViewController {
         containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.backgroundColor = UIColor.white
-        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).CGColor
+        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).cgColor
         containerView.layer.shadowRadius = 0
         containerView.layer.shadowOpacity = 1.0
         containerView.layer.shadowOffset = CGSize(width: 0, height: 0.5)

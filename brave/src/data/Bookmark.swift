@@ -70,15 +70,15 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         lastVisited = created
     }
     
-    func asDictionary(_ deviceId: [Int]?, action: Int?) -> [String: AnyObject] {
+    func asDictionary(deviceId: [Int]?, action: Int?) -> [String: AnyObject] {
         return SyncRoot(bookmark: self, deviceId: deviceId, action: action).dictionaryRepresentation()
     }
 
-    static func entity(_ context:NSManagedObjectContext) -> NSEntityDescription {
+    static func entity(context:NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entity(forEntityName: "Bookmark", in: context)!
     }
 
-    class func frc(_ parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
+    class func frc(parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Bookmark.entity(DataController.moc)
         fetchRequest.fetchBatchSize = 20
@@ -106,7 +106,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         }
     }
     
-    func update(_ customTitle: String?, url: String?, save: Bool = false) {
+    func update(customTitle: String?, url: String?, save: Bool = false) {
         
         // See if there has been any change
         if self.customTitle == customTitle && self.url == url {
@@ -198,7 +198,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
     }
     
     // TODO: DELETE
-    class func add(_ url: URL?,
+    class func add(url: URL?,
                        title: String?,
                        customTitle: String? = nil, // Folders only use customTitle
                        parentFolder:Bookmark? = nil,
@@ -222,7 +222,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
     
     // TODO: Migration syncUUIDS still needs to be solved
     // Should only ever be used for migration from old db
-    class func addForMigration(_ url: String?, title: String, customTitle: String, parentFolder: Bookmark?, isFolder: Bool?) -> Bookmark? {
+    class func addForMigration(url: String?, title: String, customTitle: String, parentFolder: Bookmark?, isFolder: Bool?) -> Bookmark? {
         // isFolder = true
         
         let site = SyncSite()
@@ -241,7 +241,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         return self.add(rootObject: root, save: true)
     }
 
-    class func contains(_ url: URL, completionOnMain completion: @escaping ((Bool)->Void)) {
+    class func contains(url: URL, completionOnMain completion: @escaping ((Bool)->Void)) {
         var found = false
         let context = DataController.shared.workerContext()
         context.perform {
@@ -254,7 +254,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
         }
     }
 
-    class func frecencyQuery(_ context: NSManagedObjectContext, containing: String?) -> [Bookmark] {
+    class func frecencyQuery(context: NSManagedObjectContext, containing: String?) -> [Bookmark] {
         assert(!Thread.isMainThread)
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
@@ -294,10 +294,9 @@ class Bookmark: NSManagedObject, WebsitePresentable {
 // Getters
 extension Bookmark {
     fileprivate static func get(forUrl url: URL, countOnly: Bool = false, context: NSManagedObjectContext) -> AnyObject? {
-        guard let str = url.absoluteString else { return nil }
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Bookmark.entity(context)
-        fetchRequest.predicate = NSPredicate(format: "url == %@", str)
+        fetchRequest.predicate = NSPredicate(format: "url == %@", url.absoluteString)
         do {
             if countOnly {
                 let count = try context.count(for: fetchRequest)
@@ -312,7 +311,7 @@ extension Bookmark {
         return nil
     }
     
-    fileprivate static func get(_ predicate: NSPredicate?) -> [Bookmark]? {
+    fileprivate static func get(predicate: NSPredicate?) -> [Bookmark]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Bookmark.entity(DataController.moc)
         fetchRequest.predicate = predicate
@@ -327,7 +326,7 @@ extension Bookmark {
         return nil
     }
     
-    static func get(_ syncUUIDs: [[Int]]?) -> [Bookmark]? {
+    static func get(syncUUIDs: [[Int]]?) -> [Bookmark]? {
         
         guard let syncUUIDs = syncUUIDs else {
             return nil
@@ -382,7 +381,7 @@ extension Bookmark {
         return false
     }
     
-    class func remove(_ bookmark: Bookmark, save: Bool = true) {
+    class func remove(bookmark: Bookmark, save: Bool = true) {
         // Must happen before, otherwise bookmark is gone
         Sync.shared.sendSyncRecords(.bookmark, action: .delete, bookmarks: [bookmark])
 

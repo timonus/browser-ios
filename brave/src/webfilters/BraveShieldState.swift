@@ -74,7 +74,7 @@ public struct BraveShieldState {
         for (k, v) in state {
             _state[k.rawValue] = v
         }
-        return JSON(_state).toString()
+        return JSON(_state).rawString()
     }
 
     mutating func setState(_ key: Shield, on: Bool?) {

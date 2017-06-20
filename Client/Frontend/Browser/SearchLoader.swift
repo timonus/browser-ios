@@ -44,7 +44,7 @@ class _SearchLoader<UnusedA, UnusedB>: Loader<[Site], SearchViewController> {
         context.perform {
             
             let history: [WebsitePresentable] = History.frecencyQuery(context, containing: containing)
-            let bookmarks: [WebsitePresentable] = Bookmark.frecencyQuery(context, containing: containing)
+            let bookmarks: [WebsitePresentable] = Bookmark.frecencyQuery(context: context, containing: containing)
             
             // History must come before bookmarks, since later items replace existing ones, and want bookmarks to replace history entries
             let uniqueSites = Set<Site>( (history + bookmarks).map { Site(url: $0.url ?? "", title: $0.title ?? "", bookmarked: $0 is Bookmark) } )
@@ -65,7 +65,7 @@ class _SearchLoader<UnusedA, UnusedB>: Loader<[Site], SearchViewController> {
                 self.inProgress = nil
             }
 
-            let deferred = getSitesByFrecency(containing: query)
+            let deferred = getSitesByFrecency(query)
             inProgress = deferred as? Cancellable
 
             deferred.uponQueue(DispatchQueue.main) { result in
@@ -119,7 +119,7 @@ class _SearchLoader<UnusedA, UnusedB>: Loader<[Site], SearchViewController> {
         if let range = domainWithDotPrefix.range(of: ".\(query)", options: NSString.CompareOptions.caseInsensitive, range: nil, locale: nil) {
             // We don't actually want to match the top-level domain ("com", "org", etc.) by itself, so
             // so make sure the result includes at least one ".".
-            let matchedDomain: String = domainWithDotPrefix.substring(from: <#T##String.CharacterView corresponding to your index##String.CharacterView#>.index(range.lowerBound, offsetBy: 1))
+            let matchedDomain: String = domainWithDotPrefix.substring(from: index(range.lowerBound, 1))
             if matchedDomain.contains(".") {
                 return matchedDomain + "/"
             }

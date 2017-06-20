@@ -55,7 +55,7 @@ struct MessageAlert: JSAlertInfo {
         let alertController = JSPromptAlertController(title: titleForJavaScriptPanelInitiatedByFrame(frame),
             message: message,
             preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.Default, handler: nil))
+        alertController.addAction(UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default, handler: nil))
         alertController.alertInfo = self
         return alertController
     }
@@ -85,10 +85,10 @@ struct ConfirmPanelAlert: JSAlertInfo {
     mutating func alertController() -> JSPromptAlertController {
         // Show JavaScript confirm dialogs.
         let alertController = JSPromptAlertController(title: titleForJavaScriptPanelInitiatedByFrame(frame), message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.Default, handler: { _ in
+        alertController.addAction(UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default, handler: { _ in
             self.didConfirm = true
         }))
-        alertController.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.Cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
         alertController.alertInfo = self
         return alertController
     }
@@ -123,8 +123,8 @@ struct TextInputAlert: JSAlertInfo {
             self.input = textField
             self.input.text = self.defaultText
         })
-        alertController.addAction(UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.Default, handler: nil))
-        alertController.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.Cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default, handler: nil))
+        alertController.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
         alertController.alertInfo = self
         return alertController
     }

@@ -77,7 +77,7 @@ class BraveSettingsView : AppSettingsTableViewController {
             generalSettings.append(PasswordManagerButtonSetting(profile: self.profile))
         }
 
-        BraveApp.is3rdPartyPasswordManagerInstalled(refreshLookup: true).upon {
+        BraveApp.is3rdPartyPasswordManagerInstalled(true).upon {
             result in
             if result == BraveSettingsView.cachedIs3rdPartyPasswordManagerInstalled {
                 return
@@ -88,7 +88,7 @@ class BraveSettingsView : AppSettingsTableViewController {
             if result {
                 postAsyncToMain(0) { // move from db thread back to main
                     generalSettings.append(PasswordManagerButtonSetting(profile: self.profile))
-                    self.settings[0] = SettingSection(title: NSAttributedString(string: Strings.General.uppercaseString), children: generalSettings)
+                    self.settings[0] = SettingSection(title: NSAttributedString(string: Strings.General.uppercased()), children: generalSettings)
                     let range = NSMakeRange(0, 1)
                     let section = IndexSet(integersIn: range.toRange() ?? 0..<0)
                     self.tableView.reloadSections(section, with: .automatic)
@@ -111,18 +111,18 @@ class BraveSettingsView : AppSettingsTableViewController {
         }
 
         settings += [
-            SettingSection(title: NSAttributedString(string: Strings.General.uppercaseString), children: generalSettings),
+            SettingSection(title: NSAttributedString(string: Strings.General.uppercased()), children: generalSettings),
             
-            SettingSection(title: NSAttributedString(string: Strings.Sync.uppercaseString), children:
+            SettingSection(title: NSAttributedString(string: Strings.Sync.uppercased()), children:
                 [SyncDevicesSetting(settings: self)]
             ),
-            SettingSection(title: NSAttributedString(string: Strings.Privacy.uppercaseString), children:
+            SettingSection(title: NSAttributedString(string: Strings.Privacy.uppercased()), children:
                 [ClearPrivateDataSetting(settings: self), CookieSetting(profile: self.profile),
                     BoolSetting(prefs: prefs, prefKey: kPrefKeyPrivateBrowsingAlwaysOn, defaultValue: false, titleText: Strings.Private_Browsing_Only, statusText: nil, settingDidChange: { isOn in
                         getApp().browserViewController.switchBrowsingMode(toPrivate: isOn)
                     })]
             ),
-            SettingSection(title: NSAttributedString(string: Strings.Brave_Shield_Defaults.uppercaseString), children: shieldSettingsList)]
+            SettingSection(title: NSAttributedString(string: Strings.Brave_Shield_Defaults.uppercased()), children: shieldSettingsList)]
 
         
         var supportChildren: [Setting] = [
@@ -140,10 +140,10 @@ class BraveSettingsView : AppSettingsTableViewController {
         ]
     
         settings += [
-            SettingSection(title: NSAttributedString(string: Strings.Support.uppercaseString), children: supportChildren)]
+            SettingSection(title: NSAttributedString(string: Strings.Support.uppercased()), children: supportChildren)]
         
         settings += [
-            SettingSection(title: NSAttributedString(string: Strings.About.uppercaseString), children: [
+            SettingSection(title: NSAttributedString(string: Strings.About.uppercased()), children: [
                 VersionSetting(settings: self),
                 ])
         ]
@@ -215,15 +215,15 @@ class PasswordManagerButtonSetting: PicklistSettingMainItem<String> {
 class CookieSetting: PicklistSettingMainItem<UInt> {
     fileprivate static let _prefName = "braveAcceptCookiesPref"
     fileprivate static let _options =  [
-        Choice<UInt> { (displayName: Strings.Block_3rd_party_cookies, object: UInt(HTTPCookie.AcceptPolicy.OnlyFromMainDocumentDomain.rawValue), optionId: 0) },
-        Choice<UInt> { (displayName: Strings.Block_all_cookies, object: UInt(HTTPCookie.AcceptPolicy.Never.rawValue), optionId: 1) },
-        Choice<UInt> { (displayName: Strings.Dont_block_cookies, object: UInt( HTTPCookie.AcceptPolicy.Always.rawValue), optionId: 2) }
+        Choice<UInt> { (displayName: Strings.Block_3rd_party_cookies, object: UInt(HTTPCookie.AcceptPolicy.onlyFromMainDocumentDomain.rawValue), optionId: 0) },
+        Choice<UInt> { (displayName: Strings.Block_all_cookies, object: UInt(HTTPCookie.AcceptPolicy.never.rawValue), optionId: 1) },
+        Choice<UInt> { (displayName: Strings.Dont_block_cookies, object: UInt( HTTPCookie.AcceptPolicy.always.rawValue), optionId: 2) }
     ]
 
     static func setPolicyFromOptionId(_ optionId: Int) {
         for option in _options {
             if option.item().optionId == optionId {
-                NSHTTPCookieStorage.sharedHTTPCookieStorage().cookieAcceptPolicy = NSHTTPCookieAcceptPolicy.init(rawValue: option.item().object)!
+                HTTPCookieStorage.shared.cookieAcceptPolicy = HTTPCookie.AcceptPolicy.init(rawValue: option.item().object)!
             }
         }
     }
@@ -247,9 +247,9 @@ class CookieSetting: PicklistSettingMainItem<UInt> {
 class TabsBarIPhoneSetting: PicklistSettingMainItem<Int> {
     fileprivate static func getOptions() -> [Choice<Int>] {
         let opt = [
-            Choice<Int> { (displayName: Strings.Never_show, object: TabsBarShowPolicy.Never.rawValue, optionId: 0) },
-            Choice<Int> { (displayName: Strings.Always_show, object: TabsBarShowPolicy.Always.rawValue, optionId: 1) },
-            Choice<Int> { (displayName: Strings.Show_in_landscape_only, object: TabsBarShowPolicy.LandscapeOnly.rawValue, optionId: 2) }
+            Choice<Int> { (displayName: Strings.Never_show, object: TabsBarShowPolicy.never.rawValue, optionId: 0) },
+            Choice<Int> { (displayName: Strings.Always_show, object: TabsBarShowPolicy.always.rawValue, optionId: 1) },
+            Choice<Int> { (displayName: Strings.Show_in_landscape_only, object: TabsBarShowPolicy.landscapeOnly.rawValue, optionId: 2) }
         ]
         return opt
 
@@ -286,11 +286,11 @@ class PasswordsClearable: Clearable {
     func clear() -> Success {
         // Clear our storage
         return profile.logins.removeAll() >>== { res in
-            let storage = NSURLCredentialStorage.sharedCredentialStorage()
+            let storage = URLCredentialStorage.shared
             let credentials = storage.allCredentials
             for (space, credentials) in credentials {
                 for (_, credential) in credentials {
-                    storage.removeCredential(credential, forProtectionSpace: space)
+                    storage.remove(credential, for: space)
                 }
             }
             return succeed()

@@ -38,7 +38,7 @@ private extension TrayToBrowserAnimator {
         guard let expandFromIndex = displayedTabs.index(of: selectedTab) else { return }
 
         // Hide browser components
-        bvc.toggleSnackBarVisibility(show: false)
+        bvc.toggleSnackBarVisibility(false)
         toggleWebViewVisibility(false, usingTabManager: bvc.tabManager)
         bvc.homePanelController?.view.isHidden = true
         bvc.webViewContainerBackdrop.isHidden = true
@@ -97,7 +97,7 @@ private extension TrayToBrowserAnimator {
             cell.removeFromSuperview()
             tabCollectionViewSnapshot.removeFromSuperview()
             bvc.footer.alpha = 1
-            bvc.toggleSnackBarVisibility(show: true)
+            bvc.toggleSnackBarVisibility(true)
             toggleWebViewVisibility(true, usingTabManager: bvc.tabManager)
             bvc.webViewContainerBackdrop.isHidden = false
             bvc.homePanelController?.view.isHidden = false
@@ -157,7 +157,7 @@ private extension BrowserToTrayAnimator {
 
         // Hide views we don't want to show during the animation in the BVC
         bvc.homePanelController?.view.isHidden = true
-        bvc.toggleSnackBarVisibility(show: false)
+        bvc.toggleSnackBarVisibility(false)
         toggleWebViewVisibility(false, usingTabManager: bvc.tabManager)
         bvc.urlBar.isTransitioning = true
 
@@ -196,7 +196,7 @@ private extension BrowserToTrayAnimator {
                 tabCollectionViewSnapshot!.removeFromSuperview()
                 tabTray.collectionView.isHidden = false
 
-                bvc.toggleSnackBarVisibility(show: true)
+                bvc.toggleSnackBarVisibility(true)
                 toggleWebViewVisibility(true, usingTabManager: bvc.tabManager)
                 bvc.homePanelController?.view.isHidden = false
 
@@ -304,7 +304,7 @@ private func createTransitionCellFromBrowser(_ browser: Browser?, withFrame fram
     cell.titleLbl.text = browser?.displayTitle
 
     if let favIcon = browser?.displayFavicon {
-        cell.favicon.sd_setImageWithURL(URL(string: favIcon.url)!)
+        cell.favicon.sd_setImage(with: URL(string: favIcon.url)!)
     } else {
         var defaultFavicon = UIImage(named: "defaultFavicon")
         if browser?.isPrivate ?? false {

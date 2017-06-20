@@ -31,7 +31,7 @@ class SearchSettingsTableViewController: UITableViewController {
 
         // Insert Done button if being presented outside of the Settings Nav stack
         if !(self.navigationController is SettingsNavigationController) {
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: Strings.Done, style: .Done, target: self, action: #selector(SearchSettingsTableViewController.SELDismiss))
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: Strings.Done, style: .done, target: self, action: #selector(SearchSettingsTableViewController.SELDismiss))
         }
 
         let footer = SettingsTableSectionHeaderFooterView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44))

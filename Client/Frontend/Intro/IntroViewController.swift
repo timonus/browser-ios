@@ -278,7 +278,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     }
 
     fileprivate var accessibilityScrollStatus: String {
-        return String(format: Strings.IntroductorySlideXofX_template, NumberFormatter.localizedStringFromNumber(pageControl.currentPage+1, numberStyle: .DecimalStyle), NumberFormatter.localizedStringFromNumber(IntroViewControllerUX.NumberOfCards, numberStyle: .DecimalStyle))
+        return String(format: Strings.IntroductorySlideXofX_template, NumberFormatter.localizedStringFromNumber(NSNumber(pageControl.currentPage+1), numberStyle: .DecimalStyle), NumberFormatter.localizedStringFromNumber(IntroViewControllerUX.NumberOfCards, numberStyle: .DecimalStyle))
     }
 
     func changePage() {

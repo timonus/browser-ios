@@ -183,11 +183,11 @@ class BraveWebView: UIWebView {
         guard let js = stringByEvaluatingJavaScript(from: "document.location.href"), let location = Foundation.URL(string: js) else { return false }
         
         // Must be in same domain space to allow document location changes
-        if location.baseDomain() != self.URL?.baseDomain() || !location.schemeIsValid {
+        if location.baseDomain != self.URL?.baseDomain || !location.schemeIsValid {
             return false
         }
         
-        print(location.domainURL())
+        print(location.domainURL)
         if AboutUtils.isAboutHomeURL(location) {
             return false
         }
@@ -205,8 +205,8 @@ class BraveWebView: UIWebView {
         StaticCounter.counter += 1
         let userAgentBase = usingDesktopUserAgent ? kDesktopUserAgent : BraveWebView.webviewBuiltinUserAgent
         let userAgent = userAgentBase + String(format:" _id/%06d", StaticCounter.counter)
-        let defaults = UserDefaults(suiteName: AppInfo.sharedContainerIdentifier())!
-        defaults.registerDefaults(["UserAgent": userAgent ])
+        let defaults = UserDefaults(suiteName: AppInfo.sharedContainerIdentifier)!
+        defaults.register(defaults: ["UserAgent": userAgent ])
         self.uniqueId = StaticCounter.counter
     }
 
@@ -277,7 +277,7 @@ class BraveWebView: UIWebView {
         if let t = stringByEvaluatingJavaScript(from: "document.title"), !t.isEmpty {
             title = t
         } else {
-            title = URL?.baseDomain() ?? ""
+            title = URL?.baseDomain ?? ""
         }
     }
 
@@ -392,7 +392,7 @@ class BraveWebView: UIWebView {
         NotificationCenter.default.addObserver(self, selector: #selector(BraveWebView.internalProgressNotification(_:)), name: NSNotification.Name(rawValue: internalProgressChangedNotification), object: internalWebView)
 
         if let url = request.url {
-            internalSetBraveShieldStateForDomain(url.normalizedHost())
+            internalSetBraveShieldStateForDomain(url.normalizedHost!)
         }
         super.loadRequest(request)
     }
@@ -514,8 +514,8 @@ class BraveWebView: UIWebView {
         URLCache.shared.memoryCapacity = 0
 
         if let url = URL {
-            internalSetBraveShieldStateForDomain(url.normalizedHost())
-            (getApp().browserViewController as! BraveBrowserViewController).updateBraveShieldButtonState(animated: false)
+            internalSetBraveShieldStateForDomain(url.normalizedHost!)
+            (getApp().browserViewController as! BraveBrowserViewController).updateBraveShieldButtonState(false)
         }
         super.reload()
         
@@ -759,7 +759,7 @@ extension BraveWebView: UIWebViewDelegate {
             //print("Page changed by shouldStartLoad: \(URL?.absoluteString ?? "")")
 
             if let url = request.url {
-                internalSetBraveShieldStateForDomain(url.normalizedHost())
+                internalSetBraveShieldStateForDomain(url.normalizedHost!)
             }
 
             shieldStatUpdate(.reset)
@@ -809,7 +809,7 @@ extension BraveWebView: UIWebViewDelegate {
             safeBrowsingBlockTriggered = (isSafeBrowsingBlock as NSString).boolValue
         }
 
-        progress?.webViewDidFinishLoad(documentReadyState: readyState)
+        progress?.webViewDidFinishLoad(readyState)
 
         backForwardList.update()
         broadcastToPageStateDelegates()

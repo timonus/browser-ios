@@ -34,7 +34,7 @@ struct HomePanelUX {
 @objc
 protocol HomePanelDelegate: class {
     func homePanel(_ homePanel: HomePanel, didSelectURL url: URL)
-    optional func homePanel(_ homePanel: HomePanel, didSelectURLString url: String, visitType: VisitType)
+    @objc optional func homePanel(_ homePanel: HomePanel, didSelectURLString url: String, visitType: VisitType)
     @objc optional func homePanelWillEnterEditingMode(_ homePanel: HomePanel)
 }
 
@@ -56,7 +56,7 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
     override func viewDidLoad() {
         view.backgroundColor = HomePanelViewControllerUX.BackgroundColor
 
-        let blur: UIVisualEffectView? = DeviceInfo.isBlurSupported() ? UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) : nil
+        let blur: UIVisualEffectView? = DeviceInfo.isBlurSupported() ? UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light)) : nil
 
         if let blur = blur {
             view.addSubview(blur)
@@ -250,7 +250,7 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
 
         if editing {
             let button = UIButton(type: UIButtonType.system)
-            button.setTitle(Strings.Done, forState: UIControlState.Normal)
+            button.setTitle(Strings.Done, for: UIControlState.normal)
             button.addTarget(self, action: #selector(HomePanelViewController.endEditing(_:)), for: UIControlEvents.touchUpInside)
             button.transform = translateDown
             button.titleLabel?.textAlignment = .right

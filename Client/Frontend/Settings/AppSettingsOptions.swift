@@ -208,7 +208,7 @@ class RemoveDeviceSetting: Setting {
     init(settings: SettingsTableViewController) {
         self.profile = settings.profile
         let clearTitle = Strings.SyncRemoveThisDevice
-        super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIColor.redColor(), NSFontAttributeName: UIFont.systemFontOfSize(17, weight: UIFontWeightRegular)]))
+        super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIColor.red, NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular)]))
     }
     
     override func onClick(_ navigationController: UINavigationController?) {

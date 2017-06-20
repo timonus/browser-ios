@@ -19,7 +19,7 @@ extension BrowserViewController: FindInPageBarDelegate, FindInPageHelperDelegate
     }
 
     func findInPageDidPressClose(_ findInPage: FindInPageBar) {
-        updateFindInPageVisibility(visible: false)
+        updateFindInPageVisibility(false)
     }
 
     fileprivate func find(_ text: String, function: String) {

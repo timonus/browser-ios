@@ -100,9 +100,9 @@ extension HttpsEverywhere: NetworkDataFileLoaderDelegate {
         httpseDb.close()
         succeed().upon() { _ in
 
-            let fm = NSFileManager.defaultManager()
-            if fm.fileExistsAtPath(dir + "/" + levelDbFileName) {
-                do { try NSFileManager.defaultManager().removeItemAtPath(dir + "/" + levelDbFileName) }
+            let fm = FileManager.default
+            if fm.fileExists(atPath: dir + "/" + levelDbFileName) {
+                do { try FileManager.default.removeItem(atPath: dir + "/" + levelDbFileName) }
                 catch { NSLog("failed to remove leveldb file before unzip \(error)") }
             }
 
@@ -139,13 +139,13 @@ extension HttpsEverywhere {
         #if DEBUG
             let urls = ["thestar.com", "thestar.com/", "www.thestar.com", "apple.com", "xkcd.com"]
             for url in urls {
-                guard let _ =  HttpsEverywhere.singleton.tryRedirectingUrl(NSURL(string: "http://" + url)!) else {
+                guard let _ =  HttpsEverywhere.singleton.tryRedirectingUrl(URL(string: "http://" + url)) else {
                     BraveApp.showErrorAlert(title: "Debug Error", error: "HTTPS-E validation failed on url: \(url)")
                     return
                 }
             }
 
-            let url = HttpsEverywhere.singleton.tryRedirectingUrl(NSURL(string: "http://www.googleadservices.com/pagead/aclk?sa=L&ai=CD0d/")!)
+            let url = HttpsEverywhere.singleton.tryRedirectingUrl(URL(string: "http://www.googleadservices.com/pagead/aclk?sa=L&ai=CD0d/"))
             if url == nil || !(url!.absoluteString?.hasSuffix("?sa=L&ai=CD0d/") ?? false) {
                 BraveApp.showErrorAlert(title: "Debug Error", error: "HTTPS-E validation failed for url args")
             }

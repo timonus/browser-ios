@@ -267,7 +267,7 @@ extension BrowserViewController: BrowserDelegate {
     }
     
     func browser(_ browser: Browser, didSelectFindInPageForSelection selection: String) {
-        updateFindInPageVisibility(visible: true)
+        updateFindInPageVisibility(true)
         findInPageBar?.text = selection
     }
 }

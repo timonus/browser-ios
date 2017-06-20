@@ -101,7 +101,7 @@ class TabsBarViewController: UIViewController {
 
     func updateTabWidthConstraint(_ width: CGFloat) {
         tabs.forEach {
-            $0.widthConstraint?.updateOffset(width)
+            $0.widthConstraint?.updateOffset(amount: width)
         }
 
         self.tabs.forEach {
@@ -191,14 +191,14 @@ class TabsBarViewController: UIViewController {
         if self.isVisible {
             isAddTabAnimationRunning = true
             t.alpha = 0
-            t.widthConstraint?.updateOffset(0)
+            t.widthConstraint?.updateOffset(amount: 0)
         }
         
         scrollView.addSubview(t)
         
         let w = calcTabWidth(tabs.count)
         
-        t.remakeLayout(prev: tabs.last?.spacerRight != nil ? tabs.last!.spacerRight : self.spacerLeftmost, width: w, scrollView: scrollView)
+        t.remakeLayout(tabs.last?.spacerRight != nil ? tabs.last!.spacerRight : self.spacerLeftmost, width: w, scrollView: scrollView)
         
         tabs.append(t)
 
@@ -248,7 +248,7 @@ class TabsBarViewController: UIViewController {
             
             tab.spacerRight.removeFromSuperview()
             tab.removeFromSuperview()
-            next?.snp_makeConstraints(closure: { (make) in
+            next?.snp_makeConstraints({ (make) in
                 if let prev = prev {
                     make.left.equalTo(prev.snp_right)
                 }
@@ -373,7 +373,7 @@ extension TabsBarViewController: TabManagerDelegate {
 
         let t = addTab(tab)
         if let url = url {
-            let title = url.baseDomain()
+            let title = url.baseDomain
             t.setTitle(title)
         }
 
@@ -428,7 +428,7 @@ extension TabsBarViewController {
                 dragClone.removeFromSuperview()
                 t.dragClone = nil
             }
-            t.remakeLayout(prev: prev, width: w, scrollView: scrollView)
+            t.remakeLayout(prev, width: w, scrollView: scrollView)
             prev = t.spacerRight
         }
     }

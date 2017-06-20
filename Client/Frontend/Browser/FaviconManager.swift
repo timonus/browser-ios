@@ -31,7 +31,7 @@ class FaviconManager : BrowserHelper {
     func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
         let manager = SDWebImageManager.shared()
         guard let tab = browser else { return }
-        tab.favicons.removeAll(keepCapacity: false)
+        tab.favicons.removeAll(keepingCapacity: false)
 
         // Result is in the form {'documentLocation' : document.location.href, 'http://icon url 1': "<type>", 'http://icon url 2': "<type" }
         guard let icons = message.body as? [String: String], let documentLocation = icons["documentLocation"] else { return }
@@ -59,9 +59,9 @@ class FaviconManager : BrowserHelper {
 
         func downloadIcon(_ icon: Favicon) {
             if let iconUrl = URL(string: icon.url) {
-                manager.downloadImageWithURL(iconUrl, options: SDWebImageOptions(options), progress: nil, completed: { (img, err, cacheType, success, url) -> Void in
-                    let fav = Favicon(url: url.absoluteString ?? "",
-                        date: NSDate(),
+                manager?.downloadImage(with: iconUrl, options: SDWebImageOptions(options), progress: nil, completed: { (img, err, cacheType, success, url) -> Void in
+                    let fav = Favicon(url: url?.absoluteString ?? "",
+                        date: NSDate() as Date,
                         type: icon.type)
 
                     let spotlight = tab.getHelper(SpotlightHelper.self)
@@ -72,19 +72,19 @@ class FaviconManager : BrowserHelper {
                     } else {
                         if favicons.count == 1 && favicons[0].type == .Guess {
                             // No favicon is indicated in the HTML
-                            spotlight?.updateImage(forURL: url)
+                            spotlight?.updateImage(forURL: url!)
                         }
                         downloadBestIcon()
                         return
                     }
 
                     if !tab.isPrivate {
-                        FaviconMO.add(favicon: fav, forSiteUrl: currentUrl)
+                        FaviconMO.add(fav, forSiteUrl: currentUrl)
                         if tab.favicons.isEmpty {
-                            spotlight?.updateImage(img, forURL: url)
+                            spotlight?.updateImage(img, forURL: url!)
                         }
                     }
-                    tab.favicons[currentUrl.normalizedHost() ?? ""] = fav
+                    tab.favicons[currentUrl.normalizedHost ?? ""] = fav
                 })
             }
         }

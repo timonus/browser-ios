@@ -72,14 +72,14 @@ class BraveScrollController: NSObject {
 
     fileprivate var headerTopOffset: CGFloat = 0 {
         didSet {
-            headerTopConstraint?.updateOffset(headerTopOffset)
+            headerTopConstraint?.updateOffset(amount: headerTopOffset)
             header?.superview?.setNeedsLayout()
         }
     }
 
     fileprivate var footerBottomOffset: CGFloat = 0 {
         didSet {
-            footerBottomConstraint?.updateOffset(footerBottomOffset)
+            footerBottomConstraint?.updateOffset(amount: footerBottomOffset)
             footer?.superview?.setNeedsLayout()
         }
     }

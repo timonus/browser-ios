@@ -18,12 +18,12 @@ class HistoryPanel: SiteTableViewController, HomePanel {
     weak var homePanelDelegate: HomePanelDelegate? = nil
     fileprivate lazy var emptyStateOverlayView: UIView = self.createEmptyStateOverview()
     fileprivate var kvoContext: UInt8 = 1
-    var frc: NSFetchedResultsController? = nil
+    var frc: NSFetchedResultsController<NSFetchRequestResult>?
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NotificationFirefoxAccountChanged, object: nil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NotificationFirefoxAccountChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
     }
 
@@ -41,8 +41,8 @@ class HistoryPanel: SiteTableViewController, HomePanel {
     }
 
     deinit {
-        NotificationCenter.defaultCenter().removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
-        NotificationCenter.defaultCenter().removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
     }
 
@@ -110,7 +110,7 @@ class HistoryPanel: SiteTableViewController, HomePanel {
         cell.setLines(site.title, detailText: site.url)
         cell.imageView!.image = FaviconFetcher.defaultFavicon
         if let faviconMO = site.domain?.favicon, let url = faviconMO.url {
-            let favicon = Favicon(url: url, type: IconType(rawValue: Int(faviconMO.type)) ?? IconType.Guess)
+            let favicon = Favicon(url: url, type: IconType(rawValue: Int(faviconMO.type)) ?? IconType.guess)
             postAsyncToBackground {
                 let best = getBestFavicon([favicon])
                 postAsyncToMain {

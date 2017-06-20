@@ -192,7 +192,7 @@ class BookmarkEditingViewController: FormViewController {
 
 class BookmarksPanel: SiteTableViewController, HomePanel {
     weak var homePanelDelegate: HomePanelDelegate? = nil
-    var frc: NSFetchedResultsController? = nil
+    var frc: NSFetchedResultsController<NSFetchRequestResult>?
 
     fileprivate let BookmarkFolderCellIdentifier = "BookmarkFolderIdentifier"
     //private let BookmarkSeparatorCellIdentifier = "BookmarkSeparatorIdentifier"
@@ -231,7 +231,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
 
     deinit {
-        NotificationCenter.defaultCenter().removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
     }
 
     override func viewDidLoad() {
@@ -316,13 +316,13 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
         addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
-                                          style: .Plain, target: self, action: #selector(onAddBookmarksFolderButton))
+                                          style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
         items.append(addFolderButton)
         
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
 
         editBookmarksButton = UIBarButtonItem(title: Strings.Edit,
-                                              style: .Plain, target: self, action: #selector(onEditBookmarksButton))
+                                              style: .plain, target: self, action: #selector(onEditBookmarksButton))
         items.append(editBookmarksButton)
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
         
@@ -596,7 +596,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     func tableView(_ tableView: UITableView, editActionsForRowAtIndexPath indexPath: IndexPath) -> [AnyObject]? {
         guard let item = frc?.object(at: indexPath) as? Bookmark else { return nil }
 
-        let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Destructive, title: Strings.Delete, handler: { (action, indexPath) in
+        let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.destructive, title: Strings.Delete, handler: { (action, indexPath) in
 
             func delete() {
                 Bookmark.remove(bookmark: item, save: true)
@@ -606,19 +606,19 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             }
             
             if let children = item.children, !children.isEmpty {
-                let alert = UIAlertController(title: "Delete Folder?", message: "This will delete all folders and bookmarks inside. Are you sure you want to continue?", preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Yes, Delete", style: UIAlertActionStyle.Destructive) { action in
+                let alert = UIAlertController(title: "Delete Folder?", message: "This will delete all folders and bookmarks inside. Are you sure you want to continue?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Yes, Delete", style: UIAlertActionStyle.destructive) { action in
                     delete()
                     })
                
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             } else {
                 delete()
             }
         })
 
-        let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: Strings.Edit, handler: { (action, indexPath) in
+        let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: Strings.Edit, handler: { (action, indexPath) in
             self.showEditBookmarkController(tableView, indexPath: indexPath)
         })
 

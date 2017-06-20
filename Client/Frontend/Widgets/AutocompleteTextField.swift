@@ -71,8 +71,8 @@ class AutocompleteTextField: UITextField, UITextFieldDelegate {
         super.delegate = self
         super.addTarget(self, action: #selector(AutocompleteTextField.SELtextDidChange(_:)), for: UIControlEvents.editingChanged)
         notifyTextChanged = debounce(0.1, action: {
-            if self.editing {
-                self.autocompleteDelegate?.autocompleteTextField(self, didEnterText: self.enteredText.stringByTrimmingLeadingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))
+            if self.isEditing {
+                self.autocompleteDelegate?.autocompleteTextField(self, didEnterText: self.enteredText.stringByTrimmingLeadingCharactersInSet(NSCharacterSet.whitespaces))
             }
         })
     }
@@ -149,8 +149,8 @@ class AutocompleteTextField: UITextField, UITextFieldDelegate {
         let actualEnteredString = enteredText + string
         // Detecting the keyboard type, and remove hightlight in "zh-Hans" and "ja-JP"
         if !previousSuggestion.startsWith(normalizeString(actualEnteredString)) ||
-            UIApplication.sharedApplication().textInputMode?.primaryLanguage == "zh-Hans" ||
-            UIApplication.sharedApplication().textInputMode?.primaryLanguage == "ja-JP" {
+            UIApplication.shared.textInputMode?.primaryLanguage == "zh-Hans" ||
+            UIApplication.shared.textInputMode?.primaryLanguage == "ja-JP" {
             removeCompletion()
         }
         enteredText = actualEnteredString

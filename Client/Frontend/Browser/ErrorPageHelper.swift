@@ -255,8 +255,8 @@ class ErrorPageHelper {
     }
 
     class func isErrorPageURL(_ url: URL) -> Bool {
-        if let host = url.host, let path = url.path {
-            return url.scheme == "http" && host == "localhost" && path == "/errors/error.html"
+        if let host = url.host {
+            return url.scheme == "http" && host == "localhost" && url.path == "/errors/error.html"
         }
         return false
     }
@@ -288,7 +288,7 @@ extension ErrorPageHelper: BrowserHelper {
                 UIApplication.shared.openURL(originalURL)
             case ErrorPageHelper.MessageCertVisitOnce:
                 if let cert = certFromErrorURL(errorURL) {
-                    ErrorPageHelper.certStore?.addCertificate(cert)
+                    ErrorPageHelper.certStore?.addCertificate(cert, forOrigin: "TODO!")
                     message.webView?.reload()
                 }
             default:

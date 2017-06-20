@@ -62,7 +62,7 @@ class SyncWelcomeViewController: UIViewController {
         
         newToSyncButton = UIButton(type: .roundedRect)
         newToSyncButton.translatesAutoresizingMaskIntoConstraints = false
-        newToSyncButton.setTitle(Strings.NewSyncCode, forState: .Normal)
+        newToSyncButton.setTitle(Strings.NewSyncCode, for: .normal)
         newToSyncButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         newToSyncButton.setTitleColor(UIColor.white, for: UIControlState())
         newToSyncButton.backgroundColor = BraveUX.DefaultBlue
@@ -72,9 +72,9 @@ class SyncWelcomeViewController: UIViewController {
         
         existingUserButton = UIButton(type: .roundedRect)
         existingUserButton.translatesAutoresizingMaskIntoConstraints = false
-        existingUserButton.setTitle(Strings.ScanSyncCode, forState: .Normal)
+        existingUserButton.setTitle(Strings.ScanSyncCode, for: .normal)
         existingUserButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        existingUserButton.setTitleColor(UIColor(rgb: 0x696969), for: .Normal)
+        existingUserButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
         existingUserButton.addTarget(self, action: #selector(SEL_existingUser), for: .touchUpInside)
         scrollView.addSubview(existingUserButton)
         

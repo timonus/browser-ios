@@ -17,7 +17,7 @@ class AppSettingsTableViewController: SettingsTableViewController {
         navigationItem.title = Strings.Settings
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: Strings.Done,
-            style: UIBarButtonItemStyle.Done,
+            style: UIBarButtonItemStyle.done,
             target: navigationController, action: #selector(SettingsNavigationController.SELdone))
         navigationItem.rightBarButtonItem?.accessibilityIdentifier = "AppSettingsTableViewController.navigationItem.leftBarButtonItem"
         navigationItem.rightBarButtonItem?.tintColor = BraveUX.DefaultBlue
@@ -32,7 +32,7 @@ class AppSettingsTableViewController: SettingsTableViewController {
         accountDebugSettings = []
 
         let prefs = profile.prefs
-        var generalSettings = [
+        let generalSettings = [
             SearchSetting(settings: self),
             BoolSetting(prefs: prefs, prefKey: "blockPopups", defaultValue: true,
                 titleText: Strings.BlockPopupWindows),

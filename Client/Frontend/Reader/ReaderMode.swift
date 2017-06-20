@@ -240,7 +240,7 @@ class ReaderMode: BrowserHelper {
         }
 
         if let dict = getApp().profile?.prefs.dictionaryForKey(ReaderModeProfileKeyStyle) {
-            if let _style = ReaderModeStyle(dict: dict) {
+            if let _style = ReaderModeStyle(dict: dict as [String : AnyObject]) {
                 // Force didSet to get called to ensure style is updated on the page
                 style = _style
             }

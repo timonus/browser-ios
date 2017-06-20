@@ -218,8 +218,8 @@ class LoginsHelper: BrowserHelper {
                 var jsonObj = [String: AnyObject]()
                 if let cursor = res.successValue {
                     log.debug("Found \(cursor.count) logins.")
-                    jsonObj["requestId"] = requestId
-                    jsonObj["name"] = "RemoteLogins:loginsFound"
+                    jsonObj["requestId"] = requestId as AnyObject
+                    jsonObj["name"] = "RemoteLogins:loginsFound" as AnyObject
                     jsonObj["logins"] = cursor.map { $0!.toDict() }
                 }
 

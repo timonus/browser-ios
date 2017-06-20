@@ -39,7 +39,7 @@ class FaviconMO: NSManagedObject {
         context.perform {
             var item = FaviconMO.get(forFaviconUrl: favicon.url, context: context)
             if item == nil {
-                item = FaviconMO(entity: FaviconMO.entity(context), insertIntoManagedObjectContext: context)
+                item = FaviconMO(entity: FaviconMO.entity(context), insertInto: context)
                 item!.url = favicon.url
             }
             if item?.domain == nil {

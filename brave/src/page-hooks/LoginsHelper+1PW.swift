@@ -32,7 +32,7 @@ enum ThirdPartyPasswordManagerType: Int {
     }
     
     var icon: UIImage? {
-        return UIImage.templateImage(named: ThirdPartyPasswordManagerType.PMIconTitle[self] ?? "")
+        return UIImage.templateImageNamed(ThirdPartyPasswordManagerType.PMIconTitle[self] ?? "")
     }
     
     func choice() -> (String, String, Int) {
@@ -82,7 +82,7 @@ enum ThirdPartyPasswordManagerType: Int {
 
 extension LoginsHelper {
     func thirdPartyHelper(_ enabled: @escaping (Bool)->Void) {
-        BraveApp.is3rdPartyPasswordManagerInstalled(refreshLookup: false).upon {
+        BraveApp.is3rdPartyPasswordManagerInstalled(false).upon {
             result in
             if !result {
                 enabled(false)

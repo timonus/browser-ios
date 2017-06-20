@@ -37,7 +37,7 @@ struct ReaderModeHandlers {
                         // profile and then generate HTML from the Readability results.
                         var readerModeStyle = DefaultReaderModeStyle
                         if let dict = profile.prefs.dictionaryForKey(ReaderModeProfileKeyStyle) {
-                            if let style = ReaderModeStyle(dict: dict) {
+                            if let style = ReaderModeStyle(dict: dict as [String : AnyObject]) {
                                 readerModeStyle = style
                             }
                         }

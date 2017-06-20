@@ -84,7 +84,7 @@ class BraveTermsViewController: UIViewController {
             make.bottom.equalTo(self.view).offset(-30)
             make.height.equalTo(40)
             
-            let width = self.continueButton.sizeThatFits(CGSize(width: CGFloat.max, height: CGFloat.max)).width
+            let width = self.continueButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
             make.width.equalTo(width + 40)
         }
         

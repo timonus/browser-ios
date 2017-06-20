@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         browserViewController = BraveBrowserViewController(profile: profile, tabManager: self.tabManager)
         browserViewController.restorationIdentifier = NSStringFromClass(BrowserViewController.self)
-        browserViewController.restorationClass = AppDelegate as! UIViewControllerRestoration.Type.self
+        browserViewController.restorationClass = AppDelegate.Type as! UIViewControllerRestoration.Type
         browserViewController.automaticallyAdjustsScrollViewInsets = false
 
         braveTopViewController = BraveTopViewController(browserViewController: browserViewController as! BraveBrowserViewController)
@@ -139,7 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(forName: NSNotification.Name.FSReadingListAddReadingListItem, object: nil, queue: nil) { (notification) -> Void in
             if let userInfo = notification.userInfo, let url = userInfo["URL"] as? URL {
                 let title = (userInfo["Title"] as? String) ?? ""
-                profile.readingList?.createRecordWithURL(url.absoluteString ?? "", title: title, addedBy: UIDevice.currentDevice().name)
+                profile.readingList?.createRecordWithURL(url.absoluteString ?? "", title: title, addedBy: UIDevice.current.name)
             }
         }
 
@@ -377,10 +377,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set the UA for WKWebView (via defaults), the favicon fetcher, and the image loader.
         // This only needs to be done once per runtime. Note that we use defaults here that are
         // readable from extensions, so they can just use the cached identifier.
-        let defaults = UserDefaults(suiteName: AppInfo.sharedContainerIdentifier())!
-        defaults.registerDefaults(["UserAgent": firefoxUA])
+        let defaults = UserDefaults(suiteName: AppInfo.sharedContainerIdentifier)!
+        defaults.register(defaults: ["UserAgent": firefoxUA])
 
-        SDWebImageDownloader.sharedDownloader().setValue(firefoxUA, forHTTPHeaderField: "User-Agent")
+        SDWebImageDownloader.shared().setValue(firefoxUA, forHTTPHeaderField: "User-Agent")
 
         // Record the user agent for use by search suggestion clients.
         SearchViewController.userAgent = firefoxUA

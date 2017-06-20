@@ -84,10 +84,10 @@ class BraveShieldStatsView: UIView {
     }
     
     func update() {
-        adsStatView.stat = BraveGlobalShieldStats.singleton.adblock.formatUsingAbbrevation()
-        trackersStatView.stat = BraveGlobalShieldStats.singleton.trackingProtection.formatUsingAbbrevation()
-        httpsStatView.stat = BraveGlobalShieldStats.singleton.httpse.formatUsingAbbrevation()
-        timeStatView.stat = timeSaved
+//        adsStatView.stat = BraveGlobalShieldStats.singleton.adblock.formatUsingAbbrevation()
+//        trackersStatView.stat = BraveGlobalShieldStats.singleton.trackingProtection.formatUsingAbbrevation()
+//        httpsStatView.stat = BraveGlobalShieldStats.singleton.httpse.formatUsingAbbrevation()
+//        timeStatView.stat = timeSaved
     }
     
     var timeSaved: String {
@@ -163,13 +163,13 @@ class StatView: UIView {
         addSubview(statLabel)
         addSubview(titleLabel)
         
-        statLabel.snp_makeConstraints(closure: { (make) in
+        statLabel.snp_makeConstraints({ (make) in
             make.left.equalTo(0)
             make.right.equalTo(0)
-            make.centerY.equalTo(self).offset(-(statLabel.sizeThatFits(CGSize(width: CGFloat.max, height: CGFloat.max)).height)-10)
+            make.centerY.equalTo(self).offset(-(statLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).height)-10)
         })
         
-        titleLabel.snp_makeConstraints(closure: { (make) in
+        titleLabel.snp_makeConstraints({ (make) in
             make.left.equalTo(0)
             make.right.equalTo(0)
             make.top.equalTo(statLabel.snp_bottom).offset(5)

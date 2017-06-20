@@ -60,8 +60,8 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                     }
                 }
 
-                oldIcons = oldIcons.sort {
-                    return $0.width > $1.width
+                oldIcons = oldIcons.sorted {
+                    return $0.width! > $1.width!
                 }
 
                 return deferMaybe(oldIcons)
@@ -105,11 +105,11 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
             var icons = [Favicon]()
 
             if let data = result.successValue, result.isSuccess,
-                let element = RXMLElement(fromHTMLData: data), element.isValid {
+                let element = RXMLElement(fromHTMLData: data as Data!), element.isValid {
                 var reloadUrl: NSURL? = nil
                 element.iterate("head.meta") { meta in
-                    if let refresh = meta.attribute("http-equiv"), refresh == "Refresh",
-                        let content = meta.attribute("content"),
+                    if let refresh = meta?.attribute("http-equiv"), refresh == "Refresh",
+                        let content = meta?.attribute("content"),
                         let index = content.rangeOfString("URL="),
                         let url = NSURL(string: content.substringFromIndex(index.startIndex.advancedBy(4))) {
                         reloadUrl = url
@@ -121,9 +121,9 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                 }
 
                 var bestType = IconType.NoneFound
-                element.iterateWithRootXPath("//head//link[contains(@rel, 'icon')]") { link in
+                element.iterate(withRootXPath: "//head//link[contains(@rel, 'icon')]") { link in
                     var iconType: IconType? = nil
-                    if let rel = link.attribute("rel") {
+                    if let rel = link?.attribute("rel") {
                         switch (rel) {
                         case "shortcut icon":
                             iconType = .Icon
@@ -138,7 +138,7 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                         }
                     }
 
-                    guard let href = link.attribute("href"), iconType != nil else {
+                    guard let href = link?.attribute("href"), iconType != nil else {
                         return
                     }
 
@@ -147,7 +147,7 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                     }
 
                     if let type = iconType, !bestType.isPreferredTo(type),
-                        let iconUrl = NSURL(string: href, relativeToURL: url) {
+                        let iconUrl = NSURL(string: href, relativeToURL: url as URL) {
                         let icon = Favicon(url: iconUrl.absoluteString ?? "", date: NSDate(), type: type)
                         // If we already have a list of Favicons going already, then add it…
                         if (type == bestType) {
@@ -161,7 +161,7 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                 }
 
                 // If we haven't got any options icons, then use the default at the root of the domain.
-                if let url = NSURL(string: "/favicon.ico", relativeToURL: url), icons.isEmpty {
+                if let url = NSURL(string: "/favicon.ico", relativeToURL: url as URL), icons.isEmpty {
                     let icon = Favicon(url: url.absoluteString ?? "", date: NSDate(), type: .Guess)
                     icons = [icon]
                 }
@@ -177,17 +177,17 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
 
         var fav = Favicon(url: url, type: icon.type)
         if let url = url.asURL {
-            manager.downloadImageWithURL(url,
-                                         options: SDWebImageOptions.LowPriority,
+            manager?.downloadImage(with: url,
+                                         options: SDWebImageOptions.lowPriority,
                                          progress: nil,
                                          completed: { (img, err, cacheType, success, url) -> Void in
-                                            fav = Favicon(url: url.absoluteString ?? "",
+                                            fav = Favicon(url: url?.absoluteString ?? "",
                                                 type: icon.type)
 
                                             if let img = img, !PrivateBrowsing.singleton.isOn {
                                                 fav.width = Int(img.size.width)
                                                 fav.height = Int(img.size.height)
-                                                FaviconMO.add(favicon: fav, forSiteUrl: siteUrl)
+                                                FaviconMO.add(fav, forSiteUrl: siteUrl as URL)
                                             } else {
                                                 fav.width = 0
                                                 fav.height = 0

@@ -88,7 +88,7 @@ class BraveContextMenu {
             if bvc.urlBar.inSearchMode {
                 return
             }
-            bvc.showContextMenu(elements: tappedElement, touchPoint: tapLocation)
+            bvc.showContextMenu(tappedElement, touchPoint: tapLocation)
             reset()
         }
 

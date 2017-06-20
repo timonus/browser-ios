@@ -30,7 +30,7 @@ extension TabManager {
                 // Freshly created web views won't have any history entries at all.
                 let backList = tab.webView?.backForwardList.backList ?? []
                 let forwardList = tab.webView?.backForwardList.forwardList ?? []
-                urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString ?? "" }
+                urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString }
                 currentPage = -forwardList.count
             }
             if let id = tab.tabID {
@@ -50,8 +50,8 @@ extension TabManager {
     }
 
     func restoreTabs() {
-        struct RunOnceAtStartup { static var token: Int = 0 }
-        dispatch_once(&RunOnceAtStartup.token, restoreTabsInternal)
+//        struct RunOnceAtStartup { static var token: Int = 0 }
+//        dispatch_once(&RunOnceAtStartup.token, restoreTabsInternal)
     }
 
     fileprivate func restoreTabsInternal() {

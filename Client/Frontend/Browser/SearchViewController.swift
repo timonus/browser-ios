@@ -237,7 +237,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         prompt.addSubview(promptLabel)
 
         let promptYesButton = InsetButton()
-        promptYesButton.setTitle(PromptYes, forState: UIControlState.Normal)
+        promptYesButton.setTitle(PromptYes, for: UIControlState.Normal)
         promptYesButton.setTitleColor(SearchViewControllerUX.PromptButtonColor, for: UIControlState.Normal)
         promptYesButton.titleLabel?.font = SearchViewControllerUX.PromptYesFont
         promptYesButton.titleEdgeInsets = SearchViewControllerUX.PromptInsets
@@ -248,7 +248,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         prompt.addSubview(promptYesButton)
 
         let promptNoButton = InsetButton()
-        promptNoButton.setTitle(PromptNo, forState: UIControlState.Normal)
+        promptNoButton.setTitle(PromptNo, for: UIControlState.Normal)
         promptNoButton.setTitleColor(SearchViewControllerUX.PromptButtonColor, for: UIControlState.Normal)
         promptNoButton.titleLabel?.font = SearchViewControllerUX.PromptNoFont
         promptNoButton.titleEdgeInsets = SearchViewControllerUX.PromptInsets
@@ -423,7 +423,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
     fileprivate func animateSearchEnginesWithKeyboard(_ keyboardState: KeyboardState) {
         layoutSearchEngineScrollView()
 
-        UIView.animateWithDuration(keyboardState.animationDuration, animations: {
+        UIView.animate(withDuration: keyboardState.animationDuration, animations: {
             UIView.setAnimationCurve(keyboardState.animationCurve)
             self.view.layoutIfNeeded()
         })

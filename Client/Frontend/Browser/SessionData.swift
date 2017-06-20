@@ -17,7 +17,7 @@ class SessionData: NSObject, NSCoding {
     var jsonDictionary: [String: AnyObject] {
         return [
             "currentPage": String(self.currentPage) as AnyObject,
-            "lastUsedTime": String(self.lastUsedTime),
+            "lastUsedTime": String(self.lastUsedTime) as AnyObject,
             "urls": urls.map { $0.absoluteString ?? "" }
         ]
     }
@@ -52,16 +52,16 @@ class SessionData: NSObject, NSCoding {
     required init?(coder: NSCoder) {
         self.currentPage = coder.decodeObject(forKey: "currentPage") as? Int ?? 0
         self.urls = coder.decodeObject(forKey: "urls") as? [URL] ?? []
-        self.lastUsedTime = UInt64(coder.decodeInt64ForKey("lastUsedTime")) ?? Date.now()
+        self.lastUsedTime = UInt64(coder.decodeInt64(forKey: "lastUsedTime")) ?? Date.now()
         self.currentTitle = coder.decodeObject(forKey: "currentTitle") as? String ?? ""
-        self.currentFavicon = coder.decodeObjectForKey("currentFavicon") as? Favicon
+        self.currentFavicon = coder.decodeObject(forKey: "currentFavicon") as? Favicon
     }
 
     func encode(with coder: NSCoder) {
         coder.encode(currentPage, forKey: "currentPage")
         coder.encode(urls, forKey: "urls")
-        coder.encodeInt64(Int64(lastUsedTime), forKey: "lastUsedTime")
+        coder.encode(Int64(lastUsedTime), forKey: "lastUsedTime")
         coder.encode(currentTitle, forKey: "currentTitle")
-        coder.encodeObject(currentFavicon, forKey: "currentFavicon")
+        coder.encode(currentFavicon, forKey: "currentFavicon")
     }
 }

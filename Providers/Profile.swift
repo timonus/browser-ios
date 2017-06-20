@@ -31,7 +31,7 @@ class ProfileFileAccessor: FileAccessor {
 
         // Bug 1147262: First option is for device, second is for simulator.
         var rootPath: NSString
-        if let sharedContainerIdentifier = AppInfo.sharedContainerIdentifier(), let url = FileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(sharedContainerIdentifier), let path = url.path {
+        if let sharedContainerIdentifier = AppInfo.sharedContainerIdentifier, let url = FileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(sharedContainerIdentifier), let path = url.path {
             rootPath = path as NSString
         } else {
             if Bundle.main.bundleIdentifier?.contains("com.brave.ios") ?? false {
@@ -41,7 +41,7 @@ class ProfileFileAccessor: FileAccessor {
             rootPath = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0]) as NSString
         }
 
-        super.init(rootPath: rootPath.stringByAppendingPathComponent(profileDirName))
+        super.init(rootPath: rootPath.appendingPathComponent(profileDirName))
     }
 }
 
@@ -119,14 +119,14 @@ open class BrowserProfile: Profile {
      * see Bug 1218833. Be sure to only perform synchronous actions here.
      */
     init(localName: String, app: UIApplication?, clear: Bool = false) {
-        log.debug("Initing profile \(localName) on thread \(Thread.currentThread()).")
+        log.debug("Initing profile \(localName) on thread \(Thread.current).")
         self.name = localName
         self.files = ProfileFileAccessor(localName: localName)
         self.app = app
 
         if clear {
             do {
-                try FileManager.default.removeItemAtPath(self.files.rootPath as String)
+                try FileManager.default.removeItem(atPath: self.files.rootPath as String)
             } catch {
                 log.info("Cannot clear profile: \(error)")
             }
@@ -137,7 +137,7 @@ open class BrowserProfile: Profile {
         notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onPrivateDataClearedHistory(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
 
 
-        if let baseBundleIdentifier = AppInfo.baseBundleIdentifier() {
+        if let baseBundleIdentifier = AppInfo.baseBundleIdentifier {
             KeychainWrapper.serviceName = baseBundleIdentifier
         } else {
             log.error("Unable to get the base bundle identifier. Keychain data will not be shared.")
@@ -221,7 +221,7 @@ open class BrowserProfile: Profile {
 
     deinit {
         log.debug("Deiniting profile \(self.localName).")
-        NotificationCenter.defaultCenter().removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
     }
 
     func localName() -> String {

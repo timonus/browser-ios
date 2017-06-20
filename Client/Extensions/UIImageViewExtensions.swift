@@ -10,7 +10,7 @@ public extension UIImageView {
     public func setIcon(_ icon: Favicon?, withPlaceholder placeholder: UIImage, completion: (()->())? = nil) {
         if let icon = icon {
             let imageURL = URL(string: icon.url)
-            self.sd_setImageWithURL(imageURL) { (img, err, type, url) -> Void in
+            self.sd_setImage(with: imageURL) { (img, err, type, url) -> Void in
                 if err != nil {
                     self.image = placeholder
                 } 

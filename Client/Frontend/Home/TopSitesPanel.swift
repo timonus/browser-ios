@@ -78,8 +78,8 @@ class TopSitesPanel: UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(TopSitesPanel.notificationReceived(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(TopSitesPanel.notificationReceived(_:)), name: NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.notificationReceived(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.notificationReceived(_:)), name: NotificationPrivacyModeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.handleRotation), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
 
@@ -118,8 +118,8 @@ class TopSitesPanel: UIViewController {
         
         privateTabLinkButton = UIButton()
         let linkButtonTitle = NSAttributedString(string: Strings.Private_Tab_Link, attributes:
-            [NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue])
-        privateTabLinkButton.setAttributedTitle(linkButtonTitle, forState: .Normal)
+            [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue])
+        privateTabLinkButton.setAttributedTitle(linkButtonTitle, for: .Normal)
         privateTabLinkButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
         privateTabLinkButton.titleLabel?.textColor = UIColor(white: 1, alpha: 0.25)
         privateTabLinkButton.titleLabel?.textAlignment = .center
@@ -218,8 +218,8 @@ class TopSitesPanel: UIViewController {
     }
     
     deinit {
-        NotificationCenter.defaultCenter().removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
-        NotificationCenter.defaultCenter().removeObserver(self, name: NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationPrivacyModeChanged, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
 
@@ -305,7 +305,7 @@ class TopSitesPanel: UIViewController {
         context.perform {
             var sites = [Site]()
 
-            let domains = Domain.topSitesQuery(limit: 6, context: context)
+            let domains = Domain.topSitesQuery(6, context: context)
             for d in domains {
                 let s = Site(url: d.url ?? "", title: "")
 
@@ -725,10 +725,10 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         case .NoneFound where Date().timeIntervalSinceDate(icon.date) < FaviconFetcher.ExpirationTime:
             self.setDefaultThumbnailBackgroundForCell(cell)
         default:
-            cell.imageView.sd_setImageWithURL(icon.url.asURL, completed: { (img, err, type, url) -> Void in
+            cell.imageView.sd_setImage(with: icon.url.asURL, completed: { (img, err, type, url) -> Void in
                 if let img = img {
                     cell.image = img
-                    self.setColorBackground(img, withURL: url, forCell: cell)
+                    self.setColorBackground(img, withURL: url!, forCell: cell)
                 } else {
                     self.setDefaultThumbnailBackgroundForCell(cell)
                     self.downloadFaviconsAndUpdateForSite(site)
@@ -738,7 +738,7 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     }
 
     fileprivate func configureCell(_ cell: ThumbnailCell, forSuggestedSite site: SuggestedSite) {
-        cell.textLabel.text = site.title.isEmpty ? URL(string: site.url)?.normalizedHostAndPath() : site.title.lowercaseString
+        cell.textLabel.text = site.title.isEmpty ? URL(string: site.url)?.normalizedHostAndPath : site.title.lowercased()
         cell.imageView.backgroundColor = site.backgroundColor
         cell.imageView.contentMode = .scaleAspectFit
         cell.imageView.layer.minificationFilter = kCAFilterTrilinear
@@ -758,14 +758,14 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
                 
                 // Brave hack. The images are too close to the top edge
                 UIGraphicsBeginImageContextWithOptions(image.size, false, 0)
-                image.drawInRect(CGRect(origin: CGPoint(x: 3, y: 6), size: CGSize(width: image.size.width - 6, height: image.size.height - 6)))
+                image.draw(in: CGRect(origin: CGPoint(x: 3, y: 6), size: CGSize(width: image.size.width - 6, height: image.size.height - 6)))
                 let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
                 cell.imageView.image = scaledImage
             }
 
         } else {
-            cell.imageView.sd_setImageWithURL(icon, completed: { img, err, type, key in
+            cell.imageView.sd_setImage(with: icon, completed: { img, err, type, key in
                 if img == nil {
                     self.setDefaultThumbnailBackgroundForCell(cell)
                 }
@@ -790,8 +790,8 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         // that's OK: top sites change frequently anyway.
         var historySites: [Site] = historySites
         self.sites = self.sites.filter { site in
-            if let index = historySites.indexOf({ extractDomainURL($0.url) == extractDomainURL(site.url) }) {
-                historySites.removeAtIndex(index)
+            if let index = historySites.index(where: { extractDomainURL($0.url) == extractDomainURL(site.url) }) {
+                historySites.remove(at: index)
                 return true
             }
 
@@ -816,9 +816,9 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
 
                 self.sites = self.sites.map { site in
                     let domainURL = self.extractDomainURL(site.url)
-                    if let index = (self.suggestedSites.indexOf { self.extractDomainURL($0.url) == domainURL }) {
+                    if let index = (self.suggestedSites.index { self.extractDomainURL($0.url) == domainURL }) {
                         let suggestedSite = self.suggestedSites[index]
-                        self.suggestedSites.removeAtIndex(index)
+                        self.suggestedSites.remove(at: index)
                         return suggestedSite
                     }
                     return site
@@ -843,7 +843,7 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     }
 
     fileprivate func extractDomainURL(_ url: String) -> String {
-        return URL(string: url)?.normalizedHost() ?? url
+        return URL(string: url)?.normalizedHost ?? url
     }
 
     @objc func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

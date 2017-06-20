@@ -152,7 +152,7 @@ class BoolSetting: Setting {
         let control = UISwitch()
         control.onTintColor = UIConstants.ControlTintColor
         control.addTarget(self, action: #selector(BoolSetting.switchValueChanged(_:)), for: UIControlEvents.valueChanged)
-        control.on = prefs.boolForKey(prefKey) ?? defaultValue
+        control.isOn = prefs.boolForKey(prefKey) ?? defaultValue
         if let title = title {
             if let status = status {
                 control.accessibilityLabel = "\(title.string), \(status.string)"
@@ -165,7 +165,7 @@ class BoolSetting: Setting {
     }
 
     @objc func switchValueChanged(_ control: UISwitch) {
-        prefs.setBool(control.on, forKey: prefKey)
+        prefs.setBool(control.isOn, forKey: prefKey)
         settingDidChange?(control.isOn)
     }
 }
@@ -215,7 +215,7 @@ class SettingsTableViewController: UITableViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.SELsyncDidChangeState), name: NSNotification.Name(rawValue: NotificationProfileDidStartSyncing), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.SELsyncDidChangeState), name: NSNotification.Name(rawValue: NotificationProfileDidFinishSyncing), object: nil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.SELfirefoxAccountDidChange), name: NotificationFirefoxAccountChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.SELfirefoxAccountDidChange), name: NotificationFirefoxAccountChanged, object: nil)
 
         tableView.reloadData()
     }
@@ -229,7 +229,7 @@ class SettingsTableViewController: UITableViewController {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationProfileDidStartSyncing), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationProfileDidFinishSyncing), object: nil)
-        NotificationCenter.defaultCenter().removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
     }
 
     // Override to provide settings in subclasses
@@ -342,7 +342,7 @@ class SettingsTableFooterView: UIView {
 
     fileprivate lazy var topBorder: CALayer = {
         let topBorder = CALayer()
-        topBorder.backgroundColor = UIConstants.SeparatorColor.CGColor
+        topBorder.backgroundColor = UIConstants.SeparatorColor.cgColor
         return topBorder
     }()
 

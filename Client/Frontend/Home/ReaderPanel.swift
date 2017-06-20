@@ -165,10 +165,10 @@ class ReadingListTableViewCell: UITableViewCell {
             if !unread {
                 // mimic light gray visual dimming by "dimming" the speech by reducing pitch
                 let lowerPitchString = NSMutableAttributedString(string: string as String)
-                lowerPitchString.addAttribute(UIAccessibilitySpeechAttributePitch, value: NSNumber(float: ReadingListTableViewCellUX.ReadAccessibilitySpeechPitch), range: NSMakeRange(0, lowerPitchString.length))
+                lowerPitchString.addAttribute(UIAccessibilitySpeechAttributePitch, value: NSNumber(value: ReadingListTableViewCellUX.ReadAccessibilitySpeechPitch), range: NSMakeRange(0, lowerPitchString.length))
                 label = NSAttributedString(attributedString: lowerPitchString)
             } else {
-                label = string
+                label = string as AnyObject
             }
             // need to use KVC as accessibilityLabel is of type String! and cannot be set to NSAttributedString other way than this
             // see bottom of page 121 of the PDF slides of WWDC 2012 "Accessibility for iOS" session for indication that this is OK by Apple
@@ -188,7 +188,7 @@ class ReadingListPanel: UITableViewController, HomePanel {
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ReadingListPanel.notificationReceived(_:)), name: NotificationFirefoxAccountChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ReadingListPanel.notificationReceived(_:)), name: NotificationFirefoxAccountChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ReadingListPanel.notificationReceived(_:)), name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
     }
 
@@ -226,7 +226,7 @@ class ReadingListPanel: UITableViewController, HomePanel {
     }
 
     deinit {
-        NotificationCenter.defaultCenter().removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
     }
 
@@ -382,7 +382,7 @@ class ReadingListPanel: UITableViewController, HomePanel {
             return []
         }
 
-        let delete = UITableViewRowAction(style: .Normal, title: ReadingListTableViewCellUX.DeleteButtonTitleText) { [weak self] action, index in
+        let delete = UITableViewRowAction(style: .normal, title: ReadingListTableViewCellUX.DeleteButtonTitleText) { [weak self] action, index in
             self?.deleteItem(atIndex: index)
         }
         delete.backgroundColor = ReadingListTableViewCellUX.DeleteButtonBackgroundColor

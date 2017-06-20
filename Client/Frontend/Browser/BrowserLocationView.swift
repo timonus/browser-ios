@@ -115,7 +115,7 @@ class BrowserLocationView: UIView {
     /// Returns constant placeholder text with current URL color
     var placeholder: NSAttributedString {
         let placeholderText = Strings.Search_or_enter_address
-        return NSAttributedString(string: placeholderText, attributes: [NSForegroundColorAttributeName: self.fullURLFontColor.colorWithAlphaComponent(0.5)])
+        return NSAttributedString(string: placeholderText, attributes: [NSForegroundColorAttributeName: self.fullURLFontColor.withAlphaComponent(0.5)])
     }
 
     lazy var urlTextField: UITextField = {
@@ -176,8 +176,8 @@ class BrowserLocationView: UIView {
 
         stopReloadButton.accessibilityIdentifier = "BrowserToolbar.stopReloadButton"
         
-        stopReloadButton.setImage(UIImage.templateImage(named: "reload"), for: .Normal)
-        stopReloadButton.setImage(UIImage.templateImage(named: "stop"), for: .Selected)
+        stopReloadButton.setImage(UIImage.templateImageNamed("reload"), for: .normal)
+        stopReloadButton.setImage(UIImage.templateImageNamed("stop"), for: .selected)
         // Setup the state dependent visuals
         stopReloadButtonIsLoading(false)
         
@@ -199,7 +199,7 @@ class BrowserLocationView: UIView {
         self.sendSubview(toBack: braveProgressView)
     }
 
-    override var accessibilityElements: [AnyObject]! {
+    override var accessibilityElements: [Any]! {
         get {
             return [lockImageView, urlTextField, readerModeButton].filter { !$0.isHidden }
         }
@@ -281,13 +281,13 @@ class BrowserLocationView: UIView {
             return
         }
 
-        if let httplessURL = url?.absoluteDisplayString(), let baseDomain = url?.baseDomain() {
+        if let httplessURL = url?.absoluteDisplayString, let baseDomain = url?.baseDomain {
             // Highlight the base domain of the current URL.
             let attributedString = NSMutableAttributedString(string: httplessURL)
             let nsRange = NSMakeRange(0, httplessURL.characters.count)
             attributedString.addAttribute(NSForegroundColorAttributeName, value: baseURLFontColor, range: nsRange)
             attributedString.colorSubstring(baseDomain, withColor: hostFontColor)
-            attributedString.addAttribute(UIAccessibilitySpeechAttributePitch, value: NSNumber(double: BrowserLocationViewUX.BaseURLPitch), range: nsRange)
+            attributedString.addAttribute(UIAccessibilitySpeechAttributePitch, value: NSNumber(value: BrowserLocationViewUX.BaseURLPitch), range: nsRange)
             attributedString.pitchSubstring(baseDomain, withPitch: BrowserLocationViewUX.HostPitch)
             urlTextField.attributedText = attributedString
         } else {

@@ -13,22 +13,22 @@ typealias UIAlertActionCallback = (UIAlertAction) -> Void
 // MARK: - Extension methods for building specific UIAlertController instances used across the app
 extension UIAlertController {
 
-    class func clearPrivateDataAlert(_ okayCallback: (UIAlertAction) -> Void) -> UIAlertController {
+    class func clearPrivateDataAlert(_ okayCallback: @escaping (UIAlertAction) -> Void) -> UIAlertController {
         let alert = UIAlertController(
             title: "",
             message: Strings.ThisWillClearAllPrivateDataItCannotBeUndone,
-            preferredStyle: UIAlertControllerStyle.Alert
+            preferredStyle: UIAlertControllerStyle.alert
         )
 
         let noOption = UIAlertAction(
             title: Strings.Cancel,
-            style: UIAlertActionStyle.Cancel,
+            style: UIAlertActionStyle.cancel,
             handler: nil
         )
 
         let okayOption = UIAlertAction(
             title: Strings.OK,
-            style: UIAlertActionStyle.Destructive,
+            style: UIAlertActionStyle.destructive,
             handler: okayCallback
         )
 
@@ -47,7 +47,7 @@ extension UIAlertController {
      - returns: UIAlertController instance
      */
     class func deleteLoginAlertWithDeleteCallback(
-        _ deleteCallback: UIAlertActionCallback,
+        _ deleteCallback: @escaping UIAlertActionCallback,
         hasSyncedLogins: Bool) -> UIAlertController {
 
         let areYouSureTitle = Strings.AreYouSure
@@ -58,13 +58,13 @@ extension UIAlertController {
 
         let deleteAlert: UIAlertController
         if hasSyncedLogins {
-            deleteAlert = UIAlertController(title: areYouSureTitle, message: deleteSyncedDevicesMessage, preferredStyle: .Alert)
+            deleteAlert = UIAlertController(title: areYouSureTitle, message: deleteSyncedDevicesMessage, preferredStyle: .alert)
         } else {
-            deleteAlert = UIAlertController(title: areYouSureTitle, message: deleteLocalMessage, preferredStyle: .Alert)
+            deleteAlert = UIAlertController(title: areYouSureTitle, message: deleteLocalMessage, preferredStyle: .alert)
         }
 
-        let cancelAction = UIAlertAction(title: cancelActionTitle, style: .Cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: deleteActionTitle, style: .Destructive, handler: deleteCallback)
+        let cancelAction = UIAlertAction(title: cancelActionTitle, style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: deleteActionTitle, style: .destructive, handler: deleteCallback)
 
         deleteAlert.addAction(cancelAction)
         deleteAlert.addAction(deleteAction)

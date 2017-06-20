@@ -83,10 +83,10 @@ class BraveTopViewController : UIViewController {
     }
 
     fileprivate func setupBrowserConstraints() {
-        browserViewController.view.snp_makeConstraints {
+        browserViewController.view.snp.makeConstraints {
             make in
             make.bottom.equalTo(view)
-            make.top.equalTo(snp_topLayoutGuideTop)
+            make.top.equalTo(snp.topLayoutGuideTop)
             let _rightConstraint = make.right.equalTo(view).constraint
             let _leftConstraint = make.left.equalTo(view).constraint
 
@@ -97,7 +97,7 @@ class BraveTopViewController : UIViewController {
         }
 
         if UIDevice.current.userInterfaceIdiom != .phone {
-            browserViewController.header.snp_makeConstraints { make in
+            browserViewController.header.snp.makeConstraints { make in
                 if rightConstraint == nil {
                     leftConstraint = make.left.equalTo(view).constraint
                     rightConstraint = make.right.equalTo(view).constraint
