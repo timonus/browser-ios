@@ -10,13 +10,13 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         case devices, options, reset
         
         // To disable a section, just remove it from this enum, and it will no longer be loaded
-        static let allSections: [SyncSection] = [.options, .reset]
+        static let allSections: [SyncSection] = [.reset]
         
         func settings(profile profile: Profile) -> SettingSection? {
             // TODO: move these prefKeys somewhere else
             let syncPrefBookmarks = "syncBookmarksKey"
-//            let syncPrefTabs = "syncTabsKey"
-//            let syncPrefHistory = "syncHistoryKey"
+            let syncPrefTabs = "syncTabsKey"
+            let syncPrefHistory = "syncHistoryKey"
             
             switch self {
             case .devices:
@@ -29,8 +29,8 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                 let prefs = profile.prefs
                 return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercaseString), children:
                     [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true, titleText: Strings.Bookmarks)
-//                    ,BoolSetting(prefs: prefs, prefKey: syncPrefTabs, defaultValue: true, titleText: Strings.Tabs)
-//                    ,BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)
+                    ,BoolSetting(prefs: prefs, prefKey: syncPrefTabs, defaultValue: true, titleText: Strings.Tabs)
+                    ,BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)
                     ]
                 )
             case .reset:
@@ -50,8 +50,6 @@ class SyncSettingsViewController: AppSettingsTableViewController {
             return settings
         }
     }
-    
-
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = InsetLabel(frame: CGRectMake(0, 5, tableView.frame.size.width, 60))
