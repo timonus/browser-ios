@@ -70,9 +70,9 @@ extension BrowserViewController: WKCompatNavigationDelegate {
             let tempValue: String? = ""
             if let phoneNumber = tempValue { // url.resourceSpecifier.removingPercentEncoding {
                 let alert = UIAlertController(title: phoneNumber, message: nil, preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.Cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: Strings.Call, style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
-                    UIApplication.sharedApplication().openURL(url)
+                alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: Strings.Call, style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
+                    UIApplication.shared.openURL(url)
                 }))
                 present(alert, animated: true, completion: nil)
             }

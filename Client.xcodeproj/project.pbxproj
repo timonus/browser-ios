@@ -235,6 +235,7 @@
 		5CD7F3901E3FB7FA00A12BB9 /* TabMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */; };
 		5CE70E451E022FAB008B307A /* BraveShieldStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE70E441E022FAB008B307A /* BraveShieldStatsView.swift */; };
 		5CFC706D1D9D9F30008A7B7A /* BraveTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFC706C1D9D9F30008A7B7A /* BraveTermsViewController.swift */; };
+		5D11B1831F0195A7007B1DF4 /* JSONSerializationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D11B1821F0195A7007B1DF4 /* JSONSerializationExtensions.swift */; };
 		5D27859A1E70D7EF0066EC15 /* JSInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2785991E70D7EF0066EC15 /* JSInjector.swift */; };
 		5D2785BE1E71D7050066EC15 /* NicewareTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D27858C1E70CC660066EC15 /* NicewareTest.swift */; };
 		5D2AE6F81E83F3EC00BC274C /* SyncBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2AE6F51E83F3EC00BC274C /* SyncBookmark.swift */; };
@@ -1084,6 +1085,7 @@
 		5CE70E441E022FAB008B307A /* BraveShieldStatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BraveShieldStatsView.swift; path = brave/src/frontend/BraveShieldStatsView.swift; sourceTree = "<group>"; };
 		5CFC706C1D9D9F30008A7B7A /* BraveTermsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BraveTermsViewController.swift; path = brave/src/frontend/BraveTermsViewController.swift; sourceTree = "<group>"; };
 		5D09BD4576555D874B5D0D4A /* db_impl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = db_impl.h; path = ./brave/ThirdParty/leveldb/db/db_impl.h; sourceTree = "<group>"; };
+		5D11B1821F0195A7007B1DF4 /* JSONSerializationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONSerializationExtensions.swift; path = Client/Extensions/JSONSerializationExtensions.swift; sourceTree = "<group>"; };
 		5D27858C1E70CC660066EC15 /* NicewareTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicewareTest.swift; sourceTree = "<group>"; };
 		5D2785991E70D7EF0066EC15 /* JSInjector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSInjector.swift; sourceTree = "<group>"; };
 		5D2AE6F51E83F3EC00BC274C /* SyncBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncBookmark.swift; sourceTree = "<group>"; };
@@ -2603,6 +2605,7 @@
 				FE1FB09C21B187C3C06E32BC /* UIImageViewExtensions.swift */,
 				0673E6B0F226F20D46B220A9 /* UIPasteboardExtensions.swift */,
 				5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */,
+				5D11B1821F0195A7007B1DF4 /* JSONSerializationExtensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -4284,6 +4287,7 @@
 				4F31DDE7EBC23007AABA22BE /* ReaderMode.swift in Sources */,
 				BB63E86A4AC53F36D5B76263 /* ReaderModeCache.swift in Sources */,
 				2FBCFA22FFA948467136AF65 /* ReaderModeHandlers.swift in Sources */,
+				5D11B1831F0195A7007B1DF4 /* JSONSerializationExtensions.swift in Sources */,
 				1C1BD844C67E5F9C40F06A40 /* ReaderModeStyleViewController.swift in Sources */,
 				52808425834F70D43948B2AB /* ReaderModeUtils.swift in Sources */,
 				B4AC7FC0F7D974AD0BA32C3A /* AppSettingsOptions.swift in Sources */,

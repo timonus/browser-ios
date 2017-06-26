@@ -268,7 +268,7 @@ extension Sync {
                 SyncRoot(bookmark: $0, deviceId: self.syncDeviceId, action: action.rawValue).dictionaryRepresentation()
             }
             
-            guard let json = JSONSerialization.jsObject(withNative: syncRecords, escaped: false) else {
+            guard let json = JSONSerialization.jsonObject(withNative: syncRecords, escaped: false) else {
                 // Huge error
                 return
             }
@@ -414,7 +414,7 @@ extension Sync {
         
         
         // TODO: Check if parsing not required
-        guard let serializedData = JSONSerialization.jsObject(withNative: matchedBookmarks as AnyObject, escaped: false) else {
+        guard let serializedData = JSONSerialization.jsonObject(withNative: matchedBookmarks as AnyObject, escaped: false) else {
             // Huge error
             return
         }
@@ -429,8 +429,8 @@ extension Sync {
     // Only called when the server has info for client to save
     func saveInitData(_ data: JSON) {
         // Sync Seed
-        if let seedJSON = data["arg1"].asArray {
-            let seed = seedJSON.map({ $0.asInt }).flatMap({ $0 })
+        if let seedJSON = data["arg1"].array {
+            let seed = seedJSON.map({ $0.int }).flatMap({ $0 })
             
             // TODO: Move to constant
             if seed.count < Sync.SeedByteLength {
@@ -446,9 +446,9 @@ extension Sync {
         }
         
         // Device Id
-        if let deviceArray = data["arg2"].asArray, deviceArray.count > 0 {
+        if let deviceArray = data["arg2"].array, deviceArray.count > 0 {
             // TODO: Just don't set, if bad, allow sync to recover on next init
-            syncDeviceId = deviceArray.map { $0.asInt ?? 0 }
+            syncDeviceId = deviceArray.map { $0.intValue }
         } else if syncDeviceId == nil {
             print("Device Id expected!")
         }

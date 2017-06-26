@@ -215,7 +215,7 @@ class LoginsHelper: BrowserHelper {
     fileprivate func requestLogins(_ login: LoginData, requestId: String) {
         succeed().upon() { _ in // move off main thread
             getApp().profile?.logins.getLoginsForProtectionSpace(login.protectionSpace).uponQueue(DispatchQueue.main) { res in
-                var jsonObj = [String: AnyObject]()
+                var jsonObj = [String: Any]()
                 if let cursor = res.successValue {
                     log.debug("Found \(cursor.count) logins.")
                     jsonObj["requestId"] = requestId as AnyObject
@@ -224,7 +224,7 @@ class LoginsHelper: BrowserHelper {
                 }
 
                 let json = JSON(jsonObj)
-                let src = "window.__firefox__.logins.inject(\(json.toString()))"
+                let src = "window.__firefox__.logins.inject(\(json.stringValue))"
                 self.browser?.webView?.evaluateJavaScript(src, completionHandler: nil)
             }
         }

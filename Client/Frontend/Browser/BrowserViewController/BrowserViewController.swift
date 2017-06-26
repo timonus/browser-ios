@@ -400,9 +400,9 @@ class BrowserViewController: UIViewController {
         }
         
         header.snp_makeConstraints { make in
-            scrollController.headerTopConstraint = make.top.equalTo(snp_topLayoutGuideBottom).constraint
+//            scrollController.headerTopConstraint = make.top.equalTo(snp_topLayoutGuideBottom).constraint
             if let headerHeightConstraint = headerHeightConstraint {
-                headerHeightConstraint.updateOffset(BraveURLBarView.CurrentHeight)
+                headerHeightConstraint.updateOffset(amount: BraveURLBarView.CurrentHeight)
             } else {
                 headerHeightConstraint = make.height.equalTo(BraveURLBarView.CurrentHeight).constraint
             }
@@ -521,7 +521,7 @@ class BrowserViewController: UIViewController {
     }
 
     fileprivate func shouldShowWhatsNewTab() -> Bool {
-        guard let latestMajorAppVersion = profile.prefs.stringForKey(LatestAppVersionProfileKey)?.componentsSeparatedBy(".").first else {
+        guard let latestMajorAppVersion = profile.prefs.stringForKey(LatestAppVersionProfileKey)?.components(separatedBy: ".").first else {
             return DeviceInfo.hasConnectivity()
         }
 
