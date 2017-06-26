@@ -521,7 +521,7 @@ class BrowserViewController: UIViewController {
     }
 
     fileprivate func shouldShowWhatsNewTab() -> Bool {
-        guard let latestMajorAppVersion = profile.prefs.stringForKey(LatestAppVersionProfileKey)?.componentsSeparatedByString(".").first else {
+        guard let latestMajorAppVersion = profile.prefs.stringForKey(LatestAppVersionProfileKey)?.componentsSeparatedBy(".").first else {
             return DeviceInfo.hasConnectivity()
         }
 

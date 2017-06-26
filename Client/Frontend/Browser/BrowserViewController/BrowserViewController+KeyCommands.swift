@@ -94,7 +94,7 @@ extension BrowserViewController {
         #if DEBUG
             // in simulator, CMD+t is slow-mo animation
             return result + [
-                UIKeyCommand(input: "t", modifierFlags: [.Command, .Shift], action: #selector(BrowserViewController.newTab))]
+                UIKeyCommand(input: "t", modifierFlags: [.command, .Shift], action: #selector(BrowserViewController.newTab))]
         #else
             return result
         #endif

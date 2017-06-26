@@ -112,7 +112,7 @@ class SyncPairCameraViewController: UIViewController {
         
         cameraAccessButton = UIButton(type: .roundedRect)
         cameraAccessButton.translatesAutoresizingMaskIntoConstraints = false
-        cameraAccessButton.setTitle(Strings.GrantCameraAccess, for: .Normal)
+        cameraAccessButton.setTitle(Strings.GrantCameraAccess, for: .normal)
         cameraAccessButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         cameraAccessButton.setTitleColor(UIColor.white, for: UIControlState())
         cameraAccessButton.backgroundColor = BraveUX.DefaultBlue
@@ -122,9 +122,9 @@ class SyncPairCameraViewController: UIViewController {
         
         enterWordsButton = UIButton(type: .roundedRect)
         enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
-        enterWordsButton.setTitle(Strings.EnterCodeWords, for: .Normal)
+        enterWordsButton.setTitle(Strings.EnterCodeWords, for: .normal)
         enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        enterWordsButton.setTitleColor(UIColor(rgb: 0x696969), for: .Normal)
+        enterWordsButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
         enterWordsButton.addTarget(self, action: #selector(SEL_enterWords), for: .touchUpInside)
         scrollView.addSubview(enterWordsButton)
         

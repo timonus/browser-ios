@@ -73,7 +73,8 @@ protocol WebPageStateDelegate : class {
 }
 
 class BrowserTabToUAMapper {
-    static fileprivate let idToBrowserTab = NSMapTable(keyOptions: NSPointerFunctions.Options(), valueOptions: .weakMemory)
+    // TODO: weakMemory seems to be valid
+    static fileprivate let idToBrowserTab = NSMapTable(keyOptions: NSPointerFunctions.Options.weakMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
 
     static func setId(_ uniqueId: Int, tab: Browser) {
         objc_sync_enter(self)
@@ -91,7 +92,7 @@ class BrowserTabToUAMapper {
             // the first created webview doesn't have this id set (see webviewBuiltinUserAgent to explain)
             return idToBrowserTab.object(forKey: 1) as? Browser
         }
-        let keyString = ua.substring(with: loc.upperBound..<loc.index(loc.upperBound, offsetBy: 6))
+        let keyString = "" // ua.substring(with: loc.upperBound..<loc.index(loc.upperBound, offsetBy: 6))
         guard let key = Int(keyString) else { return nil }
         return idToBrowserTab.object(forKey: key) as? Browser
     }
@@ -148,8 +149,9 @@ class BraveWebView: UIWebView {
     fileprivate var lastBroadcastedKvoUrl: String = ""
     // return true if set, false if unchanged
     func setUrl( _ newUrl: Foundation.URL?) -> Bool {
-        guard var newUrl = newUrl, let urlString = newUrl.absoluteString, !urlString.isEmpty else { return false }
-
+        guard var newUrl = newUrl, !newUrl.absoluteString.isEmpty else { return false }
+        let urlString = newUrl.absoluteString
+        
         if urlString.endsWith("?") {
             if let noEndingQ = URL?.absoluteString.components(separatedBy: "?")[0] {
                 newUrl = Foundation.URL(string: noEndingQ) ?? newUrl
@@ -822,13 +824,14 @@ extension BraveWebView: UIWebViewDelegate {
             return
         }
 
+        // TODO: Move to extension
         if (error.domain == NSURLErrorDomain) &&
                (error.code == NSURLErrorServerCertificateHasBadDate      ||
                 error.code == NSURLErrorServerCertificateUntrusted         ||
                 error.code == NSURLErrorServerCertificateHasUnknownRoot    ||
                 error.code == NSURLErrorServerCertificateNotYetValid)
         {
-            if errorUrl.absoluteString?.regexReplacePattern("^.+://", with: "") != URL?.absoluteString?.regexReplacePattern("^.+://", with: "") {
+            if errorUrl.absoluteString.regexReplacePattern("^.+://", with: "") != URL?.absoluteString.regexReplacePattern("^.+://", with: "") {
                 print("only show cert error for top-level page")
                 return
             }

@@ -92,17 +92,17 @@ extension BrowserViewController: URLBarDelegate {
     func urlBarDidLongPressReaderMode(_ urlBar: URLBarView) -> Bool {
         guard let tab = tabManager.selectedTab,
             let url = tab.displayURL,
-            let result = profile.readingList?.createRecordWithURL(url.absoluteString ?? "", title: tab.title ?? "", addedBy: UIDevice.currentDevice().name)
+            let result = profile.readingList?.createRecordWithURL(url.absoluteString ?? "", title: tab.title ?? "", addedBy: UIDevice.current.name)
             else {
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, Strings.Could_not_add_page_to_Reading_List)
                 return false
         }
 
         switch result {
-        case .Success:
+        case .success:
             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, Strings.Added_page_to_reading_list)
         // TODO: https://bugzilla.mozilla.org/show_bug.cgi?id=1158503 provide some form of 'this has been added' visual feedback?
-        case .Failure(let error):
+        case .failure(let error):
             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, Strings.Could_not_add_page_to_Reading_List)
             log.error("readingList.createRecordWithURL(url: \"\(url.absoluteString)\", ...) failed with error: \(error)")
         }

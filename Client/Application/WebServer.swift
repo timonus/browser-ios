@@ -49,8 +49,8 @@ class WebServer {
 
     /// Convenience method to register all resources in the main bundle of a specific type. Will be mounted at $base/$module/$resource
     func registerMainBundleResourcesOfType(_ type: String, module: String) {
-        for path: NSString in Bundle.paths(forResourcesOfType: type, inDirectory: Bundle.main.bundlePath) {
-            let resource = path.lastPathComponent
+        for path in Bundle.paths(forResourcesOfType: type, inDirectory: Bundle.main.bundlePath) {
+            let resource: String = "" // path.lastPathComponent
             server.addGETHandler(forPath: "/\(module)/\(resource)", filePath: path as String, isAttachment: false, cacheAge: UInt.max, allowRangeRequests: true)
         }
     }
@@ -68,7 +68,7 @@ class WebServer {
     func updateLocalURL(_ url: URL) -> URL? {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         if components?.host == "localhost" && components?.scheme == "http" {
-            components?.port = WebServer.sharedInstance.server.port
+            components?.port = Int(WebServer.sharedInstance.server.port)
         }
         return components?.url
     }

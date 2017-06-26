@@ -2,6 +2,7 @@
 
 import UIKit
 import CoreData
+import Shared
 
 var requestCount = 0
 let markerRequestHandled = "request-already-handled"
@@ -156,7 +157,7 @@ class URLProtocol: Foundation.URLProtocol {
             return
         } else if shieldState.isOnAdBlockAndTp() ?? false && (TrackingProtection.singleton.shouldBlock(request) || AdBlocker.singleton.shouldBlock(request)) {
 
-            if request.url?.host?.contains("pcworldcommunication.d2.sc.omtrdc.net") ?? false || request.URL?.host?.contains("b.scorecardresearch.com") ?? false {
+            if request.url?.host?.contains("pcworldcommunication.d2.sc.omtrdc.net") ?? false || request.url?.host?.contains("b.scorecardresearch.com") ?? false {
                 // sites such as macworld.com need this, or links are not clickable
                 returnBlankPixel()
             } else {
@@ -237,6 +238,6 @@ class URLProtocol: Foundation.URLProtocol {
 
     func connection(_ connection: NSURLConnection!, didFailWithError error: NSError!) {
         self.client!.urlProtocol(self, didFailWithError: error)
-        print("* Error url: \(self.request.URLString)\n* Details: \(error)")
+        print("* Error url: \(self.request.url?.absoluteString)\n* Details: \(error)")
     }
 }

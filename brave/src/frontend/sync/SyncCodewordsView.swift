@@ -120,7 +120,8 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         
         // Filter out whitespace and apply change to current text
         // TODO: Need to add `.withoutWhitespace`
-        let result = text.replacingCharacters(in: range, with: string)
+//        let result = text.replacingCharacters(in: range, with: string)
+        let result = ""
         
         // Manually apple text to have better control over what is being entered
         //  Could use this for custom autocomplete for pre-defined keywords

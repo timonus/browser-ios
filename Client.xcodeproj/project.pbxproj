@@ -244,6 +244,7 @@
 		5D3892551E98108F00F959E6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5D3892531E98108F00F959E6 /* Model.xcdatamodeld */; };
 		5D448B481EA1572A00F1BA98 /* WebsitePresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D448B471EA1572A00F1BA98 /* WebsitePresentable.swift */; };
 		5D71B69B1E6885E00073621F /* Niceware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D71B69A1E6885E00073621F /* Niceware.swift */; };
+		5DA05E2D1EFC4315001D7EDE /* ErrorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */; };
 		5DB199151E859F9100A851B6 /* SyncResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB199141E859F9100A851B6 /* SyncResponse.swift */; };
 		5E5E76550DFB4EB71194132F /* LICENSE in Sources */ = {isa = PBXBuildFile; fileRef = 36C647DC00749BCC944D6EC6 /* LICENSE */; };
 		5E6571D452F3C000461D2481 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F94204C0EC007236424A86 /* AppDelegate.swift */; };
@@ -1094,6 +1095,7 @@
 		5D448B471EA1572A00F1BA98 /* WebsitePresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebsitePresentable.swift; path = brave/src/data/WebsitePresentable.swift; sourceTree = "<group>"; };
 		5D71B69A1E6885E00073621F /* Niceware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Niceware.swift; sourceTree = "<group>"; };
 		5D84AB2CBD701CBBDC40620C /* ReadingListAuthenticator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReadingListAuthenticator.swift; path = ./ReadingList/ReadingListAuthenticator.swift; sourceTree = "<group>"; };
+		5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorExtensions.swift; path = Client/Extensions/ErrorExtensions.swift; sourceTree = "<group>"; };
 		5DB199141E859F9100A851B6 /* SyncResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncResponse.swift; sourceTree = "<group>"; };
 		5DC93C70E9DA3485A2FD2BD3 /* Error.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Error.swift; path = ./ThirdParty/Result/Error.swift; sourceTree = "<group>"; };
 		5E2DD2C9767F04D79BD241B0 /* port_posix.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = port_posix.h; path = ./brave/ThirdParty/leveldb/port/port_posix.h; sourceTree = "<group>"; };
@@ -2600,6 +2602,7 @@
 				8AD518CD61521727267829F7 /* UIAlertControllerExtensions.swift */,
 				FE1FB09C21B187C3C06E32BC /* UIImageViewExtensions.swift */,
 				0673E6B0F226F20D46B220A9 /* UIPasteboardExtensions.swift */,
+				5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -4328,6 +4331,7 @@
 				1610DE47378FA4C024E4F384 /* UIImageViewAligned.m in Sources */,
 				05CB8811A90FFA41ACBFA3E5 /* AboutUtils.swift in Sources */,
 				8B8862C9D4EECB136E146B2B /* DynamicFontHelper.swift in Sources */,
+				5DA05E2D1EFC4315001D7EDE /* ErrorExtensions.swift in Sources */,
 				C3424B76234256F7426F3A7D /* FaviconFetcher.swift in Sources */,
 				32AFA6803EED54948FC69908 /* MenuHelper.swift in Sources */,
 				8C0901558DCB4A138F977DCE /* Swizzling.m in Sources */,

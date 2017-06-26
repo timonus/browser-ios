@@ -86,7 +86,7 @@ class BraveTopViewController : UIViewController {
         browserViewController.view.snp.makeConstraints {
             make in
             make.bottom.equalTo(view)
-            make.top.equalTo(snp.topLayoutGuideTop)
+//            make.top.equalTo(snp.topLayoutGuideTop)
             let _rightConstraint = make.right.equalTo(view).constraint
             let _leftConstraint = make.left.equalTo(view).constraint
 

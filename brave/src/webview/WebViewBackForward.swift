@@ -4,12 +4,12 @@ import Foundation
 
 class LegacyBackForwardListItem {
 
-    var URL: Foundation.URL = Foundation.URL() {
+    var URL: Foundation.URL {
         didSet {
             checkForLocalWebserver()
         }
     }
-    var initialURL: Foundation.URL = Foundation.URL()
+    var initialURL: Foundation.URL
     var title:String = "" {
         didSet {
             checkForLocalWebserver()

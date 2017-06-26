@@ -153,7 +153,7 @@ open class WebViewProgress
         let isTopLevelNavigation = request.mainDocumentURL == request.url
 
         let isHTTPOrLocalFile = (request.url?.scheme?.startsWith("http") ?? false) ||
-            (request.URL?.scheme?.startsWith("file") ?? false)
+            (request.url?.scheme?.startsWith("file") ?? false)
 
         if (!isFragmentJump && isHTTPOrLocalFile && isTopLevelNavigation) {
             currentURL = request.url

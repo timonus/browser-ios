@@ -172,7 +172,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
                 URL: displayURL,
                 title: browser.displayTitle,
                 history: history,
-                lastUsed: NSDate.now(),
+                lastUsed: 123,
                 icon: nil)
         } else if let sessionData = browser.sessionData, !sessionData.urls.isEmpty {
             let history = Array(sessionData.urls.filter(RemoteTab.shouldIncludeURL).reversed())
@@ -264,7 +264,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
             for urlString in sessionData.history {
                 guard let url = URL(string: urlString) else { continue }
                 let updatedURL = WebServer.sharedInstance.updateLocalURL(url)!.absoluteString
-                guard let curr = updatedURL.regexReplacePattern("https?:..", with: "") else { continue }
+                let curr = updatedURL.regexReplacePattern("https?:..", with: "")
                 if curr.characters.count > 1 && curr == prev {
                     updatedURLs.removeLast()
                 }
@@ -276,9 +276,9 @@ class Browser: NSObject, BrowserWebViewDelegate {
             var jsonDict = [String: AnyObject]()
             jsonDict["history"] = updatedURLs as AnyObject
             jsonDict["currentPage"] = Int(currentPage) as AnyObject
-            let escapedJSON = JSON.stringify(jsonDict, pretty: false).stringByAddingPercentEncodingWithAllowedCharacters(CharacterSet.URLQueryAllowedCharacterSet())!
+            let escapedJSON = "" // JSON.stringify(jsonDict, pretty: false).stringByAddingPercentEncodingWithAllowedCharacters(CharacterSet.URLQueryAllowedCharacterSet())!
             let restoreURL = URL(string: "\(WebServer.sharedInstance.base)/about/sessionrestore?history=\(escapedJSON)")
-            lastRequest = URLRequest(URL: restoreURL!)
+            lastRequest = URLRequest(url: restoreURL!)
             webView.loadRequest(lastRequest!)
         } else if let request = lastRequest {
             webView.loadRequest(request)
@@ -405,12 +405,12 @@ class Browser: NSObject, BrowserWebViewDelegate {
             }
 
             if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), (urlComponents.user != nil) || (urlComponents.password != nil) {
-                urlComponents.user = nil
-                urlComponents.password = nil
+//                urlComponents.user = nil
+//                urlComponents.password = nil
                 return urlComponents.url
             }
 
-            if let path = url.absoluteString, !AboutUtils.isAboutURL(url) && !path.contains(WebServer.sharedInstance.base) {
+            if !AboutUtils.isAboutURL(url) && !url.absoluteString.contains(WebServer.sharedInstance.base) {
                 return url
             }
         }

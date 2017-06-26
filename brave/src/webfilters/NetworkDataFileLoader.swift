@@ -109,18 +109,18 @@ class NetworkDataFileLoader {
 
     fileprivate func checkForUpdatedFileAfterDelay() {
         postAsyncToMain(10.0) { // a few seconds after startup, check to see if a new file is available
-            Alamofire.request(.HEAD, self.dataUrl).response {
-                request, response, data, error in
-                if let err = error {
-                    print("\(err)")
-                } else {
-                    guard let etag = response?.allHeaderFields["Etag"] as? String else { return }
-                    let etagOnDisk = self.readDataEtag()
-                    if etagOnDisk != etag {
-                        self.networkRequest()
-                    }
-                }
-            }
+//            Alamofire.request(.HEAD, self.dataUrl).response {
+//                request, response, data, error in
+//                if let err = error {
+//                    print("\(err)")
+//                } else {
+//                    guard let etag = response?.allHeaderFields["Etag"] as? String else { return }
+//                    let etagOnDisk = self.readDataEtag()
+//                    if etagOnDisk != etag {
+//                        self.networkRequest()
+//                    }
+//                }
+//            }
         }
     }
 

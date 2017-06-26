@@ -135,9 +135,9 @@ class BraveApp {
         if args.contains("BRAVE-DELETE-BOOKMARKS") {
             succeed().upon { _ in
                 getApp().profile!.bookmarks.modelFactory >>== {
-                    $0.clearBookmarks().uponQueue(DispatchQueue.main) { res in
+//                    $0.clearBookmarks().uponQueue(DispatchQueue.main) { res in
                         // test case should just sleep or wait for bm count to be zero
-                    }
+//                    }
                 }
             }
         }

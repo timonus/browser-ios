@@ -30,6 +30,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     let shieldsOverviewFooter = UILabel()
     
     // Constraints stored for updating dynamically
+    // These should be updated to use Snapkit Constraints
     var headerContainerHeightConstraint: LayoutConstraint?
     var siteNameContainerHeightConstraint: LayoutConstraint?
     var shieldsOverviewContainerHeightConstraint: LayoutConstraint?
@@ -171,7 +172,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                 if i == 0 {
                     make.top.equalTo(section.superview!)
                     // Updated dynamically, setting to 0 just to setup height constraint
-                    headerContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+//                    headerContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
                 } else if section !== sections.last {
                     make.top.equalTo(sections[i - 1].snp.bottom)
                     make.bottom.equalTo(sections[i + 1].snp.top)
@@ -179,10 +180,10 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
 
                 if section === siteNameContainer {
                     // Updated dynamically
-                    siteNameContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+//                    siteNameContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
                 } else if section === shieldsOverviewContainer {
                     // Updated dynamically
-                    shieldsOverviewContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+//                    shieldsOverviewContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
                 } else if section === statsContainer {
                     make.height.equalTo(isTinyScreen() ? 120 : 160)
                 } else if section === togglesContainer {

@@ -46,7 +46,7 @@ class SafeBrowsing {
         defer { objc_sync_exit(self) }
 
         if request.mainDocumentURL?.absoluteString.startsWith(WebServer.sharedInstance.base) ?? false ||
-            request.URL?.absoluteString?.startsWith(WebServer.sharedInstance.base) ?? false {
+            request.url?.absoluteString.startsWith(WebServer.sharedInstance.base) ?? false {
             return false
         }
 

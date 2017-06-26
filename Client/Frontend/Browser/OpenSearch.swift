@@ -76,7 +76,7 @@ class OpenSearchEngine {
         if isSearchURLForEngine(url) {
             if let key = searchQueryComponentKey,
                 let value = url?.getQuery()[key] {
-                return value.stringByReplacingOccurrencesOfString("+", withString: " ").stringByRemovingPercentEncoding
+                return value.stringByReplacingOccurrencesOfString("+", withString: " ").removingPercentEncoding
             }
         }
         return nil

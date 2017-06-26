@@ -9,7 +9,7 @@ extension UILabel {
         if let text = self.attributedText {
             let attr = NSMutableAttributedString(attributedString: text)
             let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
-            let length = range.distance(from: range.lowerBound, to: range.upperBound)
+            let length = 3 // range.distance(from: range.lowerBound, to: range.upperBound)
             attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: self.font.pointSize)], range: NSMakeRange(start, length))
             self.attributedText = attr
         }
@@ -127,13 +127,13 @@ class BraveURLBarView : URLBarView {
         let showingPolicy = TabsBarShowPolicy(rawValue: Int(BraveApp.getPrefs()?.intForKey(kPrefKeyTabsBarShowPolicy) ?? Int32(kPrefKeyTabsBarOnDefaultValue.rawValue))) ?? kPrefKeyTabsBarOnDefaultValue
 
         let bvc = getApp().browserViewController
-        let noShowDueToPortrait =  UIDevice.currentDevice.userInterfaceIdiom == .Phone &&
+        let noShowDueToPortrait =  UIDevice.current.userInterfaceIdiom == .phone &&
             bvc!.shouldShowFooterForTraitCollection(bvc!.traitCollection) &&
-            showingPolicy == TabsBarShowPolicy.LandscapeOnly
+            showingPolicy == TabsBarShowPolicy.landscapeOnly
 
         let isShowing = tabsBarController.view.alpha > 0
 
-        let shouldShow = showingPolicy != TabsBarShowPolicy.Never && tabCount > 1 && !noShowDueToPortrait
+        let shouldShow = showingPolicy != TabsBarShowPolicy.never && tabCount > 1 && !noShowDueToPortrait
 
         func updateOffsets() {
             bvc?.headerHeightConstraint?.updateOffset(amount: BraveURLBarView.CurrentHeight)
@@ -478,7 +478,8 @@ class BraveURLBarView : URLBarView {
         if v.text!.endsWith(" Up") || v.text!.endsWith(" Down") {
             // english translation gets bolded text
             if var range = v.text!.range(of: " ", options:NSString.CompareOptions.backwards) {
-                range.upperBound = v.text!.characters.endIndex
+                // Seems odd, should be able ot just adjust `upperBound`
+//                range = range.lowerBound...v.text!.characters.count
                 v.boldRange(range)
             }
         }

@@ -18,7 +18,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
             if urlBar.inSearchMode {
                 return
             }
-            if touchPoint == CGPointZero && UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
+            if touchPoint == CGPoint.zero && UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
                 print("zero touchpoint for context menu: \(elements)")
                 return
             }
@@ -115,7 +115,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
                     application.endBackgroundTask(taskId)
                 })
 
-                Alamofire.request(.GET, url)
+                Alamofire.request(url)
                     .validate(statusCode: 200..<300)
                     .response { responseRequest, responseResponse, responseData, responseError in
                         // Only set the image onto the pasteboard if the pasteboard hasn't changed since
@@ -145,7 +145,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
     }
 
     fileprivate func getImage(_ url: URL, success: @escaping (UIImage) -> ()) {
-        Alamofire.request(.GET, url)
+        Alamofire.request(url)
             .validate(statusCode: 200..<300)
             .response { _, _, data, _ in
                 if let data = data,

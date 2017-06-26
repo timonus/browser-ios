@@ -5,13 +5,13 @@ import SnapKit
 import SafariServices
 
 class BraveBrowserViewController : BrowserViewController {
-    fileprivate static var __once: () = {
+    private static var __once: () = {
             if BraveApp.shouldRestoreTabs() && !PrivateBrowsing.singleton.isOn {
                 // Only do tab restoration if in normal mode.
                 //  If in PM, restoration happens on leaving.
-                tabManager.restoreTabs()
+//                tabManager.restoreTabs()
             } else {
-                tabManager.addTabAndSelect()
+//                tabManager.addTabAndSelect()
             }
         }()
     var historySwiper = HistorySwiper()

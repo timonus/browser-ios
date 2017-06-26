@@ -16,7 +16,7 @@ __weak UIViewController *currentActivityView = nil;
 
 void forceAlpha(CGFloat alpha)
 {
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         currentActivityView.view.superview.superview.alpha = alpha;
     } else {
         currentActivityView.view.superview.alpha = alpha;

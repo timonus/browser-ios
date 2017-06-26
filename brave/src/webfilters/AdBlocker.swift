@@ -146,7 +146,7 @@ class AdBlocker {
             }
         }
 
-        var dict: [String:AnyObject] = [:]
+        var dict: [HTTPCookiePropertyKey:Any] = [:]
         dict[HTTPCookiePropertyKey.path] = "/"
         dict[HTTPCookiePropertyKey.name] = cookieName
         dict[HTTPCookiePropertyKey.value] = "forbes_ab=true; welcomeAd=true; adblock_session=Off; dailyWelcomeCookie=true"

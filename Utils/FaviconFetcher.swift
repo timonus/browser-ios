@@ -74,7 +74,7 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
         return deferred
     }
 
-    lazy fileprivate var alamofire: Alamofire.Manager = {
+    lazy fileprivate var alamofire: Alamofire.SessionManager = {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 5
 

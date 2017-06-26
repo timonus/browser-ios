@@ -139,14 +139,20 @@ extension HttpsEverywhere {
         #if DEBUG
             let urls = ["thestar.com", "thestar.com/", "www.thestar.com", "apple.com", "xkcd.com"]
             for url in urls {
-                guard let _ =  HttpsEverywhere.singleton.tryRedirectingUrl(URL(string: "http://" + url)) else {
+                guard let unwrappedURL = URL(string: "http://" + url), let _ = HttpsEverywhere.singleton.tryRedirectingUrl(unwrappedURL) else {
                     BraveApp.showErrorAlert(title: "Debug Error", error: "HTTPS-E validation failed on url: \(url)")
                     return
                 }
             }
 
-            let url = HttpsEverywhere.singleton.tryRedirectingUrl(URL(string: "http://www.googleadservices.com/pagead/aclk?sa=L&ai=CD0d/"))
-            if url == nil || !(url!.absoluteString?.hasSuffix("?sa=L&ai=CD0d/") ?? false) {
+            // TODO: Should combine
+            guard let unwrappedURL = URL(string: "http://www.googleadservices.com/pagead/aclk?sa=L&ai=CD0d/") else {
+                BraveApp.showErrorAlert(title: "Debug Error", error: "HTTPS-E validation failed for url args")
+                return
+            }
+            
+            let url = HttpsEverywhere.singleton.tryRedirectingUrl(unwrappedURL)
+            if url == nil || !(url!.absoluteString.hasSuffix("?sa=L&ai=CD0d/") ?? false) {
                 BraveApp.showErrorAlert(title: "Debug Error", error: "HTTPS-E validation failed for url args")
             }
         #endif

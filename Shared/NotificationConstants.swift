@@ -25,3 +25,8 @@ public let NotificationFirefoxAccountVerified = Notification.Name("FirefoxAccoun
 
 // MARK: Notification UserInfo Keys
 public let NotificationUserInfoKeyHasSyncableAccount = Notification.Name("NotificationUserInfoKeyHasSyncableAccount")
+
+
+// TODO: Should be moved outside of `Shared`
+// Fired when privacy mode changed
+public let NotificationPrivacyModeChanged = Notification.Name("PrivacyModeChangedNotification")

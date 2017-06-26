@@ -32,12 +32,12 @@ extension BrowserViewController {
 //        }
     }
 
-    func showReaderModeBar(_ animated: Bool) {
+    func showReaderModeBar(animated: Bool) {
         (urlBar as! BraveURLBarView).showReaderModeBar()
         updateReaderModeBar()
     }
 
-    func hideReaderModeBar(_ animated: Bool) {
+    func hideReaderModeBar(animated: Bool) {
         (urlBar as! BraveURLBarView).hideReaderModeBar()
     }
 

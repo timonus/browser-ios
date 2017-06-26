@@ -1,6 +1,7 @@
 import Shared
 import Deferred
 import Crashlytics
+import Shared
 
 private let _singleton = PrivateBrowsing()
 
@@ -104,7 +105,7 @@ class PrivateBrowsing {
 
         UserDefaults.standard.set(true, forKey: "WebKitPrivateBrowsingEnabled")
         
-        NotificationCenter.default.postNotificationName(NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.post(name: NotificationPrivacyModeChanged, object: nil)
     }
 
     fileprivate var exitDeferred = Deferred<Void>()
@@ -142,7 +143,7 @@ class PrivateBrowsing {
             }
         }
         
-        NotificationCenter.default.postNotificationName(NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.post(name: NotificationPrivacyModeChanged, object: nil)
 
         return exitDeferred
     }
@@ -209,7 +210,7 @@ class PrivateBrowsing {
         if let cookies = storage.cookies {
             for cookie in cookies {
                 if let readOnlyProps = cookie.properties {
-                    var props = readOnlyProps as [String: AnyObject]
+                    var props = readOnlyProps as [HTTPCookiePropertyKey: Any]
                     let discard = props[HTTPCookiePropertyKey.discard] as? String
                     if discard == nil || discard! != "TRUE" {
                         props.removeValue(forKey: HTTPCookiePropertyKey.expires)

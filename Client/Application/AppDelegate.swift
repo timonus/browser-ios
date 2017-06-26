@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         browserViewController = BraveBrowserViewController(profile: profile, tabManager: self.tabManager)
         browserViewController.restorationIdentifier = NSStringFromClass(BrowserViewController.self)
-        browserViewController.restorationClass = AppDelegate.Type as! UIViewControllerRestoration.Type
+        browserViewController.restorationClass = AppDelegate.Type.self as! UIViewControllerRestoration.Type
         browserViewController.automaticallyAdjustsScrollViewInsets = false
 
         braveTopViewController = BraveTopViewController(browserViewController: browserViewController as! BraveBrowserViewController)
@@ -345,12 +345,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     fileprivate func updateAuthenticationInfo() {
-        if let authInfo = KeychainWrapper.authenticationInfo() {
-            if !LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
-                authInfo.useTouchID = false
-                KeychainWrapper.setAuthenticationInfo(authInfo)
-            }
-        }
+//        if let authInfo = KeychainWrapper.authenticationInfo() {
+//            if !LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+//                authInfo.useTouchID = false
+//                KeychainWrapper.setAuthenticationInfo(authInfo)
+//            }
+//        }
     }
 
     fileprivate func setUpWebServer(_ profile: Profile) {
