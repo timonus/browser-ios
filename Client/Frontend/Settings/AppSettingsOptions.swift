@@ -213,9 +213,9 @@ class RemoveDeviceSetting: Setting {
     
     override func onClick(navigationController: UINavigationController?) {
         
-        let alert = UIAlertController(title: "Remove this Device?", message: "This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.", preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.Destructive) { action in
+        let alert = UIAlertController(title: Strings.SyncRemoveThisDeviceQuestion, message: Strings.SyncRemoveThisDeviceQuestionDesc, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: Strings.Remove, style: UIAlertActionStyle.Destructive) { action in
             Sync.shared.leaveSyncGroup()
             navigationController?.popToRootViewControllerAnimated(true)
         })
