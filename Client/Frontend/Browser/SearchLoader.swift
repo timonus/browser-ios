@@ -119,7 +119,9 @@ class _SearchLoader<UnusedA, UnusedB>: Loader<[Site], SearchViewController> {
         if let range = domainWithDotPrefix.range(of: ".\(query)", options: NSString.CompareOptions.caseInsensitive, range: nil, locale: nil) {
             // We don't actually want to match the top-level domain ("com", "org", etc.) by itself, so
             // so make sure the result includes at least one ".".
-            let matchedDomain: String = domainWithDotPrefix.substring(from: index(range.lowerBound, 1))
+            
+            // TODO: Fix
+            let matchedDomain: String = "" // domainWithDotPrefix.substring(from: index(range.lowerBound, 1))
             if matchedDomain.contains(".") {
                 return matchedDomain + "/"
             }

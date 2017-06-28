@@ -310,7 +310,7 @@ class TopSitesPanel: UIViewController {
                 let s = Site(url: d.url ?? "", title: "")
 
                 if let url = d.favicon?.url {
-                    s.icon = Favicon(url: url, type: IconType.Guess)
+                    s.icon = Favicon(url: url, type: IconType.guess)
                 }
                 sites.append(s)
             }
@@ -336,7 +336,7 @@ class TopSitesPanel: UIViewController {
                     // Finally, requery to pull in the latest sites.
                     self.topSitesQuery().uponQueue(DispatchQueue.main) { sites in
                         self.updateDataSourceWithSites(sites) {
-                            self.collection?.userInteractionEnabled = true
+                            self.collection?.isUserInteractionEnabled = true
                         }
                     }
                 }
@@ -373,7 +373,7 @@ class TopSitesPanel: UIViewController {
         return result
     }
 
-    fileprivate func deleteOrUpdateSites(_ indexPath: NSIndexPath) -> Success {
+    fileprivate func deleteOrUpdateSites(_ indexPath: IndexPath) -> Success {
         guard let collection = self.collection else { return succeed() }
 
         let result = Success()
@@ -678,19 +678,19 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         FaviconFetcher.getForURL(siteURL).uponQueue(DispatchQueue.main) { result in
             guard let favicons = result.successValue, favicons.count > 0,
                   let url = favicons.first?.url.asURL,
-                  let indexOfSite = (self.sites.indexOf { $0 == site }) else {
+                    let indexOfSite = self.sites.index(where: { $0 == site }) else {
                 return
             }
 
-            let indexPathToUpdate = NSIndexPath(forItem: indexOfSite, inSection: 0)
-            guard let cell = self.collectionView?.cellForItemAtIndexPath(indexPathToUpdate) as? ThumbnailCell else { return }
-            cell.imageView.sd_setImageWithURL(url) { (img, err, type, url) -> Void in
+            let indexPathToUpdate = IndexPath(item: indexOfSite, section: 0)
+            guard let cell = self.collectionView?.cellForItem(at: indexPathToUpdate) as? ThumbnailCell else { return }
+            cell.imageView.sd_setImage(with: url) { (img, err, type, url) -> Void in
                 guard let img = img else {
                     self.setDefaultThumbnailBackgroundForCell(cell)
                     return
                 }
                 cell.image = img
-                self.setColorBackground(img, withURL: url, forCell: cell)
+                self.setColorBackground(img, withURL: url!, forCell: cell)
             }
         }
     }
@@ -722,7 +722,7 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
 
         // We've looked before recently and didn't find a favicon
         switch icon.type {
-        case .NoneFound where Date().timeIntervalSinceDate(icon.date) < FaviconFetcher.ExpirationTime:
+        case .noneFound where Date().timeIntervalSince(icon.date) < FaviconFetcher.ExpirationTime:
             self.setDefaultThumbnailBackgroundForCell(cell)
         default:
             cell.imageView.sd_setImage(with: icon.url.asURL, completed: { (img, err, type, url) -> Void in

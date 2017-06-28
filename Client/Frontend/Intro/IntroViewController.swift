@@ -98,7 +98,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
 
         startBrowsingButton = UIButton()
         startBrowsingButton.backgroundColor = IntroViewControllerUX.StartBrowsingButtonColor
-        startBrowsingButton.setTitle(IntroViewControllerUX.StartBrowsingButtonTitle, for: UIControlState.Normal)
+        startBrowsingButton.setTitle(IntroViewControllerUX.StartBrowsingButtonTitle, for: UIControlState.normal)
         startBrowsingButton.setTitleColor(UIColor.white, for: UIControlState())
         startBrowsingButton.addTarget(self, action: #selector(IntroViewController.SELstartBrowsing), for: UIControlEvents.touchUpInside)
         startBrowsingButton.contentHorizontalAlignment = .left
@@ -192,12 +192,12 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(IntroViewController.SELDynamicFontChanged(_:)), name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IntroViewController.SELDynamicFontChanged(_:)), name: NotificationDynamicFontChanged, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationDynamicFontChanged, object: nil)
 
         getApp().profile!.prefs.setInt(1, forKey: IntroViewControllerSeenProfileKey)
 
@@ -278,7 +278,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     }
 
     fileprivate var accessibilityScrollStatus: String {
-        return String(format: Strings.IntroductorySlideXofX_template, NumberFormatter.localizedStringFromNumber(NSNumber(pageControl.currentPage+1), numberStyle: .DecimalStyle), NumberFormatter.localizedStringFromNumber(IntroViewControllerUX.NumberOfCards, numberStyle: .DecimalStyle))
+        return String(format: Strings.IntroductorySlideXofX_template, NumberFormatter.localizedString(from: NSNumber(value: pageControl.currentPage+1), number: .decimal), NumberFormatter.localizedString(from: NSNumber(value: IntroViewControllerUX.NumberOfCards), number: .decimal))
     }
 
     func changePage() {

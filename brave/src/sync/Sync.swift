@@ -250,7 +250,7 @@ class Sync: JSInjector {
 // MARK: Native-initiated Message category
 extension Sync {
     // TODO: Rename
-    func sendSyncRecords(_ recordType: SyncRecordType, action: SyncActions, bookmarks: [Bookmark], completion: ((NSError?) -> Void)? = nil) {
+    func sendSyncRecords(_ recordType: SyncRecordType, action: SyncActions, bookmarks: [Bookmark], completion: ((Error?) -> Void)? = nil) {
         
         if bookmarks.isEmpty {
             completion?(nil)
@@ -268,7 +268,7 @@ extension Sync {
                 SyncRoot(bookmark: $0, deviceId: self.syncDeviceId, action: action.rawValue).dictionaryRepresentation()
             }
             
-            guard let json = JSONSerialization.jsonObject(withNative: syncRecords, escaped: false) else {
+            guard let json = JSONSerialization.jsObject(withNative: syncRecords, escaped: false) else {
                 // Huge error
                 return
             }
@@ -303,17 +303,17 @@ extension Sync {
     }
     
     /// Makes call to sync to fetch new records, instead of just returning records, sync sends `get-existing-objects` message
-    func fetch(_ completion: ((NSError?) -> Void)? = nil) {
+    func fetch(_ completion: ((Error?) -> Void)? = nil) {
         /*  browser -> webview: sent to fetch sync records after a given start time from the sync server.
          @param Array.<string> categoryNames, @param {number} startAt (in seconds) **/
         
         executeBlockOnReady() {
-            
+
             // Pass in `lastFetch` to get records since that time
             self.webView.evaluateJavaScript("callbackList['fetch-sync-records'](null, ['BOOKMARKS'], \(self.lastSuccessfulSync), true)",
                                        completionHandler: { (result, error) in
                                         completion?(error)
-            } as! (Any?, Error?) -> Void as (Any?, Error?) -> Void)
+            })
         }
     }
 
@@ -414,7 +414,7 @@ extension Sync {
         
         
         // TODO: Check if parsing not required
-        guard let serializedData = JSONSerialization.jsonObject(withNative: matchedBookmarks as AnyObject, escaped: false) else {
+        guard let serializedData = JSONSerialization.jsObject(withNative: matchedBookmarks as AnyObject, escaped: false) else {
             // Huge error
             return
         }

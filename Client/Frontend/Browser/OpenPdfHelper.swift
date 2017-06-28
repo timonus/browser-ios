@@ -63,7 +63,8 @@ class OpenPdfInHelper: NSObject, OpenInHelper, UIDocumentInteractionControllerDe
     }
     
     static func canOpen(_ url: URL) -> Bool {
-        guard let pathExtension = url.pathExtension else { return false }
+        // May need to filter empty strings
+        let pathExtension = url.pathExtension
         return pathExtension == FileType.PDF.rawValue && UIApplication.shared.canOpenURL(URL(string: "itms-books:")!)
     }
 
@@ -81,10 +82,7 @@ class OpenPdfInHelper: NSObject, OpenInHelper, UIDocumentInteractionControllerDe
     }
 
     func createLocalCopyOfPDF() {
-        guard let lastPathComponent = url.lastPathComponent else {
-            log.error("failed to create proper URL")
-            return
-        }
+        let lastPathComponent = url.lastPathComponent
         if docController == nil{
             // if we already have a URL but no document controller, just create the document controller
             if let url = openInURL {
@@ -93,12 +91,12 @@ class OpenPdfInHelper: NSObject, OpenInHelper, UIDocumentInteractionControllerDe
             }
             let contentsOfFile = try? Data(contentsOf: url)
             let dirPath = URL(string: NSTemporaryDirectory())!.appendingPathComponent("pdfs")
-            let filePath = dirPath!.appendingPathComponent(lastPathComponent)
+            let filePath = dirPath.appendingPathComponent(lastPathComponent)
             let fileManager = FileManager.default
             do {
-                try fileManager.createDirectory(atPath: dirPath.absoluteString ?? "", withIntermediateDirectories: true, attributes: nil)
-                if fileManager.createFile(atPath: filePath?.absoluteString ?? "", contents: contentsOfFile, attributes: nil) {
-                    let openInURL = URL(fileURLWithPath: filePath?.absoluteString ?? "")
+                try fileManager.createDirectory(atPath: dirPath.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                if fileManager.createFile(atPath: filePath.absoluteString, contents: contentsOfFile, attributes: nil) {
+                    let openInURL = URL(fileURLWithPath: filePath.absoluteString)
                     createDocumentControllerForURL(openInURL)
                 } else {
                     log.error("Unable to create local version of PDF file at \(filePath)")
@@ -130,7 +128,7 @@ class OpenInView: UIView {
     init() {
         super.init(frame: CGRect.zero)
         openInButton.setTitleColor(OpenInViewUX.TextColor, for: UIControlState())
-        openInButton.setTitle(OpenInViewUX.OpenInString, for: UIControlState.Normal)
+        openInButton.setTitle(OpenInViewUX.OpenInString, for: UIControlState.normal)
         openInButton.titleLabel?.font = OpenInViewUX.TextFont
         openInButton.sizeToFit()
         self.addSubview(openInButton)

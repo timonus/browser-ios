@@ -14,18 +14,18 @@ class SessionData: NSObject, NSCoding {
     var currentTitle: String = ""
     var currentFavicon: Favicon?
 
-    var jsonDictionary: [String: AnyObject] {
+    var jsonDictionary: [String: Any] {
         return [
-            "currentPage": String(self.currentPage) as AnyObject,
-            "lastUsedTime": String(self.lastUsedTime) as AnyObject,
-            "urls": urls.map { $0.absoluteString ?? "" }
+            "currentPage": String(self.currentPage),
+            "lastUsedTime": String(self.lastUsedTime),
+            "urls": urls.map { $0.absoluteString }
         ]
     }
     
     // This is not a fully direct mapping, but rather an attempt to reconcile data differences, primarily used for tab restoration
     var savedTabData: SavedTab {
         // (id: String, title: String, url: String, isSelected: Bool, order: Int16, screenshot: UIImage?, history: [String], historyIndex: Int16)
-        let urlStrings = urls.map { $0.absoluteString ?? "" }
+        let urlStrings = urls.map { $0.absoluteString }
         let currentURL = urlStrings[currentPage] ?? ""
         return ("InvalidId", currentTitle, currentURL, false, -1, nil, urlStrings, Int16(currentPage))
     }

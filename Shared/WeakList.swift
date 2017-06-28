@@ -53,6 +53,23 @@ open class WeakList<T: AnyObject>: Sequence {
             return nil
         }
     }
+    
+    
+    // These should be removed from Shared lib as they are Brave additions
+    open func count() -> Int {
+        return self.items.count
+    }
+    
+    open func at(_ index: Int) -> T? {
+        return self.items[index].value
+    }
+    
+    open func index(of object: T) -> Int? {
+        return self.items.index(where: { $0.value === object })
+    }
+    // // //
+    
+    
 }
 
 private class WeakRef<T: AnyObject> {

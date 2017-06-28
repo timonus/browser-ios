@@ -70,7 +70,7 @@ class FaviconManager : BrowserHelper {
                         fav.width = Int(img.size.width)
                         fav.height = Int(img.size.height)
                     } else {
-                        if favicons.count == 1 && favicons[0].type == .Guess {
+                        if favicons.count == 1 && favicons.first?.type == .guess {
                             // No favicon is indicated in the HTML
                             spotlight?.updateImage(forURL: url!)
                         }

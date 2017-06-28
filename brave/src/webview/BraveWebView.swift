@@ -73,13 +73,12 @@ protocol WebPageStateDelegate : class {
 }
 
 class BrowserTabToUAMapper {
-    // TODO: weakMemory seems to be valid
-    static fileprivate let idToBrowserTab = NSMapTable(keyOptions: NSPointerFunctions.Options.weakMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
+    static fileprivate let idToBrowserTab = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
 
     static func setId(_ uniqueId: Int, tab: Browser) {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
-        idToBrowserTab.setObject(tab, forKey: uniqueId)
+        idToBrowserTab.setObject(tab, forKey: "\(uniqueId)" as NSString)
     }
 
     static func userAgentToBrowserTab(_ ua: String?) -> Browser? {
@@ -90,11 +89,13 @@ class BrowserTabToUAMapper {
         guard let ua = ua else { return nil }
         guard let loc = ua.range(of: "_id/") else {
             // the first created webview doesn't have this id set (see webviewBuiltinUserAgent to explain)
-            return idToBrowserTab.object(forKey: 1) as? Browser
+            return idToBrowserTab.object(forKey: "1") as? Browser
         }
+        // TODO: Fix
         let keyString = "" // ua.substring(with: loc.upperBound..<loc.index(loc.upperBound, offsetBy: 6))
         guard let key = Int(keyString) else { return nil }
-        return idToBrowserTab.object(forKey: key) as? Browser
+        // Cast to an int and back again
+        return idToBrowserTab.object(forKey: "\(key)" as NSString) as? Browser
     }
 }
 

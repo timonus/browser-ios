@@ -267,7 +267,7 @@ class TabTrayController: UIViewController {
 
     lazy var togglePrivateMode: UIButton = {
         let button = UIButton()
-        button.setTitle(Strings.Private, for: .Normal)
+        button.setTitle(Strings.Private, for: .normal)
         button.setTitleColor(UIColor.black, for: UIControlState())
         button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 2)
         button.contentEdgeInsets = UIEdgeInsetsMake(0, 4 /* left */, 0, 4 /* right */)
@@ -327,7 +327,7 @@ class TabTrayController: UIViewController {
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationDynamicFontChanged, object: nil)
         self.tabManager.removeDelegate(self)
     }
 
@@ -353,8 +353,8 @@ class TabTrayController: UIViewController {
         }
         
         guard let selectedTab = tabManager.selectedTab else { return }
-        let selectedIndex = tabs.indexOf(selectedTab) ?? 0
-        self.collectionView.scrollToItemAtIndexPath(IndexPath(forItem: selectedIndex, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: false)
+        let selectedIndex = tabs.index(of: selectedTab) ?? 0
+        self.collectionView.scrollToItem(at: IndexPath(item: selectedIndex, section: 0), at: UICollectionViewScrollPosition.centeredVertically, animated: false)
     }
     
 // MARK: View Controller Callbacks
@@ -401,7 +401,7 @@ class TabTrayController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(TabTrayController.SELappWillResignActiveNotification), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(TabTrayController.SELappDidBecomeActiveNotification), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(TabTrayController.SELDynamicFontChanged(_:)), name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TabTrayController.SELDynamicFontChanged(_:)), name: NotificationDynamicFontChanged, object: nil)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -435,7 +435,8 @@ class TabTrayController: UIViewController {
 
         addTabButton.snp_makeConstraints { make in
             make.trailing.equalTo(self.view)
-            make.top.equalTo(snp_topLayoutGuideBottom)
+            // TODO: Fix
+//            make.top.equalTo(snp_topLayoutGuideBottom)
             make.size.equalTo(UIConstants.ToolbarHeight)
         }
 
@@ -638,7 +639,7 @@ extension TabTrayController: TabManagerDelegate {
         var removedIndex = -1
         for i in 0..<tabDataSource.tabList.count() {
             let tabRef = tabDataSource.tabList.at(i)
-            if tabRef == nil || getApp().tabManager.tabs.displayedTabsForCurrentPrivateMode.indexOf(tabRef!) == nil {
+            if tabRef == nil || getApp().tabManager.tabs.displayedTabsForCurrentPrivateMode.index(of: tabRef!) == nil {
                 removedIndex = i
                 break
             }
@@ -770,7 +771,7 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
         tabCell.accessibilityHint = Strings.Swipe_right_or_left_with_three_fingers_to_close_the_tab
 
         if let favIcon = tab.displayFavicon {
-            tabCell.favicon.sd_setImageWithURL(URL(string: favIcon.url)!)
+            tabCell.favicon.sd_setImage(with: URL(string: favIcon.url)!)
             tabCell.favicon.backgroundColor = BraveUX.TabTrayCellBackgroundColor
         } else {
             tabCell.favicon.image = nil

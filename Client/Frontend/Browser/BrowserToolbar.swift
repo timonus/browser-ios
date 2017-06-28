@@ -100,7 +100,6 @@ open class BrowserToolbarHelper: NSObject {
 class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
     weak var browserToolbarDelegate: BrowserToolbarDelegate?
 
-    // All of these `let`s are totally broken, fix
     let shareButton = UIButton()
     
     // Just used to conform to protocol, never used on this class, see BraveURLBarView for the one that is used on iPad
@@ -111,7 +110,8 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
     let addTabButton = UIButton()
     
     lazy var actionButtons: [UIButton] = {
-        return [shareButton, self.forwardButton, self.backButton, self.addTabButton]
+        // TODO: Must re-add buttons
+        return [/*self.shareButton, self.forwardButton, self.backButton, self.addTabButton*/]
     }()
 
     var stopReloadButton: UIButton {

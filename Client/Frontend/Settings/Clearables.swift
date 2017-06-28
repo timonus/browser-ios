@@ -55,7 +55,7 @@ private func deleteLibraryFolderContents(_ folder: String, validateClearedExcept
 
     #if DEBUG
         guard let allowedFileNames = validateClearedExceptFor else { return }
-        contents = try manager.contentsOfDirectoryAtPath(dir?.path ?? "")
+        contents = try manager.contentsOfDirectoryAtPath(dir.path ?? "", withFilenamePrefix: "")
         for content in contents {
             for name in allowedFileNames {
                 if !content.contains(name) {

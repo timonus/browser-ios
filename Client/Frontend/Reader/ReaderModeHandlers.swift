@@ -59,14 +59,14 @@ struct ReaderModeHandlers {
                         if let readerViewLoadingPath = Bundle.main.path(forResource: "ReaderViewLoading", ofType: "html") {
                             do {
                                 let readerViewLoading = try NSMutableString(contentsOfFile: readerViewLoadingPath, encoding: String.Encoding.utf8.rawValue)
-                                readerViewLoading.replaceOccurrences(of: "%ORIGINAL-URL%", with: url.absoluteString ?? "",
+                                readerViewLoading.replaceOccurrences(of: "%ORIGINAL-URL%", with: url.absoluteString,
                                     options: NSString.CompareOptions.literal, range: NSMakeRange(0, readerViewLoading.length))
-                                readerViewLoading.replaceOccurrencesOfString("%LOADING-TEXT%", withString: Strings.LoadingContent,
-                                    options: NSString.CompareOptions.LiteralSearch, range: NSMakeRange(0, readerViewLoading.length))
-                                readerViewLoading.replaceOccurrencesOfString("%LOADING-FAILED-TEXT%", withString: Strings.CantDisplayInReaderView,
-                                    options: NSString.CompareOptions.LiteralSearch, range: NSMakeRange(0, readerViewLoading.length))
-                                readerViewLoading.replaceOccurrencesOfString("%LOAD-ORIGINAL-TEXT%", withString: Strings.LoadOriginalPage,
-                                    options: NSString.CompareOptions.LiteralSearch, range: NSMakeRange(0, readerViewLoading.length))
+                                readerViewLoading.replaceOccurrences(of: "%LOADING-TEXT%", with: Strings.LoadingContent,
+                                    options: NSString.CompareOptions.literal, range: NSMakeRange(0, readerViewLoading.length))
+                                readerViewLoading.replaceOccurrences(of: "%LOADING-FAILED-TEXT%", with: Strings.CantDisplayInReaderView,
+                                    options: NSString.CompareOptions.literal, range: NSMakeRange(0, readerViewLoading.length))
+                                readerViewLoading.replaceOccurrences(of: "%LOAD-ORIGINAL-TEXT%", with: Strings.LoadOriginalPage,
+                                    options: NSString.CompareOptions.literal, range: NSMakeRange(0, readerViewLoading.length))
                                 return GCDWebServerDataResponse(html: readerViewLoading as String)
                             } catch _ {
                             }
@@ -76,7 +76,7 @@ struct ReaderModeHandlers {
             }
 
             let errorString = Strings.There_was_an_error_converting_the_page
-            return GCDWebServerDataResponse(HTML: errorString) // TODO Needs a proper error page
+            return GCDWebServerDataResponse(html: errorString) // TODO Needs a proper error page
         }
     }
 }

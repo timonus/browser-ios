@@ -290,7 +290,7 @@ class MigrateData: NSObject {
             let documentDirectory = URL(fileURLWithPath: self.files.rootPath as String)
             let originPath = documentDirectory.appendingPathComponent("browser.db")
             let destinationPath = documentDirectory.appendingPathComponent("old-browser.db")
-            try FileManager.defaultManager().moveItemAtURL(originPath!, toURL: destinationPath!)
+            try FileManager.default.moveItem(at: originPath, to: destinationPath)
             completed(true)
         } catch let error as NSError {
             debugPrint("Cannot clear profile data: \(error)")

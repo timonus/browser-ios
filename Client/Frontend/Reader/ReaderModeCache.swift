@@ -122,8 +122,8 @@ class DiskReaderModeCache: ReaderModeCache {
         let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         if !paths.isEmpty, let hashedPath = hashedPathForURL(url) {
             let cacheDirectoryURL = URL(fileURLWithPath: NSString.path(withComponents: [paths[0], "ReaderView", hashedPath]))
-            if let cacheDirectoryPath = cacheDirectoryURL.path,
-                   let contentFilePath = cacheDirectoryURL.appendingPathComponent("content.json").path {
+            let cacheDirectoryPath = cacheDirectoryURL.path
+            if let contentFilePath = cacheDirectoryURL.appendingPathComponent("content.json").path {
                 return (cacheDirectoryPath, contentFilePath)
             }
         }

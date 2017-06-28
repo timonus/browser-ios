@@ -28,7 +28,7 @@ class ToggleButton: UIButton {
         let path = CGMutablePath()
         if selected {
             var rect = CGRect(origin: CGPoint.zero, size: UX.BackgroundSize)
-            rect.center = maskShapeLayer.position
+            rect.origin = maskShapeLayer.position
             CGPathAddEllipseInRect(path, nil, rect)
         } else {
             CGPathAddEllipseInRect(path, nil, CGRect(origin: maskShapeLayer.position, size: CGSize.zero))
@@ -38,20 +38,20 @@ class ToggleButton: UIButton {
 
     fileprivate func animateSelection(_ selected: Bool) {
         var endFrame = CGRect(origin: CGPoint.zero, size: UX.BackgroundSize)
-        endFrame.center = maskShapeLayer.position
+        endFrame.origin = maskShapeLayer.position
 
         if selected {
             let animation = CAKeyframeAnimation(keyPath: "path")
 
             let startPath = CGMutablePath()
-            CGPathAddEllipseInRect(startPath, nil, CGRect(origin: maskShapeLayer.position, size: CGSize.zero))
+//            CGPathAddEllipseInRect(startPath, nil, CGRect(origin: maskShapeLayer.position, size: CGSize.zero))
 
             let largerPath = CGMutablePath()
             let largerBounds = endFrame.insetBy(dx: -UX.ExpandDelta, dy: -UX.ExpandDelta)
-            CGPathAddEllipseInRect(largerPath, nil, largerBounds)
+//            CGPathAddEllipseInRect(largerPath, nil, largerBounds)
 
             let endPath = CGMutablePath()
-            CGPathAddEllipseInRect(endPath, nil, endFrame)
+//            CGPathAddEllipseInRect(endPath, nil, endFrame)
 
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             animation.values = [
@@ -68,12 +68,14 @@ class ToggleButton: UIButton {
             animation.fillMode = kCAFillModeForwards
 
             let fromPath = CGMutablePath()
-            CGPathAddEllipseInRect(fromPath, nil, endFrame)
+            // TODO: Fix
+//            CGPathAddEllipseInRect(fromPath, nil, endFrame)
             animation.fromValue = fromPath
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 
             let toPath = CGMutablePath()
-            CGPathAddEllipseInRect(toPath, nil, CGRect(origin: self.maskShapeLayer.bounds.center, size: CGSize.zero))
+            // TODO: Fix
+//            CGPathAddEllipseInRect(toPath, nil, CGRect(origin: self.maskShapeLayer.bounds.center, size: CGSize.zero))
 
             self.maskShapeLayer.path = toPath
             self.maskShapeLayer.add(animation, forKey: "shrink")

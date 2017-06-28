@@ -31,7 +31,7 @@ class SearchSuggestClient {
         self.userAgent = userAgent
     }
 
-    func query(_ query: String, callback: @escaping (_ response: [String]?, _ error: NSError?) -> ()) {
+    func query(_ query: String, callback: @escaping ([String]?, Error?) -> ()) {
         let url = searchEngine.suggestURLForQuery(query)
         if url == nil {
             let error = NSError(domain: SearchSuggestClientErrorDomain, code: SearchSuggestClientErrorInvalidEngine, userInfo: nil)
@@ -39,11 +39,11 @@ class SearchSuggestClient {
             return
         }
 
-        request = alamofire.request(.GET, url!)
+        request = alamofire.request(url!)
             .validate(statusCode: 200..<300)
             .responseJSON { response in
                 if let error = response.result.error {
-                    callback(response: nil, error: error)
+                    callback(nil, error)
                     return
                 }
 
@@ -53,18 +53,18 @@ class SearchSuggestClient {
                 let array = response.result.value as? NSArray
                 if array?.count ?? 0 < 2 {
                     let error = NSError(domain: SearchSuggestClientErrorDomain, code: SearchSuggestClientErrorInvalidResponse, userInfo: nil)
-                    callback(response: nil, error: error)
+                    callback(nil, error)
                     return
                 }
 
                 let suggestions = array?[1] as? [String]
                 if suggestions == nil {
                     let error = NSError(domain: SearchSuggestClientErrorDomain, code: SearchSuggestClientErrorInvalidResponse, userInfo: nil)
-                    callback(response: nil, error: error)
+                    callback(nil, error)
                     return
                 }
 
-                callback(response: suggestions!, error: nil)
+                callback(suggestions, nil)
         }
 
     }

@@ -54,7 +54,7 @@ class LoginListViewController: UIViewController {
     fileprivate lazy var selectionButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = LoginListUX.selectionButtonFont
-        button.setTitle(self.selectAllTitle, for: .Normal)
+        button.setTitle(self.selectAllTitle, for: .normal)
         button.setTitleColor(LoginListUX.selectionButtonTextColor, for: UIControlState())
         button.backgroundColor = LoginListUX.selectionButtonBackground
         button.addTarget(self, action: #selector(LoginListViewController.SELdidTapSelectionButton), for: .touchUpInside)
@@ -100,7 +100,8 @@ class LoginListViewController: UIViewController {
         loadingStateView.isHidden = true
 
         searchView.snp_makeConstraints { make in
-            make.top.equalTo(snp_topLayoutGuideBottom).constraint
+            // TODO: Fix
+//            make.top.equalTo(snp_topLayoutGuideBottom).constraint
             make.left.right.equalTo(self.view)
             make.height.equalTo(LoginListUX.SearchHeight)
         }
@@ -162,9 +163,9 @@ class LoginListViewController: UIViewController {
 
     fileprivate func toggleSelectionTitle() {
         if loginSelectionController.selectedCount == loginDataSource.allLogins.count {
-            selectionButton.setTitle(deselectAllTitle, for: .Normal)
+            selectionButton.setTitle(deselectAllTitle, for: .normal)
         } else {
-            selectionButton.setTitle(selectAllTitle, for: .Normal)
+            selectionButton.setTitle(selectAllTitle, for: .normal)
         }
     }
 
@@ -201,7 +202,7 @@ extension LoginListViewController {
     func SELedit() {
         navigationItem.rightBarButtonItem = nil
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(LoginListViewController.SELcancel))
-        selectionButtonHeightConstraint?.updateOffset(UIConstants.ToolbarHeight)
+        selectionButtonHeightConstraint?.updateOffset(amount: UIConstants.ToolbarHeight)
         self.view.layoutIfNeeded()
         tableView.setEditing(true, animated: true)
     }
@@ -210,7 +211,7 @@ extension LoginListViewController {
         // Update selection and select all button
         loginSelectionController.deselectAll()
         toggleSelectionTitle()
-        selectionButtonHeightConstraint?.updateOffset(0)
+        selectionButtonHeightConstraint?.updateOffset(amount: 0)
         self.view.layoutIfNeeded()
 
         tableView.setEditing(false, animated: true)
@@ -408,7 +409,7 @@ fileprivate class LoginCursorDataSource: NSObject, UITableViewDataSource {
         return sections[titleForSectionIndex]
     }
 
-    func loginAtIndexPath(_ indexPath: NSIndexPath) -> Login? {
+    func loginAtIndexPath(_ indexPath: IndexPath) -> Login? {
         let titleForSectionIndex = titles[indexPath.section]
         return sections[titleForSectionIndex]?[indexPath.row]
     }

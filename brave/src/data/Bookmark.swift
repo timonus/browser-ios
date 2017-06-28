@@ -80,7 +80,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
 
     class func frc(parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = Bookmark.entity(DataController.moc)
+        fetchRequest.entity = Bookmark.entity(context: DataController.moc)
         fetchRequest.fetchBatchSize = 20
         fetchRequest.fetchLimit = 200
         fetchRequest.sortDescriptors = [NSSortDescriptor(key:"order", ascending: true), NSSortDescriptor(key:"created", ascending: false)]
@@ -139,7 +139,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
             // Turn into 'update' record instead
             bk = foundBK
         } else {
-            bk = Bookmark(entity: Bookmark.entity(DataController.moc), insertInto: DataController.moc)
+            bk = Bookmark(entity: Bookmark.entity(context: DataController.moc), insertInto: DataController.moc)
         }
         
         // Should probably have visual indication before reaching this point
@@ -259,7 +259,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.fetchLimit = 5
-        fetchRequest.entity = Bookmark.entity(context)
+        fetchRequest.entity = Bookmark.entity(context: context)
         
         var predicate = NSPredicate(format: "lastVisited > %@", History.ThisWeek as CVarArg)
         if let query = containing {
@@ -295,7 +295,7 @@ class Bookmark: NSManagedObject, WebsitePresentable {
 extension Bookmark {
     fileprivate static func get(forUrl url: URL, countOnly: Bool = false, context: NSManagedObjectContext) -> AnyObject? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = Bookmark.entity(context)
+        fetchRequest.entity = Bookmark.entity(context: context)
         fetchRequest.predicate = NSPredicate(format: "url == %@", url.absoluteString)
         do {
             if countOnly {
@@ -313,7 +313,7 @@ extension Bookmark {
     
     fileprivate static func get(predicate: NSPredicate?) -> [Bookmark]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = Bookmark.entity(DataController.moc)
+        fetchRequest.entity = Bookmark.entity(context: DataController.moc)
         fetchRequest.predicate = predicate
         
         do {

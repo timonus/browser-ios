@@ -81,7 +81,7 @@ class ReaderModeBarView: UIView {
         settingsButton = UIButton()
         settingsButton.setTitleColor(BraveUX.BraveOrange, for: UIControlState())
         settingsButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize - 1)
-        settingsButton.setTitle(Strings.Reader_Mode_Settings, for: .Normal)
+        settingsButton.setTitle(Strings.Reader_Mode_Settings, for: .normal)
         settingsButton.addTarget(self, action: #selector(ReaderModeBarView.SELtappedSettingsButton), for: .touchUpInside)
         settingsButton.accessibilityLabel = Strings.Reader_Mode_Settings
         addSubview(settingsButton)

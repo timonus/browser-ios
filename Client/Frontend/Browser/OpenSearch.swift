@@ -66,7 +66,7 @@ class OpenSearchEngine {
             let queryEndIndex = searchTemplate.range(of: "?")?.lowerBound,
             let templateURL = URL(string: searchTemplate.substring(to: queryEndIndex)),
             let templateURLHost = templateURL.host else { return false }
-        return urlHost.localizedCaseInsensitiveContainsString(templateURLHost)
+        return urlHost.localizedCaseInsensitiveContains(templateURLHost)
     }
 
     /**
@@ -76,7 +76,7 @@ class OpenSearchEngine {
         if isSearchURLForEngine(url) {
             if let key = searchQueryComponentKey,
                 let value = url?.getQuery()[key] {
-                return value.stringByReplacingOccurrencesOfString("+", withString: " ").removingPercentEncoding
+                return value.replacingOccurrences(of: "+", with: " ").removingPercentEncoding
             }
         }
         return nil

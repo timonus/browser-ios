@@ -497,7 +497,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             }
 
             if let faviconMO = item.domain?.favicon, let url = faviconMO.url {
-                let favicon = Favicon(url: url, type: IconType(rawValue: Int(faviconMO.type)) ?? IconType.Guess)
+                let favicon = Favicon(url: url, type: IconType(rawValue: Int(faviconMO.type)) ?? IconType.guess)
                 postAsyncToBackground {
                     let best = getBestFavicon([favicon])
                     postAsyncToMain {
@@ -505,7 +505,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
                         cell.imageView!.setIcon(best, withPlaceholder: FaviconFetcher.defaultFavicon) {
                             if !hasImage {
                                 // TODO: why will it not draw the image the first time without this?
-                                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                                self.tableView.reloadRows(at: [indexPath], with: .none)
                             }
                         }
                     }

@@ -256,11 +256,11 @@ class FontTypeButton: UIButton {
         accessibilityHint = Strings.Changes_font_type
         switch fontType {
         case .SansSerif:
-            setTitle(Strings.SansSerif, for: UIControlState.Normal)
+            setTitle(Strings.SansSerif, for: UIControlState.normal)
             let f = UIFont(name: "FiraSans-Book", size: DynamicFontHelper.defaultHelper.ReaderStandardFontSize)
             titleLabel?.font = f
         case .Serif:
-            setTitle(Strings.Serif, for: UIControlState.Normal)
+            setTitle(Strings.Serif, for: UIControlState.normal)
             let f = UIFont(name: "Charis SIL", size: DynamicFontHelper.defaultHelper.ReaderStandardFontSize)
             titleLabel?.font = f
         }
@@ -281,19 +281,19 @@ class FontSizeButton: UIButton {
         self.init(frame: CGRect.zero)
         self.fontSizeAction = fontSizeAction
 
-        setTitleColor(ReaderModeStyleViewControllerUX.FontSizeButtonTextColorEnabled, for: UIControlState.Normal)
+        setTitleColor(ReaderModeStyleViewControllerUX.FontSizeButtonTextColorEnabled, for: UIControlState.normal)
         setTitleColor(ReaderModeStyleViewControllerUX.FontSizeButtonTextColorDisabled, for: UIControlState.disabled)
 
         switch fontSizeAction {
         case .smaller:
             let smallerFontLabel = Strings.Minus
             let smallerFontAccessibilityLabel = Strings.Decrease_text_size
-            setTitle(smallerFontLabel, for: .Normal)
+            setTitle(smallerFontLabel, for: .normal)
             accessibilityLabel = smallerFontAccessibilityLabel
         case .bigger:
             let largerFontLabel = Strings.Plus
             let largerFontAccessibilityLabel = Strings.Increase_text_size
-            setTitle(largerFontLabel, for: .Normal)
+            setTitle(largerFontLabel, for: .normal)
             accessibilityLabel = largerFontAccessibilityLabel
         }
 
@@ -344,16 +344,16 @@ class ThemeButton: UIButton {
         
         switch theme {
         case .Light:
-            setTitle(Strings.Light, for: .Normal)
-            setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorLight, for: UIControlState.Normal)
+            setTitle(Strings.Light, for: .normal)
+            setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorLight, for: UIControlState.normal)
             backgroundColor = ReaderModeStyleViewControllerUX.ThemeBackgroundColorLight
         case .Dark:
-            setTitle(Strings.Dark, for: .Normal)
-            setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorDark, for: UIControlState())
+            setTitle(Strings.Dark, for: .normal)
+            setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorDark, for: UIControlState.normal)
             backgroundColor = ReaderModeStyleViewControllerUX.ThemeBackgroundColorDark
         case .Sepia:
-            setTitle(Strings.Sepia, for: .Normal)
-            setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorSepia, for: UIControlState.Normal)
+            setTitle(Strings.Sepia, for: .normal)
+            setTitleColor(ReaderModeStyleViewControllerUX.ThemeTitleColorSepia, for: UIControlState.normal)
             backgroundColor = ReaderModeStyleViewControllerUX.ThemeBackgroundColorSepia
         }
     }

@@ -157,7 +157,8 @@ class URLBarView: UIView {
     lazy var addTabButton = { return UIButton() }()
 
     lazy var actionButtons: [UIButton] = {
-        return [self.shareButton, self.forwardButton, self.backButton, self.pwdMgrButton, self.addTabButton]
+        // TODO: Re-add all button
+        return [/*self.shareButton, self.forwardButton, self.backButton, self.pwdMgrButton, self.addTabButton*/]
     }()
 
     // Used to temporarily store the cloned button so we can respond to layout changes during animation
@@ -363,7 +364,7 @@ class URLBarView: UIView {
             self.tabsButton.transform = CGAffineTransform.identity
             self.clonedTabsButton?.transform = CGAffineTransform.identity
             self.cancelButton.transform = CGAffineTransform(translationX: self.cancelButton.frame.width, y: 0)
-            self.rightBarConstraint?.updateOffset(defaultRightOffset)
+            self.rightBarConstraint?.updateOffset(amount: defaultRightOffset)
 
             // Shrink the editable text field back to the size of the location view before hiding it.
             self.locationTextField?.snp_remakeConstraints { make in

@@ -128,11 +128,11 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
 
         suggestionCell.delegate = self
 
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchViewController.SELDynamicFontChanged(_:)), name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchViewController.SELDynamicFontChanged(_:)), name: NotificationDynamicFontChanged, object: nil)
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationDynamicFontChanged, object: nil)
     }
 
     func SELDynamicFontChanged(_ notification: Notification) {
@@ -181,7 +181,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         // If we're not showing search suggestions, the default search engine won't be visible
         // at the top of the table. Show it with the others in the bottom search bar.
         if isPrivate || !searchEngines.shouldShowSearchSuggestions {
-            engines.insert(searchEngines.defaultEngine, at: 0)
+            engines?.insert(searchEngines.defaultEngine, at: 0)
         }
 
         return engines!
@@ -237,8 +237,8 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         prompt.addSubview(promptLabel)
 
         let promptYesButton = InsetButton()
-        promptYesButton.setTitle(PromptYes, for: UIControlState.Normal)
-        promptYesButton.setTitleColor(SearchViewControllerUX.PromptButtonColor, for: UIControlState.Normal)
+        promptYesButton.setTitle(PromptYes, for: UIControlState.normal)
+        promptYesButton.setTitleColor(SearchViewControllerUX.PromptButtonColor, for: UIControlState.normal)
         promptYesButton.titleLabel?.font = SearchViewControllerUX.PromptYesFont
         promptYesButton.titleEdgeInsets = SearchViewControllerUX.PromptInsets
         // If the prompt message doesn't fit, this prevents it from pushing the buttons
@@ -248,8 +248,8 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         prompt.addSubview(promptYesButton)
 
         let promptNoButton = InsetButton()
-        promptNoButton.setTitle(PromptNo, for: UIControlState.Normal)
-        promptNoButton.setTitleColor(SearchViewControllerUX.PromptButtonColor, for: UIControlState.Normal)
+        promptNoButton.setTitle(PromptNo, for: UIControlState.normal)
+        promptNoButton.setTitleColor(SearchViewControllerUX.PromptButtonColor, for: UIControlState.normal)
         promptNoButton.titleLabel?.font = SearchViewControllerUX.PromptNoFont
         promptNoButton.titleEdgeInsets = SearchViewControllerUX.PromptInsets
         // If the prompt message doesn't fit, this prevents it from pushing the buttons
@@ -452,7 +452,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
                 case SearchSuggestClientErrorInvalidResponse where isSuggestClientError:
                     print("Error: Invalid search suggestion data")
                 default:
-                    print("Error: \(error.description)")
+                    print("Error: \(error)")
                 }
             } else {
                 self.suggestionCell.suggestions = suggestions!

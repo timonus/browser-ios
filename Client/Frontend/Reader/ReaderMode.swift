@@ -103,7 +103,7 @@ struct ReaderModeStyle {
 
     /// Encode the style to a JSON dictionary that can be passed to ReaderMode.js
     func encode() -> String {
-        return JSON(["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]).toString(false)
+        return JSON(["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]).string(false)
     }
 
     /// Encode the style to a dictionary that can be stored in the profile
@@ -176,11 +176,11 @@ struct ReadabilityResult {
     /// Initialize from a JSON encoded string
     init?(string: String) {
         let object = JSON(string: string)
-        let domain = object["domain"].asString
-        let url = object["url"].asString
-        let content = object["content"].asString
-        let title = object["title"].asString
-        let credits = object["credits"].asString
+        let domain = object["domain"].string
+        let url = object["url"].string
+        let content = object["content"].string
+        let title = object["title"].string
+        let credits = object["credits"].string
 
         if domain == nil || url == nil || content == nil || title == nil || credits == nil {
             return nil
@@ -200,7 +200,7 @@ struct ReadabilityResult {
 
     /// Encode to a JSON encoded string
     func encode() -> String {
-        return JSON(encode() as [String:AnyObject]).toString(false)
+        return JSON(encode() as [String:AnyObject]).stringValue
     }
 }
 

@@ -24,7 +24,7 @@ class HistoryPanel: SiteTableViewController, HomePanel {
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NotificationFirefoxAccountChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HistoryPanel.notificationReceived(_:)), name: NotificationDynamicFontChanged, object: nil)
     }
 
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class HistoryPanel: SiteTableViewController, HomePanel {
     deinit {
         NotificationCenter.default.removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
         NotificationCenter.default.removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationDynamicFontChanged, object: nil)
     }
 
     func notificationReceived(_ notification: Notification) {

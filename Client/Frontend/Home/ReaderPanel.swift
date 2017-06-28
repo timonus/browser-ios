@@ -189,7 +189,7 @@ class ReadingListPanel: UITableViewController, HomePanel {
     init() {
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ReadingListPanel.notificationReceived(_:)), name: NotificationFirefoxAccountChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ReadingListPanel.notificationReceived(_:)), name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ReadingListPanel.notificationReceived(_:)), name: NotificationDynamicFontChanged, object: nil)
     }
 
     required init!(coder aDecoder: NSCoder) {
@@ -227,7 +227,7 @@ class ReadingListPanel: UITableViewController, HomePanel {
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationDynamicFontChanged), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationDynamicFontChanged, object: nil)
     }
 
     func notificationReceived(_ notification: Notification) {
@@ -388,7 +388,7 @@ class ReadingListPanel: UITableViewController, HomePanel {
         delete.backgroundColor = ReadingListTableViewCellUX.DeleteButtonBackgroundColor
 
         let toggleText = record.unread ? ReadingListTableViewCellUX.MarkAsReadButtonTitleText : ReadingListTableViewCellUX.MarkAsUnreadButtonTitleText
-        let unreadToggle = UITableViewRowAction(style: .Normal, title: toggleText) { [weak self] (action, index) in
+        let unreadToggle = UITableViewRowAction(style: .normal, title: toggleText) { [weak self] (action, index) in
             self?.toggleItem(atIndex: index)
         }
         unreadToggle.backgroundColor = ReadingListTableViewCellUX.MarkAsReadButtonBackgroundColor
@@ -414,7 +414,7 @@ class ReadingListPanel: UITableViewController, HomePanel {
     fileprivate func deleteItem(atIndex indexPath: IndexPath) {
         if let record = records?[indexPath.row] {
             if let result = profile.readingList?.deleteRecord(record), result.isSuccess {
-                records?.removeAtIndex(indexPath.row)
+                records?.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
                 // reshow empty state if no records left
                 if records?.count == 0 {

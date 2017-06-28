@@ -263,7 +263,7 @@ class TabManager : NSObject {
 
         print("webviews \(webviews)")
 
-        var oldestTime: Timestamp = NSDate.now()
+        var oldestTime: Timestamp = Date.now()
         var oldestBrowser: Browser? = nil
         for browser in tabs.internalTabList {
             if browser.webView == nil {
@@ -460,11 +460,11 @@ extension TabManager : WKCompatNavigationDelegate {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
 #if BRAVE
-        var hider: (Void -> Void)!
+        var hider: ((Void) -> Void)!
         hider = {
             postAsyncToMain(1) {
                 self.hideNetworkActivitySpinner()
-                if UIApplication.sharedApplication().networkActivityIndicatorVisible {
+                if UIApplication.shared.isNetworkActivityIndicatorVisible {
                     hider()
                 }
             }

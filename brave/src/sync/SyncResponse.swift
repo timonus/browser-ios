@@ -34,11 +34,11 @@ public final class SyncResponse {
     ///
     /// - parameter json: JSON object from SwiftyJSON.
     public required init(json: JSON?) {
-        if let items = json?[SerializationKeys.arg2].asArray { rootElements = items.map { SyncRoot(json: $0) } }
-        message = json?[SerializationKeys.message].asString
-        arg1 = json?[SerializationKeys.arg1].asString
-        lastFetchedTimestamp = json?[SerializationKeys.arg3].asInt
-        isTruncated = json?[SerializationKeys.arg4].asBool
+        if let items = json?[SerializationKeys.arg2].array { rootElements = items.map { SyncRoot(json: $0) } }
+        message = json?[SerializationKeys.message].string
+        arg1 = json?[SerializationKeys.arg1].string
+        lastFetchedTimestamp = json?[SerializationKeys.arg3].int
+        isTruncated = json?[SerializationKeys.arg4].bool
     }
     
     /// Generates description of the object in the form of a NSDictionary.

@@ -15,8 +15,8 @@ import Deferred
 
 private let log = Logger.syncLogger
 
-public let NotificationProfileDidStartSyncing = "NotificationProfileDidStartSyncing"
-public let NotificationProfileDidFinishSyncing = "NotificationProfileDidFinishSyncing"
+public let NotificationProfileDidStartSyncing = NSNotification.Name(rawValue: "NotificationProfileDidStartSyncing")
+public let NotificationProfileDidFinishSyncing = NSNotification.Name(rawValue: "NotificationProfileDidFinishSyncing")
 public let ProfileRemoteTabsSyncDelay: TimeInterval = 0.1
 
 typealias EngineIdentifier = String
@@ -28,20 +28,18 @@ class ProfileFileAccessor: FileAccessor {
 
     init(localName: String) {
         let profileDirName = "profile.\(localName)"
-
+        
         // Bug 1147262: First option is for device, second is for simulator.
-        var rootPath: NSString
-        if let sharedContainerIdentifier = AppInfo.sharedContainerIdentifier, let url = FileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(sharedContainerIdentifier), let path = url.path {
-            rootPath = path as NSString
+        var rootPath: String
+        let sharedContainerIdentifier = AppInfo.sharedContainerIdentifier
+        if let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: sharedContainerIdentifier) {
+            rootPath = url.path
         } else {
-            if Bundle.main.bundleIdentifier?.contains("com.brave.ios") ?? false {
-                BraveApp.showErrorAlert(title: "Database error", error: "App group not set, bookmarks will be lost")
-            }
             log.error("Unable to find the shared container. Defaulting profile location to ~/Documents instead.")
-            rootPath = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0]) as NSString
+            rootPath = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
         }
-
-        super.init(rootPath: rootPath.appendingPathComponent(profileDirName))
+        
+        super.init(rootPath: URL(fileURLWithPath: rootPath).appendingPathComponent(profileDirName).path)
     }
 }
 
@@ -133,7 +131,7 @@ open class BrowserProfile: Profile {
         }
 
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onProfileDidFinishSyncing(_:)), name: NSNotification.Name(rawValue: NotificationProfileDidFinishSyncing), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onProfileDidFinishSyncing(_:)), name: NotificationProfileDidFinishSyncing, object: nil)
         notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onPrivateDataClearedHistory(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
 
 
