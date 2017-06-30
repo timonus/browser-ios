@@ -5,7 +5,7 @@
 import Foundation
 
 extension Error {
-    var code: Int { (self as NSError).code }
-    var domain: String { (self as NSError).domain }
-    var userInfo: [AnyHashable : Any] { (self as NSError).userInfo }
+    var code: Int { return (self as NSError).code }
+    var domain: String { return (self as NSError).domain }
+    var userInfo: [AnyHashable : Any] { return (self as NSError).userInfo }
 }

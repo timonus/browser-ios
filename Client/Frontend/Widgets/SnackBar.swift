@@ -188,7 +188,7 @@ class SnackBar: UIView {
         }
 
         contentView.snp_remakeConstraints { make in
-            make.top.left.right.equalTo(self).inset(EdgeInsetsMake(UIConstants.DefaultPadding, left: UIConstants.DefaultPadding, bottom: UIConstants.DefaultPadding, right: UIConstants.DefaultPadding))
+            make.top.left.right.equalTo(self).inset(UIEdgeInsetsMake(UIConstants.DefaultPadding, UIConstants.DefaultPadding, UIConstants.DefaultPadding, UIConstants.DefaultPadding))
         }
 
         if let img = imageView.image {
@@ -235,7 +235,7 @@ class SnackBar: UIView {
      */
     func show() {
         alpha = 1
-        bottom?.updateOffset(0)
+        bottom?.updateOffset(amount: 0)
     }
 
     /**
@@ -247,7 +247,7 @@ class SnackBar: UIView {
         if h == 0 {
             h = UIConstants.ToolbarHeight
         }
-        bottom?.updateOffset(h)
+        bottom?.updateOffset(amount: h)
     }
 
     fileprivate func addButton(_ snackButton: SnackButton) {

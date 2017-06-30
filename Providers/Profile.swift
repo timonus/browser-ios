@@ -87,21 +87,7 @@ protocol Profile: class {
 }
 
 open class BrowserProfile: Profile {
-    fileprivate static var __once1: () = {
-            if KeychainWrapper.hasValueForKey(key) {
-                let value = KeychainWrapper.stringForKey(key)
-                Singleton.instance = value
-            } else {
-                let Length: UInt = 256
-                let secret = Bytes.generateRandomBytes(Length).base64EncodedString
-                KeychainWrapper.setString(secret, forKey: key)
-                Singleton.instance = secret
-            }
-        }()
-    fileprivate static var __once: () = {
-            Singleton.instance = BrowserDB(filename: "browser.db", files: self.files)
-            BrowserProfile.dbCreated = true
-        }()
+    
     fileprivate let name: String
     internal let files: FileAccessor
 
@@ -135,8 +121,10 @@ open class BrowserProfile: Profile {
         notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onPrivateDataClearedHistory(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
 
 
-        if let baseBundleIdentifier = AppInfo.baseBundleIdentifier {
-            KeychainWrapper.serviceName = baseBundleIdentifier
+        let baseBundleIdentifier = AppInfo.baseBundleIdentifier
+        if !baseBundleIdentifier.isEmpty {
+            // TODO: Fix
+//            KeychainWrapper.standard.serviceName = baseBundleIdentifier
         } else {
             log.error("Unable to get the base bundle identifier. Keychain data will not be shared.")
         }
@@ -233,14 +221,13 @@ open class BrowserProfile: Profile {
     }()
 
     fileprivate var dbCreated = false
-    var db: BrowserDB {
-        struct Singleton {
-            static var token: Int = 0
-            static var instance: BrowserDB!
-        }
-        _ = BrowserProfile.__once
-        return Singleton.instance
-    }
+    lazy var db: BrowserDB = {
+        
+        let value = BrowserDB(filename: "browser.db", files: self.files)
+        self.dbCreated = true
+        
+        return value
+    }()
 
     /**
      * Favicons, history, and bookmarks are all stored in one intermeshed
@@ -313,36 +300,36 @@ open class BrowserProfile: Profile {
     // This is currently only used within the dispatch_once block in loginsDB, so we don't
     // have to worry about races giving us two keys. But if this were ever to be used
     // elsewhere, it'd be unsafe, so we wrap this in a dispatch_once, too.
-    fileprivate var loginsKey: String? {
+    fileprivate lazy var loginsKey: String? = {
+        
         let key = "sqlcipher.key.logins.db"
-        struct Singleton {
-            static var token: Int = 0
-            static var instance: String!
+        if KeychainWrapper.standard.hasValue(forKey: key) {
+            return KeychainWrapper.standard.string(forKey: key)
         }
-        _ = BrowserProfile.__once1
-        return Singleton.instance
-    }
+        
+        let Length: UInt = 256
+        let secret = Bytes.generateRandomBytes(Length).base64EncodedString
+        KeychainWrapper.standard.set(secret, forKey: key)
+        return secret
+    }()
 
     fileprivate var loginsDBCreated = false
     fileprivate lazy var loginsDB: BrowserDB = {
         struct Singleton {
-            static var token: dispatch_once_t = 0
             static var instance: BrowserDB!
         }
-        dispatch_once(&Singleton.token) {
-            Singleton.instance = BrowserDB(filename: "logins.db", secretKey: self.loginsKey, files: self.files)
-            self.loginsDBCreated = true
-        }
+        Singleton.instance = BrowserDB(filename: "logins.db", secretKey: self.loginsKey, files: self.files)
+        self.loginsDBCreated = true
         return Singleton.instance
     }()
 
 
     func removeAccountMetadata() {
         self.prefs.removeObjectForKey(PrefsKeys.KeyLastRemoteTabSyncTime)
-        KeychainWrapper.removeObjectForKey(self.name + ".account")
+        KeychainWrapper.standard.removeObject(forKey: self.name + ".account")
     }
 
     func removeExistingAuthenticationInfo() {
-        KeychainWrapper.setAuthenticationInfo(nil)
+        KeychainWrapper.standard.setAuthenticationInfo(nil)
     }
 }

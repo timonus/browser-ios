@@ -103,7 +103,7 @@ struct ReaderModeStyle {
 
     /// Encode the style to a JSON dictionary that can be passed to ReaderMode.js
     func encode() -> String {
-        return JSON(["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]).string(false)
+        return JSON(["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]).stringValue
     }
 
     /// Encode the style to a dictionary that can be stored in the profile
@@ -265,7 +265,8 @@ class ReaderMode: BrowserHelper {
         if let browser = browser {
             delegate?.readerMode(self, didChangeReaderModeState: state, forBrowser: browser)
             if state == .Active {
-                style = (style)
+                // TODO: Fix
+//                style = (style)
             }
         }
     }
@@ -293,10 +294,11 @@ class ReaderMode: BrowserHelper {
     var style: ReaderModeStyle = DefaultReaderModeStyle {
         didSet {
             if let browser = browser, state == ReaderModeState.Active {
-                browser.webView?.evaluateJavaScript("\(ReaderModeNamespace).setStyle(\(style.encode()))", completionHandler: {
-                    (object, error) -> Void in
-                    return
-                })
+                // TOOD: Fix
+//                browser.webView?.evaluateJavaScript("\(ReaderModeNamespace).setStyle(\(style.encode()))", completionHandler: {
+//                    (object, error) -> Void in
+//                    return
+//                })
             }
         }
     }

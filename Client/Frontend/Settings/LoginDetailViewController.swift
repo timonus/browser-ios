@@ -109,7 +109,7 @@ class LoginDetailViewController: UIViewController {
 
     deinit {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.removeObserver(self, name: NSNotification.Name(rawValue: NotificationProfileDidFinishSyncing), object: nil)
+        notificationCenter.removeObserver(self, name: NotificationProfileDidFinishSyncing, object: nil)
         notificationCenter.removeObserver(self, name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         notificationCenter.removeObserver(self, name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
     }

@@ -119,7 +119,7 @@ class TopSitesPanel: UIViewController {
         privateTabLinkButton = UIButton()
         let linkButtonTitle = NSAttributedString(string: Strings.Private_Tab_Link, attributes:
             [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue])
-        privateTabLinkButton.setAttributedTitle(linkButtonTitle, for: .Normal)
+        privateTabLinkButton.setAttributedTitle(linkButtonTitle, for: .normal)
         privateTabLinkButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
         privateTabLinkButton.titleLabel?.textColor = UIColor(white: 1, alpha: 0.25)
         privateTabLinkButton.titleLabel?.textAlignment = .center

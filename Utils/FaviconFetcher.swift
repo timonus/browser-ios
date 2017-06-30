@@ -83,19 +83,19 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
 
     fileprivate func fetchDataForURL(_ url: URL) -> Deferred<Maybe<NSData>> {
         let deferred = Deferred<Maybe<NSData>>()
-        alamofire.request(url).response { (request, response, data, error) in
-            // Don't cancel requests just because our Manager is deallocated.
-            withExtendedLifetime(self.alamofire) {
-                if error == nil {
-                    if let data = data {
-                        deferred.fill(Maybe(success: data))
-                        return
-                    }
-                }
-                let errorDescription = (error as NSError?)?.description ?? "No content."
-                deferred.fill(Maybe(failure: FaviconFetcherErrorType(description: errorDescription)))
-            }
-        }
+//        alamofire.request(url).response { (request, response, data, error) in
+//            // Don't cancel requests just because our Manager is deallocated.
+//            withExtendedLifetime(self.alamofire) {
+//                if error == nil {
+//                    if let data = data {
+//                        deferred.fill(Maybe(success: data))
+//                        return
+//                    }
+//                }
+//                let errorDescription = (error as NSError?)?.description ?? "No content."
+//                deferred.fill(Maybe(failure: FaviconFetcherErrorType(description: errorDescription)))
+//            }
+//        }
         return deferred
     }
 
@@ -110,11 +110,12 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                 element.iterate("head.meta") { meta in
                     if let refresh = meta?.attribute("http-equiv"), refresh == "Refresh",
                         let content = meta?.attribute("content"),
-                        let index = content.range(of: "URL="),
-                        let fromIndex = content.index(index.lowerBound, offsetBy: 4),
-                        let url = URL(string: content.substring(from: fromIndex)) {
-                        
-                        reloadUrl = url
+                        let index = content.range(of: "URL=") {
+                        // TODO: Fix
+//                        let fromIndex = content.index(index.lowerBound, offsetBy: 4),
+//                        let url = URL(string: content.substring(from: fromIndex)) {
+//                        
+//                        reloadUrl = url
                     }
                 }
 
@@ -149,8 +150,8 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                     }
 
                     if let type = iconType, !bestType.isPreferredTo(type),
-                        let iconUrl = URL(string: href, relativeToURL: url as URL) {
-                        let icon = Favicon(url: iconUrl.absoluteString ?? "", date: NSDate(), type: type)
+                        let iconUrl = URL(string: href, relativeTo: url) {
+                        let icon = Favicon(url: iconUrl.absoluteString, date: Date(), type: type)
                         // If we already have a list of Favicons going already, then add it…
                         if (type == bestType) {
                             icons.append(icon)
@@ -163,8 +164,8 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                 }
 
                 // If we haven't got any options icons, then use the default at the root of the domain.
-                if let url = URL(string: "/favicon.ico", relativeToURL: url as URL), icons.isEmpty {
-                    let icon = Favicon(url: url.absoluteString ?? "", date: NSDate(), type: .Guess)
+                if let url = URL(string: "/favicon.ico", relativeTo: url), icons.isEmpty {
+                    let icon = Favicon(url: url.absoluteString, date: Date(), type: .guess)
                     icons = [icon]
                 }
             }

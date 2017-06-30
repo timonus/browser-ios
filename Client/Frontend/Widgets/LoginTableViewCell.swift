@@ -194,7 +194,8 @@ class LoginTableViewCell: UITableViewCell {
         }
 
         customIndentView.frame = indentFrame
-        customCheckmarkIcon.frame.center = CGPoint(x: indentFrame.width / 2, y: indentFrame.height / 2)
+        // TODO: Fix
+//        customCheckmarkIcon.frame.center = CGPoint(x: indentFrame.width / 2, y: indentFrame.height / 2)
 
         // Adjust content view frame based on indent
         var contentFrame = self.contentView.frame

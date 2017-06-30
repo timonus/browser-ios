@@ -29,9 +29,11 @@ class ToggleButton: UIButton {
         if selected {
             var rect = CGRect(origin: CGPoint.zero, size: UX.BackgroundSize)
             rect.origin = maskShapeLayer.position
-            CGPathAddEllipseInRect(path, nil, rect)
+            // TODO: Fix
+//            CGPathAddEllipseInRect(path, nil, rect)
         } else {
-            CGPathAddEllipseInRect(path, nil, CGRect(origin: maskShapeLayer.position, size: CGSize.zero))
+            // TODO: Fix
+//            CGPathAddEllipseInRect(path, nil, CGRect(origin: maskShapeLayer.position, size: CGSize.zero))
         }
         self.maskShapeLayer.path = path
     }

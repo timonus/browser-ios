@@ -145,7 +145,7 @@ class LoginListViewController: UIViewController {
 
     deinit {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.removeObserver(self, name: NSNotification.Name(rawValue: NotificationProfileDidFinishSyncing), object: nil)
+        notificationCenter.removeObserver(self, name: NotificationProfileDidFinishSyncing, object: nil)
         notificationCenter.removeObserver(self, name: NotificationDataLoginDidChange, object: nil)
     }
 

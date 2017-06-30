@@ -82,8 +82,9 @@ class DiskReaderModeCache: ReaderModeCache {
         }
 
         try FileManager.default.createDirectory(atPath: cacheDirectoryPath, withIntermediateDirectories: true, attributes: nil)
-        let string: NSString = readabilityResult.encode()
-        try string.write(toFile: contentFilePath, atomically: true, encoding: String.Encoding.utf8.rawValue)
+        // TODO: Fix
+        let string = "" //readabilityResult.encode()
+        try string.write(toFile: contentFilePath, atomically: true, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
         return
     }
 
@@ -121,11 +122,12 @@ class DiskReaderModeCache: ReaderModeCache {
     fileprivate func cachePathsForURL(_ url: URL) -> (cacheDirectoryPath: String, contentFilePath: String)? {
         let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         if !paths.isEmpty, let hashedPath = hashedPathForURL(url) {
-            let cacheDirectoryURL = URL(fileURLWithPath: NSString.path(withComponents: [paths[0], "ReaderView", hashedPath]))
-            let cacheDirectoryPath = cacheDirectoryURL.path
-            if let contentFilePath = cacheDirectoryURL.appendingPathComponent("content.json").path {
-                return (cacheDirectoryPath, contentFilePath)
-            }
+            // TODO: Fix
+//            let cacheDirectoryURL = URL(fileURLWithPath: String.path(withComponents: [paths[0], "ReaderView", hashedPath])) {
+//                let cacheDirectoryPath = cacheDirectoryURL.path
+//                let contentFilePath = cacheDirectoryURL.appendingPathComponent("content.json").path
+//                return (cacheDirectoryPath, contentFilePath)
+//            }
         }
 
         return nil

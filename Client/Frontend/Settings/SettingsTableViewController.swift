@@ -213,8 +213,8 @@ class SettingsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.SELsyncDidChangeState), name: NSNotification.Name(rawValue: NotificationProfileDidStartSyncing), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.SELsyncDidChangeState), name: NSNotification.Name(rawValue: NotificationProfileDidFinishSyncing), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.SELsyncDidChangeState), name: NotificationProfileDidStartSyncing, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.SELsyncDidChangeState), name: NotificationProfileDidFinishSyncing, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.SELfirefoxAccountDidChange), name: NotificationFirefoxAccountChanged, object: nil)
 
         tableView.reloadData()
@@ -227,8 +227,8 @@ class SettingsTableViewController: UITableViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationProfileDidStartSyncing), object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationProfileDidFinishSyncing), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationProfileDidStartSyncing, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationProfileDidFinishSyncing, object: nil)
         NotificationCenter.default.removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
     }
 
