@@ -83,19 +83,20 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
 
     fileprivate func fetchDataForURL(_ url: URL) -> Deferred<Maybe<NSData>> {
         let deferred = Deferred<Maybe<NSData>>()
-//        alamofire.request(url).response { (request, response, data, error) in
-//            // Don't cancel requests just because our Manager is deallocated.
-//            withExtendedLifetime(self.alamofire) {
-//                if error == nil {
-//                    if let data = data {
-//                        deferred.fill(Maybe(success: data))
-//                        return
-//                    }
-//                }
-//                let errorDescription = (error as NSError?)?.description ?? "No content."
-//                deferred.fill(Maybe(failure: FaviconFetcherErrorType(description: errorDescription)))
-//            }
-//        }
+        
+        alamofire.request(url).response { response in
+            // Don't cancel requests just because our Manager is deallocated.
+            withExtendedLifetime(self.alamofire) {
+                if response.error == nil {
+                    if let data = response.data {
+                        deferred.fill(Maybe(success: data as NSData))
+                        return
+                    }
+                }
+                let errorDescription = (response.error as NSError?)?.description ?? "No content."
+                deferred.fill(Maybe(failure: FaviconFetcherErrorType(description: errorDescription)))
+            }
+        }
         return deferred
     }
 
@@ -112,10 +113,10 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                         let content = meta?.attribute("content"),
                         let index = content.range(of: "URL=") {
                         // TODO: Fix
-//                        let fromIndex = content.index(index.lowerBound, offsetBy: 4),
-//                        let url = URL(string: content.substring(from: fromIndex)) {
-//                        
-//                        reloadUrl = url
+                        let fromIndex = content.index(index.lowerBound, offsetBy: 4)
+                        let url = URL(string: content.substring(from: fromIndex))
+                        
+                        reloadUrl = url
                     }
                 }
 
