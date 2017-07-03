@@ -85,8 +85,10 @@ struct ConfirmPanelAlert: JSAlertInfo {
     mutating func alertController() -> JSPromptAlertController {
         // Show JavaScript confirm dialogs.
         let alertController = JSPromptAlertController(title: titleForJavaScriptPanelInitiatedByFrame(frame), message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        var localSelf = self
         alertController.addAction(UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default, handler: { _ in
-//            self.didConfirm = true
+            localSelf.didConfirm = true
         }))
         alertController.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
         alertController.alertInfo = self
@@ -119,9 +121,11 @@ struct TextInputAlert: JSAlertInfo {
 
     mutating func alertController() -> JSPromptAlertController {
         let alertController = JSPromptAlertController(title: titleForJavaScriptPanelInitiatedByFrame(frame), message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        var localSelf = self
         alertController.addTextField(configurationHandler: { (textField: UITextField) in
-//            self.input = textField
-//            self.input.text = self.defaultText
+            localSelf.input = textField
+            localSelf.input.text = localSelf.defaultText
         })
         alertController.addAction(UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default, handler: nil))
         alertController.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
