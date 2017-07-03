@@ -84,7 +84,7 @@ class TabCell: UICollectionViewCell {
         self.titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
 
         self.closeButton = UIButton()
-        self.closeButton.setImage(UIImage(named: "stop"), for: UIControlState())
+        self.closeButton.setImage(UIImage(named: "stop"), for: .normal)
         self.closeButton.tintColor = .black
         
         self.titleWrapperBackground.backgroundColor = UIColor.white
@@ -221,7 +221,7 @@ class TabTrayController: UIViewController {
     var collectionView: UICollectionView!
     lazy var addTabButton: UIButton = {
         let addTabButton = UIButton()
-        addTabButton.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        addTabButton.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysTemplate), for: .normal)
         addTabButton.addTarget(self, action: #selector(TabTrayController.SELdidClickAddTab), for: .touchUpInside)
         addTabButton.accessibilityLabel = Strings.Add_Tab
         addTabButton.accessibilityIdentifier = "TabTrayController.addTabButton"
@@ -268,7 +268,7 @@ class TabTrayController: UIViewController {
     lazy var togglePrivateMode: UIButton = {
         let button = UIButton()
         button.setTitle(Strings.Private, for: .normal)
-        button.setTitleColor(UIColor.black, for: UIControlState())
+        button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 2)
         button.contentEdgeInsets = UIEdgeInsetsMake(0, 4 /* left */, 0, 4 /* right */)
         button.layer.cornerRadius = 4.0

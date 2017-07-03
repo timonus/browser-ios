@@ -54,7 +54,7 @@ public extension UIBarButtonItem {
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
         button.addTarget(self, action: action, for: .touchUpInside)
-        button.setImage(image, for: UIControlState())
+        button.setImage(image, for: .normal)
         
         return UIBarButtonItem(customView: button)
     }

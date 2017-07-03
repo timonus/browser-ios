@@ -34,7 +34,7 @@ class SnackButton : UIButton {
 
         super.init(frame: CGRect.zero)
 
-        setTitle(title, for: UIControlState())
+        setTitle(title, for: .normal)
         titleLabel?.font = DynamicFontHelper.defaultHelper.DefaultMediumFont
         setBackgroundImage(highlightImg, for: .highlighted)
         setTitleColor(UIConstants.HighlightText, for: .highlighted)

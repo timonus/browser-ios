@@ -75,21 +75,21 @@ class FindInPageBar: UIView {
         matchCountView.isHidden = true
         addSubview(matchCountView)
 
-        previousButton.setImage(UIImage(named: "find_previous"), for: UIControlState())
-        previousButton.setTitleColor(FindInPageUX.ButtonColor, for: UIControlState())
+        previousButton.setImage(UIImage(named: "find_previous"), for: .normal)
+        previousButton.setTitleColor(FindInPageUX.ButtonColor, for: .normal)
         previousButton.accessibilityLabel = Strings.Previous_inpage_result
         previousButton.addTarget(self, action: #selector(FindInPageBar.SELdidFindPrevious(_:)), for: UIControlEvents.touchUpInside)
         addSubview(previousButton)
 
-        nextButton.setImage(UIImage(named: "find_next"), for: UIControlState())
-        nextButton.setTitleColor(FindInPageUX.ButtonColor, for: UIControlState())
+        nextButton.setImage(UIImage(named: "find_next"), for: .normal)
+        nextButton.setTitleColor(FindInPageUX.ButtonColor, for: .normal)
         nextButton.accessibilityLabel = Strings.Next_inpage_result
         nextButton.addTarget(self, action: #selector(FindInPageBar.SELdidFindNext(_:)), for: UIControlEvents.touchUpInside)
         addSubview(nextButton)
 
         let closeButton = UIButton()
-        closeButton.setImage(UIImage(named: "find_close"), for: UIControlState())
-        closeButton.setTitleColor(FindInPageUX.ButtonColor, for: UIControlState())
+        closeButton.setImage(UIImage(named: "find_close"), for: .normal)
+        closeButton.setTitleColor(FindInPageUX.ButtonColor, for: .normal)
         closeButton.accessibilityLabel = Strings.Done
         closeButton.addTarget(self, action: #selector(FindInPageBar.SELdidPressClose(_:)), for: UIControlEvents.touchUpInside)
         addSubview(closeButton)

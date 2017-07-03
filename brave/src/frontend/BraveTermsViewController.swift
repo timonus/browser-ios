@@ -63,7 +63,7 @@ class BraveTermsViewController: UIViewController {
         view.addSubview(optLabel)
         
         checkButton = UIButton(type: .custom)
-        checkButton.setImage(UIImage(named: "sharedata_uncheck"), for: UIControlState())
+        checkButton.setImage(UIImage(named: "sharedata_uncheck"), for: .normal)
         checkButton.setImage(UIImage(named: "sharedata_check"), for: .selected)
         checkButton.addTarget(self, action: #selector(checkUncheck(_:)), for: .touchUpInside)
         checkButton.isSelected = true
@@ -71,8 +71,8 @@ class BraveTermsViewController: UIViewController {
         
         continueButton = UIButton(type: .system)
         continueButton.titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
-        continueButton.setTitle(NSLocalizedString("Accept & Continue", comment: ""), for: UIControlState())
-        continueButton.setTitleColor(UIColor.white, for: UIControlState())
+        continueButton.setTitle(NSLocalizedString("Accept & Continue", comment: ""), for: .normal)
+        continueButton.setTitleColor(UIColor.white, for: .normal)
         continueButton.addTarget(self, action: #selector(acceptAndContinue(_:)), for: .touchUpInside)
         continueButton.backgroundColor = UIColor(red: 255/255.0, green: 80/255.0, blue: 0/255.0, alpha: 1.0)
         continueButton.layer.cornerRadius = 4.5

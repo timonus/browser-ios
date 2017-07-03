@@ -127,7 +127,7 @@ class OpenInView: UIView {
 
     init() {
         super.init(frame: CGRect.zero)
-        openInButton.setTitleColor(OpenInViewUX.TextColor, for: UIControlState())
+        openInButton.setTitleColor(OpenInViewUX.TextColor, for: .normal)
         openInButton.setTitle(OpenInViewUX.OpenInString, for: UIControlState.normal)
         openInButton.titleLabel?.font = OpenInViewUX.TextFont
         openInButton.sizeToFit()

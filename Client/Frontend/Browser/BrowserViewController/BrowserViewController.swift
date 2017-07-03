@@ -1125,7 +1125,7 @@ extension BrowserViewController: KeyboardHelperDelegate {
                     self.urlBar.pwdMgrButton.isHidden = !shouldShow
                     
                     let icon = ThirdPartyPasswordManagerType.icon(PasswordManagerButtonSetting.currentSetting)
-                    self.urlBar.pwdMgrButton.setImage(icon, for: UIControlState())
+                    self.urlBar.pwdMgrButton.setImage(icon, for: .normal)
 
                     self.urlBar.setNeedsUpdateConstraints()
                 }

@@ -44,18 +44,18 @@ class MainSidePanelViewController : SidePanelBaseViewController {
 
         divider.backgroundColor = BraveUX.ColorForSidebarLineSeparators
 
-        settingsButton.setImage(UIImage(named: "settings")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        settingsButton.setImage(UIImage(named: "settings")?.withRenderingMode(.alwaysTemplate), for: .normal)
         settingsButton.addTarget(self, action: #selector(onClickSettingsButton), for: .touchUpInside)
         settingsButton.accessibilityLabel = Strings.Settings
 
-        bookmarksButton.setImage(UIImage(named: "bookmarklist"), for: UIControlState())
+        bookmarksButton.setImage(UIImage(named: "bookmarklist"), for: .normal)
         bookmarksButton.accessibilityLabel = Strings.Show_Bookmarks
         
-        historyButton.setImage(UIImage(named: "history"), for: UIControlState())
+        historyButton.setImage(UIImage(named: "history"), for: .normal)
         historyButton.accessibilityLabel = Strings.Show_History
 
         addBookmarkButton.addTarget(self, action: #selector(onClickBookmarksButton), for: .touchUpInside)
-        addBookmarkButton.setImage(UIImage(named: "bookmark"), for: UIControlState())
+        addBookmarkButton.setImage(UIImage(named: "bookmark"), for: .normal)
         addBookmarkButton.setImage(UIImage(named: "bookmarkMarked"), for: .selected)
         addBookmarkButton.accessibilityLabel = Strings.Add_Bookmark
         

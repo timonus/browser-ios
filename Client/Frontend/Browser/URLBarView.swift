@@ -125,7 +125,7 @@ class URLBarView: UIView {
 
     lazy var cancelButton: UIButton = {
         let cancelButton = InsetButton()
-        cancelButton.setTitleColor(UIColor.black, for: UIControlState())
+        cancelButton.setTitleColor(UIColor.black, for: .normal)
         let cancelTitle = Strings.Cancel
         cancelButton.setTitle(cancelTitle, for: UIControlState.normal)
         cancelButton.titleLabel?.font = UIConstants.DefaultChromeFont
@@ -509,8 +509,8 @@ extension URLBarView: AutocompleteTextFieldDelegate {
 extension URLBarView {
 
     dynamic var cancelTextColor: UIColor? {
-        get { return cancelButton.titleColor(for: UIControlState()) }
-        set { return cancelButton.setTitleColor(newValue, for: UIControlState()) }
+        get { return cancelButton.titleColor(for: .normal) }
+        set { return cancelButton.setTitleColor(newValue, for: .normal) }
     }
 
     dynamic var actionButtonTintColor: UIColor? {
@@ -591,13 +591,13 @@ class ToolbarTextField: AutocompleteTextField {
         // http://stackoverflow.com/questions/27944781/how-to-change-the-tint-color-of-the-clear-button-on-a-uitextfield
         for view in subviews as [UIView] {
             if let button = view as? UIButton {
-                if let image = button.image(for: UIControlState()) {
+                if let image = button.image(for: .normal) {
                     if tintedClearImage == nil {
                         tintedClearImage = tintImage(image, color: clearButtonTintColor)
                     }
 
                     if button.imageView?.image != tintedClearImage {
-                        button.setImage(tintedClearImage, for: UIControlState())
+                        button.setImage(tintedClearImage, for: .normal)
                     }
                 }
             }

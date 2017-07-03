@@ -99,7 +99,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         startBrowsingButton = UIButton()
         startBrowsingButton.backgroundColor = IntroViewControllerUX.StartBrowsingButtonColor
         startBrowsingButton.setTitle(IntroViewControllerUX.StartBrowsingButtonTitle, for: UIControlState.normal)
-        startBrowsingButton.setTitleColor(UIColor.white, for: UIControlState())
+        startBrowsingButton.setTitleColor(UIColor.white, for: .normal)
         startBrowsingButton.addTarget(self, action: #selector(IntroViewController.SELstartBrowsing), for: UIControlEvents.touchUpInside)
         startBrowsingButton.contentHorizontalAlignment = .left
         startBrowsingButton.contentVerticalAlignment = .top

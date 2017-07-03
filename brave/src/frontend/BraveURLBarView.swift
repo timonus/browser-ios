@@ -85,13 +85,13 @@ class BraveURLBarView : URLBarView {
         super.commonInit()
 
         leftSidePanelButton.addTarget(self, action: #selector(onClickLeftSlideOut), for: UIControlEvents.touchUpInside)
-        leftSidePanelButton.setImage(UIImage(named: "listpanel")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        leftSidePanelButton.setImage(UIImage(named: "listpanel")?.withRenderingMode(.alwaysTemplate), for: .normal)
         leftSidePanelButton.setImage(UIImage(named: "listpanel_down")?.withRenderingMode(.alwaysTemplate), for: .selected)
         leftSidePanelButton.accessibilityLabel = Strings.Bookmarks_and_History_Panel
         leftSidePanelButton.setStarImageBookmarked(false)
 
         braveButton.addTarget(self, action: #selector(onClickBraveButton) , for: UIControlEvents.touchUpInside)
-        braveButton.setImage(UIImage(named: "bravePanelButton"), for: UIControlState())
+        braveButton.setImage(UIImage(named: "bravePanelButton"), for: .normal)
         braveButton.setImage(UIImage(named: "bravePanelButtonOff"), for: .selected)
         braveButton.accessibilityLabel = Strings.Brave_Panel
         braveButton.tintColor = BraveUX.ActionButtonTintColor

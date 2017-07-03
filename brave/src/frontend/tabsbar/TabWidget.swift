@@ -76,10 +76,10 @@ class TabWidget : UIView {
 
         close.addTarget(self, action: #selector(clicked), for: .touchUpInside)
         title.addTarget(self, action: #selector(selected), for: .touchUpInside)
-        title.setTitle("", for: UIControlState())
+        title.setTitle("", for: .normal)
         [close, title, separatorLine].forEach { addSubview($0) }
 
-        close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)
         close.snp_makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
             make.left.equalTo(self).inset(4)
@@ -139,7 +139,7 @@ class TabWidget : UIView {
     func deselect() {
         backgroundColor = UIColor.init(white: 0.0, alpha: 0.1)
         title.titleLabel!.font = UIFont.systemFont(ofSize: 12)
-        title.setTitleColor(PrivateBrowsing.singleton.isOn ? UIColor(white: 1.0, alpha: 0.4) : UIColor(white: 0.0, alpha: 0.4), for: UIControlState())
+        title.setTitleColor(PrivateBrowsing.singleton.isOn ? UIColor(white: 1.0, alpha: 0.4) : UIColor(white: 0.0, alpha: 0.4), for: .normal)
         close.isHidden = true
         close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
     }
@@ -150,7 +150,7 @@ class TabWidget : UIView {
 
     func setStyleToSelected() {
         title.titleLabel!.font = UIFont.systemFont(ofSize: 12, weight: UIFontWeightSemibold)
-        title.setTitleColor(PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black, for: UIControlState())
+        title.setTitleColor(PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black, for: .normal)
         backgroundColor = UIColor.clear
         close.isHidden = false
         
@@ -176,9 +176,9 @@ class TabWidget : UIView {
 
     func setTitle(_ title: String?) {
         if let title = title, title != "localhost" {
-            self.title.setTitle(title, for: UIControlState())
+            self.title.setTitle(title, for: .normal)
         } else {
-            self.title.setTitle("", for: UIControlState())
+            self.title.setTitle("", for: .normal)
         }
     }
 }

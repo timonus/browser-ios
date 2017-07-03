@@ -55,7 +55,7 @@ class LoginListViewController: UIViewController {
         let button = UIButton()
         button.titleLabel?.font = LoginListUX.selectionButtonFont
         button.setTitle(self.selectAllTitle, for: .normal)
-        button.setTitleColor(LoginListUX.selectionButtonTextColor, for: UIControlState())
+        button.setTitleColor(LoginListUX.selectionButtonTextColor, for: .normal)
         button.backgroundColor = LoginListUX.selectionButtonBackground
         button.addTarget(self, action: #selector(LoginListViewController.SELdidTapSelectionButton), for: .touchUpInside)
         return button

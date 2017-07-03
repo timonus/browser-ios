@@ -251,7 +251,7 @@ class FontTypeButton: UIButton {
         self.init(frame: CGRect.zero)
         self.fontType = fontType
         setTitleColor(ReaderModeStyleViewControllerUX.FontTypeTitleSelectedColor, for: UIControlState.selected)
-        setTitleColor(ReaderModeStyleViewControllerUX.FontTypeTitleNormalColor, for: UIControlState())
+        setTitleColor(ReaderModeStyleViewControllerUX.FontTypeTitleNormalColor, for: .normal)
         backgroundColor = ReaderModeStyleViewControllerUX.FontTypeRowBackground
         accessibilityHint = Strings.Changes_font_type
         switch fontType {
@@ -338,7 +338,7 @@ class ThemeButton: UIButton {
         self.init(frame: CGRect.zero)
         self.theme = theme
 
-        setTitle(theme.rawValue, for: UIControlState())
+        setTitle(theme.rawValue, for: .normal)
 
         accessibilityHint = Strings.Changes_color_theme
         

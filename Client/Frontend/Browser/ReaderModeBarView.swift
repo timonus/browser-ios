@@ -79,7 +79,7 @@ class ReaderModeBarView: UIView {
         // route clicks here. See see BrowserViewController.ViewToCaptureReaderModeTap
         // TODO: Redo urlbar layout so that we can place this within the frame *if* we decide to keep the reader settings attached to urlbar
         settingsButton = UIButton()
-        settingsButton.setTitleColor(BraveUX.BraveOrange, for: UIControlState())
+        settingsButton.setTitleColor(BraveUX.BraveOrange, for: .normal)
         settingsButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize - 1)
         settingsButton.setTitle(Strings.Reader_Mode_Settings, for: .normal)
         settingsButton.addTarget(self, action: #selector(ReaderModeBarView.SELtappedSettingsButton), for: .touchUpInside)

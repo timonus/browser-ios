@@ -64,7 +64,7 @@ class SyncWelcomeViewController: UIViewController {
         newToSyncButton.translatesAutoresizingMaskIntoConstraints = false
         newToSyncButton.setTitle(Strings.NewSyncCode, for: .normal)
         newToSyncButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
-        newToSyncButton.setTitleColor(UIColor.white, for: UIControlState())
+        newToSyncButton.setTitleColor(UIColor.white, for: .normal)
         newToSyncButton.backgroundColor = BraveUX.DefaultBlue
         newToSyncButton.layer.cornerRadius = 8
         newToSyncButton.addTarget(self, action: #selector(SEL_newToSync), for: .touchUpInside)

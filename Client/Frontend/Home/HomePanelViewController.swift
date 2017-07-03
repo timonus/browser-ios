@@ -199,7 +199,7 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
             buttonContainerView.addSubview(button)
             button.addTarget(self, action: #selector(HomePanelViewController.SELtappedButton(_:)), for: UIControlEvents.touchUpInside)
             if let image = UIImage(named: "panelIcon\(panel.imageName)") {
-                button.setImage(image, for: UIControlState())
+                button.setImage(image, for: .normal)
             }
             if let image = UIImage(named: "panelIcon\(panel.imageName)Selected") {
                 button.setImage(image, for: UIControlState.selected)

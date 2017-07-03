@@ -323,7 +323,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
 
         //search settings icon
         let searchButton = UIButton()
-        searchButton.setImage(UIImage(named: "quickSearch"), for: UIControlState())
+        searchButton.setImage(UIImage(named: "quickSearch"), for: .normal)
         searchButton.imageView?.contentMode = UIViewContentMode.center
         searchButton.layer.backgroundColor = SearchViewControllerUX.EngineButtonBackgroundColor
         searchButton.addTarget(self, action: #selector(SearchViewController.SELdidClickSearchButton), for: UIControlEvents.touchUpInside)
@@ -348,7 +348,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         leftEdge = searchButton.snp_right
         for engine in quickSearchEngines {
             let engineButton = UIButton()
-            engineButton.setImage(engine.image, for: UIControlState())
+            engineButton.setImage(engine.image, for: .normal)
             engineButton.imageView?.contentMode = UIViewContentMode.scaleAspectFit
             engineButton.layer.backgroundColor = SearchViewControllerUX.EngineButtonBackgroundColor
             engineButton.addTarget(self, action: #selector(SearchViewController.SELdidSelectEngine(_:)), for: UIControlEvents.touchUpInside)
@@ -658,13 +658,13 @@ fileprivate class SuggestionCell: UITableViewCell {
 
             for suggestion in suggestions {
                 let button = SuggestionButton()
-                button.setTitle(suggestion, for: UIControlState())
+                button.setTitle(suggestion, for: .normal)
                 button.addTarget(self, action: #selector(SuggestionCell.SELdidSelectSuggestion(_:)), for: UIControlEvents.touchUpInside)
 
                 // If this is the first image, add the search icon.
                 if container.subviews.isEmpty {
                     let image = UIImage(named: SearchViewControllerUX.SearchImage)
-                    button.setImage(image, for: UIControlState())
+                    button.setImage(image, for: .normal)
                     button.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0)
                 }
 
@@ -754,7 +754,7 @@ fileprivate class SuggestionButton: InsetButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setTitleColor(UIColor.black, for: UIControlState())
+        setTitleColor(UIColor.black, for: .normal)
         setTitleColor(UIColor.black, for: UIControlState.highlighted)
         titleLabel?.font = DynamicFontHelper.defaultHelper.DefaultMediumFont
         backgroundColor = SearchViewControllerUX.SuggestionBackgroundColor

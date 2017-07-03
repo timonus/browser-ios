@@ -54,23 +54,23 @@ open class BrowserToolbarHelper: NSObject {
 
         // TODO: All of this should be configured directly inside the browser toolbar
         
-        toolbar.backButton.setImage(UIImage(named: "back"), for: UIControlState())
+        toolbar.backButton.setImage(UIImage(named: "back"), for: .normal)
         toolbar.backButton.accessibilityLabel = Strings.Back
         toolbar.backButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickBack), for: UIControlEvents.touchUpInside)
 
-        toolbar.forwardButton.setImage(UIImage(named: "forward"), for: UIControlState())
+        toolbar.forwardButton.setImage(UIImage(named: "forward"), for: .normal)
         toolbar.forwardButton.accessibilityLabel = Strings.Forward
         toolbar.forwardButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickForward), for: UIControlEvents.touchUpInside)
 
-        toolbar.shareButton.setImage(UIImage(named: "send"), for: UIControlState())
+        toolbar.shareButton.setImage(UIImage(named: "send"), for: .normal)
         toolbar.shareButton.accessibilityLabel = Strings.Share
         toolbar.shareButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickShare), for: UIControlEvents.touchUpInside)
         
-        toolbar.addTabButton.setImage(UIImage(named: "add"), for: UIControlState())
+        toolbar.addTabButton.setImage(UIImage(named: "add"), for: .normal)
         toolbar.addTabButton.accessibilityLabel = Strings.Add_Tab
         toolbar.addTabButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickAddTab), for: UIControlEvents.touchUpInside)
 
-        toolbar.pwdMgrButton.setImage(UIImage(named: "passhelper_1pwd")?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        toolbar.pwdMgrButton.setImage(UIImage(named: "passhelper_1pwd")?.withRenderingMode(.alwaysTemplate), for: .normal)
         toolbar.pwdMgrButton.isHidden = true
         toolbar.pwdMgrButton.tintColor = UIColor.white
         toolbar.pwdMgrButton.accessibilityLabel = Strings.PasswordManager

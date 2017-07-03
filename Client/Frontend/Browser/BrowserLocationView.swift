@@ -338,7 +338,7 @@ private class ReaderModeButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         tintColor = BraveUX.ActionButtonTintColor
-        setImage(UIImage(named: "reader.png")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        setImage(UIImage(named: "reader.png")!.withRenderingMode(.alwaysTemplate), for: .normal)
         setImage(UIImage(named: "reader_active.png"), for: UIControlState.selected)
     }
     

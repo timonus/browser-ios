@@ -114,7 +114,7 @@ class SyncPairCameraViewController: UIViewController {
         cameraAccessButton.translatesAutoresizingMaskIntoConstraints = false
         cameraAccessButton.setTitle(Strings.GrantCameraAccess, for: .normal)
         cameraAccessButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
-        cameraAccessButton.setTitleColor(UIColor.white, for: UIControlState())
+        cameraAccessButton.setTitleColor(UIColor.white, for: .normal)
         cameraAccessButton.backgroundColor = BraveUX.DefaultBlue
         cameraAccessButton.layer.cornerRadius = 8
         cameraAccessButton.addTarget(self, action: #selector(SEL_cameraAccess), for: .touchUpInside)

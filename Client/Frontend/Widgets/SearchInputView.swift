@@ -64,7 +64,7 @@ class SearchInputView: UIView {
     fileprivate lazy var closeButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(SearchInputView.SELtappedClose), for: .touchUpInside)
-        button.setImage(UIImage(named: "clear"), for: UIControlState())
+        button.setImage(UIImage(named: "clear"), for: .normal)
         button.accessibilityLabel = Strings.Clear_Search
         return button
     }()

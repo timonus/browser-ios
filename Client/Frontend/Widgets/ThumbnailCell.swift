@@ -184,7 +184,7 @@ class ThumbnailCell: UICollectionViewCell {
         let removeButton = UIButton()
         removeButton.isExclusiveTouch = true
         let removeButtonImage = UIImage(named: "TileCloseButton")
-        removeButton.setImage(removeButtonImage, for: UIControlState())
+        removeButton.setImage(removeButtonImage, for: .normal)
         removeButton.addTarget(self, action: #selector(ThumbnailCell.SELdidRemove), for: UIControlEvents.touchUpInside)
         removeButton.accessibilityLabel = Strings.Remove_page
         removeButton.isHidden = true
