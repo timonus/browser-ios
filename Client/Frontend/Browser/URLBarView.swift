@@ -156,10 +156,9 @@ class URLBarView: UIView {
     // Required solely for protocol conforming
     lazy var addTabButton = { return UIButton() }()
 
-    lazy var actionButtons: [UIButton] = {
-        // TODO: Re-add all button
-        return [/*self.shareButton, self.forwardButton, self.backButton, self.pwdMgrButton, self.addTabButton*/]
-    }()
+    var actionButtons: [UIButton] {
+        return [self.shareButton, self.forwardButton, self.backButton, self.pwdMgrButton, self.addTabButton]
+    }
 
     // Used to temporarily store the cloned button so we can respond to layout changes during animation
     fileprivate weak var clonedTabsButton: TabsButton?
@@ -169,11 +168,11 @@ class URLBarView: UIView {
 
     var currentURL: URL? {
         get {
-            return locationView.url as! URL
+            return locationView.url
         }
 
         set(newURL) {
-            locationView.url = newURL as! NSURL as URL
+            locationView.url = newURL
         }
     }
 

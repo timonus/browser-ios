@@ -117,16 +117,16 @@ extension BrowserViewController: ContextMenuHelperDelegate {
 
                 Alamofire.request(url)
                     .validate(statusCode: 200..<300)
-//                    .response { responseRequest, responseResponse, responseData, responseError in
-//                        // Only set the image onto the pasteboard if the pasteboard hasn't changed since
-//                        // fetching the image; otherwise, in low-bandwidth situations,
-//                        // we might be overwriting something that the user has subsequently added.
-//                        if changeCount == pasteboard.changeCount, let imageData = responseData, responseError == nil {
-//                            pasteboard.addImageWithData(imageData, forURL: url)
-//                        }
-//
-//                        application.endBackgroundTask(taskId)
-//                }
+                    .response { response in
+                        // Only set the image onto the pasteboard if the pasteboard hasn't changed since
+                        // fetching the image; otherwise, in low-bandwidth situations,
+                        // we might be overwriting something that the user has subsequently added.
+                        if changeCount == pasteboard.changeCount, let imageData = response.data, response.error == nil {
+                            pasteboard.addImageWithData(imageData, forURL: url)
+                        }
+
+                        application.endBackgroundTask(taskId)
+                }
             }
             actionSheetController.addAction(copyAction)
         }
@@ -147,11 +147,11 @@ extension BrowserViewController: ContextMenuHelperDelegate {
     fileprivate func getImage(_ url: URL, success: @escaping (UIImage) -> ()) {
         Alamofire.request(url)
             .validate(statusCode: 200..<300)
-//            .response { _, _, data, _ in
-//                if let data = data,
-//                    let image = UIImage.dataIsGIF(data) ? UIImage.imageFromGIFDataThreadSafe(data) : UIImage.imageFromDataThreadSafe(data) {
-//                    success(image)
-//                }
-//        }
+            .response { response in
+                if let data = response.data,
+                    let image = UIImage.dataIsGIF(data) ? UIImage.imageFromGIFDataThreadSafe(data) : UIImage.imageFromDataThreadSafe(data) {
+                    success(image)
+                }
+        }
     }
 }

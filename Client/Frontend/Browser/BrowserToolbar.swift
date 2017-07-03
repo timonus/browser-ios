@@ -18,6 +18,8 @@ protocol BrowserToolbarProtocol {
     var forwardButton: UIButton { get }
     var backButton: UIButton { get }
     var addTabButton: UIButton { get }
+    
+    // While implementing protocol lazy var `self` is not usable to access instance variables, so this needs to be a function/calc var
     var actionButtons: [UIButton] { get }
 
     func updateBackStatus(_ canGoBack: Bool)
@@ -109,10 +111,9 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
     let backButton = UIButton()
     let addTabButton = UIButton()
     
-    lazy var actionButtons: [UIButton] = {
-        // TODO: Must re-add buttons
-        return [/*self.shareButton, self.forwardButton, self.backButton, self.addTabButton*/]
-    }()
+    var actionButtons: [UIButton] {
+        return [self.shareButton, self.forwardButton, self.backButton, self.addTabButton]
+    }
 
     var stopReloadButton: UIButton {
         get {

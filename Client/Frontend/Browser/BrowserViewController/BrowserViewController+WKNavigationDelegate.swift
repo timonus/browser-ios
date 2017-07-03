@@ -58,7 +58,7 @@ extension BrowserViewController: WKCompatNavigationDelegate {
     func webViewDecidePolicyForNavigationAction(_ webView: UIWebView, url: URL?, shouldLoad: inout Bool) {
         guard let url = url else { return }
         // Fixes 1261457 - Rich text editor fails because requests to about:blank are blocked
-        if url.scheme == "about" { // && url.resourceSpecifier == "blank" {
+        if url.scheme == "about" && (url as NSURL).resourceSpecifier == "blank" {
             return
         }
 
@@ -67,8 +67,7 @@ extension BrowserViewController: WKCompatNavigationDelegate {
         // instead we present it as it was put in the URL.
 
         if url.scheme == "tel" || url.scheme == "facetime" || url.scheme == "facetime-audio" {
-            let tempValue: String? = ""
-            if let phoneNumber = tempValue { // url.resourceSpecifier.removingPercentEncoding {
+            if let phoneNumber = (url as NSURL).resourceSpecifier?.removingPercentEncoding {
                 let alert = UIAlertController(title: phoneNumber, message: nil, preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
                 alert.addAction(UIAlertAction(title: Strings.Call, style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
