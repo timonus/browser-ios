@@ -404,9 +404,9 @@ class Browser: NSObject, BrowserWebViewDelegate {
                 }
             }
 
-            if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), (urlComponents.user != nil) || (urlComponents.password != nil) {
-//                urlComponents.user = nil
-//                urlComponents.password = nil
+            if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), (urlComponents.user != nil) || (urlComponents.password != nil) {
+                urlComponents.user = nil
+                urlComponents.password = nil
                 return urlComponents.url
             }
 
