@@ -96,13 +96,13 @@ class OpenSearchEngine {
         let allowedCharacters = CharacterSet(charactersIn: SearchTermsAllowedCharacters)
         if let escapedQuery = query.addingPercentEncoding(withAllowedCharacters: allowedCharacters) {
             // Escape the search template as well in case it contains not-safe characters like symbols
-            let templateAllowedSet = NSMutableCharacterSet()
-            templateAllowedSet.formUnion(with: CharacterSet.URLAllowedCharacterSet())
+            var templateAllowedSet = CharacterSet()
+            templateAllowedSet.formUnion(CharacterSet.URLAllowedCharacterSet())
 
             // Allow brackets since we use them in our template as our insertion point
-            templateAllowedSet.formUnion(with: CharacterSet(charactersIn: "{}"))
+            templateAllowedSet.formUnion(CharacterSet(charactersIn: "{}"))
 
-            if let encodedSearchTemplate = searchTemplate.addingPercentEncoding(withAllowedCharacters: templateAllowedSet as CharacterSet) {
+            if let encodedSearchTemplate = searchTemplate.addingPercentEncoding(withAllowedCharacters: templateAllowedSet) {
                 let localeString = Locale.current.identifier
                 let urlString = encodedSearchTemplate
                     .replacingOccurrences(of: SearchTermComponent, with: escapedQuery, options: NSString.CompareOptions.literal, range: nil)

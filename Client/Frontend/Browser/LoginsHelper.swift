@@ -41,7 +41,7 @@ class LoginsHelper: BrowserHelper {
     }
 
     func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        guard var res = message.body as? [String: AnyObject] else { return }
+        guard var res = message.body as? [String: Any] else { return }
         guard let type = res["type"] as? String else { return }
 
         // We don't use the WKWebView's URL since the page can spoof the URL by using document.location
@@ -50,8 +50,8 @@ class LoginsHelper: BrowserHelper {
             // Since responses go to the main frame, make sure we only listen for main frame requests
             // to avoid XSS attacks.
             if message.frameInfo.isMainFrame && type == "request" {
-                res["username"] = "" as AnyObject
-                res["password"] = "" as AnyObject
+                res["username"] = ""
+                res["password"] = ""
                 if let login = Login.fromScript(url, script: res),
                    let requestId = res["requestId"] as? String {
                     requestLogins(login, requestId: requestId)
@@ -218,8 +218,8 @@ class LoginsHelper: BrowserHelper {
                 var jsonObj = [String: Any]()
                 if let cursor = res.successValue {
                     log.debug("Found \(cursor.count) logins.")
-                    jsonObj["requestId"] = requestId as AnyObject
-                    jsonObj["name"] = "RemoteLogins:loginsFound" as AnyObject
+                    jsonObj["requestId"] = requestId
+                    jsonObj["name"] = "RemoteLogins:loginsFound"
                     jsonObj["logins"] = cursor.map { $0!.toDict() }
                 }
 

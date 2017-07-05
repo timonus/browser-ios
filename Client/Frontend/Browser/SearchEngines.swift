@@ -188,6 +188,9 @@ class SearchEngines {
     // Get all known search engines, with the default search engine first, but the others in no
     // particular order.
     class func getUnorderedEngines() -> [OpenSearchEngine] {
+        
+        // TODO: Using lots of NSString for appending path components, should convert to actual URL, as that is the new API for it
+        
         let pluginBasePath: NSString = (Bundle.main.resourcePath! as NSString).appendingPathComponent("SearchPlugins") as NSString
         let languageIdentifier = languageIdentifierForSearchEngines()
         let fallbackDirectory: NSString = pluginBasePath.appendingPathComponent("en") as NSString

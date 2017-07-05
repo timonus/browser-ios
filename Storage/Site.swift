@@ -61,7 +61,8 @@ open class Favicon: Identifiable {
 
 // TODO: Site shouldn't have all of these optional decorators. Include those in the
 // cursor results, perhaps as a tuple.
-open class Site: Identifiable {
+// Move `Site: Hashable` to extension to keep parallel with FF
+open class Site: Identifiable, Hashable {
     open var id: Int?
     var guid: String?
 
@@ -90,5 +91,10 @@ open class Site: Identifiable {
     open func setBookmarked(_ bookmarked: Bool) {
         self.bookmarked = bookmarked
     }
-
+    
+    // This hash is a bit limited in scope, but contains enough data to make a unique distinction.
+    //  If modified, verify usage elsewhere, as places may rely on the hash only including these two elements.
+    open var hashValue: Int {
+        return 31 &* self.url.hash &+ self.title.hash
+    }
 }
