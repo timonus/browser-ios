@@ -458,7 +458,7 @@ extension URLBarView: BrowserLocationViewDelegate {
     }
 
     func browserLocationViewDidTapLocation(_ browserLocationView: BrowserLocationView) {
-        let locationText = delegate?.urlBarDisplayTextForURL(locationView.url as! URL)
+        let locationText = delegate?.urlBarDisplayTextForURL(locationView.url)
         enterSearchMode(locationText, pasted: false)
     }
 
