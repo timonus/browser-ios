@@ -435,8 +435,7 @@ class TabTrayController: UIViewController {
 
         addTabButton.snp_makeConstraints { make in
             make.trailing.equalTo(self.view)
-            // TODO: Fix
-//            make.top.equalTo(snp_topLayoutGuideBottom)
+            make.top.equalTo(self.topLayoutGuide.snp.bottom)
             make.size.equalTo(UIConstants.ToolbarHeight)
         }
 
