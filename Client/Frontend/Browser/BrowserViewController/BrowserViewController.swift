@@ -710,7 +710,7 @@ class BrowserViewController: UIViewController {
 
     func addBookmark(_ url: URL?, title: String?, parentFolder: Bookmark? = nil) {
         // Custom title can only be applied during an edit
-        Bookmark.add(url: url as! NSURL as URL, title: title, parentFolder: parentFolder)
+        Bookmark.add(url: url, title: title, parentFolder: parentFolder)
         self.urlBar.updateBookmarkStatus(true)
     }
 
@@ -737,7 +737,7 @@ class BrowserViewController: UIViewController {
 
     func updateUIForReaderHomeStateForTab(_ tab: Browser) {
         updateURLBarDisplayURL(tab: tab)
-        updateInContentHomePanel(tab.url as! URL)
+        updateInContentHomePanel(tab.url)
 
         if let url = tab.url {
             if ReaderModeUtils.isReaderModeURL(url) {
@@ -1172,7 +1172,7 @@ extension BrowserViewController: TabTrayDelegate {
     }
 
     func tabTrayDidAddBookmark(_ tab: Browser) {
-        self.addBookmark(tab.url as! URL, title: tab.title)
+        self.addBookmark(tab.url, title: tab.title)
     }
 
 
