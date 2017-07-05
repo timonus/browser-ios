@@ -4,30 +4,6 @@
 // MIT License https://github.com/ninjinkun/NJKWebViewProgress/blob/master/LICENSE
 
 import Foundation
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 let completedUrlPath = "__completedprogress__"
 
@@ -94,7 +70,7 @@ open class WebViewProgress
     }
 
     func setProgress(_ progress: Double) {
-        if (progress > webView?.estimatedProgress || progress == 0 || progress > 0.99) {
+        if (progress > webView?.estimatedProgress ?? 0 || progress == 0 || progress > 0.99) {
             webView?.estimatedProgress = progress
 
             if let wv = webView {
@@ -104,7 +80,7 @@ open class WebViewProgress
     }
 
     func startProgress() {
-        if (webView?.estimatedProgress < initialProgressValue) {
+        if (webView?.estimatedProgress ?? 0 < initialProgressValue) {
             setProgress(initialProgressValue);
         }
     }

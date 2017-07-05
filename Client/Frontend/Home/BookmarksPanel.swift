@@ -8,30 +8,6 @@ import Shared
 import XCGLogger
 import Eureka
 import Storage
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 private let log = Logger.browserLogger
 
@@ -439,7 +415,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             break
         case NSNotification.Name.UITextFieldTextDidChange:
             if let okAction = addBookmarksFolderOkAction, let textField = notification.object as? UITextField {
-                okAction.isEnabled = (textField.text?.characters.count > 0)
+                okAction.isEnabled = (textField.text?.characters.count ?? 0) > 0
             }
             break
         default:

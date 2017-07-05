@@ -13,30 +13,6 @@ import Shared
 
 import ReadingList
 import MobileCoreServices
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 private let log = Logger.browserLogger
 
@@ -1095,7 +1071,7 @@ extension BrowserViewController: IntroViewControllerDelegate {
 
     func introViewControllerDidFinish(_ introViewController: IntroViewController) {
         introViewController.dismiss(animated: true) { finished in
-            if self.navigationController?.viewControllers.count > 1 {
+            if self.navigationController?.viewControllers.count ?? 0 > 1 {
                 self.navigationController?.popToRootViewController(animated: true)
             }
         }

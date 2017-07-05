@@ -2,30 +2,6 @@
 
 import UIKit
 import SnapKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 private let ToolbarBaseAnimationDuration: CGFloat = 0.2
 
@@ -291,7 +267,7 @@ private extension BraveScrollController {
             return
         }
 
-        if snackBars?.frame.size.height > 0 {
+        if (snackBars?.frame.size.height ?? 0) > 0 {
             return
         }
 
@@ -373,7 +349,7 @@ private extension BraveScrollController {
     }
 
     func isScrollHeightIsLargeEnoughForScrolling() -> Bool {
-        return (UIScreen.main.bounds.size.height + 2 * UIConstants.ToolbarHeight) < scrollView?.contentSize.height
+        return (UIScreen.main.bounds.size.height + 2 * UIConstants.ToolbarHeight) < scrollView?.contentSize.height ?? 0
     }
 }
 

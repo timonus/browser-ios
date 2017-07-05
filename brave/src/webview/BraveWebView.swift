@@ -4,30 +4,6 @@ import Foundation
 import WebKit
 import Shared
 import JavaScriptCore
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 let kNotificationPageUnload = "kNotificationPageUnload"
 let kNotificationAllWebViewsDeallocated = "kNotificationAllWebViewsDeallocated"
@@ -531,7 +507,7 @@ class BraveWebView: UIWebView {
     }
 
     fileprivate func convertStringToDictionary(_ text: String?) -> [String:AnyObject]? {
-        if let data = text?.data(using: String.Encoding.utf8), text?.characters.count > 0 {
+        if let data = text?.data(using: String.Encoding.utf8), (text?.characters.count ?? 0) > 0 {
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
                 return json
