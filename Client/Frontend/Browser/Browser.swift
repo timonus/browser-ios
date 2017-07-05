@@ -7,6 +7,7 @@ import WebKit
 import Storage
 import Shared
 import CoreData
+import SwiftyJSON
 
 import Crashlytics
 import XCGLogger
@@ -276,7 +277,8 @@ class Browser: NSObject, BrowserWebViewDelegate {
             var jsonDict = [String: AnyObject]()
             jsonDict["history"] = updatedURLs as AnyObject
             jsonDict["currentPage"] = Int(currentPage) as AnyObject
-            let escapedJSON = "" // JSON.stringify(jsonDict, pretty: false).stringByAddingPercentEncodingWithAllowedCharacters(CharacterSet.URLQueryAllowedCharacterSet())!
+            
+            let escapedJSON = JSON(jsonDict).rawString()?.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             let restoreURL = URL(string: "\(WebServer.sharedInstance.base)/about/sessionrestore?history=\(escapedJSON)")
             lastRequest = URLRequest(url: restoreURL!)
             webView.loadRequest(lastRequest!)

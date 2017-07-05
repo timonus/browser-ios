@@ -396,7 +396,7 @@ class BrowserViewController: UIViewController {
         
         statusBarOverlay.snp_makeConstraints { make in
             make.top.right.left.equalTo(statusBarOverlay.superview!)
-            make.bottom.equalTo(topLayoutGuide as! ConstraintRelatableTarget)
+            make.bottom.equalTo(topLayoutGuide.snp.bottom)
         }
         
         header.snp_makeConstraints { make in
