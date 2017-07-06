@@ -45,7 +45,7 @@ extension TabManager {
             for t in _tabs {
                 TabMO.add(t, context: context)
             }
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
         }
     }
 
@@ -128,7 +128,7 @@ class TabMO: NSManagedObject {
         let tab = TabMO(entity: TabMO.entity(context), insertInto: context)
         // TODO: replace with logic to create sync uuid then buble up new uuid to browser.
         tab.syncUUID = UUID().uuidString
-        DataController.saveContext(context)
+        DataController.saveContext(context: context)
         return tab.syncUUID!
     }
 

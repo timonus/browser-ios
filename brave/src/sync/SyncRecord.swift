@@ -64,18 +64,18 @@ class SyncRecord: SyncRecordProtocol {
     /// - parameter json: JSON object from SwiftyJSON.
     required init(json: JSON?) {
         // objectId can come in two different formats
-        if let items = json?[SerializationKeys.objectId].asArray { objectId = items.map { $0.asInt ?? 0 } }
-        if let items = json?[SerializationKeys.deviceId].asArray { deviceId = items.map { $0.asInt ?? 0 } }
-        action = json?[SerializationKeys.action].asInt
-        if let item = json?[SerializationKeys.objectData].asString { objectData = SyncObjectDataType(rawValue: item) }
+        if let items = json?[SerializationKeys.objectId].array { objectId = items.map { $0.intValue } }
+        if let items = json?[SerializationKeys.deviceId].array { deviceId = items.map { $0.intValue } }
+        action = json?[SerializationKeys.action].int
+        if let item = json?[SerializationKeys.objectData].string { objectData = SyncObjectDataType(rawValue: item) }
         // TODO: Add sync timestamp
     }
     
     /// Generates description of the object in the form of a NSDictionary.
     ///
     /// - returns: A Key value pair containing all valid values in the object.
-    func dictionaryRepresentation() -> [String: AnyObject] {
-        var dictionary: [String: AnyObject] = [:]
+    func dictionaryRepresentation() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
         // Override to use string value instead of array, to be uniform to CD
         if let value = objectId { dictionary[SerializationKeys.objectId] = value }
         if let value = deviceId { dictionary[SerializationKeys.deviceId] = value }
@@ -96,7 +96,7 @@ extension SyncRecordProtocol where Self: SyncRecord {
     }
     
     static func syncRecords(rootJSON: JSON) -> [Self]? {
-        return self.syncRecords(rootJSON.asArray)
+        return self.syncRecords(rootJSON.array)
     }
 }
 

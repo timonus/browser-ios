@@ -72,7 +72,7 @@ class History: NSManagedObject, WebsitePresentable {
             item?.visitedOn = Date()
             item?.sectionIdentifier = Strings.Today
 
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
         }
     }
 

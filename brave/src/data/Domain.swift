@@ -61,7 +61,7 @@ class Domain: NSManagedObject {
     class func blockFromTopSites(_ url: URL, context: NSManagedObjectContext) {
         if let domain = getOrCreateForUrl(url, context: context) {
             domain.blockedFromTopSites = true
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
         }
     }
 
@@ -113,7 +113,7 @@ class Domain: NSManagedObject {
             case .FpProtection: domain?.shield_fpProtection = state.1 as NSNumber?
             case .NoScript: domain?.shield_noScript = state.1 as NSNumber?
         }
-        DataController.saveContext(context)
+        DataController.saveContext(context: context)
     }
 
     class func loadShieldsIntoMemory(_ completionOnMain: @escaping ()->()) {
@@ -186,7 +186,7 @@ class Domain: NSManagedObject {
                 print(fetchError)
             }
 
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
             postAsyncToMain {
                 completionOnMain()
             }

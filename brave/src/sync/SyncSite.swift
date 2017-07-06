@@ -24,12 +24,12 @@ public final class SyncSite {
     public var creationTime: Int?
     public var lastAccessedTime: Int?
     
-    public var creationNativeDate: NSDate? {
-        return NSDate.fromTimestamp(Timestamp(creationTime ?? 0))
+    public var creationNativeDate: Date? {
+        return Date.fromTimestamp(Timestamp(creationTime ?? 0))
     }
     
-    public var lastAccessedNativeDate: NSDate? {
-        return NSDate.fromTimestamp(Timestamp(lastAccessedTime ?? 0))
+    public var lastAccessedNativeDate: Date? {
+        return Date.fromTimestamp(Timestamp(lastAccessedTime ?? 0))
     }
     
     public convenience init() {
