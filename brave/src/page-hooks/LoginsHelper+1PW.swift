@@ -64,11 +64,11 @@ enum ThirdPartyPasswordManagerType: Int {
     static fileprivate let PMTypes = [ ThirdPartyPasswordManagerType.showPicker, .onePassword, .lastPass, .bitwarden ]
     
     // Titles to be displayed for user selection/view
-    static fileprivate let PMDisplayTitles: [ThirdPartyPasswordManagerType: String] = [
-        .showPicker : "Show picker",
-        .onePassword : "1Password",
-        .lastPass : "LastPass",
-        .bitwarden : "bitwarden"
+    static private let PMDisplayTitles: [ThirdPartyPasswordManagerType: String] = [
+        .ShowPicker : Strings.ShowPicker,
+        .OnePassword : "1Password",
+        .LastPass : "LastPass",
+        .Bitwarden : "bitwarden"
     ]
     
     // PM image names

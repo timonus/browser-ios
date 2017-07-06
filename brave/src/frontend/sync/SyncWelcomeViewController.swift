@@ -147,34 +147,51 @@ class SyncWelcomeViewController: UIViewController {
                 view.navigationItem.hidesBackButton = true
                 navigationController?.pushViewController(view, animated: true)
             } else {
-                self.loadingView.isHidden = true
-                let alert = UIAlertController(title: "Unsuccessful", message: "Unable to create new sync group.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                self.loadingView.hidden = true
+                let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: Strings.OK, style: .Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
             }
         }
         
         if !Sync.shared.isInSyncGroup {
             NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main) {
                 _ in attemptPush()
-                attemptPush()
-                attemptPush()
-                attemptPush()
             }
             
-            self.loadingView.isHidden = false
-            Sync.shared.initializeNewSyncGroup()
+            getDeviceName {
+                input in
+                
+                if let input = input {
+                    Sync.shared.initializeNewSyncGroup(deviceName: input)
+                }
+            }
             
-            // Forced timeout
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(25.0) * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: attemptPush)
         } else {
             attemptPush()
         }
     }
     
     func SEL_existingUser() {
-        let view = SyncPairCameraViewController()
-        navigationController?.pushViewController(view, animated: true)
+        getDeviceName {
+            input in
+            
+            if let input = input {
+                let view = SyncPairCameraViewController()
+                view.deviceName = input
+                self.navigationController?.pushViewController(view, animated: true)
+            }
+        }
+    }
+    
+    func getDeviceName(callback: String? -> ()) {
+        self.loadingView.hidden = false
+
+        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.currentDevice().name, forcedInput: false) {
+            callback($0)
+            self.loadingView.hidden = true
+        }
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
 }

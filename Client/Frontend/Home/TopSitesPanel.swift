@@ -162,7 +162,6 @@ class TopSitesPanel: UIViewController {
 
         self.dataSource.collectionView = self.collection
         self.refreshTopSites(self.maxFrecencyLimit)
-        self.updateEmptyPanelState()
         
         privateTabMessageContainer.snp_makeConstraints { (make) in
             make.centerX.equalTo(self.view)
@@ -251,45 +250,44 @@ class TopSitesPanel: UIViewController {
         }
     }
 
-    fileprivate func createEmptyStateOverlayView() -> UIView {
-        let overlayView = UIView()
-        overlayView.backgroundColor = UIColor.white
-
-        let descriptionLabel = UILabel()
-        descriptionLabel.text = Strings.TopSitesEmptyStateDescription
-        descriptionLabel.textAlignment = NSTextAlignment.center
-        descriptionLabel.font = DynamicFontHelper.defaultHelper.DeviceFontLight
-        descriptionLabel.textColor = TopSitesPanelUX.WelcomeScreenItemTextColor
-        descriptionLabel.numberOfLines = 2
-        descriptionLabel.adjustsFontSizeToFitWidth = true
-        overlayView.addSubview(descriptionLabel)
-
-        descriptionLabel.snp_makeConstraints { make in
-            make.center.equalTo(overlayView)
-            make.width.equalTo(TopSitesPanelUX.WelcomeScreenItemWidth)
-        }
-
-        return overlayView
-    }
-
-    fileprivate func updateEmptyPanelState() {
-        if dataSource.count() == 0 && !PrivateBrowsing.singleton.isOn {
-            if self.emptyStateOverlayView.superview == nil {
-                self.view.addSubview(self.emptyStateOverlayView)
-                self.emptyStateOverlayView.snp_makeConstraints { make -> Void in
-                    make.edges.equalTo(self.view)
-                }
-            }
-        } else {
-            self.emptyStateOverlayView.removeFromSuperview()
-            self.braveShieldStatsView?.isHidden = false
-        }
-    }
-
+(??)    private func createEmptyStateOverlayView() -> UIView {
+(??)        let overlayView = UIView()
+(??)        overlayView.backgroundColor = UIColor.whiteColor()
+(??)
+(??)        let descriptionLabel = UILabel()
+(??)        descriptionLabel.text = Strings.TopSitesEmptyStateDescription
+(??)        descriptionLabel.textAlignment = NSTextAlignment.Center
+(??)        descriptionLabel.font = DynamicFontHelper.defaultHelper.DeviceFontLight
+(??)        descriptionLabel.textColor = TopSitesPanelUX.WelcomeScreenItemTextColor
+(??)        descriptionLabel.numberOfLines = 2
+(??)        descriptionLabel.adjustsFontSizeToFitWidth = true
+(??)        overlayView.addSubview(descriptionLabel)
+(??)
+(??)        descriptionLabel.snp_makeConstraints { make in
+(??)            make.center.equalTo(overlayView)
+(??)            make.width.equalTo(TopSitesPanelUX.WelcomeScreenItemWidth)
+(??)        }
+(??)
+(??)        return overlayView
+(??)    }
+(??)
+(??)    private func updateEmptyPanelState() {
+(??)        if dataSource.count() == 0 && !PrivateBrowsing.singleton.isOn {
+(??)            if self.emptyStateOverlayView.superview == nil {
+(??)                self.view.addSubview(self.emptyStateOverlayView)
+(??)                self.emptyStateOverlayView.snp_makeConstraints { make -> Void in
+(??)                    make.edges.equalTo(self.view)
+(??)                }
+(??)            }
+(??)        } else {
+(??)            self.emptyStateOverlayView.removeFromSuperview()
+(??)            self.braveShieldStatsView?.hidden = false
+(??)        }
+(??)    }
+(??)
     //MARK: Private Helpers
     fileprivate func updateDataSourceWithSites(_ result: [Site], completion: @escaping ()->()) {
         self.dataSource.setHistorySites(result) {
-            self.updateEmptyPanelState()
             completion()
         }
     }
@@ -799,7 +797,14 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         }
 
         self.sites += historySites
-        mergeBuiltInSuggestedSites { completion() }
+        
+        let prefs: Prefs? = getApp().profile?.prefs
+        if prefs?.boolForKey("ClearedBrowsingHistory") == false || prefs?.boolForKey("ClearedBrowsingHistory") == nil {
+            mergeBuiltInSuggestedSites { completion() }
+        }
+        else {
+            completion()
+        }
     }
 
     fileprivate func mergeBuiltInSuggestedSites(_ completion: @escaping ()->()) {

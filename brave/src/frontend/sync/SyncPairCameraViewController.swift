@@ -12,6 +12,9 @@ class SyncPairCameraViewController: UIViewController {
     var cameraAccessButton: UIButton!
     var enterWordsButton: UIButton!
     
+    // Kind of an odd mechanism for passing this info
+    var deviceName: String?
+    
     fileprivate let prefs: Prefs = getApp().profile!.prefs
     fileprivate let prefKey: String = "CameraPermissionsSetting"
     
@@ -56,8 +59,6 @@ class SyncPairCameraViewController: UIViewController {
                     return
                 }
                 
-                debugPrint("Check data \(data)")
-                
                 Scanner.Lock = true
                 self.cameraView.cameraOverlaySucess()
                 
@@ -73,7 +74,7 @@ class SyncPairCameraViewController: UIViewController {
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                Sync.shared.initializeSync(bytes)
+                Sync.shared.initializeSync(bytes, deviceName: self.deviceName)
 
             } else {
                 self.cameraView.cameraOverlayError()
@@ -137,7 +138,7 @@ class SyncPairCameraViewController: UIViewController {
         loadingView.addSubview(loadingSpinner)
         scrollView.addSubview(loadingView)
         
-        edgesForExtendedLayout = UIRectEdge()
+        edgesForExtendedLayout = .None
         
         scrollView.snp_makeConstraints { (make) in
             make.edges.equalTo(self.view)

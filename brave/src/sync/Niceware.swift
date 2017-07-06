@@ -32,6 +32,12 @@ class Niceware: JSInjector {
         return webCfg
     }
     
+    ///
+    func uniqueSerialBytes(count byteCount: Int) -> [Int]? {
+        if byteCount % 2 != 0 { return nil }
+        return (0..<byteCount).map { _ in Int(arc4random_uniform(256)) }
+    }
+    
     /// Used to retrive unique bytes for UUIDs (e.g. bookmarks), that will map well with niceware
     /// count: The number of unique bytes desired
     /// returns (via completion): Array of unique bytes

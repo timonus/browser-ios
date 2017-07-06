@@ -56,8 +56,15 @@ extension Strings {
 
 extension Strings {
 
-    public static let NewFolder = NSLocalizedString("New Folder", comment: "")
+    public static let NewFolder = NSLocalizedString("New Folder", comment: "Title for new folder popup")
+    public static let EnterFolderName = NSLocalizedString("Enter folder name", comment: "Description for new folder popup")
     public static let Edit = NSLocalizedString("Edit", comment: "")
+    
+    public static let NewDevice = NSLocalizedString("Device Name", comment: "Title for new device popup")
+    public static let DeviceFolderName = NSLocalizedString("Please enter a name for this device", comment: "Description for new device popup")
+    
+    public static let SyncUnsuccessful = NSLocalizedString("Unsuccessful", comment: "")
+    public static let SyncUnableCreateGroup = NSLocalizedString("Unable to create new sync group.", comment: "Description on popup when setting up a sync group fails")
 
     public static let ShowTour = NSLocalizedString("Show Tour", comment: "Show the on-boarding screen again from the settings")
     public static let DefaultSearchEngine = NSLocalizedString("Default Search Engine", comment: "Open search section of settings")
@@ -67,7 +74,14 @@ extension Strings {
     public static let Privacy = NSLocalizedString("Privacy", comment: "Settings privacy section title")
     public static let BlockPopupWindows = NSLocalizedString("Block Pop-up Windows", comment: "Block pop-up windows setting")
     public static let Save_Logins = NSLocalizedString("Save Logins", comment: "Setting to enable the built-in password manager")
-
+    public static let ShieldsAdStats = NSLocalizedString("Ads \rBlocked", comment: "Shields Ads Stat")
+    public static let ShieldsTrackerStats = NSLocalizedString("Trackers \rBlocked", comment: "Shields Trackers Stat")
+    public static let ShieldsHttpsStats = NSLocalizedString("HTTPS \rUpgrades", comment: "Shields Https Stat")
+    public static let ShieldsTimeStats = NSLocalizedString("Est. Time \rSaved", comment: "Shields Time Saved Stat")
+    public static let ShieldsTimeStatsHour = NSLocalizedString("h", comment: "Time Saved Hours")
+    public static let ShieldsTimeStatsMinutes = NSLocalizedString("min", comment: "Time Saved Minutes")
+    public static let ShieldsTimeStatsSeconds = NSLocalizedString("s", comment: "Time Saved Seconds")
+    public static let ShieldsTimeStatsDays = NSLocalizedString("d", comment: "Time Saved Days")
     public static let ThisWillClearAllPrivateDataItCannotBeUndone = NSLocalizedString("This action will clear all of your private data. It cannot be undone.", comment: "Description of the confirmation dialog shown when a user tries to clear their private data.")
     public static let OK = NSLocalizedString("OK", comment: "OK button")
     public static let AreYouSure = NSLocalizedString("Are you sure?", comment: "")
@@ -145,7 +159,7 @@ extension Strings {
     public static let Are_you_sure_you_want_to_delete_it_and_its_contents = NSLocalizedString("Are you sure you want to delete it and its contents?", comment: "Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders.")
     public static let Bookmark_Folder = NSLocalizedString("Bookmark Folder", comment: "Bookmark Folder Section Title")
     public static let Bookmark_Info = NSLocalizedString("Bookmark Info", comment: "Bookmark Info Section Title")
-    public static let Name = NSLocalizedString("Name", comment: "Bookmark name/title")
+    public static let Name = NSLocalizedString("Name", comment: "Bookmark title / Device name")
     public static let URL = NSLocalizedString("URL", comment: "Bookmark URL")
     public static let Location = NSLocalizedString("Location", comment: "Bookmark folder location")
     public static let Folder = NSLocalizedString("Folder", comment: "Folder")
@@ -213,6 +227,8 @@ extension Strings {
     public static let Devices = NSLocalizedString("Devices", comment: "Sync device settings page title.")
     public static let EnterCodeWordsBelow = NSLocalizedString("Enter code words below", comment: "Enter sync code words below")
     public static let SyncRemoveThisDevice = NSLocalizedString("Remove this device", comment: "Sync remove device.")
+    public static let SyncRemoveThisDeviceQuestion = NSLocalizedString("Remove this device?", comment: "Sync remove device?")
+    public static let SyncRemoveThisDeviceQuestionDesc = NSLocalizedString("This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.", comment: "Sync remove device?")
     public static let Pair = NSLocalizedString("Pair", comment: "Sync pair device settings section title")
     public static let SyncDeviceSettingsFooter = NSLocalizedString("Changing settings will only affect data that this device shares with others.", comment: "Sync device settings footer details")
     public static let Close_Private_Tabs = NSLocalizedString("Close Private Tabs", comment: "Setting for closing private tabs")
@@ -225,6 +241,7 @@ extension Strings {
     public static let Cookies = NSLocalizedString("Cookies", comment: "Settings item for clearing cookies")
     public static let Username = NSLocalizedString("username", comment: "Title for username row in Login Detail View")
     public static let Password = NSLocalizedString("password", comment: "Title for password row in Login Detail View")
+    public static let ShowPicker = NSLocalizedString("Show picker", comment: "Password Manager show picker option")
     public static let Website = NSLocalizedString("website", comment: "Title for website row in Login Detail View")
     public static let Last_modified_date_template = NSLocalizedString("Last modified %@", comment: "Footer label describing when the login was last modified with the timestamp as the parameter")
     public static let Show_Search_Suggestions = NSLocalizedString("Show Search Suggestions", comment: "Label for show search suggestions setting.")

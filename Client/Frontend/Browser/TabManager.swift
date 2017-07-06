@@ -449,6 +449,7 @@ extension TabManager {
             getApp().tabManager.addTab()
         }
         getApp().tabManager.selectTab(getApp().tabManager.tabs.displayedTabsForCurrentPrivateMode.first)
+        getApp().browserViewController.urlBar.updateTabsBarShowing()
     }
 }
 

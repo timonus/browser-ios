@@ -114,7 +114,7 @@ class BookmarkEditingViewController: FormViewController {
         self.bookmarkIndexPath = indexPath
 
         // get top-level folders
-        folders = Bookmark.getFolders(nil)
+        folders = Bookmark.getFolders(nil, context: DataController.moc)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -317,53 +317,24 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         }
 
         // TODO: Needs to be recursive
-        Bookmark.remove(bookmark: currentFolder)
+        currentFolder.remove()
 
         self.navigationController?.popViewController(animated: true)
     }
 
     func onAddBookmarksFolderButton() {
         
-        let alert = UIAlertController(title: "New Folder", message: "Enter folder name", preferredStyle: UIAlertControllerStyle.alert)
-        
-        let removeTextFieldObserver = {
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextFieldTextDidChange, object: alert.textFields!.first)
-        }
-
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (alertA: UIAlertAction!) in
-            postAsyncToMain {
-                self.addFolder(alertA, alertController:alert)
+        let alert = UIAlertController.userTextInputAlert(title: Strings.NewFolder, message: Strings.EnterFolderName) {
+            input in
+            if let input = input where !input.isEmpty {
+                self.addFolder(titled: input)
             }
-            removeTextFieldObserver()
         }
-        
-        okAction.isEnabled = false
-        
-        addBookmarksFolderOkAction = okAction
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (alertA: UIAlertAction!) in
-            removeTextFieldObserver()
-        }
-        
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
-
-        alert.addTextField(configurationHandler: {(textField: UITextField!) in
-            textField.placeholder = "Folder name"
-            textField.isSecureTextEntry = false
-            textField.keyboardAppearance = .dark
-            textField.autocapitalizationType = .words
-            textField.autocorrectionType = .default
-            textField.returnKeyType = .done
-            NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
-        })
-        
-        self.present(alert, animated: true) {}
+        self.presentViewController(alert, animated: true) {}
     }
 
-    func addFolder(_ alert: UIAlertAction!, alertController: UIAlertController) {
-        guard let folderName = alertController.textFields?[0].text else { return }
-        Bookmark.add(url: nil, title: nil, customTitle: folderName, parentFolder: currentFolder, isFolder: true)
+    func addFolder(titled title: String) {
+        Bookmark.add(url: nil, title: nil, customTitle: title, parentFolder: currentFolder, isFolder: true)
     }
     
     func onEditBookmarksButton() {
@@ -575,7 +546,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.destructive, title: Strings.Delete, handler: { (action, indexPath) in
 
             func delete() {
-                Bookmark.remove(bookmark: item, save: true)
+                item.remove(save: true)
                 
                 // Updates the bookmark state
                 getApp().browserViewController.updateURLBarDisplayURL(tab: nil)
