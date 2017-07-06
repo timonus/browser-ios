@@ -213,9 +213,9 @@ class RemoveDeviceSetting: Setting {
     
     override func onClick(_ navigationController: UINavigationController?) {
         
-        let alert = UIAlertController(title: Strings.SyncRemoveThisDeviceQuestion, message: Strings.SyncRemoveThisDeviceQuestionDesc, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.Cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: Strings.Remove, style: UIAlertActionStyle.Destructive) { action in
+        let alert = UIAlertController(title: Strings.SyncRemoveThisDeviceQuestion, message: Strings.SyncRemoveThisDeviceQuestionDesc, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: Strings.Remove, style: UIAlertActionStyle.destructive) { action in
             Sync.shared.leaveSyncGroup()
             navigationController?.popToRootViewController(animated: true)
         })

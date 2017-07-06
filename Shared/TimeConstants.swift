@@ -42,6 +42,10 @@ extension Date {
     public static func fromMicrosecondTimestamp(_ microsecondTimestamp: MicrosecondTimestamp) -> Date {
         return Date(timeIntervalSince1970: Double(microsecondTimestamp) / 1000000)
     }
+    
+    public func toTimestamp() -> Timestamp {
+        return UInt64(self.timeIntervalSince1970 * 1000)
+    }
 
     public func toRelativeTimeString() -> String {
         let now = Date()

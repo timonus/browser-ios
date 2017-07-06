@@ -12,7 +12,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         // To disable a section, just remove it from this enum, and it will no longer be loaded
         static let allSections: [SyncSection] = [.options, .reset]
         
-        func settings(profile profile: Profile) -> SettingSection? {
+        func settings(profile: Profile) -> SettingSection? {
             // TODO: move these prefKeys somewhere else
             let syncPrefBookmarks = "syncBookmarksKey"
 //            let syncPrefTabs = "syncTabsKey"
@@ -24,10 +24,10 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                     return nil
                 }
                 
-                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercaseString), children: devices)
+                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices)
             case .options:
                 let prefs = profile.prefs
-                return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercaseString), children:
+                return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercased()), children:
                     [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true, titleText: Strings.Bookmarks)
 //                    ,BoolSetting(prefs: prefs, prefKey: syncPrefTabs, defaultValue: true, titleText: Strings.Tabs)
 //                    ,BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)
@@ -38,7 +38,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
             }
         }
         
-        static func allSyncSettings(profile profile: Profile) -> [SettingSection] {
+        static func allSyncSettings(profile: Profile) -> [SettingSection] {
             
             var settings = [SettingSection]()
             SyncSection.allSections.forEach {

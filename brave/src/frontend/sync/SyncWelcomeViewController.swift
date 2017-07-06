@@ -147,10 +147,10 @@ class SyncWelcomeViewController: UIViewController {
                 view.navigationItem.hidesBackButton = true
                 navigationController?.pushViewController(view, animated: true)
             } else {
-                self.loadingView.hidden = true
-                let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: Strings.OK, style: .Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.loadingView.isHidden = true
+                let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
         
@@ -184,14 +184,14 @@ class SyncWelcomeViewController: UIViewController {
         }
     }
     
-    func getDeviceName(callback: String? -> ()) {
-        self.loadingView.hidden = false
+    func getDeviceName(callback: @escaping (String?) -> ()) {
+        self.loadingView.isHidden = false
 
-        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.currentDevice().name, forcedInput: false) {
+        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.current.name, forcedInput: false) {
             callback($0)
-            self.loadingView.hidden = true
+            self.loadingView.isHidden = true
         }
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

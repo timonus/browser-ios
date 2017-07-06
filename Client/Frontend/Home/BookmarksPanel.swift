@@ -114,7 +114,7 @@ class BookmarkEditingViewController: FormViewController {
         self.bookmarkIndexPath = indexPath
 
         // get top-level folders
-        folders = Bookmark.getFolders(nil, context: DataController.moc)
+        folders = Bookmark.getFolders(bookmark: nil, context: DataController.moc)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -326,11 +326,11 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         let alert = UIAlertController.userTextInputAlert(title: Strings.NewFolder, message: Strings.EnterFolderName) {
             input in
-            if let input = input where !input.isEmpty {
+            if let input = input, !input.isEmpty {
                 self.addFolder(titled: input)
             }
         }
-        self.presentViewController(alert, animated: true) {}
+        self.present(alert, animated: true) {}
     }
 
     func addFolder(titled title: String) {

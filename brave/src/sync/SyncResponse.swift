@@ -41,9 +41,9 @@ public final class SyncResponse {
     public required init(json: JSON?) {
         rootElements = json?[SerializationKeys.arg2]
         
-        message = json?[SerializationKeys.message].asString
-        arg1 = json?[SerializationKeys.arg1].asString
-        lastFetchedTimestamp = json?[SerializationKeys.arg3].asInt
-        isTruncated = json?[SerializationKeys.arg4].asBool
+        message = json?[SerializationKeys.message].string
+        arg1 = json?[SerializationKeys.arg1].string
+        lastFetchedTimestamp = json?[SerializationKeys.arg3].int
+        isTruncated = json?[SerializationKeys.arg4].bool
     }
 }

@@ -153,7 +153,7 @@ class SyncPairWordsViewController: UIViewController {
                 return
             }
             
-            Sync.shared.initializeSync(result)
+            Sync.shared.initializeSync(seed: result)
         }
     }
 }

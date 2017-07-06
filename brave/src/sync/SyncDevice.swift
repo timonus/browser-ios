@@ -2,6 +2,7 @@
 
 import UIKit
 import Shared
+import SwiftyJSON
 
 class SyncDevice: SyncRecord {
     
@@ -16,8 +17,8 @@ class SyncDevice: SyncRecord {
     // Not on 'device' object
     var syncTimestamp: Int?
     
-    var syncNativeTimestamp: NSDate? {
-        return NSDate.fromTimestamp(Timestamp(syncTimestamp ?? 0))
+    var syncNativeTimestamp: Date? {
+        return Date.fromTimestamp(Timestamp(syncTimestamp ?? 0))
     }
     
     required init(record: Syncable?, deviceId: [Int]?, action: Int?) {
@@ -33,8 +34,8 @@ class SyncDevice: SyncRecord {
     required init(json: JSON?) {
         super.init(json: json)
 
-        self.name = json?[SyncObjectDataType.Device.rawValue][SerializationKeys.name].asString
-        self.syncTimestamp = json?[SerializationKeys.syncTimestamp].asInt
+        self.name = json?[SyncObjectDataType.Device.rawValue][SerializationKeys.name].string
+        self.syncTimestamp = json?[SerializationKeys.syncTimestamp].int
         
         // Preference
         self.objectData = nil
@@ -43,12 +44,12 @@ class SyncDevice: SyncRecord {
     /// Generates description of the object in the form of a NSDictionary.
     ///
     /// - returns: A Key value pair containing all valid values in the object.
-    override func dictionaryRepresentation() -> [String: AnyObject] {
+    override func dictionaryRepresentation() -> [String: Any] {
         
         // Notice there is no objectData type, this is technically part of Preferences, which does not use that key/value pair
         
         // Device specific
-        var deviceDict = [String: AnyObject]()
+        var deviceDict = [String: Any]()
         if let value = self.name { deviceDict[SerializationKeys.name] = value }
 
         var dictionary = super.dictionaryRepresentation()

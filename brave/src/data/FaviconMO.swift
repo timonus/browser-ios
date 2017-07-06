@@ -71,7 +71,7 @@ class FaviconMO: NSManagedObject {
                 item!.type = t
             }
 
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
         }
     }
 }

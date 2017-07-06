@@ -3,6 +3,7 @@
 import Foundation
 import Shared
 import CoreData
+import SwiftyJSON
 
 @objc protocol WebsitePresentable {
     var title: String? { get }
@@ -12,13 +13,13 @@ import CoreData
 protocol Syncable {
     // Used to enforce CD conformity
     /* @NSManaged */ var syncDisplayUUID: String? { get set }
-    /* @NSManaged */ var created: NSDate? { get set}
+    /* @NSManaged */ var created: Date? { get set}
 
     static func entity(context:NSManagedObjectContext) -> NSEntityDescription
 
     var syncUUID: [Int]? { get }
     
-    func asDictionary(deviceId deviceId: [Int]?, action: Int?) -> [String: AnyObject]
+    func asDictionary(deviceId: [Int]?, action: Int?) -> [String: Any]
     
     func update(syncRecord record: SyncRecord)
     
@@ -27,7 +28,7 @@ protocol Syncable {
 
 // ??
 extension Syncable where Self: Syncable {
-    static func get(syncUUIDs syncUUIDs: [[Int]]?, context: NSManagedObjectContext) -> [NSManagedObject]? {
+    static func get(syncUUIDs: [[Int]]?, context: NSManagedObjectContext) -> [NSManagedObject]? {
         
         guard let syncUUIDs = syncUUIDs else {
             return nil
@@ -39,14 +40,14 @@ extension Syncable where Self: Syncable {
         return get(predicate: NSPredicate(format: "syncDisplayUUID IN %@", searchableUUIDs), context: context)
     }
     
-    static func get(predicate predicate: NSPredicate?, context: NSManagedObjectContext) -> [NSManagedObject]? {
-        let fetchRequest = NSFetchRequest()
+    static func get(predicate: NSPredicate?, context: NSManagedObjectContext) -> [NSManagedObject]? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         
-        fetchRequest.entity = Self.entity(context)
+        fetchRequest.entity = Self.entity(context: context)
         fetchRequest.predicate = predicate
         
         do {
-            return try context.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+            return try context.fetch(fetchRequest) as? [NSManagedObject]
         } catch {
             let fetchError = error as NSError
             print(fetchError)
@@ -66,18 +67,18 @@ extension Syncable {
     }
     
     // Maybe use 'self'?
-    static func get<T: NSManagedObject where T: Syncable>(predicate predicate: NSPredicate?, context: NSManagedObjectContext?) -> [T]? {
+    static func get<T: NSManagedObject where T: Syncable>(predicate: NSPredicate?, context: NSManagedObjectContext?) -> [T]? {
         guard let context = context else {
             // error
             return nil
         }
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         
-        fetchRequest.entity = T.entity(context)
+        fetchRequest.entity = T.entity(context: context)
         fetchRequest.predicate = predicate
         
         do {
-            return try context.executeFetchRequest(fetchRequest) as? [T]
+            return try context.fetch(fetchRequest) as? [T]
         } catch {
             let fetchError = error as NSError
             print(fetchError)
@@ -88,20 +89,20 @@ extension Syncable {
 }
 
 extension Syncable /* where Self: NSManagedObject */ {
-    func remove(save save: Bool = true) {
+    func remove(save: Bool = true) {
         
-        // This is super annoying, and can be fixed in Swift 4, but since objects can't be cast to a class & protocol,
+        // This is r annoying, and can be fixed in Swift 4, but since objects can't be cast to a class & protocol,
         //  but given extension on Syncable, if this passes the object is both Syncable and an NSManagedObject subclass
         guard let s = self as? NSManagedObject else { return }
         
         // Must happen before, otherwise bookmark is gone
         
         // TODO: Make type dynamic
-        Sync.shared.sendSyncRecords(.bookmark, action: .delete, records: [self])
+        Sync.shared.sendSyncRecords(recordType: .bookmark, action: .delete, records: [self])
         
-        s.managedObjectContext?.deleteObject(s)
+        s.managedObjectContext?.delete(s)
         if save {
-            DataController.saveContext(s.managedObjectContext)
+            DataController.saveContext(context: s.managedObjectContext)
         }
     }
 }
@@ -111,15 +112,15 @@ class SyncHelpers {
     
     /// UUID -> DisplayUUID
     static func syncDisplay(fromUUID uuid: [Int]?) -> String? {
-        return uuid?.map{ $0.description }.joinWithSeparator(",")
+        return uuid?.map{ $0.description }.joined(separator: ",")
     }
     
     /// DisplayUUID -> UUID
     static func syncUUID(fromString string: String?) -> [Int]? {
-        return string?.componentsSeparatedByString(",").map { Int($0) }.flatMap { $0 }
+        return string?.components(separatedBy: ",").flatMap { Int($0) }
     }
     
     static func syncUUID(fromJSON json: JSON?) -> [Int]? {
-        return json?.asArray?.map { $0.asInt }.flatMap { $0 }
+        return json?.array?.flatMap { $0.int }
     }
 }

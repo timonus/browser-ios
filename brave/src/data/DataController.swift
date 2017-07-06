@@ -85,8 +85,8 @@ class DataController: NSObject {
 
     func workerContext() -> NSManagedObjectContext {
         if workerMOC == nil {
-            workerMOC = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-            workerMOC!.parentContext = mainThreadContext()
+            workerMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            workerMOC!.parent = mainThreadContext()
             workerMOC!.undoManager = nil
             workerMOC!.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         }
@@ -142,7 +142,7 @@ class DataController: NSObject {
                     }
                 } else {
                     postAsyncToMain(0.1) {
-                        DataController.saveContext(DataController.shared.mainThreadMOC!)
+                        DataController.saveContext(context: DataController.shared.mainThreadMOC!)
                     }
                 }
             } catch {

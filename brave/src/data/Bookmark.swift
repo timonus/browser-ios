@@ -64,7 +64,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         lastVisited = created
     }
     
-    func asDictionary(deviceId: [Int]?, action: Int?) -> [String: AnyObject] {
+    func asDictionary(deviceId: [Int]?, action: Int?) -> [String: Any] {
         return SyncBookmark(record: self, deviceId: deviceId, action: action).dictionaryRepresentation()
     }
 
@@ -114,10 +114,10 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         }
         
         if save {
-            DataController.saveContext(self.managedObjectContext)
+            DataController.saveContext(context: self.managedObjectContext)
         }
         
-        Sync.shared.sendSyncRecords(.bookmark, action: .update, records: [self])
+        Sync.shared.sendSyncRecords(recordType: .bookmark, action: .update, records: [self])
     }
 
     static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable? {
@@ -136,7 +136,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             // Turn into 'update' record instead
             bk = foundBK
         } else {
-            bk = Bookmark(entity: Bookmark.entity(context), insertIntoManagedObjectContext: context)
+            bk = Bookmark(entity: Bookmark.entity(context: context), insertInto: context)
         }
         
         // Should probably have visual indication before reaching this point
@@ -150,8 +150,8 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.customTitle = site?.customTitle ?? bk.customTitle // TODO: Check against empty titles
         bk.isFolder = bookmark?.isFolder ?? bk.isFolder ?? false
         bk.syncUUID = root?.objectId ?? bk.syncUUID ?? Niceware.shared.uniqueSerialBytes(count: 16)
-        bk.created = site?.creationNativeDate ?? NSDate()
-        bk.lastVisited = site?.lastAccessedNativeDate ?? NSDate()
+        bk.created = site?.creationNativeDate ?? Date()
+        bk.lastVisited = site?.lastAccessedNativeDate ?? Date()
         
         if let location = site?.location, let url = URL(string: location) {
             bk.domain = Domain.getOrCreateForUrl(url, context: context)
@@ -175,10 +175,10 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             
             // Submit to server
             if sendToSync {
-                Sync.shared.sendSyncRecords(.bookmark, action: .create, records: [bk])
+                Sync.shared.sendSyncRecords(recordType: .bookmark, action: .create, records: [bk])
             }
             
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
         }
         
         return bk
@@ -318,7 +318,7 @@ extension Bookmark {
 
 // TODO: REMOVE!! This should be located in abstraction
 extension Bookmark {
-    class func remove(forUrl url: NSURL, save: Bool = true, context: NSManagedObjectContext) -> Bool {
+    class func remove(forUrl url: URL, save: Bool = true, context: NSManagedObjectContext) -> Bool {
         if let bm = get(forUrl: url, context: context) as? Bookmark {
             bm.remove(save: save)
             return true

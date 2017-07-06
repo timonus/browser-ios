@@ -74,7 +74,7 @@ class SyncPairCameraViewController: UIViewController {
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                Sync.shared.initializeSync(bytes, deviceName: self.deviceName)
+                Sync.shared.initializeSync(seed: bytes, deviceName: self.deviceName)
 
             } else {
                 self.cameraView.cameraOverlayError()
@@ -138,7 +138,7 @@ class SyncPairCameraViewController: UIViewController {
         loadingView.addSubview(loadingSpinner)
         scrollView.addSubview(loadingView)
         
-        edgesForExtendedLayout = .None
+        edgesForExtendedLayout = UIRectEdge()
         
         scrollView.snp_makeConstraints { (make) in
             make.edges.equalTo(self.view)
