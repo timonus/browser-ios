@@ -16,6 +16,37 @@
 /* Action button for editing bookmarks in the bookmarks panel. */
 "Edit" = "Ubah";
 
+/* Message shown in the dialog prompting users if they want to clear everything */
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "Apakah Anda yakin ingin menghapus semua data Anda? Ini juga akan menutup semua tab yang terbuka.";
+
+/* Settings item for clearing browsing history */
+"Browsing History" = "Riwayat Penjelajahan";
+
+/* Settings item for clearing the cache */
+"Cache" = "Tembolok";
+
+/* Used as a button label in the dialog to cancel clear private data dialog */
+"Cancel" = "Batal";
+
+/* Used as a button label in the dialog to Clear private data dialog */
+"Clear" = "Bersihkan";
+
+/* Title of the Clear private data dialog. */
+"Clear Everything" = "Bersihkan Semuanya";
+
+/* Button in settings that clears private data for the selected items.
+   Navigation title in settings. */
+"Clear Private Data" = "Bersihkan Data Pribadi";
+
+/* Settings item for clearing cookies */
+"Cookies" = "Kuki";
+
+/* Settings item for clearing website data */
+"Offline Website Data" = "Data Situs Luring";
+
+/* Settings item for clearing passwords and login data */
+"Saved Logins" = "Log Masuk Tersimpan";
+
 /* The cancel button when confirming clear private data. */
 "Cancel" = "Batal";
 
@@ -40,6 +71,7 @@
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
 /* Accessibility label for previous result button in Find in Page Toolbar. */
+/* Action button for deleting history entries in the history panel. */
 /* Intro screen message */
 "Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency." = "Brave memblokir iklan.
 Brave menghentikan pelacak.
@@ -644,3 +676,18 @@ Sidik Jari";
 
 /* Accessiblity hint for toggling on/off private mode */
 /* Will be displayed in Settings under 'Close Private Tabs' */
+/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"No" = "Tidak";
+
+/* Label for search settings button. */
+"Search Settings" = "Pengaturan Pencarian";
+
+/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
+"Search suggestions from %@" = "Saran pencarian dari %@";
+
+/* Prompt shown before enabling provider search queries */
+"Turn on search suggestions?" = "Nyalakan saran pencarian?";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"Yes" = "Ya";
