@@ -265,8 +265,7 @@ class ReaderMode: BrowserHelper {
         if let browser = browser {
             delegate?.readerMode(self, didChangeReaderModeState: state, forBrowser: browser)
             if state == .Active {
-                // TODO: Fix
-//                style = (style)
+                (style = style)
             }
         }
     }
@@ -294,11 +293,10 @@ class ReaderMode: BrowserHelper {
     var style: ReaderModeStyle = DefaultReaderModeStyle {
         didSet {
             if let browser = browser, state == ReaderModeState.Active {
-                // TOOD: Fix
-//                browser.webView?.evaluateJavaScript("\(ReaderModeNamespace).setStyle(\(style.encode()))", completionHandler: {
-//                    (object, error) -> Void in
-//                    return
-//                })
+                browser.webView?.evaluateJavaScript("\(ReaderModeNamespace).setStyle(\(style.encode() as String))", completionHandler: {
+                    (object, error) -> Void in
+                    return
+                })
             }
         }
     }
