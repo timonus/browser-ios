@@ -47,6 +47,7 @@
       </trans-unit>
       <trans-unit id="Add Device">
         <source>Add Device</source>
+        <target>新增裝置</target>
         <note>Add device to sync</note>
       </trans-unit>
       <trans-unit id="Add Tab">
@@ -201,6 +202,7 @@
       </trans-unit>
       <trans-unit id="Brave Sync">
         <source>Brave Sync</source>
+        <target>Brave 同步</target>
         <note>Brave sync page title</note>
       </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
@@ -281,6 +283,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Changing settings will only affect data that this device shares with others.">
         <source>Changing settings will only affect data that this device shares with others.</source>
+        <target>變更設定只會影響此裝置與他人分享的資料。</target>
         <note>Sync device settings footer details</note>
       </trans-unit>
       <trans-unit id="Clear">
@@ -325,6 +328,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Code Words">
         <source>Code Words</source>
+        <target>文字代碼</target>
         <note>Code words section title</note>
       </trans-unit>
       <trans-unit id="Cookie Control">
@@ -394,14 +398,17 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Device Name">
         <source>Device Name</source>
+        <target>裝置名稱</target>
         <note>Title for new device popup</note>
       </trans-unit>
       <trans-unit id="Devices">
         <source>Devices</source>
+        <target>裝置</target>
         <note>Sync device settings page title.</note>
       </trans-unit>
       <trans-unit id="Devices &amp; Settings">
         <source>Devices &amp; Settings</source>
+        <target>裝置與設定</target>
         <note>Sync you browser settings across devices.</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
@@ -436,18 +443,22 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Enter code words">
         <source>Enter code words</source>
+        <target>輸入文字代碼</target>
         <note>Sync enter code words</note>
       </trans-unit>
       <trans-unit id="Enter code words below">
         <source>Enter code words below</source>
+        <target>在下方輸入文字代碼</target>
         <note>Enter sync code words below</note>
       </trans-unit>
       <trans-unit id="Enter folder name">
         <source>Enter folder name</source>
+        <target>輸入資料夾名稱</target>
         <note>Description for new folder popup</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <target>雖然您用隱私分頁瀏覽的網站不會儲存在本機上，但您對您的 ISP、雇主或造訪的網站不會因此呈現匿名或隱藏。</target>
         <note>Private tab details</note>
       </trans-unit>
       <trans-unit id="Find">
@@ -457,6 +468,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Find &quot;%@&quot;">
         <source>Find &quot;%@&quot;</source>
+        <target>尋找「%@」</target>
         <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
@@ -498,6 +510,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Get a new sync code">
         <source>Get a new sync code</source>
+        <target>取得新的同步代碼</target>
         <note>New sync code button title</note>
       </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
@@ -512,6 +525,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Grant camera access">
         <source>Grant camera access</source>
+        <target>授予相機存取權限</target>
         <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
@@ -586,6 +600,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Learn about private tabs.">
         <source>Learn about private tabs.</source>
+        <target>深入瞭解隱私分頁。</target>
         <note>Private tab information link</note>
       </trans-unit>
       <trans-unit id="Light">
@@ -690,6 +705,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
         <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
+        <target>請注意：部分網站可能需要指令碼才能正確運作，所以此防護設定預設為關閉。</target>
         <note>shields overview footer message</note>
       </trans-unit>
       <trans-unit id="OK">
@@ -724,6 +740,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Open Image In New Tab">
         <source>Open Image In New Tab</source>
+        <target>在新分頁中開啟圖片</target>
         <note>Context menu for opening image in new tab</note>
       </trans-unit>
       <trans-unit id="Open In New Private Tab">
@@ -733,6 +750,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Open In New Tab">
         <source>Open In New Tab</source>
+        <target>在新分頁中開啟</target>
         <note>Context menu item for opening a link in a new tab</note>
       </trans-unit>
       <trans-unit id="Open Settings">
@@ -757,6 +775,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
+        <target>配對</target>
         <note>Sync pair device settings section title</note>
       </trans-unit>
       <trans-unit id="Panel Chooser">
@@ -766,10 +785,12 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Password Manager">
         <source>Password Manager</source>
+        <target>密碼管理員</target>
         <note>Accessibility Label for the browser toolbar Password Manager button</note>
       </trans-unit>
       <trans-unit id="Password Manager Button">
         <source>Password Manager Button</source>
+        <target>密碼管理員按鈕</target>
         <note>Setting for behaviour of password manager button</note>
       </trans-unit>
       <trans-unit id="Paste">
@@ -784,6 +805,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
+        <target>請輸入此裝置的名稱</target>
         <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
@@ -828,6 +850,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="QR Code">
         <source>QR Code</source>
+        <target>QR 碼</target>
         <note>QR Code section title</note>
       </trans-unit>
       <trans-unit id="Quick-search Engines">
@@ -837,6 +860,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Reader Mode Settings">
         <source>Reader Mode Settings</source>
+        <target>閱讀模式設定</target>
         <note>Name for display settings button in reader mode. Display in the meaning of presentation, not monitor.</note>
       </trans-unit>
       <trans-unit id="Reader View">
@@ -876,6 +900,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Remove this device">
         <source>Remove this device</source>
+        <target>移除此裝置</target>
         <note>Sync remove device.</note>
       </trans-unit>
       <trans-unit id="Report a bug">
@@ -930,6 +955,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Scan or enter code">
         <source>Scan or enter code</source>
+        <target>掃描或輸入代碼</target>
         <note>Scan sync code button title</note>
       </trans-unit>
       <trans-unit id="Scripts Blocked">
@@ -954,6 +980,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Search in page">
         <source>Search in page</source>
+        <target>在頁面中搜尋</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search or enter address">
@@ -988,6 +1015,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Send crash reports and metrics">
         <source>Send crash reports and metrics</source>
+        <target>傳送當機報告與指標</target>
         <note>option in settings screen</note>
       </trans-unit>
       <trans-unit id="Sepia">
@@ -1072,6 +1100,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
         <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
+        <target>「網站防護」可控制您在造訪每個網站時，是否直接封鎖網站上的廣告與追踪器。若您希望在特定網站上顯示廣告，可以在這裡啟用廣告。</target>
         <note>shields overview message</note>
       </trans-unit>
       <trans-unit id="Site shield settings">
@@ -1101,18 +1130,22 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Sync">
         <source>Sync</source>
+        <target>同步</target>
         <note>Sync settings section title</note>
       </trans-unit>
       <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
         <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <target>不必建立帳戶，即可使用 Brave Sync 同步多部裝置的瀏覽器資料。輕觸下方開始使用。</target>
         <note>Sync settings welcome</note>
       </trans-unit>
       <trans-unit id="Sync on this device">
         <source>Sync on this device</source>
+        <target>在此裝置上同步</target>
         <note>Sync device settings section title</note>
       </trans-unit>
       <trans-unit id="Sync to device">
         <source>Sync to device</source>
+        <target>同步至裝置</target>
         <note>Sync to existing device</note>
       </trans-unit>
       <trans-unit id="Tab %@ of %@">
@@ -1122,6 +1155,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Tabs">
         <source>Tabs</source>
+        <target>分頁</target>
         <note>Accessibility label for the Tabs.</note>
       </trans-unit>
       <trans-unit id="Tabs %@ to %@ of %@">
@@ -1176,6 +1210,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="This is a Private Tab">
         <source>This is a Private Tab</source>
+        <target>這是隱私分頁</target>
         <note>Private tab title</note>
       </trans-unit>
       <trans-unit id="Today">
@@ -1210,6 +1245,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Unable to create new sync group.">
         <source>Unable to create new sync group.</source>
+        <target>無法建立新的同步群組。</target>
         <note>Description on popup when setting up a sync group fails</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
@@ -1219,6 +1255,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Unsuccessful">
         <source>Unsuccessful</source>
+        <target>失敗</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">
@@ -1248,14 +1285,17 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Use regional adblock">
         <source>Use regional adblock</source>
+        <target>使用區域性廣告封鎖程式</target>
         <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
       </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <target>使用第二部裝置依序瀏覽「Brave 設定 &gt; 同步」。透過第二部裝置擷取 QR 碼 (如上方所示)，若無法使用相機，請輸入文字代碼。</target>
         <note>Sync add device description</note>
       </trans-unit>
       <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
         <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <target>使用現有的已同步裝置開啟「Brave 設定」並瀏覽至「裝置與設定」，然後輕觸「+」新增裝置並顯示同步代碼。</target>
         <note>Sync to existing device description</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">
@@ -1310,6 +1350,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="You can choose to show a popup to pick your password manager, or have the selected one open automatically.">
         <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
+        <target>您可以選擇顯示彈出式視窗，供您挑選密碼管理員，或者也能讓系統自動開啟您所選的密碼管理員。</target>
         <note>Footer message on picker for 3rd party password manager setting</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
@@ -1392,18 +1433,22 @@ Protection</source>
     <body>
       <trans-unit id="Accept &amp; Continue">
         <source>Accept &amp; Continue</source>
+        <target>接受並繼續</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="By using this application, you agree to Brave’s Terms of Use.">
         <source>By using this application, you agree to Brave’s Terms of Use.</source>
+        <target>使用此應用程式即表示您同意 Brave 的使用條款。</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Help make Brave better by sending usage statistics and crash reports to us.">
         <source>Help make Brave better by sending usage statistics and crash reports to us.</source>
+        <target>請將使用量統計資料與當機報告傳送給我們，協助我們改善 Brave。</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Terms of Use.">
         <source>Terms of Use.</source>
+        <target>使用條款。</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
     </body>

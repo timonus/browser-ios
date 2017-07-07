@@ -177,9 +177,6 @@ class TabManager : NSObject {
         }
 
         _selectedTab = tab
-        postAsyncToMain(0.25) {
-            self.preserveTabs()
-        }
 
         if let t = self.selectedTab, t.webView == nil {
             t.createWebview()
@@ -193,10 +190,6 @@ class TabManager : NSObject {
         }
 
         limitInMemoryTabs()
-
-//        if let s = selectedTab {
-//            print("idx: \(tabs.indexOf(s)), tab: \(s.url?.absoluteDisplayString())")
-//        }
     }
 
     func expireSnackbars() {
@@ -241,8 +234,6 @@ class TabManager : NSObject {
         for delegate in delegates {
             delegate.value?.tabManagerDidAddTabs(self)
         }
-
-        preserveTabs()
     }
 
     fileprivate func limitInMemoryTabs() {
@@ -372,8 +363,6 @@ class TabManager : NSObject {
         if createTabIfNoneLeft && selectedTab == nil {
             selectTab(tabs.displayedTabsForCurrentPrivateMode.first)
         }
-        
-        preserveTabs()
     }
 
     /// Removes all private tabs from the manager.
@@ -480,10 +469,10 @@ extension TabManager : WKCompatNavigationDelegate {
         // only store changes if this is not an error page
         // as we current handle tab restore as error page redirects then this ensures that we don't
         // call storeChanges unnecessarily on startup
-        if let url = tabForWebView(webView)?.url {
+        if let tab = tabForWebView(webView), let url = tabForWebView(webView)?.url {
             if !ErrorPageHelper.isErrorPageURL(url) {
                 postAsyncToMain(0.25) {
-                    self.preserveTabs()
+                    TabMO.preserveTab(tab, tabManager: self)
                 }
             }
         }

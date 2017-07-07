@@ -5,7 +5,7 @@ import WebKit
 import Shared
 import CoreData
 import SwiftKeychainWrapper
-import SwiftyJSON
+(??)
 
 /*
  module.exports.categories = {

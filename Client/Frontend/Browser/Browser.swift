@@ -173,7 +173,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
                 URL: displayURL,
                 title: browser.displayTitle,
                 history: history,
-                lastUsed: 123,
+                lastUsed: NSDate.now(),
                 icon: nil)
         } else if let sessionData = browser.sessionData, !sessionData.urls.isEmpty {
             let history = Array(sessionData.urls.filter(RemoteTab.shouldIncludeURL).reversed())
@@ -382,13 +382,15 @@ class Browser: NSObject, BrowserWebViewDelegate {
         }
         return largest ?? self.sessionData?.currentFavicon
     }
-
-    var url: URL? {
-        guard let resolvedURL = webView?.URL ?? lastRequest?.url else {
-            guard let sessionData = sessionData else { return nil }
-            return sessionData.urls.last as! URL
+    
+    var url: NSURL? {
+        get {
+            guard let resolvedURL = webView?.URL ?? lastRequest?.URL else {
+                guard let sessionData = sessionData else { return nil }
+                return sessionData.urls.last
+            }
+            return resolvedURL
         }
-        return resolvedURL
     }
 
     var displayURL: URL? {
@@ -464,7 +466,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
             lastRequest = request
             webView.loadRequest(request)
             return DangerousReturnWKNavigation.emptyNav
-          }
+        }
         return nil
     }
 

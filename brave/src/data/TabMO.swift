@@ -8,50 +8,9 @@ typealias SavedTab = (id: String, title: String, url: String, isSelected: Bool, 
 
 extension TabManager {
     
-    func preserveTabs() {
-        print("preserveTabs()")
-        var _tabs = [SavedTab]()
-        var i = 0
-        for tab in tabs.internalTabList {
-            if tab.isPrivate || tab.url?.absoluteString == nil || tab.tabID == nil {
-                continue
-            }
-            
-            // Ignore session restore data.
-            if let url = tab.url?.absoluteString {
-                if url.contains("localhost") {
-                    continue
-                }
-            }
-
-            var urls = [String]()
-            var currentPage = 0
-            if let currentItem = tab.webView?.backForwardList.currentItem {
-                // Freshly created web views won't have any history entries at all.
-                let backList = tab.webView?.backForwardList.backList ?? []
-                let forwardList = tab.webView?.backForwardList.forwardList ?? []
-                urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString }
-                currentPage = -forwardList.count
-            }
-            if let id = tab.tabID {
-                let data = SavedTab(id, tab.title ?? "", tab.url!.absoluteString, self.selectedTab === tab, Int16(i), tab.screenshot.image, urls, Int16(currentPage))
-                _tabs.append(data)
-                i += 1
-            }
-        }
-
-        let context = DataController.shared.workerContext()
-        context.perform {
-            for t in _tabs {
-                TabMO.add(t, context: context)
-            }
-            DataController.saveContext(context: context)
-        }
-    }
-
     func restoreTabs() {
-//        struct RunOnceAtStartup { static var token: Int = 0 }
-//        dispatch_once(&RunOnceAtStartup.token, restoreTabsInternal)
+        struct RunOnceAtStartup { static var token: dispatch_once_t = 0 }
+        dispatch_once(&RunOnceAtStartup.token, restoreTabsInternal)
     }
 
     fileprivate func restoreTabsInternal() {
@@ -74,8 +33,8 @@ extension TabManager {
                 tabToSelect = tab
             }
             tab.lastTitle = savedTab.title
-            if let w = tab.webView, let history = savedTab.urlHistorySnapshot as? [String], let tabID = savedTab.syncUUID {
-                let data = SavedTab(id: tabID, title: savedTab.title ?? "", url: savedTab.url ?? "", isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
+            if let w = tab.webView, let history = savedTab.urlHistorySnapshot as? [String], let tabID = savedTab.syncUUID, let url = savedTab.url {
+                let data = SavedTab(id: tabID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
                 tab.restore(w, restorationData: data)
             }
         }
@@ -185,4 +144,41 @@ class TabMO: NSManagedObject {
             DataController.saveContext()
         }
     }
+    
+    class func preserveTab(tab: Browser, tabManager: TabManager) {
+        if tab.isPrivate || tab.url?.absoluteString == nil || tab.tabID == nil {
+            return
+        }
+        
+        // Ignore session restore data.
+        if let url = tab.url?.absoluteString where url.containsString("localhost") {
+            debugPrint(url)
+            return
+        }
+        
+        var order = 0
+        for t in tabManager.tabs.internalTabList {
+            if t === tab { break }
+            order += 1
+        }
+        
+        var urls = [String]()
+        var currentPage = 0
+        if let currentItem = tab.webView?.backForwardList.currentItem {
+            // Freshly created web views won't have any history entries at all.
+            let backList = tab.webView?.backForwardList.backList ?? []
+            let forwardList = tab.webView?.backForwardList.forwardList ?? []
+            urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString ?? "" }
+            currentPage = -forwardList.count
+        }
+        if let id = tab.tabID {
+            let data = SavedTab(id, tab.title ?? "", tab.url!.absoluteString!, tabManager.selectedTab === tab, Int16(order), tab.screenshot.image, urls, Int16(currentPage))
+            let context = DataController.shared.workerContext()
+            context.performBlock {
+                TabMO.add(data, context: context)
+                DataController.saveContext(context)
+            }
+        }
+    }
 }
+

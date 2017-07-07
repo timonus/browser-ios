@@ -10,6 +10,9 @@ class SyncPairWordsViewController: UIViewController {
     var helpLabel: UILabel!
     var codewordsView: SyncCodewordsView!
     
+    // Kind of an odd mechanism for passing this info
+    var deviceName: String?
+    
     var loadingView: UIView!
     let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
@@ -72,6 +75,7 @@ class SyncPairWordsViewController: UIViewController {
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
             make.height.equalTo(295)
+            make.width.equalTo(self.view)
         }
         
         helpLabel.snp_makeConstraints { (make) in
@@ -112,6 +116,10 @@ class SyncPairWordsViewController: UIViewController {
         debugPrint("check codes")
         
         func alert(title: String? = nil, message: String? = nil) {
+            if Sync.shared.isInSyncGroup {
+                // No alert
+                return
+            }
             let title = title ?? "Unable to Connect"
             let message = message ?? "Unable to join sync group. Please check the entered words and try again."
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
