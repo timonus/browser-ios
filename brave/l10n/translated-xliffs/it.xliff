@@ -47,6 +47,7 @@
       </trans-unit>
       <trans-unit id="Add Device">
         <source>Add Device</source>
+        <target>Aggiungi dispositivo</target>
         <note>Add device to sync</note>
       </trans-unit>
       <trans-unit id="Add Tab">
@@ -201,6 +202,7 @@
       </trans-unit>
       <trans-unit id="Brave Sync">
         <source>Brave Sync</source>
+        <target>Brave Sync</target>
         <note>Brave sync page title</note>
       </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
@@ -281,6 +283,7 @@ ed ecco perché...</target>
       </trans-unit>
       <trans-unit id="Changing settings will only affect data that this device shares with others.">
         <source>Changing settings will only affect data that this device shares with others.</source>
+        <target>La modifica delle impostazioni interesserà soltanto i dati che questo dispositivo condivide con gli altri.</target>
         <note>Sync device settings footer details</note>
       </trans-unit>
       <trans-unit id="Clear">
@@ -325,6 +328,7 @@ ed ecco perché...</target>
       </trans-unit>
       <trans-unit id="Code Words">
         <source>Code Words</source>
+        <target>Parole in codice</target>
         <note>Code words section title</note>
       </trans-unit>
       <trans-unit id="Cookie Control">
@@ -394,14 +398,17 @@ ed ecco perché...</target>
       </trans-unit>
       <trans-unit id="Device Name">
         <source>Device Name</source>
+        <target>Nome dispositivo</target>
         <note>Title for new device popup</note>
       </trans-unit>
       <trans-unit id="Devices">
         <source>Devices</source>
+        <target>Dispositivi</target>
         <note>Sync device settings page title.</note>
       </trans-unit>
       <trans-unit id="Devices &amp; Settings">
         <source>Devices &amp; Settings</source>
+        <target>Dispositivi e impostazioni</target>
         <note>Sync you browser settings across devices.</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
@@ -436,18 +443,22 @@ ed ecco perché...</target>
       </trans-unit>
       <trans-unit id="Enter code words">
         <source>Enter code words</source>
+        <target>Inserisci le parole in codice</target>
         <note>Sync enter code words</note>
       </trans-unit>
       <trans-unit id="Enter code words below">
         <source>Enter code words below</source>
+        <target>Inserisci le parole in codice di seguito</target>
         <note>Enter sync code words below</note>
       </trans-unit>
       <trans-unit id="Enter folder name">
         <source>Enter folder name</source>
+        <target>Inserisci nome cartella</target>
         <note>Description for new folder popup</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <target>Anche se i siti che visiti in schede private non sono salvati localmente, non ti rendono anonimi o invisibili al tuo ISP, al tuo datore di lavoro o ai siti che stai visitando.</target>
         <note>Private tab details</note>
       </trans-unit>
       <trans-unit id="Find">
@@ -457,6 +468,7 @@ ed ecco perché...</target>
       </trans-unit>
       <trans-unit id="Find &quot;%@&quot;">
         <source>Find &quot;%@&quot;</source>
+        <target>Trova &quot;%@&quot;</target>
         <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
@@ -498,6 +510,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Get a new sync code">
         <source>Get a new sync code</source>
+        <target>Ottieni un nuovo codice di sincronizzazione</target>
         <note>New sync code button title</note>
       </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
@@ -512,6 +525,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Grant camera access">
         <source>Grant camera access</source>
+        <target>Consenti l'accesso alla fotocamera</target>
         <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
@@ -586,6 +600,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Learn about private tabs.">
         <source>Learn about private tabs.</source>
+        <target>Maggiori informazioni sulle schede private.</target>
         <note>Private tab information link</note>
       </trans-unit>
       <trans-unit id="Light">
@@ -690,6 +705,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
         <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
+        <target>Nota: alcuni siti potrebbero richiedere script per lavorare correttamente in modo che questa protezione venga disattivata per impostazione predefinita.</target>
         <note>shields overview footer message</note>
       </trans-unit>
       <trans-unit id="OK">
@@ -724,6 +740,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Open Image In New Tab">
         <source>Open Image In New Tab</source>
+        <target>Apri immagine in una nuova scheda</target>
         <note>Context menu for opening image in new tab</note>
       </trans-unit>
       <trans-unit id="Open In New Private Tab">
@@ -733,6 +750,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Open In New Tab">
         <source>Open In New Tab</source>
+        <target>Apri in una nuova scheda</target>
         <note>Context menu item for opening a link in a new tab</note>
       </trans-unit>
       <trans-unit id="Open Settings">
@@ -757,6 +775,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
+        <target>Associa</target>
         <note>Sync pair device settings section title</note>
       </trans-unit>
       <trans-unit id="Panel Chooser">
@@ -766,10 +785,12 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Password Manager">
         <source>Password Manager</source>
+        <target>Gestione password</target>
         <note>Accessibility Label for the browser toolbar Password Manager button</note>
       </trans-unit>
       <trans-unit id="Password Manager Button">
         <source>Password Manager Button</source>
+        <target>Pulsante di gestione password</target>
         <note>Setting for behaviour of password manager button</note>
       </trans-unit>
       <trans-unit id="Paste">
@@ -784,6 +805,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
+        <target>Inserisci un nome per questo dispositivo</target>
         <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
@@ -828,6 +850,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="QR Code">
         <source>QR Code</source>
+        <target>Codice QR</target>
         <note>QR Code section title</note>
       </trans-unit>
       <trans-unit id="Quick-search Engines">
@@ -837,6 +860,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Reader Mode Settings">
         <source>Reader Mode Settings</source>
+        <target>Impostazioni modalità lettore</target>
         <note>Name for display settings button in reader mode. Display in the meaning of presentation, not monitor.</note>
       </trans-unit>
       <trans-unit id="Reader View">
@@ -876,6 +900,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Remove this device">
         <source>Remove this device</source>
+        <target>Rimuovi questo dispositivo</target>
         <note>Sync remove device.</note>
       </trans-unit>
       <trans-unit id="Report a bug">
@@ -930,6 +955,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Scan or enter code">
         <source>Scan or enter code</source>
+        <target>Scansiona o inserisci codice</target>
         <note>Scan sync code button title</note>
       </trans-unit>
       <trans-unit id="Scripts Blocked">
@@ -954,6 +980,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Search in page">
         <source>Search in page</source>
+        <target>Cerca nella pagina</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search or enter address">
@@ -988,6 +1015,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Send crash reports and metrics">
         <source>Send crash reports and metrics</source>
+        <target>Invia i rapporti di crash e i parametri</target>
         <note>option in settings screen</note>
       </trans-unit>
       <trans-unit id="Sepia">
@@ -1072,6 +1100,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
         <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
+        <target>Site Shields ti consente di controllare quando gli annunci pubblicitari e i tracker sono bloccati per ciascun sito che visiti. Se preferisci visualizzare gli annunci su un sito specifico, puoi abilitarli qui.</target>
         <note>shields overview message</note>
       </trans-unit>
       <trans-unit id="Site shield settings">
@@ -1101,18 +1130,22 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Sync">
         <source>Sync</source>
+        <target>Sincronizza</target>
         <note>Sync settings section title</note>
       </trans-unit>
       <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
         <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <target>Sincronizza in modo sicuro i dati del browser tra i dispositivi usando Brave Sync, non è richiesta la creazione di nessun account. Tocca di seguito per iniziare.</target>
         <note>Sync settings welcome</note>
       </trans-unit>
       <trans-unit id="Sync on this device">
         <source>Sync on this device</source>
+        <target>Sincronizza su questo dispositivo</target>
         <note>Sync device settings section title</note>
       </trans-unit>
       <trans-unit id="Sync to device">
         <source>Sync to device</source>
+        <target>Sincronizza sul dispositivo</target>
         <note>Sync to existing device</note>
       </trans-unit>
       <trans-unit id="Tab %@ of %@">
@@ -1122,6 +1155,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Tabs">
         <source>Tabs</source>
+        <target>Schede</target>
         <note>Accessibility label for the Tabs.</note>
       </trans-unit>
       <trans-unit id="Tabs %@ to %@ of %@">
@@ -1176,6 +1210,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="This is a Private Tab">
         <source>This is a Private Tab</source>
+        <target>Questa è una scheda privata</target>
         <note>Private tab title</note>
       </trans-unit>
       <trans-unit id="Today">
@@ -1210,6 +1245,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Unable to create new sync group.">
         <source>Unable to create new sync group.</source>
+        <target>Impossibile creare un nuovo gruppo di sincronizzazione.</target>
         <note>Description on popup when setting up a sync group fails</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
@@ -1219,6 +1255,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Unsuccessful">
         <source>Unsuccessful</source>
+        <target>Operazione non riuscita</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">
@@ -1248,14 +1285,17 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="Use regional adblock">
         <source>Use regional adblock</source>
+        <target>Usa un adblock regionale</target>
         <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
       </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <target>Usando un secondo dispositivo vai nelle Impostazioni Brave &gt; Sincronizzazione. Acquisisci il Codice QR (sopra) con il secondo dispositivo, oppure inserisci le parole in codice se non è disponibile nessuna fotocamera.</target>
         <note>Sync add device description</note>
       </trans-unit>
       <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
         <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <target>Usando il dispositivo sincronizzato esistente apri le Impostazioni Brave e vai su “Dispositivi e impostazioni”, tocca ‘+’ per aggiungere un nuovo dispositivo e rivelare il codice di sincronizzazione.</target>
         <note>Sync to existing device description</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">
@@ -1310,6 +1350,7 @@ creazione impronta digitale</target>
       </trans-unit>
       <trans-unit id="You can choose to show a popup to pick your password manager, or have the selected one open automatically.">
         <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
+        <target>Puoi scegliere di mostrare un popup per selezionare il tuo strumento di gestione delle password, oppure aprire quello selezionato automaticamente.</target>
         <note>Footer message on picker for 3rd party password manager setting</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
@@ -1392,18 +1433,22 @@ creazione impronta digitale</target>
     <body>
       <trans-unit id="Accept &amp; Continue">
         <source>Accept &amp; Continue</source>
+        <target>Accetta e continua</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="By using this application, you agree to Brave’s Terms of Use.">
         <source>By using this application, you agree to Brave’s Terms of Use.</source>
+        <target>Utilizzando questa applicazione accetti i Termini d'uso di Brave.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Help make Brave better by sending usage statistics and crash reports to us.">
         <source>Help make Brave better by sending usage statistics and crash reports to us.</source>
+        <target>Aiutaci a migliorare Brave inviandoci le statistiche di utilizzo e i rapporti di crash.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Terms of Use.">
         <source>Terms of Use.</source>
+        <target>Termini d'uso.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
     </body>

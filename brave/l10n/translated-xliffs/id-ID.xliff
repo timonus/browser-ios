@@ -47,6 +47,7 @@
       </trans-unit>
       <trans-unit id="Add Device">
         <source>Add Device</source>
+        <target>Tambahkan Perangkat</target>
         <note>Add device to sync</note>
       </trans-unit>
       <trans-unit id="Add Tab">
@@ -201,6 +202,7 @@
       </trans-unit>
       <trans-unit id="Brave Sync">
         <source>Brave Sync</source>
+        <target>Brave Sync</target>
         <note>Brave sync page title</note>
       </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
@@ -281,6 +283,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Changing settings will only affect data that this device shares with others.">
         <source>Changing settings will only affect data that this device shares with others.</source>
+        <target>Mengubah pengaturan hanya akan berdampak pada data yang perangkat ini bagikan dengan perangkat lainnya.</target>
         <note>Sync device settings footer details</note>
       </trans-unit>
       <trans-unit id="Clear">
@@ -325,6 +328,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Code Words">
         <source>Code Words</source>
+        <target>Kode Kata</target>
         <note>Code words section title</note>
       </trans-unit>
       <trans-unit id="Cookie Control">
@@ -394,14 +398,17 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Device Name">
         <source>Device Name</source>
+        <target>Nama Perangkat</target>
         <note>Title for new device popup</note>
       </trans-unit>
       <trans-unit id="Devices">
         <source>Devices</source>
+        <target>Perangkat</target>
         <note>Sync device settings page title.</note>
       </trans-unit>
       <trans-unit id="Devices &amp; Settings">
         <source>Devices &amp; Settings</source>
+        <target>Perangkat &amp; Pengaturan</target>
         <note>Sync you browser settings across devices.</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
@@ -436,18 +443,22 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Enter code words">
         <source>Enter code words</source>
+        <target>Masukkan kode kata</target>
         <note>Sync enter code words</note>
       </trans-unit>
       <trans-unit id="Enter code words below">
         <source>Enter code words below</source>
+        <target>Masukkan kode kata di bawah ini</target>
         <note>Enter sync code words below</note>
       </trans-unit>
       <trans-unit id="Enter folder name">
         <source>Enter folder name</source>
+        <target>Masukkan nama folder</target>
         <note>Description for new folder popup</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <target>Meskipun situs yang Anda kunjungi di tab pribadi tidak disimpan secara lokal, mereka tidak membuat Anda anonim atau tidak terlihat oleh ISP Anda, bos Anda, atau pada situs yang Anda kunjungi.</target>
         <note>Private tab details</note>
       </trans-unit>
       <trans-unit id="Find">
@@ -457,6 +468,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Find &quot;%@&quot;">
         <source>Find &quot;%@&quot;</source>
+        <target>Temukan &quot;%@&quot;</target>
         <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
@@ -498,6 +510,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Get a new sync code">
         <source>Get a new sync code</source>
+        <target>Dapatkan kode sinkronisasi baru</target>
         <note>New sync code button title</note>
       </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
@@ -512,6 +525,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Grant camera access">
         <source>Grant camera access</source>
+        <target>Berikan akses kamera</target>
         <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
@@ -586,6 +600,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Learn about private tabs.">
         <source>Learn about private tabs.</source>
+        <target>Pelajari tentang tab pribadi.</target>
         <note>Private tab information link</note>
       </trans-unit>
       <trans-unit id="Light">
@@ -760,6 +775,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
+        <target>Pasangan</target>
         <note>Sync pair device settings section title</note>
       </trans-unit>
       <trans-unit id="Panel Chooser">
@@ -789,6 +805,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
+        <target>Silakan masukkan nama untuk perangkat ini</target>
         <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
@@ -833,6 +850,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="QR Code">
         <source>QR Code</source>
+        <target>Kode QR</target>
         <note>QR Code section title</note>
       </trans-unit>
       <trans-unit id="Quick-search Engines">
@@ -882,6 +900,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Remove this device">
         <source>Remove this device</source>
+        <target>Hapus perangkat ini</target>
         <note>Sync remove device.</note>
       </trans-unit>
       <trans-unit id="Report a bug">
@@ -936,6 +955,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Scan or enter code">
         <source>Scan or enter code</source>
+        <target>Pindai atau masukkan kode</target>
         <note>Scan sync code button title</note>
       </trans-unit>
       <trans-unit id="Scripts Blocked">
@@ -960,6 +980,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Search in page">
         <source>Search in page</source>
+        <target>Cari di laman</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search or enter address">
@@ -1109,18 +1130,22 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Sync">
         <source>Sync</source>
+        <target>Sinkronisasi</target>
         <note>Sync settings section title</note>
       </trans-unit>
       <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
         <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <target>Sinkronisasi data peramban antarperangkat Anda secara aman menggunakan Brave Sync, tidak perlu membuat akun. Ketuk di bawah ini untuk memulai.</target>
         <note>Sync settings welcome</note>
       </trans-unit>
       <trans-unit id="Sync on this device">
         <source>Sync on this device</source>
+        <target>Sinkronisasi pada perangkat ini</target>
         <note>Sync device settings section title</note>
       </trans-unit>
       <trans-unit id="Sync to device">
         <source>Sync to device</source>
+        <target>Sinkronkan ke perangkat</target>
         <note>Sync to existing device</note>
       </trans-unit>
       <trans-unit id="Tab %@ of %@">
@@ -1130,6 +1155,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Tabs">
         <source>Tabs</source>
+        <target>Tab</target>
         <note>Accessibility label for the Tabs.</note>
       </trans-unit>
       <trans-unit id="Tabs %@ to %@ of %@">
@@ -1184,6 +1210,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="This is a Private Tab">
         <source>This is a Private Tab</source>
+        <target>Ini adalah Tab Pribadi</target>
         <note>Private tab title</note>
       </trans-unit>
       <trans-unit id="Today">
@@ -1218,6 +1245,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Unable to create new sync group.">
         <source>Unable to create new sync group.</source>
+        <target>Tidak bisa membuat grup sinkronisasi baru.</target>
         <note>Description on popup when setting up a sync group fails</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
@@ -1227,6 +1255,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Unsuccessful">
         <source>Unsuccessful</source>
+        <target>Tidak berhasil</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">
@@ -1261,10 +1290,12 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <target>Menggunakan perangkat kedua, menavigasi ke Pengaturan Brave &gt; Sinkronisasi. Tangkap kode QR (di atas) dengan perangkat kedua, atau masukkan kode kata jika kamera tidak tersedia.</target>
         <note>Sync add device description</note>
       </trans-unit>
       <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
         <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <target>Menggunakan perangkat yang sudah disinkronkan buka Pengaturan Brave dan menavigasi ke &quot;Perangkat &amp; Pengaturan&quot;, ketuk ‘+’ untuk menambahkan perangkat baru dan memperlihatkan kode sinkronisasi.</target>
         <note>Sync to existing device description</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">

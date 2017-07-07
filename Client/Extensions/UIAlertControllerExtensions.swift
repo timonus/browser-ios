@@ -87,41 +87,42 @@ extension UIAlertController {
      - returns: UIAlertController instance
      */
     class func userTextInputAlert(title: String, message: String, startingText: String? = nil, placeholder: String? = Strings.Name, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) -> UIAlertController {
-        return UserTextInputAlert(title: title, message: message, startingText: startingText, placeholder: placeholder, forcedInput: forcedInput, callbackOnMain: callbackOnMain)
+        // Returning alert, so no external, strong reference to initial instance
+        return UserTextInputAlert(title: title, message: message, startingText: startingText, placeholder: placeholder, forcedInput: forcedInput, callbackOnMain: callbackOnMain).alert
     }
 }
 
 // Not part of extension due to needing observing
 // Would make private but objc runtime cannot find textfield observing callback
-class UserTextInputAlert: UIAlertController {
+class UserTextInputAlert {
     private weak var okAction: UIAlertAction!
-
-    init(title: String, message: String, startingText: String?, placeholder: String?, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) {
-        super.init(nibName: nil, bundle: nil)
-        self.title = title
-        self.message = message
+    private(set) var alert: UIAlertController!
+    
+    required init(title: String, message: String, startingText: String?, placeholder: String?, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) {
+        
+        alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         func actionSelected(input: String?) {
             postAsyncToMain {
                 callbackOnMain(input)
             }
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextFieldTextDidChange, object: self.textFields?.first)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextFieldTextDidChange, object: alert.textFields?.first)
         }
         
-        okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default) { (alertA: UIAlertAction!) in
-            actionSelected(input: self.textFields?.first?.text)
+        self.okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default) { (alertA: UIAlertAction!) in
+            actionSelected(input: self.alert.textFields?.first?.text)
         }
         
         let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel) { (alertA: UIAlertAction!) in
             actionSelected(input: nil)
         }
         
-        okAction.isEnabled = !forcedInput
+        self.okAction.isEnabled = !forcedInput
         
-        self.addAction(okAction)
-        self.addAction(cancelAction)
+        alert.addAction(self.okAction)
+        alert.addAction(cancelAction)
         
-        self.addTextField {
+        alert.addTextField {
             textField in
             textField.placeholder = placeholder
             textField.isSecureTextEntry = false
@@ -137,15 +138,7 @@ class UserTextInputAlert: UIAlertController {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override var preferredStyle: UIAlertControllerStyle {
-        return .alert
-    }
-    
-    func notificationReceived(notification: NSNotification) {
+    @objc func notificationReceived(notification: NSNotification) {
         if let textField = notification.object as? UITextField, let emptyText = textField.text?.isEmpty {
             okAction.isEnabled = !emptyText
         }
