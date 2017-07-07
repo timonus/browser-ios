@@ -6,56 +6,6 @@ import Foundation
 
 typealias SavedTab = (id: String, title: String, url: String, isSelected: Bool, order: Int16, screenshot: UIImage?, history: [String], historyIndex: Int16)
 
-extension TabManager {
-    
-    func restoreTabs() {
-        struct RunOnceAtStartup { static var token: dispatch_once_t = 0 }
-        dispatch_once(&RunOnceAtStartup.token, restoreTabsInternal)
-    }
-
-    fileprivate func restoreTabsInternal() {
-        var tabToSelect: Browser?
-        let savedTabs = TabMO.getAll()
-        for savedTab in savedTabs {
-            if savedTab.url == nil {
-                if let id = savedTab.syncUUID {
-                    TabMO.removeTab(id)
-                }
-                continue
-            }
-            
-            guard let tab = addTab(nil, configuration: nil, zombie: true, id: savedTab.syncUUID) else { return }
-            
-            debugPrint(savedTab)
-            
-            tab.setScreenshot(savedTab.screenshotImage)
-            if savedTab.isSelected {
-                tabToSelect = tab
-            }
-            tab.lastTitle = savedTab.title
-            if let w = tab.webView, let history = savedTab.urlHistorySnapshot as? [String], let tabID = savedTab.syncUUID, let url = savedTab.url {
-                let data = SavedTab(id: tabID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
-                tab.restore(w, restorationData: data)
-            }
-        }
-        if tabToSelect == nil {
-            tabToSelect = tabs.displayedTabsForCurrentPrivateMode.first
-        }
-
-        // Only tell our delegates that we restored tabs if we actually restored a tab(s)
-        // Base this off of the actual, physical tabs, not what was stored in CD, as we could have edited removed broken CD records
-        if tabCount > 0 {
-            delegates.forEach { $0.value?.tabManagerDidRestoreTabs(self) }
-        } else {
-            tabToSelect = addTab()
-        }
-
-        if let tab = tabToSelect {
-            selectTab(tab)
-        }
-    }
-}
-
 class TabMO: NSManagedObject {
     
     @NSManaged var title: String?
@@ -151,7 +101,7 @@ class TabMO: NSManagedObject {
         }
         
         // Ignore session restore data.
-        if let url = tab.url?.absoluteString where url.containsString("localhost") {
+        if let url = tab.url?.absoluteString, url.contains("localhost") {
             debugPrint(url)
             return
         }
@@ -172,11 +122,11 @@ class TabMO: NSManagedObject {
             currentPage = -forwardList.count
         }
         if let id = tab.tabID {
-            let data = SavedTab(id, tab.title ?? "", tab.url!.absoluteString!, tabManager.selectedTab === tab, Int16(order), tab.screenshot.image, urls, Int16(currentPage))
+            let data = SavedTab(id, tab.title ?? "", tab.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), tab.screenshot.image, urls, Int16(currentPage))
             let context = DataController.shared.workerContext()
-            context.performBlock {
+            context.perform {
                 TabMO.add(data, context: context)
-                DataController.saveContext(context)
+                DataController.saveContext(context: context)
             }
         }
     }

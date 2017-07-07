@@ -780,7 +780,7 @@ class BrowserViewController: UIViewController {
             update()
         } else {
             PrivateBrowsing.singleton.exit().uponQueue(DispatchQueue.main) {
-                self.tabManager.restoreTabs()
+                let _ = self.tabManager.restoreTabs
                 update()
             }
         }

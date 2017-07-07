@@ -86,7 +86,7 @@ extension UIAlertController {
      
      - returns: UIAlertController instance
      */
-    class func userTextInputAlert(title title: String, message: String, startingText: String? = nil, placeholder: String? = Strings.Name, forcedInput: Bool = true, callbackOnMain: (input: String?) -> ()) -> UIAlertController {
+    class func userTextInputAlert(title: String, message: String, startingText: String? = nil, placeholder: String? = Strings.Name, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) -> UIAlertController {
         // Returning alert, so no external, strong reference to initial instance
         return UserTextInputAlert(title: title, message: message, startingText: startingText, placeholder: placeholder, forcedInput: forcedInput, callbackOnMain: callbackOnMain).alert
     }
@@ -98,49 +98,49 @@ class UserTextInputAlert {
     private weak var okAction: UIAlertAction!
     private(set) var alert: UIAlertController!
     
-    required init(title: String, message: String, startingText: String?, placeholder: String?, forcedInput: Bool = true, callbackOnMain: (input: String?) -> ()) {
+    required init(title: String, message: String, startingText: String?, placeholder: String?, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) {
         
-        alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        func actionSelected(input input: String?) {
+        func actionSelected(input: String?) {
             postAsyncToMain {
-                callbackOnMain(input: input)
+                callbackOnMain(input)
             }
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: alert.textFields?.first)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextFieldTextDidChange, object: alert.textFields?.first)
         }
         
-        self.okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.Default) { (alertA: UIAlertAction!) in
+        self.okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default) { (alertA: UIAlertAction!) in
             actionSelected(input: self.alert.textFields?.first?.text)
         }
         
-        let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.Cancel) { (alertA: UIAlertAction!) in
+        let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel) { (alertA: UIAlertAction!) in
             actionSelected(input: nil)
         }
         
-        self.okAction.enabled = !forcedInput
+        self.okAction.isEnabled = !forcedInput
         
         alert.addAction(self.okAction)
         alert.addAction(cancelAction)
         
-        alert.addTextFieldWithConfigurationHandler {
+        alert.addTextField {
             textField in
             textField.placeholder = placeholder
-            textField.secureTextEntry = false
-            textField.keyboardAppearance = .Dark
-            textField.autocapitalizationType = .Words
-            textField.autocorrectionType = .Default
-            textField.returnKeyType = .Done
+            textField.isSecureTextEntry = false
+            textField.keyboardAppearance = .dark
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .default
+            textField.returnKeyType = .done
             textField.text = startingText
             
             if forcedInput {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.notificationReceived(_:)), name: UITextFieldTextDidChangeNotification, object: textField)
+                NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(notification:)), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
             }
         }
     }
     
     @objc func notificationReceived(notification: NSNotification) {
         if let textField = notification.object as? UITextField, let emptyText = textField.text?.isEmpty {
-            okAction.enabled = !emptyText
+            okAction.isEnabled = !emptyText
         }
     }
 }

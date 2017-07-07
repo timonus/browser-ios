@@ -81,7 +81,7 @@ class MigrateData: NSObject {
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             while sqlite3_step(results) == SQLITE_ROW {
                 let id = sqlite3_column_int(results, 0)
-                let domain = "" // String(validatingUTF8: UnsafePointer<CChar>(sqlite3_column_text(results, 1))) ?? ""
+                let domain = String(cString: sqlite3_column_text(results, 1))
                 let showOnTopSites = sqlite3_column_int(results, 2)
                 
                 if let d = Domain.getOrCreateForUrl(URL(string: domain)!, context: DataController.shared.workerContext()) {
@@ -95,7 +95,7 @@ class MigrateData: NSObject {
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
-            let error = String(validatingUTF8: sqlite3_errmsg(db))
+            let error = String(cString: sqlite3_errmsg(db))
             debugPrint("Error finalizing prepared statement: \(error)")
         }
         results = nil
@@ -108,8 +108,8 @@ class MigrateData: NSObject {
         
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             while sqlite3_step(results) == SQLITE_ROW {
-                let url = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 0))) ?? ""
-                let title = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 1))) ?? ""
+                let url = String(cString: sqlite3_column_text(results, 0))
+                let title = String(cString: sqlite3_column_text(results, 1))
                 
                 History.add(title, url: URL(string: url)!)
             }
@@ -118,7 +118,7 @@ class MigrateData: NSObject {
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
-            let error = String(validatingUTF8: sqlite3_errmsg(db))
+            let error = String(cString: sqlite3_errmsg(db))
             debugPrint("Error finalizing prepared statement: \(error)")
         }
         results = nil
@@ -159,7 +159,7 @@ class MigrateData: NSObject {
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             while sqlite3_step(results) == SQLITE_ROW {
                 let id = sqlite3_column_int(results, 0)
-                let url = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 1))) ?? ""
+                let url = String(cString: sqlite3_column_text(results, 1))
                 let width = sqlite3_column_int(results, 2)
                 let height = sqlite3_column_int(results, 3)
                 let type = sqlite3_column_int(results, 4)
@@ -194,7 +194,7 @@ class MigrateData: NSObject {
         
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             while sqlite3_step(results) == SQLITE_ROW {
-                let child = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 0))) ?? ""
+                let child = String(cString: sqlite3_column_text(results, 0))
                 let idx = sqlite3_column_int(results, 1)
                 bookmarkOrderHash[child] = Int16(idx)
             }
@@ -218,12 +218,12 @@ class MigrateData: NSObject {
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             var relationshipHash: [String: Bookmark] = [:]
             while sqlite3_step(results) == SQLITE_ROW {
-                let guid = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 0))) ?? ""
+                let guid = String(cString: sqlite3_column_text(results, 0))
                 let type = sqlite3_column_int(results, 1)
-                let parentid = "" // String(validatingUTF8: UnsafePointer<CChar>(sqlite3_column_text(results, 2))) ?? ""
-                let title = "" // String(validatingUTF8: UnsafePointer<CChar>(sqlite3_column_text(results, 3))) ?? ""
-                let description = "" // String(validatingUTF8: UnsafePointer<CChar>(sqlite3_column_text(results, 4))) ?? ""
-                let url = "" // String(validatingUTF8: UnsafePointer<CChar>(sqlite3_column_text(results, 5))) ?? ""
+                let parentid = String(cString: sqlite3_column_text(results, 2))
+                let title = String(cString: sqlite3_column_text(results, 3))
+                let description = String(cString: sqlite3_column_text(results, 4))
+                let url = String(cString: sqlite3_column_text(results, 5))
                 
                 if let bk = Bookmark.addForMigration(url: url, title: title, customTitle: description, parentFolder: relationshipHash[parentid] ?? nil, isFolder: (type == 2)) {
                     let parent = relationshipHash[parentid]
@@ -241,7 +241,7 @@ class MigrateData: NSObject {
                 }
             }
         } else {
-            let errmsg = "" // String(UTF8String: sqlite3_errmsg(db))
+            let errmsg = String(cString: sqlite3_errmsg(db))
             debugPrint("SELECT statement could not be prepared \(errmsg)")
         }
         
@@ -260,10 +260,10 @@ class MigrateData: NSObject {
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             var order: Int16 = 0
             while sqlite3_step(results) == SQLITE_ROW {
-                let url = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 0))) ?? ""
-                let title = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 1))) ?? ""
-                let history = String.fromCString(UnsafePointer<CChar>(sqlite3_column_text(results, 2))) ?? ""
-                let historyData = history.stringByReplacingOccurrencesOfString("[", withString: "").stringByReplacingOccurrencesOfString("]", withString: "").stringByReplacingOccurrencesOfString("\"", withString: "").stringByReplacingOccurrencesOfString("\\", withString: "")
+                let url = String(cString: sqlite3_column_text(results, 0))
+                let title = String(cString: sqlite3_column_text(results, 1))
+                let history = String(cString: sqlite3_column_text(results, 2))
+                let historyData = history.replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "").replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "\\", with: "")
                 let historyList: [String] = historyData.characters.split{$0 == ","}.map(String.init)
                 let tab = SavedTab(id: TabMO.freshTab(), title: title, url: url, isSelected: false, order: order, screenshot: nil, history: historyList, historyIndex: Int16(historyList.count-1))
                 
@@ -278,7 +278,7 @@ class MigrateData: NSObject {
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
-            let error = String.fromCString(sqlite3_errmsg(db))
+            let error = String(cString: sqlite3_errmsg(db))
             debugPrint("Error finalizing prepared statement: \(error)")
         }
         results = nil

@@ -5,7 +5,7 @@ import WebKit
 import Shared
 import CoreData
 import SwiftKeychainWrapper
-(??)
+import SwiftyJSON
 
 /*
  module.exports.categories = {
@@ -185,7 +185,7 @@ class Sync: JSInjector {
         get {
             if !UserDefaults.standard.bool(forKey: prefNameSeed) {
                 // This must be true to stay in sync group
-                KeychainWrapper.defaultKeychainWrapper.remove(key: prefNameSeed)
+                KeychainWrapper.standard.remove(key: prefNameSeed)
                 return nil
             }
             

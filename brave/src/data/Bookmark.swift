@@ -173,12 +173,12 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         }
         
         if save {
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
         }
         
         if sendToSync {
             // Submit to server
-            Sync.shared.sendSyncRecords(.bookmark, action: .create, records: [bk])
+            Sync.shared.sendSyncRecords(recordType: .bookmark, action: .create, records: [bk])
         }
         
         return bk

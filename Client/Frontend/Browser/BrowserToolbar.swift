@@ -77,7 +77,7 @@ open class BrowserToolbarHelper: NSObject {
         toolbar.pwdMgrButton.isHidden = true
         toolbar.pwdMgrButton.tintColor = UIColor.white
         toolbar.pwdMgrButton.accessibilityLabel = Strings.PasswordManager
-        toolbar.pwdMgrButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickPwdMgr), forControlEvents: UIControlEvents.TouchUpInside)
+        toolbar.pwdMgrButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickPwdMgr), for: UIControlEvents.touchUpInside)
 
         setTintColor(buttonTintColor, forButtons: toolbar.actionButtons)
     }
@@ -101,7 +101,7 @@ open class BrowserToolbarHelper: NSObject {
     }
     
     func SELdidClickPwdMgr() {
-        toolbar.browserToolbarDelegate?.browserToolbarDidPressPwdMgr(toolbar, button: toolbar.pwdMgrButton)
+        toolbar.browserToolbarDelegate?.browserToolbarDidPressPwdMgr(browserToolbar: toolbar, button: toolbar.pwdMgrButton)
     }
 }
 

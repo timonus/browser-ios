@@ -243,8 +243,8 @@ extension BrowserViewController: BrowserToolbarDelegate {
         }
     }
     
-    func browserToolbarDidPressPwdMgr(_ browserToolbar: BrowserToolbarProtocol, button: UIButton) {
-        if let loginsHelper = tabManager.selectedTab?.getHelper(LoginsHelper) {
+    func browserToolbarDidPressPwdMgr(browserToolbar: BrowserToolbarProtocol, button: UIButton) {
+        if let loginsHelper = tabManager.selectedTab?.getHelper(LoginsHelper.self) {
             loginsHelper.onExecuteTapped(button)
         }
     }
