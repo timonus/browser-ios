@@ -19,7 +19,11 @@ private let log = Logger.browserLogger
 let LatestAppVersionProfileKey = "latestAppVersion"
 let AllowThirdPartyKeyboardsKey = "settings.allowThirdPartyKeyboards"
 
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestoration {
+    
+    public static func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
+        return nil
+    }
     
     // TODO: Having all of these global opens up lots of abuse potential (open via getApp())
     
@@ -112,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         browserViewController = BraveBrowserViewController(profile: profile, tabManager: self.tabManager)
         browserViewController.restorationIdentifier = NSStringFromClass(BrowserViewController.self)
-        browserViewController.restorationClass = AppDelegate.Type.self as! UIViewControllerRestoration.Type
+        browserViewController.restorationClass = AppDelegate.self
         browserViewController.automaticallyAdjustsScrollViewInsets = false
 
         braveTopViewController = BraveTopViewController(browserViewController: browserViewController as! BraveBrowserViewController)
