@@ -1,7 +1,6 @@
-//
-//  BraveShieldStatsView.swift
-//  Client
-//
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
 import Shared
@@ -85,9 +84,9 @@ class BraveShieldStatsView: UIView {
     }
     
     func update() {
-//        adsStatView.stat = BraveGlobalShieldStats.singleton.adblock.formatUsingAbbrevation()
-//        trackersStatView.stat = BraveGlobalShieldStats.singleton.trackingProtection.formatUsingAbbrevation()
-//        httpsStatView.stat = BraveGlobalShieldStats.singleton.httpse.formatUsingAbbrevation()
+        adsStatView.stat = BraveGlobalShieldStats.singleton.adblock.abbrevation
+        trackersStatView.stat = BraveGlobalShieldStats.singleton.trackingProtection.abbrevation
+        httpsStatView.stat = BraveGlobalShieldStats.singleton.httpse.abbrevation
         timeStatView.stat = timeSaved
     }
     
