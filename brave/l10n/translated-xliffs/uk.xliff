@@ -1,7 +1,7 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="uk">
     <header>
-      <tool build-num="8A218a" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.0"/>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -12,7 +12,7 @@
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="uk">
     <header>
-      <tool build-num="8A218a" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.0"/>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -30,11 +30,6 @@
         <target>-</target>
         <note>Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar.</note>
       </trans-unit>
-      <trans-unit id="3rd-party password manager">
-        <source>3rd-party password manager</source>
-        <target>Сторонній менджер паролів</target>
-        <note>Setting to enable the built-in password manager</note>
-      </trans-unit>
       <trans-unit id="Aa">
         <source>Aa</source>
         <target>Aa</target>
@@ -49,6 +44,11 @@
         <source>Add Bookmark</source>
         <target>Додати закладку</target>
         <note>Button to add a bookmark</note>
+      </trans-unit>
+      <trans-unit id="Add Device">
+        <source>Add Device</source>
+        <target>Додати пристрій</target>
+        <note>Add device to sync</note>
       </trans-unit>
       <trans-unit id="Add Tab">
         <source>Add Tab</source>
@@ -84,11 +84,6 @@
         <source>Allow %@ to open iTunes?</source>
         <target>Дозволити %@ відкрити в iTunes?</target>
         <note>Ask user if site can open iTunes store URL</note>
-      </trans-unit>
-      <trans-unit id="Allow Brave to send info to improve our app">
-        <source>Allow Brave to send info to improve our app</source>
-        <target>Дозволити Brave посилати данні для поліпщення додатку</target>
-        <note>option in settings screen</note>
       </trans-unit>
       <trans-unit id="Always show">
         <source>Always show</source>
@@ -205,6 +200,11 @@
         <target>Щити Brave за замовчуванням</target>
         <note>Section title for adbblock, tracking protection, HTTPS-E, and cookies</note>
       </trans-unit>
+      <trans-unit id="Brave Sync">
+        <source>Brave Sync</source>
+        <target>Синхронізація Brave</target>
+        <note>Brave sync page title</note>
+      </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
         <source>Brave blocks ads.
 Brave stops trackers.
@@ -281,6 +281,11 @@ and here's why...</source>
         <target>Змінює тип шрифту.</target>
         <note>Accessibility hint for the font type buttons in reader mode display settings</note>
       </trans-unit>
+      <trans-unit id="Changing settings will only affect data that this device shares with others.">
+        <source>Changing settings will only affect data that this device shares with others.</source>
+        <target>Зміна налаштувань буде впливати тільки на дані які цей пристрій розподіляє з іншими.</target>
+        <note>Sync device settings footer details</note>
+      </trans-unit>
       <trans-unit id="Clear">
         <source>Clear</source>
         <target>Очистити</target>
@@ -320,6 +325,11 @@ and here's why...</source>
         <source>Closing tab</source>
         <target>Закриття вкладки</target>
         <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Code Words">
+        <source>Code Words</source>
+        <target>Кодові слова</target>
+        <note>Code words section title</note>
       </trans-unit>
       <trans-unit id="Cookie Control">
         <source>Cookie Control</source>
@@ -376,11 +386,6 @@ and here's why...</source>
         <target>Видалити</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Delete Folder">
-        <source>Delete Folder</source>
-        <target>Видалити папку</target>
-        <note>No comment provided by engineer.</note>
-      </trans-unit>
       <trans-unit id="Deselect All">
         <source>Deselect All</source>
         <target>Скасувати вибір всіх</target>
@@ -391,10 +396,20 @@ and here's why...</source>
         <target>Закладки робочого столу</target>
         <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
       </trans-unit>
-      <trans-unit id="Display Settings">
-        <source>Display Settings</source>
-        <target>Налаштування дисплею</target>
-        <note>Name for display settings button in reader mode. Display in the meaning of presentation, not monitor.</note>
+      <trans-unit id="Device Name">
+        <source>Device Name</source>
+        <target>Ім'я пристрою</target>
+        <note>Title for new device popup</note>
+      </trans-unit>
+      <trans-unit id="Devices">
+        <source>Devices</source>
+        <target>Пристрої</target>
+        <note>Sync device settings page title.</note>
+      </trans-unit>
+      <trans-unit id="Devices &amp; Settings">
+        <source>Devices &amp; Settings</source>
+        <target>Пристрої та налаштування</target>
+        <note>Sync you browser settings across devices.</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
         <source>Don't block cookies</source>
@@ -426,10 +441,35 @@ and here's why...</source>
         <target>Ввійти до режиму для пошуку</target>
         <note>Accessibility label for entering search mode for logins</note>
       </trans-unit>
+      <trans-unit id="Enter code words">
+        <source>Enter code words</source>
+        <target>Введіть кодові слова</target>
+        <note>Sync enter code words</note>
+      </trans-unit>
+      <trans-unit id="Enter code words below">
+        <source>Enter code words below</source>
+        <target>Введіть кодові слова нижче</target>
+        <note>Enter sync code words below</note>
+      </trans-unit>
+      <trans-unit id="Enter folder name">
+        <source>Enter folder name</source>
+        <target>Введіть ім'я папки</target>
+        <note>Description for new folder popup</note>
+      </trans-unit>
+      <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
+        <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <target>Навіть якщо сайти які ви відвідуєте в приватних закладках не зберігаються локально, вони не роблять вас анонімними або невидимими для вашого провайдера, вашого роботодавця, або сайтів, які ви відвідуєте.</target>
+        <note>Private tab details</note>
+      </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
         <target>Знайти</target>
         <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Find &quot;%@&quot;">
+        <source>Find &quot;%@&quot;</source>
+        <target>Знайти &quot;%@&quot;</target>
+        <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
         <source>Find in Page</source>
@@ -468,6 +508,11 @@ Protection</source>
         <target>Основні</target>
         <note>General settings section title</note>
       </trans-unit>
+      <trans-unit id="Get a new sync code">
+        <source>Get a new sync code</source>
+        <target>Отримати новий код синхронізації</target>
+        <note>New sync code button title</note>
+      </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
         <source>Get ready to experience a Faster, Safer, Better Web.</source>
         <target>Приготуйтесь спробувати Швидкий, Безпечний, Кращий Інтернет.</target>
@@ -477,6 +522,11 @@ Protection</source>
         <source>Go Back</source>
         <target>Повернутися назад</target>
         <note>Label for button to go back from the error page</note>
+      </trans-unit>
+      <trans-unit id="Grant camera access">
+        <source>Grant camera access</source>
+        <target>Дати дозвіл камері</target>
+        <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
         <source>HTTPS Everywhere</source>
@@ -530,577 +580,844 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Last modified %@">
         <source>Last modified %@</source>
+        <target>Модифіковано %@</target>
         <note>Footer label describing when the login was last modified with the timestamp as the parameter</note>
       </trans-unit>
       <trans-unit id="Last month">
         <source>Last month</source>
+        <target>Попередній місяць</target>
         <note>History tableview section header</note>
       </trans-unit>
       <trans-unit id="Last week">
         <source>Last week</source>
+        <target>Попередній тиждень</target>
         <note>History tableview section header</note>
       </trans-unit>
       <trans-unit id="Learn More">
         <source>Learn More</source>
+        <target>Узнати більше</target>
         <note>Text button displayed when there are no tabs open while in private mode</note>
+      </trans-unit>
+      <trans-unit id="Learn about private tabs.">
+        <source>Learn about private tabs.</source>
+        <target>Більше про приватні вкладки.</target>
+        <note>Private tab information link</note>
       </trans-unit>
       <trans-unit id="Light">
         <source>Light</source>
+        <target>Світлий</target>
         <note>Light theme setting in Reading View settings</note>
       </trans-unit>
       <trans-unit id="Load original page">
         <source>Load original page</source>
+        <target>Завантажити оригінальну сторінку</target>
         <note>Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app.</note>
       </trans-unit>
       <trans-unit id="Loading content…">
         <source>Loading content…</source>
+        <target>Завантаження вмісту...</target>
         <note>Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app.</note>
       </trans-unit>
       <trans-unit id="Location">
         <source>Location</source>
+        <target>Місцезнаходження</target>
         <note>Bookmark folder location</note>
       </trans-unit>
       <trans-unit id="Logins">
         <source>Logins</source>
+        <target>Логіни</target>
         <note>Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager.</note>
       </trans-unit>
       <trans-unit id="Logins will be permanently removed.">
         <source>Logins will be permanently removed.</source>
+        <target>Логіни будуть видалені назавжди.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Logins will be removed from all connected devices.">
         <source>Logins will be removed from all connected devices.</source>
+        <target>Логіни будуть видалені з усіх пристроїв.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Mark as Read">
         <source>Mark as Read</source>
+        <target>Помітити як прочитане</target>
         <note>Name for Mark as read button in reader mode</note>
       </trans-unit>
       <trans-unit id="Mark as Unread">
         <source>Mark as Unread</source>
+        <target>Помітити як не прочитане</target>
         <note>Name for Mark as unread button in reader mode</note>
       </trans-unit>
       <trans-unit id="Mobile Bookmarks">
         <source>Mobile Bookmarks</source>
+        <target>Мобільні закладки</target>
         <note>The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android.</note>
       </trans-unit>
       <trans-unit id="Name">
         <source>Name</source>
-        <note>Bookmark name/title</note>
+        <target>Ім'я</target>
+        <note>Bookmark title / Device name</note>
       </trans-unit>
       <trans-unit id="Navigation Toolbar">
         <source>Navigation Toolbar</source>
+        <target>Панель навігації</target>
         <note>Accessibility label for the navigation toolbar displayed at the bottom of the screen.</note>
       </trans-unit>
       <trans-unit id="Never show">
         <source>Never show</source>
+        <target>Ніколи не показувати</target>
         <note>tabs bar show/hide option</note>
       </trans-unit>
       <trans-unit id="New Folder">
         <source>New Folder</source>
-        <note>No comment provided by engineer.</note>
+        <target>Нова папка</target>
+        <note>Title for new folder popup</note>
       </trans-unit>
       <trans-unit id="New Private Tab">
         <source>New Private Tab</source>
+        <target>Нова приватна вкладка</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="New Tab">
         <source>New Tab</source>
+        <target>Нова вкладка</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Next in-page result">
         <source>Next in-page result</source>
+        <target>Наступний результат на сторінці</target>
         <note>Accessibility label for next result button in Find in Page Toolbar.</note>
       </trans-unit>
       <trans-unit id="No">
         <source>No</source>
+        <target>Ні</target>
         <note>For search suggestions prompt. This string should be short so it fits nicely on the prompt row.</note>
       </trans-unit>
       <trans-unit id="No logins found">
         <source>No logins found</source>
+        <target>Не знайдено жодного логіну</target>
         <note>Title displayed when no logins are found after searching</note>
       </trans-unit>
       <trans-unit id="No tabs">
         <source>No tabs</source>
+        <target>Немає вкладок</target>
         <note>Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray</note>
+      </trans-unit>
+      <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
+        <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
+        <target>Примітка: Деякі сайти потребують скрипти для роботи, тому цей щит вимкнений за замовчуванням.</target>
+        <note>shields overview footer message</note>
       </trans-unit>
       <trans-unit id="OK">
         <source>OK</source>
+        <target>OK</target>
         <note>OK button</note>
       </trans-unit>
       <trans-unit id="Off">
         <source>Off</source>
+        <target>Вимкнено</target>
         <note>Toggled OFF accessibility value</note>
       </trans-unit>
       <trans-unit id="Offline Website Data">
         <source>Offline Website Data</source>
+        <target>Автономні дані сторінок</target>
         <note>Settings item for clearing website data</note>
       </trans-unit>
       <trans-unit id="On">
         <source>On</source>
+        <target>Ввімкнути</target>
         <note>Toggled ON accessibility value</note>
       </trans-unit>
       <trans-unit id="Open &amp; Fill">
         <source>Open &amp; Fill</source>
+        <target>Відкрити та заповнити</target>
         <note>Open and Fill website text selection menu item</note>
       </trans-unit>
       <trans-unit id="Open Desktop Site tab">
         <source>Open Desktop Site tab</source>
+        <target>Відкрити вкладку з повною версією</target>
         <note>Share action title</note>
+      </trans-unit>
+      <trans-unit id="Open Image In New Tab">
+        <source>Open Image In New Tab</source>
+        <target>Відкрити зображення в новій вкладці</target>
+        <note>Context menu for opening image in new tab</note>
       </trans-unit>
       <trans-unit id="Open In New Private Tab">
         <source>Open In New Private Tab</source>
+        <target>Відкрити в новій приватній вкладці</target>
         <note>Context menu option for opening a link in a new private tab</note>
       </trans-unit>
       <trans-unit id="Open In New Tab">
         <source>Open In New Tab</source>
+        <target>Відкрити в новій вкладці</target>
         <note>Context menu item for opening a link in a new tab</note>
       </trans-unit>
       <trans-unit id="Open Settings">
         <source>Open Settings</source>
+        <target>Відкрити налаштування</target>
         <note>See http://mzl.la/1G7uHo7</note>
       </trans-unit>
       <trans-unit id="Open articles in Reader View by tapping the book icon when it appears in the title bar.">
         <source>Open articles in Reader View by tapping the book icon when it appears in the title bar.</source>
+        <target>Відкривати статті в режимі для читання шляхом натискання значка книжки, коли вона з'являється в рядку заголовка.</target>
         <note>See http://mzl.la/1LXbDOL</note>
       </trans-unit>
       <trans-unit id="Open in Safari">
         <source>Open in Safari</source>
+        <target>Відкрити в Safari</target>
         <note>Shown in error pages for files that can't be shown and need to be downloaded.</note>
       </trans-unit>
       <trans-unit id="Open in…">
         <source>Open in…</source>
+        <target>Відкрити в...</target>
         <note>String indicating that the file can be opened in another application on the device</note>
+      </trans-unit>
+      <trans-unit id="Pair">
+        <source>Pair</source>
+        <target>З'єднати</target>
+        <note>Sync pair device settings section title</note>
       </trans-unit>
       <trans-unit id="Panel Chooser">
         <source>Panel Chooser</source>
+        <target>Вибір панелей</target>
         <note>Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list).</note>
+      </trans-unit>
+      <trans-unit id="Password Manager">
+        <source>Password Manager</source>
+        <target>Менеджер паролів</target>
+        <note>Accessibility Label for the browser toolbar Password Manager button</note>
+      </trans-unit>
+      <trans-unit id="Password Manager Button">
+        <source>Password Manager Button</source>
+        <target>Кнопка менеджера паролів</target>
+        <note>Setting for behaviour of password manager button</note>
       </trans-unit>
       <trans-unit id="Paste">
         <source>Paste</source>
+        <target>Вставити</target>
         <note>Paste the URL into the location bar</note>
       </trans-unit>
       <trans-unit id="Paste &amp; Go">
         <source>Paste &amp; Go</source>
+        <target>Вставити та відкрити</target>
         <note>Paste the URL into the location bar and visit</note>
+      </trans-unit>
+      <trans-unit id="Please enter a name for this device">
+        <source>Please enter a name for this device</source>
+        <target>Будь ласка введіть ім'я для цього пристрою</target>
+        <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
         <source>Previous in-page result</source>
+        <target>Попередній результат на сторінці</target>
         <note>Accessibility label for previous result button in Find in Page Toolbar.</note>
       </trans-unit>
       <trans-unit id="Privacy">
         <source>Privacy</source>
+        <target>Конфіденційність</target>
         <note>Settings privacy section title</note>
       </trans-unit>
       <trans-unit id="Privacy Policy">
         <source>Privacy Policy</source>
+        <target>Політика конфіденційності</target>
         <note>Show Brave Browser Privacy Policy page from the Privacy section in the settings.</note>
       </trans-unit>
       <trans-unit id="Private">
         <source>Private</source>
+        <target>Приватний</target>
         <note>Private button title</note>
       </trans-unit>
       <trans-unit id="Private Browsing">
         <source>Private Browsing</source>
+        <target>Приватний перегляд</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Private Browsing Only">
         <source>Private Browsing Only</source>
+        <target>Тільки приватний перегляд</target>
         <note>Setting to keep app in private mode</note>
       </trans-unit>
       <trans-unit id="Private Mode">
         <source>Private Mode</source>
+        <target>Приватний режим</target>
         <note>Accessibility label for toggling on/off private mode</note>
       </trans-unit>
       <trans-unit id="Private mode icon">
         <source>Private mode icon</source>
+        <target>Значок приватного режиму</target>
         <note>Private mode icon next to location string</note>
+      </trans-unit>
+      <trans-unit id="QR Code">
+        <source>QR Code</source>
+        <target>QR код</target>
+        <note>QR Code section title</note>
       </trans-unit>
       <trans-unit id="Quick-search Engines">
         <source>Quick-search Engines</source>
+        <target>Системи швидкого пошуку</target>
         <note>Title for quick-search engines settings section.</note>
+      </trans-unit>
+      <trans-unit id="Reader Mode Settings">
+        <source>Reader Mode Settings</source>
+        <target>Налаштування режиму для читання</target>
+        <note>Name for display settings button in reader mode. Display in the meaning of presentation, not monitor.</note>
       </trans-unit>
       <trans-unit id="Reader View">
         <source>Reader View</source>
+        <target>Режим для читання</target>
         <note>Accessibility label for the Reader View button</note>
       </trans-unit>
       <trans-unit id="Reading list">
         <source>Reading list</source>
+        <target>Список для читання</target>
         <note>Panel accessibility label</note>
       </trans-unit>
       <trans-unit id="Reload">
         <source>Reload</source>
+        <target>Перезавантажити</target>
         <note>Accessibility Label for the browser toolbar Reload button</note>
       </trans-unit>
       <trans-unit id="Reload Page">
         <source>Reload Page</source>
+        <target>Перезавантажити сторінку</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Remove">
         <source>Remove</source>
+        <target>Видалити</target>
         <note>Action button for deleting_history_entries_in_the_history_panel.</note>
       </trans-unit>
       <trans-unit id="Remove from Reading List">
         <source>Remove from Reading List</source>
+        <target>Видалити з листа для читання</target>
         <note>Name for button removing current article from reading list in reader mode</note>
       </trans-unit>
       <trans-unit id="Remove page">
         <source>Remove page</source>
+        <target>Видалити сторінку</target>
         <note>Button shown in editing mode to remove this site from the top sites panel.</note>
+      </trans-unit>
+      <trans-unit id="Remove this device">
+        <source>Remove this device</source>
+        <target>Видалити цей пристрій</target>
+        <note>Sync remove device.</note>
       </trans-unit>
       <trans-unit id="Report a bug">
         <source>Report a bug</source>
+        <target>Повідомити про помилку</target>
         <note>Show mail composer to report a bug.</note>
       </trans-unit>
       <trans-unit id="Reveal">
         <source>Reveal</source>
+        <target>Розкрити</target>
         <note>Reveal password text selection menu item</note>
       </trans-unit>
       <trans-unit id="Sans-serif">
         <source>Sans-serif</source>
+        <target>Sans-serif</target>
         <note>Font type setting in the reading view settings</note>
       </trans-unit>
       <trans-unit id="Save Image">
         <source>Save Image</source>
+        <target>Зберегти зображення</target>
         <note>Context menu item for saving an image</note>
       </trans-unit>
       <trans-unit id="Save Login">
         <source>Save Login</source>
+        <target>Зберегти логін</target>
         <note>Button to save the user's password</note>
       </trans-unit>
       <trans-unit id="Save Logins">
         <source>Save Logins</source>
+        <target>Зберегти логіни</target>
         <note>Setting to enable the built-in password manager</note>
       </trans-unit>
       <trans-unit id="Save login %@ for %@?">
         <source>Save login %1$@ for %2$@?</source>
+        <target>Зберегти логіни з %1$@ до %2$@?</target>
         <note>Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site.</note>
       </trans-unit>
       <trans-unit id="Save pages to your Reading List by tapping the book plus icon in the Reader View controls.">
         <source>Save pages to your Reading List by tapping the book plus icon in the Reader View controls.</source>
+        <target>Зберігати сторінки у список для читання шляхом натискання значка книги з плюсом в керуванні режимом для читання.</target>
         <note>See http://mzl.la/1LXbDOL</note>
       </trans-unit>
       <trans-unit id="Save password for %@?">
         <source>Save password for %@?</source>
+        <target>Зберегти пароль для %@?</target>
         <note>Prompt for saving a password with no username. The parameter is the hostname of the site.</note>
       </trans-unit>
       <trans-unit id="Saved Logins">
         <source>Saved Logins</source>
+        <target>Збережені логіни</target>
         <note>Settings item for clearing passwords and login data</note>
+      </trans-unit>
+      <trans-unit id="Scan or enter code">
+        <source>Scan or enter code</source>
+        <target>Отсканувати або ввести код</target>
+        <note>Scan sync code button title</note>
       </trans-unit>
       <trans-unit id="Scripts Blocked">
         <source>Scripts Blocked</source>
+        <target>Блоковано скриптів</target>
         <note>individual blocking statistic title</note>
       </trans-unit>
       <trans-unit id="Search">
         <source>Search</source>
+        <target>Пошук</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search Input Field">
         <source>Search Input Field</source>
+        <target>Шукати введене поле</target>
         <note>Accessibility label for the search input field in the Logins list</note>
       </trans-unit>
       <trans-unit id="Search Settings">
         <source>Search Settings</source>
+        <target>Налаштування пошуку</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search in page">
+        <source>Search in page</source>
+        <target>Пошук на сторінці</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search or enter address">
         <source>Search or enter address</source>
+        <target>Шукати або вводити адресу</target>
         <note>The text shown in the URL bar on about:home</note>
       </trans-unit>
       <trans-unit id="Search suggestions from %@">
         <source>Search suggestions from %@</source>
+        <target>Шукати пропозиції з %@</target>
         <note>Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \&quot;%@\&quot; is the name of the search engine. E.g.: Search suggestions from Google</note>
       </trans-unit>
       <trans-unit id="Searches for the suggestion">
         <source>Searches for the suggestion</source>
+        <target>Результати пошуку для пропозиції</target>
         <note>Accessibility hint describing the action performed when a search suggestion is clicked</note>
       </trans-unit>
       <trans-unit id="Secure connection">
         <source>Secure connection</source>
+        <target>Захищене з'єднання</target>
         <note>Accessibility label for the lock icon, which is only present if the connection is secure</note>
       </trans-unit>
       <trans-unit id="Select All">
         <source>Select All</source>
+        <target>Виділити все</target>
         <note>Title for selecting all logins</note>
       </trans-unit>
       <trans-unit id="Select Location Bar">
         <source>Select Location Bar</source>
+        <target>Вибрати розташування панелі інструментів</target>
         <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Send crash reports and metrics">
+        <source>Send crash reports and metrics</source>
+        <target>Відсилання звітів про збої та метрик</target>
+        <note>option in settings screen</note>
       </trans-unit>
       <trans-unit id="Sepia">
         <source>Sepia</source>
+        <target>Сепія</target>
         <note>Sepia theme setting in Reading View settings</note>
       </trans-unit>
       <trans-unit id="Serif">
         <source>Serif</source>
+        <target>Serif</target>
         <note>Font type setting in the reading view settings</note>
       </trans-unit>
       <trans-unit id="Settings">
         <source>Settings</source>
+        <target>Налаштування</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Share">
         <source>Share</source>
+        <target>Поділитись</target>
         <note>Accessibility Label for the browser toolbar Share button</note>
       </trans-unit>
       <trans-unit id="Share Link">
         <source>Share Link</source>
+        <target>Поділитись посиланням</target>
         <note>Context menu item for sharing a link URL</note>
       </trans-unit>
       <trans-unit id="Shields Down">
         <source>Shields Down</source>
+        <target>Вимк. щити</target>
         <note>message shown briefly in URL bar</note>
       </trans-unit>
       <trans-unit id="Shields Up">
         <source>Shields Up</source>
+        <target>Увімкн. щити</target>
         <note>message shown briefly in URL bar</note>
       </trans-unit>
       <trans-unit id="Show Bookmarks">
         <source>Show Bookmarks</source>
+        <target>Показати закладки</target>
         <note>Button to show the bookmarks list</note>
       </trans-unit>
       <trans-unit id="Show History">
         <source>Show History</source>
+        <target>Показати історію</target>
         <note>Button to show the history list</note>
       </trans-unit>
       <trans-unit id="Show Next Tab">
         <source>Show Next Tab</source>
+        <target>Показати наступну вкладку</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Show Previous Tab">
         <source>Show Previous Tab</source>
+        <target>Показати попередню вкладку</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Show Search Suggestions">
         <source>Show Search Suggestions</source>
+        <target>Показати пропозиції пошуку</target>
         <note>Label for show search suggestions setting.</note>
       </trans-unit>
       <trans-unit id="Show Tabs">
         <source>Show Tabs</source>
+        <target>Показати вкладки</target>
         <note>Accessibility Label for the tabs button in the browser toolbar</note>
       </trans-unit>
       <trans-unit id="Show Tabs Bar">
         <source>Show Tabs Bar</source>
+        <target>Показати панель вкладок</target>
         <note>Setting to show/hide the tabs bar</note>
       </trans-unit>
       <trans-unit id="Show Tour">
         <source>Show Tour</source>
+        <target> Показати введення</target>
         <note>Show the on-boarding screen again from the settings</note>
-      </trans-unit>
-      <trans-unit id="Show a prompt to open your password manager when the current page has a login form.">
-        <source>Show a prompt to open your password manager when the current page has a login form.</source>
-        <note>Footer message on picker for 3rd party password manager setting</note>
       </trans-unit>
       <trans-unit id="Show in landscape only">
         <source>Show in landscape only</source>
+        <target>Показувати тільки в горизонтальному режимі</target>
         <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
+        <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
+        <target>Щити сайту дозволяють керувати коли реклама та трекери блокуються для кожного відвідуємого сайту. Ви можете ввімкнути рекламу тут, якщо бажаєте її бачити.</target>
+        <note>shields overview message</note>
       </trans-unit>
       <trans-unit id="Site shield settings">
         <source>Site shield settings</source>
+        <target>Налаштування щитів сторінки</target>
         <note>Brave panel topmost title</note>
       </trans-unit>
       <trans-unit id="Start Browsing">
         <source>Start Browsing</source>
+        <target>Розпочати перегляд</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Stop">
         <source>Stop</source>
+        <target>Зупинити</target>
         <note>Accessibility Label for the browser toolbar Stop button</note>
       </trans-unit>
       <trans-unit id="Support">
         <source>Support</source>
+        <target>Підтримка</target>
         <note>Support section title</note>
       </trans-unit>
       <trans-unit id="Swipe right or left with three fingers to close the tab.">
         <source>Swipe right or left with three fingers to close the tab.</source>
+        <target>Проведіть трьома пальцями ліворуч або праворуч щоб закрити вкладку.</target>
         <note>Accessibility hint for tab tray's displayed tab.</note>
+      </trans-unit>
+      <trans-unit id="Sync">
+        <source>Sync</source>
+        <target>Синхронізація</target>
+        <note>Sync settings section title</note>
+      </trans-unit>
+      <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
+        <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <target>Безпечно синхронізуйте дані браузераміж Вашими пристроями,використовуя синхронізацію Brave, без створення облікового запису. Натисніть знизу для початку.</target>
+        <note>Sync settings welcome</note>
+      </trans-unit>
+      <trans-unit id="Sync on this device">
+        <source>Sync on this device</source>
+        <target>Синхронізація на цьому пристрої</target>
+        <note>Sync device settings section title</note>
+      </trans-unit>
+      <trans-unit id="Sync to device">
+        <source>Sync to device</source>
+        <target>Синхронізація до пристрою</target>
+        <note>Sync to existing device</note>
       </trans-unit>
       <trans-unit id="Tab %@ of %@">
         <source>Tab %1$@ of %2$@</source>
+        <target>Вкладка %1$@ з %2$@</target>
         <note>Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \&quot;Tab 2 of 5\&quot; says that tab 2 is visible (and is the only visible tab), out of 5 tabs total.</note>
+      </trans-unit>
+      <trans-unit id="Tabs">
+        <source>Tabs</source>
+        <target>Вкладки</target>
+        <note>Accessibility label for the Tabs.</note>
       </trans-unit>
       <trans-unit id="Tabs %@ to %@ of %@">
         <source>Tabs %1$@ to %2$@ of %3$@</source>
+        <target>Вкладки з %1$@ по %2$@ з %3$@</target>
         <note>Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \&quot;Tabs 8 to 10 of 15\&quot; says tabs 8, 9 and 10 are visible, out of 15 tabs total.</note>
       </trans-unit>
       <trans-unit id="Tabs Tray">
         <source>Tabs Tray</source>
+        <target>Лоток вкладок</target>
         <note>Accessibility label for the Tabs Tray view.</note>
       </trans-unit>
       <trans-unit id="Tap the Brave button to temporarily disable ad blocking and privacy features.">
         <source>Tap the Brave button to temporarily disable ad blocking and privacy features.</source>
+        <target>Натисніть кнопку Brave, щоб тимчасово вимкнути блокування реклами і функції захисту.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
       <trans-unit id="Terms of Use">
         <source>Terms of Use</source>
+        <target>Умови використання</target>
         <note>Show Brave Browser TOS page from the Privacy section in the settings.</note>
       </trans-unit>
       <trans-unit id="The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website.">
         <source>The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website.</source>
+        <target>Власник %@ невірно налаштував свій сайт. Brave не приєднався до цього сайту, щоб захистити Вашу информацію від крадіжки.</target>
         <note>Warning text on the certificate error page</note>
       </trans-unit>
       <trans-unit id="The page could not be displayed in Reader View.">
         <source>The page could not be displayed in Reader View.</source>
+        <target>Ця сторінка не може бути відображена в режимі для читання.</target>
         <note>Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app.</note>
       </trans-unit>
       <trans-unit id="There was an error converting the page">
         <source>There was an error converting the page</source>
+        <target>Виникла помилка в перетворенні сторінки</target>
         <note>Error displayed when reader mode cannot be enabled</note>
       </trans-unit>
       <trans-unit id="This action will clear all of your private data. It cannot be undone.">
         <source>This action will clear all of your private data. It cannot be undone.</source>
+        <target>Ця дія видалить усі Ваші приватні дані. Це неможливо скасувати.</target>
         <note>Description of the confirmation dialog shown when a user tries to clear their private data.</note>
       </trans-unit>
       <trans-unit id="This allows you to save the image to your Camera Roll.">
         <source>This allows you to save the image to your Camera Roll.</source>
+        <target>Це дозволяє зберегти зображення до ВашоЇ колекції з камери.</target>
         <note>See http://mzl.la/1G7uHo7</note>
       </trans-unit>
       <trans-unit id="This folder isn't empty.">
         <source>This folder isn't empty.</source>
+        <target>Ця папка не порожня.</target>
         <note>Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders.</note>
+      </trans-unit>
+      <trans-unit id="This is a Private Tab">
+        <source>This is a Private Tab</source>
+        <target>Це приватна вкладка</target>
+        <note>Private tab title</note>
       </trans-unit>
       <trans-unit id="Today">
         <source>Today</source>
+        <target>Сьогодні</target>
         <note>History tableview section header</note>
       </trans-unit>
       <trans-unit id="Top sites">
         <source>Top sites</source>
+        <target>Кращі сайти</target>
         <note>Panel accessibility label</note>
       </trans-unit>
       <trans-unit id="Try again">
         <source>Try again</source>
+        <target>Спробуйте ще</target>
         <note>Shown in error pages on a button that will try to load the page again</note>
       </trans-unit>
       <trans-unit id="Turn on search suggestions?">
         <source>Turn on search suggestions?</source>
+        <target>Ввімкнути пропозиції пошуку?</target>
         <note>Prompt shown before enabling provider search queries</note>
       </trans-unit>
       <trans-unit id="Turns private mode on or off">
         <source>Turns private mode on or off</source>
+        <target>Вмикає або вимикає приватний режим</target>
         <note>Accessiblity hint for toggling on/off private mode</note>
       </trans-unit>
       <trans-unit id="URL">
         <source>URL</source>
+        <target>URL</target>
         <note>Bookmark URL</note>
+      </trans-unit>
+      <trans-unit id="Unable to create new sync group.">
+        <source>Unable to create new sync group.</source>
+        <target>Неможливо створити нову групу синхронізації.</target>
+        <note>Description on popup when setting up a sync group fails</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
         <source>Unsorted Bookmarks</source>
+        <target>Несортовані закладки</target>
         <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Unsuccessful">
+        <source>Unsuccessful</source>
+        <target>Неуспішно</target>
+        <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">
         <source>Untitled</source>
+        <target>Без заголовку</target>
         <note>The default name for bookmark item without titles.</note>
       </trans-unit>
       <trans-unit id="Up">
         <source>Up</source>
+        <target>Ввімкн.</target>
         <note>brave shield on/off toggle on state</note>
       </trans-unit>
       <trans-unit id="Update">
         <source>Update</source>
+        <target>Оновити</target>
         <note>Button to update the user's password</note>
       </trans-unit>
       <trans-unit id="Update login %@ for %@?">
         <source>Update login %1$@ for %2$@?</source>
+        <target>Оновити логіни з %1$@ до %2$@?</target>
         <note>Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site.</note>
       </trans-unit>
       <trans-unit id="Update password for %@?">
         <source>Update password for %@?</source>
+        <target>Оновити пароль для %@?</target>
         <note>Prompt for updating a password with no username. The parameter is the hostname of the site.</note>
+      </trans-unit>
+      <trans-unit id="Use regional adblock">
+        <source>Use regional adblock</source>
+        <target>Використовувати блокування регіональної реклами</target>
+        <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
+      </trans-unit>
+      <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
+        <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <target>Використовуючи інший пристрій, перейдіть до Налаштування Brave &gt; Синхронізація. Отскануйте QR код (вище) за допомогою другого пристрою, або якщо камера недоступна,  введіть кодові слова.</target>
+        <note>Sync add device description</note>
+      </trans-unit>
+      <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
+        <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <target>Використовуючи існуючий синхронізований пристрій, відкрийте налаштування Brave і перейдіть в розділ Синхронізація, натисніть синхронізувати новий пристрій та отримайте код синхронізації.</target>
+        <note>Sync to existing device description</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">
         <source>Version %1$@ (%2$@)</source>
+        <target>Версія %1$@ (%2$@)</target>
         <note>Version number of Brave shown in settings</note>
       </trans-unit>
       <trans-unit id="Visit site anyway">
         <source>Visit site anyway</source>
+        <target>Відвідати веб-сайт в будь-якому випадку</target>
         <note>Button label to temporarily continue to the site from the certificate error page</note>
       </trans-unit>
       <trans-unit id="Warning: we can't confirm your connection to this website is secure.">
         <source>Warning: we can't confirm your connection to this website is secure.</source>
+        <target>Увага: ми не можемо підтвердити що ваше підключення до цього веб-сайту безпечне.</target>
         <note>Warning text when clicking the Advanced button on error pages</note>
       </trans-unit>
       <trans-unit id="Web content">
         <source>Web content</source>
+        <target>Вміст мережі</target>
         <note>Accessibility label for the main web content view</note>
       </trans-unit>
       <trans-unit id="Welcome to Brave.">
         <source>Welcome to Brave.</source>
+        <target>Ласкаво просимо в Brave.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
       <trans-unit id="Welcome to Top Sites">
         <source>Welcome to Top Sites</source>
+        <target> Ласкаво просимо до кращих сайтів</target>
         <note>The title for the empty Top Sites state</note>
       </trans-unit>
       <trans-unit id="Welcome to your Reading List">
         <source>Welcome to your Reading List</source>
+        <target>Ласкаво просимо до Вашого списку для читання</target>
         <note>See http://mzl.la/1LXbDOL</note>
       </trans-unit>
       <trans-unit id="When Leaving Private Browsing">
         <source>When Leaving Private Browsing</source>
+        <target>Коли залишаєте приватний перегляд</target>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
       </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>
+        <target>Так</target>
         <note>For search suggestions prompt. This string should be short so it fits nicely on the prompt row.</note>
       </trans-unit>
       <trans-unit id="Yesterday">
         <source>Yesterday</source>
+        <target>Вчора</target>
         <note>History tableview section header</note>
+      </trans-unit>
+      <trans-unit id="You can choose to show a popup to pick your password manager, or have the selected one open automatically.">
+        <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
+        <target>Ви можете вибрати чи показувати спливаюче вікно для вибору менеджера паролів, чи викорустовувати вибраний автоматично.</target>
+        <note>Footer message on picker for 3rd party password manager setting</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
         <source>Your connection is not private</source>
+        <target>Ваше з'єднання не приватне</target>
         <note>Title on the certificate error page</note>
       </trans-unit>
       <trans-unit id="Your most visited sites will show up here.">
         <source>Your most visited sites will show up here.</source>
+        <target>Тут будуть відображатися найбільш часто відвідувані сайти.</target>
         <note>Description label for the empty Top Sites state.</note>
       </trans-unit>
       <trans-unit id="just now">
         <source>just now</source>
+        <target>Щойно</target>
         <note>Relative time for a tab that was visited within the last few moments.</note>
       </trans-unit>
       <trans-unit id="more than a month ago">
         <source>more than a month ago</source>
+        <target>більше ніж місяць потому</target>
         <note>Relative date for dates older than a month and less than two months.</note>
       </trans-unit>
       <trans-unit id="more than a week ago">
         <source>more than a week ago</source>
+        <target>більш ніж тиждень потому</target>
         <note>Description for a date more than a week ago, but less than a month ago.</note>
       </trans-unit>
       <trans-unit id="password">
         <source>password</source>
+        <target>пароль</target>
         <note>Title for password row in Login Detail View</note>
       </trans-unit>
       <trans-unit id="read">
         <source>read</source>
+        <target>читати</target>
         <note>Accessibility label for read article in reading list. It's a past participle - functions as an adjective.</note>
       </trans-unit>
       <trans-unit id="this week">
         <source>this week</source>
+        <target>цього тижня</target>
         <note>Relative date for date in past week.</note>
       </trans-unit>
       <trans-unit id="today at %@">
         <source>today at %@</source>
+        <target>Сьогодні в %@</target>
         <note>Relative date for date older than a minute.</note>
       </trans-unit>
       <trans-unit id="unread">
         <source>unread</source>
+        <target>непрочитане</target>
         <note>Accessibility label for unread article in reading list. It's a past participle - functions as an adjective.</note>
       </trans-unit>
       <trans-unit id="username">
         <source>username</source>
+        <target>користувач</target>
         <note>Title for username row in Login Detail View</note>
       </trans-unit>
       <trans-unit id="website">
         <source>website</source>
+        <target>веб-сайт</target>
         <note>Title for website row in Login Detail View</note>
       </trans-unit>
     </body>
   </file>
   <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="uk">
     <header>
-      <tool build-num="8A218a" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.0"/>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -1111,23 +1428,27 @@ Protection</source>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="uk">
     <header>
-      <tool build-num="8A218a" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.0"/>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">
         <source>Accept &amp; Continue</source>
+        <target>Прийняти і продовжити</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="By using this application, you agree to Brave’s Terms of Use.">
         <source>By using this application, you agree to Brave’s Terms of Use.</source>
+        <target>Використовуя цей додаток, Ви погоджуєтесь на умови використання Brave.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Help make Brave better by sending usage statistics and crash reports to us.">
         <source>Help make Brave better by sending usage statistics and crash reports to us.</source>
+        <target>Допоможи зробити Brave краще, відправляючи нам статистику використання та звіти про помилки.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Terms of Use.">
         <source>Terms of Use.</source>
+        <target>Умови використання.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
     </body>

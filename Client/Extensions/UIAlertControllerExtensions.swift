@@ -71,4 +71,78 @@ extension UIAlertController {
 
         return deleteAlert
     }
+    
+    
+    // Enabled this facade for much easier discoverability, instead of using class directly
+    /**
+     Creates an alert view to collect a string from the user
+     
+     - parameter title: String to display as the alert title.
+     - parameter message: String to display as the alert message.
+     - parameter startingText: String to prefill the textfield with.
+     - parameter placeholder: String to use for the placeholder text on the text field.
+     - parameter forcedInput: Bool whether the user needs to enter _something_ in order to enable OK button.
+     - paramter callbackOnMain: Block to run on main thread when the user performs an action.
+     
+     - returns: UIAlertController instance
+     */
+    class func userTextInputAlert(title: String, message: String, startingText: String? = nil, placeholder: String? = Strings.Name, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) -> UIAlertController {
+        // Returning alert, so no external, strong reference to initial instance
+        return UserTextInputAlert(title: title, message: message, startingText: startingText, placeholder: placeholder, forcedInput: forcedInput, callbackOnMain: callbackOnMain).alert
+    }
 }
+
+// Not part of extension due to needing observing
+// Would make private but objc runtime cannot find textfield observing callback
+class UserTextInputAlert {
+    private weak var okAction: UIAlertAction!
+    private(set) var alert: UIAlertController!
+    
+    required init(title: String, message: String, startingText: String?, placeholder: String?, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) {
+        
+        alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        func actionSelected(input: String?) {
+            postAsyncToMain {
+                callbackOnMain(input)
+            }
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextFieldTextDidChange, object: alert.textFields?.first)
+        }
+        
+        self.okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default) { (alertA: UIAlertAction!) in
+            actionSelected(input: self.alert.textFields?.first?.text)
+        }
+        
+        let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel) { (alertA: UIAlertAction!) in
+            actionSelected(input: nil)
+        }
+        
+        self.okAction.isEnabled = !forcedInput
+        
+        alert.addAction(self.okAction)
+        alert.addAction(cancelAction)
+        
+        alert.addTextField {
+            textField in
+            textField.placeholder = placeholder
+            textField.isSecureTextEntry = false
+            textField.keyboardAppearance = .dark
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .default
+            textField.returnKeyType = .done
+            textField.text = startingText
+            
+            if forcedInput {
+                NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(notification:)), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
+            }
+        }
+    }
+    
+    @objc func notificationReceived(notification: NSNotification) {
+        if let textField = notification.object as? UITextField, let emptyText = textField.text?.isEmpty {
+            okAction.isEnabled = !emptyText
+        }
+    }
+}
+
+

@@ -5,20 +5,13 @@ import Shared
 let TabsBarHeight = CGFloat(29)
 
 extension UILabel {
-    func boldRange(_ range: Range<String.Index>) {
+    func bold(range: ClosedRange<String.Index>) {
         if let text = self.attributedText {
             let attr = NSMutableAttributedString(attributedString: text)
             let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
-            let length = 3 // range.distance(from: range.lowerBound, to: range.upperBound)
+            let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
             attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: self.font.pointSize)], range: NSMakeRange(start, length))
             self.attributedText = attr
-        }
-    }
-
-    func boldSubstring(_ substr: String) {
-        let range = self.text?.range(of: substr)
-        if let r = range {
-            boldRange(r)
         }
     }
 }
@@ -476,11 +469,10 @@ class BraveURLBarView : URLBarView {
         v.rightInset = CGFloat(40)
         v.text = braveButton.isSelected ? Strings.Shields_Up : Strings.Shields_Down
         if v.text!.endsWith(" Up") || v.text!.endsWith(" Down") {
-            // english translation gets bolded text
-            if var range = v.text!.range(of: " ", options:NSString.CompareOptions.backwards) {
-                // Seems odd, should be able ot just adjust `upperBound`
-//                range = range.lowerBound...v.text!.characters.count
-                v.boldRange(range)
+            // English translation gets bolded text
+            if let range = v.text!.range(of: " ", options:NSString.CompareOptions.backwards) {
+                let closedRange = range.lowerBound...v.text!.index(range.lowerBound, offsetBy: v.text!.characters.count)
+                v.bold(range: closedRange)
             }
         }
 

@@ -663,7 +663,6 @@ class BrowserViewController: UIViewController {
         }
     }
 
-    
     func finishEditingAndSubmit(_ url: URL) {
         guard let tab = tabManager.selectedTab else {
             return
@@ -692,7 +691,7 @@ class BrowserViewController: UIViewController {
     }
 
     func removeBookmark(_ url: URL) {
-        if Bookmark.remove(forUrl: url) {
+        if Bookmark.remove(forUrl: url, context: DataController.moc) {
             self.urlBar.updateBookmarkStatus(false)
         }
     }
@@ -781,7 +780,7 @@ class BrowserViewController: UIViewController {
             update()
         } else {
             PrivateBrowsing.singleton.exit().uponQueue(DispatchQueue.main) {
-                self.tabManager.restoreTabs()
+                let _ = self.tabManager.restoreTabs
                 update()
             }
         }

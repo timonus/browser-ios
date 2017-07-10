@@ -34,6 +34,7 @@ protocol BrowserToolbarDelegate: class {
     func browserToolbarDidPressForward(_ browserToolbar: BrowserToolbarProtocol, button: UIButton)
     func browserToolbarDidPressBookmark(_ browserToolbar: BrowserToolbarProtocol, button: UIButton)
     func browserToolbarDidPressShare(_ browserToolbar: BrowserToolbarProtocol, button: UIButton)
+    func browserToolbarDidPressPwdMgr(browserToolbar: BrowserToolbarProtocol, button: UIButton)
 }
 
 @objc
@@ -76,6 +77,7 @@ open class BrowserToolbarHelper: NSObject {
         toolbar.pwdMgrButton.isHidden = true
         toolbar.pwdMgrButton.tintColor = UIColor.white
         toolbar.pwdMgrButton.accessibilityLabel = Strings.PasswordManager
+        toolbar.pwdMgrButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickPwdMgr), for: UIControlEvents.touchUpInside)
 
         setTintColor(buttonTintColor, forButtons: toolbar.actionButtons)
     }
@@ -96,6 +98,10 @@ open class BrowserToolbarHelper: NSObject {
         let app = UIApplication.shared.delegate as! AppDelegate
         app.tabManager.addTabAndSelect()
         app.browserViewController.urlBar.browserLocationViewDidTapLocation(app.browserViewController.urlBar.locationView)
+    }
+    
+    func SELdidClickPwdMgr() {
+        toolbar.browserToolbarDelegate?.browserToolbarDidPressPwdMgr(browserToolbar: toolbar, button: toolbar.pwdMgrButton)
     }
 }
 

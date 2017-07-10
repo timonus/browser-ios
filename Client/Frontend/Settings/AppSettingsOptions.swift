@@ -183,8 +183,8 @@ class SyncDeviceSetting: Setting {
     
     override var accessibilityIdentifier: String? { return "SyncDevice" }
     
-    init(settings: SettingsTableViewController, title: String) {
-        self.profile = settings.profile
+    init(profile profile: Profile, title: String) {
+        self.profile = profile
         self.displayTitle = title
         super.init(title: NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
     }
@@ -205,17 +205,17 @@ class RemoveDeviceSetting: Setting {
     
     override var textAlignment: NSTextAlignment { return .center }
     
-    init(settings: SettingsTableViewController) {
-        self.profile = settings.profile
+    init(profile: Profile) {
+        self.profile = profile
         let clearTitle = Strings.SyncRemoveThisDevice
         super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIColor.red, NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular)]))
     }
     
     override func onClick(_ navigationController: UINavigationController?) {
         
-        let alert = UIAlertController(title: "Remove this Device?", message: "This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.destructive) { action in
+        let alert = UIAlertController(title: Strings.SyncRemoveThisDeviceQuestion, message: Strings.SyncRemoveThisDeviceQuestionDesc, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: Strings.Remove, style: UIAlertActionStyle.destructive) { action in
             Sync.shared.leaveSyncGroup()
             navigationController?.popToRootViewController(animated: true)
         })

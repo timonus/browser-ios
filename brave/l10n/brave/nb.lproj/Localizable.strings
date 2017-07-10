@@ -1,4 +1,278 @@
+/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
+/* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+/* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+/* Button for reader mode font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+/* About settings section title */
+/* Button to add a bookmark */
+/* Add device to sync */
+/* Accessibility label for the Add Tab button in the Tab Tray. */
+/* Accessibility label for action adding current page to reading list. */
+/* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
+/* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
+/* individual blocking statistic title */
+/* Label for button to perform advanced actions on the error page */
+/* Ask user if site can open iTunes store URL */
+/* tabs bar show/hide option */
+/* Message shown in the dialog prompting users if they want to clear everything */
+/* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
+/* No comment provided by engineer. */
+/* Accessibility Label for the browser toolbar Back button */
+/* cookie settings option */
+/* No comment provided by engineer. */
+/* Brave panel individual toggle title */
+/* No comment provided by engineer. */
+/* Block pop-up windows setting */
+/* Setting to enable popup blocking */
+/* No comment provided by engineer. */
+/* cookie settings option */
+/* title for section showing page blocking statistics */
+/* Accessibility Label for the browser toolbar Bookmark button */
+/* Bookmark Folder Section Title */
+/* Bookmark Info Section Title */
+/* title for bookmarks panel */
+/* The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android. */
+/* The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android. */
+/* Button to show the bookmarks and history panel */
+/* Button to show the brave panel */
+/* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
+/* Brave sync page title */
+/* Shown in intro screens */
+/* email subject */
+/* Shown in intro screens */
+/* Shown in intro screens */
+/* No comment provided by engineer. */
+/* See http://mzl.la/1G7uHo7 */
+/* Accessibility label for brightness adjustment slider in Reader Mode display settings */
+/* Shown in intro screens */
+/* Settings item for clearing browsing history */
+/* Settings item for clearing the cache */
+/* Alert Call Button */
+/* No comment provided by engineer. */
+/* Accessibility hint for the color theme setting buttons in reader mode display settings */
+/* Accessibility hint for the font type buttons in reader mode display settings */
+/* Sync device settings footer details */
+/* Used as a button label in the dialog to Clear private data dialog */
+/* Title of the Clear private data dialog. */
+/* Button in settings that clears private data for the selected items. Also used as section title in settings panel */
+/* No comment provided by engineer. */
+/* Accessibility label for action denoting closing a tab in tab list (tray) */
+/* Setting for closing private tabs */
 /* No comment provided by engineer. */
 /* No comment provided by engineer. */
+/* Code words section title */
+/* Cookie settings option title */
+/* Settings item for clearing cookies */
+/* No comment provided by engineer. */
+/* Copy the URL from the location bar */
+/* Context menu item for copying an image to the clipboard */
+/* Context menu item for copying a link URL to the clipboard */
+/* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
+/* Dark theme setting in Reading View settings */
+/* Accessibility label for button decreasing font size in display settings of reader mode */
+/* Open search section of settings */
+/* No comment provided by engineer. */
+/* Title for deselecting all selected logins */
+/* The folder name for the virtual folder that contains all desktop bookmarks. */
+/* Title for new device popup */
+/* Sync device settings page title. */
+/* Sync you browser settings across devices. */
+/* cookie settings option */
+/* No comment provided by engineer. */
+/* Button to not save the user's password */
+/* brave shield on/off toggle off state */
+/* No comment provided by engineer. */
+/* Accessibility label for entering search mode for logins */
+/* Sync enter code words */
+/* Enter sync code words below */
+/* Description for new folder popup */
+/* Private tab details */
+/* No comment provided by engineer. */
+/* Find text in page. */
+/* Share action title */
+/* individual blocking statistic title */
+/* No comment provided by engineer. */
+/* blocking stat title */
+/* Folder */
+/* Accessibility Label for the browser toolbar Forward button */
+/* General settings section title */
+/* New sync code button title */
+/* Shown in intro screens */
+/* Label for button to go back from the error page */
+/* Grand camera access */
+/* No comment provided by engineer. */
+/* individual blocking statistic title */
+/* Hide password text selection menu item */
+/* Panel accessibility label */
+/* Shown in intro screens */
+/* Accessibility label for button increasing font size in display settings of reader mode */
+/* title for per-site shield toggles */
+/* Accessibility label for the introduction tour carousel */
+/* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
+/* Additional warning text when clicking the Advanced button on error pages */
+/* Footer label describing when the login was last modified with the timestamp as the parameter */
+/* History tableview section header */
+/* History tableview section header */
+/* Text button displayed when there are no tabs open while in private mode */
+/* Private tab information link */
+/* Light theme setting in Reading View settings */
+/* Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+/* Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app. */
+/* Bookmark folder location */
+/* Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager. */
 /* No comment provided by engineer. */
 /* No comment provided by engineer. */
+/* Name for Mark as read button in reader mode */
+/* Name for Mark as unread button in reader mode */
+/* The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android. */
+/* Bookmark title / Device name */
+/* Accessibility label for the navigation toolbar displayed at the bottom of the screen. */
+/* tabs bar show/hide option */
+/* Title for new folder popup */
+/* No comment provided by engineer. */
+/* No comment provided by engineer. */
+/* Accessibility label for next result button in Find in Page Toolbar. */
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+/* Title displayed when no logins are found after searching */
+/* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
+/* shields overview footer message */
+/* OK button */
+/* Toggled OFF accessibility value */
+/* Settings item for clearing website data */
+/* Toggled ON accessibility value */
+/* Open and Fill website text selection menu item */
+/* Share action title */
+/* Context menu for opening image in new tab */
+/* Context menu option for opening a link in a new private tab */
+/* Context menu item for opening a link in a new tab */
+/* See http://mzl.la/1G7uHo7 */
+/* See http://mzl.la/1LXbDOL */
+/* Shown in error pages for files that can't be shown and need to be downloaded. */
+/* String indicating that the file can be opened in another application on the device */
+/* Sync pair device settings section title */
+/* Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list). */
+/* Accessibility Label for the browser toolbar Password Manager button */
+/* Setting for behaviour of password manager button */
+/* Paste the URL into the location bar */
+/* Paste the URL into the location bar and visit */
+/* Description for new device popup */
+/* Accessibility label for previous result button in Find in Page Toolbar. */
+/* Settings privacy section title */
+/* Show Brave Browser Privacy Policy page from the Privacy section in the settings. */
+/* Private button title */
+/* No comment provided by engineer. */
+/* Setting to keep app in private mode */
+/* Accessibility label for toggling on/off private mode */
+/* Private mode icon next to location string */
+/* QR Code section title */
+/* Title for quick-search engines settings section. */
+/* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
+/* Accessibility label for the Reader View button */
+/* Panel accessibility label */
+/* Accessibility Label for the browser toolbar Reload button */
+/* No comment provided by engineer. */
+/* Action button for deleting_history_entries_in_the_history_panel. */
+/* Name for button removing current article from reading list in reader mode */
+/* Button shown in editing mode to remove this site from the top sites panel. */
+/* Sync remove device. */
+/* Show mail composer to report a bug. */
+/* Reveal password text selection menu item */
+/* Font type setting in the reading view settings */
+/* Context menu item for saving an image */
+/* Button to save the user's password */
+/* Setting to enable the built-in password manager */
+/* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
+/* See http://mzl.la/1LXbDOL */
+/* Prompt for saving a password with no username. The parameter is the hostname of the site. */
+/* Settings item for clearing passwords and login data */
+/* Scan sync code button title */
+/* individual blocking statistic title */
+/* No comment provided by engineer. */
+/* Accessibility label for the search input field in the Logins list */
+/* No comment provided by engineer. */
+/* No comment provided by engineer. */
+/* The text shown in the URL bar on about:home */
+/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
+/* Accessibility hint describing the action performed when a search suggestion is clicked */
+/* Accessibility label for the lock icon, which is only present if the connection is secure */
+/* Title for selecting all logins */
+/* No comment provided by engineer. */
+/* option in settings screen */
+/* Sepia theme setting in Reading View settings */
+/* Font type setting in the reading view settings */
+/* No comment provided by engineer. */
+/* Accessibility Label for the browser toolbar Share button */
+/* Context menu item for sharing a link URL */
+/* message shown briefly in URL bar */
+/* message shown briefly in URL bar */
+/* Button to show the bookmarks list */
+/* Button to show the history list */
+/* No comment provided by engineer. */
+/* No comment provided by engineer. */
+/* Label for show search suggestions setting. */
+/* Accessibility Label for the tabs button in the browser toolbar */
+/* Setting to show/hide the tabs bar */
+/* Show the on-boarding screen again from the settings */
+/* tabs bar show/hide option */
+/* shields overview message */
+/* Brave panel topmost title */
+/* No comment provided by engineer. */
+/* Accessibility Label for the browser toolbar Stop button */
+/* Support section title */
+/* Accessibility hint for tab tray's displayed tab. */
+/* Sync settings section title */
+/* Sync settings welcome */
+/* Sync device settings section title */
+/* Sync to existing device */
+/* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
+/* Accessibility label for the Tabs. */
+/* Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \"Tabs 8 to 10 of 15\" says tabs 8, 9 and 10 are visible, out of 15 tabs total. */
+/* Accessibility label for the Tabs Tray view. */
+/* Shown in intro screens */
+/* Show Brave Browser TOS page from the Privacy section in the settings. */
+/* Warning text on the certificate error page */
+/* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+/* Error displayed when reader mode cannot be enabled */
+/* Description of the confirmation dialog shown when a user tries to clear their private data. */
+/* See http://mzl.la/1G7uHo7 */
+/* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
+/* Private tab title */
+/* History tableview section header */
+/* Panel accessibility label */
+/* Shown in error pages on a button that will try to load the page again */
+/* Prompt shown before enabling provider search queries */
+/* Accessiblity hint for toggling on/off private mode */
+/* Bookmark URL */
+/* Description on popup when setting up a sync group fails */
+/* The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android. */
+/* No comment provided by engineer. */
+/* The default name for bookmark item without titles. */
+/* brave shield on/off toggle on state */
+/* Button to update the user's password */
+/* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
+/* Prompt for updating a password with no username. The parameter is the hostname of the site. */
+/* Setting to allow user in non-english locale to use adblock rules specifc to their language */
+/* Sync add device description */
+/* Sync to existing device description */
+/* Version number of Brave shown in settings */
+/* Button label to temporarily continue to the site from the certificate error page */
+/* Warning text when clicking the Advanced button on error pages */
+/* Accessibility label for the main web content view */
+/* Shown in intro screens */
+/* The title for the empty Top Sites state */
+/* See http://mzl.la/1LXbDOL */
+/* Will be displayed in Settings under 'Close Private Tabs' */
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+/* History tableview section header */
+/* Footer message on picker for 3rd party password manager setting */
+/* Title on the certificate error page */
+/* Description label for the empty Top Sites state. */
+/* Relative time for a tab that was visited within the last few moments. */
+/* Relative date for dates older than a month and less than two months. */
+/* Description for a date more than a week ago, but less than a month ago. */
+/* Title for password row in Login Detail View */
+/* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
+/* Relative date for date in past week. */
+/* Relative date for date older than a minute. */
+/* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
+/* Title for username row in Login Detail View */
+/* Title for website row in Login Detail View */

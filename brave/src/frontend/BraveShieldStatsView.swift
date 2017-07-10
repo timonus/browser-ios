@@ -1,9 +1,9 @@
-//
-//  BraveShieldStatsView.swift
-//  Client
-//
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
+import Shared
 
 class BraveShieldStatsView: UIView {
     fileprivate let millisecondsPerItem = 50
@@ -11,28 +11,28 @@ class BraveShieldStatsView: UIView {
     
     lazy var adsStatView: StatView = {
         let statView = StatView(frame: CGRect.zero)
-        statView.title = "Ads \rBlocked"
+        statView.title = Strings.ShieldsAdStats
         statView.color = UIColor(red: 242/255.0, green: 142/255.0, blue: 45/255.0, alpha: 1.0)
         return statView
     }()
 
     lazy var trackersStatView: StatView = {
         let statView = StatView(frame: CGRect.zero)
-        statView.title = "Trackers \rBlocked"
+        statView.title = Strings.ShieldsTrackerStats
         statView.color = UIColor(red: 234/255.0, green: 58/255.0, blue: 58/255.0, alpha: 1.0)
         return statView
     }()
 
     lazy var httpsStatView: StatView = {
         let statView = StatView(frame: CGRect.zero)
-        statView.title = "HTTPS \rUpgrades"
+        statView.title = Strings.ShieldsHttpsStats
         statView.color = UIColor(red: 25/255.0, green: 152/255.0, blue: 252/255.0, alpha: 1.0)
         return statView
     }()
 
     lazy var timeStatView: StatView = {
         let statView = StatView(frame: CGRect.zero)
-        statView.title = "Est. Time \rSaved"
+        statView.title = Strings.ShieldsTimeStats
         // Color dynamically set in controller: TopSitesPanel, should be abstracted
         statView.color = PrivateBrowsing.singleton.isOn ? .white : .black
         return statView
@@ -84,10 +84,10 @@ class BraveShieldStatsView: UIView {
     }
     
     func update() {
-//        adsStatView.stat = BraveGlobalShieldStats.singleton.adblock.formatUsingAbbrevation()
-//        trackersStatView.stat = BraveGlobalShieldStats.singleton.trackingProtection.formatUsingAbbrevation()
-//        httpsStatView.stat = BraveGlobalShieldStats.singleton.httpse.formatUsingAbbrevation()
-//        timeStatView.stat = timeSaved
+        adsStatView.stat = BraveGlobalShieldStats.singleton.adblock.abbreviation
+        trackersStatView.stat = BraveGlobalShieldStats.singleton.trackingProtection.abbreviation
+        httpsStatView.stat = BraveGlobalShieldStats.singleton.httpse.abbreviation
+        timeStatView.stat = timeSaved
     }
     
     var timeSaved: String {
@@ -101,19 +101,19 @@ class BraveShieldStatsView: UIView {
             
             if seconds {
                 counter = ceil(Double(estimatedMillisecondsSaved / 1000))
-                text = "s"
+                text = Strings.ShieldsTimeStatsSeconds
             }
             else if minutes {
                 counter = ceil(Double(estimatedMillisecondsSaved / 1000 / 60))
-                text = "min"
+                text = Strings.ShieldsTimeStatsMinutes
             }
             else if hours {
                 counter = ceil(Double(estimatedMillisecondsSaved / 1000 / 60 / 60))
-                text = "h"
+                text = Strings.ShieldsTimeStatsHour
             }
             else {
                 counter = ceil(Double(estimatedMillisecondsSaved / 1000 / 60 / 60 / 24))
-                text = "d"
+                text = Strings.ShieldsTimeStatsDays
             }
             
             return "\(Int(counter))\(text)"

@@ -53,10 +53,10 @@ class ReadabilityOperation: Operation, WKNavigationDelegate, ReadabilityBrowserH
             self.browser.loadRequest(URLRequest(url: self.url))
         })
 
-        // TODO: Fix
-//        if semaphore.wait(timeout: DispatchTime.now() + Double(Int64(Double(ReadabilityTaskDefaultTimeout) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) != 0 {
-//            result = ReadabilityOperationResult.timeout
-//        }
+        let timeout = DispatchTime.now() + Double(Int64(Double(ReadabilityTaskDefaultTimeout) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        if semaphore.wait(timeout: timeout) == .timedOut {
+            result = ReadabilityOperationResult.timeout
+        }
 
         // Maybe this is where we should store stuff in the cache / run a callback?
 

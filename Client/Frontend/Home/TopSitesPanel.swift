@@ -162,7 +162,6 @@ class TopSitesPanel: UIViewController {
 
         self.dataSource.collectionView = self.collection
         self.refreshTopSites(self.maxFrecencyLimit)
-        self.updateEmptyPanelState()
         
         privateTabMessageContainer.snp_makeConstraints { (make) in
             make.centerX.equalTo(self.view)
@@ -254,7 +253,17 @@ class TopSitesPanel: UIViewController {
     fileprivate func createEmptyStateOverlayView() -> UIView {
         let overlayView = UIView()
         overlayView.backgroundColor = UIColor.white
-
+        
+        let logoImageView = UIImageView(image: UIImage(named: "emptyTopSites"))
+        overlayView.addSubview(logoImageView)
+        
+        let titleLabel = UILabel()
+        titleLabel.font = DynamicFontHelper.defaultHelper.DeviceFont
+        titleLabel.text = Strings.TopSitesEmptyStateTitle
+        titleLabel.textAlignment = NSTextAlignment.center
+        titleLabel.textColor = TopSitesPanelUX.EmptyStateTitleTextColor
+        overlayView.addSubview(titleLabel)
+        
         let descriptionLabel = UILabel()
         descriptionLabel.text = Strings.TopSitesEmptyStateDescription
         descriptionLabel.textAlignment = NSTextAlignment.center
@@ -263,33 +272,34 @@ class TopSitesPanel: UIViewController {
         descriptionLabel.numberOfLines = 2
         descriptionLabel.adjustsFontSizeToFitWidth = true
         overlayView.addSubview(descriptionLabel)
-
-        descriptionLabel.snp_makeConstraints { make in
-            make.center.equalTo(overlayView)
+        
+        logoImageView.snp.makeConstraints { make in
+            make.centerX.equalTo(overlayView)
+            
+            // Sets proper top constraint for iPhone 6 in portait and for iPad.
+            make.centerY.equalTo(overlayView).offset(HomePanelUX.EmptyTabContentOffset).priority(100)
+            
+            // Sets proper top constraint for iPhone 4, 5 in portrait.
+            make.top.greaterThanOrEqualTo(overlayView).offset(50)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(logoImageView.snp.bottom).offset(TopSitesPanelUX.EmptyStateTopPaddingInBetweenItems)
+            make.centerX.equalTo(logoImageView)
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(overlayView)
+            make.top.equalTo(titleLabel.snp.bottom).offset(TopSitesPanelUX.WelcomeScreenPadding)
             make.width.equalTo(TopSitesPanelUX.WelcomeScreenItemWidth)
         }
-
+        
         return overlayView
     }
-
-    fileprivate func updateEmptyPanelState() {
-        if dataSource.count() == 0 && !PrivateBrowsing.singleton.isOn {
-            if self.emptyStateOverlayView.superview == nil {
-                self.view.addSubview(self.emptyStateOverlayView)
-                self.emptyStateOverlayView.snp_makeConstraints { make -> Void in
-                    make.edges.equalTo(self.view)
-                }
-            }
-        } else {
-            self.emptyStateOverlayView.removeFromSuperview()
-            self.braveShieldStatsView?.isHidden = false
-        }
-    }
-
+    
     //MARK: Private Helpers
     fileprivate func updateDataSourceWithSites(_ result: [Site], completion: @escaping ()->()) {
         self.dataSource.setHistorySites(result) {
-            self.updateEmptyPanelState()
             completion()
         }
     }
@@ -799,7 +809,14 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         }
 
         self.sites += historySites
-        mergeBuiltInSuggestedSites { completion() }
+        
+        let prefs: Prefs? = getApp().profile?.prefs
+        if prefs?.boolForKey("ClearedBrowsingHistory") == false || prefs?.boolForKey("ClearedBrowsingHistory") == nil {
+            mergeBuiltInSuggestedSites { completion() }
+        }
+        else {
+            completion()
+        }
     }
 
     fileprivate func mergeBuiltInSuggestedSites(_ completion: @escaping ()->()) {

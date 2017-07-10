@@ -24,6 +24,14 @@ public final class SyncSite {
     public var creationTime: Int?
     public var lastAccessedTime: Int?
     
+    public var creationNativeDate: Date? {
+        return Date.fromTimestamp(Timestamp(creationTime ?? 0))
+    }
+    
+    public var lastAccessedNativeDate: Date? {
+        return Date.fromTimestamp(Timestamp(lastAccessedTime ?? 0))
+    }
+    
     public convenience init() {
         self.init(json: nil)
     }

@@ -112,7 +112,6 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
                     if let refresh = meta?.attribute("http-equiv"), refresh == "Refresh",
                         let content = meta?.attribute("content"),
                         let index = content.range(of: "URL=") {
-                        // TODO: Fix
                         let fromIndex = content.index(index.lowerBound, offsetBy: 4)
                         let url = URL(string: content.substring(from: fromIndex))
                         

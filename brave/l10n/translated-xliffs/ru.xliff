@@ -1,7 +1,7 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8A218a" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.0"/>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -12,7 +12,7 @@
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8A218a" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.0"/>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -30,11 +30,6 @@
         <target>-</target>
         <note>Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar.</note>
       </trans-unit>
-      <trans-unit id="3rd-party password manager">
-        <source>3rd-party password manager</source>
-        <target>Сторонний менеджер паролей</target>
-        <note>Setting to enable the built-in password manager</note>
-      </trans-unit>
       <trans-unit id="Aa">
         <source>Aa</source>
         <target>Aa</target>
@@ -49,6 +44,11 @@
         <source>Add Bookmark</source>
         <target>Добавить закладку</target>
         <note>Button to add a bookmark</note>
+      </trans-unit>
+      <trans-unit id="Add Device">
+        <source>Add Device</source>
+        <target>Добавить устройство</target>
+        <note>Add device to sync</note>
       </trans-unit>
       <trans-unit id="Add Tab">
         <source>Add Tab</source>
@@ -85,11 +85,6 @@
         <target>Разрешить %@ открыть iTunes?</target>
         <note>Ask user if site can open iTunes store URL</note>
       </trans-unit>
-      <trans-unit id="Allow Brave to send info to improve our app">
-        <source>Allow Brave to send info to improve our app</source>
-        <target>Разрешить Brave посылать данные чтобы улучшить приложение</target>
-        <note>option in settings screen</note>
-      </trans-unit>
       <trans-unit id="Always show">
         <source>Always show</source>
         <target>Всегда показывать</target>
@@ -117,12 +112,12 @@
       </trans-unit>
       <trans-unit id="Block 3rd party cookies">
         <source>Block 3rd party cookies</source>
-        <target>Блокировать сторонние cookies</target>
+        <target>Блокировать сторонние cookie</target>
         <note>cookie settings option</note>
       </trans-unit>
       <trans-unit id="Block Ads &amp; Tracking">
         <source>Block Ads &amp; Tracking</source>
-        <target>Блокировать рекламу и трекинг</target>
+        <target>Блокировать рекламу и отслеживание</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Block Phishing">
@@ -152,7 +147,7 @@
       </trans-unit>
       <trans-unit id="Block all cookies">
         <source>Block all cookies</source>
-        <target>Блокировать все cookies</target>
+        <target>Блокировать все cookie</target>
         <note>cookie settings option</note>
       </trans-unit>
       <trans-unit id="Blocking Monitor">
@@ -172,7 +167,7 @@
       </trans-unit>
       <trans-unit id="Bookmark Info">
         <source>Bookmark Info</source>
-        <target>Информации о закладки</target>
+        <target>Информация о закладке</target>
         <note>Bookmark Info Section Title</note>
       </trans-unit>
       <trans-unit id="Bookmarks">
@@ -192,7 +187,7 @@
       </trans-unit>
       <trans-unit id="Bookmarks and History Panel">
         <source>Bookmarks and History Panel</source>
-        <target>Закладки и История</target>
+        <target>Закладки и панель истории</target>
         <note>Button to show the bookmarks and history panel</note>
       </trans-unit>
       <trans-unit id="Brave Panel">
@@ -202,15 +197,20 @@
       </trans-unit>
       <trans-unit id="Brave Shield Defaults">
         <source>Brave Shield Defaults</source>
-        <target>Настройки по умолчанию защиты Brave</target>
+        <target>Настройки по умолчанию щитов Brave</target>
         <note>Section title for adbblock, tracking protection, HTTPS-E, and cookies</note>
+      </trans-unit>
+      <trans-unit id="Brave Sync">
+        <source>Brave Sync</source>
+        <target>Brave Sync</target>
+        <note>Brave sync page title</note>
       </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
         <source>Brave blocks ads.
 Brave stops trackers.
 Brave is designed for speed and efficiency.</source>
         <target>Brave блокирует рекламу.
-Brave блокирует трекинг.
+Brave предотвращает отслеживание.
 Brave создан для скорости и эффективности.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
@@ -228,17 +228,17 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Brave keeps you safe as you browse.">
         <source>Brave keeps you safe as you browse.</source>
-        <target>Brave сохраняет Вас в безопасности во время просмотра.</target>
+        <target>Brave сохраняет вас в безопасности во время просмотра.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
       <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
         <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
-        <target>Brave не будет запоминать историю и cookies, но закладки будут сохранены.</target>
+        <target>Brave не будет запоминать историю и cookie, но новые закладки будут сохраняться.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Brave would like to access your Photos">
         <source>Brave would like to access your Photos</source>
-        <target>Brave нужен доступ к Вашим Фотографиям</target>
+        <target>Brave нужен доступ к вашим фотографиям</target>
         <note>See http://mzl.la/1G7uHo7</note>
       </trans-unit>
       <trans-unit id="Brightness">
@@ -248,12 +248,12 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Browse with us and your privacy is protected, with nothing further to install, learn or configure.">
         <source>Browse with us and your privacy is protected, with nothing further to install, learn or configure.</source>
-        <target>Исследуйте интернет с нами и Ваша конфиденциальность защищена без дополнительной установки, изучения или настройки.</target>
+        <target>Посещайте сайты с нами и ваша конфиденциальность будет защищена без каких-либо дополнительных усилий по установке, изучению или настройке.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
       <trans-unit id="Browsing History">
         <source>Browsing History</source>
-        <target>История</target>
+        <target>Журнал браузера</target>
         <note>Settings item for clearing browsing history</note>
       </trans-unit>
       <trans-unit id="Cache">
@@ -280,6 +280,11 @@ and here's why...</source>
         <source>Changes font type.</source>
         <target>Изменяет шрифт.</target>
         <note>Accessibility hint for the font type buttons in reader mode display settings</note>
+      </trans-unit>
+      <trans-unit id="Changing settings will only affect data that this device shares with others.">
+        <source>Changing settings will only affect data that this device shares with others.</source>
+        <target>Изменение настроек влияет только на данные, которые это устройство использует совместно с другими.</target>
+        <note>Sync device settings footer details</note>
       </trans-unit>
       <trans-unit id="Clear">
         <source>Clear</source>
@@ -321,14 +326,19 @@ and here's why...</source>
         <target>Вкладка закрывается</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
+      <trans-unit id="Code Words">
+        <source>Code Words</source>
+        <target>Кодовые слова</target>
+        <note>Code words section title</note>
+      </trans-unit>
       <trans-unit id="Cookie Control">
         <source>Cookie Control</source>
-        <target>Настройка cookie</target>
+        <target>Управление файлами cookie</target>
         <note>Cookie settings option title</note>
       </trans-unit>
       <trans-unit id="Cookies">
         <source>Cookies</source>
-        <target>Cookies</target>
+        <target>Cookie</target>
         <note>Settings item for clearing cookies</note>
       </trans-unit>
       <trans-unit id="Copy">
@@ -368,7 +378,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Default Search Engine">
         <source>Default Search Engine</source>
-        <target>Поисковый сервер по умолчанию</target>
+        <target>Поисковая система по умолчанию</target>
         <note>Open search section of settings</note>
       </trans-unit>
       <trans-unit id="Delete">
@@ -376,14 +386,9 @@ and here's why...</source>
         <target>Удалить</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Delete Folder">
-        <source>Delete Folder</source>
-        <target>Удалить папку</target>
-        <note>No comment provided by engineer.</note>
-      </trans-unit>
       <trans-unit id="Deselect All">
         <source>Deselect All</source>
-        <target>Снять все выделение</target>
+        <target>Отменить выбор</target>
         <note>Title for deselecting all selected logins</note>
       </trans-unit>
       <trans-unit id="Desktop Bookmarks">
@@ -391,19 +396,29 @@ and here's why...</source>
         <target>Закладки рабочего стола</target>
         <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
       </trans-unit>
-      <trans-unit id="Display Settings">
-        <source>Display Settings</source>
-        <target>Настройки экрана</target>
-        <note>Name for display settings button in reader mode. Display in the meaning of presentation, not monitor.</note>
+      <trans-unit id="Device Name">
+        <source>Device Name</source>
+        <target>Имя устройства</target>
+        <note>Title for new device popup</note>
+      </trans-unit>
+      <trans-unit id="Devices">
+        <source>Devices</source>
+        <target>Устройства</target>
+        <note>Sync device settings page title.</note>
+      </trans-unit>
+      <trans-unit id="Devices &amp; Settings">
+        <source>Devices &amp; Settings</source>
+        <target>Устройства и настройки</target>
+        <note>Sync you browser settings across devices.</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
         <source>Don't block cookies</source>
-        <target>Не блокировать cookies</target>
+        <target>Не блокировать cookie</target>
         <note>cookie settings option</note>
       </trans-unit>
       <trans-unit id="Done">
         <source>Done</source>
-        <target>Сделано</target>
+        <target>Готово</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Don’t Save">
@@ -426,10 +441,35 @@ and here's why...</source>
         <target>Войти в режим поиска</target>
         <note>Accessibility label for entering search mode for logins</note>
       </trans-unit>
+      <trans-unit id="Enter code words">
+        <source>Enter code words</source>
+        <target>Ввод кодовых слов</target>
+        <note>Sync enter code words</note>
+      </trans-unit>
+      <trans-unit id="Enter code words below">
+        <source>Enter code words below</source>
+        <target>Введите кодовые слова ниже</target>
+        <note>Enter sync code words below</note>
+      </trans-unit>
+      <trans-unit id="Enter folder name">
+        <source>Enter folder name</source>
+        <target>Введите имя папки</target>
+        <note>Description for new folder popup</note>
+      </trans-unit>
+      <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
+        <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <target>Несмотря на то, что сайты, которые вы посещаете на приватных вкладках не сохраняются локально, они не делают вас анонимными или невидимыми для вашего интернет-провайдера, вашего работодателя или самих посещаемых вами сайтов.</target>
+        <note>Private tab details</note>
+      </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
         <target>Найти</target>
         <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Find &quot;%@&quot;">
+        <source>Find &quot;%@&quot;</source>
+        <target>Найти &quot;%@&quot;</target>
+        <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
         <source>Find in Page</source>
@@ -438,19 +478,19 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Fingerprinting Methods">
         <source>Fingerprinting Methods</source>
-        <target>Методы цифрового отпечатка</target>
+        <target>Методов определений отпечатка браузера</target>
         <note>individual blocking statistic title</note>
       </trans-unit>
       <trans-unit id="Fingerprinting Protection">
         <source>Fingerprinting Protection</source>
-        <target>Защита цифрового отпечатка</target>
+        <target>Защита отпечатка браузера</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Fingerprinting\nProtection">
         <source>Fingerprinting
 Protection</source>
         <target>Защита
-цифрового отпечатка</target>
+отпечатка браузера</target>
         <note>blocking stat title</note>
       </trans-unit>
       <trans-unit id="Folder">
@@ -468,19 +508,29 @@ Protection</source>
         <target>Общие</target>
         <note>General settings section title</note>
       </trans-unit>
+      <trans-unit id="Get a new sync code">
+        <source>Get a new sync code</source>
+        <target>Получить новый код синхронизации</target>
+        <note>New sync code button title</note>
+      </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
         <source>Get ready to experience a Faster, Safer, Better Web.</source>
-        <target>Приготовьтесь открыть для себя Быстрый, Безопасный, Лучший Интернет.</target>
+        <target>Приготовьтесь к более быстрой и безопасной работе с интернетом.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
       <trans-unit id="Go Back">
         <source>Go Back</source>
-        <target>Назад</target>
+        <target>Вернуться</target>
         <note>Label for button to go back from the error page</note>
+      </trans-unit>
+      <trans-unit id="Grant camera access">
+        <source>Grant camera access</source>
+        <target>Предоставление доступа к камере</target>
+        <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
         <source>HTTPS Everywhere</source>
-        <target>HTTPS везде</target>
+        <target>HTTPS Everywhere</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="HTTPS Upgrades">
@@ -490,7 +540,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Hide">
         <source>Hide</source>
-        <target>Спрятать</target>
+        <target>Скрыть</target>
         <note>Hide password text selection menu item</note>
       </trans-unit>
       <trans-unit id="History">
@@ -548,6 +598,11 @@ Protection</source>
         <target>Узнать больше</target>
         <note>Text button displayed when there are no tabs open while in private mode</note>
       </trans-unit>
+      <trans-unit id="Learn about private tabs.">
+        <source>Learn about private tabs.</source>
+        <target>Сведения о приватных вкладках.</target>
+        <note>Private tab information link</note>
+      </trans-unit>
       <trans-unit id="Light">
         <source>Light</source>
         <target>Светлый</target>
@@ -601,7 +656,7 @@ Protection</source>
       <trans-unit id="Name">
         <source>Name</source>
         <target>Имя</target>
-        <note>Bookmark name/title</note>
+        <note>Bookmark title / Device name</note>
       </trans-unit>
       <trans-unit id="Navigation Toolbar">
         <source>Navigation Toolbar</source>
@@ -616,7 +671,7 @@ Protection</source>
       <trans-unit id="New Folder">
         <source>New Folder</source>
         <target>Новая папка</target>
-        <note>No comment provided by engineer.</note>
+        <note>Title for new folder popup</note>
       </trans-unit>
       <trans-unit id="New Private Tab">
         <source>New Private Tab</source>
@@ -648,6 +703,11 @@ Protection</source>
         <target>Нет вкладок</target>
         <note>Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray</note>
       </trans-unit>
+      <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
+        <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
+        <target>Примечание: некоторые сайты могут работать некорректно, поэтому этот щит по умолчанию отключен.</target>
+        <note>shields overview footer message</note>
+      </trans-unit>
       <trans-unit id="OK">
         <source>OK</source>
         <target>OK</target>
@@ -677,6 +737,11 @@ Protection</source>
         <source>Open Desktop Site tab</source>
         <target>Открыть полную версию сайта</target>
         <note>Share action title</note>
+      </trans-unit>
+      <trans-unit id="Open Image In New Tab">
+        <source>Open Image In New Tab</source>
+        <target>Открыть изображение в новой вкладке</target>
+        <note>Context menu for opening image in new tab</note>
       </trans-unit>
       <trans-unit id="Open In New Private Tab">
         <source>Open In New Private Tab</source>
@@ -708,10 +773,25 @@ Protection</source>
         <target>Открыть в...</target>
         <note>String indicating that the file can be opened in another application on the device</note>
       </trans-unit>
+      <trans-unit id="Pair">
+        <source>Pair</source>
+        <target>Пара</target>
+        <note>Sync pair device settings section title</note>
+      </trans-unit>
       <trans-unit id="Panel Chooser">
         <source>Panel Chooser</source>
         <target>Выбор панелей</target>
         <note>Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list).</note>
+      </trans-unit>
+      <trans-unit id="Password Manager">
+        <source>Password Manager</source>
+        <target>Менеджер паролей</target>
+        <note>Accessibility Label for the browser toolbar Password Manager button</note>
+      </trans-unit>
+      <trans-unit id="Password Manager Button">
+        <source>Password Manager Button</source>
+        <target>Кнопка менеджера паролей</target>
+        <note>Setting for behaviour of password manager button</note>
       </trans-unit>
       <trans-unit id="Paste">
         <source>Paste</source>
@@ -722,6 +802,11 @@ Protection</source>
         <source>Paste &amp; Go</source>
         <target>Вставить и применить</target>
         <note>Paste the URL into the location bar and visit</note>
+      </trans-unit>
+      <trans-unit id="Please enter a name for this device">
+        <source>Please enter a name for this device</source>
+        <target>Пожалуйста, введите имя для этого устройства</target>
+        <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
         <source>Previous in-page result</source>
@@ -763,10 +848,20 @@ Protection</source>
         <target>Иконка приватного режима</target>
         <note>Private mode icon next to location string</note>
       </trans-unit>
+      <trans-unit id="QR Code">
+        <source>QR Code</source>
+        <target>QR-код</target>
+        <note>QR Code section title</note>
+      </trans-unit>
       <trans-unit id="Quick-search Engines">
         <source>Quick-search Engines</source>
         <target>Поисковые серверы быстрого поиска</target>
         <note>Title for quick-search engines settings section.</note>
+      </trans-unit>
+      <trans-unit id="Reader Mode Settings">
+        <source>Reader Mode Settings</source>
+        <target>Настройки режима чтения</target>
+        <note>Name for display settings button in reader mode. Display in the meaning of presentation, not monitor.</note>
       </trans-unit>
       <trans-unit id="Reader View">
         <source>Reader View</source>
@@ -802,6 +897,11 @@ Protection</source>
         <source>Remove page</source>
         <target>Удалить страницу</target>
         <note>Button shown in editing mode to remove this site from the top sites panel.</note>
+      </trans-unit>
+      <trans-unit id="Remove this device">
+        <source>Remove this device</source>
+        <target>Удалить это устройство</target>
+        <note>Sync remove device.</note>
       </trans-unit>
       <trans-unit id="Report a bug">
         <source>Report a bug</source>
@@ -853,6 +953,11 @@ Protection</source>
         <target>Сохраненные логины</target>
         <note>Settings item for clearing passwords and login data</note>
       </trans-unit>
+      <trans-unit id="Scan or enter code">
+        <source>Scan or enter code</source>
+        <target>Сканировать или ввести код</target>
+        <note>Scan sync code button title</note>
+      </trans-unit>
       <trans-unit id="Scripts Blocked">
         <source>Scripts Blocked</source>
         <target>Блокировано скриптов</target>
@@ -871,6 +976,11 @@ Protection</source>
       <trans-unit id="Search Settings">
         <source>Search Settings</source>
         <target>Настройки поиска</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search in page">
+        <source>Search in page</source>
+        <target>Найти на странице</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search or enter address">
@@ -902,6 +1012,11 @@ Protection</source>
         <source>Select Location Bar</source>
         <target>Выбрать панель адреса</target>
         <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Send crash reports and metrics">
+        <source>Send crash reports and metrics</source>
+        <target>Отправка отчетов о сбоях и метрик</target>
+        <note>option in settings screen</note>
       </trans-unit>
       <trans-unit id="Sepia">
         <source>Sepia</source>
@@ -978,15 +1093,15 @@ Protection</source>
         <target>Показать демо</target>
         <note>Show the on-boarding screen again from the settings</note>
       </trans-unit>
-      <trans-unit id="Show a prompt to open your password manager when the current page has a login form.">
-        <source>Show a prompt to open your password manager when the current page has a login form.</source>
-        <target>Показывать предложение открыть Ваш менеджер паролей когда текущая страница содержит форму для логина.</target>
-        <note>Footer message on picker for 3rd party password manager setting</note>
-      </trans-unit>
       <trans-unit id="Show in landscape only">
         <source>Show in landscape only</source>
         <target>Показывать только в горизонтальном режиме</target>
         <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
+        <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
+        <target>Щиты сайта позволяют контролировать, когда реклама и трекеры блокируются для каждого посещаемого сайта. Если вы предпочитаете видеть рекламу на определенном сайте, вы можете включить ее здесь.</target>
+        <note>shields overview message</note>
       </trans-unit>
       <trans-unit id="Site shield settings">
         <source>Site shield settings</source>
@@ -1013,10 +1128,35 @@ Protection</source>
         <target>Проведите вправо или влево тремя пальцами чтобы закрыть вкладку.</target>
         <note>Accessibility hint for tab tray's displayed tab.</note>
       </trans-unit>
+      <trans-unit id="Sync">
+        <source>Sync</source>
+        <target>Синхронизация</target>
+        <note>Sync settings section title</note>
+      </trans-unit>
+      <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
+        <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <target>Синхронизируйте данные браузера между устройствами используя Brave Sync, не требуется создание учетной записи. Нажмите ниже, чтобы начать.</target>
+        <note>Sync settings welcome</note>
+      </trans-unit>
+      <trans-unit id="Sync on this device">
+        <source>Sync on this device</source>
+        <target>Синхронизация на этом устройстве</target>
+        <note>Sync device settings section title</note>
+      </trans-unit>
+      <trans-unit id="Sync to device">
+        <source>Sync to device</source>
+        <target>Синхронизация с устройством</target>
+        <note>Sync to existing device</note>
+      </trans-unit>
       <trans-unit id="Tab %@ of %@">
         <source>Tab %1$@ of %2$@</source>
         <target>Вкладка %1$@ из %2$@</target>
         <note>Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \&quot;Tab 2 of 5\&quot; says that tab 2 is visible (and is the only visible tab), out of 5 tabs total.</note>
+      </trans-unit>
+      <trans-unit id="Tabs">
+        <source>Tabs</source>
+        <target>Вкладки</target>
+        <note>Accessibility label for the Tabs.</note>
       </trans-unit>
       <trans-unit id="Tabs %@ to %@ of %@">
         <source>Tabs %1$@ to %2$@ of %3$@</source>
@@ -1068,6 +1208,11 @@ Protection</source>
         <target>Эта папка не пустая.</target>
         <note>Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders.</note>
       </trans-unit>
+      <trans-unit id="This is a Private Tab">
+        <source>This is a Private Tab</source>
+        <target>Это приватная вкладка</target>
+        <note>Private tab title</note>
+      </trans-unit>
       <trans-unit id="Today">
         <source>Today</source>
         <target>Сегодня</target>
@@ -1098,10 +1243,20 @@ Protection</source>
         <target>URL</target>
         <note>Bookmark URL</note>
       </trans-unit>
+      <trans-unit id="Unable to create new sync group.">
+        <source>Unable to create new sync group.</source>
+        <target>Не удалось создать новую группу синхронизации.</target>
+        <note>Description on popup when setting up a sync group fails</note>
+      </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
         <source>Unsorted Bookmarks</source>
         <target>Неотсортированные закладки</target>
         <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Unsuccessful">
+        <source>Unsuccessful</source>
+        <target>Не удается</target>
+        <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">
         <source>Untitled</source>
@@ -1127,6 +1282,21 @@ Protection</source>
         <source>Update password for %@?</source>
         <target>Обновить пароль для %@?</target>
         <note>Prompt for updating a password with no username. The parameter is the hostname of the site.</note>
+      </trans-unit>
+      <trans-unit id="Use regional adblock">
+        <source>Use regional adblock</source>
+        <target>Использовать синтаксис adblock на вашем языке</target>
+        <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
+      </trans-unit>
+      <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
+        <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <target>Используя второе устройство, перейдите в Настройки &gt; Синхронизация. Сосканируйте QR-код (см. выше) или введите кодовые слова, если камера недоступна.</target>
+        <note>Sync add device description</note>
+      </trans-unit>
+      <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
+        <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <target>Используя существующее синхронизированное устройство, откройте настройки Brave и перейдите к разделу Устройства и настройки, нажмите +, чтобы добавить новое устройство и показать код синхронизации.</target>
+        <note>Sync to existing device description</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">
         <source>Version %1$@ (%2$@)</source>
@@ -1177,6 +1347,11 @@ Protection</source>
         <source>Yesterday</source>
         <target>Вчера</target>
         <note>History tableview section header</note>
+      </trans-unit>
+      <trans-unit id="You can choose to show a popup to pick your password manager, or have the selected one open automatically.">
+        <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
+        <target>Можно выбрать отображение всплывающего окна для выбора диспетчера паролей или открыть его автоматически.</target>
+        <note>Footer message on picker for 3rd party password manager setting</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
         <source>Your connection is not private</source>
@@ -1242,7 +1417,7 @@ Protection</source>
   </file>
   <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8A218a" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.0"/>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -1253,7 +1428,7 @@ Protection</source>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8A218a" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.0"/>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">

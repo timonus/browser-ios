@@ -86,7 +86,7 @@ class DataController: NSObject {
     func workerContext() -> NSManagedObjectContext {
         if workerMOC == nil {
             workerMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            workerMOC!.parent = mainThreadMOC
+            workerMOC!.parent = mainThreadContext()
             workerMOC!.undoManager = nil
             workerMOC!.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         }
@@ -105,7 +105,12 @@ class DataController: NSObject {
         return mainThreadMOC!
     }
 
-    static func saveContext(_ context: NSManagedObjectContext = DataController.moc) {
+    static func saveContext(context: NSManagedObjectContext? = DataController.moc) {
+        guard let context = context  else {
+            print("No context on save")
+            return
+        }
+        
         if context === DataController.shared.writeMOC {
             print("Do not use with the write moc, this save is handled internally here.")
             return
@@ -137,7 +142,7 @@ class DataController: NSObject {
                     }
                 } else {
                     postAsyncToMain(0.1) {
-                        DataController.saveContext(DataController.shared.mainThreadMOC!)
+                        DataController.saveContext(context: DataController.shared.mainThreadMOC!)
                     }
                 }
             } catch {
