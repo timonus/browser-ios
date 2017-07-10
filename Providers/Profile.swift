@@ -89,6 +89,8 @@ protocol Profile: class {
 open class BrowserProfile: Profile {
     
     fileprivate let name: String
+    fileprivate let keychain: KeychainWrapper
+    
     internal let files: FileAccessor
 
     weak fileprivate var app: UIApplication?
@@ -116,18 +118,17 @@ open class BrowserProfile: Profile {
             }
         }
 
+        let baseBundleIdentifier = AppInfo.baseBundleIdentifier
+        if !baseBundleIdentifier.isEmpty {
+            self.keychain = KeychainWrapper(serviceName: baseBundleIdentifier)
+        } else {
+            log.error("Unable to get the base bundle identifier. Keychain data will not be shared.")
+            self.keychain = KeychainWrapper.standard
+        }
+        
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onProfileDidFinishSyncing(_:)), name: NotificationProfileDidFinishSyncing, object: nil)
         notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onPrivateDataClearedHistory(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
-
-
-        let baseBundleIdentifier = AppInfo.baseBundleIdentifier
-        if !baseBundleIdentifier.isEmpty {
-            // TODO: Fix
-//            KeychainWrapper.standard.serviceName = baseBundleIdentifier
-        } else {
-            log.error("Unable to get the base bundle identifier. Keychain data will not be shared.")
-        }
 
         // If the profile dir doesn't exist yet, this is first run (for this profile).
         if !files.exists("") {
@@ -303,13 +304,13 @@ open class BrowserProfile: Profile {
     fileprivate lazy var loginsKey: String? = {
         
         let key = "sqlcipher.key.logins.db"
-        if KeychainWrapper.standard.hasValue(forKey: key) {
+        if self.keychain.hasValue(forKey: key) {
             return KeychainWrapper.standard.string(forKey: key)
         }
         
         let Length: UInt = 256
         let secret = Bytes.generateRandomBytes(Length).base64EncodedString
-        KeychainWrapper.standard.set(secret, forKey: key)
+        self.keychain.set(secret, forKey: key)
         return secret
     }()
 
@@ -326,10 +327,10 @@ open class BrowserProfile: Profile {
 
     func removeAccountMetadata() {
         self.prefs.removeObjectForKey(PrefsKeys.KeyLastRemoteTabSyncTime)
-        KeychainWrapper.standard.removeObject(forKey: self.name + ".account")
+        self.keychain.removeObject(forKey: self.name + ".account")
     }
 
     func removeExistingAuthenticationInfo() {
-        KeychainWrapper.standard.setAuthenticationInfo(nil)
+        self.keychain.setAuthenticationInfo(nil)
     }
 }
