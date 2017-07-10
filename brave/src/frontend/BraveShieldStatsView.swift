@@ -84,9 +84,9 @@ class BraveShieldStatsView: UIView {
     }
     
     func update() {
-        adsStatView.stat = BraveGlobalShieldStats.singleton.adblock.abbrevation
-        trackersStatView.stat = BraveGlobalShieldStats.singleton.trackingProtection.abbrevation
-        httpsStatView.stat = BraveGlobalShieldStats.singleton.httpse.abbrevation
+        adsStatView.stat = BraveGlobalShieldStats.singleton.adblock.abbreviation
+        trackersStatView.stat = BraveGlobalShieldStats.singleton.trackingProtection.abbreviation
+        httpsStatView.stat = BraveGlobalShieldStats.singleton.httpse.abbreviation
         timeStatView.stat = timeSaved
     }
     

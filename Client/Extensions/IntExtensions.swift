@@ -8,17 +8,17 @@
 import Foundation
 
 extension Int {
-    var abbrevation: String {
+    var abbreviation: String {
         let numFormatter = NumberFormatter()
         
-        typealias Abbrevation = (threshold:Double, divisor:Double, suffix:String)
-        let abbreviations:[Abbrevation] = [(0, 1, ""),
+        typealias Abbreviation = (threshold:Double, divisor:Double, suffix:String)
+        let abbreviations:[Abbreviation] = [(0, 1, ""),
                                            (1000.0, 1000.0, "K"),
                                            (100_000.0, 1_000_000.0, "M"),
                                            (100_000_000.0, 1_000_000_000.0, "B")]
         
         let startValue = Double (abs(self))
-        let abbreviation:Abbrevation = {
+        let abbreviation:Abbreviation = {
             var prevAbbreviation = abbreviations[0]
             for tmpAbbreviation in abbreviations {
                 if (startValue < tmpAbbreviation.threshold) {
