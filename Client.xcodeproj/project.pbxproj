@@ -251,6 +251,8 @@
 		5D4808E51F13FA6700E04833 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D4808D81F13FA4200E04833 /* SwiftyJSON.framework */; };
 		5D4808E61F13FA6700E04833 /* SwiftyJSON.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5D4808D81F13FA4200E04833 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D71B69B1E6885E00073621F /* Niceware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D71B69A1E6885E00073621F /* Niceware.swift */; };
+		5D75A1E71F1420F0003FB8C7 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD1641D1EDFB7090037ECCC /* SQLite.framework */; };
+		5D75A1E81F1420F0003FB8C7 /* SQLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD1641D1EDFB7090037ECCC /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA05E2D1EFC4315001D7EDE /* ErrorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */; };
 		5DB199151E859F9100A851B6 /* SyncResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB199141E859F9100A851B6 /* SyncResponse.swift */; };
 		5DC5CFBE1F0D4126009553C4 /* GeometryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5CFBD1F0D4126009553C4 /* GeometryExtensions.swift */; };
@@ -744,6 +746,13 @@
 			remoteGlobalIDString = 2E4FEFDA19575BE100351305;
 			remoteInfo = "SwiftyJSON iOS";
 		};
+		5D75A1E91F1420F0003FB8C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CD164121EDFB7080037ECCC /* SQLite.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = EE247AD21C3F04ED00AE3E12;
+			remoteInfo = "SQLite iOS";
+		};
 		D30EBB631C75503800105AE9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D30EBB5A1C75503800105AE9 /* KIF.xcodeproj */;
@@ -860,6 +869,7 @@
 				5D4808E61F13FA6700E04833 /* SwiftyJSON.framework in Copy Frameworks */,
 				E4D567301ADECE2800F1EFE7 /* ReadingList.framework in Copy Frameworks */,
 				2FCAE2321ABB51F800877008 /* Storage.framework in Copy Frameworks */,
+				5D75A1E81F1420F0003FB8C7 /* SQLite.framework in Copy Frameworks */,
 				288A2D9E1AB8B3260023ABC3 /* Shared.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -1583,6 +1593,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D75A1E71F1420F0003FB8C7 /* SQLite.framework in Frameworks */,
 				5D4808E51F13FA6700E04833 /* SwiftyJSON.framework in Frameworks */,
 				5C82452C1E68E95600D3CA09 /* AVFoundation.framework in Frameworks */,
 				5C6F1B1D1E67433F008B0ADD /* CoreImage.framework in Frameworks */,
@@ -3554,6 +3565,7 @@
 				E4D5672E1ADECE2800F1EFE7 /* PBXTargetDependency */,
 				EB0F425A1C9A46D800676650 /* PBXTargetDependency */,
 				5D4808E81F13FA6700E04833 /* PBXTargetDependency */,
+				5D75A1EA1F1420F0003FB8C7 /* PBXTargetDependency */,
 			);
 			name = Client;
 			productName = Client;
@@ -4532,6 +4544,11 @@
 			isa = PBXTargetDependency;
 			name = "SwiftyJSON iOS";
 			targetProxy = 5D4808E71F13FA6700E04833 /* PBXContainerItemProxy */;
+		};
+		5D75A1EA1F1420F0003FB8C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SQLite iOS";
+			targetProxy = 5D75A1E91F1420F0003FB8C7 /* PBXContainerItemProxy */;
 		};
 		E4D567251ADECE2700F1EFE7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
