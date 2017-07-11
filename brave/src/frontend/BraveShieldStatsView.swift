@@ -47,7 +47,7 @@ class BraveShieldStatsView: UIView {
         
         addSubview(line)
         line.backgroundColor = UIColor(white: 0.0, alpha: 0.2)
-        line.snp_makeConstraints { (make) in
+        line.snp.makeConstraints { (make) -> Void in
             make.bottom.equalTo(0).offset(-0.5)
             make.height.equalTo(0.5)
             make.left.equalTo(0)
@@ -163,16 +163,16 @@ class StatView: UIView {
         addSubview(statLabel)
         addSubview(titleLabel)
         
-        statLabel.snp_makeConstraints({ (make) in
+        statLabel.snp.makeConstraints({ (make) -> Void in
             make.left.equalTo(0)
             make.right.equalTo(0)
             make.centerY.equalTo(self).offset(-(statLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).height)-10)
         })
         
-        titleLabel.snp_makeConstraints({ (make) in
+        titleLabel.snp.makeConstraints({ (make) -> Void in
             make.left.equalTo(0)
             make.right.equalTo(0)
-            make.top.equalTo(statLabel.snp_bottom).offset(5)
+            make.top.equalTo(statLabel.snp.bottom).offset(5)
         })
     }
     
