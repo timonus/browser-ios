@@ -67,7 +67,7 @@ class Niceware: JSInjector {
             self.nicewareWebView.evaluateJavaScript(jsToExecute, completionHandler: {
                 (result, error) in
                 
-                let jsonArray = JSON(string: result as? String ?? "").array
+                let jsonArray = JSON(parseJSON: result as? String ?? "").array
                 let words = jsonArray?.map { $0.string }.flatMap { $0 }
                 
                 if words?.count != bytes.count / 2 {

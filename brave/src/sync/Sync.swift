@@ -556,7 +556,7 @@ extension Sync: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         //print("😎 \(message.name) \(message.body)")
         
-        let syncResponse = SyncResponse(object: message.body as AnyObject)
+        let syncResponse = SyncResponse(object: message.body as? String ?? "")
         guard let messageName = syncResponse.message else {
             assert(false)
             return
@@ -571,14 +571,14 @@ extension Sync: WKScriptMessageHandler {
         case "save-init-data" :
             // A bit hacky, but this method's data is not very uniform
             // (e.g. arg2 is [Int])
-            let data = JSON(string: message.body as? String ?? "")
+            let data = JSON(parseJSON: message.body as? String ?? "")
             saveInitData(data)
         case "get-existing-objects":
             getExistingObjects(syncResponse)
         case "resolved-sync-records":
             resolvedSyncRecords(syncResponse)
         case "sync-debug":
-            let data = JSON(string: message.body as? String ?? "")
+            let data = JSON(parseJSON: message.body as? String ?? "")
             print("---- Sync Debug: \(data)")
         case "sync-ready":
             isSyncFullyInitialized.syncReady = true

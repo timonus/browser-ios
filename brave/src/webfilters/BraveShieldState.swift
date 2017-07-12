@@ -52,7 +52,7 @@ public struct BraveShieldState {
     }
 
     public init(jsonStateFromDbRow: String) {
-        let js = JSON(string: jsonStateFromDbRow)
+        let js = JSON(parseJSON: jsonStateFromDbRow)
         for (k,v) in (js.dictionary ?? [:]) {
             if let key = Shield(rawValue: k) {
                 setState(key, on: v.bool)
