@@ -349,12 +349,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     }
 
     fileprivate func updateAuthenticationInfo() {
-//        if let authInfo = KeychainWrapper.authenticationInfo() {
-//            if !LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
-//                authInfo.useTouchID = false
-//                KeychainWrapper.setAuthenticationInfo(authInfo)
-//            }
-//        }
+        if let authInfo = KeychainWrapper.standard.authenticationInfo() {
+            if !LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+                authInfo.useTouchID = false
+                KeychainWrapper.standard.setAuthenticationInfo(authInfo)
+            }
+        }
     }
 
     fileprivate func setUpWebServer(_ profile: Profile) {
