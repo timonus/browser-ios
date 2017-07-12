@@ -134,6 +134,8 @@ class BraveApp {
         }
         if args.contains("BRAVE-DELETE-BOOKMARKS") {
             succeed().upon { _ in
+                // TODO: Fix
+                // Check if this is still required. Do not think so, if not, remove
                 getApp().profile!.bookmarks.modelFactory >>== {
                     $0
 //                    $0.clearBookmarks().uponQueue(DispatchQueue.main) { res in

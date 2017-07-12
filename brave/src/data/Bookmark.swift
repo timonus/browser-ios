@@ -217,7 +217,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         let bookmark = SyncBookmark()
         bookmark.isFolder = isFolder
-//        bookmark.parentFolderObjectId = [parentFolder]
+        // bookmark.parentFolderObjectId = [parentFolder]
         bookmark.site = site
         
         return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext())
