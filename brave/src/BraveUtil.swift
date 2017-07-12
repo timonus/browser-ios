@@ -201,6 +201,7 @@ func getBestFavicon(_ favicons: [Favicon]) -> Favicon? {
 }
 
 #if DEBUG
+// TODO: Re-add at some point
 func report_memory() {
 //    let MACH_TASK_BASIC_INFO_COUNT = (sizeof(mach_task_basic_info_data_t) / sizeof(natural_t))
 //    let name   = mach_task_self_

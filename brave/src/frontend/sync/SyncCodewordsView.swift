@@ -46,7 +46,7 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     
     func codeWords() -> [String] {
         return [""]
-        // TODO: Need `.withoutSpaces`
+        // TODO: fix Need `.withoutSpaces`
 //        return fields.map { $0.text?.withoutSpaces }.filter { $0?.characters.count > 0 }.flatMap { $0 }
     }
     
@@ -119,7 +119,8 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         }
         
         // Filter out whitespace and apply change to current text
-        // TODO: Need to add `.withoutWhitespace`
+        
+        // TODO: Fix Need to add `.withoutWhitespace`
 //        let result = text.replacingCharacters(in: range, with: string)
         let result = ""
         
