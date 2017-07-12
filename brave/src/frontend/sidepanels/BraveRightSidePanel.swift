@@ -30,10 +30,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     let shieldsOverviewFooter = UILabel()
     
     // Constraints stored for updating dynamically
-    // These should be updated to use Snapkit Constraints
-    var headerContainerHeightConstraint: LayoutConstraint?
-    var siteNameContainerHeightConstraint: LayoutConstraint?
-    var shieldsOverviewContainerHeightConstraint: LayoutConstraint?
+    var shieldsOverviewContainerHeightConstraint: Constraint?
 
     let headerContainer = UIView()
     // Shield description container on new tab page
@@ -171,19 +168,21 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
 
                 if i == 0 {
                     make.top.equalTo(section.superview!)
-                    // Updated dynamically, setting to 0 just to setup height constraint
-//                    headerContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+                    // Height adjusted dynamically for status bar
+                    // Must be assigned to something for snp to `update` constraints
+                    make.height.equalTo(0)
                 } else if section !== sections.last {
                     make.top.equalTo(sections[i - 1].snp.bottom)
                     make.bottom.equalTo(sections[i + 1].snp.top)
                 }
 
                 if section === siteNameContainer {
-                    // Updated dynamically
-//                    siteNameContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+                    // Height adjusted dynamically
+                    // Must be assigned to something for snp to `update` constraints
+                    make.height.equalTo(0)
                 } else if section === shieldsOverviewContainer {
                     // Updated dynamically
-//                    shieldsOverviewContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+                    shieldsOverviewContainerHeightConstraint = make.height.equalTo(0).constraint
                 } else if section === statsContainer {
                     make.height.equalTo(isTinyScreen() ? 120 : 160)
                 } else if section === togglesContainer {
@@ -509,14 +508,17 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     }
     
     func updateConstraintsForPanelSections() {
-        headerContainerHeightConstraint?.constant = 44 + CGFloat(spaceForStatusBar())
+        
+        var siteNameHeight = ui_siteNameSectionHeight
         if isShowingShieldOverview() {
-            siteNameContainerHeightConstraint?.constant = ui_siteNameSectionHeight - 30
-            shieldsOverviewContainerHeightConstraint?.isActive = false
+            siteNameHeight -= 30
+            shieldsOverviewContainerHeightConstraint?.deactivate()
         } else {
-            siteNameContainerHeightConstraint?.constant = ui_siteNameSectionHeight
-            shieldsOverviewContainerHeightConstraint?.isActive = true
+            shieldsOverviewContainerHeightConstraint?.activate()
         }
+        
+        siteNameContainer.snp.updateConstraints { $0.height.equalTo(siteNameHeight) }
+        headerContainer.snp.updateConstraints { $0.height.equalTo(44 + CGFloat(spaceForStatusBar())) }
         
         setupContainerViewSize()
     }
