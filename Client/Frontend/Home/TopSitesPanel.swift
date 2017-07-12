@@ -142,7 +142,6 @@ class TopSitesPanel: UIViewController {
         self.collection = collection
         
         let braveShieldStatsView = BraveShieldStatsView(frame: CGRect.zero)
-        //braveShieldStatsView.isHidden = true
         collection.addSubview(braveShieldStatsView)
         self.braveShieldStatsView = braveShieldStatsView
         
