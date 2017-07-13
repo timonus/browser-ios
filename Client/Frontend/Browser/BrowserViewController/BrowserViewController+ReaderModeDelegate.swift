@@ -6,7 +6,7 @@ private let log = Logger.browserLogger
 extension BrowserViewController: ReaderModeStyleViewControllerDelegate {
     func readerModeStyleViewController(_ readerModeStyleViewController: ReaderModeStyleViewController, didConfigureStyle style: ReaderModeStyle) {
         // Persist the new style to the profile
-        let encodedStyle: [String:AnyObject] = style.encode()
+        let encodedStyle: [String:Any] = style.encode()
         profile.prefs.setObject(encodedStyle, forKey: ReaderModeProfileKeyStyle)
         // Change the reader mode style on all tabs that have reader mode active
         for tabIndex in 0..<tabManager.tabCount {

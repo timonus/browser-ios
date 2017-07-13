@@ -103,12 +103,12 @@ struct ReaderModeStyle {
 
     /// Encode the style to a JSON dictionary that can be passed to ReaderMode.js
     func encode() -> String {
-        return JSON(["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]).stringValue
+        return JSON(["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]).rawString() ?? ""
     }
 
     /// Encode the style to a dictionary that can be stored in the profile
-    func encode() -> [String:AnyObject] {
-        return ["theme": theme.rawValue as AnyObject, "fontType": fontType.rawValue as AnyObject, "fontSize": fontSize.rawValue as AnyObject]
+    func encode() -> [String:Any] {
+        return ["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]
     }
 
     init(theme: ReaderModeTheme, fontType: ReaderModeFontType, fontSize: ReaderModeFontSize) {
@@ -118,7 +118,7 @@ struct ReaderModeStyle {
     }
 
     /// Initialize the style from a dictionary, taken from the profile. Returns nil if the object cannot be decoded.
-    init?(dict: [String:AnyObject]) {
+    init?(dict: [String:Any]) {
         let themeRawValue = dict["theme"] as? String
         let fontTypeRawValue = dict["fontType"] as? String
         let fontSizeRawValue = dict["fontSize"] as? Int
@@ -194,13 +194,14 @@ struct ReadabilityResult {
     }
 
     /// Encode to a dictionary, which can then for example be json encoded
-    func encode() -> [String:AnyObject] {
-        return ["domain": domain as AnyObject, "url": url as AnyObject, "content": content as AnyObject, "title": title as AnyObject, "credits": credits as AnyObject]
+    func encode() -> [String:Any] {
+        return ["domain": domain, "url": url, "content": content, "title": title, "credits": credits]
     }
 
     /// Encode to a JSON encoded string
     func encode() -> String {
-        return JSON(encode() as [String:AnyObject]).stringValue
+        let dict: [String: Any] = self.encode()
+        return JSON(object: dict).rawString()!
     }
 }
 
@@ -271,8 +272,7 @@ class ReaderMode: BrowserHelper {
     }
 
     func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        if let msg = message.body as? Dictionary<String,String> {
-            
+        if let msg = message.body as? Dictionary<String, String> {
             if let messageType = ReaderModeMessageType(rawValue: msg["Type"] ?? "") {
                 switch messageType {
                     case .PageEvent:
@@ -292,9 +292,8 @@ class ReaderMode: BrowserHelper {
 
     var style: ReaderModeStyle = DefaultReaderModeStyle {
         didSet {
-            if let browser = browser, state == ReaderModeState.Active {
-                browser.webView?.evaluateJavaScript("\(ReaderModeNamespace).setStyle(\(style.encode() as String))", completionHandler: {
-                    (object, error) -> Void in
+            if state == ReaderModeState.Active {
+                browser?.webView?.evaluateJavaScript("\(ReaderModeNamespace).setStyle(\(style.encode() as String))", completionHandler: { (object, error) -> Void in
                     return
                 })
             }
