@@ -77,25 +77,23 @@ extension ShareExtensionHelper: UIActivityItemSource {
         return selectedURL
     }
 
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if isPasswordManagerActivityType(activityType.rawValue) {
+    // IMPORTANT: This method needs Swift compiler optimization DISABLED to prevent a nasty
+    // crash from happening in release builds. It seems as though the check for `nil` may
+    // get removed by the optimizer which leads to a crash when that happens.
+    @_semantics("optimize.sil.never") func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        // activityType actually is nil sometimes (in the simulator at least)
+        if activityType != nil && isPasswordManagerActivityType(activityType.rawValue) {
             return onePasswordExtensionItem
         } else {
             // Return the URL for the selected tab. If we are in reader view then decode
             // it so that we copy the original and not the internal localhost one.
-            if let url = selectedTab?.displayURL, ReaderModeUtils.isReaderModeURL(url) {
-                return ReaderModeUtils.decodeURL(url)
+            if let url = selectedTab?.url?.displayURL, url.isReaderModeURL {
+                return url.decodeReaderModeURL
             }
-            
-            let url = selectedTab?.displayURL ?? selectedURL
-            if activityType == UIActivityType.postToTwitter {
-                return url.absoluteString ?? ""
-            } else {
-                return url
-            }
+            return selectedTab?.url?.displayURL ?? selectedURL
         }
     }
-
+    
     func activityViewController(_ activityViewController: UIActivityViewController, dataTypeIdentifierForActivityType activityType: UIActivityType?) -> String {
         // Because of our UTI declaration, this UTI now satisfies both the 1Password Extension and the usual NSURL for Share extensions.
         return "org.appextension.fill-browser-action"
