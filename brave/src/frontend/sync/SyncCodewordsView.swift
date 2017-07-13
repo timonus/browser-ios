@@ -84,7 +84,7 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     override func sizeToFit() {
         let field = fields[fields.count - 1]
         var f = frame
-        f.size.width = UIScreen.main.bounds.width
+        f.size.width = bounds.width
         f.size.height = field.frame.maxY
         frame = f
     }
