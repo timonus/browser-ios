@@ -16,6 +16,8 @@ class Niceware: JSInjector {
     override init() {
         super.init()
         
+        self.maximumDelayAttempts = 4
+        
         // Overriding javascript check for this subclass
         self.isJavascriptReadyCheck = { return self.isNicewareReady }
         
@@ -47,7 +49,7 @@ class Niceware: JSInjector {
         executeBlockOnReady {
             self.nicewareWebView.evaluateJavaScript("JSON.stringify(niceware.passphraseToBytes(niceware.generatePassphrase(\(byteCount))))") { (result, error) in
                 
-                let bytes = JSON(result ?? []).array?.map({ $0.intValue })
+                let bytes = JSON(parseJSON: result as? String ?? "")["data"].array?.map({ $0.intValue })
                 completion(bytes, error)
             }
         }
@@ -141,7 +143,7 @@ class Niceware: JSInjector {
             self.nicewareWebView.evaluateJavaScript(jsToExecute, completionHandler: {
                 (result, error) in
                 
-                let bytes = JSON(result ?? []).array?.map({ $0.intValue })
+                let bytes = JSON(parseJSON: result as? String ?? "")["data"].array?.map({ $0.intValue })
                 completion?(bytes, error)
             })
         }
