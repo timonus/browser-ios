@@ -96,12 +96,12 @@ class TabMO: NSManagedObject {
     }
     
     class func preserveTab(tab: Browser, tabManager: TabManager) {
-        if tab.isPrivate || tab.url?.absoluteString == nil || tab.tabID == nil {
+        if tab.isPrivate || tab.lastRequest?.url?.absoluteString == nil || tab.tabID == nil {
             return
         }
         
         // Ignore session restore data.
-        if let url = tab.url?.absoluteString, url.contains("localhost") {
+        if let url = tab.lastRequest?.url?.absoluteString, url.contains("localhost") {
             debugPrint(url)
             return
         }
@@ -118,14 +118,14 @@ class TabMO: NSManagedObject {
             // Freshly created web views won't have any history entries at all.
             let backList = tab.webView?.backForwardList.backList ?? []
             let forwardList = tab.webView?.backForwardList.forwardList ?? []
-            urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString ?? "" }
+            urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString }
             currentPage = -forwardList.count
         }
         if let id = tab.tabID {
-            let data = SavedTab(id, tab.title ?? "", tab.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), tab.screenshot.image, urls, Int16(currentPage))
+            let data = SavedTab(id, tab.title ?? "", tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), tab.screenshot.image, urls, Int16(currentPage))
             let context = DataController.shared.workerContext()
             context.perform {
-                TabMO.add(data, context: context)
+                _ = TabMO.add(data, context: context)
                 DataController.saveContext(context: context)
             }
         }
