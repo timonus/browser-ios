@@ -132,7 +132,7 @@ class Niceware: JSInjector {
     /// Takes English words and returns associated bytes (2 bytes per word)
     /// fromPassphrase: An array of words : ["administrational", "experimental"]
     /// returns (via completion): Array of integer values : [0x00, 0xee, 0x4a, 0x42]
-    func bytes(fromPassphrase passphrase: Array<String>, completion: (([Int]?, NSError?) -> Void)?) {
+    func bytes(fromPassphrase passphrase: Array<String>, completion: (([Int]?, Error?) -> Void)?) {
         // TODO: Add some keyword validation
         executeBlockOnReady {
             
@@ -142,7 +142,7 @@ class Niceware: JSInjector {
                 (result, error) in
                 
                 let bytes = JSON(result ?? []).array?.map({ $0.intValue })
-                completion?(bytes, error as! NSError)
+                completion?(bytes, error)
             })
         }
     }
