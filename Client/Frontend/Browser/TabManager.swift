@@ -244,14 +244,7 @@ class TabManager : NSObject {
     fileprivate func restoreTabsInternal() {
         var tabToSelect: Browser?
         let savedTabs = TabMO.getAll()
-        for savedTab in savedTabs {
-            if savedTab.url == nil {
-                if let id = savedTab.syncUUID {
-                    TabMO.removeTab(id)
-                }
-                continue
-            }
-            
+        for savedTab in savedTabs {            
             guard let tab = addTab(nil, configuration: nil, zombie: true, id: savedTab.syncUUID) else { return }
             
             debugPrint(savedTab)
@@ -360,6 +353,8 @@ class TabManager : NSObject {
 
         tab.navigationDelegate = navDelegate
         tab.loadRequest(request ?? defaultNewTabRequest)
+        
+        TabMO.preserveTab(tab: tab, tabManager: self)
     }
 
     // This method is duplicated to hide the flushToDisk option from consumers.
