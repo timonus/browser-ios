@@ -289,7 +289,11 @@ open class Login: CustomStringConvertible, LoginData, LoginUsageData, Equatable 
                 return nil
         }
 
-        let login = Login(hostname: getPasswordOrigin(url.absoluteString)!, username: username, password: password)
+        guard let origin = getPasswordOrigin(url.absoluteString) else {
+            return nil
+        }
+
+        let login = Login(hostname: origin, username: username, password: password)
 
         if let formSubmit = script["formSubmitURL"] as? String {
             login.formSubmitURL = formSubmit
