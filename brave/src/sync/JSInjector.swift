@@ -30,7 +30,6 @@ class JSInjector: NSObject {
             readyDelayAttempts += 1
             
             // Perform delayed attempt
-            // TODO: Update with Swift 3 syntax
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(delayLengthInSeconds * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
                 self.executeBlockOnReady(block)
             })

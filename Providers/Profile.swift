@@ -203,7 +203,9 @@ open class BrowserProfile: Profile {
     @objc
     func onPrivateDataClearedHistory(_ notification: Notification) {
         // Immediately invalidate the top sites cache
-        history.refreshTopSitesCache()
+        
+        // Brave does not use, profile sqlite store for sites
+        // history.refreshTopSitesCache()
     }
 
     deinit {
