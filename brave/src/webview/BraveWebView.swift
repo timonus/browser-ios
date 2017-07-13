@@ -738,8 +738,8 @@ extension BraveWebView: UIWebViewDelegate {
             setUrl(url)
             //print("Page changed by shouldStartLoad: \(URL?.absoluteString ?? "")")
 
-            if let url = request.url {
-                internalSetBraveShieldStateForDomain(url.normalizedHost!)
+            if let url = request.url?.normalizedHost {
+                internalSetBraveShieldStateForDomain(url)
             }
 
             shieldStatUpdate(.reset)
