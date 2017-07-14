@@ -362,6 +362,8 @@ class TabManager : NSObject {
 
         tab.navigationDelegate = navDelegate
         _ = tab.loadRequest(request ?? defaultNewTabRequest)
+        
+        TabMO.preserveTab(tab: tab)
     }
 
     // This method is duplicated to hide the flushToDisk option from consumers.
