@@ -267,6 +267,9 @@ class TabManager : NSObject {
                 let data = SavedTab(id: tabID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
                 tab.restore(w, restorationData: data)
             }
+            else {
+                debugPrint("failed to load tab \(savedTab.url)")
+            }
         }
         if tabToSelect == nil {
             tabToSelect = tabs.displayedTabsForCurrentPrivateMode.first
@@ -332,7 +335,10 @@ class TabManager : NSObject {
 
         let isPrivate = PrivateBrowsing.singleton.isOn
         let tab = Browser(configuration: self.configuration, isPrivate: isPrivate)
-        if id != nil {
+        if id == nil {
+            tab.tabID = TabMO.freshTab()
+        }
+        else {
             tab.tabID = id
         }
         configureTab(tab, request: request, zombie: zombie)

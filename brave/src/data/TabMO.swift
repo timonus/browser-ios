@@ -63,7 +63,7 @@ class TabMO: NSManagedObject {
         fetchRequest.entity = TabMO.entity(DataController.moc)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
         do {
-            return try DataController.moc.fetch(fetchRequest) as! [TabMO]
+            return try DataController.moc.fetch(fetchRequest) as? [TabMO] ?? []
         } catch {
             let fetchError = error as NSError
             print(fetchError)
