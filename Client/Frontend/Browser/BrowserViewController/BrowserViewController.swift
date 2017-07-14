@@ -681,12 +681,15 @@ class BrowserViewController: UIViewController {
             resetSpoofedUserAgentIfRequired(webView, newURL: url)
         }
 #endif
-        tab.loadRequest(URLRequest(url: url))
+        _ = tab.loadRequest(URLRequest(url: url))
+        
+        // TODO: Need to preserve tab on submit, difficult because history data dictates load index - on submit url isn't loaded webivew into history stack.
+//        TabMO.preserveTab(tab: tab)
     }
 
     func addBookmark(_ url: URL?, title: String?, parentFolder: Bookmark? = nil) {
         // Custom title can only be applied during an edit
-        Bookmark.add(url: url, title: title, parentFolder: parentFolder)
+        _ = Bookmark.add(url: url, title: title, parentFolder: parentFolder)
         self.urlBar.updateBookmarkStatus(true)
     }
 

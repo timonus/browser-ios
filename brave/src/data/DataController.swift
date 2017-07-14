@@ -70,7 +70,7 @@ class DataController: NSObject {
             }
         }
 
-        mainThreadContext()
+        _ = mainThreadContext()
     }
 
     fileprivate func writeContext() -> NSManagedObjectContext {

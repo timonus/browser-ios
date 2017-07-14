@@ -6,13 +6,14 @@ import SafariServices
 
 class BraveBrowserViewController : BrowserViewController {
     fileprivate lazy var __once: () = {
-        if BraveApp.shouldRestoreTabs() && !PrivateBrowsing.singleton.isOn {
+        if !PrivateBrowsing.singleton.isOn {
             // Only do tab restoration if in normal mode.
             //  If in PM, restoration happens on leaving.
-            let _ = self.tabManager.restoreTabs
+            _ = self.tabManager.restoreTabs
         } else {
-            self.tabManager.addTabAndSelect()
+            _ = self.tabManager.addTabAndSelect()
         }
+        
     }()
     
     var historySwiper = HistorySwiper()

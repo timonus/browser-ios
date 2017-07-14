@@ -28,7 +28,7 @@ extension URL {
     // The url is a local webserver url or an about url, a.k.a something we don't display to users
     public func isSpecialInternalUrl() -> Bool {
         assert(WebServer.sharedInstance.base.startsWith("http"))
-        return (absoluteString ?? "").startsWith(WebServer.sharedInstance.base) || AboutUtils.isAboutURL(self)
+        return absoluteString.startsWith(WebServer.sharedInstance.base) || AboutUtils.isAboutURL(self)
     }
 }
 

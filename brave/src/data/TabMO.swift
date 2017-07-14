@@ -63,7 +63,7 @@ class TabMO: NSManagedObject {
         fetchRequest.entity = TabMO.entity(DataController.moc)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
         do {
-            return try DataController.moc.fetch(fetchRequest) as? [TabMO] ?? []
+            return try DataController.moc.fetch(fetchRequest) as! [TabMO]
         } catch {
             let fetchError = error as NSError
             print(fetchError)
@@ -95,7 +95,11 @@ class TabMO: NSManagedObject {
         }
     }
     
-    class func preserveTab(tab: Browser, tabManager: TabManager) {
+    class func preserveTab(tab: Browser) {
+        guard let tabManager = getApp().tabManager else {
+            return
+        }
+        
         if tab.isPrivate || tab.lastRequest?.url?.absoluteString == nil || tab.tabID == nil {
             return
         }
@@ -122,7 +126,7 @@ class TabMO: NSManagedObject {
             currentPage = -forwardList.count
         }
         if let id = tab.tabID {
-            let data = SavedTab(id, tab.title ?? "", tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), tab.screenshot.image, urls, Int16(currentPage))
+            let data = SavedTab(id, tab.title ?? tab.lastRequest!.url!.absoluteString, tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), tab.screenshot.image, urls, Int16(currentPage))
             let context = DataController.shared.workerContext()
             context.perform {
                 _ = TabMO.add(data, context: context)
