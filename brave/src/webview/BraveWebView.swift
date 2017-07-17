@@ -697,12 +697,12 @@ extension BraveWebView: UIWebViewDelegate {
         }
 
         if AboutUtils.isAboutHomeURL(url) {
-            setUrl(url)
+            _ = setUrl(url)
             progress?.setProgress(1.0)
             return true
         }
 
-        if url.absoluteString.contains(specialStopLoadUrl) ?? false {
+        if url.absoluteString.contains(specialStopLoadUrl) {
             progress?.completeProgress()
             return false
         }

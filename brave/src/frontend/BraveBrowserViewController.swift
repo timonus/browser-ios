@@ -49,7 +49,7 @@ class BraveBrowserViewController : BrowserViewController {
         // TODO: Remove
         // Makes webview visible for debug logging
 //        Sync.shared.webView.alpha = 1
-//        UIApplication.sharedApplication().keyWindow?.addSubview(Sync.shared.webView)
+//        UIApplication.shared.keyWindow?.addSubview(Sync.shared.webView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
