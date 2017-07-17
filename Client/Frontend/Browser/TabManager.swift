@@ -63,6 +63,7 @@ class TabManager : NSObject {
     class TabsList {
         fileprivate(set) var tabs = [Browser]()
         func append(_ tab: Browser) { tabs.append(tab) }
+        func insert(_ tab: Browser, at: Int) { tabs.insert(tab, at: at) }
         var internalTabList : [Browser] { return tabs }
 
         var nonprivateTabs: [Browser] {
@@ -140,6 +141,18 @@ class TabManager : NSObject {
     var selectedTab: Browser? {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         return _selectedTab
+    }
+    
+    var currentIndex: Int {
+        objc_sync_enter(self); defer { objc_sync_exit(self) }
+        
+        var order = 0
+        for t in self.tabs.internalTabList {
+            if t === self.selectedTab { break }
+            order += 1
+        }
+        
+        return order
     }
 
     func tabForWebView(_ webView: UIWebView) -> Browser? {
@@ -326,7 +339,7 @@ class TabManager : NSObject {
         }
     }
 
-    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil) -> Browser? {
+    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int = -1) -> Browser? {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return nil
@@ -341,11 +354,11 @@ class TabManager : NSObject {
         else {
             tab.tabID = id
         }
-        configureTab(tab, request: request, zombie: zombie)
+        configureTab(tab, request: request, zombie: zombie, index: index)
         return tab
     }
 
-    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false) {
+    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false, index: Int = -1) {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return
@@ -354,7 +367,12 @@ class TabManager : NSObject {
         
         limitInMemoryTabs()
 
-        tabs.append(tab)
+        if index == -1 {
+            tabs.append(tab)
+        }
+        else {
+            tabs.insert(tab, at: index)
+        }
 
         for delegate in delegates {
             delegate.value?.tabManager(self, didAddTab: tab)
