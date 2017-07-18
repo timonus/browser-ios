@@ -12,7 +12,7 @@ private let log = Logger.browserLogger
 
 protocol TabManagerDelegate: class {
     func tabManager(_ tabManager: TabManager, didSelectedTabChange selected: Browser?)
-    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?)
+    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?, at: Int?)
     func tabManager(_ tabManager: TabManager, didAddTab tab: Browser)
     func tabManager(_ tabManager: TabManager, didRemoveTab tab: Browser)
     func tabManagerDidRestoreTabs(_ tabManager: TabManager)
@@ -64,6 +64,7 @@ class TabManager : NSObject {
         fileprivate(set) var tabs = [Browser]()
         func append(_ tab: Browser) { tabs.append(tab) }
         func insert(_ tab: Browser, at: Int) { tabs.insert(tab, at: at) }
+        func move(_ tab: Browser, from: Int, to: Int) { tabs.insert(tabs.remove(at: from), at: to) }
         var internalTabList : [Browser] { return tabs }
 
         var nonprivateTabs: [Browser] {
@@ -154,6 +155,22 @@ class TabManager : NSObject {
         
         return order
     }
+    
+    func move(tab: Browser, from: Int, to: Int) {
+        self.tabs.move(tab, from: from, to: to)
+        
+        // Update tab order.
+        debugPrint("updated tab index from \(from) to \(to)")
+        
+        for i in 0..<tabs.internalTabList.count {
+            let tab = tabs.internalTabList[i]
+            guard let tabID = tab.tabID else { print("Error: Tab missing ID"); continue }
+            let tabMO = TabMO.getByID(tabID, context: DataController.moc)
+            tabMO?.order = Int16(i)
+        }
+        
+        DataController.saveContext()
+    }
 
     func tabForWebView(_ webView: UIWebView) -> Browser? {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
@@ -194,7 +211,7 @@ class TabManager : NSObject {
         if let t = self.selectedTab, t.webView == nil {
             t.createWebview()
             for delegate in delegates where t.webView != nil {
-                delegate.value?.tabManager(self, didCreateWebView: t, url: nil)
+                delegate.value?.tabManager(self, didCreateWebView: t, url: nil, at: nil)
             }
         }
 
@@ -367,8 +384,10 @@ class TabManager : NSObject {
         
         limitInMemoryTabs()
 
+        var lastIndex = index
         if index == -1 {
             tabs.append(tab)
+            lastIndex = tabs.internalTabList.count - 1
         }
         else {
             tabs.insert(tab, at: index)
@@ -381,7 +400,7 @@ class TabManager : NSObject {
         tab.createWebview(useDesktopUserAgent)
 
         for delegate in delegates {
-            delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url)
+            delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url, at: lastIndex)
         }
 
         tab.navigationDelegate = navDelegate
