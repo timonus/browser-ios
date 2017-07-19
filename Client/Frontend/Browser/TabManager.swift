@@ -162,14 +162,15 @@ class TabManager : NSObject {
         // Update tab order.
         debugPrint("updated tab index from \(from) to \(to)")
         
+        let context = DataController.shared.mainThreadContext()
         for i in 0..<tabs.internalTabList.count {
             let tab = tabs.internalTabList[i]
             guard let tabID = tab.tabID else { print("Error: Tab missing ID"); continue }
-            let tabMO = TabMO.getByID(tabID, context: DataController.moc)
+            let tabMO = TabMO.getByID(tabID, context: context)
             tabMO?.order = Int16(i)
         }
         
-        DataController.saveContext()
+        DataController.saveContext(context: context)
     }
 
     func tabForWebView(_ webView: UIWebView) -> Browser? {

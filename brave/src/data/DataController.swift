@@ -16,19 +16,19 @@ class DataController: NSObject {
     fileprivate var mainThreadMOC: NSManagedObjectContext?
     fileprivate var workerMOC: NSManagedObjectContext? = nil
 
-    static var moc: NSManagedObjectContext {
-        get {
-            guard let moc = DataController.shared.mainThreadMOC else {
-                fatalError("DataController: Access to .moc contained nil value. A db connection has not yet been instantiated.")
-            }
-
-            if !Thread.isMainThread {
-                fatalError("DataController: Access to .moc must be on main thread.")
-            }
-            
-            return moc
-        }
-    }
+//    static var moc: NSManagedObjectContext {
+//        get {
+//            guard let moc = DataController.shared.mainThreadMOC else {
+//                fatalError("DataController: Access to .moc contained nil value. A db connection has not yet been instantiated.")
+//            }
+//
+//            if !Thread.isMainThread {
+//                fatalError("DataController: Access to .moc must be on main thread.")
+//            }
+//            
+//            return moc
+//        }
+//    }
     
     fileprivate var managedObjectModel: NSManagedObjectModel!
     fileprivate var persistentStoreCoordinator: NSPersistentStoreCoordinator!
@@ -86,14 +86,14 @@ class DataController: NSObject {
     func workerContext() -> NSManagedObjectContext {
         if workerMOC == nil {
             workerMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            workerMOC!.parent = mainThreadContext()
+            workerMOC!.parent = writeContext()
             workerMOC!.undoManager = nil
             workerMOC!.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         }
         return workerMOC!
     }
 
-    fileprivate func mainThreadContext() -> NSManagedObjectContext {
+    func mainThreadContext() -> NSManagedObjectContext {
         if mainThreadMOC != nil {
             return mainThreadMOC!
         }
@@ -105,7 +105,7 @@ class DataController: NSObject {
         return mainThreadMOC!
     }
 
-    static func saveContext(context: NSManagedObjectContext? = DataController.moc) {
+    static func saveContext(context: NSManagedObjectContext?) {
         guard let context = context  else {
             print("No context on save")
             return
@@ -119,7 +119,21 @@ class DataController: NSObject {
         if context.hasChanges {
             do {
                 try context.save()
-
+                
+                // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
+//                postAsyncToMain(0.1) {
+                    DataController.shared.writeMOC!.perform {
+                        if !DataController.shared.writeMOC!.hasChanges {
+                            return
+                        }
+                        do {
+                            try DataController.shared.writeMOC!.save()
+                        } catch {
+                            fatalError("Error saving DB to disk: \(error)")
+                        }
+                    }
+                
+                return
                 if context === DataController.shared.mainThreadMOC {
                     // Data has changed on main MOC. Let the existing worker threads continue as-is,
                     // but create a new workerMOC (which is a copy of main MOC data) for next time a worker is used.
@@ -127,19 +141,7 @@ class DataController: NSObject {
                     DataController.shared.workerMOC = nil
                     DataController.shared.workerMOC = DataController.shared.workerContext()
 
-                    // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
-                    postAsyncToMain(0.1) {
-                        DataController.shared.writeMOC!.perform {
-                            if !DataController.shared.writeMOC!.hasChanges {
-                                return
-                            }
-                            do {
-                                try DataController.shared.writeMOC!.save()
-                            } catch {
-                                fatalError("Error saving DB to disk: \(error)")
-                            }
-                        }
-                    }
+
                 } else {
                     postAsyncToMain(0.1) {
                         DataController.saveContext(context: DataController.shared.mainThreadMOC!)

@@ -152,8 +152,8 @@ class HistoryPanel: SiteTableViewController, HomePanel {
     func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
             if let obj = self.frc?.object(at: indexPath) as? History {
-                DataController.moc.delete(obj)
-                DataController.saveContext()
+                DataController.shared.mainThreadContext().delete(obj)
+                DataController.saveContext(context: DataController.shared.mainThreadContext())
             }
         }
     }

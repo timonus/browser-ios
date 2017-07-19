@@ -114,7 +114,7 @@ class BookmarkEditingViewController: FormViewController {
         self.bookmarkIndexPath = indexPath
 
         // get top-level folders
-        folders = Bookmark.getFolders(bookmark: nil, context: DataController.moc)
+        folders = Bookmark.getFolders(bookmark: nil, context: DataController.shared.mainThreadContext())
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -371,7 +371,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         // If I save while the animation is happening, the rows look screwed up (draw on top of each other).
         // Adding a delay to let animation complete avoids this problem
         postAsyncToMain(0.25) {
-            DataController.saveContext()
+            DataController.saveContext(context: self.frc?.managedObjectContext)
         }
     }
 

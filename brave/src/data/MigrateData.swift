@@ -256,6 +256,7 @@ class MigrateData: NSObject {
     fileprivate func migrateTabs(_ completed: (_ success: Bool) -> Void) {
         let query: String = "SELECT url, title, history FROM tabs ORDER BY last_used"
         var results: OpaquePointer? = nil
+        let context = DataController.shared.mainThreadContext()
         
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             var order: Int16 = 0
@@ -269,10 +270,10 @@ class MigrateData: NSObject {
                 
                 debugPrint("History restored [\(historyList)]")
                 
-                TabMO.add(tab, context: DataController.moc)
+                TabMO.add(tab, context: context)
                 order = order + 1
             }
-            DataController.saveContext()
+            DataController.saveContext(context: context)
         } else {
             debugPrint("SELECT statement could not be prepared")
         }
