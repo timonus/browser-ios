@@ -245,7 +245,6 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
 
     override func reloadData() {
-        DataController.saveContext()
 
         do {
             try self.frc?.performFetch()

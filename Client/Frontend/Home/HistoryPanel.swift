@@ -64,7 +64,6 @@ class HistoryPanel: SiteTableViewController, HomePanel {
         guard let frc = frc else {
             return
         }
-        DataController.saveContext()
 
         do {
             try frc.performFetch()
