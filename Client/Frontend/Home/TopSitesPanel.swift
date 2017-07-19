@@ -310,7 +310,7 @@ class TopSitesPanel: UIViewController {
     fileprivate func topSitesQuery() -> Deferred<[Site]> {
         let result = Deferred<[Site]>()
 
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             var sites = [Site]()
 
@@ -333,7 +333,7 @@ class TopSitesPanel: UIViewController {
         collection?.isUserInteractionEnabled = false
 
         guard let url = URL(string: site.url) else { return }
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             Domain.blockFromTopSites(url, context: context)
             
@@ -822,7 +822,7 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         suggestedSites = SuggestedSites.asArray()
         var blocked = [Domain]()
 
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             blocked = Domain.blockedTopSites(context)
             postAsyncToMain {

@@ -59,7 +59,7 @@ class History: NSManagedObject, WebsitePresentable {
     }
 
     class func add(_ title: String, url: URL) {
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             var item = History.getExisting(url, context: context)
             if item == nil {
@@ -148,7 +148,7 @@ class History: NSManagedObject, WebsitePresentable {
     }
     
     class func deleteAll(_ completionOnMain: @escaping ()->()) {
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = History.entity(context)

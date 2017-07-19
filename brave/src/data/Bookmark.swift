@@ -222,12 +222,12 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         // bookmark.parentFolderObjectId = [parentFolder]
         bookmark.site = site
         
-        return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext())
+        return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext)
     }
 
     class func contains(url: URL, completionOnMain completion: @escaping ((Bool)->Void)) {
         var found = false
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             if let count = get(forUrl: url, countOnly: true, context: context) as? Int {
                 found = count > 0

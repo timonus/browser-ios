@@ -119,7 +119,7 @@ class Domain: NSManagedObject {
     class func loadShieldsIntoMemory(_ completionOnMain: @escaping ()->()) {
         BraveShieldState.perNormalizedDomain.removeAll()
 
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = Domain.entity(context)
@@ -162,7 +162,7 @@ class Domain: NSManagedObject {
     }
 
     class func deleteNonBookmarkedAndClearSiteVisits(_ completionOnMain: @escaping ()->()) {
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = Domain.entity(context)

@@ -130,7 +130,7 @@ class TabMO: NSManagedObject {
         }
         if let id = tab.tabID {
             let data = SavedTab(id, tab.title ?? tab.lastRequest!.url!.absoluteString, tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), tab.screenshot.image, urls, Int16(currentPage))
-            let context = DataController.shared.workerContext()
+            let context = DataController.shared.workerContext
             context.perform {
                 _ = TabMO.add(data, context: context)
                 DataController.saveContext(context: context)

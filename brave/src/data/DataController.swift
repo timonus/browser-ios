@@ -12,9 +12,24 @@ import CoreData
 class DataController: NSObject {
     static let shared = DataController()
 
-    fileprivate var writeMOC: NSManagedObjectContext?
+    lazy var writeContext: NSManagedObjectContext = {
+        let write = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        write.persistentStoreCoordinator = self.persistentStoreCoordinator
+        write.undoManager = nil
+        write.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        return write
+    }()
+    
+    lazy var workerContext: NSManagedObjectContext = {
+        let worker = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        worker.parent = self.writeContext
+        worker.undoManager = nil
+        worker.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        return worker
+    }()
+    
     fileprivate var mainThreadMOC: NSManagedObjectContext?
-    fileprivate var workerMOC: NSManagedObjectContext? = nil
+    
 
 //    static var moc: NSManagedObjectContext {
 //        get {
@@ -73,26 +88,6 @@ class DataController: NSObject {
         _ = mainThreadContext()
     }
 
-    fileprivate func writeContext() -> NSManagedObjectContext {
-        if writeMOC == nil {
-            writeMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            writeMOC?.persistentStoreCoordinator = persistentStoreCoordinator
-            writeMOC?.undoManager = nil
-            writeMOC?.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        }
-        return writeMOC!
-    }
-
-    func workerContext() -> NSManagedObjectContext {
-        if workerMOC == nil {
-            workerMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            workerMOC!.parent = writeContext()
-            workerMOC!.undoManager = nil
-            workerMOC!.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        }
-        return workerMOC!
-    }
-
     func mainThreadContext() -> NSManagedObjectContext {
         if mainThreadMOC != nil {
             return mainThreadMOC!
@@ -101,7 +96,7 @@ class DataController: NSObject {
         mainThreadMOC = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         mainThreadMOC?.undoManager = nil
         mainThreadMOC?.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        mainThreadMOC?.parent = writeContext()
+        mainThreadMOC?.parent = self.writeContext
         return mainThreadMOC!
     }
 
@@ -111,7 +106,7 @@ class DataController: NSObject {
             return
         }
         
-        if context === DataController.shared.writeMOC {
+        if context === DataController.shared.writeContext {
             print("Do not use with the write moc, this save is handled internally here.")
             return
         }
@@ -122,31 +117,32 @@ class DataController: NSObject {
                 
                 // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
 //                postAsyncToMain(0.1) {
-                    DataController.shared.writeMOC!.perform {
-                        if !DataController.shared.writeMOC!.hasChanges {
+                    DataController.shared.writeContext.perform {
+                        if !DataController.shared.writeContext.hasChanges {
                             return
                         }
                         do {
-                            try DataController.shared.writeMOC!.save()
+                            try DataController.shared.writeContext.save()
                         } catch {
                             fatalError("Error saving DB to disk: \(error)")
                         }
                     }
-                
-                return
-                if context === DataController.shared.mainThreadMOC {
-                    // Data has changed on main MOC. Let the existing worker threads continue as-is,
-                    // but create a new workerMOC (which is a copy of main MOC data) for next time a worker is used.
-                    // By design we only merge changes 'up' the stack from child-to-parent.
-                    DataController.shared.workerMOC = nil
-                    DataController.shared.workerMOC = DataController.shared.workerContext()
-
-
-                } else {
-                    postAsyncToMain(0.1) {
-                        DataController.saveContext(context: DataController.shared.mainThreadMOC!)
-                    }
-                }
+//                
+//                return
+//                if context === DataController.shared.mainThreadMOC {
+//                    // Data has changed on main MOC. Let the existing worker threads continue as-is,
+//                    // but create a new workerMOC (which is a copy of main MOC data) for next time a worker is used.
+//                    // By design we only merge changes 'up' the stack from child-to-parent.
+//                    let context = DataController.shared.workerContext
+//                    DataController.shared.worker = nil
+//                    DataController.shared.workerMOC = DataController.shared.workerContext()
+//
+//
+//                } else {
+//                    postAsyncToMain(0.1) {
+//                        DataController.saveContext(context: DataController.shared.mainThreadMOC!)
+//                    }
+//                }
             } catch {
                 fatalError("Error saving DB: \(error)")
             }
