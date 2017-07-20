@@ -33,7 +33,7 @@ class TabMO: NSManagedObject {
     }
     
     class func freshTab() -> String {
-        let context = DataController.shared.mainThreadContext()
+        let context = DataController.shared.mainThreadContext
         let tab = TabMO(entity: TabMO.entity(context), insertInto: context)
         // TODO: replace with logic to create sync uuid then buble up new uuid to browser.
         tab.syncUUID = UUID().uuidString
@@ -60,7 +60,7 @@ class TabMO: NSManagedObject {
 
     class func getAll() -> [TabMO] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        let context = DataController.shared.mainThreadContext()
+        let context = DataController.shared.mainThreadContext
         
         fetchRequest.entity = TabMO.entity(context)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
@@ -91,7 +91,7 @@ class TabMO: NSManagedObject {
     }
     
     class func removeTab(_ id: String) {
-        let context = DataController.shared.mainThreadContext()
+        let context = DataController.shared.mainThreadContext
         if let tab: TabMO = getByID(id, context: context) {
             context.delete(tab)
             DataController.saveContext(context: context)

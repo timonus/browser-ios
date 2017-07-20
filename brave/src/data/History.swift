@@ -78,13 +78,15 @@ class History: NSManagedObject, WebsitePresentable {
 
     class func frc() -> NSFetchedResultsController<NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = History.entity(DataController.shared.mainThreadContext())
+        let context = DataController.shared.mainThreadContext
+        
+        fetchRequest.entity = History.entity(context)
         fetchRequest.fetchBatchSize = 20
         fetchRequest.fetchLimit = 200
         fetchRequest.sortDescriptors = [NSSortDescriptor(key:"visitedOn", ascending: false)]
         fetchRequest.predicate = NSPredicate(format: "visitedOn >= %@", History.ThisMonth as CVarArg)
 
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:DataController.shared.mainThreadContext(), sectionNameKeyPath: "sectionIdentifier", cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context, sectionNameKeyPath: "sectionIdentifier", cacheName: nil)
     }
 
     override func awakeFromFetch() {

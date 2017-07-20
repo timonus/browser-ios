@@ -73,7 +73,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     }
 
     class func frc(parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
-        let context = DataController.shared.mainThreadContext()
+        let context = DataController.shared.mainThreadContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         
         fetchRequest.entity = Bookmark.entity(context: context)
@@ -204,7 +204,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
         
-        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder, context: DataController.shared.mainThreadContext())
+        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder, context: DataController.shared.mainThreadContext)
     }
     
     // TODO: Migration syncUUIDS still needs to be solved

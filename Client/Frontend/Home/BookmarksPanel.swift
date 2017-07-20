@@ -114,7 +114,7 @@ class BookmarkEditingViewController: FormViewController {
         self.bookmarkIndexPath = indexPath
 
         // get top-level folders
-        folders = Bookmark.getFolders(bookmark: nil, context: DataController.shared.mainThreadContext())
+        folders = Bookmark.getFolders(bookmark: nil, context: DataController.shared.mainThreadContext)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -256,7 +256,7 @@ class MigrateData: NSObject {
     fileprivate func migrateTabs(_ completed: (_ success: Bool) -> Void) {
         let query: String = "SELECT url, title, history FROM tabs ORDER BY last_used"
         var results: OpaquePointer? = nil
-        let context = DataController.shared.mainThreadContext()
+        let context = DataController.shared.mainThreadContext
         
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             var order: Int16 = 0
