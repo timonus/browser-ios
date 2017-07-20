@@ -201,7 +201,7 @@ class TabsBarViewController: UIViewController {
         t.remakeLayout(tabs.last?.spacerRight != nil ? tabs.last!.spacerRight : self.spacerLeftmost, width: w, scrollView: scrollView)
         tabs.append(t)
         
-        if let index = at, index > -1 {
+        if let index = at, index > -1 && index < tabs.count {
             isAddTabAnimationRunning = false
             moveTab(t, index: index)
             recalculateTabView()
