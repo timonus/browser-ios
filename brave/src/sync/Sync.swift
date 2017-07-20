@@ -71,7 +71,7 @@ class Sync: JSInjector {
     
     static let SeedByteLength = 32
     /// Number of records that is considered a fetch limit as opposed to full data set
-    static let RecordRateLimitCount = 985
+    static let RecordFetchAmount = 300
     static let shared = Sync()
 
     /// This must be public so it can be added into the view hierarchy 
@@ -379,7 +379,7 @@ extension Sync {
         executeBlockOnReady() {
 
             // Pass in `lastFetch` to get records since that time
-            let evaluate = "callbackList['\(type.syncFetchMethod)'](null, ['\(type.rawValue)'], \(self.lastSuccessfulSync), 300)"
+            let evaluate = "callbackList['\(type.syncFetchMethod)'](null, ['\(type.rawValue)'], \(self.lastSuccessfulSync), \(Sync.RecordFetchAmount))"
             self.webView.evaluateJavaScript(evaluate,
                                        completionHandler: { (result, error) in
                                         completion?(error)
