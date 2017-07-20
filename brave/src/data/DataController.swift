@@ -11,20 +11,21 @@ import CoreData
 
 class DataController: NSObject {
     static let shared = DataController()
-
-    lazy var writeContext: NSManagedObjectContext = {
-        let write = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        write.persistentStoreCoordinator = self.persistentStoreCoordinator
-        write.undoManager = nil
-        write.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        return write
-    }()
+    
+    func merge(notification: Notification) {
+        self.mainThreadMOC?.perform {
+            self.mainThreadMOC?.mergeChanges(fromContextDidSave: notification)
+        }
+    }
     
     lazy var workerContext: NSManagedObjectContext = {
         let worker = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        worker.parent = self.writeContext
+        worker.persistentStoreCoordinator = self.persistentStoreCoordinator
         worker.undoManager = nil
         worker.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(merge(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: worker)
+        
         return worker
     }()
     
@@ -96,7 +97,7 @@ class DataController: NSObject {
         mainThreadMOC = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         mainThreadMOC?.undoManager = nil
         mainThreadMOC?.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        mainThreadMOC?.parent = self.writeContext
+        mainThreadMOC?.parent = self.workerContext
         return mainThreadMOC!
     }
 
@@ -106,27 +107,51 @@ class DataController: NSObject {
             return
         }
         
-        if context === DataController.shared.writeContext {
-            print("Do not use with the write moc, this save is handled internally here.")
-            return
-        }
+//        if context === DataController.shared.writeContext {
+//            print("Do not use with the write moc, this save is handled internally here.")
+//            return
+//        }
+//        
+//        if context == DataController.shared.mainThreadMOC && !Thread.isMainThread {
+//            // Super bad
+//        }
 
         if context.hasChanges {
+            
+            context.perform {
+                
+//            }
             do {
                 try context.save()
                 
-                // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
-//                postAsyncToMain(0.1) {
-                    DataController.shared.writeContext.perform {
-                        if !DataController.shared.writeContext.hasChanges {
-                            return
-                        }
-                        do {
-                            try DataController.shared.writeContext.save()
-                        } catch {
-                            fatalError("Error saving DB to disk: \(error)")
+                if context == DataController.shared.mainThreadMOC {
+                    
+                    // Just recall this method
+                    let worker = DataController.shared.workerContext
+                    if worker.hasChanges {
+                        worker.perform {
+                            try? worker.save()
                         }
                     }
+                    
+                }
+                
+                // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
+//                postAsyncToMain(0.1) {
+                
+                
+//                DataController.shared.writeContext.perform {
+//                    if !DataController.shared.writeContext.hasChanges {
+//                        return
+//                    }
+//                    do {
+//                        try DataController.shared.writeContext.save()
+//                    } catch {
+//                        fatalError("Error saving DB to disk: \(error)")
+//                    }
+//                }
+                
+                
 //                
 //                return
 //                if context === DataController.shared.mainThreadMOC {
@@ -145,6 +170,7 @@ class DataController: NSObject {
 //                }
             } catch {
                 fatalError("Error saving DB: \(error)")
+            }
             }
         }
     }

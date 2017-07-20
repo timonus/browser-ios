@@ -46,14 +46,19 @@ extension Syncable where Self: Syncable {
         fetchRequest.entity = Self.entity(context: context)
         fetchRequest.predicate = predicate
         
-        do {
-            return try context.fetch(fetchRequest) as? [NSManagedObject]
-        } catch {
-            let fetchError = error as NSError
-            print(fetchError)
+        var result: [NSManagedObject]? = nil
+        context.performAndWait {
+            
+        
+            do {
+                result = try context.fetch(fetchRequest) as? [NSManagedObject]
+            } catch {
+                let fetchError = error as NSError
+                print(fetchError)
+            }
         }
         
-        return nil
+        return result
     }
 }
 
