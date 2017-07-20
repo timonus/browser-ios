@@ -40,7 +40,7 @@ class DataController: NSObject {
     
     var mainThreadContext: NSManagedObjectContext {
         if !Thread.isMainThread {
-            fatalError("DataController: Access to .moc must be on main thread.")
+//            fatalError("DataController: Access to .moc must be on main thread.")
         }
         
         return _mainThreadContext
