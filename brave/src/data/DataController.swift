@@ -89,7 +89,7 @@ class DataController: NSObject {
         }
 
         if context.hasChanges {
-            context.perform {
+            context.performAndWait {
                 do {
                     try context.save()
                     
