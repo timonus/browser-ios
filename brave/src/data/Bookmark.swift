@@ -78,7 +78,6 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         fetchRequest.entity = Bookmark.entity(context: context)
         fetchRequest.fetchBatchSize = 20
-        fetchRequest.fetchLimit = 200
         fetchRequest.sortDescriptors = [NSSortDescriptor(key:"order", ascending: true), NSSortDescriptor(key:"created", ascending: false)]
         if let parentFolder = parentFolder {
             fetchRequest.predicate = NSPredicate(format: "parentFolder == %@", parentFolder)
