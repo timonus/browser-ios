@@ -30,21 +30,13 @@ class DataController: NSObject {
     }()
     
     
-    fileprivate lazy var _mainThreadContext: NSManagedObjectContext = {
+    lazy var mainThreadContext: NSManagedObjectContext = {
         let main = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         main.undoManager = nil
         main.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         main.parent = self.workerContext
         return main
     }()
-    
-    var mainThreadContext: NSManagedObjectContext {
-        if !Thread.isMainThread {
-//            fatalError("DataController: Access to .moc must be on main thread.")
-        }
-        
-        return _mainThreadContext
-    }
     
     fileprivate var managedObjectModel: NSManagedObjectModel!
     fileprivate var persistentStoreCoordinator: NSPersistentStoreCoordinator!
