@@ -298,7 +298,8 @@ class BraveURLBarView : URLBarView {
                 if self.bottomToolbarIsHidden {
                     // Firefox is not referring to the bottom toolbar, it is asking is this class showing more tool buttons
                     make.leading.equalTo(self.leftSidePanelButton.snp_trailing)
-                    make.trailing.equalTo(self).inset(UIConstants.ToolbarHeight * (3 + (pwdMgrButton.isHidden == false ? 1 : 0)))
+                    make.trailing.equalTo(self).inset(-(UIConstants.ToolbarHeight * (3 + (pwdMgrButton.isHidden == false ? 1 : 0))))
+                    
                 } else {
                     make.left.right.equalTo(self).inset(UIConstants.ToolbarHeight)
                 }
