@@ -676,11 +676,6 @@ class BrowserViewController: UIViewController {
         urlBar.currentURL = url
         urlBar.leaveSearchMode()
 
-#if !BRAVE // TODO hookup when adding desktop AU
-        if let webView = tab.webView {
-            resetSpoofedUserAgentIfRequired(webView, newURL: url)
-        }
-#endif
         _ = tab.loadRequest(URLRequest(url: url))
         
         // TODO: Need to preserve tab on submit, difficult because history data dictates load index - on submit url isn't loaded webivew into history stack.
@@ -837,22 +832,6 @@ class BrowserViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
-
-    // Mark: User Agent Spoofing
-#if !BRAVE // TODO hookup when adding desktop AU
-    fileprivate func resetSpoofedUserAgentIfRequired(_ webView: WKWebView, newURL: URL) {
-        // Reset the UA when a different domain is being loaded
-        if webView.url?.host != newURL.host {
-            webView.customUserAgent = nil
-        }
-    }
-
-    fileprivate func restoreSpoofedUserAgentIfRequired(_ webView: WKWebView, newRequest: URLRequest) {
-        // Restore any non-default UA from the request's header
-        let ua = newRequest.value(forHTTPHeaderField: "User-Agent")
-        webView.customUserAgent = ua != UserAgent.defaultUserAgent() ? ua : nil
-    }
-#endif
 
     var helper:ShareExtensionHelper!
     

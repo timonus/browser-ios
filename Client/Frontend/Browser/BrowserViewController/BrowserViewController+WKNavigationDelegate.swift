@@ -123,13 +123,6 @@ extension BrowserViewController: WKCompatNavigationDelegate {
         // This is the normal case, opening a http or https url, which we handle by loading them in this WKWebView. We
         // always allow this.
         if url.scheme == "http" || url.scheme == "https" {
-            #if !BRAVE
-                if navigationAction.navigationType == .LinkActivated {
-                    resetSpoofedUserAgentIfRequired(webView, newURL: url)
-                } else if navigationAction.navigationType == .BackForward {
-                    restoreSpoofedUserAgentIfRequired(webView, newRequest: navigationAction.request)
-                }
-            #endif
             return
         }
 
