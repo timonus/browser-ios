@@ -374,10 +374,10 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         func setupStatsSection() {
             let statTitles = [Strings.Ads_and_Trackers, Strings.HTTPS_Upgrades, Strings.Scripts_Blocked, Strings.Fingerprinting_Methods]
             let statViews = [statAdsBlocked, statHttpsUpgrades, statScriptsBlocked, statFPBlocked]
-            let statColors = [UIColor(red:234/255.0, green:90/255.0, blue:45/255.0, alpha:1),
-                              UIColor(red:242/255.0, green:142/255.0, blue:45/255.0, alpha:1),
-                              UIColor(red:26/255.0, green:152/255.0, blue:252/255.0, alpha:1),
-                              UIColor.init(white: 90/255.0, alpha: 1)]
+            let statColors = [UIColor(red:254/255.0, green:82/255.0, blue:29/255.0, alpha:),
+                              UIColor(red:7/255.0, green:150/255.0, blue:250/255.0, alpha:1),
+                              UIColor(red:153/255.0, green:153/255.0, blue:153/255.0, alpha:1),
+                              UIColor(red:255/255.0, green:192/255.0, blue:0/255.0, alpha:1)]
 
             var prevTitle:UIView? = nil
             for (i, stat) in statViews.enumerated() {
