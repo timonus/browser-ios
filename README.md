@@ -18,7 +18,7 @@ We are currently in the process of migrating Brave from Swift 2.3 to Swift 3.1. 
 
 The master branch (i.e. the mainline) is Xcode8 + Swift2.3
 
-Install [Node.js](https://nodejs.org/en/download/stable/) v5.0.0
+Install [Node.js](https://nodejs.org/en/download/) Latest LTS Version
 
 Install Carthage: `brew install carthage`
 
