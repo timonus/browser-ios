@@ -28,7 +28,7 @@ extension URL {
     // The url is a local webserver url or an about url, a.k.a something we don't display to users
     public func isSpecialInternalUrl() -> Bool {
         assert(WebServer.sharedInstance.base.startsWith("http"))
-        return (absoluteString ?? "").startsWith(WebServer.sharedInstance.base) || AboutUtils.isAboutURL(self)
+        return absoluteString.startsWith(WebServer.sharedInstance.base) || AboutUtils.isAboutURL(self)
     }
 }
 
@@ -134,6 +134,8 @@ class BraveApp {
         }
         if args.contains("BRAVE-DELETE-BOOKMARKS") {
             succeed().upon { _ in
+                // TODO: Fix
+                // Check if this is still required. Do not think so, if not, remove
                 getApp().profile!.bookmarks.modelFactory >>== {
                     $0
 //                    $0.clearBookmarks().uponQueue(DispatchQueue.main) { res in

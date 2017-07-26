@@ -16,6 +16,8 @@ class Niceware: JSInjector {
     override init() {
         super.init()
         
+        self.maximumDelayAttempts = 4
+        
         // Overriding javascript check for this subclass
         self.isJavascriptReadyCheck = { return self.isNicewareReady }
         
@@ -47,7 +49,7 @@ class Niceware: JSInjector {
         executeBlockOnReady {
             self.nicewareWebView.evaluateJavaScript("JSON.stringify(niceware.passphraseToBytes(niceware.generatePassphrase(\(byteCount))))") { (result, error) in
                 
-                let bytes = JSON(result ?? []).array?.map({ $0.intValue })
+                let bytes = JSON(parseJSON: result as? String ?? "")["data"].array?.map({ $0.intValue })
                 completion(bytes, error)
             }
         }
@@ -67,7 +69,7 @@ class Niceware: JSInjector {
             self.nicewareWebView.evaluateJavaScript(jsToExecute, completionHandler: {
                 (result, error) in
                 
-                let jsonArray = JSON(string: result as? String ?? "").array
+                let jsonArray = JSON(parseJSON: result as? String ?? "").array
                 let words = jsonArray?.map { $0.string }.flatMap { $0 }
                 
                 if words?.count != bytes.count / 2 {
@@ -132,7 +134,7 @@ class Niceware: JSInjector {
     /// Takes English words and returns associated bytes (2 bytes per word)
     /// fromPassphrase: An array of words : ["administrational", "experimental"]
     /// returns (via completion): Array of integer values : [0x00, 0xee, 0x4a, 0x42]
-    func bytes(fromPassphrase passphrase: Array<String>, completion: (([Int]?, NSError?) -> Void)?) {
+    func bytes(fromPassphrase passphrase: Array<String>, completion: (([Int]?, Error?) -> Void)?) {
         // TODO: Add some keyword validation
         executeBlockOnReady {
             
@@ -141,8 +143,8 @@ class Niceware: JSInjector {
             self.nicewareWebView.evaluateJavaScript(jsToExecute, completionHandler: {
                 (result, error) in
                 
-                let bytes = JSON(result ?? []).array?.map({ $0.intValue })
-                completion?(bytes, error as! NSError)
+                let bytes = JSON(parseJSON: result as? String ?? "")["data"].array?.map({ $0.intValue })
+                completion?(bytes, error)
             })
         }
     }

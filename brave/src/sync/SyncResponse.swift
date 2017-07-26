@@ -31,8 +31,8 @@ public final class SyncResponse {
     ///
     /// - parameter object: The object of either Dictionary or Array kind that was passed.
     /// - returns: An initialized instance of the class.
-    public convenience init(object: AnyObject) {
-        self.init(json: JSON(string: object as? String ?? ""))
+    public convenience init(object: String) {
+        self.init(json: JSON(parseJSON: object))
     }
     
     /// Initiates the instance based on the JSON that was passed.

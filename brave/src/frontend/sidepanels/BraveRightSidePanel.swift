@@ -30,10 +30,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     let shieldsOverviewFooter = UILabel()
     
     // Constraints stored for updating dynamically
-    // These should be updated to use Snapkit Constraints
-    var headerContainerHeightConstraint: LayoutConstraint?
-    var siteNameContainerHeightConstraint: LayoutConstraint?
-    var shieldsOverviewContainerHeightConstraint: LayoutConstraint?
+    var shieldsOverviewContainerHeightConstraint: Constraint?
 
     let headerContainer = UIView()
     // Shield description container on new tab page
@@ -171,19 +168,21 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
 
                 if i == 0 {
                     make.top.equalTo(section.superview!)
-                    // Updated dynamically, setting to 0 just to setup height constraint
-//                    headerContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+                    // Height adjusted dynamically for status bar
+                    // Must be assigned to something for snp to `update` constraints
+                    make.height.equalTo(0)
                 } else if section !== sections.last {
                     make.top.equalTo(sections[i - 1].snp.bottom)
                     make.bottom.equalTo(sections[i + 1].snp.top)
                 }
 
                 if section === siteNameContainer {
-                    // Updated dynamically
-//                    siteNameContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+                    // Height adjusted dynamically
+                    // Must be assigned to something for snp to `update` constraints
+                    make.height.equalTo(0)
                 } else if section === shieldsOverviewContainer {
                     // Updated dynamically
-//                    shieldsOverviewContainerHeightConstraint = make.height.equalTo(0).constraint.layoutConstraints.first
+                    shieldsOverviewContainerHeightConstraint = make.height.equalTo(0).constraint
                 } else if section === statsContainer {
                     make.height.equalTo(isTinyScreen() ? 120 : 160)
                 } else if section === togglesContainer {
@@ -375,10 +374,10 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         func setupStatsSection() {
             let statTitles = [Strings.Ads_and_Trackers, Strings.HTTPS_Upgrades, Strings.Scripts_Blocked, Strings.Fingerprinting_Methods]
             let statViews = [statAdsBlocked, statHttpsUpgrades, statScriptsBlocked, statFPBlocked]
-            let statColors = [UIColor(red:234/255.0, green:90/255.0, blue:45/255.0, alpha:1),
-                              UIColor(red:242/255.0, green:142/255.0, blue:45/255.0, alpha:1),
-                              UIColor(red:26/255.0, green:152/255.0, blue:252/255.0, alpha:1),
-                              UIColor.init(white: 90/255.0, alpha: 1)]
+            let statColors = [UIColor(red:254/255.0, green:82/255.0, blue:29/255.0, alpha:1),
+                              UIColor(red:7/255.0, green:150/255.0, blue:250/255.0, alpha:1),
+                              UIColor(red:153/255.0, green:153/255.0, blue:153/255.0, alpha:1),
+                              UIColor(red:255/255.0, green:192/255.0, blue:0/255.0, alpha:1)]
 
             var prevTitle:UIView? = nil
             for (i, stat) in statViews.enumerated() {
@@ -509,14 +508,17 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     }
     
     func updateConstraintsForPanelSections() {
-        headerContainerHeightConstraint?.constant = 44 + CGFloat(spaceForStatusBar())
+        
+        var siteNameHeight = ui_siteNameSectionHeight
         if isShowingShieldOverview() {
-            siteNameContainerHeightConstraint?.constant = ui_siteNameSectionHeight - 30
-            shieldsOverviewContainerHeightConstraint?.isActive = false
+            siteNameHeight -= 30
+            shieldsOverviewContainerHeightConstraint?.deactivate()
         } else {
-            siteNameContainerHeightConstraint?.constant = ui_siteNameSectionHeight
-            shieldsOverviewContainerHeightConstraint?.isActive = true
+            shieldsOverviewContainerHeightConstraint?.activate()
         }
+        
+        siteNameContainer.snp.updateConstraints { $0.height.equalTo(siteNameHeight) }
+        headerContainer.snp.updateConstraints { $0.height.equalTo(44 + CGFloat(spaceForStatusBar())) }
         
         setupContainerViewSize()
     }

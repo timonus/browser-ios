@@ -278,9 +278,15 @@ class Browser: NSObject, BrowserWebViewDelegate {
             jsonDict["history"] = updatedURLs as AnyObject
             jsonDict["currentPage"] = Int(currentPage) as AnyObject
             
-            let escapedJSON = JSON(jsonDict).rawString()?.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
-            let restoreURL = URL(string: "\(WebServer.sharedInstance.base)/about/sessionrestore?history=\(escapedJSON)")
-            lastRequest = URLRequest(url: restoreURL!)
+            guard let escapedJSON = JSON(jsonDict).rawString()?.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+                return
+            }
+            
+            guard let restoreURL = URL(string: "\(WebServer.sharedInstance.base)/about/sessionrestore?history=\(escapedJSON)") else {
+                return
+            }
+            
+            lastRequest = URLRequest(url: restoreURL)
             webView.loadRequest(lastRequest!)
         } else if let request = lastRequest {
             webView.loadRequest(request)

@@ -363,6 +363,10 @@ class BrowserViewController: UIViewController {
         scrollController.header = header
         scrollController.footer = footer
         scrollController.snackBars = snackBars
+        
+        // No access to PrivateBrowsing.singleton.isOn yet but tried other arragements and those would require more refactoring.access
+        // TODO: refactor when theme is called, take into account private/normal browsing modes.
+        applyTheme(Theme.NormalMode)
     }
 
     var headerHeightConstraint: Constraint?
@@ -676,22 +680,20 @@ class BrowserViewController: UIViewController {
         urlBar.currentURL = url
         urlBar.leaveSearchMode()
 
-#if !BRAVE // TODO hookup when adding desktop AU
-        if let webView = tab.webView {
-            resetSpoofedUserAgentIfRequired(webView, newURL: url)
-        }
-#endif
-        tab.loadRequest(URLRequest(url: url))
+        _ = tab.loadRequest(URLRequest(url: url))
+        
+        // TODO: Need to preserve tab on submit, difficult because history data dictates load index - on submit url isn't loaded webivew into history stack.
+//        TabMO.preserveTab(tab: tab)
     }
 
     func addBookmark(_ url: URL?, title: String?, parentFolder: Bookmark? = nil) {
         // Custom title can only be applied during an edit
-        Bookmark.add(url: url, title: title, parentFolder: parentFolder)
+        _ = Bookmark.add(url: url, title: title, parentFolder: parentFolder)
         self.urlBar.updateBookmarkStatus(true)
     }
 
     func removeBookmark(_ url: URL) {
-        if Bookmark.remove(forUrl: url, context: DataController.moc) {
+        if Bookmark.remove(forUrl: url, context: DataController.shared.mainThreadContext) {
             self.urlBar.updateBookmarkStatus(false)
         }
     }
@@ -834,22 +836,6 @@ class BrowserViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
-
-    // Mark: User Agent Spoofing
-#if !BRAVE // TODO hookup when adding desktop AU
-    fileprivate func resetSpoofedUserAgentIfRequired(_ webView: WKWebView, newURL: URL) {
-        // Reset the UA when a different domain is being loaded
-        if webView.url?.host != newURL.host {
-            webView.customUserAgent = nil
-        }
-    }
-
-    fileprivate func restoreSpoofedUserAgentIfRequired(_ webView: WKWebView, newRequest: URLRequest) {
-        // Restore any non-default UA from the request's header
-        let ua = newRequest.value(forHTTPHeaderField: "User-Agent")
-        webView.customUserAgent = ua != UserAgent.defaultUserAgent() ? ua : nil
-    }
-#endif
 
     var helper:ShareExtensionHelper!
     

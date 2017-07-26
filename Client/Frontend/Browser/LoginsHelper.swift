@@ -224,7 +224,7 @@ class LoginsHelper: BrowserHelper {
                 }
 
                 let json = JSON(jsonObj)
-                let src = "window.__firefox__.logins.inject(\(json.stringValue))"
+                let src = "window.__firefox__.logins.inject(\(json.rawString() ?? ""))"
                 self.browser?.webView?.evaluateJavaScript(src, completionHandler: nil)
             }
         }

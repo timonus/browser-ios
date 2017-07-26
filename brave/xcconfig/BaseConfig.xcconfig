@@ -8,6 +8,7 @@ HEADER_SEARCH_PATHS = ./brave/ThirdParty/leveldb/include ./brave/ThirdParty/leve
 
 MOZ_BUNDLE_DISPLAY_NAME = Brave$(BETA)
 MOZ_PRODUCT_NAME = Brave$(BETA)
+MOZ_PRODUCT_ICON = AppIcon$(BETA)
 
 // App Version
 MOZ_VERSION = 1.4

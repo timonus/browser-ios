@@ -14,7 +14,7 @@ public struct BraveShieldState {
             return
         }
 
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             Domain.setBraveShield(forDomain: domain, state: state, context: context)
         }
@@ -52,7 +52,7 @@ public struct BraveShieldState {
     }
 
     public init(jsonStateFromDbRow: String) {
-        let js = JSON(string: jsonStateFromDbRow)
+        let js = JSON(parseJSON: jsonStateFromDbRow)
         for (k,v) in (js.dictionary ?? [:]) {
             if let key = Shield(rawValue: k) {
                 setState(key, on: v.bool)

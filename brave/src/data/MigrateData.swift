@@ -84,12 +84,12 @@ class MigrateData: NSObject {
                 let domain = String(cString: sqlite3_column_text(results, 1))
                 let showOnTopSites = sqlite3_column_int(results, 2)
                 
-                if let d = Domain.getOrCreateForUrl(URL(string: domain)!, context: DataController.shared.workerContext()) {
+                if let d = Domain.getOrCreateForUrl(URL(string: domain)!, context: DataController.shared.workerContext) {
                     d.topsite = (showOnTopSites == 1)
                     domainHash[id] = d
                 }
             }
-            DataController.saveContext(context: DataController.shared.workerContext())
+            DataController.saveContext(context: DataController.shared.workerContext)
         } else {
             debugPrint("SELECT statement could not be prepared")
         }
@@ -230,7 +230,7 @@ class MigrateData: NSObject {
                     bk.parentFolder = parent
                     bk.syncParentUUID = parent?.syncUUID
                     if let baseUrl = URL(string: url)?.baseURL {
-                        bk.domain = Domain.getOrCreateForUrl(baseUrl, context: DataController.shared.workerContext())
+                        bk.domain = Domain.getOrCreateForUrl(baseUrl, context: DataController.shared.workerContext)
                     }
                     
                     if let order = bookmarkOrderHash[guid] {
@@ -256,6 +256,7 @@ class MigrateData: NSObject {
     fileprivate func migrateTabs(_ completed: (_ success: Bool) -> Void) {
         let query: String = "SELECT url, title, history FROM tabs ORDER BY last_used"
         var results: OpaquePointer? = nil
+        let context = DataController.shared.mainThreadContext
         
         if sqlite3_prepare_v2(db, query, -1, &results, nil) == SQLITE_OK {
             var order: Int16 = 0
@@ -269,10 +270,10 @@ class MigrateData: NSObject {
                 
                 debugPrint("History restored [\(historyList)]")
                 
-                TabMO.add(tab, context: DataController.moc)
+                TabMO.add(tab, context: context)
                 order = order + 1
             }
-            DataController.saveContext()
+            DataController.saveContext(context: context)
         } else {
             debugPrint("SELECT statement could not be prepared")
         }

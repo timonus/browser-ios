@@ -43,17 +43,19 @@ class Domain: NSManagedObject {
         fetchRequest.entity = Domain.entity(context)
         fetchRequest.predicate = NSPredicate(format: "url == %@", domainString)
         var result: Domain? = nil
-        do {
-            let results = try context.fetch(fetchRequest) as? [Domain]
-            if let item = results?.first {
-                result = item
-            } else {
-                result = Domain(entity: Domain.entity(context), insertInto: context)
-                result?.url = domainString
+        context.performAndWait {
+            do {
+                let results = try context.fetch(fetchRequest) as? [Domain]
+                if let item = results?.first {
+                    result = item
+                } else {
+                    result = Domain(entity: Domain.entity(context), insertInto: context)
+                    result?.url = domainString
+                }
+            } catch {
+                let fetchError = error as NSError
+                print(fetchError)
             }
-        } catch {
-            let fetchError = error as NSError
-            print(fetchError)
         }
         return result
     }
@@ -119,7 +121,7 @@ class Domain: NSManagedObject {
     class func loadShieldsIntoMemory(_ completionOnMain: @escaping ()->()) {
         BraveShieldState.perNormalizedDomain.removeAll()
 
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = Domain.entity(context)
@@ -162,7 +164,7 @@ class Domain: NSManagedObject {
     }
 
     class func deleteNonBookmarkedAndClearSiteVisits(_ completionOnMain: @escaping ()->()) {
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = Domain.entity(context)

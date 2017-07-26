@@ -105,4 +105,10 @@ public extension String {
         newString.insert("\n", at: newString.characters.index(newString.characters.startIndex, offsetBy: closest.element))
         return newString
     }
+    
+    // TODO: Move outside of Share extension
+    /// Removes all literal spaces " " in string
+    public var withoutSpaces: String {
+        return self.replacingOccurrences(of: " ", with: "")
+    }
 }

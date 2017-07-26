@@ -39,7 +39,7 @@ class SyncTest: XCTestCase {
                 "isFolder: false," +
                 "parentFolderObjectId: undefined } }]"
         
-        let syncbm = SyncBookmark(json: JSON(string:bm))
+        let syncbm = SyncBookmark(json: JSON(parseJSON:bm))
         let realbm = Bookmark.add(rootObject: syncbm, save: true, sendToSync: true)
 
         sleep(5)

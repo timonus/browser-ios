@@ -19,7 +19,7 @@ let kPrefName3rdPartyPasswordShortcutEnabled = "thirdPartyPasswordShortcutEnable
 
 enum ThirdPartyPasswordManagerType: Int {
     case showPicker = 0
-    case onePassword, lastPass, bitwarden
+    case onePassword, lastPass, bitwarden, trueKey
     
     var prefId: Int { return self.rawValue }
     
@@ -55,20 +55,23 @@ enum ThirdPartyPasswordManagerType: Int {
             return .lastPass
         } else if action.contains("bitwarden") {
             return .bitwarden
+        } else if action.contains("truekey") {
+            return .trueKey
         }
         return nil
     }
     
     // Must have explicit type
     // ALL PM types from above enum
-    static fileprivate let PMTypes = [ ThirdPartyPasswordManagerType.showPicker, .onePassword, .lastPass, .bitwarden ]
+    static fileprivate let PMTypes = [ ThirdPartyPasswordManagerType.showPicker, .onePassword, .lastPass, .bitwarden, .trueKey ]
     
     // Titles to be displayed for user selection/view
     static private let PMDisplayTitles: [ThirdPartyPasswordManagerType: String] = [
         .showPicker : Strings.ShowPicker,
         .onePassword : "1Password",
         .lastPass : "LastPass",
-        .bitwarden : "bitwarden"
+        .bitwarden : "bitwarden",
+        .trueKey : "True Key"
     ]
     
     // PM image names
@@ -76,7 +79,8 @@ enum ThirdPartyPasswordManagerType: Int {
         .showPicker: "key",
         .onePassword : "passhelper_1pwd",
         .lastPass : "passhelper_lastpass",
-        .bitwarden : "passhelper_bitwarden"
+        .bitwarden : "passhelper_bitwarden",
+        .trueKey : "passhelper_truekey"
     ]
 }
 
@@ -190,7 +194,7 @@ extension LoginsHelper {
         managerButton.frame = managerButtonFrame
     }
 
-    // recurse through items until the 1pw/lastpass/bitwarden share item is found
+    // recurse through items until the 1pw/lastpass/bitwarden/truekey share item is found
     fileprivate func selectShareItem(_ view: UIView, shareItemName: String) -> Bool {
         if shareItemName.characters.count == 0 {
             return false

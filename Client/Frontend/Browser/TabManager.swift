@@ -12,7 +12,7 @@ private let log = Logger.browserLogger
 
 protocol TabManagerDelegate: class {
     func tabManager(_ tabManager: TabManager, didSelectedTabChange selected: Browser?)
-    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?)
+    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?, at: Int?)
     func tabManager(_ tabManager: TabManager, didAddTab tab: Browser)
     func tabManager(_ tabManager: TabManager, didRemoveTab tab: Browser)
     func tabManagerDidRestoreTabs(_ tabManager: TabManager)
@@ -63,6 +63,8 @@ class TabManager : NSObject {
     class TabsList {
         fileprivate(set) var tabs = [Browser]()
         func append(_ tab: Browser) { tabs.append(tab) }
+        func insert(_ tab: Browser, at: Int) { tabs.insert(tab, at: at) }
+        func move(_ tab: Browser, from: Int, to: Int) { tabs.insert(tabs.remove(at: from), at: to) }
         var internalTabList : [Browser] { return tabs }
 
         var nonprivateTabs: [Browser] {
@@ -141,6 +143,35 @@ class TabManager : NSObject {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         return _selectedTab
     }
+    
+    var currentIndex: Int {
+        objc_sync_enter(self); defer { objc_sync_exit(self) }
+        
+        var order = 0
+        for t in self.tabs.internalTabList {
+            if t === self.selectedTab { break }
+            order += 1
+        }
+        
+        return order
+    }
+    
+    func move(tab: Browser, from: Int, to: Int) {
+        self.tabs.move(tab, from: from, to: to)
+        
+        // Update tab order.
+        debugPrint("updated tab index from \(from) to \(to)")
+        
+        let context = DataController.shared.mainThreadContext
+        for i in 0..<tabs.internalTabList.count {
+            let tab = tabs.internalTabList[i]
+            guard let tabID = tab.tabID else { print("Error: Tab missing ID"); continue }
+            let tabMO = TabMO.getByID(tabID, context: context)
+            tabMO?.order = Int16(i)
+        }
+        
+        DataController.saveContext(context: context)
+    }
 
     func tabForWebView(_ webView: UIWebView) -> Browser? {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
@@ -181,7 +212,7 @@ class TabManager : NSObject {
         if let t = self.selectedTab, t.webView == nil {
             t.createWebview()
             for delegate in delegates where t.webView != nil {
-                delegate.value?.tabManager(self, didCreateWebView: t, url: nil)
+                delegate.value?.tabManager(self, didCreateWebView: t, url: nil, at: nil)
             }
         }
 
@@ -238,7 +269,9 @@ class TabManager : NSObject {
     
     // Basically a dispatch once, prevents mulitple calls
     lazy var restoreTabs: () = {
-        self.restoreTabsInternal()
+        postAsyncToMain {
+            self.restoreTabsInternal()
+        }
     }()
     
     fileprivate func restoreTabsInternal() {
@@ -264,6 +297,9 @@ class TabManager : NSObject {
             if let w = tab.webView, let history = savedTab.urlHistorySnapshot as? [String], let tabID = savedTab.syncUUID, let url = savedTab.url {
                 let data = SavedTab(id: tabID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
                 tab.restore(w, restorationData: data)
+            }
+            else {
+                debugPrint("failed to load tab \(savedTab.url)")
             }
         }
         if tabToSelect == nil {
@@ -321,7 +357,7 @@ class TabManager : NSObject {
         }
     }
 
-    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil) -> Browser? {
+    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int = -1) -> Browser? {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return nil
@@ -330,14 +366,17 @@ class TabManager : NSObject {
 
         let isPrivate = PrivateBrowsing.singleton.isOn
         let tab = Browser(configuration: self.configuration, isPrivate: isPrivate)
-        if id != nil {
+        if id == nil {
+            tab.tabID = TabMO.freshTab()
+        }
+        else {
             tab.tabID = id
         }
-        configureTab(tab, request: request, zombie: zombie)
+        configureTab(tab, request: request, zombie: zombie, index: index)
         return tab
     }
 
-    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false) {
+    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false, index: Int = -1) {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return
@@ -346,7 +385,14 @@ class TabManager : NSObject {
         
         limitInMemoryTabs()
 
-        tabs.append(tab)
+        var lastIndex = index
+        if index == -1 {
+            tabs.append(tab)
+            lastIndex = tabs.internalTabList.count - 1
+        }
+        else {
+            tabs.insert(tab, at: index)
+        }
 
         for delegate in delegates {
             delegate.value?.tabManager(self, didAddTab: tab)
@@ -355,11 +401,13 @@ class TabManager : NSObject {
         tab.createWebview(useDesktopUserAgent)
 
         for delegate in delegates {
-            delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url)
+            delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url, at: lastIndex)
         }
 
         tab.navigationDelegate = navDelegate
-        tab.loadRequest(request ?? defaultNewTabRequest)
+        _ = tab.loadRequest(request ?? defaultNewTabRequest)
+        
+        TabMO.preserveTab(tab: tab)
     }
 
     // This method is duplicated to hide the flushToDisk option from consumers.
@@ -482,7 +530,7 @@ extension TabManager {
         }
 
         if getApp().tabManager.tabs.internalTabList.count < 1 {
-            getApp().tabManager.addTab()
+            _ = getApp().tabManager.addTab()
         }
         getApp().tabManager.selectTab(getApp().tabManager.tabs.displayedTabsForCurrentPrivateMode.first)
         getApp().browserViewController.urlBar.updateTabsBarShowing()
@@ -519,7 +567,7 @@ extension TabManager : WKCompatNavigationDelegate {
         if let tab = tabForWebView(webView), let url = tabForWebView(webView)?.url {
             if !ErrorPageHelper.isErrorPageURL(url) {
                 postAsyncToMain(0.25) {
-                    TabMO.preserveTab(tab: tab, tabManager: self)
+                    TabMO.preserveTab(tab: tab)
                 }
             }
         }

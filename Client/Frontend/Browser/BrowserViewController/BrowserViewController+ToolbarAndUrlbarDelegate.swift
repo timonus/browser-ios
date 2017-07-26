@@ -121,7 +121,7 @@ extension BrowserViewController: URLBarDelegate {
         // use the initial value for the URL so we can do proper pattern matching with search URLs
         var searchURL = self.tabManager.selectedTab?.currentInitialURL
         if searchURL == nil || ErrorPageHelper.isErrorPageURL(searchURL!) {
-            searchURL = url as! NSURL as URL
+            searchURL = url
         }
         return profile.searchEngines.queryForSearchURL(searchURL) ?? url?.absoluteString
     }

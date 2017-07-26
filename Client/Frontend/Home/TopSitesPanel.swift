@@ -136,13 +136,12 @@ class TopSitesPanel: UIViewController {
         // Entire site panel, including the stats view insets
         collection.contentInset = UIEdgeInsetsMake(statsHeight, 0, 0, 0)
         view.addSubview(collection)
-        collection.snp_makeConstraints { make in
+        collection.snp.makeConstraints { make -> Void in
             make.edges.equalTo(self.view)
         }
         self.collection = collection
         
         let braveShieldStatsView = BraveShieldStatsView(frame: CGRect.zero)
-        braveShieldStatsView.isHidden = true
         collection.addSubview(braveShieldStatsView)
         self.braveShieldStatsView = braveShieldStatsView
         
@@ -163,31 +162,31 @@ class TopSitesPanel: UIViewController {
         self.dataSource.collectionView = self.collection
         self.refreshTopSites(self.maxFrecencyLimit)
         
-        privateTabMessageContainer.snp_makeConstraints { (make) in
+        privateTabMessageContainer.snp.makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.view)
             make.centerY.equalTo(self.view)
             make.leftMargin.equalTo(self.view).offset(40)
             make.rightMargin.equalTo(self.view).offset(-40)
         }
         
-        privateTabGraphic.snp_makeConstraints { (make) in
+        privateTabGraphic.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(0)
             make.centerX.equalTo(self.privateTabMessageContainer)
         }
         
-        privateTabTitleLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.privateTabGraphic.snp_bottom).offset(15)
+        privateTabTitleLabel.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(self.privateTabGraphic.snp.bottom).offset(15)
             make.centerX.equalTo(self.privateTabMessageContainer)
         }
         
-        privateTabInfoLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.privateTabTitleLabel.snp_bottom).offset(15)
+        privateTabInfoLabel.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(15)
             make.left.equalTo(0)
             make.right.equalTo(0)
         }
         
-        privateTabLinkButton.snp_makeConstraints { (make) in
-            make.top.equalTo(self.privateTabInfoLabel.snp_bottom).offset(15)
+        privateTabLinkButton.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(15)
             make.left.equalTo(0)
             make.right.equalTo(0)
             make.bottom.equalTo(0)
@@ -246,7 +245,7 @@ class TopSitesPanel: UIViewController {
         let url = URL(string: "https://github.com/brave/browser-laptop/wiki/What-a-Private-Tab-actually-does")!
         postAsyncToMain(0) {
             let t = getApp().tabManager
-            t?.addTabAndSelect(URLRequest(url: url))
+            _ = t?.addTabAndSelect(URLRequest(url: url))
         }
     }
 
@@ -311,7 +310,7 @@ class TopSitesPanel: UIViewController {
     fileprivate func topSitesQuery() -> Deferred<[Site]> {
         let result = Deferred<[Site]>()
 
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             var sites = [Site]()
 
@@ -334,7 +333,7 @@ class TopSitesPanel: UIViewController {
         collection?.isUserInteractionEnabled = false
 
         guard let url = URL(string: site.url) else { return }
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             Domain.blockFromTopSites(url, context: context)
             
@@ -369,7 +368,7 @@ class TopSitesPanel: UIViewController {
                 return
             }
 
-            self.reloadTopSitesWithLimit(frecencyLimit)
+            _ = self.reloadTopSitesWithLimit(frecencyLimit)
     }
 
     fileprivate func reloadTopSitesWithLimit(_ limit: Int) -> Success {
@@ -823,7 +822,7 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         suggestedSites = SuggestedSites.asArray()
         var blocked = [Domain]()
 
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             blocked = Domain.blockedTopSites(context)
             postAsyncToMain {

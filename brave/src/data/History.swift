@@ -59,7 +59,7 @@ class History: NSManagedObject, WebsitePresentable {
     }
 
     class func add(_ title: String, url: URL) {
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             var item = History.getExisting(url, context: context)
             if item == nil {
@@ -78,13 +78,15 @@ class History: NSManagedObject, WebsitePresentable {
 
     class func frc() -> NSFetchedResultsController<NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = History.entity(DataController.moc)
+        let context = DataController.shared.mainThreadContext
+        
+        fetchRequest.entity = History.entity(context)
         fetchRequest.fetchBatchSize = 20
         fetchRequest.fetchLimit = 200
         fetchRequest.sortDescriptors = [NSSortDescriptor(key:"visitedOn", ascending: false)]
         fetchRequest.predicate = NSPredicate(format: "visitedOn >= %@", History.ThisMonth as CVarArg)
 
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:DataController.moc, sectionNameKeyPath: "sectionIdentifier", cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context, sectionNameKeyPath: "sectionIdentifier", cacheName: nil)
     }
 
     override func awakeFromFetch() {
@@ -148,7 +150,7 @@ class History: NSManagedObject, WebsitePresentable {
     }
     
     class func deleteAll(_ completionOnMain: @escaping ()->()) {
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = History.entity(context)

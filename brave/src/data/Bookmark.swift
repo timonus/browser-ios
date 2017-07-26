@@ -73,10 +73,11 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     }
 
     class func frc(parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
+        let context = DataController.shared.mainThreadContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = Bookmark.entity(context: DataController.moc)
+        
+        fetchRequest.entity = Bookmark.entity(context: context)
         fetchRequest.fetchBatchSize = 20
-        fetchRequest.fetchLimit = 200
         fetchRequest.sortDescriptors = [NSSortDescriptor(key:"order", ascending: true), NSSortDescriptor(key:"created", ascending: false)]
         if let parentFolder = parentFolder {
             fetchRequest.predicate = NSPredicate(format: "parentFolder == %@", parentFolder)
@@ -84,7 +85,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             fetchRequest.predicate = NSPredicate(format: "parentFolder == nil")
         }
 
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:DataController.moc, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
     }
     
     // Syncable
@@ -202,7 +203,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
         
-        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder, context: DataController.moc)
+        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder, context: DataController.shared.mainThreadContext)
     }
     
     // TODO: Migration syncUUIDS still needs to be solved
@@ -217,15 +218,15 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         let bookmark = SyncBookmark()
         bookmark.isFolder = isFolder
-//        bookmark.parentFolderObjectId = [parentFolder]
+        // bookmark.parentFolderObjectId = [parentFolder]
         bookmark.site = site
         
-        return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext())
+        return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext)
     }
 
     class func contains(url: URL, completionOnMain completion: @escaping ((Bool)->Void)) {
         var found = false
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             if let count = get(forUrl: url, countOnly: true, context: context) as? Int {
                 found = count > 0

@@ -1,5 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import Shared
+
 class SyncCodewordsView: UIView, UITextFieldDelegate {
     var fields: [UITextField] = []
     
@@ -45,9 +47,7 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     }
     
     func codeWords() -> [String] {
-        return [""]
-        // TODO: Need `.withoutSpaces`
-//        return fields.map { $0.text?.withoutSpaces }.filter { $0?.characters.count > 0 }.flatMap { $0 }
+        return fields.map { $0.text?.withoutSpaces }.filter { $0?.characters.count ?? 0 > 0 }.flatMap { $0 }
     }
     
     override func layoutSubviews() {
@@ -55,17 +55,17 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         let spaceY: CGFloat = 7
         var x: CGFloat = 0
         var y: CGFloat = 0
-        let w: CGFloat = (UIScreen.main.bounds.width - spaceX * 4) / 3
+        let w: CGFloat = (bounds.width - spaceX * 4) / 3
         let h: CGFloat = 26
         for i in 0..<fields.count {
             x = x + spaceX
-            if x + w > UIScreen.main.bounds.width {
+            if x + w > bounds.width {
                 x = spaceX
                 y = y + h + spaceY
             }
             if i == fields.count - 1 {
                 // Center last.
-                x = (UIScreen.main.bounds.width - w) / 2
+                x = (bounds.width - w) / 2
             }
             // debugPrint("w \(w) x \(x) y\(y)")
             
@@ -84,7 +84,7 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     override func sizeToFit() {
         let field = fields[fields.count - 1]
         var f = frame
-        f.size.width = UIScreen.main.bounds.width
+        f.size.width = bounds.width
         f.size.height = field.frame.maxY
         frame = f
     }
@@ -119,9 +119,11 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         }
         
         // Filter out whitespace and apply change to current text
-        // TODO: Need to add `.withoutWhitespace`
-//        let result = text.replacingCharacters(in: range, with: string)
-        let result = ""
+        
+        let start = text.index(text.startIndex, offsetBy: range.location)
+        let end = text.index(text.startIndex, offsetBy: range.location + range.length)
+        let result = text.replacingCharacters(in: start..<end, with: string.withoutSpaces)
+
         
         // Manually apple text to have better control over what is being entered
         //  Could use this for custom autocomplete for pre-defined keywords

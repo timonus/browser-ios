@@ -5,20 +5,22 @@ import SnapKit
 import SafariServices
 
 class BraveBrowserViewController : BrowserViewController {
-    private static var __once: () = {
-            if BraveApp.shouldRestoreTabs() && !PrivateBrowsing.singleton.isOn {
-                // Only do tab restoration if in normal mode.
-                //  If in PM, restoration happens on leaving.
-//                tabManager.restoreTabs()
-            } else {
-//                tabManager.addTabAndSelect()
-            }
-        }()
+    fileprivate lazy var __once: () = {
+        if !PrivateBrowsing.singleton.isOn {
+            // Only do tab restoration if in normal mode.
+            //  If in PM, restoration happens on leaving.
+            _ = self.tabManager.restoreTabs
+        } else {
+            _ = self.tabManager.addTabAndSelect()
+        }
+        
+    }()
+    
     var historySwiper = HistorySwiper()
 
     override func applyTheme(_ themeName: String) {
         super.applyTheme(themeName)
-
+        
         toolbar?.accessibilityLabel = "bottomToolbar"
         webViewContainerBackdrop.accessibilityLabel = "webViewContainerBackdrop"
         webViewContainer.accessibilityLabel = "webViewContainer"
@@ -47,7 +49,7 @@ class BraveBrowserViewController : BrowserViewController {
         // TODO: Remove
         // Makes webview visible for debug logging
 //        Sync.shared.webView.alpha = 1
-//        UIApplication.sharedApplication().keyWindow?.addSubview(Sync.shared.webView)
+//        UIApplication.shared.keyWindow?.addSubview(Sync.shared.webView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,7 +66,7 @@ class BraveBrowserViewController : BrowserViewController {
         setupConstraints()
 
         struct RunOnceAtStartup { static var token: Int = 0 }
-        _ = BraveBrowserViewController.__once
+        _ = self.__once
 
         updateTabCountUsingTabManager(tabManager, animated: false)
 

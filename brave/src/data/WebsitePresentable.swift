@@ -46,14 +46,19 @@ extension Syncable where Self: Syncable {
         fetchRequest.entity = Self.entity(context: context)
         fetchRequest.predicate = predicate
         
-        do {
-            return try context.fetch(fetchRequest) as? [NSManagedObject]
-        } catch {
-            let fetchError = error as NSError
-            print(fetchError)
+        var result: [NSManagedObject]? = nil
+        context.performAndWait {
+            
+        
+            do {
+                result = try context.fetch(fetchRequest) as? [NSManagedObject]
+            } catch {
+                let fetchError = error as NSError
+                print(fetchError)
+            }
         }
         
-        return nil
+        return result
     }
 }
 
@@ -89,7 +94,7 @@ extension Syncable {
 }
 
 extension Syncable /* where Self: NSManagedObject */ {
-    func remove(save: Bool = true) {
+    func remove(save: Bool) {
         
         // This is r annoying, and can be fixed in Swift 4, but since objects can't be cast to a class & protocol,
         //  but given extension on Syncable, if this passes the object is both Syncable and an NSManagedObject subclass

@@ -61,7 +61,6 @@ class BraveTopViewController : UIViewController {
         setupBrowserConstraints()
 
         NotificationCenter.default.addObserver(self, selector: #selector(onClickLeftSlideOut), name: NSNotification.Name(rawValue: kNotificationLeftSlideOutClicked), object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(onClickBraveButton), name: NSNotification.Name(rawValue: kNotificationBraveButtonClicked), object: nil)
 
         clickDetectionView.addTarget(self, action: #selector(BraveTopViewController.dismissAllSidePanels), for: UIControlEvents.touchUpInside)
@@ -86,7 +85,7 @@ class BraveTopViewController : UIViewController {
         browserViewController.view.snp.makeConstraints {
             make in
             make.bottom.equalTo(view)
-//            make.top.equalTo(snp.topLayoutGuideTop)
+            make.top.equalTo(topLayoutGuide.snp.top)
             let _rightConstraint = make.right.equalTo(view).constraint
             let _leftConstraint = make.left.equalTo(view).constraint
 

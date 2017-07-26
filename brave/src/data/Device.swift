@@ -32,7 +32,7 @@ class Device: NSManagedObject, Syncable {
     
     class func deviceSettings(profile: Profile) -> [SyncDeviceSetting]? {
         // Building settings off of device objects
-        let deviceSettings: [SyncDeviceSetting]? = (Device.get(predicate: nil, context: DataController.shared.workerContext()) as? [Device])?.map {
+        let deviceSettings: [SyncDeviceSetting]? = (Device.get(predicate: nil, context: DataController.shared.workerContext) as? [Device])?.map {
             // Even if no 'real' title, still want it to show up in list
             let title = "\($0.deviceDisplayId ?? "") :: \($0.name ?? "")"
             return SyncDeviceSetting(profile: profile, title: title)
@@ -75,9 +75,7 @@ class Device: NSManagedObject, Syncable {
     static func currentDevice() -> Device? {
         
         if sharedCurrentDevice == nil {
-            // Since we cache this, we want it in a consistent context.
-            //  Worker context is constantly changing out, main thread does not.
-            let context = DataController.moc
+            let context = DataController.shared.workerContext
             // Create device
             let predicate = NSPredicate(format: "isCurrentDevice = %@", true as CVarArg)
             // Should only ever be one current device!
@@ -96,7 +94,7 @@ class Device: NSManagedObject, Syncable {
     }
     
     class func deleteAll(completionOnMain: ()->()) {
-        let context = DataController.shared.workerContext()
+        let context = DataController.shared.workerContext
         context.perform {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = Device.entity(context: context)

@@ -697,12 +697,12 @@ extension BraveWebView: UIWebViewDelegate {
         }
 
         if AboutUtils.isAboutHomeURL(url) {
-            setUrl(url)
+            _ = setUrl(url)
             progress?.setProgress(1.0)
             return true
         }
 
-        if url.absoluteString.contains(specialStopLoadUrl) ?? false {
+        if url.absoluteString.contains(specialStopLoadUrl) {
             progress?.completeProgress()
             return false
         }
@@ -738,8 +738,8 @@ extension BraveWebView: UIWebViewDelegate {
             setUrl(url)
             //print("Page changed by shouldStartLoad: \(URL?.absoluteString ?? "")")
 
-            if let url = request.url {
-                internalSetBraveShieldStateForDomain(url.normalizedHost!)
+            if let url = request.url?.normalizedHost {
+                internalSetBraveShieldStateForDomain(url)
             }
 
             shieldStatUpdate(.reset)
