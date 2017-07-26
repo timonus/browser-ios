@@ -116,7 +116,8 @@ private extension ShareExtensionHelper {
         
         let additionalIdentifiers = [
             "com.lastpass.ilastpass.LastPassExt",
-            "com.8bit.bitwarden.find-login-action-extension"
+            "com.8bit.bitwarden.find-login-action-extension",
+            "com.intelsecurity.truekey.find-login-action"
         ]
         
         return activityType.contains("password") || additionalIdentifiers.contains(activityType)

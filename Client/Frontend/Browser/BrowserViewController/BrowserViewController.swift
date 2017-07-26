@@ -363,6 +363,10 @@ class BrowserViewController: UIViewController {
         scrollController.header = header
         scrollController.footer = footer
         scrollController.snackBars = snackBars
+        
+        // No access to PrivateBrowsing.singleton.isOn yet but tried other arragements and those would require more refactoring.access
+        // TODO: refactor when theme is called, take into account private/normal browsing modes.
+        applyTheme(Theme.NormalMode)
     }
 
     var headerHeightConstraint: Constraint?
