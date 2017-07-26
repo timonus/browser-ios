@@ -3,38 +3,76 @@
 import UIKit
 import CoreData
 
+// After testing many different MOC stacks, it became aparent that main thread context
+// should contain no worker children since it will eventually propogate up and block the main
+// thread on changes or saves
+
+// Attempting to have the main thread MOC as the sole child of a private MOC seemed optimal 
+// (and is recommended path via WWDC Apple CD video), but any associated work on mainMOC
+// does not re-merge back into it self well from parent (background) context (tons of issues)
+// This should be re-attempted when dropping iOS9, using some of the newer CD APIs for 10+
+// (e.g. automaticallyMergesChangesFromParent = true, may allow a complete removal of `merge`)
+// StoreCoordinator > writeMOC > mainMOC
+
+// That being said, writeMOC (background) has two parallel children
+// One being a mainThreadMOC, and the other a workerMOC. Since contexts seem to have significant
+// issues merging their own changes from the parent save, they must merge changes directly from their
+// parallel. This seems to work quite well and appears heavily reliable during heavy background work.
+// StoreCoordinator > writeMOC (private, no direct work) > mainMOC && workerMOC
+
+// Previoulsy attempted stack which had significant impact on main thread saves
 // Follow the stack design from http://floriankugler.com/2013/04/02/the-concurrent-core-data-stack/
-// workerMOC is-child-of mainThreadMOC is-child-of writeMOC
-// Data flows up through the stack only (child-to-parent), the bottom being the `writeMOC` which is used only for saving to disk.
-//
-// Notice no merge notifications are needed using this method.
 
 class DataController: NSObject {
     static let shared = DataController()
     
     func merge(notification: Notification) {
+
+        guard let sender = notification.object as? NSManagedObjectContext else {
+            fatalError("Merge notification must be from a managed object context")
+        }
+        
+        if sender == self.writeContext {
+            fatalError("Changes should not be merged from write context")
+        }
+        
+        // Async, no issues with merging changes from 'self' context
         self.mainThreadContext.perform {
             self.mainThreadContext.mergeChanges(fromContextDidSave: notification)
         }
+        
+        self.workerContext.perform {
+            self.workerContext.mergeChanges(fromContextDidSave: notification)
+        }
     }
+    
+    fileprivate lazy var writeContext: NSManagedObjectContext = {
+        let write = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        write.persistentStoreCoordinator = self.persistentStoreCoordinator
+        write.undoManager = nil
+        write.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        return write
+    }()
     
     lazy var workerContext: NSManagedObjectContext = {
         let worker = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         worker.persistentStoreCoordinator = self.persistentStoreCoordinator
         worker.undoManager = nil
-        worker.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        worker.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
         NotificationCenter.default.addObserver(self, selector: #selector(merge(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: worker)
         
         return worker
     }()
     
-    
     lazy var mainThreadContext: NSManagedObjectContext = {
         let main = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         main.undoManager = nil
-        main.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        main.parent = self.workerContext
+        main.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        main.parent = self.writeContext
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(merge(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: main)
+        
         return main
     }()
     
@@ -89,15 +127,19 @@ class DataController: NSObject {
         }
 
         if context.hasChanges {
-            context.performAndWait {
+            
+            context.perform {
                 do {
                     try context.save()
                     
-                    if context == DataController.shared.mainThreadContext {
-                        // Changes have been merged to worker context, save this to the store
-                        self.saveContext(context: DataController.shared.workerContext)
-                        
+                    // Just recall this method
+                    let writter = DataController.shared.writeContext
+                    if writter.hasChanges {
+                        writter.perform {
+                            try? writter.save()
+                        }
                     }
+                    
                 } catch {
                     fatalError("Error saving DB: \(error)")
                 }
