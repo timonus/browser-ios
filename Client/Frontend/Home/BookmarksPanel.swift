@@ -200,6 +200,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         self.title = folder?.displayTitle ?? Strings.Bookmarks
         self.frc = Bookmark.frc(parentFolder: folder)
         self.frc!.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData), name: NotificationMainThreadContextSignificantlyChanged, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -208,6 +210,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: NotificationFirefoxAccountChanged, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationMainThreadContextSignificantlyChanged, object: nil)
     }
 
     override func viewDidLoad() {

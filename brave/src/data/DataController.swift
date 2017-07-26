@@ -2,6 +2,7 @@
 
 import UIKit
 import CoreData
+import Shared
 
 // After testing many different MOC stacks, it became aparent that main thread context
 // should contain no worker children since it will eventually propogate up and block the main
@@ -37,12 +38,29 @@ class DataController: NSObject {
         }
         
         // Async, no issues with merging changes from 'self' context
-        self.mainThreadContext.perform {
-            self.mainThreadContext.mergeChanges(fromContextDidSave: notification)
-        }
         
         self.workerContext.perform {
             self.workerContext.mergeChanges(fromContextDidSave: notification)
+        }
+        
+        self.mainThreadContext.perform {
+            self.mainThreadContext.mergeChanges(fromContextDidSave: notification)
+            
+            if sender == self.workerContext {
+                
+                guard let info = notification.userInfo else {
+                    return
+                }
+                
+                let totalChanges = ["inserted", "updated", "deleted"].flatMap({ (info[$0] as? NSSet)?.count }).reduce(0, +)
+                let largeChangeCount = 75
+                
+                // If there are more than `largeChangeCount`, better to send notification and allow UI to perform better refresh mechanisms
+                // (e.g. refresh full table, rather than performing tons of individual table cell operations)
+                if totalChanges > largeChangeCount {
+                    NotificationCenter.default.post(name: NotificationMainThreadContextSignificantlyChanged, object: self, userInfo: nil)
+                }
+            }
         }
     }
     
