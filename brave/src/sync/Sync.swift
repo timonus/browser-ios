@@ -412,7 +412,7 @@ extension Sync {
             
             var action = SyncActions(rawValue: fetchedRoot.action ?? -1)
             if action == SyncActions.delete {
-                singleRecord?.remove()
+                singleRecord?.remove(save: false)
             } else if action == SyncActions.create {
                 
                 if singleRecord != nil {

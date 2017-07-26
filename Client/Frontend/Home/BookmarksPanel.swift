@@ -316,7 +316,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         }
 
         // TODO: Needs to be recursive
-        currentFolder.remove()
+        currentFolder.remove(save: true)
 
         self.navigationController?.popViewController(animated: true)
     }
