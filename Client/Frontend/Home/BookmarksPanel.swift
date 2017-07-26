@@ -122,7 +122,7 @@ class BookmarkEditingViewController: FormViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+        super.viewWillDisappear(animated)
         //called when we're about to be popped, so use this for callback
         if let block = self.completionBlock {
             block(self)
