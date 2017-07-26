@@ -255,7 +255,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             print(error.description)
         }
 
-        self.tableView.reloadData()
+        super.reloadData()
     }
     
     func disableTableEditingMode() {
