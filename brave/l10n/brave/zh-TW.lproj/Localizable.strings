@@ -33,6 +33,7 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "網址和搜尋內容";
 
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 "Ads and Trackers" = "廣告和追蹤器";
 
@@ -264,6 +265,7 @@ Brave 專為提高速度及效率而設計。";
 /* Description for new folder popup */
 "Enter folder name" = "輸入資料夾名稱";
 
+/* Shields Time Saved Stat */
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "雖然您用隱私分頁瀏覽的網站不會儲存在本機上，但您對您的 ISP、雇主或造訪的網站不會因此呈現匿名或隱藏。";
 
@@ -313,6 +315,7 @@ Brave 專為提高速度及效率而設計。";
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "HTTPS 升級";
 
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 "Hide" = "隱藏";
 
@@ -532,6 +535,7 @@ Brave 專為提高速度及效率而設計。";
 /* Sync remove device. */
 "Remove this device" = "移除此裝置";
 
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 "Report a bug" = "回報錯誤";
 
@@ -649,6 +653,7 @@ Brave 專為提高速度及效率而設計。";
 /* tabs bar show/hide option */
 "Show in landscape only" = "僅以橫向畫面顯示";
 
+/* Password Manager show picker option */
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "「網站防護」可控制您在造訪每個網站時，是否直接封鎖網站上的廣告與追踪器。若您希望在特定網站上顯示廣告，可以在這裡啟用廣告。";
 
@@ -712,6 +717,7 @@ Brave 專為提高速度及效率而設計。";
 /* See http://mzl.la/1G7uHo7 */
 "This allows you to save the image to your Camera Roll." = "這能將圖片儲存至您的相機膠卷。";
 
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "此資料夾含有內容。";
 
@@ -724,6 +730,7 @@ Brave 專為提高速度及效率而設計。";
 /* Panel accessibility label */
 "Top sites" = "最愛網站";
 
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "再試一次";
 
@@ -808,9 +815,12 @@ Brave 專為提高速度及效率而設計。";
 /* Description label for the empty Top Sites state. */
 "Your most visited sites will show up here." = "這裡會顯示您最常造訪的網站。";
 
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "剛剛";
 
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "超過一個月前";
 
@@ -823,6 +833,7 @@ Brave 專為提高速度及效率而設計。";
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "已讀";
 
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 "this week" = "本週";
 

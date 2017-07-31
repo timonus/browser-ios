@@ -33,6 +33,10 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "Адрес и поиск";
 
+/* Shields Ads Stat */
+"Ads \rBlocked" = "Реклам 
+заблокировано";
+
 /* individual blocking statistic title */
 "Ads and Trackers" = "Реклама и трекеры";
 
@@ -46,10 +50,10 @@
 "Always show" = "Всегда показывать";
 
 /* Message shown in the dialog prompting users if they want to clear everything */
-"Are you sure you want to clear all of your data? This will also close all open tabs." = "Вы уверены что хотите удалить все данные? Это так же закроет все вкладки.";
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "Вы действительно хотите очистить все данные? При этом также будут закрыты все открытые вкладки.";
 
 /* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
-"Are you sure you want to delete it and its contents?" = "Вы уверены что хотите удалить это вместе со всем содержимым?";
+"Are you sure you want to delete it and its contents?" = "Вы действительно хотите удалить эту папку вместе со всем содержимым?";
 
 /* No comment provided by engineer. */
 "Are you sure?" = "Вы уверены?";
@@ -67,7 +71,7 @@
 "Block Phishing" = "Блокировать фишинг";
 
 /* No comment provided by engineer. */
-"Block Phishing and Malware" = "Блокировать фишинг и вредоносное ПО";
+"Block Phishing and Malware" = "Блокировать фишинг и вредоносные программы";
 
 /* Block pop-up windows setting */
 "Block Pop-up Windows" = "Блокировать всплывающие окна";
@@ -82,7 +86,7 @@
 "Block all cookies" = "Блокировать все cookie";
 
 /* title for section showing page blocking statistics */
-"Blocking Monitor" = "Монитор блокираторов";
+"Blocking Monitor" = "Статистика блокировок";
 
 /* Accessibility Label for the browser toolbar Bookmark button */
 "Bookmark" = "Закладка";
@@ -103,13 +107,13 @@
 "Bookmarks Toolbar" = "Панель закладок";
 
 /* Button to show the bookmarks and history panel */
-"Bookmarks and History Panel" = "Закладки и панель истории";
+"Bookmarks and History Panel" = "Закладки и история";
 
 /* Button to show the brave panel */
 "Brave Panel" = "Панель Brave";
 
 /* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
-"Brave Shield Defaults" = "Настройки по умолчанию щитов Brave";
+"Brave Shield Defaults" = "Настройки щитов Brave по умолчанию";
 
 /* Brave sync page title */
 "Brave Sync" = "Brave Sync";
@@ -127,7 +131,7 @@ Brave создан для скорости и эффективности.";
 и вот почему...";
 
 /* Shown in intro screens */
-"Brave keeps you safe as you browse." = "Brave сохраняет вас в безопасности во время просмотра.";
+"Brave keeps you safe as you browse." = "С Brave вас в безопасности во время веб-серфинга.";
 
 /* No comment provided by engineer. */
 "Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave не будет запоминать историю и cookie, но новые закладки будут сохраняться.";
@@ -154,7 +158,7 @@ Brave создан для скорости и эффективности.";
 "Cancel" = "Отмена";
 
 /* Accessibility hint for the color theme setting buttons in reader mode display settings */
-"Changes color theme." = "Изменяет тему.";
+"Changes color theme." = "Изменение цветовой темы.";
 
 /* Accessibility hint for the font type buttons in reader mode display settings */
 "Changes font type." = "Изменяет шрифт.";
@@ -208,7 +212,7 @@ Brave создан для скорости и эффективности.";
 "Copy Link" = "Скопировать ссылку";
 
 /* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
-"Could not add page to Reading List. Maybe it's already there?" = "Ошибка добавления страницы в список для чтения. Возможно она уже там?";
+"Could not add page to Reading List. Maybe it's already there?" = "Не удалось добавить страницу в список для чтения. Возможно она уже там?";
 
 /* Dark theme setting in Reading View settings */
 "Dark" = "Темный";
@@ -264,6 +268,10 @@ Brave создан для скорости и эффективности.";
 /* Description for new folder popup */
 "Enter folder name" = "Введите имя папки";
 
+/* Shields Time Saved Stat */
+"Est. Time \rSaved" = " Примерное сэко- 
+номленное время";
+
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Несмотря на то, что сайты, которые вы посещаете на приватных вкладках не сохраняются локально, они не делают вас анонимными или невидимыми для вашего интернет-провайдера, вашего работодателя или самих посещаемых вами сайтов.";
 
@@ -312,6 +320,10 @@ Brave создан для скорости и эффективности.";
 
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "HTTPS перенаправлений";
+
+/* Shields Https Stat */
+"HTTPS \rUpgrades" = "HTTPS- 
+перенаправлений";
 
 /* Hide password text selection menu item */
 "Hide" = "Скрыть";
@@ -422,7 +434,7 @@ Brave создан для скорости и эффективности.";
 "Off" = "Выкл";
 
 /* Settings item for clearing website data */
-"Offline Website Data" = "Офлайн-контент";
+"Offline Website Data" = "Автономные данные веб-сайтов";
 
 /* Toggled ON accessibility value */
 "On" = "Вкл";
@@ -446,7 +458,7 @@ Brave создан для скорости и эффективности.";
 "Open Settings" = "Открыть настройки";
 
 /* See http://mzl.la/1LXbDOL */
-"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Открывать статьи в режиме для чтения после нажатия иконки книги, когда она появляется на панели заголовка. ";
+"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Открывайте статьи в режиме для чтения, коснувшись значка книги, когда он появляется в адресной строке";
 
 /* Shown in error pages for files that can't be shown and need to be downloaded. */
 "Open in Safari" = "Открыть в Safari";
@@ -470,7 +482,7 @@ Brave создан для скорости и эффективности.";
 "Paste" = "Вставить";
 
 /* Paste the URL into the location bar and visit */
-"Paste & Go" = "Вставить и применить";
+"Paste & Go" = "Вставить и перейти";
 
 /* Description for new device popup */
 "Please enter a name for this device" = "Пожалуйста, введите имя для этого устройства";
@@ -491,19 +503,19 @@ Brave создан для скорости и эффективности.";
 "Private Browsing" = "Приватный просмотр";
 
 /* Setting to keep app in private mode */
-"Private Browsing Only" = "Приватное использование";
+"Private Browsing Only" = "Только приватный просмотр";
 
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "Приватный режим";
 
 /* Private mode icon next to location string */
-"Private mode icon" = "Иконка приватного режима";
+"Private mode icon" = "Значок приватного режима";
 
 /* QR Code section title */
 "QR Code" = "QR-код";
 
 /* Title for quick-search engines settings section. */
-"Quick-search Engines" = "Поисковые серверы быстрого поиска";
+"Quick-search Engines" = "Модули быстрого поиска";
 
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "Настройки режима чтения";
@@ -532,6 +544,9 @@ Brave создан для скорости и эффективности.";
 /* Sync remove device. */
 "Remove this device" = "Удалить это устройство";
 
+/* Sync remove device? */
+"Remove this device?" = "Удалить это устройство?";
+
 /* Show mail composer to report a bug. */
 "Report a bug" = "Сообщить об ошибке";
 
@@ -554,7 +569,7 @@ Brave создан для скорости и эффективности.";
 "Save login %@ for %@?" = "Сохранить логин %1$@ для %2$@?";
 
 /* See http://mzl.la/1LXbDOL */
-"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Сохранить страницы в список для чтения, путем нажатия книги-плюс иконки в диалоге управления чтением. ";
+"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Сохранить страницы в список для чтения, путем нажатия на значок книги+ в режиме управления чтением.";
 
 /* Prompt for saving a password with no username. The parameter is the hostname of the site. */
 "Save password for %@?" = "Сохранить пароль для %@?";
@@ -584,7 +599,7 @@ Brave создан для скорости и эффективности.";
 "Search or enter address" = "Поиск или ввод адреса";
 
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
-"Search suggestions from %@" = "Предложения поиска от %@";
+"Search suggestions from %@" = "Поисковые предложения от %@";
 
 /* Accessibility hint describing the action performed when a search suggestion is clicked */
 "Searches for the suggestion" = "Поиски по предложению";
@@ -617,10 +632,10 @@ Brave создан для скорости и эффективности.";
 "Share Link" = "Поделиться ссылкой";
 
 /* message shown briefly in URL bar */
-"Shields Down" = "Выкл. защиту";
+"Shields Down" = "Выключить щиты";
 
 /* message shown briefly in URL bar */
-"Shields Up" = "Вкл. защиту";
+"Shields Up" = "Включить щиты";
 
 /* Button to show the bookmarks list */
 "Show Bookmarks" = "Показать закладки";
@@ -644,19 +659,22 @@ Brave создан для скорости и эффективности.";
 "Show Tabs Bar" = "Показать панель вкладок";
 
 /* Show the on-boarding screen again from the settings */
-"Show Tour" = "Показать демо";
+"Show Tour" = "Тур по приложению";
 
 /* tabs bar show/hide option */
 "Show in landscape only" = "Показывать только в горизонтальном режиме";
+
+/* Password Manager show picker option */
+"Show picker" = "Показать выбор";
 
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Щиты сайта позволяют контролировать, когда реклама и трекеры блокируются для каждого посещаемого сайта. Если вы предпочитаете видеть рекламу на определенном сайте, вы можете включить ее здесь.";
 
 /* Brave panel topmost title */
-"Site shield settings" = "Настройки защиты сайта";
+"Site shield settings" = "Настройки щита сайта";
 
 /* No comment provided by engineer. */
-"Start Browsing" = "Начать Просмотр";
+"Start Browsing" = "Начать просмотр";
 
 /* Accessibility Label for the browser toolbar Stop button */
 "Stop" = "Стоп";
@@ -689,16 +707,16 @@ Brave создан для скорости и эффективности.";
 "Tabs %@ to %@ of %@" = "Вкладки от %1$@ до %2$@ из %3$@";
 
 /* Accessibility label for the Tabs Tray view. */
-"Tabs Tray" = "Область уведомления вкладок";
+"Tabs Tray" = "Список вкладок";
 
 /* Shown in intro screens */
-"Tap the Brave button to temporarily disable ad blocking and privacy features." = "Нажмите кнопку Brave, чтобы временно отключить блокирование рекламы и личных данных.";
+"Tap the Brave button to temporarily disable ad blocking and privacy features." = "Нажмите кнопку Brave, чтобы временно отключить блокирование рекламы и защиту приватности.";
 
 /* Show Brave Browser TOS page from the Privacy section in the settings. */
 "Terms of Use" = "Условия использования";
 
 /* Warning text on the certificate error page */
-"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "Пользователь %@ настроил свой сайт неправильно. Brave не подключился к данному сайту, чтобы защитить Вашу информацию от кражи.";
+"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "Владелец %@ настроил свой сайт ненадлежащим образом. Чтобы защитить вашу информацию от кражи, Brave не подключился к этому веб-сайту.";
 
 /* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
 "The page could not be displayed in Reader View." = "Страница не может быть отображена в режиме для чтения.";
@@ -710,7 +728,10 @@ Brave создан для скорости и эффективности.";
 "This action will clear all of your private data. It cannot be undone." = "Это действие удалит все ваши личные данные. Оно не может быть отменено.";
 
 /* See http://mzl.la/1G7uHo7 */
-"This allows you to save the image to your Camera Roll." = "Это позволяет сохранить изображение на камеру";
+"This allows you to save the image to your Camera Roll." = "Это позволяет сохранить изображение в фотоальбоме.";
+
+/* Sync remove device? */
+"This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device." = "Это устройство будет отключено от группы синхронизации и больше не будет получать или отправлять данные синхронизации. Все существующие данные останутся на устройстве.";
 
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "Эта папка не пустая.";
@@ -723,6 +744,10 @@ Brave создан для скорости и эффективности.";
 
 /* Panel accessibility label */
 "Top sites" = "Лучшие сайты";
+
+/* Shields Trackers Stat */
+"Trackers \rBlocked" = "Трекеров 
+заблокировано";
 
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "Попробуйте снова";
@@ -773,13 +798,13 @@ Brave создан для скорости и эффективности.";
 "Version %@ (%@)" = "Версия %1$@ (%2$@)";
 
 /* Button label to temporarily continue to the site from the certificate error page */
-"Visit site anyway" = "Открыть сайт";
+"Visit site anyway" = "Открыть сайт в любом случае";
 
 /* Warning text when clicking the Advanced button on error pages */
-"Warning: we can't confirm your connection to this website is secure." = "Предупреждение: мы не можем гарантировать безопасность соединения с этой страницей.";
+"Warning: we can't confirm your connection to this website is secure." = "Предупреждение: мы не можем подтвердить безопасность соединения с этой страницей.";
 
 /* Accessibility label for the main web content view */
-"Web content" = "Содержимое Web страницы";
+"Web content" = "Содержимое Web-страницы";
 
 /* Shown in intro screens */
 "Welcome to Brave." = "Добро пожаловать в Brave.";
@@ -791,7 +816,7 @@ Brave создан для скорости и эффективности.";
 "Welcome to your Reading List" = "Добро пожаловать в список для чтения";
 
 /* Will be displayed in Settings under 'Close Private Tabs' */
-"When Leaving Private Browsing" = "Когда покидаешь приватный просмотр";
+"When Leaving Private Browsing" = "При выходе из приватного просмотра";
 
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "Да";
@@ -803,13 +828,22 @@ Brave создан для скорости и эффективности.";
 "You can choose to show a popup to pick your password manager, or have the selected one open automatically." = "Можно выбрать отображение всплывающего окна для выбора диспетчера паролей или открыть его автоматически.";
 
 /* Title on the certificate error page */
-"Your connection is not private" = "Ваше соединение не приватное";
+"Your connection is not private" = "Ваше соединение не является приватным";
 
 /* Description label for the empty Top Sites state. */
-"Your most visited sites will show up here." = "Здесь будут показываться самые посещаемые сайты.";
+"Your most visited sites will show up here." = "Здесь будут показаны самые посещаемые вами сайты.";
+
+/* Time Saved Days */
+"d" = "дн";
+
+/* Time Saved Hours */
+"h" = "час";
 
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "только что";
+
+/* Time Saved Minutes */
+"min" = "мин";
 
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "больше месяца назад";
@@ -822,6 +856,9 @@ Brave создан для скорости и эффективности.";
 
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "прочитано";
+
+/* Time Saved Seconds */
+"s" = "сек";
 
 /* Relative date for date in past week. */
 "this week" = "эта неделя";
@@ -836,5 +873,5 @@ Brave создан для скорости и эффективности.";
 "username" = "логин";
 
 /* Title for website row in Login Detail View */
-"website" = "веб сайт";
+"website" = "веб-сайт";
 

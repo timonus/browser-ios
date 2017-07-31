@@ -1,0 +1,723 @@
+/* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
+"Are you sure you want to delete it and its contents?" = "Are you sure you want to delete it and its contents?";
+
+/* Button label to cancel deletion when the user tried to delete a non-empty folder. */
+"Cancel" = "Cancel";
+
+/* Button label for the button that deletes a folder and all of its children. */
+"Delete" = "Delete";
+
+/* Title of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
+"This folder isn't empty." = "This folder isn't empty.";
+
+/* Action button for deleting bookmarks in the bookmarks panel. */
+"Delete" = "Delete";
+
+/* Action button for editing bookmarks in the bookmarks panel. */
+"Edit" = "Edit";
+
+"CFBundleDisplayName" = "CFBundleDisplayName";
+
+/* The cancel button when confirming clear history. */
+"Cancel" = "Cancel";
+
+/* The confirmation button that clears history even when Sync is connected. */
+"OK" = "OK";
+
+/* Description of the confirmation dialog shown when a user tries to clear history that's synced to another device. */
+"This action will clear all of your private data, including history from your synced devices." = "This action will clear all of your private data, including history from your synced devices.";
+
+/* Message shown in the dialog prompting users if they want to clear everything */
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "Are you sure you want to clear all of your data? This will also close all open tabs.";
+
+/* Settings item for clearing browsing history */
+"Browsing History" = "Browsing History";
+
+/* Settings item for clearing the cache */
+"Cache" = "Cache";
+
+/* Used as a button label in the dialog to cancel clear private data dialog */
+"Cancel" = "Cancel";
+
+/* Used as a button label in the dialog to Clear private data dialog */
+"Clear" = "Clear";
+
+/* Title of the Clear private data dialog. */
+"Clear Everything" = "Clear Everything";
+
+/* Settings item for clearing cookies */
+"Cookies" = "Cookies";
+
+/* Settings item for clearing website data */
+"Offline Website Data" = "Offline Website Data";
+
+/* Settings item for clearing passwords and login data */
+"Saved Logins" = "Saved Logins";
+
+/* The cancel button when confirming clear private data. */
+"Cancel" = "Cancel";
+
+/* The button that clears private data. */
+"OK" = "OK";
+
+/* Description of the confirmation dialog shown when a user tries to clear their private data. */
+"This action will clear all of your private data. It cannot be undone." = "This action will clear all of your private data. It cannot be undone.";
+
+/* Shown in error pages for files that can't be shown and need to be downloaded. */
+"Open in Safari" = "Open in Safari";
+
+/* Shown in error pages on a button that will try to load the page again */
+"Try again" = "Try again";
+
+/* Done button in Find in Page Toolbar. */
+"Done" = "Done";
+
+/* Share action title
+   Text selection menu item */
+"Find in Page" = "Find in Page";
+
+/* Accessibility label for next result button in Find in Page Toolbar. */
+"Next in-page result" = "Next in-page result";
+
+/* Accessibility label for previous result button in Find in Page Toolbar. */
+"Previous in-page result" = "Previous in-page result";
+
+/* Action button for deleting history entries in the history panel. */
+"Remove" = "Remove";
+
+/* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
+"Introductory slide %@ of %@" = "Introductory slide %@ of %@";
+
+/* No comment provided by engineer. */
+"Start Browsing" = "Start Browsing";
+
+/* Ask user if site can open iTunes store URL */
+"  Allow (siteName) to open iTunes?" = "  Allow (siteName) to open iTunes?";
+
+/* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"+" = "+";
+
+/* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"-" = "-";
+
+/* Setting to enable the built-in password manager */
+"3rd-party password manager" = "3rd-party password manager";
+
+/* Button for reader mode font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"Aa" = "Aa";
+
+/* About settings section title */
+"About" = "About";
+
+/* Button to add a bookmark */
+"Add Bookmark" = "Add Bookmark";
+
+/* Accessibility label for the Add Tab button in the Tab Tray.
+   Accessibility label for the bottom toolbar add tab button */
+"Add Tab" = "Add Tab";
+
+/* Accessibility label for action adding current page to reading list.
+   Name for button adding current article to reading list in reader mode */
+"Add to Reading List" = "Add to Reading List";
+
+/* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
+"Added page to Reading List" = "Added page to Reading List";
+
+/* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
+"Address and Search" = "Address and Search";
+
+/* individual blocking statistic title */
+"Ads and Trackers " = "Ads and Trackers ";
+
+/* option in settings screen */
+"Allow Brave to send info to improve our app" = "Allow Brave to send info to improve our app";
+
+/* startup opt-in message */
+"Allow Brave to send info to improve our app?" = "Allow Brave to send info to improve our app?";
+
+/* tabs bar show/hide option */
+"Always show" = "Always show";
+
+/* Accessibility Label for the browser toolbar Back button */
+"Back" = "Back";
+
+/* cookie settings option */
+"Block 3rd party cookies" = "Block 3rd party cookies";
+
+/* Brave panel individual toggle title */
+"Block Ads & Tracking" = "Block Ads & Tracking";
+
+/* No comment provided by engineer. */
+"Block Ads and Tracking" = "Block Ads and Tracking";
+
+/* Brave panel individual toggle title */
+"Block Phishing" = "Block Phishing";
+
+/* No comment provided by engineer. */
+"Block Phishing and Malware" = "Block Phishing and Malware";
+
+/* Block pop-up windows setting */
+"Block Pop-up Windows" = "Block Pop-up Windows";
+
+/* Setting to enable popup blocking */
+"Block Popups" = "Block Popups";
+
+/* Brave panel individual toggle title */
+"Block Scripts" = "Block Scripts";
+
+/* cookie settings option */
+"Block all cookies" = "Block all cookies";
+
+/* title for section showing page blocking statistics */
+"Blocking Monitor" = "Blocking Monitor";
+
+/* Accessibility Label for the browser toolbar Bookmark button */
+"Bookmark" = "Bookmark";
+
+/* Bookmark Folder Section Title */
+"Bookmark Folder" = "Bookmark Folder";
+
+/* Bookmark Info Section Title */
+"Bookmark Info" = "Bookmark Info";
+
+/* Panel accessibility label
+   title for bookmarks panel */
+"Bookmarks" = "Bookmarks";
+
+/* Button to show the bookmarks and history panel */
+"Bookmarks and History Panel" = "Bookmarks and History Panel";
+
+/* Status label for the empty Bookmarks state. */
+"Bookmarks you save will show up here." = "Bookmarks you save will show up here.";
+
+/* Button to show the brave panel */
+"Brave Panel" = "Brave Panel";
+
+/* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
+"Brave Shield Defaults" = "Brave Shield Defaults";
+
+/* email subject */
+"Brave for iOS Feedback" = "Brave for iOS Feedback";
+
+/* opt-in dialog link to privacy policy */
+"Brave privacy policy" = "Brave privacy policy";
+
+/* brave version */
+"Brave version" = "Brave version";
+
+/* See http://mzl.la/1G7uHo7 */
+"Brave would like to access your Photos" = "Brave would like to access your Photos";
+
+/* Accessibility label for brightness adjustment slider in Reader Mode display settings */
+"Brightness" = "Brightness";
+
+/* Alert Call Button */
+"Call" = "Call";
+
+/* Alert Cancel Button
+   Button label to cancel entering a URL or search query
+   Cancel alert view
+   Cancel button
+   Cancel title from search engine picker */
+"Cancel" = "Cancel";
+
+/* Accessibility hint for the color theme setting buttons in reader mode display settings */
+"Changes color theme." = "Changes color theme.";
+
+/* Accessibility hint for the font type buttons in reader mode display settings */
+"Changes font type." = "Changes font type.";
+
+/* Accessibility label for action denoting closing a tab in tab list (tray) */
+"Close" = "Close";
+
+/* No comment provided by engineer. */
+"Closing tab" = "Closing tab";
+
+/* Cookie settings option title */
+"Cookie Control" = "Cookie Control";
+
+/* Copy the URL from the location bar */
+"Copy Address" = "Copy Address";
+
+/* Context menu item for copying an image to the clipboard */
+"Copy Image" = "Copy Image";
+
+/* Context menu item for copying a link URL to the clipboard */
+"Copy Link" = "Copy Link";
+
+/* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
+"Could not add page to Reading List. Maybe it's already there?" = "Could not add page to Reading List. Maybe it's already there?";
+
+/* Accessibility message e.g. spoken by VoiceOver after adding current webpage to the Reading List failed. */
+"Could not add page to Reading list" = "Could not add page to Reading list";
+
+/* Error message that is shown in settings when there was a problem loading */
+"Could not load page." = "Could not load page.";
+
+/* Dark theme setting in Reading View settings */
+"Dark" = "Dark";
+
+/* Accessibility label for button decreasing font size in display settings of reader mode */
+"Decrease text size" = "Decrease text size";
+
+/* Accessibility label for default search engine setting.
+   Open search section of settings
+   Title for default search engine picker.
+   Title for default search engine settings section. */
+"Default Search Engine" = "Default Search Engine";
+
+/* Delete Folder */
+"Delete Folder" = "Delete Folder";
+
+/* Device */
+"Device" = "Device";
+
+/* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
+"Display Settings" = "Display Settings";
+
+/* cookie settings option */
+"Don't block cookies" = "Don't block cookies";
+
+/* Done
+   Done button label for search settings table
+   Done button label on back forward list screen
+   Done button on left side of the Settings view controller title bar
+   Done editing button */
+"Done" = "Done";
+
+/* No comment provided by engineer. */
+"Double tap and hold to open history" = "Double tap and hold to open history";
+
+/* brave shield on/off toggle off state */
+"Down" = "Down";
+
+/* Edit */
+"Edit" = "Edit";
+
+/* individual blocking statistic title */
+"Fingerprinting Methods" = "Fingerprinting Methods";
+
+/* No comment provided by engineer. */
+"Fingerprinting Protection" = "Fingerprinting Protection";
+
+/* Brave panel individual toggle title */
+"Fingerprinting\nProtection" = "Fingerprinting\nProtection";
+
+/* Folder */
+"Folder" = "Folder";
+
+/* Accessibility Label for the browser toolbar Forward button */
+"Forward" = "Forward";
+
+/* General settings section title */
+"General" = "General";
+
+/* Brave panel individual toggle title */
+"HTTPS Everywhere" = "HTTPS Everywhere";
+
+/* individual blocking statistic title */
+"HTTPS Upgrades" = "HTTPS Upgrades";
+
+/* Panel accessibility label */
+"History" = "History";
+
+/* Accessibility label for button increasing font size in display settings of reader mode */
+"Increase text size" = "Increase text size";
+
+/* title for per-site shield toggles */
+"Individual Controls" = "Individual Controls";
+
+/* Accessibility label for the introduction tour carousel */
+"Intro Tour Carousel" = "Intro Tour Carousel";
+
+/* History tableview section header */
+"Last month" = "Last month";
+
+/* History tableview section header */
+"Last week" = "Last week";
+
+/* opt-in dialog message */
+"Learn more: (link)" = "Learn more: (link)";
+
+/* Light theme setting in Reading View settings */
+"Light" = "Light";
+
+/* Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"Load original page" = "Load original page";
+
+/* Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app. */
+"Loading content…" = "Loading content…";
+
+/* Bookmark folder location */
+"Location" = "Location";
+
+/* Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager. */
+"Logins" = "Logins";
+
+/* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
+"LoginsHelper.PromptSaveLogin.Title" = "LoginsHelper.PromptSaveLogin.Title";
+
+/* Prompt for saving a password with no username. The parameter is the hostname of the site. */
+"LoginsHelper.PromptSavePassword.Title" = "LoginsHelper.PromptSavePassword.Title";
+
+/* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
+"LoginsHelper.PromptUpdateLogin.Title" = "LoginsHelper.PromptUpdateLogin.Title";
+
+/* Prompt for updating a password with no username. The parameter is the hostname of the site. */
+"LoginsHelper.PromptUpdatePassword.Title" = "LoginsHelper.PromptUpdatePassword.Title";
+
+/* Name for Mark as read button in reader mode
+   Title for the button that marks a reading list item as read */
+"Mark as Read" = "Mark as Read";
+
+/* Name for Mark as unread button in reader mode
+   Title for the button that marks a reading list item as unread */
+"Mark as Unread" = "Mark as Unread";
+
+/* Bookmark name/title */
+"Name" = "Name";
+
+/* Accessibility label for the navigation toolbar displayed at the bottom of the screen. */
+"Navigation Toolbar" = "Navigation Toolbar";
+
+/* tabs bar show/hide option */
+"Never show" = "Never show";
+
+/* New Folder */
+"New Folder" = "New Folder";
+
+/* no, do not allow brave to send info */
+"No" = "No";
+
+/* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
+"No tabs" = "No tabs";
+
+/* OK button */
+"OK" = "OK";
+
+/* Share action title */
+"Open Desktop Site tab" = "Open Desktop Site tab";
+
+/* Context menu item for opening a link in a new tab */
+"Open In New Tab" = "Open In New Tab";
+
+/* See http://mzl.la/1G7uHo7 */
+"Open Settings" = "Open Settings";
+
+/* See http://mzl.la/1LXbDOL */
+"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Open articles in Reader View by tapping the book icon when it appears in the title bar.";
+
+/* String indicating that the file can be opened in another application on the device */
+"Open in…" = "Open in…";
+
+/* Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list). */
+"Panel Chooser" = "Panel Chooser";
+
+/* Paste the URL into the location bar */
+"Paste" = "Paste";
+
+/* Paste the URL into the location bar and visit */
+"Paste & Go" = "Paste & Go";
+
+/* Privacy section title
+   Privacy settings section title */
+"Privacy" = "Privacy";
+
+/* Show Brave Browser Privacy Policy page from the Privacy section in the settings.
+   Show Brave Browser Privacy Policy page from the Privacy section in the settings. See https://www.brave.com/privacy */
+"Privacy Policy" = "Privacy Policy";
+
+/* Private button title */
+"Private" = "Private";
+
+/* Setting to keep app in private mode */
+"Private Browsing Only" = "Private Browsing Only";
+
+/* Private mode icon next to location string */
+"Private mode icon" = "Private mode icon";
+
+/* Title for quick-search engines settings section. */
+"Quick-search Engines" = "Quick-search Engines";
+
+/* Accessibility label for the Reader View button */
+"Reader View" = "Reader View";
+
+/* Panel accessibility label */
+"Reading list" = "Reading list";
+
+/* Accessibility Label for the browser toolbar Reload button */
+"Reload" = "Reload";
+
+/* Title for the button that removes a reading list item */
+"Remove" = "Remove";
+
+/* Name for button removing current article from reading list in reader mode */
+"Remove from Reading List" = "Remove from Reading List";
+
+/* Button shown in editing mode to remove this site from the top sites panel. */
+"Remove page" = "Remove page";
+
+/* Show mail composer to report a bug. */
+"Report a bug" = "Report a bug";
+
+/* Font type setting in the reading view settings */
+"Sans-serif" = "Sans-serif";
+
+/* Context menu item for saving an image */
+"Save Image" = "Save Image";
+
+/* Context menu item for opeining image in new tab */
+"Open Image In New Tab" = "Open Image In New Tab";
+
+/* Setting to enable the built-in password manager */
+"Save Logins" = "Save Logins";
+
+/* See http://mzl.la/1LXbDOL */
+"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Save pages to your Reading List by tapping the book plus icon in the Reader View controls.";
+
+/* individual blocking statistic title */
+"Scripts Blocked" = "Scripts Blocked";
+
+/* Navigation title for search settings. */
+"Search" = "Search";
+
+/* The text shown in the URL bar on about:home */
+"Search or enter address" = "Search or enter address";
+
+/* Accessibility hint describing the action performed when a search suggestion is clicked */
+"Searches for the suggestion" = "Searches for the suggestion";
+
+/* Accessibility label for the lock icon, which is only present if the connection is secure */
+"Secure connection" = "Secure connection";
+
+/* Sepia theme setting in Reading View settings */
+"Sepia" = "Sepia";
+
+/* Font type setting in the reading view settings */
+"Serif" = "Serif";
+
+/* Accessibility label for the Settings button.
+   Settings */
+"Settings" = "Settings";
+
+/* Accessibility Label for the browser toolbar Share button */
+"Share" = "Share";
+
+/* Context menu item for sharing a link URL */
+"Share Link" = "Share Link";
+
+/* message shown briefly in URL bar */
+"Shields Down" = "Shields Down";
+
+/* message shown briefly in URL bar */
+"Shields Up" = "Shields Up";
+
+/* Button to show the bookmarks list */
+"Show Bookmarks" = "Show Bookmarks";
+
+/* Button to show the history list */
+"Show History" = "Show History";
+
+/* Label for show search suggestions setting. */
+"Show Search Suggestions" = "Show Search Suggestions";
+
+/* Accessibility label for the tabs button in the (top) browser toolbar
+   Accessibility Label for the tabs button in the browser toolbar */
+"Show Tabs" = "Show Tabs";
+
+/* Setting to show/hide the tabs bar
+   tabs bar show/hide setting title */
+"Show Tabs Bar" = "Show Tabs Bar";
+
+/* Show the on-boarding screen again from the settings */
+"Show Tour" = "Show Tour";
+
+/* Footer message on picker for 3rd party password manager setting */
+"Show a prompt to open your password manager when the current page has a login form." = "Show a prompt to open your password manager when the current page has a login form.";
+
+/* tabs bar show/hide option */
+"Show in landscape only" = "Show in landscape only";
+
+/* Brave panel topmost title */
+"Site shield settings" = "Site shield settings";
+
+/* Accessibility Label for the browser toolbar Stop button */
+"Stop" = "Stop";
+
+/* Support section title */
+"Support" = "Support";
+
+/* Accessibility hint for tab tray's displayed tab. */
+"Swipe right or left with three fingers to close the tab." = "Swipe right or left with three fingers to close the tab.";
+
+/* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
+"Tab %@ of %@" = "Tab %@ of %@";
+
+/* Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \"Tabs 8 to 10 of 15\" says tabs 8, 9 and 10 are visible, out of 15 tabs total. */
+"Tabs %@ to %@ of %@" = "Tabs %@ to %@ of %@";
+
+/* Accessibility label for the Tabs Tray view. */
+"Tabs Tray" = "Tabs Tray";
+
+/* Show Brave Browser TOS page from the Privacy section in the settings. */
+"Terms of Use" = "Terms of Use";
+
+/* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"The page could not be displayed in Reader View." = "The page could not be displayed in Reader View.";
+
+/* Error displayed when reader mode cannot be enabled */
+"There was an error converting the page" = "There was an error converting the page";
+
+/* See http://mzl.la/1G7uHo7 */
+"This allows you to save the image to your Camera Roll." = "This allows you to save the image to your Camera Roll.";
+
+/* History tableview section header */
+"Today" = "Today";
+
+/* Panel accessibility label */
+"Top sites" = "Top sites";
+
+/* Bookmark URL */
+"URL" = "URL";
+
+/* brave shield on/off toggle on state */
+"Up" = "Up";
+
+/* Version number of Brave shown in settings */
+"Version %@ (%@)" = "Version %@ (%@)";
+
+/* Accessibility label for the main web content view */
+"Web content" = "Web content";
+
+/* See http://mzl.la/1LXbDOL */
+"Welcome to your Reading List" = "Welcome to your Reading List";
+
+/* yes, allow brave to send info */
+"Yes" = "Yes";
+
+/* History tableview section header */
+"Yesterday" = "Yesterday";
+
+/* body */
+"\n\n---\nApp & Device Version Information:\n" = "\n\n---\nApp & Device Version Information:\n";
+
+/* iOS version */
+"iOS version" = "iOS version";
+
+/* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
+"read" = "read";
+
+/* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
+"unread" = "unread";
+
+/* Prompt title when deleting logins */
+"Are you sure?" = "Are you sure?";
+
+/* Prompt option for cancelling out of deletion */
+"Cancel" = "Cancel";
+
+/* Accessibility message e.g. spoken by VoiceOver after the user taps the close button in the search field to clear the search and exit search mode */
+"Clear Search" = "Clear Search";
+
+/* Copy password text selection menu item */
+"Copy" = "Copy";
+
+/* Button in login detail screen that deletes the current login */
+"Delete" = "Delete";
+
+/* Title for deselecting all selected logins */
+"Deselect All" = "Deselect All";
+
+/* Accessibility label for entering search mode for logins */
+"Enter Search Mode" = "Enter Search Mode";
+
+/* Hide password text selection menu item */
+"Hide" = "Hide";
+
+/* Footer label describing when the login was last modified with the timestamp as the parameter */
+"Last modified %@" = "Last modified %@";
+
+/* Title for Logins List View screen */
+"Logins" = "Logins";
+
+/* Prompt message warning the user that deleting non-synced logins will permanently remove them */
+"Logins will be permanently removed." = "Logins will be permanently removed.";
+
+/* Prompt message warning the user that deleted logins will remove logins from all connected devices */
+"Logins will be removed from all connected devices." = "Logins will be removed from all connected devices.";
+
+/* Title displayed when no logins are found after searching */
+"No logins found" = "No logins found";
+
+/* Open and Fill website text selection menu item */
+"Open & Fill" = "Open & Fill";
+
+/* Reveal password text selection menu item */
+"Reveal" = "Reveal";
+
+/* Title for the search field at the top of the Logins list screen */
+"Search" = "Search";
+
+/* Accessibility label for the search input field in the Logins list */
+"Search Input Field" = "Search Input Field";
+
+/* Title for selecting all logins */
+"Select All" = "Select All";
+
+/* Title for password row in Login Detail View */
+"password" = "password";
+
+/* Title for username row in Login Detail View */
+"username" = "username";
+
+/* Title for website row in Login Detail View */
+"website" = "website";
+
+/* Description text displayed when there are no open tabs while in private mode */
+"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave won't remember any of your history or cookies, but new bookmarks will be saved.";
+
+/* Setting for closing private tabs */
+"Close Private Tabs" = "Close Private Tabs";
+
+/* Text button displayed when there are no tabs open while in private mode */
+"Learn More" = "Learn More";
+
+/* Toggled OFF accessibility value */
+"Off" = "Off";
+
+/* Toggled ON accessibility value */
+"On" = "On";
+
+/* Context menu option for opening a link in a new private tab */
+"Open In New Private Tab" = "Open In New Private Tab";
+
+/* Title displayed for when there are no open tabs while in private mode */
+"Private Browsing" = "Private Browsing";
+
+/* Accessibility label for toggling on/off private mode */
+"Private Mode" = "Private Mode";
+
+/* Accessiblity hint for toggling on/off private mode */
+"Turns private mode on or off" = "Turns private mode on or off";
+
+/* Will be displayed in Settings under 'Close Private Tabs' */
+"When Leaving Private Browsing" = "When Leaving Private Browsing";
+
+/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
+"%@ search" = "%@ search";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"No" = "No";
+
+/* Label for search settings button. */
+"Search Settings" = "Search Settings";
+
+/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
+"Search suggestions from %@" = "Search suggestions from %@";
+
+/* Prompt shown before enabling provider search queries */
+"Turn on search suggestions?" = "Turn on search suggestions?";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"Yes" = "Yes";
+

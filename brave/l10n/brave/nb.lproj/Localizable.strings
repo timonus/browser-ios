@@ -9,6 +9,7 @@
 /* Accessibility label for action adding current page to reading list. */
 /* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 /* Label for button to perform advanced actions on the error page */
 /* Ask user if site can open iTunes store URL */
@@ -85,6 +86,7 @@
 /* Sync enter code words */
 /* Enter sync code words below */
 /* Description for new folder popup */
+/* Shields Time Saved Stat */
 /* Private tab details */
 /* No comment provided by engineer. */
 /* Find text in page. */
@@ -101,6 +103,7 @@
 /* Grand camera access */
 /* No comment provided by engineer. */
 /* individual blocking statistic title */
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 /* Panel accessibility label */
 /* Shown in intro screens */
@@ -174,6 +177,7 @@
 /* Name for button removing current article from reading list in reader mode */
 /* Button shown in editing mode to remove this site from the top sites panel. */
 /* Sync remove device. */
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 /* Reveal password text selection menu item */
 /* Font type setting in the reading view settings */
@@ -213,6 +217,7 @@
 /* Setting to show/hide the tabs bar */
 /* Show the on-boarding screen again from the settings */
 /* tabs bar show/hide option */
+/* Password Manager show picker option */
 /* shields overview message */
 /* Brave panel topmost title */
 /* No comment provided by engineer. */
@@ -234,10 +239,12 @@
 /* Error displayed when reader mode cannot be enabled */
 /* Description of the confirmation dialog shown when a user tries to clear their private data. */
 /* See http://mzl.la/1G7uHo7 */
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 /* Private tab title */
 /* History tableview section header */
 /* Panel accessibility label */
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 /* Prompt shown before enabling provider search queries */
 /* Accessiblity hint for toggling on/off private mode */
@@ -266,11 +273,15 @@
 /* Footer message on picker for 3rd party password manager setting */
 /* Title on the certificate error page */
 /* Description label for the empty Top Sites state. */
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 /* Description for a date more than a week ago, but less than a month ago. */
 /* Title for password row in Login Detail View */
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 /* Relative date for date older than a minute. */
 /* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */

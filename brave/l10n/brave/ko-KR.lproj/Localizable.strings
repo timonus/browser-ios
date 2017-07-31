@@ -33,6 +33,7 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "주소 및 검색";
 
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 "Ads and Trackers" = "광고 및 개인정보 트래커";
 
@@ -264,6 +265,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Description for new folder popup */
 "Enter folder name" = "폴더 이름 입력";
 
+/* Shields Time Saved Stat */
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "비공개 탭에서 방문한 사이트가 로컬에 저장되지는 않지만, ISP, 고용주 또는 방문한 사이트에 익명 또는 보이지 않는 상태가 되는 것은 아닙니다.";
 
@@ -313,6 +315,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "HTTPS 업그레이드";
 
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 "Hide" = "숨기기";
 
@@ -532,6 +535,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Sync remove device. */
 "Remove this device" = "이 기기 제거";
 
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 "Report a bug" = "버그 신고";
 
@@ -649,6 +653,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* tabs bar show/hide option */
 "Show in landscape only" = "항상 가로모드로 표시";
 
+/* Password Manager show picker option */
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "사이트 Shields를 사용하면 방문하는 사이트별로 광고와 트래커를 차단할지 관리할 수 있습니다. 특정 사이트에서 광고를 표시하려면, 해당 사이트에서 활성화합니다.";
 
@@ -712,6 +717,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* See http://mzl.la/1G7uHo7 */
 "This allows you to save the image to your Camera Roll." = "이는 카메라 롤에 이미지를 저장하도록 허용합니다.";
 
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "이 폴더는 비어 있지 않습니다.";
 
@@ -724,6 +730,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Panel accessibility label */
 "Top sites" = "자주 가는 사이트";
 
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "다시 시도";
 
@@ -808,9 +815,12 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Description label for the empty Top Sites state. */
 "Your most visited sites will show up here." = "자주 방문하는 사이트가 여기에 표시됩니다.";
 
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "방금 전";
 
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "한 달 전 이상";
 
@@ -823,6 +833,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "읽음";
 
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 "this week" = "이번 주";
 

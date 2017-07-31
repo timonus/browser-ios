@@ -33,6 +33,7 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "Adressen und Suchen";
 
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 "Ads and Trackers" = "Werbung und Tracker";
 
@@ -264,6 +265,7 @@ Wie kommt das?";
 /* Description for new folder popup */
 "Enter folder name" = "Ordnernamen eingeben";
 
+/* Shields Time Saved Stat */
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Obwohl jene Websites, die Sie in privaten Tabs besuchen, nicht lokal gespeichert werden, werden Sie dadurch nicht unsichtbar für Ihren ISP, Ihren Arbeitgeber oder die Websites, die Sie besuchen.";
 
@@ -313,6 +315,7 @@ Schutz";
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "HTTPS Protokoll Aktualisierungen";
 
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 "Hide" = "Schließen";
 
@@ -532,6 +535,7 @@ Schutz";
 /* Sync remove device. */
 "Remove this device" = "Dieses Gerät entfernen";
 
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 "Report a bug" = "Einen Fehler melden";
 
@@ -649,6 +653,7 @@ Schutz";
 /* tabs bar show/hide option */
 "Show in landscape only" = "Nur im Querformat anzeigen";
 
+/* Password Manager show picker option */
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Mit den Site-Schutzeinstellungen können Sie für jede besuchte Site kontrollieren, wann Werbung und Tracker blockiert werden. Falls Sie es vorziehen, auf einer bestimmten Site Werbung zu sehen, können sie diese hier freischalten.";
 
@@ -712,6 +717,7 @@ Schutz";
 /* See http://mzl.la/1G7uHo7 */
 "This allows you to save the image to your Camera Roll." = "Ermöglicht es Ihnen, das Bild in Apple Fotos zu speichern";
 
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "Dieser Ordner ist nicht leer.";
 
@@ -724,6 +730,7 @@ Schutz";
 /* Panel accessibility label */
 "Top sites" = "Meistbesuchte Seiten";
 
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "Erneut versuchen";
 
@@ -808,9 +815,12 @@ Schutz";
 /* Description label for the empty Top Sites state. */
 "Your most visited sites will show up here." = "Hier werden Ihre meistbesuchten Seiten aufgelistet.";
 
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "gerade eben";
 
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "vor über einem Monat";
 
@@ -823,6 +833,7 @@ Schutz";
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "gelesen";
 
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 "this week" = "in dieser Woche";
 
