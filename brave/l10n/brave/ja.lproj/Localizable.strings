@@ -33,6 +33,7 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "アドレスと検索";
 
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 "Ads and Trackers" = "広告とトラッカー";
 
@@ -264,6 +265,7 @@ Braveでスピードと効率をアップ。";
 /* Description for new folder popup */
 "Enter folder name" = "フォルダ名を入力";
 
+/* Shields Time Saved Stat */
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "プライベートタブでアクセスしたサイトはローカル保存はされませんが、ISP、雇用主、またはアクセス先のサイトに対して匿名になったり見えなくなるわけではありません。";
 
@@ -313,6 +315,7 @@ Braveでスピードと効率をアップ。";
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "HTTPSにアップグレード";
 
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 "Hide" = "非表示";
 
@@ -532,6 +535,7 @@ Braveでスピードと効率をアップ。";
 /* Sync remove device. */
 "Remove this device" = "このデバイスを削除";
 
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 "Report a bug" = "バグを報告";
 
@@ -649,6 +653,7 @@ Braveでスピードと効率をアップ。";
 /* tabs bar show/hide option */
 "Show in landscape only" = "横向きのみで表示";
 
+/* Password Manager show picker option */
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "サイトの保護設定から、訪問したサイトで広告とトラッカーをブロックするタイミングをコントロールすることができます。特定のサイトで広告を表示させたい場合、ここで設定することができます。";
 
@@ -712,6 +717,7 @@ Braveでスピードと効率をアップ。";
 /* See http://mzl.la/1G7uHo7 */
 "This allows you to save the image to your Camera Roll." = "これにより、画像をカメラロールに保存することができます。";
 
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "フォルダーが空ではありません。";
 
@@ -724,6 +730,7 @@ Braveでスピードと効率をアップ。";
 /* Panel accessibility label */
 "Top sites" = "上位のサイト";
 
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "再試行する";
 
@@ -808,9 +815,12 @@ Braveでスピードと効率をアップ。";
 /* Description label for the empty Top Sites state. */
 "Your most visited sites will show up here." = "最も多く訪問したサイトはここに表示されます。";
 
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "たった今";
 
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "一ヶ月以上前";
 
@@ -823,6 +833,7 @@ Braveでスピードと効率をアップ。";
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "既読";
 
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 "this week" = "今週";
 

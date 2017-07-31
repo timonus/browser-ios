@@ -33,6 +33,7 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "Alamat dan Carian";
 
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 "Ads and Trackers" = "Iklan dan Penjejak";
 
@@ -264,6 +265,7 @@ dan ini sebabnya...";
 /* Description for new folder popup */
 "Enter folder name" = "Masukkan nama folder";
 
+/* Shields Time Saved Stat */
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Walaupun tapak yang anda lawati dalam tab peribadi tidak disimpan setempat, ia tidak menjadikan anda tanpa nama atau halimunan kepada ISP anda, majikan anda atau kepada tapak yang anda lawati.";
 
@@ -313,6 +315,7 @@ Pencapjarian";
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "Naik Taraf HTTPS";
 
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 "Hide" = "Sembunyikan";
 
@@ -532,6 +535,7 @@ Pencapjarian";
 /* Sync remove device. */
 "Remove this device" = "Alih keluar peranti ini";
 
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 "Report a bug" = "Laporkan pepijat";
 
@@ -649,6 +653,7 @@ Pencapjarian";
 /* tabs bar show/hide option */
 "Show in landscape only" = "Tunjuk dalam landskap sahaja";
 
+/* Password Manager show picker option */
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Perisai Tapak membenarkan anda mengawal bila iklan dan penjejak disekat untuk setiap tapak yang anda lawati. Jika anda suka melihat iklan di sesuatu tapak khusus, anda boleh mendayakannya di sini.";
 
@@ -712,6 +717,7 @@ Pencapjarian";
 /* See http://mzl.la/1G7uHo7 */
 "This allows you to save the image to your Camera Roll." = "Ini membolehkan anda menyimpan imej ke Gulungan Kamera anda.";
 
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "Folder ini tidak kosong.";
 
@@ -724,6 +730,7 @@ Pencapjarian";
 /* Panel accessibility label */
 "Top sites" = "Tapak teratas";
 
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "Cuba lagi";
 
@@ -808,9 +815,12 @@ Pencapjarian";
 /* Description label for the empty Top Sites state. */
 "Your most visited sites will show up here." = "Tapak yang paling banyak anda kunjungi muncul di sini.";
 
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "sebentar tadi";
 
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "lebih sebulan yang lalu";
 
@@ -823,6 +833,7 @@ Pencapjarian";
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "dibaca";
 
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 "this week" = "minggu ini";
 

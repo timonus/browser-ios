@@ -1,4 +1,4 @@
-"CFBundleDisplayName" = "Відкрити за допомогою Brave";
+"CFBundleDisplayName" = "Відкрити в Brave";
 
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "%@ пошук";
@@ -22,34 +22,38 @@
 "Add Device" = "Додати пристрій";
 
 /* Accessibility label for the Add Tab button in the Tab Tray. */
-"Add Tab" = "Добавити вкладку";
+"Add Tab" = "Додати вкладку";
 
 /* Accessibility label for action adding current page to reading list. */
-"Add to Reading List" = "Добавити до списку для читання";
+"Add to Reading List" = "Додати до списку читання";
 
 /* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
-"Added page to Reading List" = "Сторінка добавлена до листу для читання";
+"Added page to Reading List" = "Сторінка додана до списку читання";
 
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
-"Address and Search" = "Адрес та Пошук";
+"Address and Search" = "Адреса і пошук";
+
+/* Shields Ads Stat */
+"Ads \rBlocked" = "Заблоковано
+реклами";
 
 /* individual blocking statistic title */
-"Ads and Trackers" = "Реклама та трекери";
+"Ads and Trackers" = "Реклама і стеження";
 
 /* Label for button to perform advanced actions on the error page */
 "Advanced" = "Розширені";
 
 /* Ask user if site can open iTunes store URL */
-"Allow %@ to open iTunes?" = "Дозволити %@ відкрити в iTunes?";
+"Allow %@ to open iTunes?" = "Дозволити %@ відкрити iTunes?";
 
 /* tabs bar show/hide option */
 "Always show" = "Показувати завжди";
 
 /* Message shown in the dialog prompting users if they want to clear everything */
-"Are you sure you want to clear all of your data? This will also close all open tabs." = "Ви впевнені що хочете видалити усі Ваші данни? Це також закриє всі відкриті вкладки.";
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "Ви впевнені, що хочете очистити всі ваші дані? Це також закриє всі відкриті вкладки.";
 
 /* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
-"Are you sure you want to delete it and its contents?" = "Ви впевнені що хочете видалити це з усім вмістом?";
+"Are you sure you want to delete it and its contents?" = "Ви впевнені, що хочете видалити це з усім вмістом?";
 
 /* No comment provided by engineer. */
 "Are you sure?" = "Ви впевнені?";
@@ -58,16 +62,16 @@
 "Back" = "Назад";
 
 /* cookie settings option */
-"Block 3rd party cookies" = "Блокувати сторонні cookies";
+"Block 3rd party cookies" = "Блокувати сторонні куки";
 
 /* No comment provided by engineer. */
-"Block Ads & Tracking" = "Блокувати рекламу та трекінг";
+"Block Ads & Tracking" = "Блокувати рекламу і стеження";
 
 /* Brave panel individual toggle title */
 "Block Phishing" = "Блокувати фішинг";
 
 /* No comment provided by engineer. */
-"Block Phishing and Malware" = "Блокувати фішинг та шкідливе ПО";
+"Block Phishing and Malware" = "Блокувати фішинг і шкідливе ПЗ";
 
 /* Block pop-up windows setting */
 "Block Pop-up Windows" = "Блокувати спливаючі вікна";
@@ -79,16 +83,16 @@
 "Block Scripts" = "Блокувати скрипти";
 
 /* cookie settings option */
-"Block all cookies" = "Блокувати усі cookies";
+"Block all cookies" = "Блокувати всі куки";
 
 /* title for section showing page blocking statistics */
 "Blocking Monitor" = "Монітор блокувань";
 
 /* Accessibility Label for the browser toolbar Bookmark button */
-"Bookmark" = "Закладки";
+"Bookmark" = "Закладка";
 
 /* Bookmark Folder Section Title */
-"Bookmark Folder" = "Папка закладок";
+"Bookmark Folder" = "Тека закладок";
 
 /* Bookmark Info Section Title */
 "Bookmark Info" = "Інформація про закладку";
@@ -109,49 +113,49 @@
 "Brave Panel" = "Панель Brave";
 
 /* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
-"Brave Shield Defaults" = "Щити Brave за замовчуванням";
+"Brave Shield Defaults" = "Типові щити Brave";
 
 /* Brave sync page title */
 "Brave Sync" = "Синхронізація Brave";
 
 /* Shown in intro screens */
 "Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency." = "Brave блокує рекламу.
-Brave зупиняє трекери.
+Brave зупиняє стеження.
 Brave розроблений для швидкості та ефективності.";
 
 /* email subject */
 "Brave for iOS Feedback" = "Зворотній зв'язок Brave для iOS";
 
 /* Shown in intro screens */
-"Brave is Faster,\nand here's why..." = "Brave швідше,
+"Brave is Faster,\nand here's why..." = "Brave швидший,
 тому що...";
 
 /* Shown in intro screens */
-"Brave keeps you safe as you browse." = "Brave зберігає Вашу безпеку під час просмотру.";
+"Brave keeps you safe as you browse." = "Brave зберігає вашу безпеку під час перегляду.";
 
 /* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave не буде запам'ятовувати Вашу історію або cookies, але нові закладки будуть збережені.";
+"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave не буде запам'ятовувати вашу історію або куки, але нові закладки будуть збережені.";
 
 /* See http://mzl.la/1G7uHo7 */
-"Brave would like to access your Photos" = "Brave потрібен доступ до Ваших фотографій";
+"Brave would like to access your Photos" = "Brave потрібен доступ до ваших фотографій";
 
 /* Accessibility label for brightness adjustment slider in Reader Mode display settings */
 "Brightness" = "Яскравість";
 
 /* Shown in intro screens */
-"Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Переглядайте сторінки з нами і Ваша безпека захищена, без жодної додаткової установки, вивчення або налаштування.";
+"Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Переглядайте Інтернет з нами і ваша приватність буде захищена, без додаткових встановлень, вивчення чи налаштування.";
 
 /* Settings item for clearing browsing history */
-"Browsing History" = "Історія переглядань";
+"Browsing History" = "Історія переглядів";
 
 /* Settings item for clearing the cache */
 "Cache" = "Кеш";
 
 /* Alert Call Button */
-"Call" = "Дзвінок";
+"Call" = "Виклик";
 
 /* No comment provided by engineer. */
-"Cancel" = "Відмінити";
+"Cancel" = "Скасувати";
 
 /* Accessibility hint for the color theme setting buttons in reader mode display settings */
 "Changes color theme." = "Змінює кольорову схему.";
@@ -160,7 +164,7 @@ Brave розроблений для швидкості та ефективнос
 "Changes font type." = "Змінює тип шрифту.";
 
 /* Sync device settings footer details */
-"Changing settings will only affect data that this device shares with others." = "Зміна налаштувань буде впливати тільки на дані які цей пристрій розподіляє з іншими.";
+"Changing settings will only affect data that this device shares with others." = "Зміна налаштувань буде впливати тільки на дані якими цей пристрій ділиться з іншими.";
 
 /* Used as a button label in the dialog to Clear private data dialog */
 "Clear" = "Очистити";
@@ -169,7 +173,7 @@ Brave розроблений для швидкості та ефективнос
 "Clear Everything" = "Очистити все";
 
 /* Button in settings that clears private data for the selected items. Also used as section title in settings panel */
-"Clear Private Data" = "Очистити приватні дані";
+"Clear Private Data" = "Очистити особисті дані";
 
 /* No comment provided by engineer. */
 "Clear Search" = "Очистити пошук";
@@ -190,10 +194,10 @@ Brave розроблений для швидкості та ефективнос
 "Code Words" = "Кодові слова";
 
 /* Cookie settings option title */
-"Cookie Control" = "Налаштування cookie";
+"Cookie Control" = "Керування куками";
 
 /* Settings item for clearing cookies */
-"Cookies" = "Cookies";
+"Cookies" = "Куки";
 
 /* No comment provided by engineer. */
 "Copy" = "Копіювати";
@@ -208,28 +212,28 @@ Brave розроблений для швидкості та ефективнос
 "Copy Link" = "Копіювати посилання";
 
 /* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
-"Could not add page to Reading List. Maybe it's already there?" = "Неможливо додати сторінку до листа для читання. Може вона вже там?";
+"Could not add page to Reading List. Maybe it's already there?" = "Неможливо додати сторінку до списку читання. Може вона вже там?";
 
 /* Dark theme setting in Reading View settings */
-"Dark" = "Темний";
+"Dark" = "Темна";
 
 /* Accessibility label for button decreasing font size in display settings of reader mode */
 "Decrease text size" = "Зменшити розмір тексту";
 
 /* Open search section of settings */
-"Default Search Engine" = "Пошукова система за замовчуванням";
+"Default Search Engine" = "Типовий засіб пошуку";
 
 /* No comment provided by engineer. */
 "Delete" = "Видалити";
 
 /* Title for deselecting all selected logins */
-"Deselect All" = "Скасувати вибір всіх";
+"Deselect All" = "Зняти вибір";
 
 /* The folder name for the virtual folder that contains all desktop bookmarks. */
-"Desktop Bookmarks" = "Закладки робочого столу";
+"Desktop Bookmarks" = "Закладки комп'ютера";
 
 /* Title for new device popup */
-"Device Name" = "Ім'я пристрою";
+"Device Name" = "Назва пристрою";
 
 /* Sync device settings page title. */
 "Devices" = "Пристрої";
@@ -238,22 +242,22 @@ Brave розроблений для швидкості та ефективнос
 "Devices & Settings" = "Пристрої та налаштування";
 
 /* cookie settings option */
-"Don't block cookies" = "Не блокувати cookies";
+"Don't block cookies" = "Не блокувати куки";
 
 /* No comment provided by engineer. */
-"Done" = "Зроблено";
+"Done" = "Готово";
 
 /* Button to not save the user's password */
 "Don’t Save" = "Не зберігати";
 
 /* brave shield on/off toggle off state */
-"Down" = "Вимкн.";
+"Down" = "Вимк";
 
 /* No comment provided by engineer. */
-"Edit" = "Редагувати";
+"Edit" = "Змінити";
 
 /* Accessibility label for entering search mode for logins */
-"Enter Search Mode" = "Ввійти до режиму для пошуку";
+"Enter Search Mode" = "Увійти в режим пошуку";
 
 /* Sync enter code words */
 "Enter code words" = "Введіть кодові слова";
@@ -262,10 +266,14 @@ Brave розроблений для швидкості та ефективнос
 "Enter code words below" = "Введіть кодові слова нижче";
 
 /* Description for new folder popup */
-"Enter folder name" = "Введіть ім'я папки";
+"Enter folder name" = "Введіть назву теки";
+
+/* Shields Time Saved Stat */
+"Est. Time \rSaved" = "Заощаджено
+часу";
 
 /* Private tab details */
-"Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Навіть якщо сайти які ви відвідуєте в приватних закладках не зберігаються локально, вони не роблять вас анонімними або невидимими для вашого провайдера, вашого роботодавця, або сайтів, які ви відвідуєте.";
+"Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Навіть якщо сайти, які ви відвідуєте в приватних вкладках не зберігаються локально, вони не роблять вас анонімними або невидимими для вашого провайдера, вашого роботодавця, або відвідуваних вами сайтів.";
 
 /* No comment provided by engineer. */
 "Find" = "Знайти";
@@ -277,17 +285,17 @@ Brave розроблений для швидкості та ефективнос
 "Find in Page" = "Знайти на сторінці";
 
 /* individual blocking statistic title */
-"Fingerprinting Methods" = "Методи відбитків браузера";
+"Fingerprinting Methods" = "Методи відбитку браузера";
 
 /* No comment provided by engineer. */
-"Fingerprinting Protection" = "Захист відбитків браузера";
+"Fingerprinting Protection" = "Захист відбитку браузера";
 
 /* blocking stat title */
 "Fingerprinting\nProtection" = "Захист
-відбитків браузера";
+відбитку браузера";
 
 /* Folder */
-"Folder" = "Папка";
+"Folder" = "Тека";
 
 /* Accessibility Label for the browser toolbar Forward button */
 "Forward" = "Вперед";
@@ -299,19 +307,23 @@ Brave розроблений для швидкості та ефективнос
 "Get a new sync code" = "Отримати новий код синхронізації";
 
 /* Shown in intro screens */
-"Get ready to experience a Faster, Safer, Better Web." = "Приготуйтесь спробувати Швидкий, Безпечний, Кращий Інтернет.";
+"Get ready to experience a Faster, Safer, Better Web." = "Приготуйтесь спробувати Швидший, Безпечніший, Кращий Інтернет.";
 
 /* Label for button to go back from the error page */
 "Go Back" = "Повернутися назад";
 
 /* Grand camera access */
-"Grant camera access" = "Дати дозвіл камері";
+"Grant camera access" = "Дозволити доступ камері";
 
 /* No comment provided by engineer. */
-"HTTPS Everywhere" = "HTTPS всюди";
+"HTTPS Everywhere" = "HTTPS Everywhere";
 
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "HTTPS перенаправлень";
+
+/* Shields Https Stat */
+"HTTPS \rUpgrades" = "HTTPS
+перенаправлень";
 
 /* Hide password text selection menu item */
 "Hide" = "Приховати";
@@ -335,10 +347,10 @@ Brave розроблений для швидкості та ефективнос
 "Introductory slide %@ of %@" = "Вступний слайд %1$@ з %2$@";
 
 /* Additional warning text when clicking the Advanced button on error pages */
-"It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk." = "Це може бути невірне налаштування або підробка зловмисником. Продовжуйте, якщо ви приймаєте потенційний ризик.";
+"It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk." = "Це може бути хибне налаштування або підробка зловмисником. Продовжуйте, якщо ви погоджуєтесь на потенційний ризик.";
 
 /* Footer label describing when the login was last modified with the timestamp as the parameter */
-"Last modified %@" = "Модифіковано %@";
+"Last modified %@" = "Востаннє змінено %@";
 
 /* History tableview section header */
 "Last month" = "Попередній місяць";
@@ -347,43 +359,43 @@ Brave розроблений для швидкості та ефективнос
 "Last week" = "Попередній тиждень";
 
 /* Text button displayed when there are no tabs open while in private mode */
-"Learn More" = "Узнати більше";
+"Learn More" = "Докладніше";
 
 /* Private tab information link */
-"Learn about private tabs." = "Більше про приватні вкладки.";
+"Learn about private tabs." = "Докладніше про приватні вкладки.";
 
 /* Light theme setting in Reading View settings */
-"Light" = "Світлий";
+"Light" = "Світла";
 
 /* Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
 "Load original page" = "Завантажити оригінальну сторінку";
 
 /* Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app. */
-"Loading content…" = "Завантаження вмісту...";
+"Loading content…" = "Завантаження вмісту…";
 
 /* Bookmark folder location */
-"Location" = "Місцезнаходження";
+"Location" = "Розташування";
 
 /* Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager. */
-"Logins" = "Логіни";
+"Logins" = "Паролі";
 
 /* No comment provided by engineer. */
-"Logins will be permanently removed." = "Логіни будуть видалені назавжди.";
+"Logins will be permanently removed." = "Паролі будуть видалені назавжди.";
 
 /* No comment provided by engineer. */
-"Logins will be removed from all connected devices." = "Логіни будуть видалені з усіх пристроїв.";
+"Logins will be removed from all connected devices." = "Паролі будуть видалені з усіх під'єднаних пристроїв.";
 
 /* Name for Mark as read button in reader mode */
-"Mark as Read" = "Помітити як прочитане";
+"Mark as Read" = "Позначити прочитаним";
 
 /* Name for Mark as unread button in reader mode */
-"Mark as Unread" = "Помітити як не прочитане";
+"Mark as Unread" = "Позначити непрочитаним";
 
 /* The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android. */
 "Mobile Bookmarks" = "Мобільні закладки";
 
 /* Bookmark title / Device name */
-"Name" = "Ім'я";
+"Name" = "Назва";
 
 /* Accessibility label for the navigation toolbar displayed at the bottom of the screen. */
 "Navigation Toolbar" = "Панель навігації";
@@ -392,7 +404,7 @@ Brave розроблений для швидкості та ефективнос
 "Never show" = "Ніколи не показувати";
 
 /* Title for new folder popup */
-"New Folder" = "Нова папка";
+"New Folder" = "Нова тека";
 
 /* No comment provided by engineer. */
 "New Private Tab" = "Нова приватна вкладка";
@@ -404,34 +416,34 @@ Brave розроблений для швидкості та ефективнос
 "Next in-page result" = "Наступний результат на сторінці";
 
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
-"No" = "Ні";
+"No" = "Немає";
 
 /* Title displayed when no logins are found after searching */
-"No logins found" = "Не знайдено жодного логіну";
+"No logins found" = "Не знайдено дані входу";
 
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "Немає вкладок";
 
 /* shields overview footer message */
-"Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Примітка: Деякі сайти потребують скрипти для роботи, тому цей щит вимкнений за замовчуванням.";
+"Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Примітка: Деякі сайти потребують скрипти для роботи, тому цей щит типово вимкнений.";
 
 /* OK button */
 "OK" = "OK";
 
 /* Toggled OFF accessibility value */
-"Off" = "Вимкнено";
+"Off" = "Вимк";
 
 /* Settings item for clearing website data */
-"Offline Website Data" = "Автономні дані сторінок";
+"Offline Website Data" = "Автономні дані сайтів";
 
 /* Toggled ON accessibility value */
-"On" = "Ввімкнути";
+"On" = "Увімк";
 
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "Відкрити та заповнити";
 
 /* Share action title */
-"Open Desktop Site tab" = "Відкрити вкладку з повною версією";
+"Open Desktop Site tab" = "Відкрити вкладку з повною версією сайту";
 
 /* Context menu for opening image in new tab */
 "Open Image In New Tab" = "Відкрити зображення в новій вкладці";
@@ -446,13 +458,13 @@ Brave розроблений для швидкості та ефективнос
 "Open Settings" = "Відкрити налаштування";
 
 /* See http://mzl.la/1LXbDOL */
-"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Відкривати статті в режимі для читання шляхом натискання значка книжки, коли вона з'являється в рядку заголовка.";
+"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Відкривати статті в режимі читання дотиком до піктограми книжки, коли вона з'являється в рядку заголовка.";
 
 /* Shown in error pages for files that can't be shown and need to be downloaded. */
 "Open in Safari" = "Відкрити в Safari";
 
 /* String indicating that the file can be opened in another application on the device */
-"Open in…" = "Відкрити в...";
+"Open in…" = "Відкрити в…";
 
 /* Sync pair device settings section title */
 "Pair" = "З'єднати";
@@ -470,19 +482,19 @@ Brave розроблений для швидкості та ефективнос
 "Paste" = "Вставити";
 
 /* Paste the URL into the location bar and visit */
-"Paste & Go" = "Вставити та відкрити";
+"Paste & Go" = "Вставити і перейти";
 
 /* Description for new device popup */
-"Please enter a name for this device" = "Будь ласка введіть ім'я для цього пристрою";
+"Please enter a name for this device" = "Введіть назву для цього пристрою";
 
 /* Accessibility label for previous result button in Find in Page Toolbar. */
 "Previous in-page result" = "Попередній результат на сторінці";
 
 /* Settings privacy section title */
-"Privacy" = "Конфіденційність";
+"Privacy" = "Приватність";
 
 /* Show Brave Browser Privacy Policy page from the Privacy section in the settings. */
-"Privacy Policy" = "Політика конфіденційності";
+"Privacy Policy" = "Політика приватності";
 
 /* Private button title */
 "Private" = "Приватний";
@@ -497,22 +509,22 @@ Brave розроблений для швидкості та ефективнос
 "Private Mode" = "Приватний режим";
 
 /* Private mode icon next to location string */
-"Private mode icon" = "Значок приватного режиму";
+"Private mode icon" = "Піктограма приватного режиму";
 
 /* QR Code section title */
 "QR Code" = "QR код";
 
 /* Title for quick-search engines settings section. */
-"Quick-search Engines" = "Системи швидкого пошуку";
+"Quick-search Engines" = "Швидкі засоби пошуку";
 
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
-"Reader Mode Settings" = "Налаштування режиму для читання";
+"Reader Mode Settings" = "Налаштування режиму читання";
 
 /* Accessibility label for the Reader View button */
-"Reader View" = "Режим для читання";
+"Reader View" = "Режим читання";
 
 /* Panel accessibility label */
-"Reading list" = "Список для читання";
+"Reading list" = "Список читання";
 
 /* Accessibility Label for the browser toolbar Reload button */
 "Reload" = "Перезавантажити";
@@ -524,13 +536,16 @@ Brave розроблений для швидкості та ефективнос
 "Remove" = "Видалити";
 
 /* Name for button removing current article from reading list in reader mode */
-"Remove from Reading List" = "Видалити з листа для читання";
+"Remove from Reading List" = "Вилучити зі списку читання";
 
 /* Button shown in editing mode to remove this site from the top sites panel. */
-"Remove page" = "Видалити сторінку";
+"Remove page" = "Вилучити сторінку";
 
 /* Sync remove device. */
-"Remove this device" = "Видалити цей пристрій";
+"Remove this device" = "Вилучити цей пристрій";
+
+/* Sync remove device? */
+"Remove this device?" = "Вилучити цей пристрій?";
 
 /* Show mail composer to report a bug. */
 "Report a bug" = "Повідомити про помилку";
@@ -545,28 +560,28 @@ Brave розроблений для швидкості та ефективнос
 "Save Image" = "Зберегти зображення";
 
 /* Button to save the user's password */
-"Save Login" = "Зберегти логін";
+"Save Login" = "Зберегти пароль";
 
 /* Setting to enable the built-in password manager */
-"Save Logins" = "Зберегти логіни";
+"Save Logins" = "Зберігати паролі";
 
 /* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
-"Save login %@ for %@?" = "Зберегти логіни з %1$@ до %2$@?";
+"Save login %@ for %@?" = "Зберегти пароль %1$@ для %2$@?";
 
 /* See http://mzl.la/1LXbDOL */
-"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Зберігати сторінки у список для читання шляхом натискання значка книги з плюсом в керуванні режимом для читання.";
+"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Зберігати сторінки у список читання дотиком до піктограми книги з плюсом в керуванні режимом читання.";
 
 /* Prompt for saving a password with no username. The parameter is the hostname of the site. */
 "Save password for %@?" = "Зберегти пароль для %@?";
 
 /* Settings item for clearing passwords and login data */
-"Saved Logins" = "Збережені логіни";
+"Saved Logins" = "Збережені паролі";
 
 /* Scan sync code button title */
-"Scan or enter code" = "Отсканувати або ввести код";
+"Scan or enter code" = "Сканувати або ввести код";
 
 /* individual blocking statistic title */
-"Scripts Blocked" = "Блоковано скриптів";
+"Scripts Blocked" = "Заблоковано скриптів";
 
 /* No comment provided by engineer. */
 "Search" = "Пошук";
@@ -581,10 +596,10 @@ Brave розроблений для швидкості та ефективнос
 "Search in page" = "Пошук на сторінці";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "Шукати або вводити адресу";
+"Search or enter address" = "Пошуковий запит чи адреса";
 
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
-"Search suggestions from %@" = "Шукати пропозиції з %@";
+"Search suggestions from %@" = "Пошукові пропозиції з %@";
 
 /* Accessibility hint describing the action performed when a search suggestion is clicked */
 "Searches for the suggestion" = "Результати пошуку для пропозиції";
@@ -593,13 +608,13 @@ Brave розроблений для швидкості та ефективнос
 "Secure connection" = "Захищене з'єднання";
 
 /* Title for selecting all logins */
-"Select All" = "Виділити все";
+"Select All" = "Вибрати все";
 
 /* No comment provided by engineer. */
-"Select Location Bar" = "Вибрати розташування панелі інструментів";
+"Select Location Bar" = "Вибрати панель розташування";
 
 /* option in settings screen */
-"Send crash reports and metrics" = "Відсилання звітів про збої та метрик";
+"Send crash reports and metrics" = "Надсилати звіти про збої та метрики";
 
 /* Sepia theme setting in Reading View settings */
 "Sepia" = "Сепія";
@@ -617,10 +632,10 @@ Brave розроблений для швидкості та ефективнос
 "Share Link" = "Поділитись посиланням";
 
 /* message shown briefly in URL bar */
-"Shields Down" = "Вимк. щити";
+"Shields Down" = "Вимк щити";
 
 /* message shown briefly in URL bar */
-"Shields Up" = "Увімкн. щити";
+"Shields Up" = "Увімк щити";
 
 /* Button to show the bookmarks list */
 "Show Bookmarks" = "Показати закладки";
@@ -635,28 +650,31 @@ Brave розроблений для швидкості та ефективнос
 "Show Previous Tab" = "Показати попередню вкладку";
 
 /* Label for show search suggestions setting. */
-"Show Search Suggestions" = "Показати пропозиції пошуку";
+"Show Search Suggestions" = "Показувати пошукові пропозиції";
 
 /* Accessibility Label for the tabs button in the browser toolbar */
 "Show Tabs" = "Показати вкладки";
 
 /* Setting to show/hide the tabs bar */
-"Show Tabs Bar" = "Показати панель вкладок";
+"Show Tabs Bar" = "Показувати панель вкладок";
 
 /* Show the on-boarding screen again from the settings */
-"Show Tour" = " Показати введення";
+"Show Tour" = " Показати знайомство";
 
 /* tabs bar show/hide option */
 "Show in landscape only" = "Показувати тільки в горизонтальному режимі";
 
+/* Password Manager show picker option */
+"Show picker" = "Показати вибір";
+
 /* shields overview message */
-"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Щити сайту дозволяють керувати коли реклама та трекери блокуються для кожного відвідуємого сайту. Ви можете ввімкнути рекламу тут, якщо бажаєте її бачити.";
+"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Щити сайту дозволяють вам керувати блокуванням реклами й елементів стеження для кожного відвідуваного сайту. Якщо ви бажаєте бачити рекламу на певному сайті, ви можете увімкнути це тут.";
 
 /* Brave panel topmost title */
 "Site shield settings" = "Налаштування щитів сторінки";
 
 /* No comment provided by engineer. */
-"Start Browsing" = "Розпочати перегляд";
+"Start Browsing" = "Почати перегляд";
 
 /* Accessibility Label for the browser toolbar Stop button */
 "Stop" = "Зупинити";
@@ -665,13 +683,13 @@ Brave розроблений для швидкості та ефективнос
 "Support" = "Підтримка";
 
 /* Accessibility hint for tab tray's displayed tab. */
-"Swipe right or left with three fingers to close the tab." = "Проведіть трьома пальцями ліворуч або праворуч щоб закрити вкладку.";
+"Swipe right or left with three fingers to close the tab." = "Проведіть трьома пальцями вліво чи вправо, щоб закрити вкладку.";
 
 /* Sync settings section title */
 "Sync" = "Синхронізація";
 
 /* Sync settings welcome */
-"Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started." = "Безпечно синхронізуйте дані браузераміж Вашими пристроями,використовуя синхронізацію Brave, без створення облікового запису. Натисніть знизу для початку.";
+"Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started." = "Синхронізуйте дані браузера між своїми пристроями з використанням Синхронізації Brave. Не потрібно створювати обліковий запис. Торкніться внизу для початку.";
 
 /* Sync device settings section title */
 "Sync on this device" = "Синхронізація на цьому пристрої";
@@ -692,28 +710,31 @@ Brave розроблений для швидкості та ефективнос
 "Tabs Tray" = "Лоток вкладок";
 
 /* Shown in intro screens */
-"Tap the Brave button to temporarily disable ad blocking and privacy features." = "Натисніть кнопку Brave, щоб тимчасово вимкнути блокування реклами і функції захисту.";
+"Tap the Brave button to temporarily disable ad blocking and privacy features." = "Натисніть кнопку Brave, щоб тимчасово вимкнути блокування реклами й захисту приватності.";
 
 /* Show Brave Browser TOS page from the Privacy section in the settings. */
 "Terms of Use" = "Умови використання";
 
 /* Warning text on the certificate error page */
-"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "Власник %@ невірно налаштував свій сайт. Brave не приєднався до цього сайту, щоб захистити Вашу информацію від крадіжки.";
+"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "Власник %@ неправильно налаштував свій веб-сайт. З метою захисту вашої інформації від викрадення, Brave не з'єднався з цим сайтом.";
 
 /* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
-"The page could not be displayed in Reader View." = "Ця сторінка не може бути відображена в режимі для читання.";
+"The page could not be displayed in Reader View." = "Не вдалося показати сторінку в режимі читання.";
 
 /* Error displayed when reader mode cannot be enabled */
 "There was an error converting the page" = "Виникла помилка в перетворенні сторінки";
 
 /* Description of the confirmation dialog shown when a user tries to clear their private data. */
-"This action will clear all of your private data. It cannot be undone." = "Ця дія видалить усі Ваші приватні дані. Це неможливо скасувати.";
+"This action will clear all of your private data. It cannot be undone." = "Ця дія зітре всі ваші особисті дані. Це неможливо відмінити.";
 
 /* See http://mzl.la/1G7uHo7 */
-"This allows you to save the image to your Camera Roll." = "Це дозволяє зберегти зображення до ВашоЇ колекції з камери.";
+"This allows you to save the image to your Camera Roll." = "Це дозволяє зберегти зображення до теки камери.";
+
+/* Sync remove device? */
+"This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device." = "Цей пристрій буде від'єднаний від синхронізації і більше не буде обмінюватись даними. Всі наявні дані залишаться на пристрої.";
 
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
-"This folder isn't empty." = "Ця папка не порожня.";
+"This folder isn't empty." = "Ця тека не порожня.";
 
 /* Private tab title */
 "This is a Private Tab" = "Це приватна вкладка";
@@ -722,13 +743,17 @@ Brave розроблений для швидкості та ефективнос
 "Today" = "Сьогодні";
 
 /* Panel accessibility label */
-"Top sites" = "Кращі сайти";
+"Top sites" = "Популярні сайти";
+
+/* Shields Trackers Stat */
+"Trackers \rBlocked" = "Заблоковано
+стеження";
 
 /* Shown in error pages on a button that will try to load the page again */
-"Try again" = "Спробуйте ще";
+"Try again" = "Спробувати знову";
 
 /* Prompt shown before enabling provider search queries */
-"Turn on search suggestions?" = "Ввімкнути пропозиції пошуку?";
+"Turn on search suggestions?" = "Увімкнути пошукові пропозиції?";
 
 /* Accessiblity hint for toggling on/off private mode */
 "Turns private mode on or off" = "Вмикає або вимикає приватний режим";
@@ -740,43 +765,43 @@ Brave розроблений для швидкості та ефективнос
 "Unable to create new sync group." = "Неможливо створити нову групу синхронізації.";
 
 /* The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android. */
-"Unsorted Bookmarks" = "Несортовані закладки";
+"Unsorted Bookmarks" = "Невпорядковані закладки";
 
 /* No comment provided by engineer. */
-"Unsuccessful" = "Неуспішно";
+"Unsuccessful" = "Не вдалося";
 
 /* The default name for bookmark item without titles. */
-"Untitled" = "Без заголовку";
+"Untitled" = "Без назви";
 
 /* brave shield on/off toggle on state */
-"Up" = "Ввімкн.";
+"Up" = "Увімк";
 
 /* Button to update the user's password */
 "Update" = "Оновити";
 
 /* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
-"Update login %@ for %@?" = "Оновити логіни з %1$@ до %2$@?";
+"Update login %@ for %@?" = "Оновити пароль %1$@ для %2$@?";
 
 /* Prompt for updating a password with no username. The parameter is the hostname of the site. */
 "Update password for %@?" = "Оновити пароль для %@?";
 
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
-"Use regional adblock" = "Використовувати блокування регіональної реклами";
+"Use regional adblock" = "Блокування регіональної реклами";
 
 /* Sync add device description */
-"Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "Використовуючи інший пристрій, перейдіть до Налаштування Brave > Синхронізація. Отскануйте QR код (вище) за допомогою другого пристрою, або якщо камера недоступна,  введіть кодові слова.";
+"Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "На іншому пристрої перейдіть в Налаштування Brave > Синхронізація. Зіскануйте QR-код (вгорі) за допомогою другого пристрою, або якщо камера недоступна,  введіть кодові слова.";
 
 /* Sync to existing device description */
-"Using existing synced device open Brave Settings and navigate to “Devices & Settings”, tap ‘+’ to add a new device and reveal sync code." = "Використовуючи існуючий синхронізований пристрій, відкрийте налаштування Brave і перейдіть в розділ Синхронізація, натисніть синхронізувати новий пристрій та отримайте код синхронізації.";
+"Using existing synced device open Brave Settings and navigate to “Devices & Settings”, tap ‘+’ to add a new device and reveal sync code." = "На іншому синхронізованому пристрої відкрийте Налаштування Brave і перейдіть в розділ Синхронізація, натисніть синхронізувати новий пристрій та отримайте код синхронізації.";
 
 /* Version number of Brave shown in settings */
 "Version %@ (%@)" = "Версія %1$@ (%2$@)";
 
 /* Button label to temporarily continue to the site from the certificate error page */
-"Visit site anyway" = "Відвідати веб-сайт в будь-якому випадку";
+"Visit site anyway" = "Все одно відвідати сайт";
 
 /* Warning text when clicking the Advanced button on error pages */
-"Warning: we can't confirm your connection to this website is secure." = "Увага: ми не можемо підтвердити що ваше підключення до цього веб-сайту безпечне.";
+"Warning: we can't confirm your connection to this website is secure." = "Попередження: ми не можемо підтвердити, що ваше підключення до цього веб-сайту безпечне.";
 
 /* Accessibility label for the main web content view */
 "Web content" = "Вміст мережі";
@@ -785,13 +810,13 @@ Brave розроблений для швидкості та ефективнос
 "Welcome to Brave." = "Ласкаво просимо в Brave.";
 
 /* The title for the empty Top Sites state */
-"Welcome to Top Sites" = " Ласкаво просимо до кращих сайтів";
+"Welcome to Top Sites" = " Ласкаво просимо до популярних сайтів";
 
 /* See http://mzl.la/1LXbDOL */
-"Welcome to your Reading List" = "Ласкаво просимо до Вашого списку для читання";
+"Welcome to your Reading List" = "Ласкаво просимо до вашого списку читання";
 
 /* Will be displayed in Settings under 'Close Private Tabs' */
-"When Leaving Private Browsing" = "Коли залишаєте приватний перегляд";
+"When Leaving Private Browsing" = "При виході з приватного перегляду";
 
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "Так";
@@ -806,16 +831,25 @@ Brave розроблений для швидкості та ефективнос
 "Your connection is not private" = "Ваше з'єднання не приватне";
 
 /* Description label for the empty Top Sites state. */
-"Your most visited sites will show up here." = "Тут будуть відображатися найбільш часто відвідувані сайти.";
+"Your most visited sites will show up here." = "Тут будуть з'являтися найчастіше відвідувані сайти.";
+
+/* Time Saved Days */
+"d" = "д";
+
+/* Time Saved Hours */
+"h" = "г";
 
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "Щойно";
 
+/* Time Saved Minutes */
+"min" = "хв";
+
 /* Relative date for dates older than a month and less than two months. */
-"more than a month ago" = "більше ніж місяць потому";
+"more than a month ago" = "понад місяць тому";
 
 /* Description for a date more than a week ago, but less than a month ago. */
-"more than a week ago" = "більш ніж тиждень потому";
+"more than a week ago" = "понад тиждень тому";
 
 /* Title for password row in Login Detail View */
 "password" = "пароль";
@@ -823,11 +857,14 @@ Brave розроблений для швидкості та ефективнос
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "читати";
 
+/* Time Saved Seconds */
+"s" = "с";
+
 /* Relative date for date in past week. */
 "this week" = "цього тижня";
 
 /* Relative date for date older than a minute. */
-"today at %@" = "Сьогодні в %@";
+"today at %@" = "сьогодні %@";
 
 /* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
 "unread" = "непрочитане";

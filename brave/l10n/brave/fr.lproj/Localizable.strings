@@ -33,6 +33,7 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "Adresse et recherche";
 
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 "Ads and Trackers" = "Publicités et trackers";
 
@@ -264,6 +265,7 @@ et voilà pourquoi";
 /* Description for new folder popup */
 "Enter folder name" = "Saisir le nom du dossier";
 
+/* Shields Time Saved Stat */
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Même si les sites que vous consultez dans des onglets privés ne sont pas enregistrés localement, cela ne signifie pas que vous êtes anonyme ou invisible pour votre fournisseur d'accès Internet, votre employeur ou les sites que vous consultez.";
 
@@ -313,6 +315,7 @@ de la création d'empreinte numérique";
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "Mises à jour HTTPS";
 
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 "Hide" = "Masquer";
 
@@ -532,6 +535,7 @@ de la création d'empreinte numérique";
 /* Sync remove device. */
 "Remove this device" = "Supprimer cet appareil";
 
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 "Report a bug" = "Signaler un bogue";
 
@@ -649,6 +653,7 @@ de la création d'empreinte numérique";
 /* tabs bar show/hide option */
 "Show in landscape only" = "Afficher uniquement en mode paysage";
 
+/* Password Manager show picker option */
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Les shields des sites vous permettent de contrôler le blocage des publicités et des trackers pour chaque site que vous consultez. Si vous souhaitez voir les publicités sur un site en particulier, vous pouvez les activer ici.";
 
@@ -712,6 +717,7 @@ de la création d'empreinte numérique";
 /* See http://mzl.la/1G7uHo7 */
 "This allows you to save the image to your Camera Roll." = "Ceci vous permet d'enregistrer l'image dans votre Pellicule.";
 
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "Ce dossier n'est pas vide.";
 
@@ -724,6 +730,7 @@ de la création d'empreinte numérique";
 /* Panel accessibility label */
 "Top sites" = "Meilleurs sites";
 
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "Réessayer";
 
@@ -808,9 +815,12 @@ de la création d'empreinte numérique";
 /* Description label for the empty Top Sites state. */
 "Your most visited sites will show up here." = "Les sites les plus fréquemment visités s'afficheront ici.";
 
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "à l'instant";
 
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "il y a plus d'un mois";
 
@@ -823,6 +833,7 @@ de la création d'empreinte numérique";
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "lu";
 
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 "this week" = "cette semaine";
 

@@ -1176,6 +1176,8 @@
 		5D48087B1F13C07D00E04833 /* IntExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IntExtensions.swift; path = Client/Extensions/IntExtensions.swift; sourceTree = "<group>"; };
 		5D4808BF1F13FA4200E04833 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = ThirdParty/SQLite.swift/../../Carthage/Checkouts/SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
 		5D71B69A1E6885E00073621F /* Niceware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Niceware.swift; sourceTree = "<group>"; };
+		5D7443D91F2BDB2B001653E9 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5D7443DA1F2BDB2B001653E9 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/BraveShareToInfoPlist.strings; sourceTree = "<group>"; };
 		5D84AB2CBD701CBBDC40620C /* ReadingListAuthenticator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReadingListAuthenticator.swift; path = ./ReadingList/ReadingListAuthenticator.swift; sourceTree = "<group>"; };
 		5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorExtensions.swift; path = Client/Extensions/ErrorExtensions.swift; sourceTree = "<group>"; };
 		5DB199141E859F9100A851B6 /* SyncResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncResponse.swift; sourceTree = "<group>"; };
@@ -3662,6 +3664,7 @@
 				"pt-BR",
 				uk,
 				"zh-TW",
+				sv,
 			);
 			mainGroup = F84B21B51A090F8100AAB793;
 			productRefGroup = F84B21BF1A090F8100AAB793 /* Products */;
@@ -4613,6 +4616,7 @@
 				EB4E15EA1DB7F36600A4C7EA /* uk */,
 				EB4E15EB1DB7F36600A4C7EA /* zh-TW */,
 				EB4E15EC1DB7F36600A4C7EA /* zh */,
+				5D7443D91F2BDB2B001653E9 /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4636,6 +4640,7 @@
 				EB4E15FD1DB7F3BA00A4C7EA /* uk */,
 				EB4E15FE1DB7F3BA00A4C7EA /* zh-TW */,
 				EB4E15FF1DB7F3BA00A4C7EA /* zh */,
+				5D7443DA1F2BDB2B001653E9 /* sv */,
 			);
 			name = BraveShareToInfoPlist.strings;
 			sourceTree = "<group>";

@@ -33,6 +33,7 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "Pasek adresu i wyszukiwania";
 
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 "Ads and Trackers" = "Reklamy i śledzenie";
 
@@ -264,6 +265,7 @@ Oto dlaczego…";
 /* Description for new folder popup */
 "Enter folder name" = "Wprowadź nazwę folderu";
 
+/* Shields Time Saved Stat */
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Adresy stron, które odwiedzasz w trybie prywatnym, nie są zapisywane lokalnie. Nie chroni to jednak Twojej prywatności przed dostawcą usług internetowych, Twoim pracodawcą ani witrynami, które przeglądasz.";
 
@@ -313,6 +315,7 @@ odcisków palców";
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "Aktualizacje HTTPS";
 
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 "Hide" = "Ukryj";
 
@@ -532,6 +535,7 @@ odcisków palców";
 /* Sync remove device. */
 "Remove this device" = "Usuń urządzenie";
 
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 "Report a bug" = "Zgłoś błąd";
 
@@ -649,6 +653,7 @@ odcisków palców";
 /* tabs bar show/hide option */
 "Show in landscape only" = "Pokaż wyłącznie poziomo";
 
+/* Password Manager show picker option */
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Ochrona strony umożliwia blokowanie reklam i śledzenia na odwiedzanych przez Ciebie stronach. Jeśli chcesz widzieć reklamy na konkretnej stronie, możesz wyłączyć ich blokadę.";
 
@@ -712,6 +717,7 @@ odcisków palców";
 /* See http://mzl.la/1G7uHo7 */
 "This allows you to save the image to your Camera Roll." = "Umożliwia zapisanie obrazu w folderze Z aparatu.";
 
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "Folder nie jest pusty.";
 
@@ -724,6 +730,7 @@ odcisków palców";
 /* Panel accessibility label */
 "Top sites" = "Najpopularniejsze strony";
 
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "Spróbuj ponownie";
 
@@ -808,9 +815,12 @@ odcisków palców";
 /* Description label for the empty Top Sites state. */
 "Your most visited sites will show up here." = "W tym miejscu pojawią się najczęściej odwiedzane przez Ciebie strony.";
 
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "przed chwilą";
 
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "ponad miesiąc temu";
 
@@ -823,6 +833,7 @@ odcisków palców";
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "przeczytane";
 
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 "this week" = "w tym tygodniu";
 

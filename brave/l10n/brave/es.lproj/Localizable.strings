@@ -33,6 +33,7 @@
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
 "Address and Search" = "Dirección y búsqueda";
 
+/* Shields Ads Stat */
 /* individual blocking statistic title */
 "Ads and Trackers" = "Anuncios y rastreadores";
 
@@ -264,6 +265,7 @@ y esta es la razón…";
 /* Description for new folder popup */
 "Enter folder name" = "Introduzca el nombre de la carpeta";
 
+/* Shields Time Saved Stat */
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Aunque los sitios que visita en pestañas privadas no se guardan localmente, esto no lo convierte en alguien anónimo o invisible para su proveedor de servicios de internet, su jefe ni los sitios que visita.";
 
@@ -313,6 +315,7 @@ huellas digitales";
 /* individual blocking statistic title */
 "HTTPS Upgrades" = "Mejoras de HTTPS";
 
+/* Shields Https Stat */
 /* Hide password text selection menu item */
 "Hide" = "Ocultar";
 
@@ -532,6 +535,7 @@ huellas digitales";
 /* Sync remove device. */
 "Remove this device" = "Elimine este dispositivo";
 
+/* Sync remove device? */
 /* Show mail composer to report a bug. */
 "Report a bug" = "Reportar un error";
 
@@ -649,6 +653,7 @@ huellas digitales";
 /* tabs bar show/hide option */
 "Show in landscape only" = "Mostrar solo apaisado";
 
+/* Password Manager show picker option */
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Los escudos del sitio le permiten controlar cuándo bloquear anuncios y rastreadores en cada sitio que visite. Si prefiere ver anuncios en un sitio en concreto, puede habilitarlos aquí.";
 
@@ -712,6 +717,7 @@ huellas digitales";
 /* See http://mzl.la/1G7uHo7 */
 "This allows you to save the image to your Camera Roll." = "Esto te permite guardar la imagen en el carrete de tu cámara.";
 
+/* Sync remove device? */
 /* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
 "This folder isn't empty." = "Esta carpeta no está vacía.";
 
@@ -724,6 +730,7 @@ huellas digitales";
 /* Panel accessibility label */
 "Top sites" = "Sitios destacados";
 
+/* Shields Trackers Stat */
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "Volver a intentar";
 
@@ -808,9 +815,12 @@ huellas digitales";
 /* Description label for the empty Top Sites state. */
 "Your most visited sites will show up here." = "Aquí se mostrarán tus sitios más visitados.";
 
+/* Time Saved Days */
+/* Time Saved Hours */
 /* Relative time for a tab that was visited within the last few moments. */
 "just now" = "ahora mismo";
 
+/* Time Saved Minutes */
 /* Relative date for dates older than a month and less than two months. */
 "more than a month ago" = "hace más de un mes";
 
@@ -823,6 +833,7 @@ huellas digitales";
 /* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
 "read" = "leído";
 
+/* Time Saved Seconds */
 /* Relative date for date in past week. */
 "this week" = "esta semana";
 

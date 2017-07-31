@@ -42,7 +42,7 @@
       </trans-unit>
       <trans-unit id="Add Bookmark">
         <source>Add Bookmark</source>
-        <target>Tambah Penanda</target>
+        <target>Tambah Markah</target>
         <note>Button to add a bookmark</note>
       </trans-unit>
       <trans-unit id="Add Device">
@@ -62,13 +62,20 @@
       </trans-unit>
       <trans-unit id="Added page to Reading List">
         <source>Added page to Reading List</source>
-        <target>Tambahkan halaman ke Daftar Bacaan</target>
+        <target>Tambahkan laman ke Daftar Bacaan</target>
         <note>Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action.</note>
       </trans-unit>
       <trans-unit id="Address and Search">
         <source>Address and Search</source>
         <target>Alamat dan Pencarian</target>
         <note>Accessibility label for address and search field, both words (Address, Search) are therefore nouns.</note>
+      </trans-unit>
+      <trans-unit id="Ads \rBlocked">
+        <source>Ads 
+Blocked</source>
+        <target>Iklan 
+Diblokir</target>
+        <note>Shields Ads Stat</note>
       </trans-unit>
       <trans-unit id="Ads and Trackers">
         <source>Ads and Trackers</source>
@@ -82,7 +89,7 @@
       </trans-unit>
       <trans-unit id="Allow %@ to open iTunes?">
         <source>Allow %@ to open iTunes?</source>
-        <target>Bolehkan %@ membuka iTunes?</target>
+        <target>Izinkan %@ membuka iTunes?</target>
         <note>Ask user if site can open iTunes store URL</note>
       </trans-unit>
       <trans-unit id="Always show">
@@ -112,7 +119,7 @@
       </trans-unit>
       <trans-unit id="Block 3rd party cookies">
         <source>Block 3rd party cookies</source>
-        <target>Blokir cookie pihak ke-3</target>
+        <target>Blokir kuki pihak ke-3</target>
         <note>cookie settings option</note>
       </trans-unit>
       <trans-unit id="Block Ads &amp; Tracking">
@@ -142,12 +149,12 @@
       </trans-unit>
       <trans-unit id="Block Scripts">
         <source>Block Scripts</source>
-        <target>Blokir Script</target>
+        <target>Blokir Skrip</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Block all cookies">
         <source>Block all cookies</source>
-        <target>Blokir semua cookie</target>
+        <target>Blokir semua kuki</target>
         <note>cookie settings option</note>
       </trans-unit>
       <trans-unit id="Blocking Monitor">
@@ -157,37 +164,37 @@
       </trans-unit>
       <trans-unit id="Bookmark">
         <source>Bookmark</source>
-        <target>Penanda</target>
+        <target>Markah</target>
         <note>Accessibility Label for the browser toolbar Bookmark button</note>
       </trans-unit>
       <trans-unit id="Bookmark Folder">
         <source>Bookmark Folder</source>
-        <target>Folder Penanda</target>
+        <target>Folder Markah</target>
         <note>Bookmark Folder Section Title</note>
       </trans-unit>
       <trans-unit id="Bookmark Info">
         <source>Bookmark Info</source>
-        <target>Informasi Penanda</target>
+        <target>Informasi Markah</target>
         <note>Bookmark Info Section Title</note>
       </trans-unit>
       <trans-unit id="Bookmarks">
         <source>Bookmarks</source>
-        <target>Penanda</target>
+        <target>Markah</target>
         <note>title for bookmarks panel</note>
       </trans-unit>
       <trans-unit id="Bookmarks Menu">
         <source>Bookmarks Menu</source>
-        <target>Menu Penanda</target>
+        <target>Menu Markah</target>
         <note>The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android.</note>
       </trans-unit>
       <trans-unit id="Bookmarks Toolbar">
         <source>Bookmarks Toolbar</source>
-        <target>Toolbar Penanda</target>
+        <target>Bilah Alat Markah</target>
         <note>The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android.</note>
       </trans-unit>
       <trans-unit id="Bookmarks and History Panel">
         <source>Bookmarks and History Panel</source>
-        <target>Panel Penanda dan Riwayat</target>
+        <target>Panel Markah dan Riwayat</target>
         <note>Button to show the bookmarks and history panel</note>
       </trans-unit>
       <trans-unit id="Brave Panel">
@@ -197,7 +204,7 @@
       </trans-unit>
       <trans-unit id="Brave Shield Defaults">
         <source>Brave Shield Defaults</source>
-        <target>Pelindung Default Brave</target>
+        <target>Perisai Baku Brave</target>
         <note>Section title for adbblock, tracking protection, HTTPS-E, and cookies</note>
       </trans-unit>
       <trans-unit id="Brave Sync">
@@ -216,7 +223,7 @@ Brave dirancang untuk kecepatan dan efisiensi.</target>
       </trans-unit>
       <trans-unit id="Brave for iOS Feedback">
         <source>Brave for iOS Feedback</source>
-        <target>Tanggapan Brave untuk iOS</target>
+        <target>Umpan balik Brave untuk iOS</target>
         <note>email subject</note>
       </trans-unit>
       <trans-unit id="Brave is Faster,\nand here's why...">
@@ -228,12 +235,12 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Brave keeps you safe as you browse.">
         <source>Brave keeps you safe as you browse.</source>
-        <target>Brave menjaga Anda tetap aman selama penelusuran</target>
+        <target>Brave menjaga Anda tetap aman selama penjelajahan</target>
         <note>Shown in intro screens</note>
       </trans-unit>
       <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
         <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
-        <target>Brave tidak akan mengingat riwayat atau cookie Anda, namun penanda baru akan tersimpan.</target>
+        <target>Brave tidak akan mengingat riwayat atau kuki Anda, namun markah baru akan tersimpan.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Brave would like to access your Photos">
@@ -248,17 +255,17 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Browse with us and your privacy is protected, with nothing further to install, learn or configure.">
         <source>Browse with us and your privacy is protected, with nothing further to install, learn or configure.</source>
-        <target>Telusuri bersama kami dan privasi Anda akan dilindungi, tanpa penginstalan, belajar, atau konfigurasi lainnya.</target>
+        <target>Menjelajah bersama kami dan privasi Anda akan dilindungi, tanpa pemasangan, belajar, atau konfigurasi lainnya.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
       <trans-unit id="Browsing History">
         <source>Browsing History</source>
-        <target>Riwayat Penelusuran</target>
+        <target>Riwayat Penjelajahan</target>
         <note>Settings item for clearing browsing history</note>
       </trans-unit>
       <trans-unit id="Cache">
         <source>Cache</source>
-        <target>Cache</target>
+        <target>Tembolok</target>
         <note>Settings item for clearing the cache</note>
       </trans-unit>
       <trans-unit id="Call">
@@ -333,12 +340,12 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Cookie Control">
         <source>Cookie Control</source>
-        <target>Kontrol Cookie</target>
+        <target>Kontrol Kuki</target>
         <note>Cookie settings option title</note>
       </trans-unit>
       <trans-unit id="Cookies">
         <source>Cookies</source>
-        <target>Cookie</target>
+        <target>Kuki</target>
         <note>Settings item for clearing cookies</note>
       </trans-unit>
       <trans-unit id="Copy">
@@ -358,7 +365,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Copy Link">
         <source>Copy Link</source>
-        <target>Salin Link</target>
+        <target>Salin Tautan</target>
         <note>Context menu item for copying a link URL to the clipboard</note>
       </trans-unit>
       <trans-unit id="Could not add page to Reading List. Maybe it's already there?">
@@ -378,7 +385,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Default Search Engine">
         <source>Default Search Engine</source>
-        <target>Mesin Pencari Default</target>
+        <target>Mesin Pencari Baku</target>
         <note>Open search section of settings</note>
       </trans-unit>
       <trans-unit id="Delete">
@@ -393,7 +400,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Desktop Bookmarks">
         <source>Desktop Bookmarks</source>
-        <target>Penanda Desktop</target>
+        <target>Markah Desktop</target>
         <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
       </trans-unit>
       <trans-unit id="Device Name">
@@ -413,7 +420,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Don't block cookies">
         <source>Don't block cookies</source>
-        <target>Jangan blokir cookie</target>
+        <target>Jangan blokir kuki</target>
         <note>cookie settings option</note>
       </trans-unit>
       <trans-unit id="Done">
@@ -428,7 +435,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Down">
         <source>Down</source>
-        <target>Bawah</target>
+        <target>Turun</target>
         <note>brave shield on/off toggle off state</note>
       </trans-unit>
       <trans-unit id="Edit">
@@ -456,6 +463,13 @@ dan berikut alasannya...</target>
         <target>Masukkan nama folder</target>
         <note>Description for new folder popup</note>
       </trans-unit>
+      <trans-unit id="Est. Time \rSaved">
+        <source>Est. Time 
+Saved</source>
+        <target>Est. Waktu 
+Terselamatkan</target>
+        <note>Shields Time Saved Stat</note>
+      </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
         <target>Meskipun situs yang Anda kunjungi di tab pribadi tidak disimpan secara lokal, mereka tidak membuat Anda anonim atau tidak terlihat oleh ISP Anda, bos Anda, atau pada situs yang Anda kunjungi.</target>
@@ -463,7 +477,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
-        <target>Cari</target>
+        <target>Temukan</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Find &quot;%@&quot;">
@@ -473,7 +487,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Find in Page">
         <source>Find in Page</source>
-        <target>Cari di Halaman</target>
+        <target>Cari di Laman</target>
         <note>Share action title</note>
       </trans-unit>
       <trans-unit id="Fingerprinting Methods">
@@ -530,13 +544,20 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
         <source>HTTPS Everywhere</source>
-        <target>HTTPS Di Mana Pun</target>
+        <target>HTTPS Dimanapun</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="HTTPS Upgrades">
         <source>HTTPS Upgrades</source>
-        <target>Upgrade HTTPS</target>
+        <target>Peningkatan HTTPS</target>
         <note>individual blocking statistic title</note>
+      </trans-unit>
+      <trans-unit id="HTTPS \rUpgrades">
+        <source>HTTPS 
+Upgrades</source>
+        <target>Peningkatan 
+HTTPS</target>
+        <note>Shields Https Stat</note>
       </trans-unit>
       <trans-unit id="Hide">
         <source>Hide</source>
@@ -565,7 +586,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Intro Tour Carousel">
         <source>Intro Tour Carousel</source>
-        <target>Pengenalan Korsel Tur</target>
+        <target>Tur Pengenalan Korsel</target>
         <note>Accessibility label for the introduction tour carousel</note>
       </trans-unit>
       <trans-unit id="Introductory slide %@ of %@">
@@ -610,7 +631,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Load original page">
         <source>Load original page</source>
-        <target>Muat halaman asli</target>
+        <target>Muat laman asli</target>
         <note>Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app.</note>
       </trans-unit>
       <trans-unit id="Loading content…">
@@ -625,17 +646,17 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Logins">
         <source>Logins</source>
-        <target>Login</target>
+        <target>Info masuk</target>
         <note>Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager.</note>
       </trans-unit>
       <trans-unit id="Logins will be permanently removed.">
         <source>Logins will be permanently removed.</source>
-        <target>Login akan dihapus secara permanen.</target>
+        <target>Info masuk akan dihapus secara permanen.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Logins will be removed from all connected devices.">
         <source>Logins will be removed from all connected devices.</source>
-        <target>Login akan dihapus dari semua perangkat tersambung.</target>
+        <target>Info masuk akan dihapus dari semua perangkat tersambung.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Mark as Read">
@@ -650,7 +671,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Mobile Bookmarks">
         <source>Mobile Bookmarks</source>
-        <target>Penanda Ponsel</target>
+        <target>Markah Ponsel</target>
         <note>The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android.</note>
       </trans-unit>
       <trans-unit id="Name">
@@ -660,7 +681,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Navigation Toolbar">
         <source>Navigation Toolbar</source>
-        <target>Toolbar Navigasi</target>
+        <target>Bilah Alat Navigasi</target>
         <note>Accessibility label for the navigation toolbar displayed at the bottom of the screen.</note>
       </trans-unit>
       <trans-unit id="Never show">
@@ -695,7 +716,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="No logins found">
         <source>No logins found</source>
-        <target>Login tidak ditemukan</target>
+        <target>Info masuk tidak ditemukan</target>
         <note>Title displayed when no logins are found after searching</note>
       </trans-unit>
       <trans-unit id="No tabs">
@@ -705,12 +726,12 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
         <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
-        <target>Catatan: Beberapa situs mungkin memerlukan script untuk bekerja dengan baik sehingga perisai ini dimatikan secara bawaan.</target>
+        <target>Catatan: Beberapa situs mungkin memerlukan skrip untuk bekerja dengan baik sehingga perisai ini dimatikan secara bawaan.</target>
         <note>shields overview footer message</note>
       </trans-unit>
       <trans-unit id="OK">
         <source>OK</source>
-        <target>OK</target>
+        <target>Oke</target>
         <note>OK button</note>
       </trans-unit>
       <trans-unit id="Off">
@@ -720,7 +741,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Offline Website Data">
         <source>Offline Website Data</source>
-        <target>Data Situs Web Offline</target>
+        <target>Data Situs Web Luring</target>
         <note>Settings item for clearing website data</note>
       </trans-unit>
       <trans-unit id="On">
@@ -830,12 +851,12 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Private Browsing">
         <source>Private Browsing</source>
-        <target>Penelusuran Pribadi</target>
+        <target>Penjelajahan Pribadi</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Private Browsing Only">
         <source>Private Browsing Only</source>
-        <target>Hanya Penelusuran Pribadi</target>
+        <target>Hanya Penjelajahan Pribadi</target>
         <note>Setting to keep app in private mode</note>
       </trans-unit>
       <trans-unit id="Private Mode">
@@ -880,7 +901,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Reload Page">
         <source>Reload Page</source>
-        <target>Muat Ulang Halaman</target>
+        <target>Muat Ulang Laman</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Remove">
@@ -902,6 +923,11 @@ Sidik Jari</target>
         <source>Remove this device</source>
         <target>Hapus perangkat ini</target>
         <note>Sync remove device.</note>
+      </trans-unit>
+      <trans-unit id="Remove this device?">
+        <source>Remove this device?</source>
+        <target>Hapus perangkat ini?</target>
+        <note>Sync remove device?</note>
       </trans-unit>
       <trans-unit id="Report a bug">
         <source>Report a bug</source>
@@ -925,22 +951,22 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Save Login">
         <source>Save Login</source>
-        <target>Simpan Login</target>
+        <target>Simpan Info Masuk</target>
         <note>Button to save the user's password</note>
       </trans-unit>
       <trans-unit id="Save Logins">
         <source>Save Logins</source>
-        <target>Simpan Login</target>
+        <target>Simpan Info Masuk</target>
         <note>Setting to enable the built-in password manager</note>
       </trans-unit>
       <trans-unit id="Save login %@ for %@?">
         <source>Save login %1$@ for %2$@?</source>
-        <target>Simpan login %1$@ untuk %2$@?</target>
+        <target>Simpan info masuk %1$@ untuk %2$@?</target>
         <note>Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site.</note>
       </trans-unit>
       <trans-unit id="Save pages to your Reading List by tapping the book plus icon in the Reader View controls.">
         <source>Save pages to your Reading List by tapping the book plus icon in the Reader View controls.</source>
-        <target>Simpan halaman ke Daftar Bacaan dengan mengetuk ikon tambah buku pada kontrol Tampilan Baca.</target>
+        <target>Simpan laman ke Daftar Bacaan dengan mengetuk ikon tambah buku pada kontrol Tampilan Baca.</target>
         <note>See http://mzl.la/1LXbDOL</note>
       </trans-unit>
       <trans-unit id="Save password for %@?">
@@ -950,7 +976,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Saved Logins">
         <source>Saved Logins</source>
-        <target>Login Tersimpan</target>
+        <target>Info Masuk Tersimpan</target>
         <note>Settings item for clearing passwords and login data</note>
       </trans-unit>
       <trans-unit id="Scan or enter code">
@@ -960,7 +986,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Scripts Blocked">
         <source>Scripts Blocked</source>
-        <target>Script Diblokir</target>
+        <target>Skrip Diblokir</target>
         <note>individual blocking statistic title</note>
       </trans-unit>
       <trans-unit id="Search">
@@ -1010,7 +1036,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Select Location Bar">
         <source>Select Location Bar</source>
-        <target>Pilih Panel Lokasi</target>
+        <target>Pilih Bilah Lokasi</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Send crash reports and metrics">
@@ -1040,22 +1066,22 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Share Link">
         <source>Share Link</source>
-        <target>Bagikan Link</target>
+        <target>Bagikan Tautan</target>
         <note>Context menu item for sharing a link URL</note>
       </trans-unit>
       <trans-unit id="Shields Down">
         <source>Shields Down</source>
-        <target>Perlindungan Tidak Aktif</target>
+        <target>Perisai Tidak Aktif</target>
         <note>message shown briefly in URL bar</note>
       </trans-unit>
       <trans-unit id="Shields Up">
         <source>Shields Up</source>
-        <target>Perlindungan Aktif</target>
+        <target>Perisai Aktif</target>
         <note>message shown briefly in URL bar</note>
       </trans-unit>
       <trans-unit id="Show Bookmarks">
         <source>Show Bookmarks</source>
-        <target>Tampilkan Penanda</target>
+        <target>Tampilkan Markah</target>
         <note>Button to show the bookmarks list</note>
       </trans-unit>
       <trans-unit id="Show History">
@@ -1085,7 +1111,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Show Tabs Bar">
         <source>Show Tabs Bar</source>
-        <target>Tampilkan Panel Tab</target>
+        <target>Tampilkan Bilah Tab</target>
         <note>Setting to show/hide the tabs bar</note>
       </trans-unit>
       <trans-unit id="Show Tour">
@@ -1095,8 +1121,13 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Show in landscape only">
         <source>Show in landscape only</source>
-        <target>Tampilka dalam hanya dalam bentuk lanskap</target>
+        <target>Tampilkan hanya dalam mode datar</target>
         <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="Show picker">
+        <source>Show picker</source>
+        <target>Tampilkan pemilih</target>
+        <note>Password Manager show picker option</note>
       </trans-unit>
       <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
         <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
@@ -1105,12 +1136,12 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Site shield settings">
         <source>Site shield settings</source>
-        <target>Pengaturan perlindungan situs</target>
+        <target>Pengaturan perisai situs</target>
         <note>Brave panel topmost title</note>
       </trans-unit>
       <trans-unit id="Start Browsing">
         <source>Start Browsing</source>
-        <target>Mulai Penelusuran</target>
+        <target>Mulai Penjelajahan</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Stop">
@@ -1165,7 +1196,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Tabs Tray">
         <source>Tabs Tray</source>
-        <target>Baki Tab</target>
+        <target>Daftar Tab</target>
         <note>Accessibility label for the Tabs Tray view.</note>
       </trans-unit>
       <trans-unit id="Tap the Brave button to temporarily disable ad blocking and privacy features.">
@@ -1185,12 +1216,12 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="The page could not be displayed in Reader View.">
         <source>The page could not be displayed in Reader View.</source>
-        <target>Halaman ini tidak dapat ditampilkan pada Tampilan Baca.</target>
+        <target>Laman ini tidak dapat ditampilkan pada Tampilan Baca.</target>
         <note>Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app.</note>
       </trans-unit>
       <trans-unit id="There was an error converting the page">
         <source>There was an error converting the page</source>
-        <target>Terjadi kesalahan saat mengkonversi halaman</target>
+        <target>Terjadi kesalahan saat mengkonversi laman</target>
         <note>Error displayed when reader mode cannot be enabled</note>
       </trans-unit>
       <trans-unit id="This action will clear all of your private data. It cannot be undone.">
@@ -1202,6 +1233,11 @@ Sidik Jari</target>
         <source>This allows you to save the image to your Camera Roll.</source>
         <target>Tindakan ini memungkinkan Anda menyimpan gambar ke Galeri Kamera.</target>
         <note>See http://mzl.la/1G7uHo7</note>
+      </trans-unit>
+      <trans-unit id="This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.">
+        <source>This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.</source>
+        <target>Perangkat ini akan diputuskan dari grup sinkronisasi dan tidak lagi menerima atau mengirim data sinkronisasi. Semua data yang ada akan tetap ada di perangkat.</target>
+        <note>Sync remove device?</note>
       </trans-unit>
       <trans-unit id="This folder isn't empty.">
         <source>This folder isn't empty.</source>
@@ -1222,6 +1258,13 @@ Sidik Jari</target>
         <source>Top sites</source>
         <target>Situs teratas</target>
         <note>Panel accessibility label</note>
+      </trans-unit>
+      <trans-unit id="Trackers \rBlocked">
+        <source>Trackers 
+Blocked</source>
+        <target>Pelacak 
+Diblokir</target>
+        <note>Shields Trackers Stat</note>
       </trans-unit>
       <trans-unit id="Try again">
         <source>Try again</source>
@@ -1250,7 +1293,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
         <source>Unsorted Bookmarks</source>
-        <target>Penanda Belum Disortir</target>
+        <target>Markah Belum Disortir</target>
         <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
       </trans-unit>
       <trans-unit id="Unsuccessful">
@@ -1265,7 +1308,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Up">
         <source>Up</source>
-        <target>Atas</target>
+        <target>Naik</target>
         <note>brave shield on/off toggle on state</note>
       </trans-unit>
       <trans-unit id="Update">
@@ -1275,7 +1318,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="Update login %@ for %@?">
         <source>Update login %1$@ for %2$@?</source>
-        <target>Perbarui login %1$@ untuk %2$@?</target>
+        <target>Perbarui info masuk %1$@ untuk %2$@?</target>
         <note>Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site.</note>
       </trans-unit>
       <trans-unit id="Update password for %@?">
@@ -1335,7 +1378,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="When Leaving Private Browsing">
         <source>When Leaving Private Browsing</source>
-        <target>Bila Meninggalkan Penelusuran Pribadi</target>
+        <target>Bila Meninggalkan Mode Penjelajahan Pribadi</target>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
       </trans-unit>
       <trans-unit id="Yes">
@@ -1363,10 +1406,25 @@ Sidik Jari</target>
         <target>Situs yang paling sering Anda kunjungi akan muncul di sini.</target>
         <note>Description label for the empty Top Sites state.</note>
       </trans-unit>
+      <trans-unit id="d">
+        <source>d</source>
+        <target>hr</target>
+        <note>Time Saved Days</note>
+      </trans-unit>
+      <trans-unit id="h">
+        <source>h</source>
+        <target>jam</target>
+        <note>Time Saved Hours</note>
+      </trans-unit>
       <trans-unit id="just now">
         <source>just now</source>
         <target>baru saja</target>
         <note>Relative time for a tab that was visited within the last few moments.</note>
+      </trans-unit>
+      <trans-unit id="min">
+        <source>min</source>
+        <target>mnt</target>
+        <note>Time Saved Minutes</note>
       </trans-unit>
       <trans-unit id="more than a month ago">
         <source>more than a month ago</source>
@@ -1387,6 +1445,11 @@ Sidik Jari</target>
         <source>read</source>
         <target>baca</target>
         <note>Accessibility label for read article in reading list. It's a past participle - functions as an adjective.</note>
+      </trans-unit>
+      <trans-unit id="s">
+        <source>s</source>
+        <target>dtk</target>
+        <note>Time Saved Seconds</note>
       </trans-unit>
       <trans-unit id="this week">
         <source>this week</source>
@@ -1438,7 +1501,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="By using this application, you agree to Brave’s Terms of Use.">
         <source>By using this application, you agree to Brave’s Terms of Use.</source>
-        <target>Dengan menggunakan aplikasi ini, Anda setuju dengan Syarat Penggunaan Brave.</target>
+        <target>Dengan menggunakan aplikasi ini, Anda setuju dengan Persyaratan Penggunaan Brave.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Help make Brave better by sending usage statistics and crash reports to us.">
