@@ -98,16 +98,16 @@ extension Syncable /* where Self: NSManagedObject */ {
         
         // This is r annoying, and can be fixed in Swift 4, but since objects can't be cast to a class & protocol,
         //  but given extension on Syncable, if this passes the object is both Syncable and an NSManagedObject subclass
-        guard let s = self as? NSManagedObject else { return }
+        guard let s = self as? NSManagedObject, let context = s.managedObjectContext else { return }
         
         // Must happen before, otherwise bookmark is gone
         
         // TODO: Make type dynamic
         Sync.shared.sendSyncRecords(recordType: .bookmark, action: .delete, records: [self])
         
-        s.managedObjectContext?.delete(s)
+        context.delete(s)
         if save {
-            DataController.saveContext(context: s.managedObjectContext)
+            DataController.saveContext(context: context)
         }
     }
 }
