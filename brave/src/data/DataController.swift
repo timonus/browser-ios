@@ -39,14 +39,13 @@ class DataController: NSObject {
         
         // Async, no issues with merging changes from 'self' context
         
-        self.workerContext.perform {
-            self.workerContext.mergeChanges(fromContextDidSave: notification)
-        }
-        
-        self.mainThreadContext.perform {
-            self.mainThreadContext.mergeChanges(fromContextDidSave: notification)
-            
-            if sender == self.workerContext {
+        if sender == self.mainThreadContext {
+            self.workerContext.perform {
+                self.workerContext.mergeChanges(fromContextDidSave: notification)
+            }
+        } else if sender == self.workerContext {
+            self.mainThreadContext.perform {
+                self.mainThreadContext.mergeChanges(fromContextDidSave: notification)
                 
                 guard let info = notification.userInfo else {
                     return
@@ -139,7 +138,7 @@ class DataController: NSObject {
     }
 
     static func saveContext(context: NSManagedObjectContext?) {
-        guard let context = context  else {
+        guard let context = context else {
             print("No context on save")
             return
         }
