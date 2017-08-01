@@ -216,6 +216,9 @@ class TabManager : NSObject {
             }
         }
 
+        // This is pitiful. Should just be storing the active tab Id rather than using this `isSelected` concept
+        TabMO.getAll().forEach { $0.isSelected = $0.syncUUID == tab?.tabID }
+        
         for delegate in delegates where tab != nil {
             delegate.value?.tabManager(self, didSelectedTabChange: tab)
         }
