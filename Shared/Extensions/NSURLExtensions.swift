@@ -244,9 +244,19 @@ extension URL {
     }
 
     public var normalizedHost: String? {
+        var url = self
+        if scheme == nil {
+            if let _url = NSURL(string: "http://" + path) {
+                url = _url as URL
+            }
+            else {
+                return self.description
+            }
+        }
+        
         // Use components.host instead of self.host since the former correctly preserves
         // brackets for IPv6 hosts, whereas the latter strips them.
-        guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false), var host = components.host, host != "" else {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false), var host = components.host, host != "" else {
             return nil
         }
 
