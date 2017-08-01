@@ -224,17 +224,14 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext)
     }
 
-    class func contains(url: URL, completionOnMain completion: @escaping ((Bool)->Void)) {
+    class func contains(url: URL, context: NSManagedObjectContext) -> Bool {
         var found = false
-        let context = DataController.shared.workerContext
-        context.perform {
+        context.performAndWait {
             if let count = get(forUrl: url, countOnly: true, context: context) as? Int {
                 found = count > 0
             }
-            postAsyncToMain {
-                completion(found)
-            }
         }
+        return found
     }
 
     class func frecencyQuery(context: NSManagedObjectContext, containing: String?) -> [Bookmark] {
