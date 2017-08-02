@@ -73,9 +73,9 @@ class DataController: NSObject {
     
     lazy var workerContext: NSManagedObjectContext = {
         let worker = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        worker.persistentStoreCoordinator = self.persistentStoreCoordinator
         worker.undoManager = nil
         worker.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        worker.parent = self.writeContext
         
         NotificationCenter.default.addObserver(self, selector: #selector(merge(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: worker)
         
