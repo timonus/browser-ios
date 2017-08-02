@@ -226,13 +226,12 @@ extension BrowserViewController: BrowserToolbarDelegate {
                 return
         }
 
-       Bookmark.contains(url: url, completionOnMain: { isBookmarked in
-            if isBookmarked {
-                self.removeBookmark(url)
-            } else {
-                self.addBookmark(url, title: tab.title)
-            }
-        })
+        let isBookmarked = Bookmark.contains(url: url, context: DataController.shared.mainThreadContext)
+        if isBookmarked {
+            self.removeBookmark(url)
+        } else {
+            self.addBookmark(url, title: tab.title)
+        }
     }
 
     func browserToolbarDidPressShare(_ browserToolbar: BrowserToolbarProtocol, button: UIButton) {

@@ -66,9 +66,8 @@ extension BrowserViewController: TabManagerDelegate {
                 if AboutUtils.isAboutURL(url) {
                     // Indeed, because we don't show the toolbar at all, don't even blank the star.
                 } else {
-                    Bookmark.contains(url: url, completionOnMain: { isBookmarked in
-                        self.urlBar.updateBookmarkStatus(isBookmarked)
-                    })
+                    let isBookmarked = Bookmark.contains(url: url, context: DataController.shared.mainThreadContext)
+                    self.urlBar.updateBookmarkStatus(isBookmarked)
                 }
             } else {
                 // The web view can go gray if it was zombified due to memory pressure.

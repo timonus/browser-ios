@@ -750,9 +750,8 @@ class BrowserViewController: UIViewController {
             return
         }
 
-        Bookmark.contains(url: url, completionOnMain: { isBookmarked in
-            self.urlBar.updateBookmarkStatus(isBookmarked)
-        })
+        let isBookmarked = Bookmark.contains(url: url, context: DataController.shared.mainThreadContext)
+        self.urlBar.updateBookmarkStatus(isBookmarked)
     }
     // Mark: Opening New Tabs
 
