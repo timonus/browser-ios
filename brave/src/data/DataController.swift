@@ -4,6 +4,9 @@ import UIKit
 import CoreData
 import Shared
 
+//      Now that sync is disabled, we hvae fallen back to the original design (from floriankugler)
+//      Will update template once issues are ironed out
+
 // After testing many different MOC stacks, it became aparent that main thread context
 // should contain no worker children since it will eventually propogate up and block the main
 // thread on changes or saves
@@ -27,68 +30,35 @@ import Shared
 class DataController: NSObject {
     static let shared = DataController()
     
-    func merge(notification: Notification) {
-
-        guard let sender = notification.object as? NSManagedObjectContext else {
-            fatalError("Merge notification must be from a managed object context")
-        }
-        
-        if sender == self.writeContext {
-            fatalError("Changes should not be merged from write context")
-        }
-        
-        // Async, no issues with merging changes from 'self' context
-        
-        if sender == self.mainThreadContext {
-            self.workerContext.perform {
-                self.workerContext.mergeChanges(fromContextDidSave: notification)
-            }
-        } else if sender == self.workerContext {
-            self.mainThreadContext.perform {
-                self.mainThreadContext.mergeChanges(fromContextDidSave: notification)
-                
-                guard let info = notification.userInfo else {
-                    return
-                }
-                
-                let totalChanges = ["inserted", "updated", "deleted"].flatMap({ (info[$0] as? NSSet)?.count }).reduce(0, +)
-                let largeChangeCount = 75
-                
-                // If there are more than `largeChangeCount`, better to send notification and allow UI to perform better refresh mechanisms
-                // (e.g. refresh full table, rather than performing tons of individual table cell operations)
-                if totalChanges > largeChangeCount {
-                    NotificationCenter.default.post(name: NotificationMainThreadContextSignificantlyChanged, object: self, userInfo: nil)
-                }
-            }
-        }
-    }
-    
     fileprivate lazy var writeContext: NSManagedObjectContext = {
         let write = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         write.persistentStoreCoordinator = self.persistentStoreCoordinator
         write.undoManager = nil
         write.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        
         return write
     }()
     
-    lazy var workerContext: NSManagedObjectContext = {
+    fileprivate var _workerContext: NSManagedObjectContext?
+    var workerContext: NSManagedObjectContext {
+        if let context = _workerContext {
+            return context
+        }
+    
         let worker = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         worker.undoManager = nil
         worker.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        worker.parent = self.writeContext
+        worker.parent = self.mainThreadContext
         
-        NotificationCenter.default.addObserver(self, selector: #selector(merge(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: worker)
-        
-        return worker
-    }()
+        _workerContext = worker
+        return self.workerContext
+    }
     
     lazy var mainThreadContext: NSManagedObjectContext = {
         let main = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         main.undoManager = nil
         main.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         main.parent = self.writeContext
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(merge(notification:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: main)
         
         return main
     }()
@@ -142,24 +112,42 @@ class DataController: NSObject {
             print("No context on save")
             return
         }
+        
+        if context === DataController.shared.writeContext {
+            print("Do not use with the write moc, this save is handled internally here.")
+            return
+        }
 
         if context.hasChanges {
-            
-            context.perform {
-                do {
-                    try context.save()
-                    
-                    // Just recall this method
-                    let writter = DataController.shared.writeContext
-                    if writter.hasChanges {
-                        writter.perform {
-                            try? writter.save()
+            do {
+                try context.save()
+
+                if context === DataController.shared.mainThreadContext {
+                    // Data has changed on main MOC. Let the existing worker threads continue as-is,
+                    // but create a new workerMOC (which is a copy of main MOC data) for next time a worker is used.
+                    // By design we only merge changes 'up' the stack from child-to-parent.
+                    DataController.shared._workerContext = nil
+
+                    // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
+                    postAsyncToMain(0.1) {
+                        DataController.shared.writeContext.perform {
+                            if !DataController.shared.writeContext.hasChanges {
+                                return
+                            }
+                            do {
+                                try DataController.shared.writeContext.save()
+                            } catch {
+                                fatalError("Error saving DB to disk: \(error)")
+                            }
                         }
                     }
-                    
-                } catch {
-                    fatalError("Error saving DB: \(error)")
+                } else {
+                    postAsyncToMain(0.1) {
+                        DataController.saveContext(context: DataController.shared.mainThreadContext)
+                    }
                 }
+            } catch {
+                fatalError("Error saving DB: \(error)")
             }
         }
     }
