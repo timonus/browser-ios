@@ -1,3 +1,5 @@
+#!/bin/bash
+
 [[ -e setup.sh  ]] || { echo 'setup.sh must be run from brave directory'; exit 1; }
 
 # Pro Tip for ad-hoc building: add your app id as an arg, like ./setup.sh org.foo.myapp
