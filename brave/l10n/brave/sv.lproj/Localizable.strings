@@ -1,98 +1,7 @@
-/* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
-"Are you sure you want to delete it and its contents?" = "Are you sure you want to delete it and its contents?";
+"CFBundleDisplayName" = "Öppna i Brave";
 
-/* Button label to cancel deletion when the user tried to delete a non-empty folder. */
-"Cancel" = "Cancel";
-
-/* Button label for the button that deletes a folder and all of its children. */
-"Delete" = "Delete";
-
-/* Title of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
-"This folder isn't empty." = "This folder isn't empty.";
-
-/* Action button for deleting bookmarks in the bookmarks panel. */
-"Delete" = "Delete";
-
-/* Action button for editing bookmarks in the bookmarks panel. */
-"Edit" = "Edit";
-
-"CFBundleDisplayName" = "CFBundleDisplayName";
-
-/* The cancel button when confirming clear history. */
-"Cancel" = "Cancel";
-
-/* The confirmation button that clears history even when Sync is connected. */
-"OK" = "OK";
-
-/* Description of the confirmation dialog shown when a user tries to clear history that's synced to another device. */
-"This action will clear all of your private data, including history from your synced devices." = "This action will clear all of your private data, including history from your synced devices.";
-
-/* Message shown in the dialog prompting users if they want to clear everything */
-"Are you sure you want to clear all of your data? This will also close all open tabs." = "Are you sure you want to clear all of your data? This will also close all open tabs.";
-
-/* Settings item for clearing browsing history */
-"Browsing History" = "Browsing History";
-
-/* Settings item for clearing the cache */
-"Cache" = "Cache";
-
-/* Used as a button label in the dialog to cancel clear private data dialog */
-"Cancel" = "Cancel";
-
-/* Used as a button label in the dialog to Clear private data dialog */
-"Clear" = "Clear";
-
-/* Title of the Clear private data dialog. */
-"Clear Everything" = "Clear Everything";
-
-/* Settings item for clearing cookies */
-"Cookies" = "Cookies";
-
-/* Settings item for clearing website data */
-"Offline Website Data" = "Offline Website Data";
-
-/* Settings item for clearing passwords and login data */
-"Saved Logins" = "Saved Logins";
-
-/* The cancel button when confirming clear private data. */
-"Cancel" = "Cancel";
-
-/* The button that clears private data. */
-"OK" = "OK";
-
-/* Description of the confirmation dialog shown when a user tries to clear their private data. */
-"This action will clear all of your private data. It cannot be undone." = "This action will clear all of your private data. It cannot be undone.";
-
-/* Shown in error pages for files that can't be shown and need to be downloaded. */
-"Open in Safari" = "Open in Safari";
-
-/* Shown in error pages on a button that will try to load the page again */
-"Try again" = "Try again";
-
-/* Done button in Find in Page Toolbar. */
-"Done" = "Done";
-
-/* Share action title
-   Text selection menu item */
-"Find in Page" = "Find in Page";
-
-/* Accessibility label for next result button in Find in Page Toolbar. */
-"Next in-page result" = "Next in-page result";
-
-/* Accessibility label for previous result button in Find in Page Toolbar. */
-"Previous in-page result" = "Previous in-page result";
-
-/* Action button for deleting history entries in the history panel. */
-"Remove" = "Remove";
-
-/* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
-"Introductory slide %@ of %@" = "Introductory slide %@ of %@";
-
-/* No comment provided by engineer. */
-"Start Browsing" = "Start Browsing";
-
-/* Ask user if site can open iTunes store URL */
-"  Allow (siteName) to open iTunes?" = "  Allow (siteName) to open iTunes?";
+/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
+"%@ search" = "%@ sök";
 
 /* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
 "+" = "+";
@@ -100,395 +9,610 @@
 /* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
 "-" = "-";
 
-/* Setting to enable the built-in password manager */
-"3rd-party password manager" = "3rd-party password manager";
-
 /* Button for reader mode font size. Keep this extremely short! This is shown in the reader mode toolbar. */
 "Aa" = "Aa";
 
 /* About settings section title */
-"About" = "About";
+"About" = "Om";
 
 /* Button to add a bookmark */
-"Add Bookmark" = "Add Bookmark";
+"Add Bookmark" = "Lägg till bokmärke";
 
-/* Accessibility label for the Add Tab button in the Tab Tray.
-   Accessibility label for the bottom toolbar add tab button */
-"Add Tab" = "Add Tab";
+/* Add device to sync */
+"Add Device" = "Lägg till enhet";
 
-/* Accessibility label for action adding current page to reading list.
-   Name for button adding current article to reading list in reader mode */
-"Add to Reading List" = "Add to Reading List";
+/* Accessibility label for the Add Tab button in the Tab Tray. */
+"Add Tab" = "Lägg till flik";
+
+/* Accessibility label for action adding current page to reading list. */
+"Add to Reading List" = "Lägg till i läslistan";
 
 /* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
-"Added page to Reading List" = "Added page to Reading List";
+"Added page to Reading List" = "Lade till sidan i läslistan";
 
 /* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
-"Address and Search" = "Address and Search";
+"Address and Search" = "Adress och Sök";
+
+/* Shields Ads Stat */
+"Ads \rBlocked" = "Blockerad reklam";
 
 /* individual blocking statistic title */
-"Ads and Trackers " = "Ads and Trackers ";
+"Ads and Trackers" = "Annonser och Spårare";
 
-/* option in settings screen */
-"Allow Brave to send info to improve our app" = "Allow Brave to send info to improve our app";
+/* Label for button to perform advanced actions on the error page */
+"Advanced" = "Avancerat";
 
-/* startup opt-in message */
-"Allow Brave to send info to improve our app?" = "Allow Brave to send info to improve our app?";
+/* Ask user if site can open iTunes store URL */
+"Allow %@ to open iTunes?" = "Tillåt %@ att öppna iTunes?";
 
 /* tabs bar show/hide option */
-"Always show" = "Always show";
+"Always show" = "Visa alltid";
+
+/* Message shown in the dialog prompting users if they want to clear everything */
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "Är du säker på att du vill rensa all din data? Detta stänger även all öppna flikar.";
+
+/* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
+"Are you sure you want to delete it and its contents?" = "Är du säker på att du vill radera den och dess innehåll?";
+
+/* No comment provided by engineer. */
+"Are you sure?" = "Är du säker?";
 
 /* Accessibility Label for the browser toolbar Back button */
-"Back" = "Back";
+"Back" = "Bakåt";
 
 /* cookie settings option */
-"Block 3rd party cookies" = "Block 3rd party cookies";
-
-/* Brave panel individual toggle title */
-"Block Ads & Tracking" = "Block Ads & Tracking";
+"Block 3rd party cookies" = "Blockera cookies från 3:e part";
 
 /* No comment provided by engineer. */
-"Block Ads and Tracking" = "Block Ads and Tracking";
+"Block Ads & Tracking" = "Blockera Annonser & Spårning";
 
 /* Brave panel individual toggle title */
-"Block Phishing" = "Block Phishing";
+"Block Phishing" = "Blockera phishing";
 
 /* No comment provided by engineer. */
-"Block Phishing and Malware" = "Block Phishing and Malware";
+"Block Phishing and Malware" = "Blockera phishing och malware";
 
 /* Block pop-up windows setting */
-"Block Pop-up Windows" = "Block Pop-up Windows";
+"Block Pop-up Windows" = "Blockera popup-fönster";
 
 /* Setting to enable popup blocking */
-"Block Popups" = "Block Popups";
+"Block Popups" = "Blockera popup-fönster";
 
-/* Brave panel individual toggle title */
-"Block Scripts" = "Block Scripts";
+/* No comment provided by engineer. */
+"Block Scripts" = "Blockera skript";
 
 /* cookie settings option */
-"Block all cookies" = "Block all cookies";
+"Block all cookies" = "Blockera alla cookies";
 
 /* title for section showing page blocking statistics */
-"Blocking Monitor" = "Blocking Monitor";
+"Blocking Monitor" = "Blockerings visare";
 
 /* Accessibility Label for the browser toolbar Bookmark button */
-"Bookmark" = "Bookmark";
+"Bookmark" = "Bokmärke";
 
 /* Bookmark Folder Section Title */
-"Bookmark Folder" = "Bookmark Folder";
+"Bookmark Folder" = "Bokmärkesmapp";
 
 /* Bookmark Info Section Title */
-"Bookmark Info" = "Bookmark Info";
+"Bookmark Info" = "Bokmärkesinformation";
 
-/* Panel accessibility label
-   title for bookmarks panel */
-"Bookmarks" = "Bookmarks";
+/* title for bookmarks panel */
+"Bookmarks" = "Bokmärken";
+
+/* The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android. */
+"Bookmarks Menu" = "Bokmärkesmeny";
+
+/* The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android. */
+"Bookmarks Toolbar" = "Bokmärkesfältet";
 
 /* Button to show the bookmarks and history panel */
-"Bookmarks and History Panel" = "Bookmarks and History Panel";
-
-/* Status label for the empty Bookmarks state. */
-"Bookmarks you save will show up here." = "Bookmarks you save will show up here.";
+"Bookmarks and History Panel" = "Bokmärkes och historik panel";
 
 /* Button to show the brave panel */
-"Brave Panel" = "Brave Panel";
+"Brave Panel" = "Brave panelen";
 
 /* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
-"Brave Shield Defaults" = "Brave Shield Defaults";
+"Brave Shield Defaults" = "Standardinställningar för Brave:s sköldar";
+
+/* Brave sync page title */
+"Brave Sync" = "Brave Synkronisering";
+
+/* Shown in intro screens */
+"Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency." = "Brave blockerar annonser.
+Brave stoppar spårare.
+Brave är designad för snabbhet och effektivitet.";
 
 /* email subject */
-"Brave for iOS Feedback" = "Brave for iOS Feedback";
+"Brave for iOS Feedback" = "Brave för iOS Feedback";
 
-/* opt-in dialog link to privacy policy */
-"Brave privacy policy" = "Brave privacy policy";
+/* Shown in intro screens */
+"Brave is Faster,\nand here's why..." = "Brave är snabbare,
+och här är varför...";
 
-/* brave version */
-"Brave version" = "Brave version";
+/* Shown in intro screens */
+"Brave keeps you safe as you browse." = "Brave håller dig trygg när du surfar.";
+
+/* No comment provided by engineer. */
+"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave kommer inte ihåg din historik eller din cookies, men nya bokmärken kommer sparas.";
 
 /* See http://mzl.la/1G7uHo7 */
-"Brave would like to access your Photos" = "Brave would like to access your Photos";
+"Brave would like to access your Photos" = "Brave vill ha tillgång till dina foton";
 
 /* Accessibility label for brightness adjustment slider in Reader Mode display settings */
-"Brightness" = "Brightness";
+"Brightness" = "Ljusstyrka";
+
+/* Shown in intro screens */
+"Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Surfa med oss och din integritet kommer vara skyddad utan att behöva installera, lära sig eller konfigurera något.";
+
+/* Settings item for clearing browsing history */
+"Browsing History" = "Sökhistorik";
+
+/* Settings item for clearing the cache */
+"Cache" = "Cache";
 
 /* Alert Call Button */
-"Call" = "Call";
+"Call" = "Ring";
 
-/* Alert Cancel Button
-   Button label to cancel entering a URL or search query
-   Cancel alert view
-   Cancel button
-   Cancel title from search engine picker */
-"Cancel" = "Cancel";
+/* No comment provided by engineer. */
+"Cancel" = "Avbryt";
 
 /* Accessibility hint for the color theme setting buttons in reader mode display settings */
-"Changes color theme." = "Changes color theme.";
+"Changes color theme." = "Ändrar färgtemat.";
 
 /* Accessibility hint for the font type buttons in reader mode display settings */
-"Changes font type." = "Changes font type.";
+"Changes font type." = "Ändrar font-typ.";
+
+/* Sync device settings footer details */
+"Changing settings will only affect data that this device shares with others." = "Ändrade inställningar kommer bara påverka den datan som denna enhet delar med andra.";
+
+/* Used as a button label in the dialog to Clear private data dialog */
+"Clear" = "Rensa";
+
+/* Title of the Clear private data dialog. */
+"Clear Everything" = "Rensa allt";
+
+/* Button in settings that clears private data for the selected items. Also used as section title in settings panel */
+"Clear Private Data" = "Rensa privat data";
+
+/* No comment provided by engineer. */
+"Clear Search" = "Rensa Sök";
 
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
-"Close" = "Close";
+"Close" = "Stäng";
+
+/* Setting for closing private tabs */
+"Close Private Tabs" = "Stäng privata flikar";
 
 /* No comment provided by engineer. */
-"Closing tab" = "Closing tab";
+"Close Tab" = "Stäng flik";
+
+/* No comment provided by engineer. */
+"Closing tab" = "Stänger flik";
+
+/* Code words section title */
+"Code Words" = "Kodord";
 
 /* Cookie settings option title */
-"Cookie Control" = "Cookie Control";
+"Cookie Control" = "Cookie kontroll";
+
+/* Settings item for clearing cookies */
+"Cookies" = "Cookies";
+
+/* No comment provided by engineer. */
+"Copy" = "Kopiera";
 
 /* Copy the URL from the location bar */
-"Copy Address" = "Copy Address";
+"Copy Address" = "Kopiera adress";
 
 /* Context menu item for copying an image to the clipboard */
-"Copy Image" = "Copy Image";
+"Copy Image" = "Kopiera bild";
 
 /* Context menu item for copying a link URL to the clipboard */
-"Copy Link" = "Copy Link";
+"Copy Link" = "Kopiera länk";
 
 /* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
-"Could not add page to Reading List. Maybe it's already there?" = "Could not add page to Reading List. Maybe it's already there?";
-
-/* Accessibility message e.g. spoken by VoiceOver after adding current webpage to the Reading List failed. */
-"Could not add page to Reading list" = "Could not add page to Reading list";
-
-/* Error message that is shown in settings when there was a problem loading */
-"Could not load page." = "Could not load page.";
+"Could not add page to Reading List. Maybe it's already there?" = "Kunde inte lägga till sidan till läslistan. Den kanske redan är där?";
 
 /* Dark theme setting in Reading View settings */
-"Dark" = "Dark";
+"Dark" = "Mörk";
 
 /* Accessibility label for button decreasing font size in display settings of reader mode */
-"Decrease text size" = "Decrease text size";
+"Decrease text size" = "Minska textstorleken";
 
-/* Accessibility label for default search engine setting.
-   Open search section of settings
-   Title for default search engine picker.
-   Title for default search engine settings section. */
-"Default Search Engine" = "Default Search Engine";
+/* Open search section of settings */
+"Default Search Engine" = "Standardsökmotor";
 
-/* Delete Folder */
-"Delete Folder" = "Delete Folder";
+/* No comment provided by engineer. */
+"Delete" = "Radera";
 
-/* Device */
-"Device" = "Device";
+/* Title for deselecting all selected logins */
+"Deselect All" = "Avmarkera alla";
 
-/* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
-"Display Settings" = "Display Settings";
+/* The folder name for the virtual folder that contains all desktop bookmarks. */
+"Desktop Bookmarks" = "Desktop bokmärken";
+
+/* Title for new device popup */
+"Device Name" = "Enhetsnamn";
+
+/* Sync device settings page title. */
+"Devices" = "Enheter";
+
+/* Sync you browser settings across devices. */
+"Devices & Settings" = "Enheter & inställningar";
 
 /* cookie settings option */
-"Don't block cookies" = "Don't block cookies";
-
-/* Done
-   Done button label for search settings table
-   Done button label on back forward list screen
-   Done button on left side of the Settings view controller title bar
-   Done editing button */
-"Done" = "Done";
+"Don't block cookies" = "Blockera inte cookies";
 
 /* No comment provided by engineer. */
-"Double tap and hold to open history" = "Double tap and hold to open history";
+"Done" = "Klar";
+
+/* Button to not save the user's password */
+"Don’t Save" = "Spara inte";
 
 /* brave shield on/off toggle off state */
-"Down" = "Down";
-
-/* Edit */
-"Edit" = "Edit";
-
-/* individual blocking statistic title */
-"Fingerprinting Methods" = "Fingerprinting Methods";
+"Down" = "Av";
 
 /* No comment provided by engineer. */
-"Fingerprinting Protection" = "Fingerprinting Protection";
+"Edit" = "Ändra";
 
-/* Brave panel individual toggle title */
-"Fingerprinting\nProtection" = "Fingerprinting\nProtection";
+/* Accessibility label for entering search mode for logins */
+"Enter Search Mode" = "Ange sökläge";
+
+/* Sync enter code words */
+"Enter code words" = "Skriv in kodord";
+
+/* Enter sync code words below */
+"Enter code words below" = "Skriv in kodord nedanför";
+
+/* Description for new folder popup */
+"Enter folder name" = "Ange mappnamn";
+
+/* Shields Time Saved Stat */
+"Est. Time \rSaved" = "Tid sparad";
+
+/* Private tab details */
+"Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Även om webbplatser som du besöker i privata flikar inte sparas lokalt, gör de dig inte anonym eller osynlig för din Internetleverantör, din arbetsgivare eller de webbplatser du besöker.";
+
+/* No comment provided by engineer. */
+"Find" = "Hitta";
+
+/* Find text in page. */
+"Find \"%@\"" = "Hitta \"%@\"";
+
+/* Share action title */
+"Find in Page" = "Sök på sidan";
+
+/* individual blocking statistic title */
+"Fingerprinting Methods" = "Fingeravtrycksmetoder";
+
+/* No comment provided by engineer. */
+"Fingerprinting Protection" = "Fingeravtrycksskydd";
+
+/* blocking stat title */
+"Fingerprinting\nProtection" = "Fingeravtrycks
+skydd";
 
 /* Folder */
-"Folder" = "Folder";
+"Folder" = "Mapp";
 
 /* Accessibility Label for the browser toolbar Forward button */
-"Forward" = "Forward";
+"Forward" = "Framåt";
 
 /* General settings section title */
-"General" = "General";
+"General" = "Allmäna inställningar";
 
-/* Brave panel individual toggle title */
+/* New sync code button title */
+"Get a new sync code" = "Få en ny synkroniseringskod ";
+
+/* Shown in intro screens */
+"Get ready to experience a Faster, Safer, Better Web." = "Gör dig redo för att uppleva en Snabbare, säkrare och bättre webb.";
+
+/* Label for button to go back from the error page */
+"Go Back" = "Gå tillbaka";
+
+/* Grand camera access */
+"Grant camera access" = "Ge tillgång till kameran";
+
+/* No comment provided by engineer. */
 "HTTPS Everywhere" = "HTTPS Everywhere";
 
 /* individual blocking statistic title */
-"HTTPS Upgrades" = "HTTPS Upgrades";
+"HTTPS Upgrades" = "HTTPS-uppdateringar";
+
+/* Shields Https Stat */
+"HTTPS \rUpgrades" = "HTTPS-
+uppgraderingar";
+
+/* Hide password text selection menu item */
+"Hide" = "Dölj";
 
 /* Panel accessibility label */
-"History" = "History";
+"History" = "Historik";
+
+/* Shown in intro screens */
+"In case you hit a speed bump" = "Om du stöter på ett problem";
 
 /* Accessibility label for button increasing font size in display settings of reader mode */
-"Increase text size" = "Increase text size";
+"Increase text size" = "Öka textstorleken";
 
 /* title for per-site shield toggles */
-"Individual Controls" = "Individual Controls";
+"Individual Controls" = "Inviduella kontroller";
 
 /* Accessibility label for the introduction tour carousel */
-"Intro Tour Carousel" = "Intro Tour Carousel";
+"Intro Tour Carousel" = "Genomgång";
+
+/* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
+"Introductory slide %@ of %@" = "Introduction sida %1$@ av %2$@";
+
+/* Additional warning text when clicking the Advanced button on error pages */
+"It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk." = "Det kan vara en felkonfiguration eller manipulering av en angripare. Fortsätt om du accepterar den potentiella risken.";
+
+/* Footer label describing when the login was last modified with the timestamp as the parameter */
+"Last modified %@" = "Senast ändrad %@";
 
 /* History tableview section header */
-"Last month" = "Last month";
+"Last month" = "Förra månaden";
 
 /* History tableview section header */
-"Last week" = "Last week";
+"Last week" = "Förra veckan";
 
-/* opt-in dialog message */
-"Learn more: (link)" = "Learn more: (link)";
+/* Text button displayed when there are no tabs open while in private mode */
+"Learn More" = "Lär dig mer";
+
+/* Private tab information link */
+"Learn about private tabs." = "Lär dig om privata flikar.";
 
 /* Light theme setting in Reading View settings */
-"Light" = "Light";
+"Light" = "Ljus";
 
 /* Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
-"Load original page" = "Load original page";
+"Load original page" = "Ladda standardsida";
 
 /* Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app. */
-"Loading content…" = "Loading content…";
+"Loading content…" = "Laddar innehåll...";
 
 /* Bookmark folder location */
-"Location" = "Location";
+"Location" = "Plats";
 
 /* Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager. */
-"Logins" = "Logins";
+"Logins" = "Inloggningar";
 
-/* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
-"LoginsHelper.PromptSaveLogin.Title" = "LoginsHelper.PromptSaveLogin.Title";
+/* No comment provided by engineer. */
+"Logins will be permanently removed." = "Inloggningar kommer bli permanent borttagna.";
 
-/* Prompt for saving a password with no username. The parameter is the hostname of the site. */
-"LoginsHelper.PromptSavePassword.Title" = "LoginsHelper.PromptSavePassword.Title";
+/* No comment provided by engineer. */
+"Logins will be removed from all connected devices." = "Inloggningar tas bort från alla anslutna enheter.";
 
-/* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
-"LoginsHelper.PromptUpdateLogin.Title" = "LoginsHelper.PromptUpdateLogin.Title";
+/* Name for Mark as read button in reader mode */
+"Mark as Read" = "Markera som läst";
 
-/* Prompt for updating a password with no username. The parameter is the hostname of the site. */
-"LoginsHelper.PromptUpdatePassword.Title" = "LoginsHelper.PromptUpdatePassword.Title";
+/* Name for Mark as unread button in reader mode */
+"Mark as Unread" = "Markera som oläst";
 
-/* Name for Mark as read button in reader mode
-   Title for the button that marks a reading list item as read */
-"Mark as Read" = "Mark as Read";
+/* The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android. */
+"Mobile Bookmarks" = "Mobila bokmärken";
 
-/* Name for Mark as unread button in reader mode
-   Title for the button that marks a reading list item as unread */
-"Mark as Unread" = "Mark as Unread";
-
-/* Bookmark name/title */
-"Name" = "Name";
+/* Bookmark title / Device name */
+"Name" = "Namn";
 
 /* Accessibility label for the navigation toolbar displayed at the bottom of the screen. */
-"Navigation Toolbar" = "Navigation Toolbar";
+"Navigation Toolbar" = "Navigationsfältet";
 
 /* tabs bar show/hide option */
-"Never show" = "Never show";
+"Never show" = "Visa aldrig";
 
-/* New Folder */
-"New Folder" = "New Folder";
+/* Title for new folder popup */
+"New Folder" = "Ny mapp ";
 
-/* no, do not allow brave to send info */
-"No" = "No";
+/* No comment provided by engineer. */
+"New Private Tab" = "Ny privat flik";
+
+/* No comment provided by engineer. */
+"New Tab" = "Ny flik";
+
+/* Accessibility label for next result button in Find in Page Toolbar. */
+"Next in-page result" = "Nästa resultat på sidan";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"No" = "Nej";
+
+/* Title displayed when no logins are found after searching */
+"No logins found" = "Inga inloggningar hittades";
 
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
-"No tabs" = "No tabs";
+"No tabs" = "Inga flikar";
+
+/* shields overview footer message */
+"Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Obs: Några webbplatser kan behöva skript för att fungera korrekt, därför är denna skölden avstängd som standard.";
 
 /* OK button */
 "OK" = "OK";
 
+/* Toggled OFF accessibility value */
+"Off" = "Av";
+
+/* Settings item for clearing website data */
+"Offline Website Data" = "Nedkopplad webbplatsdata";
+
+/* Toggled ON accessibility value */
+"On" = "På";
+
+/* Open and Fill website text selection menu item */
+"Open & Fill" = "Open & Fill";
+
 /* Share action title */
-"Open Desktop Site tab" = "Open Desktop Site tab";
+"Open Desktop Site tab" = "Begär datorwebbplats";
+
+/* Context menu for opening image in new tab */
+"Open Image In New Tab" = "Öppna vild i ny flik";
+
+/* Context menu option for opening a link in a new private tab */
+"Open In New Private Tab" = "Öppna i ny privat flik ";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "Open In New Tab";
+"Open In New Tab" = "Öppna i ny flik";
 
 /* See http://mzl.la/1G7uHo7 */
-"Open Settings" = "Open Settings";
+"Open Settings" = "Öppna inställningar";
 
 /* See http://mzl.la/1LXbDOL */
-"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Open articles in Reader View by tapping the book icon when it appears in the title bar.";
+"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Öppna artiklar i läsläge genom att trycka på bok-ikonen när den syns i titelfältet.";
+
+/* Shown in error pages for files that can't be shown and need to be downloaded. */
+"Open in Safari" = "Öppna i Safari";
 
 /* String indicating that the file can be opened in another application on the device */
-"Open in…" = "Open in…";
+"Open in…" = "Öppna i...";
+
+/* Sync pair device settings section title */
+"Pair" = "Para";
 
 /* Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list). */
-"Panel Chooser" = "Panel Chooser";
+"Panel Chooser" = "Panelväljare";
+
+/* Accessibility Label for the browser toolbar Password Manager button */
+"Password Manager" = "Lösenordshanterare";
+
+/* Setting for behaviour of password manager button */
+"Password Manager Button" = "Lösenordshanterar-knapp";
 
 /* Paste the URL into the location bar */
-"Paste" = "Paste";
+"Paste" = "Klistra in";
 
 /* Paste the URL into the location bar and visit */
-"Paste & Go" = "Paste & Go";
+"Paste & Go" = "Klistra in och surfa";
 
-/* Privacy section title
-   Privacy settings section title */
-"Privacy" = "Privacy";
+/* Description for new device popup */
+"Please enter a name for this device" = "Vänligen ange ett namn för denna enhet";
 
-/* Show Brave Browser Privacy Policy page from the Privacy section in the settings.
-   Show Brave Browser Privacy Policy page from the Privacy section in the settings. See https://www.brave.com/privacy */
-"Privacy Policy" = "Privacy Policy";
+/* Accessibility label for previous result button in Find in Page Toolbar. */
+"Previous in-page result" = "Föregående resultat på sidan";
+
+/* Settings privacy section title */
+"Privacy" = "Integritet";
+
+/* Show Brave Browser Privacy Policy page from the Privacy section in the settings. */
+"Privacy Policy" = "Integritetspolicy";
 
 /* Private button title */
-"Private" = "Private";
+"Private" = "Privat";
+
+/* No comment provided by engineer. */
+"Private Browsing" = "Privat surfning";
 
 /* Setting to keep app in private mode */
-"Private Browsing Only" = "Private Browsing Only";
+"Private Browsing Only" = "Privat surfning bara";
+
+/* Accessibility label for toggling on/off private mode */
+"Private Mode" = "Privat läge";
 
 /* Private mode icon next to location string */
-"Private mode icon" = "Private mode icon";
+"Private mode icon" = "Privatlägesikon";
+
+/* QR Code section title */
+"QR Code" = "QR-kod";
 
 /* Title for quick-search engines settings section. */
-"Quick-search Engines" = "Quick-search Engines";
+"Quick-search Engines" = "Snabbsökmotorer";
+
+/* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
+"Reader Mode Settings" = "Läsläges-inställningar";
 
 /* Accessibility label for the Reader View button */
-"Reader View" = "Reader View";
+"Reader View" = "Läsläge";
 
 /* Panel accessibility label */
-"Reading list" = "Reading list";
+"Reading list" = "Läslista";
 
 /* Accessibility Label for the browser toolbar Reload button */
-"Reload" = "Reload";
+"Reload" = "Ladda om";
 
-/* Title for the button that removes a reading list item */
-"Remove" = "Remove";
+/* No comment provided by engineer. */
+"Reload Page" = "Ladda om sidan";
+
+/* Action button for deleting_history_entries_in_the_history_panel. */
+"Remove" = "Ta bort";
 
 /* Name for button removing current article from reading list in reader mode */
-"Remove from Reading List" = "Remove from Reading List";
+"Remove from Reading List" = "Ta bort från läslistan";
 
 /* Button shown in editing mode to remove this site from the top sites panel. */
-"Remove page" = "Remove page";
+"Remove page" = "Ta bort sida";
+
+/* Sync remove device. */
+"Remove this device" = "Ta bort denna enhet";
+
+/* Sync remove device? */
+"Remove this device?" = "Radera denna enhet?";
 
 /* Show mail composer to report a bug. */
-"Report a bug" = "Report a bug";
+"Report a bug" = "Raportera en bugg";
+
+/* Reveal password text selection menu item */
+"Reveal" = "Avslöja";
 
 /* Font type setting in the reading view settings */
-"Sans-serif" = "Sans-serif";
+"Sans-serif" = "Sans serif";
 
 /* Context menu item for saving an image */
-"Save Image" = "Save Image";
+"Save Image" = "Spara bild";
 
-/* Context menu item for opeining image in new tab */
-"Open Image In New Tab" = "Open Image In New Tab";
+/* Button to save the user's password */
+"Save Login" = "Spara inloggning";
 
 /* Setting to enable the built-in password manager */
-"Save Logins" = "Save Logins";
+"Save Logins" = "Spara inloggningar";
+
+/* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
+"Save login %@ for %@?" = "Spara inloggning %1$@ för %2$@?";
 
 /* See http://mzl.la/1LXbDOL */
-"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Save pages to your Reading List by tapping the book plus icon in the Reader View controls.";
+"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Spara sidor till din läslista genom att trycka på bokmärkesikonen med ett plus i läsläge kontrollerna.";
+
+/* Prompt for saving a password with no username. The parameter is the hostname of the site. */
+"Save password for %@?" = "Spara lösenord för %@?";
+
+/* Settings item for clearing passwords and login data */
+"Saved Logins" = "Spara inloggningar";
+
+/* Scan sync code button title */
+"Scan or enter code" = "Skanna eller ange kod";
 
 /* individual blocking statistic title */
-"Scripts Blocked" = "Scripts Blocked";
+"Scripts Blocked" = "Blockerade skript";
 
-/* Navigation title for search settings. */
-"Search" = "Search";
+/* No comment provided by engineer. */
+"Search" = "Sök";
+
+/* Accessibility label for the search input field in the Logins list */
+"Search Input Field" = "Sök inmatningsfältet";
+
+/* No comment provided by engineer. */
+"Search Settings" = "Sökinställningar";
+
+/* No comment provided by engineer. */
+"Search in page" = "Sök på sidan";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "Search or enter address";
+"Search or enter address" = "Sök eller ange adress";
+
+/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
+"Search suggestions from %@" = "Sökförslag från %@";
 
 /* Accessibility hint describing the action performed when a search suggestion is clicked */
-"Searches for the suggestion" = "Searches for the suggestion";
+"Searches for the suggestion" = "Söker efter förslag";
 
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
-"Secure connection" = "Secure connection";
+"Secure connection" = "Säker anslutning";
+
+/* Title for selecting all logins */
+"Select All" = "Välj alla";
+
+/* No comment provided by engineer. */
+"Select Location Bar" = "Välj adressfältet";
+
+/* option in settings screen */
+"Send crash reports and metrics" = "Skicka kraschrapporter och mätvärden";
 
 /* Sepia theme setting in Reading View settings */
 "Sepia" = "Sepia";
@@ -496,228 +620,256 @@
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
-/* Accessibility label for the Settings button.
-   Settings */
-"Settings" = "Settings";
+/* No comment provided by engineer. */
+"Settings" = "Inställningar";
 
 /* Accessibility Label for the browser toolbar Share button */
-"Share" = "Share";
+"Share" = "Dela";
 
 /* Context menu item for sharing a link URL */
-"Share Link" = "Share Link";
+"Share Link" = "Dela länk";
 
 /* message shown briefly in URL bar */
-"Shields Down" = "Shields Down";
+"Shields Down" = "Sköldar nere";
 
 /* message shown briefly in URL bar */
-"Shields Up" = "Shields Up";
+"Shields Up" = "Sköldar uppe";
 
 /* Button to show the bookmarks list */
-"Show Bookmarks" = "Show Bookmarks";
+"Show Bookmarks" = "Visa bokmärken";
 
 /* Button to show the history list */
-"Show History" = "Show History";
+"Show History" = "Visa historik";
+
+/* No comment provided by engineer. */
+"Show Next Tab" = "Visa nästa flik";
+
+/* No comment provided by engineer. */
+"Show Previous Tab" = "Visa tidigare flik";
 
 /* Label for show search suggestions setting. */
-"Show Search Suggestions" = "Show Search Suggestions";
+"Show Search Suggestions" = "Visa sökförslag";
 
-/* Accessibility label for the tabs button in the (top) browser toolbar
-   Accessibility Label for the tabs button in the browser toolbar */
-"Show Tabs" = "Show Tabs";
+/* Accessibility Label for the tabs button in the browser toolbar */
+"Show Tabs" = "Visa flikar";
 
-/* Setting to show/hide the tabs bar
-   tabs bar show/hide setting title */
-"Show Tabs Bar" = "Show Tabs Bar";
+/* Setting to show/hide the tabs bar */
+"Show Tabs Bar" = "Visa flikar";
 
 /* Show the on-boarding screen again from the settings */
-"Show Tour" = "Show Tour";
-
-/* Footer message on picker for 3rd party password manager setting */
-"Show a prompt to open your password manager when the current page has a login form." = "Show a prompt to open your password manager when the current page has a login form.";
+"Show Tour" = "Visa genomgång";
 
 /* tabs bar show/hide option */
-"Show in landscape only" = "Show in landscape only";
+"Show in landscape only" = "Visa endast i landskapsläge";
+
+/* Password Manager show picker option */
+"Show picker" = "Visa väljare";
+
+/* shields overview message */
+"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Webbplats sköldarna låter dig styra när annonser och spårare blockeras för varje webbplats du besöker. Om du föredrar att se annonser på en viss webbplats kan du aktivera dem här.";
 
 /* Brave panel topmost title */
-"Site shield settings" = "Site shield settings";
+"Site shield settings" = "Sköldinställningar för webbplats";
+
+/* No comment provided by engineer. */
+"Start Browsing" = "Börja surfa";
 
 /* Accessibility Label for the browser toolbar Stop button */
-"Stop" = "Stop";
+"Stop" = "Stoppa";
 
 /* Support section title */
 "Support" = "Support";
 
 /* Accessibility hint for tab tray's displayed tab. */
-"Swipe right or left with three fingers to close the tab." = "Swipe right or left with three fingers to close the tab.";
+"Swipe right or left with three fingers to close the tab." = "Dra höger eller vänster med tre fingrar för att stänga fliken.";
+
+/* Sync settings section title */
+"Sync" = "Synkronisering";
+
+/* Sync settings welcome */
+"Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started." = "Synkronisera webbläsardata mellan dina enheter på ett säkert sätt med Brave Sync, inget konto behövs. Tryck nedan för att komma igång.";
+
+/* Sync device settings section title */
+"Sync on this device" = "Synkronisering på denna enhet";
+
+/* Sync to existing device */
+"Sync to device" = "Synkronisera till enhet";
 
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
-"Tab %@ of %@" = "Tab %@ of %@";
+"Tab %@ of %@" = "Flik %1$@ av %2$@";
+
+/* Accessibility label for the Tabs. */
+"Tabs" = "Flikar";
 
 /* Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \"Tabs 8 to 10 of 15\" says tabs 8, 9 and 10 are visible, out of 15 tabs total. */
-"Tabs %@ to %@ of %@" = "Tabs %@ to %@ of %@";
+"Tabs %@ to %@ of %@" = "Flikar %1$@ till %2$@ av %3$@";
 
 /* Accessibility label for the Tabs Tray view. */
-"Tabs Tray" = "Tabs Tray";
+"Tabs Tray" = "Flikfack";
+
+/* Shown in intro screens */
+"Tap the Brave button to temporarily disable ad blocking and privacy features." = "Tryck på Brave-knappen för att tillfälligt inaktivera annonsblockering och integritetsfunktioner.";
 
 /* Show Brave Browser TOS page from the Privacy section in the settings. */
-"Terms of Use" = "Terms of Use";
+"Terms of Use" = "Villkor";
+
+/* Warning text on the certificate error page */
+"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "Ägaren till% @ har konfigurerat sin webbplats felaktigt. För att skydda din information från att bli stulen har Brave inte anslutit till denna webbplats.";
 
 /* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
-"The page could not be displayed in Reader View." = "The page could not be displayed in Reader View.";
+"The page could not be displayed in Reader View." = "Sidan kunde inte bli visad i läsläge.";
 
 /* Error displayed when reader mode cannot be enabled */
-"There was an error converting the page" = "There was an error converting the page";
+"There was an error converting the page" = "Det gick inte att konvertera sidan";
+
+/* Description of the confirmation dialog shown when a user tries to clear their private data. */
+"This action will clear all of your private data. It cannot be undone." = "Den här åtgärden rensar all dina privata data. Dettta kan inte ångras.";
 
 /* See http://mzl.la/1G7uHo7 */
-"This allows you to save the image to your Camera Roll." = "This allows you to save the image to your Camera Roll.";
+"This allows you to save the image to your Camera Roll." = "Detta låter dig spara bilden till din kamerarulle.";
+
+/* Sync remove device? */
+"This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device." = "Denna enhet kommer bli frånkopplad från sync gruppen och den kommer inte sända eller ta emot sync data. All existerande data kommer finnas kvar på enheten.";
+
+/* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
+"This folder isn't empty." = "Denna mapp är inte tom.";
+
+/* Private tab title */
+"This is a Private Tab" = "Detta är en privat flik";
 
 /* History tableview section header */
-"Today" = "Today";
+"Today" = "Idag";
 
 /* Panel accessibility label */
-"Top sites" = "Top sites";
+"Top sites" = "Populära webbplatser";
+
+/* Shields Trackers Stat */
+"Trackers \rBlocked" = "Spårare
+blockerade";
+
+/* Shown in error pages on a button that will try to load the page again */
+"Try again" = "Försök igen";
+
+/* Prompt shown before enabling provider search queries */
+"Turn on search suggestions?" = "Sätt på sökförslag?";
+
+/* Accessiblity hint for toggling on/off private mode */
+"Turns private mode on or off" = "Sätter på och av Privat läge";
 
 /* Bookmark URL */
 "URL" = "URL";
 
+/* Description on popup when setting up a sync group fails */
+"Unable to create new sync group." = "Kunde inte skapa en ny synkroniserings grupp.";
+
+/* The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android. */
+"Unsorted Bookmarks" = "Osorterade bokmärken";
+
+/* No comment provided by engineer. */
+"Unsuccessful" = "Misslyckad";
+
+/* The default name for bookmark item without titles. */
+"Untitled" = "Utan titel";
+
 /* brave shield on/off toggle on state */
-"Up" = "Up";
+"Up" = "På";
+
+/* Button to update the user's password */
+"Update" = "Uppdatera";
+
+/* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
+"Update login %@ for %@?" = "Uppdatera inloggning %1$@ för %2$@?";
+
+/* Prompt for updating a password with no username. The parameter is the hostname of the site. */
+"Update password for %@?" = "Uppdatera lösenord för %@?";
+
+/* Setting to allow user in non-english locale to use adblock rules specifc to their language */
+"Use regional adblock" = "Använd regional annonsblockering";
+
+/* Sync add device description */
+"Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "Använd en annan enhet för att navigera till Brave inställningar> Sync. Skanna QR-koden (ovan) med en annan enhet, eller ange kodordet om ingen kamera är tillgänglig.";
+
+/* Sync to existing device description */
+"Using existing synced device open Brave Settings and navigate to “Devices & Settings”, tap ‘+’ to add a new device and reveal sync code." = "Använd den befintliga synkroniserade enheten och öppna Brave inställningar och navigera till \"Enheter och inställningar\", tryck på \"+\" för att lägga till en ny enhet och avslöja synkroniseringskoden.";
 
 /* Version number of Brave shown in settings */
-"Version %@ (%@)" = "Version %@ (%@)";
+"Version %@ (%@)" = "Version %1$@ (%2$@)";
+
+/* Button label to temporarily continue to the site from the certificate error page */
+"Visit site anyway" = "Besök webbplatsen ändå";
+
+/* Warning text when clicking the Advanced button on error pages */
+"Warning: we can't confirm your connection to this website is secure." = "Varning: Vi kan inte garantera att kopplingen till denna webbplats är säker.";
 
 /* Accessibility label for the main web content view */
-"Web content" = "Web content";
+"Web content" = "Webbinnehåll";
+
+/* Shown in intro screens */
+"Welcome to Brave." = "Välkommen till Brave";
+
+/* The title for the empty Top Sites state */
+"Welcome to Top Sites" = "Välkommen till Populära webbplatser";
 
 /* See http://mzl.la/1LXbDOL */
-"Welcome to your Reading List" = "Welcome to your Reading List";
-
-/* yes, allow brave to send info */
-"Yes" = "Yes";
-
-/* History tableview section header */
-"Yesterday" = "Yesterday";
-
-/* body */
-"\n\n---\nApp & Device Version Information:\n" = "\n\n---\nApp & Device Version Information:\n";
-
-/* iOS version */
-"iOS version" = "iOS version";
-
-/* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
-"read" = "read";
-
-/* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
-"unread" = "unread";
-
-/* Prompt title when deleting logins */
-"Are you sure?" = "Are you sure?";
-
-/* Prompt option for cancelling out of deletion */
-"Cancel" = "Cancel";
-
-/* Accessibility message e.g. spoken by VoiceOver after the user taps the close button in the search field to clear the search and exit search mode */
-"Clear Search" = "Clear Search";
-
-/* Copy password text selection menu item */
-"Copy" = "Copy";
-
-/* Button in login detail screen that deletes the current login */
-"Delete" = "Delete";
-
-/* Title for deselecting all selected logins */
-"Deselect All" = "Deselect All";
-
-/* Accessibility label for entering search mode for logins */
-"Enter Search Mode" = "Enter Search Mode";
-
-/* Hide password text selection menu item */
-"Hide" = "Hide";
-
-/* Footer label describing when the login was last modified with the timestamp as the parameter */
-"Last modified %@" = "Last modified %@";
-
-/* Title for Logins List View screen */
-"Logins" = "Logins";
-
-/* Prompt message warning the user that deleting non-synced logins will permanently remove them */
-"Logins will be permanently removed." = "Logins will be permanently removed.";
-
-/* Prompt message warning the user that deleted logins will remove logins from all connected devices */
-"Logins will be removed from all connected devices." = "Logins will be removed from all connected devices.";
-
-/* Title displayed when no logins are found after searching */
-"No logins found" = "No logins found";
-
-/* Open and Fill website text selection menu item */
-"Open & Fill" = "Open & Fill";
-
-/* Reveal password text selection menu item */
-"Reveal" = "Reveal";
-
-/* Title for the search field at the top of the Logins list screen */
-"Search" = "Search";
-
-/* Accessibility label for the search input field in the Logins list */
-"Search Input Field" = "Search Input Field";
-
-/* Title for selecting all logins */
-"Select All" = "Select All";
-
-/* Title for password row in Login Detail View */
-"password" = "password";
-
-/* Title for username row in Login Detail View */
-"username" = "username";
-
-/* Title for website row in Login Detail View */
-"website" = "website";
-
-/* Description text displayed when there are no open tabs while in private mode */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave won't remember any of your history or cookies, but new bookmarks will be saved.";
-
-/* Setting for closing private tabs */
-"Close Private Tabs" = "Close Private Tabs";
-
-/* Text button displayed when there are no tabs open while in private mode */
-"Learn More" = "Learn More";
-
-/* Toggled OFF accessibility value */
-"Off" = "Off";
-
-/* Toggled ON accessibility value */
-"On" = "On";
-
-/* Context menu option for opening a link in a new private tab */
-"Open In New Private Tab" = "Open In New Private Tab";
-
-/* Title displayed for when there are no open tabs while in private mode */
-"Private Browsing" = "Private Browsing";
-
-/* Accessibility label for toggling on/off private mode */
-"Private Mode" = "Private Mode";
-
-/* Accessiblity hint for toggling on/off private mode */
-"Turns private mode on or off" = "Turns private mode on or off";
+"Welcome to your Reading List" = "Välkommen till din läslista";
 
 /* Will be displayed in Settings under 'Close Private Tabs' */
-"When Leaving Private Browsing" = "When Leaving Private Browsing";
-
-/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
-"%@ search" = "%@ search";
+"When Leaving Private Browsing" = "När du lämnar privat surfning";
 
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
-"No" = "No";
+"Yes" = "Ja";
 
-/* Label for search settings button. */
-"Search Settings" = "Search Settings";
+/* History tableview section header */
+"Yesterday" = "I går";
 
-/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
-"Search suggestions from %@" = "Search suggestions from %@";
+/* Footer message on picker for 3rd party password manager setting */
+"You can choose to show a popup to pick your password manager, or have the selected one open automatically." = "Du kan välja att visa ett popup för att välja din lösenordshanterare, eller att ha den valda är öppna automatiskt.";
 
-/* Prompt shown before enabling provider search queries */
-"Turn on search suggestions?" = "Turn on search suggestions?";
+/* Title on the certificate error page */
+"Your connection is not private" = "Din anslutning är inte säker";
 
-/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
-"Yes" = "Yes";
+/* Description label for the empty Top Sites state. */
+"Your most visited sites will show up here." = "Dina mest besökta sidor kommer visas här.";
+
+/* Time Saved Days */
+"d" = "d";
+
+/* Time Saved Hours */
+"h" = "h";
+
+/* Relative time for a tab that was visited within the last few moments. */
+"just now" = "just nu";
+
+/* Time Saved Minutes */
+"min" = "min";
+
+/* Relative date for dates older than a month and less than two months. */
+"more than a month ago" = "mer än en månad sedan";
+
+/* Description for a date more than a week ago, but less than a month ago. */
+"more than a week ago" = "mer än en vecka sedan";
+
+/* Title for password row in Login Detail View */
+"password" = "lösenord";
+
+/* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
+"read" = "läs";
+
+/* Time Saved Seconds */
+"s" = "sec";
+
+/* Relative date for date in past week. */
+"this week" = "denna vecka";
+
+/* Relative date for date older than a minute. */
+"today at %@" = "idag vid %@";
+
+/* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
+"unread" = "oläst";
+
+/* Title for username row in Login Detail View */
+"username" = "användarnamn";
+
+/* Title for website row in Login Detail View */
+"website" = "hemsida";
 
