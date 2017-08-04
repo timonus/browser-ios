@@ -191,6 +191,8 @@ class TopSitesPanel: UIViewController {
             make.right.equalTo(0)
             make.bottom.equalTo(0)
         }
+        
+        handleRotation()
     }
     
     func handleRotation() {
@@ -201,7 +203,7 @@ class TopSitesPanel: UIViewController {
             return
         }
         
-        if toInterfaceOrientation == .landscapeLeft || toInterfaceOrientation == .landscapeRight {
+        if toInterfaceOrientation.isLandscape {
             UIView.animate(withDuration: 0.2, animations: {
                 self.privateTabGraphic.alpha = 0
             })
