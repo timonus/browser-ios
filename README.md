@@ -4,8 +4,6 @@ Download in the [App Store](https://itunes.apple.com/app/brave-web-browser/id105
 
 Brave is based on Firefox iOS, most of the Brave-specific code is in the [brave dir](brave/)
 
-These steps should be sufficient to build, but if you need more info, refer to the the [Firefox iOS readme](https://github.com/mozilla/firefox-ios/blob/master/README.md)
-
 ### Adding Brave to your app to open links
 
 Either ensure your app supports [opening urls in a share menu](https://github.com/brave/browser-ios/wiki) or use this project https://github.com/brave/ios-open-thirdparty-browser to open links directly.
@@ -18,20 +16,34 @@ We are currently in the process of migrating Brave from Swift 2.3 to Swift 3.1. 
 
 The master branch (i.e. the mainline) is Xcode8 + Swift2.3
 
-Install [Node.js](https://nodejs.org/en/download/) Latest LTS Version
+<strong> 1. Install [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) from the AppStore </strong>
 
-Install Carthage: `brew install carthage`
+<strong> 2. Install the latest LTS version of [Node.js](https://nodejs.org/en/download/) </strong>
 
-Do the following commands:
+<strong> 3. Install Homebrew: </strong>
 ```
+./usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+<strong> 4. Install Carthage: </strong>
+```
+brew install carthage
+```
+
+<strong> 5. Download the source code: </strong>
+```
+git clone https://github.com/brave/browser.git # this will download git if it isn't currently installed
+```
+<strong> 6. Do the following commands: </strong>
+```
+cd browser-ios
+
 ./checkout.sh # builds carthage dependencies
 (cd brave && ./setup.sh your.fake.appid) # put in a fake unique app id if you want to build to device
 open Client.xcodeproj
 ```
 
-build Brave scheme
-
 #### Note: building your own ad-hoc builds is supported [see user device build](brave/docs/USER-DEPLOYING.md)
+You will need a Apple developer account to run on your device.
 
 
 ## Crash reporting using Fabric
