@@ -310,8 +310,8 @@ class Browser: NSObject, BrowserWebViewDelegate {
                 // Freshly created web views won't have any history entries at all.
                 // If we have no history, abort.
                 if currentItem != nil {
-                    let backList = wv.backForwardList.backList ?? []
-                    let forwardList = wv.backForwardList.forwardList ?? []
+                    let backList = wv.backForwardList.backList 
+                    let forwardList = wv.backForwardList.forwardList 
                     let urls = (backList + [currentItem] + forwardList).map { $0.URL }
                     let currentPage = -forwardList.count
                     
