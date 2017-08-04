@@ -158,7 +158,7 @@ Blocked</source>
       </trans-unit>
       <trans-unit id="Blocking Monitor">
         <source>Blocking Monitor</source>
-        <target>Blockerings visare</target>
+        <target>Blockeringsvisare</target>
         <note>title for section showing page blocking statistics</note>
       </trans-unit>
       <trans-unit id="Bookmark">
@@ -222,7 +222,7 @@ Brave är designad för snabbhet och effektivitet.</target>
       </trans-unit>
       <trans-unit id="Brave for iOS Feedback">
         <source>Brave for iOS Feedback</source>
-        <target>Brave för iOS Feedback</target>
+        <target>Feedback för Brave på iOS</target>
         <note>email subject</note>
       </trans-unit>
       <trans-unit id="Brave is Faster,\nand here's why...">
@@ -239,7 +239,7 @@ och här är varför...</target>
       </trans-unit>
       <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
         <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
-        <target>Brave kommer inte ihåg din historik eller din cookies, men nya bokmärken kommer sparas.</target>
+        <target>Brave kommer inte ihåg din historik eller din cookies, men nya bokmärken kommer att sparas.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Brave would like to access your Photos">
@@ -465,7 +465,7 @@ och här är varför...</target>
       <trans-unit id="Est. Time \rSaved">
         <source>Est. Time 
 Saved</source>
-        <target>Tid sparad</target>
+        <target>Sparad tid</target>
         <note>Shields Time Saved Stat</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
@@ -475,12 +475,12 @@ Saved</source>
       </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
-        <target>Hitta</target>
+        <target>Sök</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Find &quot;%@&quot;">
         <source>Find &quot;%@&quot;</source>
-        <target>Hitta &quot;%@&quot;</target>
+        <target>Sök &quot;%@&quot;</target>
         <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
@@ -547,7 +547,7 @@ skydd</target>
       </trans-unit>
       <trans-unit id="HTTPS Upgrades">
         <source>HTTPS Upgrades</source>
-        <target>HTTPS-uppdateringar</target>
+        <target>HTTPS-uppgraderingar</target>
         <note>individual blocking statistic title</note>
       </trans-unit>
       <trans-unit id="HTTPS \rUpgrades">
@@ -589,7 +589,7 @@ uppgraderingar</target>
       </trans-unit>
       <trans-unit id="Introductory slide %@ of %@">
         <source>Introductory slide %1$@ of %2$@</source>
-        <target>Introduction sida %1$@ av %2$@</target>
+        <target>Introduktions-sida %1$@ av %2$@</target>
         <note>String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3</note>
       </trans-unit>
       <trans-unit id="It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk.">
@@ -759,7 +759,7 @@ uppgraderingar</target>
       </trans-unit>
       <trans-unit id="Open Image In New Tab">
         <source>Open Image In New Tab</source>
-        <target>Öppna vild i ny flik</target>
+        <target>Öppna bild i ny flik</target>
         <note>Context menu for opening image in new tab</note>
       </trans-unit>
       <trans-unit id="Open In New Private Tab">
@@ -1129,12 +1129,12 @@ uppgraderingar</target>
       </trans-unit>
       <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
         <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
-        <target>Webbplats sköldarna låter dig styra när annonser och spårare blockeras för varje webbplats du besöker. Om du föredrar att se annonser på en viss webbplats kan du aktivera dem här.</target>
+        <target>Sköldarna låter dig styra när annonser och spårare blockeras för varje webbplats du besöker. Om du föredrar att se annonser på en viss webbplats kan du aktivera dem här.</target>
         <note>shields overview message</note>
       </trans-unit>
       <trans-unit id="Site shield settings">
         <source>Site shield settings</source>
-        <target>Sköldinställningar för webbplats</target>
+        <target>Sköldinställningar</target>
         <note>Brave panel topmost title</note>
       </trans-unit>
       <trans-unit id="Start Browsing">
@@ -1209,12 +1209,12 @@ uppgraderingar</target>
       </trans-unit>
       <trans-unit id="The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website.">
         <source>The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website.</source>
-        <target>Ägaren till% @ har konfigurerat sin webbplats felaktigt. För att skydda din information från att bli stulen har Brave inte anslutit till denna webbplats.</target>
+        <target>Ägaren till % @ har konfigurerat sin webbplats felaktigt. För att skydda din information från att bli stulen så anslöt inte Brave till denna webbplats.</target>
         <note>Warning text on the certificate error page</note>
       </trans-unit>
       <trans-unit id="The page could not be displayed in Reader View.">
         <source>The page could not be displayed in Reader View.</source>
-        <target>Sidan kunde inte bli visad i läsläge.</target>
+        <target>Sidan kunde inte visas i läsläge.</target>
         <note>Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app.</note>
       </trans-unit>
       <trans-unit id="There was an error converting the page">
@@ -1260,8 +1260,8 @@ uppgraderingar</target>
       <trans-unit id="Trackers \rBlocked">
         <source>Trackers 
 Blocked</source>
-        <target>Spårare
-blockerade</target>
+        <target>Blockerade
+spårare</target>
         <note>Shields Trackers Stat</note>
       </trans-unit>
       <trans-unit id="Try again">
@@ -1286,7 +1286,7 @@ blockerade</target>
       </trans-unit>
       <trans-unit id="Unable to create new sync group.">
         <source>Unable to create new sync group.</source>
-        <target>Kunde inte skapa en ny synkroniserings grupp.</target>
+        <target>Kunde inte skapa en ny synkroniseringsgrupp.</target>
         <note>Description on popup when setting up a sync group fails</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
@@ -1446,7 +1446,7 @@ blockerade</target>
       </trans-unit>
       <trans-unit id="s">
         <source>s</source>
-        <target>sec</target>
+        <target>s</target>
         <note>Time Saved Seconds</note>
       </trans-unit>
       <trans-unit id="this week">
@@ -1499,7 +1499,7 @@ blockerade</target>
       </trans-unit>
       <trans-unit id="By using this application, you agree to Brave’s Terms of Use.">
         <source>By using this application, you agree to Brave’s Terms of Use.</source>
-        <target>Genom att använda den här applikationen godkänner du Brave:s användarvillkor.</target>
+        <target>Genom att använda den här applikationen godkänner du Braves användarvillkor.</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Help make Brave better by sending usage statistics and crash reports to us.">

@@ -85,7 +85,7 @@
 "Block all cookies" = "Blockera alla cookies";
 
 /* title for section showing page blocking statistics */
-"Blocking Monitor" = "Blockerings visare";
+"Blocking Monitor" = "Blockeringsvisare";
 
 /* Accessibility Label for the browser toolbar Bookmark button */
 "Bookmark" = "Bokmärke";
@@ -123,7 +123,7 @@ Brave stoppar spårare.
 Brave är designad för snabbhet och effektivitet.";
 
 /* email subject */
-"Brave for iOS Feedback" = "Brave för iOS Feedback";
+"Brave for iOS Feedback" = "Feedback för Brave på iOS";
 
 /* Shown in intro screens */
 "Brave is Faster,\nand here's why..." = "Brave är snabbare,
@@ -133,7 +133,7 @@ och här är varför...";
 "Brave keeps you safe as you browse." = "Brave håller dig trygg när du surfar.";
 
 /* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave kommer inte ihåg din historik eller din cookies, men nya bokmärken kommer sparas.";
+"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave kommer inte ihåg din historik eller din cookies, men nya bokmärken kommer att sparas.";
 
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Brave vill ha tillgång till dina foton";
@@ -268,16 +268,16 @@ och här är varför...";
 "Enter folder name" = "Ange mappnamn";
 
 /* Shields Time Saved Stat */
-"Est. Time \rSaved" = "Tid sparad";
+"Est. Time \rSaved" = "Sparad tid";
 
 /* Private tab details */
 "Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Även om webbplatser som du besöker i privata flikar inte sparas lokalt, gör de dig inte anonym eller osynlig för din Internetleverantör, din arbetsgivare eller de webbplatser du besöker.";
 
 /* No comment provided by engineer. */
-"Find" = "Hitta";
+"Find" = "Sök";
 
 /* Find text in page. */
-"Find \"%@\"" = "Hitta \"%@\"";
+"Find \"%@\"" = "Sök \"%@\"";
 
 /* Share action title */
 "Find in Page" = "Sök på sidan";
@@ -317,7 +317,7 @@ skydd";
 "HTTPS Everywhere" = "HTTPS Everywhere";
 
 /* individual blocking statistic title */
-"HTTPS Upgrades" = "HTTPS-uppdateringar";
+"HTTPS Upgrades" = "HTTPS-uppgraderingar";
 
 /* Shields Https Stat */
 "HTTPS \rUpgrades" = "HTTPS-
@@ -342,7 +342,7 @@ uppgraderingar";
 "Intro Tour Carousel" = "Genomgång";
 
 /* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
-"Introductory slide %@ of %@" = "Introduction sida %1$@ av %2$@";
+"Introductory slide %@ of %@" = "Introduktions-sida %1$@ av %2$@";
 
 /* Additional warning text when clicking the Advanced button on error pages */
 "It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk." = "Det kan vara en felkonfiguration eller manipulering av en angripare. Fortsätt om du accepterar den potentiella risken.";
@@ -444,7 +444,7 @@ uppgraderingar";
 "Open Desktop Site tab" = "Begär datorwebbplats";
 
 /* Context menu for opening image in new tab */
-"Open Image In New Tab" = "Öppna vild i ny flik";
+"Open Image In New Tab" = "Öppna bild i ny flik";
 
 /* Context menu option for opening a link in a new private tab */
 "Open In New Private Tab" = "Öppna i ny privat flik ";
@@ -666,10 +666,10 @@ uppgraderingar";
 "Show picker" = "Visa väljare";
 
 /* shields overview message */
-"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Webbplats sköldarna låter dig styra när annonser och spårare blockeras för varje webbplats du besöker. Om du föredrar att se annonser på en viss webbplats kan du aktivera dem här.";
+"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Sköldarna låter dig styra när annonser och spårare blockeras för varje webbplats du besöker. Om du föredrar att se annonser på en viss webbplats kan du aktivera dem här.";
 
 /* Brave panel topmost title */
-"Site shield settings" = "Sköldinställningar för webbplats";
+"Site shield settings" = "Sköldinställningar";
 
 /* No comment provided by engineer. */
 "Start Browsing" = "Börja surfa";
@@ -714,10 +714,10 @@ uppgraderingar";
 "Terms of Use" = "Villkor";
 
 /* Warning text on the certificate error page */
-"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "Ägaren till% @ har konfigurerat sin webbplats felaktigt. För att skydda din information från att bli stulen har Brave inte anslutit till denna webbplats.";
+"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "Ägaren till % @ har konfigurerat sin webbplats felaktigt. För att skydda din information från att bli stulen så anslöt inte Brave till denna webbplats.";
 
 /* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
-"The page could not be displayed in Reader View." = "Sidan kunde inte bli visad i läsläge.";
+"The page could not be displayed in Reader View." = "Sidan kunde inte visas i läsläge.";
 
 /* Error displayed when reader mode cannot be enabled */
 "There was an error converting the page" = "Det gick inte att konvertera sidan";
@@ -744,8 +744,8 @@ uppgraderingar";
 "Top sites" = "Populära webbplatser";
 
 /* Shields Trackers Stat */
-"Trackers \rBlocked" = "Spårare
-blockerade";
+"Trackers \rBlocked" = "Blockerade
+spårare";
 
 /* Shown in error pages on a button that will try to load the page again */
 "Try again" = "Försök igen";
@@ -760,7 +760,7 @@ blockerade";
 "URL" = "URL";
 
 /* Description on popup when setting up a sync group fails */
-"Unable to create new sync group." = "Kunde inte skapa en ny synkroniserings grupp.";
+"Unable to create new sync group." = "Kunde inte skapa en ny synkroniseringsgrupp.";
 
 /* The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android. */
 "Unsorted Bookmarks" = "Osorterade bokmärken";
@@ -856,7 +856,7 @@ blockerade";
 "read" = "läs";
 
 /* Time Saved Seconds */
-"s" = "sec";
+"s" = "s";
 
 /* Relative date for date in past week. */
 "this week" = "denna vecka";

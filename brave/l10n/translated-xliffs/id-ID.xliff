@@ -47,7 +47,7 @@
       </trans-unit>
       <trans-unit id="Add Device">
         <source>Add Device</source>
-        <target>Tambahkan Perangkat</target>
+        <target>Tambah Perangkat</target>
         <note>Add device to sync</note>
       </trans-unit>
       <trans-unit id="Add Tab">
@@ -370,7 +370,7 @@ dan berikut alasannya...</target>
       </trans-unit>
       <trans-unit id="Could not add page to Reading List. Maybe it's already there?">
         <source>Could not add page to Reading List. Maybe it's already there?</source>
-        <target>Tidak dapat menambahkan halaman ke Daftar Bacaan. Mungkin sudah ada?</target>
+        <target>Tidak dapat menambahkan laman ke Daftar Bacaan. Mungkin sudah ada?</target>
         <note>Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures.</note>
       </trans-unit>
       <trans-unit id="Dark">
@@ -467,7 +467,7 @@ dan berikut alasannya...</target>
         <source>Est. Time 
 Saved</source>
         <target>Est. Waktu 
-Terselamatkan</target>
+Dihemat</target>
         <note>Shields Time Saved Stat</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
@@ -544,7 +544,7 @@ Sidik Jari</target>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
         <source>HTTPS Everywhere</source>
-        <target>HTTPS Dimanapun</target>
+        <target>HTTPS Everywhere</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="HTTPS Upgrades">
@@ -586,7 +586,7 @@ HTTPS</target>
       </trans-unit>
       <trans-unit id="Intro Tour Carousel">
         <source>Intro Tour Carousel</source>
-        <target>Tur Pengenalan Korsel</target>
+        <target>Tur Pengenalan</target>
         <note>Accessibility label for the introduction tour carousel</note>
       </trans-unit>
       <trans-unit id="Introductory slide %@ of %@">
