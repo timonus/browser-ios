@@ -122,13 +122,13 @@ class SidePanelBaseViewController : UIViewController {
             if let constraints = self.parentSideConstraints {
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     if let c = constraints.first, c != nil && self.isLeftSidePanel {
-                        c!.updateOffset(amount: width)
+                        c!.update(offset: width)
                     } else if let c = constraints.last, c != nil && !self.isLeftSidePanel {
-                        c!.updateOffset(amount: -width)
+                        c!.update(offset: -width)
                     }
                 } else {
                     for c in constraints where c != nil {
-                        c!.updateOffset(amount: self.isLeftSidePanel ? width : -width)
+                        c!.update(offset: self.isLeftSidePanel ? width : -width)
                     }
                 }
             }

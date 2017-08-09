@@ -383,7 +383,7 @@ class BrowserViewController: UIViewController {
             
             scrollController.headerTopConstraint = make.top.equalTo(self.topLayoutGuide.snp.bottom).constraint
             if let headerHeightConstraint = headerHeightConstraint {
-                headerHeightConstraint.updateOffset(amount: BraveURLBarView.CurrentHeight)
+                headerHeightConstraint.update(offset: BraveURLBarView.CurrentHeight)
             } else {
                 headerHeightConstraint = make.height.equalTo(BraveURLBarView.CurrentHeight).constraint
             }

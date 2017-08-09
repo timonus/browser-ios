@@ -136,14 +136,14 @@ class BraveBrowserViewController : BrowserViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        webViewContainerTopOffset?.updateOffset(amount: BraveURLBarView.CurrentHeight)
-        heightConstraint?.updateOffset(amount: -BraveApp.statusBarHeight())
+        webViewContainerTopOffset?.update(offset: BraveURLBarView.CurrentHeight)
+        heightConstraint?.update(offset: -BraveApp.statusBarHeight())
     }
     
     override func updateToolbarStateForTraitCollection(_ newCollection: UITraitCollection) {
         super.updateToolbarStateForTraitCollection(newCollection)
 
-        heightConstraint?.updateOffset(amount: -BraveApp.statusBarHeight())
+        heightConstraint?.update(offset: -BraveApp.statusBarHeight())
 
         postAsyncToMain(0) {
             self.urlBar.updateTabsBarShowing()

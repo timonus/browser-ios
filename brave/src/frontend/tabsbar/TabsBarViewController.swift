@@ -101,7 +101,7 @@ class TabsBarViewController: UIViewController {
 
     func updateTabWidthConstraint(_ width: CGFloat) {
         tabs.forEach {
-            $0.widthConstraint?.updateOffset(amount: width)
+            $0.widthConstraint?.update(offset: width)
         }
 
         self.tabs.forEach {
@@ -191,7 +191,7 @@ class TabsBarViewController: UIViewController {
         if self.isVisible {
             isAddTabAnimationRunning = true
             t.alpha = 0
-            t.widthConstraint?.updateOffset(amount: 0)
+            t.widthConstraint?.update(offset: 0)
         }
         
         scrollView.addSubview(t)

@@ -129,8 +129,8 @@ class BraveURLBarView : URLBarView {
         let shouldShow = showingPolicy != TabsBarShowPolicy.never && tabCount > 1 && !noShowDueToPortrait
 
         func updateOffsets() {
-            bvc?.headerHeightConstraint?.updateOffset(amount: BraveURLBarView.CurrentHeight)
-            bvc?.webViewContainerTopOffset?.updateOffset(amount: BraveURLBarView.CurrentHeight)
+            bvc?.headerHeightConstraint?.update(offset: BraveURLBarView.CurrentHeight)
+            bvc?.webViewContainerTopOffset?.update(offset: BraveURLBarView.CurrentHeight)
         }
 
         if !isShowing && shouldShow {
