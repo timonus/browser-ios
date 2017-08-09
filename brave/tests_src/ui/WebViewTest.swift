@@ -11,7 +11,7 @@ class WebViewTest: XCTestCase {
         UITestUtils.loadSite(app, "nordølum.no")
         let urlTextField = app.textFields["url"]
         let value = urlTextField.value as? String
-        XCTAssert(value != nil && value!.containsString("nordoelum.no"))
+        XCTAssert(value != nil && value!.contains("nordoelum.no"))
     }
 
     func testLongPress() {
@@ -19,10 +19,10 @@ class WebViewTest: XCTestCase {
         let app = XCUIApplication()
         UITestUtils.loadSite(app, "www.google.com")
 
-        app.staticTexts["IMAGES"].pressForDuration(1.5);
-        app.sheets.elementBoundByIndex(0).buttons["Open In New Tab"].tap()
+        app.staticTexts["IMAGES"].press(forDuration: 1.5);
+        app.sheets.element(boundBy: 0).buttons["Open In New Tab"].tap()
         app.buttons["2"].tap()
-        app.collectionViews.childrenMatchingType(.Cell).matchingIdentifier("Google").elementBoundByIndex(1).tap()
+        app.collectionViews.children(matching: .cell).matching(identifier: "Google").element(boundBy: 1).tap()
     }
 
     func testLongPressAndCopyUrl() {
@@ -30,12 +30,12 @@ class WebViewTest: XCTestCase {
         let app = XCUIApplication()
         UITestUtils.loadSite(app, "www.google.com")
 
-        app.staticTexts["IMAGES"].pressForDuration(1.5);
+        app.staticTexts["IMAGES"].press(forDuration: 1.5);
 
-        UIPasteboard.generalPasteboard().string = ""
-        app.sheets.elementBoundByIndex(0).buttons["Copy Link"].tap()
-        let string = UIPasteboard.generalPasteboard().string
-        XCTAssert(string != nil && string!.containsString("output=search"), "copy url context menu failed")
+        UIPasteboard.general.string = ""
+        app.sheets.element(boundBy: 0).buttons["Copy Link"].tap()
+        let string = UIPasteboard.general.string
+        XCTAssert(string != nil && string!.contains("output=search"), "copy url context menu failed")
     }
 
     func testShowDesktopSite() {
@@ -44,7 +44,7 @@ class WebViewTest: XCTestCase {
         UITestUtils.loadSite(app, "www.whatsmyua.com")
 
         var search = NSPredicate(format: "label contains[c] %@", "CPU iPhone")
-        var found = app.staticTexts.elementMatchingPredicate(search)
+        var found = app.staticTexts.element(matching: search)
         XCTAssert(found.exists, "didn't find UA for iPhone")
 
         app.buttons["BrowserToolbar.shareButton"].tap()
@@ -52,7 +52,7 @@ class WebViewTest: XCTestCase {
 
         sleep(1)
         search = NSPredicate(format: "label contains[c] %@", "Intel Mac")
-        found = app.staticTexts.elementMatchingPredicate(search)
+        found = app.staticTexts.element(matching: search)
         XCTAssert(found.exists, "didn't find UA for desktop")
     }
 
@@ -62,7 +62,7 @@ class WebViewTest: XCTestCase {
         UITestUtils.loadSite(app, "excellentmovies.net")
 
         let search = NSPredicate(format: "label contains[c] %@", "brave shield blocked page")
-        let found = app.staticTexts.elementMatchingPredicate(search)
+        let found = app.staticTexts.element(matching: search)
         XCTAssert(found.exists, "safe browsing failed")
     }
   

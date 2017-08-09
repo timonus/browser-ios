@@ -3,15 +3,15 @@ import UIKit
 import SnapKit
 
 enum TabsBarShowPolicy : Int {
-    case Never
-    case Always
-    case LandscapeOnly
+    case never
+    case always
+    case landscapeOnly
 }
 
 let kPrefKeyTabsBarShowPolicy = "kPrefKeyTabsBarShowPolicy"
-let kPrefKeyTabsBarOnDefaultValue = UIDevice.currentDevice().userInterfaceIdiom == .Pad ? TabsBarShowPolicy.Always : TabsBarShowPolicy.LandscapeOnly
+let kPrefKeyTabsBarOnDefaultValue = UIDevice.current.userInterfaceIdiom == .pad ? TabsBarShowPolicy.always : TabsBarShowPolicy.landscapeOnly
 
-let minTabWidth =  UIDevice.currentDevice().userInterfaceIdiom == .Pad ? CGFloat(180) : CGFloat(160)
+let minTabWidth =  UIDevice.current.userInterfaceIdiom == .pad ? CGFloat(180) : CGFloat(160)
 let tabHeight = TabsBarHeight - 1
 
 class TabsBarViewController: UIViewController {
@@ -28,13 +28,13 @@ class TabsBarViewController: UIViewController {
         return self.view.alpha > 0
     }
 
-    private var isAddTabAnimationRunning = false
+    fileprivate var isAddTabAnimationRunning = false
     
     init() {
         super.init(nibName: nil, bundle: nil)
 
-        self.view = UIView(frame: CGRectZero)
-        scrollView = UIScrollView(frame: CGRectZero)
+        self.view = UIView(frame: CGRect.zero)
+        scrollView = UIScrollView(frame: CGRect.zero)
         scrollView.bounces = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.delegate = self
@@ -45,12 +45,12 @@ class TabsBarViewController: UIViewController {
             make.right.equalTo(view).inset(BraveUX.TabsBarPlusButtonWidth)
         }
 
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            plusButton.setImage(UIImage(named: "add")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            plusButton.setImage(UIImage(named: "add")!.withRenderingMode(.alwaysTemplate), for: .normal)
             plusButton.imageEdgeInsets = UIEdgeInsetsMake(6, 6, 6, 10)
-            plusButton.tintColor = UIColor.blackColor()
-            plusButton.contentMode = .ScaleAspectFit
-            plusButton.addTarget(self, action: #selector(addTabPressed), forControlEvents: .TouchUpInside)
+            plusButton.tintColor = UIColor.black
+            plusButton.contentMode = .scaleAspectFit
+            plusButton.addTarget(self, action: #selector(addTabPressed), for: .touchUpInside)
             view.addSubview(plusButton)
 
             plusButton.snp_makeConstraints { (make) in
@@ -59,7 +59,7 @@ class TabsBarViewController: UIViewController {
             }
 
             let vertLine = UIView()
-            vertLine.backgroundColor = UIColor.blackColor()
+            vertLine.backgroundColor = UIColor.black
             plusButton.addSubview(vertLine)
             vertLine.snp_makeConstraints { (make) in
                 make.left.equalTo(plusButton)
@@ -94,14 +94,14 @@ class TabsBarViewController: UIViewController {
         getApp().tabManager.addTabAndSelect()
     }
 
-    func tabOverflowWidth(tabCount: Int) -> CGFloat {
+    func tabOverflowWidth(_ tabCount: Int) -> CGFloat {
         let overflow = CGFloat(tabCount) * minTabWidth - scrollView.frame.width
         return overflow > 0 ? overflow : 0
     }
 
-    func updateTabWidthConstraint(width width: CGFloat) {
+    func updateTabWidthConstraint(_ width: CGFloat) {
         tabs.forEach {
-            $0.widthConstraint?.updateOffset(width)
+            $0.widthConstraint?.updateOffset(amount: width)
         }
 
         self.tabs.forEach {
@@ -111,15 +111,15 @@ class TabsBarViewController: UIViewController {
         }
     }
 
-    func updateContentSize(tabCount: Int) {
+    func updateContentSize(_ tabCount: Int) {
         struct staticWidth { static var val = CGFloat(0) }
         if abs(staticWidth.val - scrollView.bounds.width) > 10 {
             let w = calcTabWidth(tabs.count)
-            updateTabWidthConstraint(width: w)
+            updateTabWidthConstraint(w)
             overflowIndicators()
         }
         staticWidth.val = scrollView.bounds.width
-        scrollView.contentSize = CGSizeMake(scrollView.bounds.width + tabOverflowWidth(tabCount), scrollView.bounds.height)
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width + tabOverflowWidth(tabCount), height: scrollView.bounds.height)
     }
 
     func overflowIndicators() {
@@ -147,7 +147,7 @@ class TabsBarViewController: UIViewController {
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if tabs.count < 1 {
             return
         }
@@ -155,7 +155,7 @@ class TabsBarViewController: UIViewController {
         recalculateTabView()
     }
     
-    func calcTabWidth(tabCount: Int) -> CGFloat {
+    func calcTabWidth(_ tabCount: Int) -> CGFloat {
         func calc() -> CGFloat {
             if tabCount < 2 {
                 return scrollView.frame.width
@@ -167,55 +167,62 @@ class TabsBarViewController: UIViewController {
             return w
         }
         let c = calc()
-        return c > 0 ? c : UIScreen.mainScreen().bounds.width
+        return c > 0 ? c : UIScreen.main.bounds.width
     }
     
     func recalculateTabView() {
         let w = calcTabWidth(tabs.count)
-        updateTabWidthConstraint(width: w)
+        updateTabWidthConstraint(w)
 
         updateContentSize(tabs.count)
         overflowIndicators()
         
         scrollView.layoutIfNeeded()
         
-        addLeftRightScrollHint(isRightSide: false, maskLayer: leftOverflowIndicator)
-        addLeftRightScrollHint(isRightSide: true, maskLayer: rightOverflowIndicator)
+        addLeftRightScrollHint(false, maskLayer: leftOverflowIndicator)
+        addLeftRightScrollHint(true, maskLayer: rightOverflowIndicator)
     }
 
 
-    func addTab(browser browser: Browser) -> TabWidget {
+    func addTab(_ browser: Browser, at: Int?) -> TabWidget {
         let t = TabWidget(browser: browser, parentScrollView: scrollView)
         t.delegate = self
         
         if self.isVisible {
             isAddTabAnimationRunning = true
             t.alpha = 0
-            t.widthConstraint?.updateOffset(0)
+            t.widthConstraint?.updateOffset(amount: 0)
         }
         
         scrollView.addSubview(t)
         
         let w = calcTabWidth(tabs.count)
         
-        t.remakeLayout(prev: tabs.last?.spacerRight != nil ? tabs.last!.spacerRight : self.spacerLeftmost, width: w, scrollView: scrollView)
-        
+        t.remakeLayout(tabs.last?.spacerRight != nil ? tabs.last!.spacerRight : self.spacerLeftmost, width: w, scrollView: scrollView)
         tabs.append(t)
+        
+        if let index = at, index > -1 && index < tabs.count {
+            isAddTabAnimationRunning = false
+            moveTab(t, index: index)
+            recalculateTabView()
+            updateSeparatorLineBetweenTabs()
+            return t
+        }
 
         if self.isVisible {
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 self.recalculateTabView()
                 let w = self.calcTabWidth(self.tabs.count)
                 let overflow =  w * CGFloat(self.tabs.count) - self.scrollView.frame.size.width
                 if overflow > 0 {
                     self.scrollView.contentOffset = CGPoint(x: overflow, y: 0)
                 }
-            }) { _ in
-                UIView.animateWithDuration(0.1) {
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.1, animations: {
                     t.alpha = 1
                     self.isAddTabAnimationRunning = false
-                }
-            }
+                }) 
+            }) 
         } else {
             recalculateTabView()
         }
@@ -223,37 +230,37 @@ class TabsBarViewController: UIViewController {
         return t
     }
 
-    func neighborSpacer(i: Int) -> UIView? {
+    func neighborSpacer(_ i: Int) -> UIView? {
         if i < 0 {
             return self.spacerLeftmost
         }
         return 0 ..< self.tabs.count ~= i ? self.tabs[i].spacerRight : nil
     }
 
-    func neighborTab(i: Int) -> TabWidget? {
+    func neighborTab(_ i: Int) -> TabWidget? {
         return 0 ..< self.tabs.count ~= i ? self.tabs[i] : nil
     }
 
-    func removeTab(tab: TabWidget) {
+    func removeTab(_ tab: TabWidget) {
         
-        guard let index = tabs.indexOf(tab) else {
+        guard let index = tabs.index(of: tab) else {
             print("ERROR tab \(tab) not matched in tab list \(self.tabs)")
             return
         }
         
-        func _removeTab(tab: TabWidget, atIndex index: Int) {
+        func _removeTab(_ tab: TabWidget, atIndex index: Int) {
 
             let prev = self.neighborSpacer(index - 1)
             let next = self.neighborTab(index + 1)
             
             tab.spacerRight.removeFromSuperview()
             tab.removeFromSuperview()
-            next?.snp_makeConstraints(closure: { (make) in
+            next?.snp_makeConstraints({ (make) in
                 if let prev = prev {
                     make.left.equalTo(prev.snp_right)
                 }
             })
-            self.tabs.removeAtIndex(index)
+            self.tabs.remove(at: index)
             self.recalculateTabView()
         }
         
@@ -263,54 +270,54 @@ class TabsBarViewController: UIViewController {
             _removeTab(tab, atIndex: index)
         }
         else {
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 _removeTab(tab, atIndex: index)
             })
         }
     }
 
-    func addLeftRightScrollHint(isRightSide isRightSide: Bool, maskLayer: CAGradientLayer) {
+    func addLeftRightScrollHint(_ isRightSide: Bool, maskLayer: CAGradientLayer) {
         maskLayer.removeFromSuperlayer()
-        let colors = PrivateBrowsing.singleton.isOn ? [BraveUX.DarkToolbarsBackgroundSolidColor.colorWithAlphaComponent(0).CGColor, BraveUX.DarkToolbarsBackgroundSolidColor.CGColor] : [BraveUX.ToolbarsBackgroundSolidColor.colorWithAlphaComponent(0).CGColor, BraveUX.ToolbarsBackgroundSolidColor.CGColor]
+        let colors = PrivateBrowsing.singleton.isOn ? [BraveUX.DarkToolbarsBackgroundSolidColor.withAlphaComponent(0).cgColor, BraveUX.DarkToolbarsBackgroundSolidColor.cgColor] : [BraveUX.ToolbarsBackgroundSolidColor.withAlphaComponent(0).cgColor, BraveUX.ToolbarsBackgroundSolidColor.cgColor]
         let locations = [0.9, 1.0]
         maskLayer.startPoint = CGPoint(x: isRightSide ? 0 : 1.0, y: 0.5)
         maskLayer.endPoint = CGPoint(x: isRightSide ? 1.0 : 0, y: 0.5)
         maskLayer.opacity = 0
         maskLayer.colors = colors;
-        maskLayer.locations = locations;
-        maskLayer.bounds = CGRectMake(0, 0, scrollView.frame.width, tabHeight)
-        maskLayer.anchorPoint = CGPointZero;
+        maskLayer.locations = locations as [NSNumber];
+        maskLayer.bounds = CGRect(x: 0, y: 0, width: scrollView.frame.width, height: tabHeight)
+        maskLayer.anchorPoint = CGPoint.zero;
         // you must add the mask to the root view, not the scrollView, otherwise the masks will move as the user scrolls!
         view.layer.addSublayer(maskLayer)
     }
 
     func updateSeparatorLineBetweenTabs() {
-        for (index, tab) in tabs.enumerate() {
+        for (index, tab) in tabs.enumerated() {
             if index == 0 || tab.isSelectedStyle() {
-                tab.separatorLine.hidden = true
+                tab.separatorLine.isHidden = true
             } else if index - 1 > -1 && tabs[index - 1].isSelectedStyle() {
-                tab.separatorLine.hidden = true
+                tab.separatorLine.isHidden = true
             } else {
-                tab.separatorLine.hidden = false
+                tab.separatorLine.isHidden = false
             }
         }
     }
 }
 
 extension TabsBarViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         overflowIndicators()
     }
 }
 
 extension TabsBarViewController: TabWidgetDelegate {
-    func tabWidgetClose(tab: TabWidget) {
+    func tabWidgetClose(_ tab: TabWidget) {
         if let b = tab.browser {
             getApp().tabManager.removeTab(b, createTabIfNoneLeft: true)
         }
     }
 
-    func tabWidgetSelected(tab: TabWidget) {
+    func tabWidgetSelected(_ tab: TabWidget) {
         tabs.forEach {
             $0.deselect()
         }
@@ -322,29 +329,27 @@ extension TabsBarViewController: TabWidgetDelegate {
 
         if !isAddTabAnimationRunning {
             postAsyncToMain(0.1) { // allow time for any layout code to complete
-                let left = CGRectMake(tab.frame.minX, 1, 1, 1)
-                let right = CGRectMake(tab.frame.maxX - 1, 1, 1, 1)
-                self.scrollView.scrollRectToVisible(left, animated: true)
-                self.scrollView.scrollRectToVisible(right, animated: true)
+                let frame = CGRect(x: tab.frame.minX, y: 1, width: tab.frame.width, height: 1)
+                self.scrollView.scrollRectToVisible(frame, animated: true)
             }
         }
     }
 }
 
 extension TabsBarViewController: TabManagerDelegate {
-    func tabManagerDidEnterPrivateBrowsingMode(tabManager: TabManager) {
-        assert(NSThread.currentThread().isMainThread)
+    func tabManagerDidEnterPrivateBrowsingMode(_ tabManager: TabManager) {
+        assert(Thread.current.isMainThread)
         tabs.forEach{ $0.removeFromSuperview() }
         tabs.removeAll()
     }
 
-    func tabManagerDidExitPrivateBrowsingMode(tabManager: TabManager) {
-        assert(NSThread.currentThread().isMainThread)
+    func tabManagerDidExitPrivateBrowsingMode(_ tabManager: TabManager) {
+        assert(Thread.current.isMainThread)
         tabs.forEach{ $0.removeFromSuperview() }
         tabs.removeAll()
 
         tabManager.tabs.internalTabList.forEach {
-            let t = addTab(browser: $0)
+            let t = addTab($0, at: nil)
             t.setTitle($0.lastTitle)
             if tabManager.selectedTab === $0 {
                 tabWidgetSelected(t)
@@ -352,8 +357,8 @@ extension TabsBarViewController: TabManagerDelegate {
         }
     }
 
-    func tabManager(tabManager: TabManager, didSelectedTabChange selected: Browser?) {
-        assert(NSThread.currentThread().isMainThread)
+    func tabManager(_ tabManager: TabManager, didSelectedTabChange selected: Browser?) {
+        assert(Thread.current.isMainThread)
         tabs.forEach { tabWidget in
             if tabWidget.browser === selected {
                 tabWidgetSelected(tabWidget)
@@ -363,7 +368,7 @@ extension TabsBarViewController: TabManagerDelegate {
         updateSeparatorLineBetweenTabs()
     }
 
-    func tabManager(tabManager: TabManager, didCreateWebView tab: Browser, url: NSURL?) {
+    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?, at: Int?) {
         if let t = tabs.find({ $0.browser === tab }) {
             if let wv = t.browser?.webView {
                 wv.delegatesForPageState.append(BraveWebView.Weak_WebPageStateDelegate(value: t))
@@ -371,19 +376,19 @@ extension TabsBarViewController: TabManagerDelegate {
             return
         }
 
-        let t = addTab(browser: tab)
+        let t = addTab(tab, at: at)
         if let url = url {
-            let title = url.baseDomain()
+            let title = url.baseDomain
             t.setTitle(title)
         }
 
         getApp().browserViewController.urlBar.updateTabsBarShowing()
     }
 
-    func tabManager(tabManager: TabManager, didAddTab tab: Browser) {}
+    func tabManager(_ tabManager: TabManager, didAddTab tab: Browser) {}
 
-    func tabManager(tabManager: TabManager, didRemoveTab tab: Browser) {
-        assert(NSThread.currentThread().isMainThread)
+    func tabManager(_ tabManager: TabManager, didRemoveTab tab: Browser) {
+        assert(Thread.current.isMainThread)
         tabs.forEach { tabWidget in
             if tabWidget.browser === tab {
                 removeTab(tabWidget)
@@ -395,7 +400,7 @@ extension TabsBarViewController: TabManagerDelegate {
         getApp().browserViewController.urlBar.updateTabsBarShowing()
     }
 
-    func tabManagerDidRestoreTabs(tabManager: TabManager) {
+    func tabManagerDidRestoreTabs(_ tabManager: TabManager) {
         postAsyncToMain(0.5) { [weak self] in
             self?.tabs.forEach {
                 $0.updateTitle_throttled()
@@ -404,7 +409,7 @@ extension TabsBarViewController: TabManagerDelegate {
         }
     }
 
-    func tabManagerDidAddTabs(tabManager: TabManager) {}
+    func tabManagerDidAddTabs(_ tabManager: TabManager) {}
 }
 // MARK: Drag and drop support
 
@@ -412,11 +417,11 @@ var tabXPositions: [CGFloat]?
 var lastHitSpacerDuringDrag: UIView? // the spacer the tab is dragged over
 
 extension TabsBarViewController {
-    func moveTab(tab: TabWidget, index: Int) {
-        guard let oldIndex = tabs.indexOf(tab) else { return }
+    func moveTab(_ tab: TabWidget, index: Int) {
+        guard let oldIndex = tabs.index(of: tab) else { return }
 
-        tabs.removeAtIndex(oldIndex)
-        tabs.insert(tab, atIndex: index)
+        tabs.remove(at: oldIndex)
+        tabs.insert(tab, at: index)
 
         let w = calcTabWidth(tabs.count)
 
@@ -428,19 +433,19 @@ extension TabsBarViewController {
                 dragClone.removeFromSuperview()
                 t.dragClone = nil
             }
-            t.remakeLayout(prev: prev, width: w, scrollView: scrollView)
+            t.remakeLayout(prev, width: w, scrollView: scrollView)
             prev = t.spacerRight
         }
     }
 
 
-    func modifyWidth(view: UIView?, width: CGFloat) {
+    func modifyWidth(_ view: UIView?, width: CGFloat) {
         if let tab = view as? TabWidget {
             if width < 1 {
                 tab.breakConstraintsForShrinking()
             }
         }
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             view?.snp_updateConstraints{ (make) in
                 make.width.equalTo(width)
             }
@@ -454,13 +459,13 @@ extension TabsBarViewController {
 
     }
 
-    func newIndexOfMovedTab(indexOfMovedTab indexOfMovedTab: Int, dragDistance: CGFloat) -> Int {
+    func newIndexOfMovedTab(_ indexOfMovedTab: Int, dragDistance: CGFloat) -> Int {
         var newIndex = -1
         guard let tabXPositions = tabXPositions else { assert(false); return 0 }
         assert(0 ..< tabXPositions.count ~= indexOfMovedTab)
         let moveTabPos = tabXPositions[indexOfMovedTab]
         let tabWidth = calcTabWidth(tabs.count)
-        for (i, x) in tabXPositions.enumerate() {
+        for (i, x) in tabXPositions.enumerated() {
             if i == indexOfMovedTab {
                 continue
             }
@@ -479,19 +484,19 @@ extension TabsBarViewController {
         return newIndex
     }
 
-    func handleDraggingEnded(tab: TabWidget, dragDistance: CGFloat) {
+    func handleDraggingEnded(_ tab: TabWidget, dragDistance: CGFloat) {
         if tabXPositions == nil {
             tab.alpha = 1.0
             return
         }
 
-        guard let movedIndex = tabs.indexOf(tab) else { print("ERROR"); return }
-        let newIndex = newIndexOfMovedTab(indexOfMovedTab: movedIndex, dragDistance: dragDistance)
+        guard let movedIndex = tabs.index(of: tab) else { print("ERROR"); return }
+        var newIndex = newIndexOfMovedTab(movedIndex, dragDistance: dragDistance)
 
         let moveCloneTo = newIndex < 0 ? tab.dragClone?.lastLocation : CGPoint(x: tabXPositions![newIndex], y: tab.center.y)
 
-        if let clone = tab.dragClone where clone.lastLocation != nil {
-            UIView.animateWithDuration(0.2, animations: {
+        if let clone = tab.dragClone, clone.lastLocation != nil {
+            UIView.animate(withDuration: 0.2, animations: {
                 tab.dragClone?.alpha = 1.0
                 if let p = moveCloneTo {
                     tab.dragClone?.center = p
@@ -512,7 +517,7 @@ extension TabsBarViewController {
         }
 
         lastHitSpacerDuringDrag = nil
-        scrollView.scrollEnabled = true
+        scrollView.isScrollEnabled = true
         tabXPositions = nil
 
         // Returning to original spot, set widths back (animated)
@@ -522,7 +527,11 @@ extension TabsBarViewController {
             for t in tabs {
                 modifyWidth(t.spacerRight, width: 0)
             }
+            newIndex = 0
         }
+        
+        guard let browser = tab.browser else { print("ERROR"); return }
+        getApp().tabManager.move(tab: browser, from: movedIndex, to: newIndex)
 
         postAsyncToMain(0.3) {
             tab.reinstallConstraints()
@@ -531,18 +540,18 @@ extension TabsBarViewController {
         // Ensure tab is re-shown
         postAsyncToMain(0.5) {
             tab.alpha = 1
-            tab.superview!.bringSubviewToFront(tab)
+            tab.superview!.bringSubview(toFront: tab)
         }
     }
 
-    func tabWidgetDragStarted(tab: TabWidget) {
-        scrollView.scrollEnabled = false
+    func tabWidgetDragStarted(_ tab: TabWidget) {
+        scrollView.isScrollEnabled = false
     }
 
-    func tabWidgetDragMoved(tab: TabWidget, distance: CGFloat, isEnding: Bool) {
+    func tabWidgetDragMoved(_ tab: TabWidget, distance: CGFloat, isEnding: Bool) {
         let tabWidth = calcTabWidth(tabs.count)
 
-        guard let movedIndex = tabs.indexOf(tab) else { print("ERROR"); return }
+        guard let movedIndex = tabs.index(of: tab) else { print("ERROR"); return }
 
         if isEnding {
             handleDraggingEnded(tab, dragDistance: distance)
@@ -560,7 +569,7 @@ extension TabsBarViewController {
         //let newPoint = CGPointMake(, tab.center.y)
 
         var hitSpacer: UIView? = tab.spacerRight
-        let newIndex = newIndexOfMovedTab(indexOfMovedTab: movedIndex, dragDistance: distance)
+        let newIndex = newIndexOfMovedTab(movedIndex, dragDistance: distance)
 
         if newIndex < 0 {
             hitSpacer = tab.spacerRight
@@ -597,14 +606,14 @@ extension TabsBarViewController {
         modifyWidth(hitSpacer, width: tabWidth)
     }
 
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
 
         leftOverflowIndicator.opacity = 0
         rightOverflowIndicator.opacity = 0
         postAsyncToMain(0.1) {
-            self.addLeftRightScrollHint(isRightSide: false, maskLayer: self.leftOverflowIndicator)
-            self.addLeftRightScrollHint(isRightSide: true, maskLayer: self.rightOverflowIndicator)
+            self.addLeftRightScrollHint(false, maskLayer: self.leftOverflowIndicator)
+            self.addLeftRightScrollHint(true, maskLayer: self.rightOverflowIndicator)
             self.overflowIndicators()
         }
     }

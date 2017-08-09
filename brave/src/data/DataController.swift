@@ -2,116 +2,118 @@
 
 import UIKit
 import CoreData
+import Shared
 
+//      Now that sync is disabled, we hvae fallen back to the original design (from floriankugler)
+//      Will update template once issues are ironed out
+
+// After testing many different MOC stacks, it became aparent that main thread context
+// should contain no worker children since it will eventually propogate up and block the main
+// thread on changes or saves
+
+// Attempting to have the main thread MOC as the sole child of a private MOC seemed optimal 
+// (and is recommended path via WWDC Apple CD video), but any associated work on mainMOC
+// does not re-merge back into it self well from parent (background) context (tons of issues)
+// This should be re-attempted when dropping iOS9, using some of the newer CD APIs for 10+
+// (e.g. automaticallyMergesChangesFromParent = true, may allow a complete removal of `merge`)
+// StoreCoordinator > writeMOC > mainMOC
+
+// That being said, writeMOC (background) has two parallel children
+// One being a mainThreadMOC, and the other a workerMOC. Since contexts seem to have significant
+// issues merging their own changes from the parent save, they must merge changes directly from their
+// parallel. This seems to work quite well and appears heavily reliable during heavy background work.
+// StoreCoordinator > writeMOC (private, no direct work) > mainMOC && workerMOC
+
+// Previoulsy attempted stack which had significant impact on main thread saves
 // Follow the stack design from http://floriankugler.com/2013/04/02/the-concurrent-core-data-stack/
-// workerMOC is-child-of mainThreadMOC is-child-of writeMOC
-// Data flows up through the stack only (child-to-parent), the bottom being the `writeMOC` which is used only for saving to disk.
-//
-// Notice no merge notifications are needed using this method.
 
 class DataController: NSObject {
     static let shared = DataController()
-
-    private var writeMOC: NSManagedObjectContext?
-    private var mainThreadMOC: NSManagedObjectContext?
-    private var workerMOC: NSManagedObjectContext? = nil
-
-    static var moc: NSManagedObjectContext {
-        get {
-            guard let moc = DataController.shared.mainThreadMOC else {
-                fatalError("DataController: Access to .moc contained nil value. A db connection has not yet been instantiated.")
-            }
-
-            if !NSThread.isMainThread() {
-                fatalError("DataController: Access to .moc must be on main thread.")
-            }
-            
-            return moc
+    
+    fileprivate lazy var writeContext: NSManagedObjectContext = {
+        let write = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        write.persistentStoreCoordinator = self.persistentStoreCoordinator
+        write.undoManager = nil
+        write.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        
+        return write
+    }()
+    
+    fileprivate var _workerContext: NSManagedObjectContext?
+    var workerContext: NSManagedObjectContext {
+        if let context = _workerContext {
+            return context
         }
+    
+        let worker = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        worker.undoManager = nil
+        worker.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        worker.parent = self.mainThreadContext
+        
+        _workerContext = worker
+        return self.workerContext
     }
     
-    private var managedObjectModel: NSManagedObjectModel!
-    private var persistentStoreCoordinator: NSPersistentStoreCoordinator!
+    lazy var mainThreadContext: NSManagedObjectContext = {
+        let main = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        main.undoManager = nil
+        main.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        main.parent = self.writeContext
+        
+        return main
+    }()
     
-    private override init() {
+    fileprivate var managedObjectModel: NSManagedObjectModel!
+    fileprivate var persistentStoreCoordinator: NSPersistentStoreCoordinator!
+    
+    fileprivate override init() {
         super.init()
 
        // TransformerUUID.setValueTransformer(transformer: NSValueTransformer?, forName name: String)
 
-        guard let modelURL = NSBundle.mainBundle().URLForResource("Model", withExtension:"momd") else {
+        guard let modelURL = Bundle.main.url(forResource: "Model", withExtension:"momd") else {
             fatalError("Error loading model from bundle")
         }
-        guard let mom = NSManagedObjectModel(contentsOfURL: modelURL) else {
+        guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
             fatalError("Error initializing mom from: \(modelURL)")
         }
         
         self.managedObjectModel = mom
         self.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
         
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         if let docURL = urls.last {
             do {
                 
                 let options: [String: AnyObject] = [
-                    NSMigratePersistentStoresAutomaticallyOption: true,
-                    NSInferMappingModelAutomaticallyOption: true,
-                    NSPersistentStoreFileProtectionKey : NSFileProtectionComplete
+                    NSMigratePersistentStoresAutomaticallyOption: true as AnyObject,
+                    NSInferMappingModelAutomaticallyOption: true as AnyObject,
+                    NSPersistentStoreFileProtectionKey : FileProtectionType.complete as AnyObject
                 ]
                 
                 // Old store URL from old beta, can be removed at some point (thorough migration testing though)
-                var storeURL = docURL.URLByAppendingPathComponent("Brave.sqlite")
-                try self.persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: options)
+                var storeURL = docURL.appendingPathComponent("Brave.sqlite")
+                try self.persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
                 
-                storeURL = docURL.URLByAppendingPathComponent("Model.sqlite")
-                try self.persistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: options)
+                storeURL = docURL.appendingPathComponent("Model.sqlite")
+                try self.persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
             }
             catch {
                 fatalError("Error migrating store: \(error)")
             }
         }
 
-        mainThreadContext()
+        // Setup contexts
+        _ = mainThreadContext
     }
 
-    private func writeContext() -> NSManagedObjectContext {
-        if writeMOC == nil {
-            writeMOC = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-            writeMOC?.persistentStoreCoordinator = persistentStoreCoordinator
-            writeMOC?.undoManager = nil
-            writeMOC?.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        }
-        return writeMOC!
-    }
-
-    func workerContext() -> NSManagedObjectContext {
-        if workerMOC == nil {
-            workerMOC = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-            workerMOC!.parentContext = mainThreadContext()
-            workerMOC!.undoManager = nil
-            workerMOC!.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        }
-        return workerMOC!
-    }
-
-    private func mainThreadContext() -> NSManagedObjectContext {
-        if mainThreadMOC != nil {
-            return mainThreadMOC!
-        }
-
-        mainThreadMOC = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        mainThreadMOC?.undoManager = nil
-        mainThreadMOC?.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        mainThreadMOC?.parentContext = writeContext()
-        return mainThreadMOC!
-    }
-
-    static func saveContext(context: NSManagedObjectContext? = DataController.moc) {
-        guard let context = context  else {
+    static func saveContext(context: NSManagedObjectContext?) {
+        guard let context = context else {
             print("No context on save")
             return
         }
         
-        if context === DataController.shared.writeMOC {
+        if context === DataController.shared.writeContext {
             print("Do not use with the write moc, this save is handled internally here.")
             return
         }
@@ -120,21 +122,20 @@ class DataController: NSObject {
             do {
                 try context.save()
 
-                if context === DataController.shared.mainThreadMOC {
+                if context === DataController.shared.mainThreadContext {
                     // Data has changed on main MOC. Let the existing worker threads continue as-is,
                     // but create a new workerMOC (which is a copy of main MOC data) for next time a worker is used.
                     // By design we only merge changes 'up' the stack from child-to-parent.
-                    DataController.shared.workerMOC = nil
-                    DataController.shared.workerMOC = DataController.shared.workerContext()
+                    DataController.shared._workerContext = nil
 
                     // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
                     postAsyncToMain(0.1) {
-                        DataController.shared.writeMOC!.performBlock {
-                            if !DataController.shared.writeMOC!.hasChanges {
+                        DataController.shared.writeContext.perform {
+                            if !DataController.shared.writeContext.hasChanges {
                                 return
                             }
                             do {
-                                try DataController.shared.writeMOC!.save()
+                                try DataController.shared.writeContext.save()
                             } catch {
                                 fatalError("Error saving DB to disk: \(error)")
                             }
@@ -142,7 +143,7 @@ class DataController: NSObject {
                     }
                 } else {
                     postAsyncToMain(0.1) {
-                        DataController.saveContext(DataController.shared.mainThreadMOC!)
+                        DataController.saveContext(context: DataController.shared.mainThreadContext)
                     }
                 }
             } catch {

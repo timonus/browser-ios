@@ -5,14 +5,14 @@
 import Foundation
 
 struct AboutUtils {
-    private static let AboutPath = "/about/"
+    fileprivate static let AboutPath = "/about/"
 
-    static func isAboutHomeURL(url: NSURL?) -> Bool {
+    static func isAboutHomeURL(_ url: URL?) -> Bool {
         return getAboutComponent(url) == "home"
     }
 
-    static func isAboutURL(url: NSURL?) -> Bool {
-        if let scheme = url?.scheme where scheme == "about" {
+    static func isAboutURL(_ url: URL?) -> Bool {
+        if let scheme = url?.scheme, scheme == "about" {
             return true
         }
 
@@ -21,10 +21,10 @@ struct AboutUtils {
 
     /// If the URI is an about: URI, return the path after "about/" in the URI.
     /// For example, return "home" for "http://localhost:1234/about/home/#panel=0".
-    static func getAboutComponent(url: NSURL?) -> String? {
-        if let scheme = url?.scheme, host = url?.host, path = url?.path {
+    static func getAboutComponent(_ url: URL?) -> String? {
+        if let scheme = url?.scheme, let host = url?.host, let path = url?.path {
             if scheme == "http" && host == "localhost" && path.startsWith(AboutPath) {
-                return path.substringFromIndex(AboutPath.endIndex)
+                return path.substring(from: AboutPath.endIndex)
             }
         }
         return nil

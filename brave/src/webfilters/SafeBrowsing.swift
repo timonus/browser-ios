@@ -13,7 +13,7 @@ class SafeBrowsing {
     lazy var abpFilterLibWrapper: ABPFilterLibWrapper = { return ABPFilterLibWrapper() }()
 
     lazy var networkFileLoader: NetworkDataFileLoader = {
-        let dataUrl = NSURL(string: "https://s3.amazonaws.com/adblock-data/\(dataVersion)/SafeBrowsingData.dat")!
+        let dataUrl = URL(string: "https://s3.amazonaws.com/adblock-data/\(dataVersion)/SafeBrowsingData.dat")!
         let dataFile = "safe-browsing-data-\(dataVersion).dat"
         let loader = NetworkDataFileLoader(url: dataUrl, file: dataFile, localDirName: "safe-browsing-data")
         loader.delegate = self
@@ -23,8 +23,8 @@ class SafeBrowsing {
     var fifoCacheOfUrlsChecked = FifoDict()
     var isNSPrefEnabled = true
 
-    private init() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SafeBrowsing.prefsChanged(_:)), name: NSUserDefaultsDidChangeNotification, object: nil)
+    fileprivate init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(SafeBrowsing.prefsChanged(_:)), name: UserDefaults.didChangeNotification, object: nil)
         updateEnabledState()
     }
 
@@ -36,21 +36,21 @@ class SafeBrowsing {
         isNSPrefEnabled = BraveApp.getPrefs()?.boolForKey(SafeBrowsing.prefKey) ?? SafeBrowsing.prefKeyDefaultValue
     }
 
-    @objc func prefsChanged(info: NSNotification) {
+    @objc func prefsChanged(_ info: Notification) {
         updateEnabledState()
     }
 
-    func shouldBlock(request: NSURLRequest) -> Bool {
+    func shouldBlock(_ request: URLRequest) -> Bool {
         // synchronize code from this point on.
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
 
-        if request.mainDocumentURL?.absoluteString?.startsWith(WebServer.sharedInstance.base) ?? false ||
-            request.URL?.absoluteString?.startsWith(WebServer.sharedInstance.base) ?? false {
+        if request.mainDocumentURL?.absoluteString.startsWith(WebServer.sharedInstance.base) ?? false ||
+            request.url?.absoluteString.startsWith(WebServer.sharedInstance.base) ?? false {
             return false
         }
 
-        guard let url = request.URL else { return false }
+        guard let url = request.url else { return false }
 
         let host: String = request.mainDocumentURL?.host ?? url.host ?? ""
 
@@ -67,7 +67,7 @@ class SafeBrowsing {
 
         let isBlocked = abpFilterLibWrapper.isBlockedIgnoringType(url.absoluteString, mainDocumentUrl: host)
 
-        fifoCacheOfUrlsChecked.addItem(key, value: isBlocked)
+        fifoCacheOfUrlsChecked.addItem(key, value: isBlocked as AnyObject)
 
         // #if LOG_AD_BLOCK
         if isBlocked {
@@ -81,7 +81,7 @@ class SafeBrowsing {
 
 extension SafeBrowsing: NetworkDataFileLoaderDelegate {
 
-    func fileLoader(_: NetworkDataFileLoader, setDataFile data: NSData?) {
+    func fileLoader(_: NetworkDataFileLoader, setDataFile data: Data?) {
         abpFilterLibWrapper.setDataFile(data)
     }
 

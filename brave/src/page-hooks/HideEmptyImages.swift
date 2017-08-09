@@ -2,13 +2,13 @@
 
 class HideEmptyImages {
     static var source: String?
-    static func runJsInWebView(webView: BraveWebView) {
+    static func runJsInWebView(_ webView: BraveWebView) {
         if (HideEmptyImages.source == nil) {
-            let path = NSBundle.mainBundle().pathForResource("HideEmptyImages", ofType: "js")!
-            HideEmptyImages.source = try! NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
+            let path = Bundle.main.path(forResource: "HideEmptyImages", ofType: "js")!
+            HideEmptyImages.source = try! NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
         }
         if let source = HideEmptyImages.source {
-            webView.stringByEvaluatingJavaScriptFromString(source)
+            webView.stringByEvaluatingJavaScript(from: source)
         }
     }
 }

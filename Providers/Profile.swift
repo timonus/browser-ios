@@ -15,9 +15,9 @@ import Deferred
 
 private let log = Logger.syncLogger
 
-public let NotificationProfileDidStartSyncing = "NotificationProfileDidStartSyncing"
-public let NotificationProfileDidFinishSyncing = "NotificationProfileDidFinishSyncing"
-public let ProfileRemoteTabsSyncDelay: NSTimeInterval = 0.1
+public let NotificationProfileDidStartSyncing = NSNotification.Name(rawValue: "NotificationProfileDidStartSyncing")
+public let NotificationProfileDidFinishSyncing = NSNotification.Name(rawValue: "NotificationProfileDidFinishSyncing")
+public let ProfileRemoteTabsSyncDelay: TimeInterval = 0.1
 
 typealias EngineIdentifier = String
 
@@ -28,20 +28,18 @@ class ProfileFileAccessor: FileAccessor {
 
     init(localName: String) {
         let profileDirName = "profile.\(localName)"
-
+        
         // Bug 1147262: First option is for device, second is for simulator.
-        var rootPath: NSString
-        if let sharedContainerIdentifier = AppInfo.sharedContainerIdentifier(), let url = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(sharedContainerIdentifier), path = url.path {
-            rootPath = path as NSString
+        var rootPath: String
+        let sharedContainerIdentifier = AppInfo.sharedContainerIdentifier
+        if let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: sharedContainerIdentifier) {
+            rootPath = url.path
         } else {
-            if NSBundle.mainBundle().bundleIdentifier?.contains("com.brave.ios") ?? false {
-                BraveApp.showErrorAlert(title: "Database error", error: "App group not set, bookmarks will be lost")
-            }
             log.error("Unable to find the shared container. Defaulting profile location to ~/Documents instead.")
-            rootPath = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0]) as NSString
+            rootPath = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
         }
-
-        super.init(rootPath: rootPath.stringByAppendingPathComponent(profileDirName))
+        
+        super.init(rootPath: URL(fileURLWithPath: rootPath).appendingPathComponent(profileDirName).path)
     }
 }
 
@@ -68,16 +66,16 @@ enum SentTabAction: String {
  * A Profile manages access to the user's data.
  */
 protocol Profile: class {
-    var bookmarks: protocol<BookmarksModelFactorySource, ShareToDestination, SyncableBookmarks, LocalItemSource, MirrorItemSource> { get }
+    var bookmarks: BookmarksModelFactorySource & ShareToDestination & SyncableBookmarks & LocalItemSource & MirrorItemSource { get }
     // var favicons: Favicons { get }
     var prefs: Prefs { get }
     var queue: TabQueue { get }
     var searchEngines: SearchEngines { get }
     var files: FileAccessor { get }
-    var history: protocol<BrowserHistory, SyncableHistory, ResettableSyncStorage> { get }
+    var history: BrowserHistory & SyncableHistory & ResettableSyncStorage { get }
     var favicons: Favicons { get }
     var readingList: ReadingListService? { get }
-    var logins: protocol<BrowserLogins, SyncableLogins, ResettableSyncStorage> { get }
+    var logins: BrowserLogins & SyncableLogins & ResettableSyncStorage { get }
     var certStore: CertStore { get }
 
     func shutdown()
@@ -88,11 +86,14 @@ protocol Profile: class {
     func localName() -> String
 }
 
-public class BrowserProfile: Profile {
-    private let name: String
+open class BrowserProfile: Profile {
+    
+    fileprivate let name: String
+    fileprivate let keychain: KeychainWrapper
+    
     internal let files: FileAccessor
 
-    weak private var app: UIApplication?
+    weak fileprivate var app: UIApplication?
 
     /**
      * N.B., BrowserProfile is used from our extensions, often via a pattern like
@@ -104,29 +105,30 @@ public class BrowserProfile: Profile {
      * see Bug 1218833. Be sure to only perform synchronous actions here.
      */
     init(localName: String, app: UIApplication?, clear: Bool = false) {
-        log.debug("Initing profile \(localName) on thread \(NSThread.currentThread()).")
+        log.debug("Initing profile \(localName) on thread \(Thread.current).")
         self.name = localName
         self.files = ProfileFileAccessor(localName: localName)
         self.app = app
 
         if clear {
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(self.files.rootPath as String)
+                try FileManager.default.removeItem(atPath: self.files.rootPath as String)
             } catch {
                 log.info("Cannot clear profile: \(error)")
             }
         }
 
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onProfileDidFinishSyncing(_:)), name: NotificationProfileDidFinishSyncing, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onPrivateDataClearedHistory(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
-
-
-        if let baseBundleIdentifier = AppInfo.baseBundleIdentifier() {
-            KeychainWrapper.serviceName = baseBundleIdentifier
+        let baseBundleIdentifier = AppInfo.baseBundleIdentifier
+        if !baseBundleIdentifier.isEmpty {
+            self.keychain = KeychainWrapper(serviceName: baseBundleIdentifier)
         } else {
             log.error("Unable to get the base bundle identifier. Keychain data will not be shared.")
+            self.keychain = KeychainWrapper.standard
         }
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onProfileDidFinishSyncing(_:)), name: NotificationProfileDidFinishSyncing, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(BrowserProfile.onPrivateDataClearedHistory(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
 
         // If the profile dir doesn't exist yet, this is first run (for this profile).
         if !files.exists("") {
@@ -171,16 +173,16 @@ public class BrowserProfile: Profile {
         }
     }
 
-    func onLocationChange(info: [String : AnyObject]) {
+    func onLocationChange(_ info: [String : AnyObject]) {
         if let v = info["visitType"] as? Int,
             let visitType = VisitType(rawValue: v),
-            let url = info["url"] as? NSURL where !isIgnoredURL(url),
+            let url = info["url"] as? URL, !isIgnoredURL(url),
             let title = info["title"] as? NSString {
             // Only record local vists if the change notification originated from a non-private tab
             if !(info["isPrivate"] as? Bool ?? false) {
                 // We don't record a visit if no type was specified -- that means "ignore me".
                 let site = Site(url: url.absoluteString ?? "", title: title as String)
-                let visit = SiteVisit(site: site, date: NSDate.nowMicroseconds(), type: visitType)
+                let visit = SiteVisit(site: site, date: Date.nowMicroseconds(), type: visitType)
                 succeed().upon() { _ in // move off main thread
                     self.history.addLocalVisit(visit)
                 }
@@ -194,19 +196,21 @@ public class BrowserProfile: Profile {
 
     // These selectors run on which ever thread sent the notifications (not the main thread)
     @objc
-    func onProfileDidFinishSyncing(notification: NSNotification) {
+    func onProfileDidFinishSyncing(_ notification: Notification) {
         history.setTopSitesNeedsInvalidation()
     }
 
     @objc
-    func onPrivateDataClearedHistory(notification: NSNotification) {
+    func onPrivateDataClearedHistory(_ notification: Notification) {
         // Immediately invalidate the top sites cache
-        history.refreshTopSitesCache()
+        
+        // Brave does not use, profile sqlite store for sites
+        // history.refreshTopSitesCache()
     }
 
     deinit {
         log.debug("Deiniting profile \(self.localName).")
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
     }
 
     func localName() -> String {
@@ -219,18 +223,14 @@ public class BrowserProfile: Profile {
         }
     }()
 
-    private var dbCreated = false
-    var db: BrowserDB {
-        struct Singleton {
-            static var token: dispatch_once_t = 0
-            static var instance: BrowserDB!
-        }
-        dispatch_once(&Singleton.token) {
-            Singleton.instance = BrowserDB(filename: "browser.db", files: self.files)
-            self.dbCreated = true
-        }
-        return Singleton.instance
-    }
+    fileprivate var dbCreated = false
+    lazy var db: BrowserDB = {
+        
+        let value = BrowserDB(filename: "browser.db", files: self.files)
+        self.dbCreated = true
+        
+        return value
+    }()
 
     /**
      * Favicons, history, and bookmarks are all stored in one intermeshed
@@ -239,7 +239,7 @@ public class BrowserProfile: Profile {
      * Any other class that needs to access any one of these should ensure
      * that this is initialized first.
      */
-    private lazy var places: protocol<BrowserHistory, Favicons, SyncableHistory, ResettableSyncStorage> = {
+    fileprivate lazy var places: BrowserHistory & Favicons & SyncableHistory & ResettableSyncStorage = {
         return SQLiteHistory(db: self.db, prefs: self.prefs)
     }()
 
@@ -247,11 +247,11 @@ public class BrowserProfile: Profile {
         return self.places
     }
 
-    var history: protocol<BrowserHistory, SyncableHistory, ResettableSyncStorage> {
+    var history: BrowserHistory & SyncableHistory & ResettableSyncStorage {
         return self.places
     }
 
-    lazy var bookmarks: protocol<BookmarksModelFactorySource, ShareToDestination, SyncableBookmarks, LocalItemSource, MirrorItemSource> = {
+    lazy var bookmarks: BookmarksModelFactorySource & ShareToDestination & SyncableBookmarks & LocalItemSource & MirrorItemSource = {
         // Make sure the rest of our tables are initialized before we try to read them!
         // This expression is for side-effects only.
         withExtendedLifetime(self.places) {
@@ -259,7 +259,7 @@ public class BrowserProfile: Profile {
         }
     }()
 
-    lazy var mirrorBookmarks: protocol<BookmarkBufferStorage, BufferItemSource> = {
+    lazy var mirrorBookmarks: BookmarkBufferStorage & BufferItemSource = {
         // Yeah, this is lazy. Sorry.
         return self.bookmarks as! MergedSQLiteBookmarks
     }()
@@ -280,7 +280,7 @@ public class BrowserProfile: Profile {
         return ReadingListService(profileStoragePath: self.files.rootPath as String)
     }()
 
-    lazy var remoteClientsAndTabs: protocol<RemoteClientsAndTabs, ResettableSyncStorage, AccountRemovalDelegate> = {
+    lazy var remoteClientsAndTabs: RemoteClientsAndTabs & ResettableSyncStorage & AccountRemovalDelegate = {
         return SQLiteRemoteClientsAndTabs(db: self.db)
     }()
 
@@ -288,61 +288,51 @@ public class BrowserProfile: Profile {
         return CertStore()
     }()
 
-    public func getCachedClientsAndTabs() -> Deferred<Maybe<[ClientAndTabs]>> {
+    open func getCachedClientsAndTabs() -> Deferred<Maybe<[ClientAndTabs]>> {
         return self.remoteClientsAndTabs.getClientsAndTabs()
     } 
 
-    func storeTabs(tabs: [RemoteTab]) -> Deferred<Maybe<Int>> {
+    func storeTabs(_ tabs: [RemoteTab]) -> Deferred<Maybe<Int>> {
         return self.remoteClientsAndTabs.insertOrUpdateTabs(tabs)
     }
 
-    lazy var logins: protocol<BrowserLogins, SyncableLogins, ResettableSyncStorage> = {
+    lazy var logins: BrowserLogins & SyncableLogins & ResettableSyncStorage = {
         return SQLiteLogins(db: self.loginsDB)
     }()
 
     // This is currently only used within the dispatch_once block in loginsDB, so we don't
     // have to worry about races giving us two keys. But if this were ever to be used
     // elsewhere, it'd be unsafe, so we wrap this in a dispatch_once, too.
-    private var loginsKey: String? {
+    fileprivate lazy var loginsKey: String? = {
+        
         let key = "sqlcipher.key.logins.db"
-        struct Singleton {
-            static var token: dispatch_once_t = 0
-            static var instance: String!
+        if self.keychain.hasValue(forKey: key) {
+            return KeychainWrapper.standard.string(forKey: key)
         }
-        dispatch_once(&Singleton.token) {
-            if KeychainWrapper.hasValueForKey(key) {
-                let value = KeychainWrapper.stringForKey(key)
-                Singleton.instance = value
-            } else {
-                let Length: UInt = 256
-                let secret = Bytes.generateRandomBytes(Length).base64EncodedString
-                KeychainWrapper.setString(secret, forKey: key)
-                Singleton.instance = secret
-            }
-        }
-        return Singleton.instance
-    }
+        
+        let Length: UInt = 256
+        let secret = Bytes.generateRandomBytes(Length).base64EncodedString
+        self.keychain.set(secret, forKey: key)
+        return secret
+    }()
 
-    private var loginsDBCreated = false
-    private lazy var loginsDB: BrowserDB = {
+    fileprivate var loginsDBCreated = false
+    fileprivate lazy var loginsDB: BrowserDB = {
         struct Singleton {
-            static var token: dispatch_once_t = 0
             static var instance: BrowserDB!
         }
-        dispatch_once(&Singleton.token) {
-            Singleton.instance = BrowserDB(filename: "logins.db", secretKey: self.loginsKey, files: self.files)
-            self.loginsDBCreated = true
-        }
+        Singleton.instance = BrowserDB(filename: "logins.db", secretKey: self.loginsKey, files: self.files)
+        self.loginsDBCreated = true
         return Singleton.instance
     }()
 
 
     func removeAccountMetadata() {
         self.prefs.removeObjectForKey(PrefsKeys.KeyLastRemoteTabSyncTime)
-        KeychainWrapper.removeObjectForKey(self.name + ".account")
+        self.keychain.removeObject(forKey: self.name + ".account")
     }
 
     func removeExistingAuthenticationInfo() {
-        KeychainWrapper.setAuthenticationInfo(nil)
+        self.keychain.setAuthenticationInfo(nil)
     }
 }

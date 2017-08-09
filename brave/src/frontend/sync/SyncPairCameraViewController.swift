@@ -15,14 +15,14 @@ class SyncPairCameraViewController: UIViewController {
     // Kind of an odd mechanism for passing this info
     var deviceName: String?
     
-    private let prefs: Prefs = getApp().profile!.prefs
-    private let prefKey: String = "CameraPermissionsSetting"
+    fileprivate let prefs: Prefs = getApp().profile!.prefs
+    fileprivate let prefKey: String = "CameraPermissionsSetting"
     
     var loadingView: UIView!
-    let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -32,9 +32,9 @@ class SyncPairCameraViewController: UIViewController {
         view.backgroundColor = SyncBackgroundColor
         
         // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
-        NSNotificationCenter.defaultCenter().addObserverForName(NotificationSyncReady, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
             notification in
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewController(animated: true)
         })
         
         scrollView = UIScrollView()
@@ -43,7 +43,7 @@ class SyncPairCameraViewController: UIViewController {
         
         cameraView = SyncCameraView()
         cameraView.translatesAutoresizingMaskIntoConstraints = false
-        cameraView.backgroundColor = UIColor.blackColor()
+        cameraView.backgroundColor = UIColor.black
         cameraView.layer.cornerRadius = 4
         cameraView.layer.masksToBounds = true
         cameraView.scanCallback = { data in
@@ -63,18 +63,18 @@ class SyncPairCameraViewController: UIViewController {
                 self.cameraView.cameraOverlaySucess()
                 
                 // Will be removed on pop
-                self.loadingView.hidden = false
+                self.loadingView.isHidden = false
                 
                 // Forced timeout
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(25.0) * Int64(NSEC_PER_SEC)), dispatch_get_main_queue(), {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(25.0) * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
                     Scanner.Lock = false
-                    self.loadingView.hidden = true
+                    self.loadingView.isHidden = true
                     self.cameraView.cameraOverlayError()
                 })
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                Sync.shared.initializeSync(bytes, deviceName: self.deviceName)
+                Sync.shared.initializeSync(seed: bytes, deviceName: self.deviceName)
 
             } else {
                 self.cameraView.cameraOverlayError()
@@ -84,7 +84,7 @@ class SyncPairCameraViewController: UIViewController {
         cameraView.authorizedCallback = { authorized in
             if authorized {
                 postAsyncToMain(0) {
-                    self.cameraAccessButton.hidden = true
+                    self.cameraAccessButton.isHidden = true
                     self.prefs.setBool(true, forKey: self.prefKey)
                 }
             }
@@ -96,37 +96,37 @@ class SyncPairCameraViewController: UIViewController {
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.systemFontOfSize(20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = UIColor.blackColor()
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
+        titleLabel.textColor = UIColor.black
         titleLabel.text = Strings.SyncToDevice
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.font = UIFont.systemFontOfSize(15, weight: UIFontWeightRegular)
+        descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
         descriptionLabel.textColor = UIColor(rgb: 0x696969)
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.lineBreakMode = .ByWordWrapping
-        descriptionLabel.textAlignment = .Center
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.textAlignment = .center
         descriptionLabel.text = Strings.SyncToDeviceDescription
         scrollView.addSubview(descriptionLabel)
         
-        cameraAccessButton = UIButton(type: .RoundedRect)
+        cameraAccessButton = UIButton(type: .roundedRect)
         cameraAccessButton.translatesAutoresizingMaskIntoConstraints = false
-        cameraAccessButton.setTitle(Strings.GrantCameraAccess, forState: .Normal)
-        cameraAccessButton.titleLabel?.font = UIFont.systemFontOfSize(17, weight: UIFontWeightBold)
-        cameraAccessButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        cameraAccessButton.setTitle(Strings.GrantCameraAccess, for: .normal)
+        cameraAccessButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
+        cameraAccessButton.setTitleColor(UIColor.white, for: .normal)
         cameraAccessButton.backgroundColor = BraveUX.DefaultBlue
         cameraAccessButton.layer.cornerRadius = 8
-        cameraAccessButton.addTarget(self, action: #selector(SEL_cameraAccess), forControlEvents: .TouchUpInside)
+        cameraAccessButton.addTarget(self, action: #selector(SEL_cameraAccess), for: .touchUpInside)
         scrollView.addSubview(cameraAccessButton)
         
-        enterWordsButton = UIButton(type: .RoundedRect)
+        enterWordsButton = UIButton(type: .roundedRect)
         enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
-        enterWordsButton.setTitle(Strings.EnterCodeWords, forState: .Normal)
-        enterWordsButton.titleLabel?.font = UIFont.systemFontOfSize(15, weight: UIFontWeightSemibold)
-        enterWordsButton.setTitleColor(UIColor(rgb: 0x696969), forState: .Normal)
-        enterWordsButton.addTarget(self, action: #selector(SEL_enterWords), forControlEvents: .TouchUpInside)
+        enterWordsButton.setTitle(Strings.EnterCodeWords, for: .normal)
+        enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+        enterWordsButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        enterWordsButton.addTarget(self, action: #selector(SEL_enterWords), for: .touchUpInside)
         scrollView.addSubview(enterWordsButton)
         
         loadingSpinner.startAnimating()
@@ -134,11 +134,11 @@ class SyncPairCameraViewController: UIViewController {
         loadingView = UIView()
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         loadingView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
-        loadingView.hidden = true
+        loadingView.isHidden = true
         loadingView.addSubview(loadingSpinner)
         scrollView.addSubview(loadingView)
         
-        edgesForExtendedLayout = .None
+        edgesForExtendedLayout = UIRectEdge()
         
         scrollView.snp_makeConstraints { (make) in
             make.edges.equalTo(self.view)
@@ -194,7 +194,9 @@ class SyncPairCameraViewController: UIViewController {
     }
     
     func SEL_enterWords() {
-        navigationController?.pushViewController(SyncPairWordsViewController(), animated: true)
+        let pairWords = SyncPairWordsViewController()
+        pairWords.deviceName = self.deviceName
+        navigationController?.pushViewController(pairWords, animated: true)
     }
 }
 

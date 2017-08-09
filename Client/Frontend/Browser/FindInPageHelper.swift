@@ -7,19 +7,19 @@ import Shared
 import WebKit
 
 protocol FindInPageHelperDelegate: class {
-    func findInPageHelper(findInPageHelper: FindInPageHelper, didUpdateCurrentResult currentResult: Int)
-    func findInPageHelper(findInPageHelper: FindInPageHelper, didUpdateTotalResults totalResults: Int)
+    func findInPageHelper(_ findInPageHelper: FindInPageHelper, didUpdateCurrentResult currentResult: Int)
+    func findInPageHelper(_ findInPageHelper: FindInPageHelper, didUpdateTotalResults totalResults: Int)
 }
 
 class FindInPageHelper: BrowserHelper {
     weak var delegate: FindInPageHelperDelegate?
-    private weak var browser: Browser?
+    fileprivate weak var browser: Browser?
 
     required init(browser: Browser) {
         self.browser = browser
 
-        if let path = NSBundle.mainBundle().pathForResource("FindInPage", ofType: "js"), source = try? NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String {
-            let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.AtDocumentEnd, forMainFrameOnly: true)
+        if let path = Bundle.main.path(forResource: "FindInPage", ofType: "js"), let source = try? NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String {
+            let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
             browser.webView!.configuration.userContentController.addUserScript(userScript)
         }
     }
@@ -28,7 +28,7 @@ class FindInPageHelper: BrowserHelper {
         return "findInPageHandler"
     }
 
-    func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+    func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
         let data = message.body as! [String: Int]
 
         if let currentResult = data["currentResult"] {

@@ -13,34 +13,34 @@ struct TabsButtonUX {
     static let CornerRadius: CGFloat = 1
     static let TitleFont: UIFont = UIConstants.DefaultChromeSmallFontBold
     static let BorderStrokeWidth: CGFloat = 1.5
-    static let BorderColor = UIColor.clearColor()
-    static let HighlightButtonColor = UIColor.clearColor()
+    static let BorderColor = UIColor.clear
+    static let HighlightButtonColor = UIColor.clear
     static let TitleInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
 
     static let Themes: [String: Theme] = {
         var themes = [String: Theme]()
         var theme = Theme()
-        theme.borderColor = .whiteColor()
+        theme.borderColor = .white
         theme.borderWidth = BorderStrokeWidth
         theme.font = TitleFont
-        theme.backgroundColor = .clearColor()
-        theme.textColor = .whiteColor()
+        theme.backgroundColor = .clear
+        theme.textColor = .white
         theme.insets = TitleInsets
-        theme.highlightButtonColor = .whiteColor()
-        theme.highlightTextColor = .blackColor()
-        theme.highlightBorderColor = .whiteColor()
+        theme.highlightButtonColor = .white
+        theme.highlightTextColor = .black
+        theme.highlightBorderColor = .white
         themes[Theme.PrivateMode] = theme
 
         theme = Theme()
-        theme.borderColor = .blackColor()
+        theme.borderColor = .black
         theme.borderWidth = BorderStrokeWidth
         theme.font = TitleFont
-        theme.backgroundColor = .clearColor()
-        theme.textColor = .blackColor()
+        theme.backgroundColor = .clear
+        theme.textColor = .black
         theme.insets = TitleInsets
-        theme.highlightButtonColor = .blackColor()
-        theme.highlightTextColor = .whiteColor()
-        theme.highlightBorderColor = .blackColor()
+        theme.highlightButtonColor = .black
+        theme.highlightTextColor = .white
+        theme.highlightBorderColor = .black
         themes[Theme.NormalMode] = theme
 
         return themes
@@ -48,11 +48,11 @@ struct TabsButtonUX {
 }
 
 class TabsButton: UIControl {
-    private var theme: Theme = TabsButtonUX.Themes[Theme.NormalMode]!
+    fileprivate var theme: Theme = TabsButtonUX.Themes[Theme.NormalMode]!
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            if highlighted {
+            if isHighlighted {
                 borderColor = theme.highlightBorderColor!
                 titleBackgroundColor = theme.highlightButtonColor
                 textColor = theme.highlightTextColor
@@ -66,22 +66,22 @@ class TabsButton: UIControl {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = NSTextAlignment.Center
-        label.userInteractionEnabled = false
+        label.textAlignment = NSTextAlignment.center
+        label.isUserInteractionEnabled = false
         return label
     }()
 
     lazy var insideButton: UIView = {
         let view = UIView()
         view.clipsToBounds = false
-        view.userInteractionEnabled = false
+        view.isUserInteractionEnabled = false
         return view
     }()
 
     lazy var labelBackground: UIView = {
         let background = UIView()
         background.layer.cornerRadius = TabsButtonUX.CornerRadius
-        background.userInteractionEnabled = false
+        background.isUserInteractionEnabled = false
         return background
     }()
 
@@ -89,11 +89,11 @@ class TabsButton: UIControl {
         let border = InnerStrokedView()
         border.strokeWidth = TabsButtonUX.BorderStrokeWidth
         border.cornerRadius = TabsButtonUX.CornerRadius
-        border.userInteractionEnabled = false
+        border.isUserInteractionEnabled = false
         return border
     }()
 
-    private var buttonInsets: UIEdgeInsets = TabsButtonUX.TitleInsets
+    fileprivate var buttonInsets: UIEdgeInsets = TabsButtonUX.TitleInsets
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -148,10 +148,10 @@ class TabsButton: UIControl {
         button.borderView.cornerRadius = borderView.cornerRadius
 
         // BRAVE added
-        for target in allTargets() {
-          if let actions = actionsForTarget(target, forControlEvent: .TouchUpInside) {
+        for target in allTargets {
+          if let actions = actions(forTarget: target, forControlEvent: .touchUpInside) {
              for action in actions {
-              button.addTarget(target, action: Selector(action), forControlEvents: .TouchUpInside)
+              button.addTarget(target, action: Selector(action), for: .touchUpInside)
             }
           }
       }
@@ -161,7 +161,7 @@ class TabsButton: UIControl {
 }
 
 extension TabsButton: Themeable {
-    func applyTheme(themeName: String) {
+    func applyTheme(_ themeName: String) {
 
         guard let theme = TabsButtonUX.Themes[themeName] else {
             log.error("Unable to apply unknown theme \(themeName)")

@@ -16,7 +16,7 @@ import KIF
  */
 
 class FingerprintProtectionTest: XCTestCase {
-    static func enabled(enable: Bool) {
+    static func enabled(_ enable: Bool) {
         URLProtocol.testShieldState = BraveShieldState()
         URLProtocol.testShieldState?.setState(.FpProtection, on: enable)
     }
@@ -24,26 +24,26 @@ class FingerprintProtectionTest: XCTestCase {
     func testFingerprintProtection() {
         FingerprintProtectionTest.enabled(true)
 
-        let url = NSURL(string: "https://panopticlick.eff.org/results")
+        let url = URL(string: "https://panopticlick.eff.org/results")
         let webview = BraveApp.getCurrentWebView()
-        webview!.loadRequest(NSURLRequest(URL: url!))
+        webview!.loadRequest(URLRequest(URL: url!))
 
 
         expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
 
-        waitForExpectationsWithTimeout(15) { (error:NSError?) -> Void in
+        waitForExpectations(timeout: 15) { (error:NSError?) -> Void in
             if let _ = error {
             }
-        }
+        } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
 
-        var expect = expectationWithDescription("wait")
+        var expect = expectation(description: "wait")
         postAsyncToMain(8) { expect.fulfill()}
-        waitForExpectationsWithTimeout(10) { (error:NSError?) -> Void in }
+        waitForExpectations(timeout: 10) { (error:NSError?) -> Void in } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
 
         webview!.stringByEvaluatingJavaScriptFromString("document.getElementById('showFingerprintLink2').click();")
-        expect = expectationWithDescription("wait")
+        expect = expectation(description: "wait")
         postAsyncToMain(3) { expect.fulfill() }
-        waitForExpectationsWithTimeout(5) { (error:NSError?) -> Void in }
+        waitForExpectations(timeout: 5) { (error:NSError?) -> Void in } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
 
 
         let innerHtml = webview!.stringByEvaluatingJavaScriptFromString("document.body.innerHTML")

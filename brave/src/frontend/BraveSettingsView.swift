@@ -16,28 +16,28 @@ class BraveSettingsView : AppSettingsTableViewController {
 
     var debugToggleItemToTriggerCrashCount = 0
 
-    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = InsetLabel(frame: CGRectMake(0, 0, tableView.frame.size.width, 40))
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = InsetLabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
         footerView.leftInset = CGFloat(20)
         footerView.rightInset = CGFloat(10)
         footerView.numberOfLines = 0
-        footerView.font = UIFont.boldSystemFontOfSize(13)
+        footerView.font = UIFont.boldSystemFont(ofSize: 13)
         return footerView
     }
 
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         if BraveApp.getPrefs()?.boolForKey(kPrefKeyFingerprintProtection) ?? false {
-            if let tab = getApp().tabManager.selectedTab where tab.getHelper(FingerprintingProtection.self) == nil {
+            if let tab = getApp().tabManager.selectedTab, tab.getHelper(FingerprintingProtection.self) == nil {
                 let fp = FingerprintingProtection(browser: tab)
                 tab.addHelper(fp)
             }
@@ -61,7 +61,7 @@ class BraveSettingsView : AppSettingsTableViewController {
                 titleText: Strings.Block_Popups)
         ]
 
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             generalSettings.append(BoolSetting(prefs: prefs, prefKey: kPrefKeyTabsBarShowPolicy, defaultValue: true,
                 titleText: Strings.Show_Tabs_Bar, statusText: nil,
                 settingDidChange: { value in
@@ -77,7 +77,7 @@ class BraveSettingsView : AppSettingsTableViewController {
             generalSettings.append(PasswordManagerButtonSetting(profile: self.profile))
         }
 
-        BraveApp.is3rdPartyPasswordManagerInstalled(refreshLookup: true).upon {
+        BraveApp.is3rdPartyPasswordManagerInstalled(true).upon {
             result in
             if result == BraveSettingsView.cachedIs3rdPartyPasswordManagerInstalled {
                 return
@@ -88,10 +88,10 @@ class BraveSettingsView : AppSettingsTableViewController {
             if result {
                 postAsyncToMain(0) { // move from db thread back to main
                     generalSettings.append(PasswordManagerButtonSetting(profile: self.profile))
-                    self.settings[0] = SettingSection(title: NSAttributedString(string: Strings.General.uppercaseString), children: generalSettings)
+                    self.settings[0] = SettingSection(title: NSAttributedString(string: Strings.General.uppercased()), children: generalSettings)
                     let range = NSMakeRange(0, 1)
-                    let section = NSIndexSet(indexesInRange: range)
-                    self.tableView.reloadSections(section, withRowAnimation: .Automatic)
+                    let section = IndexSet(integersIn: range.toRange() ?? 0..<0)
+                    self.tableView.reloadSections(section, with: .automatic)
                 }
             }
         }
@@ -111,18 +111,18 @@ class BraveSettingsView : AppSettingsTableViewController {
         }
 
         settings += [
-            SettingSection(title: NSAttributedString(string: Strings.General.uppercaseString), children: generalSettings),
+            SettingSection(title: NSAttributedString(string: Strings.General.uppercased()), children: generalSettings),
             
-            SettingSection(title: NSAttributedString(string: Strings.Sync.uppercaseString), children:
-                [SyncDevicesSetting(settings: self)]
-            ),
-            SettingSection(title: NSAttributedString(string: Strings.Privacy.uppercaseString), children:
+//            SettingSection(title: NSAttributedString(string: Strings.Sync.uppercased()), children:
+//                [SyncDevicesSetting(settings: self)]
+//            ),
+            SettingSection(title: NSAttributedString(string: Strings.Privacy.uppercased()), children:
                 [ClearPrivateDataSetting(settings: self), CookieSetting(profile: self.profile),
                     BoolSetting(prefs: prefs, prefKey: kPrefKeyPrivateBrowsingAlwaysOn, defaultValue: false, titleText: Strings.Private_Browsing_Only, statusText: nil, settingDidChange: { isOn in
                         getApp().browserViewController.switchBrowsingMode(toPrivate: isOn)
                     })]
             ),
-            SettingSection(title: NSAttributedString(string: Strings.Brave_Shield_Defaults.uppercaseString), children: shieldSettingsList)]
+            SettingSection(title: NSAttributedString(string: Strings.Brave_Shield_Defaults.uppercased()), children: shieldSettingsList)]
 
         
         var supportChildren: [Setting] = [
@@ -140,10 +140,10 @@ class BraveSettingsView : AppSettingsTableViewController {
         ]
     
         settings += [
-            SettingSection(title: NSAttributedString(string: Strings.Support.uppercaseString), children: supportChildren)]
+            SettingSection(title: NSAttributedString(string: Strings.Support.uppercased()), children: supportChildren)]
         
         settings += [
-            SettingSection(title: NSAttributedString(string: Strings.About.uppercaseString), children: [
+            SettingSection(title: NSAttributedString(string: Strings.About.uppercased()), children: [
                 VersionSetting(settings: self),
                 ])
         ]
@@ -152,7 +152,7 @@ class BraveSettingsView : AppSettingsTableViewController {
 }
 
 extension BraveSettingsView : UIAlertViewDelegate {
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if buttonIndex == alertView.cancelButtonIndex {
             return
         }
@@ -171,14 +171,14 @@ class VersionSetting : Setting {
     }
 
     override var title: NSAttributedString? {
-        let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
-        let buildNumber = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
+        let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         return NSAttributedString(string: String(format: Strings.Version_template, appVersion, buildNumber), attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
 
-    override func onConfigureCell(cell: UITableViewCell) {
+    override func onConfigureCell(_ cell: UITableViewCell) {
         super.onConfigureCell(cell)
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
     }
 }
 
@@ -188,7 +188,7 @@ class PasswordManagerButtonSetting: PicklistSettingMainItem<String> {
 
     static var currentSetting: ThirdPartyPasswordManagerType?
 
-    private static let _prefName = kPrefName3rdPartyPasswordShortcutEnabled
+    fileprivate static let _prefName = kPrefName3rdPartyPasswordShortcutEnabled
 
     static func setupOnAppStart() {
         guard let current = BraveApp.getPrefs()?.intForKey(_prefName) else { return }
@@ -200,7 +200,7 @@ class PasswordManagerButtonSetting: PicklistSettingMainItem<String> {
         picklistFooterMessage = Strings.Password_manager_button_settings_footer
     }
 
-    override func picklistSetting(setting: PicklistSettingOptionsView, pickedOptionId: Int) {
+    override func picklistSetting(_ setting: PicklistSettingOptionsView, pickedOptionId: Int) {
         super.picklistSetting(setting, pickedOptionId: pickedOptionId)
         PasswordManagerButtonSetting.setupOnAppStart()
     }
@@ -213,17 +213,17 @@ class PasswordManagerButtonSetting: PicklistSettingMainItem<String> {
 
 // Opens the search settings pane
 class CookieSetting: PicklistSettingMainItem<UInt> {
-    private static let _prefName = "braveAcceptCookiesPref"
-    private static let _options =  [
-        Choice<UInt> { (displayName: Strings.Block_3rd_party_cookies, object: UInt(NSHTTPCookieAcceptPolicy.OnlyFromMainDocumentDomain.rawValue), optionId: 0) },
-        Choice<UInt> { (displayName: Strings.Block_all_cookies, object: UInt(NSHTTPCookieAcceptPolicy.Never.rawValue), optionId: 1) },
-        Choice<UInt> { (displayName: Strings.Dont_block_cookies, object: UInt( NSHTTPCookieAcceptPolicy.Always.rawValue), optionId: 2) }
+    fileprivate static let _prefName = "braveAcceptCookiesPref"
+    fileprivate static let _options =  [
+        Choice<UInt> { (displayName: Strings.Block_3rd_party_cookies, object: UInt(HTTPCookie.AcceptPolicy.onlyFromMainDocumentDomain.rawValue), optionId: 0) },
+        Choice<UInt> { (displayName: Strings.Block_all_cookies, object: UInt(HTTPCookie.AcceptPolicy.never.rawValue), optionId: 1) },
+        Choice<UInt> { (displayName: Strings.Dont_block_cookies, object: UInt( HTTPCookie.AcceptPolicy.always.rawValue), optionId: 2) }
     ]
 
-    static func setPolicyFromOptionId(optionId: Int) {
+    static func setPolicyFromOptionId(_ optionId: Int) {
         for option in _options {
             if option.item().optionId == optionId {
-                NSHTTPCookieStorage.sharedHTTPCookieStorage().cookieAcceptPolicy = NSHTTPCookieAcceptPolicy.init(rawValue: option.item().object)!
+                HTTPCookieStorage.shared.cookieAcceptPolicy = HTTPCookie.AcceptPolicy.init(rawValue: option.item().object)!
             }
         }
     }
@@ -237,7 +237,7 @@ class CookieSetting: PicklistSettingMainItem<UInt> {
         super.init(profile: profile, displayName: Strings.Cookie_Control, prefName: CookieSetting._prefName, options: CookieSetting._options)
     }
 
-    override func picklistSetting(setting: PicklistSettingOptionsView, pickedOptionId: Int) {
+    override func picklistSetting(_ setting: PicklistSettingOptionsView, pickedOptionId: Int) {
         super.picklistSetting(setting, pickedOptionId: pickedOptionId)
         CookieSetting.setPolicyFromOptionId(pickedOptionId)
     }
@@ -245,11 +245,11 @@ class CookieSetting: PicklistSettingMainItem<UInt> {
 
 // Opens the search settings pane
 class TabsBarIPhoneSetting: PicklistSettingMainItem<Int> {
-    private static func getOptions() -> [Choice<Int>] {
+    fileprivate static func getOptions() -> [Choice<Int>] {
         let opt = [
-            Choice<Int> { (displayName: Strings.Never_show, object: TabsBarShowPolicy.Never.rawValue, optionId: 0) },
-            Choice<Int> { (displayName: Strings.Always_show, object: TabsBarShowPolicy.Always.rawValue, optionId: 1) },
-            Choice<Int> { (displayName: Strings.Show_in_landscape_only, object: TabsBarShowPolicy.LandscapeOnly.rawValue, optionId: 2) }
+            Choice<Int> { (displayName: Strings.Never_show, object: TabsBarShowPolicy.never.rawValue, optionId: 0) },
+            Choice<Int> { (displayName: Strings.Always_show, object: TabsBarShowPolicy.always.rawValue, optionId: 1) },
+            Choice<Int> { (displayName: Strings.Show_in_landscape_only, object: TabsBarShowPolicy.landscapeOnly.rawValue, optionId: 2) }
         ]
         return opt
 
@@ -259,7 +259,7 @@ class TabsBarIPhoneSetting: PicklistSettingMainItem<Int> {
         super.init(profile: profile, displayName: Strings.Show_Tabs_Bar, prefName: kPrefKeyTabsBarShowPolicy, options: TabsBarIPhoneSetting.getOptions())
     }
 
-    override func picklistSetting(setting: PicklistSettingOptionsView, pickedOptionId: Int) {
+    override func picklistSetting(_ setting: PicklistSettingOptionsView, pickedOptionId: Int) {
         super.picklistSetting(setting, pickedOptionId: pickedOptionId)
         getApp().browserViewController.urlBar.updateTabsBarShowing()
     }
@@ -286,11 +286,11 @@ class PasswordsClearable: Clearable {
     func clear() -> Success {
         // Clear our storage
         return profile.logins.removeAll() >>== { res in
-            let storage = NSURLCredentialStorage.sharedCredentialStorage()
+            let storage = URLCredentialStorage.shared
             let credentials = storage.allCredentials
             for (space, credentials) in credentials {
                 for (_, credential) in credentials {
-                    storage.removeCredential(credential, forProtectionSpace: space)
+                    storage.remove(credential, for: space)
                 }
             }
             return succeed()
@@ -303,18 +303,18 @@ class BraveSupportLinkSetting: Setting {
         return NSAttributedString(string: Strings.Report_a_bug, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
 
-    override var url: NSURL? {
-        return BraveUX.BraveCommunityURL
+    override var url: URL? {
+        return BraveUX.BraveCommunityURL as URL
     }
 
-    override func onClick(navigationController: UINavigationController?) {
+    override func onClick(_ navigationController: UINavigationController?) {
         (navigationController as! SettingsNavigationController).SELdone()
         let url = self.url!
         postAsyncToMain(0) {
             getApp().braveTopViewController.dismissAllSidePanels()
             postAsyncToMain(0.1) {
                 let t = getApp().tabManager
-                t.addTabAndSelect(NSURLRequest(URL: url))
+                t?.addTabAndSelect(URLRequest(url: url))
             }
         }
     }
@@ -326,11 +326,11 @@ class BravePrivacyPolicySetting: Setting {
         return NSAttributedString(string: Strings.Privacy_Policy, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
 
-    override var url: NSURL? {
-        return BraveUX.BravePrivacyURL
+    override var url: URL? {
+        return BraveUX.BravePrivacyURL as URL
     }
 
-    override func onClick(navigationController: UINavigationController?) {
+    override func onClick(_ navigationController: UINavigationController?) {
         setUpAndPushSettingsContentViewController(navigationController)
     }
 }
@@ -340,11 +340,11 @@ class BraveTermsOfUseSetting: Setting {
         return NSAttributedString(string: Strings.Terms_of_Use, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
 
-    override var url: NSURL? {
-        return NSURL(string: "https://www.brave.com/terms_of_use")
+    override var url: URL? {
+        return URL(string: "https://www.brave.com/terms_of_use")
     }
 
-    override func onClick(navigationController: UINavigationController?) {
+    override func onClick(_ navigationController: UINavigationController?) {
         setUpAndPushSettingsContentViewController(navigationController)
     }
 }

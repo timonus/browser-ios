@@ -1,6 +1,7 @@
 import Shared
 import Deferred
 import Crashlytics
+import Shared
 
 private let _singleton = PrivateBrowsing()
 
@@ -9,65 +10,65 @@ class PrivateBrowsing {
         return _singleton
     }
 
-    private(set) var isOn = false {
+    fileprivate(set) var isOn = false {
         didSet {
             getApp().braveTopViewController.setNeedsStatusBarAppearanceUpdate()
         }
     }
 
-    var nonprivateCookies = [NSHTTPCookie: Bool]()
+    var nonprivateCookies = [HTTPCookie: Bool]()
 
     // On startup we are no longer in private mode, if there is a .public cookies file, it means app was killed in private mode, so restore the cookies file
     func startupCheckIfKilledWhileInPBMode() {
-        webkitDirLocker(lock: false)
-        cookiesFileDiskOperation(.Restore)
+        webkitDirLocker(false)
+        cookiesFileDiskOperation(.restore)
     }
 
     enum MoveCookies {
-        case SavePublicBackup
-        case Restore
-        case DeletePublicBackup
+        case savePublicBackup
+        case restore
+        case deletePublicBackup
     }
 
     // GeolocationSites.plist cannot be blocked any other way than locking the filesystem so that webkit can't write it out
     // TODO: after unlocking, verify that sites from PB are not in the written out GeolocationSites.plist, based on manual testing this
     // doesn't seem to be the case, but more rigourous test cases are needed
-    private func webkitDirLocker(lock lock: Bool) {
-        let fm = NSFileManager.defaultManager()
-        let baseDir = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true)[0]
+    fileprivate func webkitDirLocker(_ lock: Bool) {
+        let fm = FileManager.default
+        let baseDir = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]
         let webkitDirs = [baseDir + "/WebKit", baseDir + "/Caches"]
         for dir in webkitDirs {
             do {
-                try fm.setAttributes([NSFilePosixPermissions: (lock ? NSNumber(short:0) : NSNumber(short:0o755))], ofItemAtPath: dir)
+                try fm.setAttributes([FileAttributeKey.posixPermissions: (lock ? NSNumber(value: 0 as Int16) : NSNumber(value: 0o755 as Int16))], ofItemAtPath: dir)
             } catch {
                 print(error)
             }
         }
     }
 
-    private func cookiesFileDiskOperation( type: MoveCookies) {
-        let fm = NSFileManager.defaultManager()
-        let baseDir = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true)[0]
+    fileprivate func cookiesFileDiskOperation( _ type: MoveCookies) {
+        let fm = FileManager.default
+        let baseDir = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]
         let cookiesDir = baseDir + "/Cookies"
-        let originSuffix = type == .SavePublicBackup ? "cookies" : ".public"
+        let originSuffix = type == .savePublicBackup ? "cookies" : ".public"
 
         do {
-            let contents = try fm.contentsOfDirectoryAtPath(cookiesDir)
+            let contents = try fm.contentsOfDirectory(atPath: cookiesDir)
             for item in contents {
                 if item.hasSuffix(originSuffix) {
-                    if type == .DeletePublicBackup {
-                        try fm.removeItemAtPath(cookiesDir + "/" + item)
+                    if type == .deletePublicBackup {
+                        try fm.removeItem(atPath: cookiesDir + "/" + item)
                     } else {
                         var toPath = cookiesDir + "/"
-                        if type == .Restore {
-                            toPath += NSString(string: item).stringByDeletingPathExtension
+                        if type == .restore {
+                            toPath += NSString(string: item).deletingPathExtension
                         } else {
                             toPath += item + ".public"
                         }
-                        if fm.fileExistsAtPath(toPath) {
-                            do { try fm.removeItemAtPath(toPath) } catch {}
+                        if fm.fileExists(atPath: toPath) {
+                            do { try fm.removeItem(atPath: toPath) } catch {}
                         }
-                        try fm.moveItemAtPath(cookiesDir + "/" + item, toPath: toPath)
+                        try fm.moveItem(atPath: cookiesDir + "/" + item, toPath: toPath)
                     }
                 }
             }
@@ -85,12 +86,12 @@ class PrivateBrowsing {
 
         getApp().tabManager.enterPrivateBrowsingMode(self)
 
-        cookiesFileDiskOperation(.SavePublicBackup)
+        cookiesFileDiskOperation(.savePublicBackup)
 
-        NSURLCache.sharedURLCache().memoryCapacity = 0;
-        NSURLCache.sharedURLCache().diskCapacity = 0;
+        URLCache.shared.memoryCapacity = 0;
+        URLCache.shared.diskCapacity = 0;
 
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        let storage = HTTPCookieStorage.shared
         if let cookies = storage.cookies {
             for cookie in cookies {
                 nonprivateCookies[cookie] = true
@@ -98,16 +99,16 @@ class PrivateBrowsing {
             }
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PrivateBrowsing.cookiesChanged(_:)), name: NSHTTPCookieManagerCookiesChangedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PrivateBrowsing.cookiesChanged(_:)), name: NSNotification.Name.NSHTTPCookieManagerCookiesChanged, object: nil)
 
-        webkitDirLocker(lock: true)
+        webkitDirLocker(true)
 
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "WebKitPrivateBrowsingEnabled")
+        UserDefaults.standard.set(true, forKey: "WebKitPrivateBrowsingEnabled")
         
-        NSNotificationCenter.defaultCenter().postNotificationName(NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.post(name: NotificationPrivacyModeChanged, object: nil)
     }
 
-    private var exitDeferred = Deferred<Void>()
+    fileprivate var exitDeferred = Deferred<Void>()
     func exit() -> Deferred<Void> {
         let isAlwaysPrivate = getApp().profile?.prefs.boolForKey(kPrefKeyPrivateBrowsingAlwaysOn) ?? false
 
@@ -118,9 +119,9 @@ class PrivateBrowsing {
         }
 
         isOn = false
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "WebKitPrivateBrowsingEnabled")
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(allWebViewsKilled), name: kNotificationAllWebViewsDeallocated, object: nil)
+        UserDefaults.standard.set(false, forKey: "WebKitPrivateBrowsingEnabled")
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(allWebViewsKilled), name: NSNotification.Name(rawValue: kNotificationAllWebViewsDeallocated), object: nil)
 
         if getApp().tabManager.tabs.privateTabs.count < 1 {
             postAsyncToMain {
@@ -132,7 +133,7 @@ class PrivateBrowsing {
             postAsyncToMain(2) {
                 if !self.exitDeferred.isFilled {
                     #if !NO_FABRIC
-                        Answers.logCustomEventWithName("PrivateBrowsing exit failed", customAttributes: nil)
+                        Answers.logCustomEvent(withName: "PrivateBrowsing exit failed", customAttributes: nil)
                     #endif
                     #if DEBUG
                         BraveApp.showErrorAlert(title: "PrivateBrowsing", error: "exit failed")
@@ -142,7 +143,7 @@ class PrivateBrowsing {
             }
         }
         
-        NSNotificationCenter.defaultCenter().postNotificationName(NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.post(name: NotificationPrivacyModeChanged, object: nil)
 
         return exitDeferred
     }
@@ -157,26 +158,26 @@ class PrivateBrowsing {
         }
         ReentrantGuard.inFunc = true
 
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         postAsyncToMain(0.1) { // just in case any other webkit object cleanup needs to complete
             if let clazz = NSClassFromString("Web" + "StorageManager") as? NSObjectProtocol {
-                if clazz.respondsToSelector(Selector("shared" + "WebStorageManager")) {
-                    if let storage = clazz.performSelector(Selector("shared" + "WebStorageManager")) {
+                if clazz.responds(to: Selector("shared" + "WebStorageManager")) {
+                    if let storage = clazz.perform(Selector("shared" + "WebStorageManager")) {
                         let o = storage.takeUnretainedValue()
-                        o.performSelector(Selector("delete" + "AllOrigins"))
+                        o.perform(Selector("delete" + "AllOrigins"))
                     }
                 }
             }
             if let clazz = NSClassFromString("Web" + "History") as? NSObjectProtocol {
-                if clazz.respondsToSelector(Selector("optional" + "SharedHistory")) {
-                    if let webHistory = clazz.performSelector(Selector("optional" + "SharedHistory")) {
+                if clazz.responds(to: Selector("optional" + "SharedHistory")) {
+                    if let webHistory = clazz.perform(Selector("optional" + "SharedHistory")) {
                         let o = webHistory.takeUnretainedValue()
-                        o.performSelector(Selector("remove" + "AllItems"))
+                        o.perform(Selector("remove" + "AllItems"))
                     }
                 }
             }
 
-            self.webkitDirLocker(lock: false)
+            self.webkitDirLocker(false)
             getApp().profile?.shutdown()
             getApp().profile?.db.reopenIfClosed()
             BraveApp.setupCacheDefaults()
@@ -185,13 +186,13 @@ class PrivateBrowsing {
             // clears PB in-memory-only shield data, loads from disk
             Domain.loadShieldsIntoMemory {
                 let clear: [Clearable] = [CookiesClearable()]
-                ClearPrivateDataTableViewController.clearPrivateData(clear).uponQueue(dispatch_get_main_queue()) { _ in
-                    self.cookiesFileDiskOperation(.DeletePublicBackup)
-                    let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+                ClearPrivateDataTableViewController.clearPrivateData(clear).uponQueue(DispatchQueue.main) { _ in
+                    self.cookiesFileDiskOperation(.deletePublicBackup)
+                    let storage = HTTPCookieStorage.shared
                     for cookie in self.nonprivateCookies {
                         storage.setCookie(cookie.0)
                     }
-                    self.nonprivateCookies = [NSHTTPCookie: Bool]()
+                    self.nonprivateCookies = [HTTPCookie: Bool]()
 
                     getApp().tabManager.exitPrivateBrowsingMode(self)
 
@@ -202,20 +203,20 @@ class PrivateBrowsing {
         }
     }
 
-    @objc func cookiesChanged(info: NSNotification) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        var newCookies = [NSHTTPCookie]()
+    @objc func cookiesChanged(_ info: Notification) {
+        NotificationCenter.default.removeObserver(self)
+        let storage = HTTPCookieStorage.shared
+        var newCookies = [HTTPCookie]()
         if let cookies = storage.cookies {
             for cookie in cookies {
                 if let readOnlyProps = cookie.properties {
-                    var props = readOnlyProps as [String: AnyObject]
-                    let discard = props[NSHTTPCookieDiscard] as? String
+                    var props = readOnlyProps as [HTTPCookiePropertyKey: Any]
+                    let discard = props[HTTPCookiePropertyKey.discard] as? String
                     if discard == nil || discard! != "TRUE" {
-                        props.removeValueForKey(NSHTTPCookieExpires)
-                        props[NSHTTPCookieDiscard] = "TRUE"
+                        props.removeValue(forKey: HTTPCookiePropertyKey.expires)
+                        props[HTTPCookiePropertyKey.discard] = "TRUE"
                         storage.deleteCookie(cookie)
-                        if let newCookie = NSHTTPCookie(properties: props) {
+                        if let newCookie = HTTPCookie(properties: props) {
                             newCookies.append(newCookie)
                         }
                     }
@@ -226,6 +227,6 @@ class PrivateBrowsing {
             storage.setCookie(c)
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PrivateBrowsing.cookiesChanged(_:)), name: NSHTTPCookieManagerCookiesChangedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PrivateBrowsing.cookiesChanged(_:)), name: NSNotification.Name.NSHTTPCookieManagerCookiesChanged, object: nil)
     }
 }

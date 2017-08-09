@@ -16,7 +16,7 @@ class JSInjector: NSObject {
     /// The amount of time (in seconds) between each delay attempt
     internal var delayLengthInSeconds = Int64(1.5)
     
-    internal func executeBlockOnReady(block: () -> ()) {
+    internal func executeBlockOnReady(_ block: @escaping () -> ()) {
         // Must have `isJavascriptReadyCheck`
         
         guard let readyCheck = isJavascriptReadyCheck else {
@@ -30,8 +30,7 @@ class JSInjector: NSObject {
             readyDelayAttempts += 1
             
             // Perform delayed attempt
-            // TODO: Update with Swift 3 syntax
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayLengthInSeconds * Int64(NSEC_PER_SEC)), dispatch_get_main_queue(), {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(delayLengthInSeconds * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
                 self.executeBlockOnReady(block)
             })
             

@@ -6,19 +6,19 @@ import Foundation
 import WebKit
 
 protocol ReadabilityBrowserHelperDelegate {
-    func readabilityBrowserHelper(readabilityBrowserHelper: ReadabilityBrowserHelper, didFinishWithReadabilityResult result: ReadabilityResult)
+    func readabilityBrowserHelper(_ readabilityBrowserHelper: ReadabilityBrowserHelper, didFinishWithReadabilityResult result: ReadabilityResult)
 }
 
 class ReadabilityBrowserHelper: BrowserHelper {
     var delegate: ReadabilityBrowserHelperDelegate?
 
     init?(browser: Browser) {
-        if let readabilityPath = NSBundle.mainBundle().pathForResource("Readability", ofType: "js"),
-           let readabilitySource = try? NSMutableString(contentsOfFile: readabilityPath, encoding: NSUTF8StringEncoding),
-           let readabilityBrowserHelperPath = NSBundle.mainBundle().pathForResource("ReadabilityBrowserHelper", ofType: "js"),
-           let readabilityBrowserHelperSource = try? NSMutableString(contentsOfFile: readabilityBrowserHelperPath, encoding: NSUTF8StringEncoding) {
-            readabilityBrowserHelperSource.replaceOccurrencesOfString("%READABILITYJS%", withString: readabilitySource as String, options: NSStringCompareOptions.LiteralSearch, range: NSMakeRange(0, readabilityBrowserHelperSource.length))
-            let userScript = WKUserScript(source: readabilityBrowserHelperSource as String, injectionTime: WKUserScriptInjectionTime.AtDocumentEnd, forMainFrameOnly: true)
+        if let readabilityPath = Bundle.main.path(forResource: "Readability", ofType: "js"),
+           let readabilitySource = try? NSMutableString(contentsOfFile: readabilityPath, encoding: String.Encoding.utf8.rawValue),
+           let readabilityBrowserHelperPath = Bundle.main.path(forResource: "ReadabilityBrowserHelper", ofType: "js"),
+           let readabilityBrowserHelperSource = try? NSMutableString(contentsOfFile: readabilityBrowserHelperPath, encoding: String.Encoding.utf8.rawValue) {
+            readabilityBrowserHelperSource.replaceOccurrences(of: "%READABILITYJS%", with: readabilitySource as String, options: NSString.CompareOptions.literal, range: NSMakeRange(0, readabilityBrowserHelperSource.length))
+            let userScript = WKUserScript(source: readabilityBrowserHelperSource as String, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
             browser.webView!.configuration.userContentController.addUserScript(userScript)
         }
     }
@@ -27,8 +27,8 @@ class ReadabilityBrowserHelper: BrowserHelper {
         return "readabilityMessageHandler"
     }
 
-    func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        if let readabilityResult = ReadabilityResult(object: message.body) {
+    func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+        if let readabilityResult = ReadabilityResult(object: message.body as AnyObject) {
             delegate?.readabilityBrowserHelper(self, didFinishWithReadabilityResult: readabilityResult)
         }
    }

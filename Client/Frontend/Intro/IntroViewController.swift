@@ -44,9 +44,9 @@ struct IntroViewControllerUX {
 let IntroViewControllerSeenProfileKey = "IntroViewControllerSeen"
 
 protocol IntroViewControllerDelegate: class {
-    func introViewControllerDidFinish(introViewController: IntroViewController)
+    func introViewControllerDidFinish(_ introViewController: IntroViewController)
     #if !BRAVE
-    func introViewControllerDidRequestToLogin(introViewController: IntroViewController)
+    func introViewControllerDidRequestToLogin(_ introViewController: IntroViewController)
     #endif
 }
 
@@ -68,14 +68,14 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
 
     var bgColors = [UIColor]()
 
-    private var scrollView: IntroOverlayScrollView!
+    fileprivate var scrollView: IntroOverlayScrollView!
 
     var slideVerticalScaleFactor: CGFloat = 1.0
 
     var arrow: UIImageView?
 
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
 
         bgColors.append(BraveUX.BraveButtonMessageInUrlBarColor)
         bgColors.append(UIColor(colorLiteralRed: 69/255.0, green: 155/255.0, blue: 255/255.0, alpha: 1.0))
@@ -98,11 +98,11 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
 
         startBrowsingButton = UIButton()
         startBrowsingButton.backgroundColor = IntroViewControllerUX.StartBrowsingButtonColor
-        startBrowsingButton.setTitle(IntroViewControllerUX.StartBrowsingButtonTitle, forState: UIControlState.Normal)
-        startBrowsingButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        startBrowsingButton.addTarget(self, action: #selector(IntroViewController.SELstartBrowsing), forControlEvents: UIControlEvents.TouchUpInside)
-        startBrowsingButton.contentHorizontalAlignment = .Left
-        startBrowsingButton.contentVerticalAlignment = .Top
+        startBrowsingButton.setTitle(IntroViewControllerUX.StartBrowsingButtonTitle, for: UIControlState.normal)
+        startBrowsingButton.setTitleColor(UIColor.white, for: .normal)
+        startBrowsingButton.addTarget(self, action: #selector(IntroViewController.SELstartBrowsing), for: UIControlEvents.touchUpInside)
+        startBrowsingButton.contentHorizontalAlignment = .left
+        startBrowsingButton.contentVerticalAlignment = .top
         startBrowsingButton.contentEdgeInsets = UIEdgeInsetsMake(20, 20, 0, 0);
 
         view.addSubview(startBrowsingButton)
@@ -112,11 +112,11 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         }
 
         scrollView = IntroOverlayScrollView()
-        scrollView.backgroundColor = UIColor.clearColor()
+        scrollView.backgroundColor = UIColor.clear
         scrollView.accessibilityLabel = Strings.IntroTourCarousel
         scrollView.delegate = self
         scrollView.bounces = false
-        scrollView.pagingEnabled = true
+        scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.contentSize = CGSize(width: scaledWidthOfSlide * CGFloat(IntroViewControllerUX.NumberOfCards), height: scaledHeightOfSlide)
         view.addSubview(scrollView)
@@ -136,11 +136,11 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         }
 
         pageControl = UIPageControl()
-        pageControl.pageIndicatorTintColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
-        pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
+        pageControl.pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.3)
+        pageControl.currentPageIndicatorTintColor = UIColor.black
         pageControl.numberOfPages = IntroViewControllerUX.NumberOfCards
         pageControl.accessibilityIdentifier = "pageControl"
-        pageControl.addTarget(self, action: #selector(IntroViewController.changePage), forControlEvents: UIControlEvents.ValueChanged)
+        pageControl.addTarget(self, action: #selector(IntroViewController.changePage), for: UIControlEvents.valueChanged)
 
         view.addSubview(pageControl)
         pageControl.snp_makeConstraints { (make) -> Void in
@@ -149,7 +149,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         }
 
 
-        func addCard(text: String, title: String) {
+        func addCard(_ text: String, title: String) {
             let introView = UIView()
             self.introViews.append(introView)
             self.addLabelsToIntroView(introView, text: text, title: title)
@@ -174,8 +174,8 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         }
 
         // Make whole screen scrollable by bringing the scrollview to the top
-        view.bringSubviewToFront(scrollView)
-        view.bringSubviewToFront(pageControl)
+        view.bringSubview(toFront: scrollView)
+        view.bringSubview(toFront: pageControl)
 
 
         // Activate the first card
@@ -185,28 +185,28 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     }
 
     func setupTextOnButton() {
-        startBrowsingButton.contentHorizontalAlignment = .Left
-        startBrowsingButton.contentVerticalAlignment = .Top
+        startBrowsingButton.contentHorizontalAlignment = .left
+        startBrowsingButton.contentVerticalAlignment = .top
         startBrowsingButton.contentEdgeInsets = UIEdgeInsetsMake(20, 20, 0, 0);
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IntroViewController.SELDynamicFontChanged(_:)), name: NotificationDynamicFontChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IntroViewController.SELDynamicFontChanged(_:)), name: NotificationDynamicFontChanged, object: nil)
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NotificationDynamicFontChanged, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationDynamicFontChanged, object: nil)
 
         getApp().profile!.prefs.setInt(1, forKey: IntroViewControllerSeenProfileKey)
 
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             (getApp().browserViewController as! BraveBrowserViewController).presentOptInDialog()
         }
     }
 
-    func SELDynamicFontChanged(notification: NSNotification) {
+    func SELDynamicFontChanged(_ notification: Notification) {
         guard notification.name == NotificationDynamicFontChanged else { return }
         setupDynamicFonts()
     }
@@ -222,25 +222,25 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         for i in 0..<IntroViewControllerUX.NumberOfCards {
             if let imageView = slideContainer.subviews[i] as? UIImageView {
                 imageView.frame = CGRect(x: CGFloat(i)*scaledWidthOfSlide, y: 0, width: scaledWidthOfSlide, height: scaledHeightOfSlide)
-                imageView.contentMode = UIViewContentMode.ScaleAspectFit
+                imageView.contentMode = UIViewContentMode.scaleAspectFit
             }
         }
         slideContainer.frame = CGRect(x: 0, y: 0, width: scaledWidthOfSlide * CGFloat(IntroViewControllerUX.NumberOfCards), height: scaledHeightOfSlide)
         scrollView.contentSize = CGSize(width: slideContainer.frame.width, height: slideContainer.frame.height)
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return false
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         // This actually does the right thing on iPad where the modally
         // presented version happily rotates with the iPad orientation.
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
     }
 
     func SELstartBrowsing() {
@@ -277,22 +277,22 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         #endif
     }
 
-    private var accessibilityScrollStatus: String {
-        return String(format: Strings.IntroductorySlideXofX_template, NSNumberFormatter.localizedStringFromNumber(pageControl.currentPage+1, numberStyle: .DecimalStyle), NSNumberFormatter.localizedStringFromNumber(IntroViewControllerUX.NumberOfCards, numberStyle: .DecimalStyle))
+    fileprivate var accessibilityScrollStatus: String {
+        return String(format: Strings.IntroductorySlideXofX_template, NumberFormatter.localizedString(from: NSNumber(value: pageControl.currentPage+1), number: .decimal), NumberFormatter.localizedString(from: NSNumber(value: IntroViewControllerUX.NumberOfCards), number: .decimal))
     }
 
     func changePage() {
         let swipeCoordinate = CGFloat(pageControl.currentPage) * scrollView.frame.size.width
-        scrollView.setContentOffset(CGPointMake(swipeCoordinate, 0), animated: true)
+        scrollView.setContentOffset(CGPoint(x: swipeCoordinate, y: 0), animated: true)
     }
 
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         // Need to add this method so that tapping the pageControl will also change the card texts. 
         // scrollViewDidEndDecelerating waits until the end of the animation to calculate what card it's on.
         scrollViewDidEndDecelerating(scrollView)
     }
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let page = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
         pageControl.currentPage = page
         if page < introViews.count {
@@ -301,10 +301,10 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     }
 
 
-    private func setActiveIntroView(newIntroView: UIView, forPage page: Int) {
+    fileprivate func setActiveIntroView(_ newIntroView: UIView, forPage page: Int) {
 
         if introView != newIntroView {
-            UIView.animateWithDuration(IntroViewControllerUX.FadeDuration, animations: { () -> Void in
+            UIView.animate(withDuration: IntroViewControllerUX.FadeDuration, animations: { () -> Void in
                 self.introView?.alpha = 0
                 self.introView = newIntroView
                 newIntroView.alpha = 1.0
@@ -317,36 +317,36 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
-    private var scaledWidthOfSlide: CGFloat {
+    fileprivate var scaledWidthOfSlide: CGFloat {
         return view.frame.width
     }
 
-    private var scaledHeightOfSlide: CGFloat {
+    fileprivate var scaledHeightOfSlide: CGFloat {
         return (view.frame.width / slides[0].size.width) * slides[0].size.height / slideVerticalScaleFactor
     }
 
-    private func attributedStringForLabel(text: String) -> NSMutableAttributedString {
+    fileprivate func attributedStringForLabel(_ text: String) -> NSMutableAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = IntroViewControllerUX.CardTextLineHeight
-        paragraphStyle.alignment = .Center
+        paragraphStyle.alignment = .center
 
         let string = NSMutableAttributedString(string: text)
         string.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, string.length))
         return string
     }
 
-    private func addLabelsToIntroView(introView: UIView, text: String, title: String = "") {
+    fileprivate func addLabelsToIntroView(_ introView: UIView, text: String, title: String = "") {
         let label = InsetLabel()
 
         label.numberOfLines = 0
         label.attributedText = attributedStringForLabel(text)
-        label.textAlignment = .Left
+        label.textAlignment = .left
         textLabels.append(label)
 
         addViewsToIntroView(introView, label: label, title: title)
     }
 
-    private func addViewsToIntroView(introView: UIView, label: UIView, title: String = "") {
+    fileprivate func addViewsToIntroView(_ introView: UIView, label: UIView, title: String = "") {
         introView.addSubview(label)
         label.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(introView)
@@ -361,8 +361,8 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
             }
 
             titleLabel.numberOfLines = 0
-            titleLabel.textAlignment = NSTextAlignment.Left
-            titleLabel.lineBreakMode = .ByWordWrapping
+            titleLabel.textAlignment = NSTextAlignment.left
+            titleLabel.lineBreakMode = .byWordWrapping
             titleLabel.text = title
             titleLabels.append(titleLabel)
             introView.addSubview(titleLabel)
@@ -376,33 +376,33 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
 
     }
 
-    private func setupDynamicFonts() {
+    fileprivate func setupDynamicFonts() {
         let biggerIt = self.view.frame.width <= 320 ? CGFloat(0) : CGFloat(3)
-        startBrowsingButton.titleLabel?.font = UIFont.systemFontOfSize(DynamicFontHelper.defaultHelper.IntroBigFontSize)
+        startBrowsingButton.titleLabel?.font = UIFont.systemFont(ofSize: DynamicFontHelper.defaultHelper.IntroBigFontSize)
 
 
         for titleLabel in titleLabels {
-            titleLabel.font = UIFont.systemFontOfSize(DynamicFontHelper.defaultHelper.IntroBigFontSize + biggerIt, weight: UIFontWeightBold)
+            titleLabel.font = UIFont.systemFont(ofSize: DynamicFontHelper.defaultHelper.IntroBigFontSize + biggerIt, weight: UIFontWeightBold)
         }
 
         for label in textLabels {
-            label.font = UIFont.systemFontOfSize(DynamicFontHelper.defaultHelper.IntroStandardFontSize + biggerIt)
+            label.font = UIFont.systemFont(ofSize: DynamicFontHelper.defaultHelper.IntroStandardFontSize + biggerIt)
         }
     }
 }
 
-private class IntroOverlayScrollView: UIScrollView {
+fileprivate class IntroOverlayScrollView: UIScrollView {
     weak var signinButton: UIButton?
 
-    private override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+    fileprivate override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         if let signinFrame = signinButton?.frame {
-            let convertedFrame = convertRect(signinFrame, fromView: signinButton?.superview)
-            if CGRectContainsPoint(convertedFrame, point) {
+            let convertedFrame = convert(signinFrame, from: signinButton?.superview)
+            if convertedFrame.contains(point) {
                 return false
             }
         }
 
-        return CGRectContainsPoint(CGRect(origin: self.frame.origin, size: CGSize(width: self.contentSize.width, height: self.frame.size.height)), point)
+        return CGRect(origin: self.frame.origin, size: CGSize(width: self.contentSize.width, height: self.frame.size.height)).contains(point)
     }
 }
 

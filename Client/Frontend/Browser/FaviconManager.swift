@@ -16,9 +16,9 @@ class FaviconManager : BrowserHelper {
         self.profile = profile
         self.browser = browser
 
-        if let path = NSBundle.mainBundle().pathForResource("Favicons", ofType: "js") {
-            if let source = try? NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String {
-                let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.AtDocumentEnd, forMainFrameOnly: true)
+        if let path = Bundle.main.path(forResource: "Favicons", ofType: "js") {
+            if let source = try? NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String {
+                let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
                 browser.webView!.configuration.userContentController.addUserScript(userScript)
             }
         }
@@ -28,14 +28,14 @@ class FaviconManager : BrowserHelper {
         return "faviconsMessageHandler"
     }
 
-    func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        let manager = SDWebImageManager.sharedManager()
+    func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+        let manager = SDWebImageManager.shared()
         guard let tab = browser else { return }
-        tab.favicons.removeAll(keepCapacity: false)
+        tab.favicons.removeAll(keepingCapacity: false)
 
         // Result is in the form {'documentLocation' : document.location.href, 'http://icon url 1': "<type>", 'http://icon url 2': "<type" }
-        guard let icons = message.body as? [String: String], documentLocation = icons["documentLocation"] else { return }
-        guard let currentUrl = NSURL(string: documentLocation) else { return }
+        guard let icons = message.body as? [String: String], let documentLocation = icons["documentLocation"] else { return }
+        guard let currentUrl = URL(string: documentLocation) else { return }
 
         if documentLocation.contains(WebServer.sharedInstance.base) {
             return
@@ -48,20 +48,20 @@ class FaviconManager : BrowserHelper {
                 continue
             }
 
-            if let type = Int(item.1), _ = NSURL(string: item.0), iconType = IconType(rawValue: type) {
-                let favicon = Favicon(url: item.0, date: NSDate(), type: iconType)
+            if let type = Int(item.1), let _ = URL(string: item.0), let iconType = IconType(rawValue: type) {
+                let favicon = Favicon(url: item.0, date: Date(), type: iconType)
                 favicons.append(favicon)
             }
         }
 
 
-        let options = tab.isPrivate ? [SDWebImageOptions.LowPriority, SDWebImageOptions.CacheMemoryOnly] : [SDWebImageOptions.LowPriority]
+        let options = tab.isPrivate ? [SDWebImageOptions.lowPriority, SDWebImageOptions.cacheMemoryOnly] : [SDWebImageOptions.lowPriority]
 
-        func downloadIcon(icon: Favicon) {
-            if let iconUrl = NSURL(string: icon.url) {
-                manager.downloadImageWithURL(iconUrl, options: SDWebImageOptions(options), progress: nil, completed: { (img, err, cacheType, success, url) -> Void in
-                    let fav = Favicon(url: url.absoluteString ?? "",
-                        date: NSDate(),
+        func downloadIcon(_ icon: Favicon) {
+            if let iconUrl = URL(string: icon.url) {
+                manager?.downloadImage(with: iconUrl, options: SDWebImageOptions(options), progress: nil, completed: { (img, err, cacheType, success, url) -> Void in
+                    let fav = Favicon(url: url?.absoluteString ?? "",
+                        date: NSDate() as Date,
                         type: icon.type)
 
                     let spotlight = tab.getHelper(SpotlightHelper.self)
@@ -70,21 +70,21 @@ class FaviconManager : BrowserHelper {
                         fav.width = Int(img.size.width)
                         fav.height = Int(img.size.height)
                     } else {
-                        if favicons.count == 1 && favicons[0].type == .Guess {
+                        if favicons.count == 1 && favicons.first?.type == .guess {
                             // No favicon is indicated in the HTML
-                            spotlight?.updateImage(forURL: url)
+                            spotlight?.updateImage(forURL: url!)
                         }
                         downloadBestIcon()
                         return
                     }
 
                     if !tab.isPrivate {
-                        FaviconMO.add(favicon: fav, forSiteUrl: currentUrl)
+                        FaviconMO.add(fav, forSiteUrl: currentUrl)
                         if tab.favicons.isEmpty {
-                            spotlight?.updateImage(img, forURL: url)
+                            spotlight?.updateImage(img, forURL: url!)
                         }
                     }
-                    tab.favicons[currentUrl.normalizedHost() ?? ""] = fav
+                    tab.favicons[currentUrl.normalizedHost ?? ""] = fav
                 })
             }
         }

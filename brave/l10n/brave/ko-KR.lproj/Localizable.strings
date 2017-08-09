@@ -1,6 +1,851 @@
 "CFBundleDisplayName" = "Brave에서 열기";
 
+/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
+"%@ search" = "%@ 검색";
+
+/* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"+" = "+";
+
+/* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"-" = "-";
+
+/* Button for reader mode font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"Aa" = "Aa";
+
+/* About settings section title */
+"About" = "정보";
+
+/* Button to add a bookmark */
+"Add Bookmark" = "북마크에 추가하기";
+
+/* Add device to sync */
+"Add Device" = "기기 추가";
+
+/* Accessibility label for the Add Tab button in the Tab Tray. */
+"Add Tab" = "탭 추가하기";
+
+/* Accessibility label for action adding current page to reading list. */
+"Add to Reading List" = "읽기 목록에 추가하기";
+
+/* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
+"Added page to Reading List" = "읽기 목록에 추가된 페이지";
+
+/* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
+"Address and Search" = "주소 및 검색";
+
+/* Shields Ads Stat */
+/* individual blocking statistic title */
+"Ads and Trackers" = "광고 및 개인정보 트래커";
+
+/* Label for button to perform advanced actions on the error page */
+"Advanced" = "고급 설정";
+
+/* Ask user if site can open iTunes store URL */
+"Allow %@ to open iTunes?" = "%@에서 iTunes를 열도록 허용하시겠습니까?";
+
+/* tabs bar show/hide option */
+"Always show" = "항상 표시";
+
+/* Message shown in the dialog prompting users if they want to clear everything */
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "모든 데이터를 삭제하시겠습니까? 데이터를 삭제하면 열려있는 모든 탭이 닫힙니다.";
+
+/* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
+"Are you sure you want to delete it and its contents?" = "데이터 및 이와 관련된 콘텐츠를 모두 삭제하시겠습니까?";
+
 /* No comment provided by engineer. */
+"Are you sure?" = "계속하시겠습니까?";
+
+/* Accessibility Label for the browser toolbar Back button */
+"Back" = "뒤로 가기";
+
+/* cookie settings option */
+"Block 3rd party cookies" = "타사 쿠키 차단";
+
 /* No comment provided by engineer. */
+"Block Ads & Tracking" = "광고와 개인정보 추적 차단";
+
+/* Brave panel individual toggle title */
+"Block Phishing" = "피싱 차단";
+
 /* No comment provided by engineer. */
+"Block Phishing and Malware" = "피싱 및 악성 코드 차단";
+
+/* Block pop-up windows setting */
+"Block Pop-up Windows" = "팝업 창 차단";
+
+/* Setting to enable popup blocking */
+"Block Popups" = "팝업 차단";
+
 /* No comment provided by engineer. */
+"Block Scripts" = "스크립트 차단";
+
+/* cookie settings option */
+"Block all cookies" = "모든 쿠키 차단";
+
+/* title for section showing page blocking statistics */
+"Blocking Monitor" = "차단 모니터";
+
+/* Accessibility Label for the browser toolbar Bookmark button */
+"Bookmark" = "북마크";
+
+/* Bookmark Folder Section Title */
+"Bookmark Folder" = "북마크 폴더";
+
+/* Bookmark Info Section Title */
+"Bookmark Info" = "북마크 정보";
+
+/* title for bookmarks panel */
+"Bookmarks" = "북마크";
+
+/* The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android. */
+"Bookmarks Menu" = "북마크 메뉴";
+
+/* The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android. */
+"Bookmarks Toolbar" = "북마크 툴바";
+
+/* Button to show the bookmarks and history panel */
+"Bookmarks and History Panel" = "북마크 및 방문기록 패널";
+
+/* Button to show the brave panel */
+"Brave Panel" = "Brave 패널";
+
+/* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
+"Brave Shield Defaults" = "Brave Shield 기본값";
+
+/* Brave sync page title */
+"Brave Sync" = "Brave 동기화";
+
+/* Shown in intro screens */
+"Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency." = "Brave 브라우저는 광고를 차단합니다.
+Brave 브라우저는 개인정보 추적을 차단합니다.
+Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
+
+/* email subject */
+"Brave for iOS Feedback" = "iOS 피드백용 Brave";
+
+/* Shown in intro screens */
+"Brave is Faster,\nand here's why..." = "Brave 브라우저는 빠릅니다,
+왜 그런지 여기에 설명되어 있습니다...";
+
+/* Shown in intro screens */
+"Brave keeps you safe as you browse." = "Brave 브라우저는 여러분이 브라우징하는 동안 안전을 유지합니다.";
+
+/* No comment provided by engineer. */
+"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave 브라우저에는 방문기록 또는 쿠키는 저장되지 않지만 새 북마크는 저장됩니다.";
+
+/* See http://mzl.la/1G7uHo7 */
+"Brave would like to access your Photos" = "Brave 브라우저가 내 사진에 액세스하려고 합니다.";
+
+/* Accessibility label for brightness adjustment slider in Reader Mode display settings */
+"Brightness" = "밝기";
+
+/* Shown in intro screens */
+"Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Brave 브라우저로 여러분의 개인 정보를 보호하고 있습니다. 그 어떤 학습과 설정, 추가 설치를 요구하지 않습니다.";
+
+/* Settings item for clearing browsing history */
+"Browsing History" = "브라우징 히스토리";
+
+/* Settings item for clearing the cache */
+"Cache" = "캐시";
+
+/* Alert Call Button */
+"Call" = "호출";
+
+/* No comment provided by engineer. */
+"Cancel" = "취소";
+
+/* Accessibility hint for the color theme setting buttons in reader mode display settings */
+"Changes color theme." = "색상 테마를 변경합니다.";
+
+/* Accessibility hint for the font type buttons in reader mode display settings */
+"Changes font type." = "글꼴 유형을 변경합니다.";
+
+/* Sync device settings footer details */
+"Changing settings will only affect data that this device shares with others." = "설정을 변경하면 이 기기가 다른 기기와 공유한 데이터에만 영향을 미칩니다.";
+
+/* Used as a button label in the dialog to Clear private data dialog */
+"Clear" = "지우기";
+
+/* Title of the Clear private data dialog. */
+"Clear Everything" = "모두 지우기";
+
+/* Button in settings that clears private data for the selected items. Also used as section title in settings panel */
+"Clear Private Data" = "개인 정보 지우기";
+
+/* No comment provided by engineer. */
+"Clear Search" = "검색어 지우기";
+
+/* Accessibility label for action denoting closing a tab in tab list (tray) */
+"Close" = "닫기";
+
+/* Setting for closing private tabs */
+"Close Private Tabs" = "비공개 탭 닫기";
+
+/* No comment provided by engineer. */
+"Close Tab" = "탭 닫기";
+
+/* No comment provided by engineer. */
+"Closing tab" = "탭 닫기";
+
+/* Code words section title */
+"Code Words" = "코드 단어";
+
+/* Cookie settings option title */
+"Cookie Control" = "쿠키 제어";
+
+/* Settings item for clearing cookies */
+"Cookies" = "쿠키";
+
+/* No comment provided by engineer. */
+"Copy" = "복사";
+
+/* Copy the URL from the location bar */
+"Copy Address" = "주소 복사";
+
+/* Context menu item for copying an image to the clipboard */
+"Copy Image" = "이미지 복사";
+
+/* Context menu item for copying a link URL to the clipboard */
+"Copy Link" = "링크 복사";
+
+/* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
+"Could not add page to Reading List. Maybe it's already there?" = "읽기 목록에 페이지를 추가할 수 없습니다. 이미 추가된 페이지가 아닐까요?";
+
+/* Dark theme setting in Reading View settings */
+"Dark" = "어두운";
+
+/* Accessibility label for button decreasing font size in display settings of reader mode */
+"Decrease text size" = "텍스트 크기 축소";
+
+/* Open search section of settings */
+"Default Search Engine" = "기본 검색 엔진";
+
+/* No comment provided by engineer. */
+"Delete" = "삭제";
+
+/* Title for deselecting all selected logins */
+"Deselect All" = "모두 선택취소";
+
+/* The folder name for the virtual folder that contains all desktop bookmarks. */
+"Desktop Bookmarks" = "데스크톱 북마크";
+
+/* Title for new device popup */
+"Device Name" = "기기 이름";
+
+/* Sync device settings page title. */
+"Devices" = "기기";
+
+/* Sync you browser settings across devices. */
+"Devices & Settings" = "기기 및 설정";
+
+/* cookie settings option */
+"Don't block cookies" = "쿠키 차단 안함";
+
+/* No comment provided by engineer. */
+"Done" = "완료";
+
+/* Button to not save the user's password */
+"Don’t Save" = "저장하지 않음";
+
+/* brave shield on/off toggle off state */
+"Down" = "아래로";
+
+/* No comment provided by engineer. */
+"Edit" = "편집";
+
+/* Accessibility label for entering search mode for logins */
+"Enter Search Mode" = "검색 모드 시작";
+
+/* Sync enter code words */
+"Enter code words" = "코드 단어 입력";
+
+/* Enter sync code words below */
+"Enter code words below" = "아래에 코드 단어 입력";
+
+/* Description for new folder popup */
+"Enter folder name" = "폴더 이름 입력";
+
+/* Shields Time Saved Stat */
+/* Private tab details */
+"Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "비공개 탭에서 방문한 사이트가 로컬에 저장되지는 않지만, ISP, 고용주 또는 방문한 사이트에 익명 또는 보이지 않는 상태가 되는 것은 아닙니다.";
+
+/* No comment provided by engineer. */
+"Find" = "찾기";
+
+/* Find text in page. */
+"Find \"%@\"" = "\"%@\" 찾기";
+
+/* Share action title */
+"Find in Page" = "페이지에서 찾기";
+
+/* individual blocking statistic title */
+"Fingerprinting Methods" = "Fingerprinting 방식";
+
+/* No comment provided by engineer. */
+"Fingerprinting Protection" = "Fingerprinting 보호";
+
+/* blocking stat title */
+"Fingerprinting\nProtection" = "Fingerprinting
+보호";
+
+/* Folder */
+"Folder" = "폴더";
+
+/* Accessibility Label for the browser toolbar Forward button */
+"Forward" = "앞으로";
+
+/* General settings section title */
+"General" = "일반";
+
+/* New sync code button title */
+"Get a new sync code" = "새 동기화 코드 받기";
+
+/* Shown in intro screens */
+"Get ready to experience a Faster, Safer, Better Web." = "빠르고 안전하고 더 나은 웹을 경험할 준비를 하세요.";
+
+/* Label for button to go back from the error page */
+"Go Back" = "뒤로 가기";
+
+/* Grand camera access */
+"Grant camera access" = "카메라 액세스 권한 부여";
+
+/* No comment provided by engineer. */
+"HTTPS Everywhere" = "HTTPS Everywhere";
+
+/* individual blocking statistic title */
+"HTTPS Upgrades" = "HTTPS 업그레이드";
+
+/* Shields Https Stat */
+/* Hide password text selection menu item */
+"Hide" = "숨기기";
+
+/* Panel accessibility label */
+"History" = "방문기록";
+
+/* Shown in intro screens */
+"In case you hit a speed bump" = "속도 문제가 발생한 경우";
+
+/* Accessibility label for button increasing font size in display settings of reader mode */
+"Increase text size" = "텍스트 크기 확대";
+
+/* title for per-site shield toggles */
+"Individual Controls" = "개별 통제";
+
+/* Accessibility label for the introduction tour carousel */
+"Intro Tour Carousel" = "투어 캐러셀 소개";
+
+/* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
+"Introductory slide %@ of %@" = "소개 슬라이드 %1$@/%2$@";
+
+/* Additional warning text when clicking the Advanced button on error pages */
+"It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk." = "공격자에 의해 구성이 잘못되거나 변조될 수 있습니다. 이런 잠재적인 위험을 수락할 경우 진행합니다.";
+
+/* Footer label describing when the login was last modified with the timestamp as the parameter */
+"Last modified %@" = "최종 수정 %@";
+
+/* History tableview section header */
+"Last month" = "지난달";
+
+/* History tableview section header */
+"Last week" = "지난주";
+
+/* Text button displayed when there are no tabs open while in private mode */
+"Learn More" = "자세히 알아보기";
+
+/* Private tab information link */
+"Learn about private tabs." = "비공개 탭에 대해 자세히 알아보세요.";
+
+/* Light theme setting in Reading View settings */
+"Light" = "밝은";
+
+/* Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"Load original page" = "원래 페이지 로드";
+
+/* Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app. */
+"Loading content…" = "콘텐츠 로드 중…";
+
+/* Bookmark folder location */
+"Location" = "위치";
+
+/* Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager. */
+"Logins" = "로그인";
+
+/* No comment provided by engineer. */
+"Logins will be permanently removed." = "로그인이 완전히 제거됩니다.";
+
+/* No comment provided by engineer. */
+"Logins will be removed from all connected devices." = "모든 연결된 기기에서 로그인이 제거됩니다.";
+
+/* Name for Mark as read button in reader mode */
+"Mark as Read" = "읽은 상태로 표시";
+
+/* Name for Mark as unread button in reader mode */
+"Mark as Unread" = "읽지 않은 상태로 표시";
+
+/* The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android. */
+"Mobile Bookmarks" = "모바일 북마크";
+
+/* Bookmark title / Device name */
+"Name" = "이름";
+
+/* Accessibility label for the navigation toolbar displayed at the bottom of the screen. */
+"Navigation Toolbar" = "내비게이션 툴바";
+
+/* tabs bar show/hide option */
+"Never show" = "다시 보지 않음";
+
+/* Title for new folder popup */
+"New Folder" = "새 폴더";
+
+/* No comment provided by engineer. */
+"New Private Tab" = "새 비공개 탭";
+
+/* No comment provided by engineer. */
+"New Tab" = "새 탭";
+
+/* Accessibility label for next result button in Find in Page Toolbar. */
+"Next in-page result" = "다음 페이지 결과";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"No" = "아니오";
+
+/* Title displayed when no logins are found after searching */
+"No logins found" = "로그인 정보를 찾을 수 없음";
+
+/* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
+"No tabs" = "탭 없음";
+
+/* shields overview footer message */
+"Note: Some sites may require scripts to work properly so this shield is turned off by default." = "참고: 일부 사이트에서는 이 차단을 기본적으로 비활성화하기 위해 스크립트가 정상 작동하도록 요구할 수 있습니다.";
+
+/* OK button */
+"OK" = "확인";
+
+/* Toggled OFF accessibility value */
+"Off" = "끄기";
+
+/* Settings item for clearing website data */
+"Offline Website Data" = "오프라인 웹사이트 데이터";
+
+/* Toggled ON accessibility value */
+"On" = "켜기";
+
+/* Open and Fill website text selection menu item */
+"Open & Fill" = "열기 & 채우기";
+
+/* Share action title */
+"Open Desktop Site tab" = "데스크탑 사이트 탭 열기";
+
+/* Context menu for opening image in new tab */
+"Open Image In New Tab" = "새 탭에서 이미지 열기";
+
+/* Context menu option for opening a link in a new private tab */
+"Open In New Private Tab" = "새 비공개 탭으로 열기";
+
+/* Context menu item for opening a link in a new tab */
+"Open In New Tab" = "새 탭에서 열기";
+
+/* See http://mzl.la/1G7uHo7 */
+"Open Settings" = "설정 열기";
+
+/* See http://mzl.la/1LXbDOL */
+"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "제목 표시줄에 책 아이콘이 나타날 때 이를 탭하면 읽기 전용 뷰로 기사를 엽니다.";
+
+/* Shown in error pages for files that can't be shown and need to be downloaded. */
+"Open in Safari" = "Safari에서 열기";
+
+/* String indicating that the file can be opened in another application on the device */
+"Open in…" = "열기...";
+
+/* Sync pair device settings section title */
+"Pair" = "페어링";
+
+/* Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list). */
+"Panel Chooser" = "패널 선택자";
+
+/* Accessibility Label for the browser toolbar Password Manager button */
+"Password Manager" = "비밀번호 관리자";
+
+/* Setting for behaviour of password manager button */
+"Password Manager Button" = "비밀번호 관리자 버튼";
+
+/* Paste the URL into the location bar */
+"Paste" = "붙여넣기";
+
+/* Paste the URL into the location bar and visit */
+"Paste & Go" = "붙여넣기 및 이동";
+
+/* Description for new device popup */
+"Please enter a name for this device" = "기기의 이름을 입력하세요.";
+
+/* Accessibility label for previous result button in Find in Page Toolbar. */
+"Previous in-page result" = "이전 페이지 결과";
+
+/* Settings privacy section title */
+"Privacy" = "개인정보 보호";
+
+/* Show Brave Browser Privacy Policy page from the Privacy section in the settings. */
+"Privacy Policy" = "개인정보 보호 정책";
+
+/* Private button title */
+"Private" = "비공개";
+
+/* No comment provided by engineer. */
+"Private Browsing" = "비공개 브라우징";
+
+/* Setting to keep app in private mode */
+"Private Browsing Only" = "비공개 브라우징 전용";
+
+/* Accessibility label for toggling on/off private mode */
+"Private Mode" = "비공개 모드";
+
+/* Private mode icon next to location string */
+"Private mode icon" = "비공개 모드 아이콘";
+
+/* QR Code section title */
+"QR Code" = "QR 코드";
+
+/* Title for quick-search engines settings section. */
+"Quick-search Engines" = "빠른 검색 엔진";
+
+/* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
+"Reader Mode Settings" = "읽기 전용 모드 설정";
+
+/* Accessibility label for the Reader View button */
+"Reader View" = "읽기 전용 뷰";
+
+/* Panel accessibility label */
+"Reading list" = "읽기 목록";
+
+/* Accessibility Label for the browser toolbar Reload button */
+"Reload" = "새로고침";
+
+/* No comment provided by engineer. */
+"Reload Page" = "페이지 새로고침";
+
+/* Action button for deleting_history_entries_in_the_history_panel. */
+"Remove" = "제거";
+
+/* Name for button removing current article from reading list in reader mode */
+"Remove from Reading List" = "읽기 목록에서 제거하기";
+
+/* Button shown in editing mode to remove this site from the top sites panel. */
+"Remove page" = "페이지 제거";
+
+/* Sync remove device. */
+"Remove this device" = "이 기기 제거";
+
+/* Sync remove device? */
+/* Show mail composer to report a bug. */
+"Report a bug" = "버그 신고";
+
+/* Reveal password text selection menu item */
+"Reveal" = "공개";
+
+/* Font type setting in the reading view settings */
+"Sans-serif" = "Sans-serif";
+
+/* Context menu item for saving an image */
+"Save Image" = "이미지 저장";
+
+/* Button to save the user's password */
+"Save Login" = "로그인 정보 저장";
+
+/* Setting to enable the built-in password manager */
+"Save Logins" = "로그인 정보 저장";
+
+/* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
+"Save login %@ for %@?" = "%2$@에 대한 %1$@ 로그인 정보를 저장하시겠습니까?";
+
+/* See http://mzl.la/1LXbDOL */
+"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "읽기 전용 뷰 컨트롤에 책 더하기 아이콘을 눌러 읽기 목록에 페이지를 저장합니다.";
+
+/* Prompt for saving a password with no username. The parameter is the hostname of the site. */
+"Save password for %@?" = "%@에 대한 비밀번호를 저장하시겠습니까?";
+
+/* Settings item for clearing passwords and login data */
+"Saved Logins" = "저장된 로그인 정보";
+
+/* Scan sync code button title */
+"Scan or enter code" = "코드 스캔 또는 입력";
+
+/* individual blocking statistic title */
+"Scripts Blocked" = "차단된 스크립트";
+
+/* No comment provided by engineer. */
+"Search" = "검색";
+
+/* Accessibility label for the search input field in the Logins list */
+"Search Input Field" = "검색어 입력란";
+
+/* No comment provided by engineer. */
+"Search Settings" = "검색 설정";
+
+/* No comment provided by engineer. */
+"Search in page" = "페이지에서 검색";
+
+/* The text shown in the URL bar on about:home */
+"Search or enter address" = "검색하거나 주소를 입력";
+
+/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
+"Search suggestions from %@" = "%@의 추천 검색어";
+
+/* Accessibility hint describing the action performed when a search suggestion is clicked */
+"Searches for the suggestion" = "추천 검색어 검색";
+
+/* Accessibility label for the lock icon, which is only present if the connection is secure */
+"Secure connection" = "보안 연결";
+
+/* Title for selecting all logins */
+"Select All" = "모두 선택";
+
+/* No comment provided by engineer. */
+"Select Location Bar" = "주소창 선택";
+
+/* option in settings screen */
+"Send crash reports and metrics" = "오류 보고서 및 통계 전송";
+
+/* Sepia theme setting in Reading View settings */
+"Sepia" = "Sepia";
+
+/* Font type setting in the reading view settings */
+"Serif" = "Serif";
+
+/* No comment provided by engineer. */
+"Settings" = "설정";
+
+/* Accessibility Label for the browser toolbar Share button */
+"Share" = "공유";
+
+/* Context menu item for sharing a link URL */
+"Share Link" = "링크 공유";
+
+/* message shown briefly in URL bar */
+"Shields Down" = "차단 비활성화";
+
+/* message shown briefly in URL bar */
+"Shields Up" = "차단 활성화";
+
+/* Button to show the bookmarks list */
+"Show Bookmarks" = "북마크 보기";
+
+/* Button to show the history list */
+"Show History" = "방문기록 보기";
+
+/* No comment provided by engineer. */
+"Show Next Tab" = "다음 탭 보기";
+
+/* No comment provided by engineer. */
+"Show Previous Tab" = "이전 탭 보기";
+
+/* Label for show search suggestions setting. */
+"Show Search Suggestions" = "추천 검색어 보기";
+
+/* Accessibility Label for the tabs button in the browser toolbar */
+"Show Tabs" = "탭 보기";
+
+/* Setting to show/hide the tabs bar */
+"Show Tabs Bar" = "탭 바 보기";
+
+/* Show the on-boarding screen again from the settings */
+"Show Tour" = "투어 보기";
+
+/* tabs bar show/hide option */
+"Show in landscape only" = "항상 가로모드로 표시";
+
+/* Password Manager show picker option */
+/* shields overview message */
+"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "사이트 Shields를 사용하면 방문하는 사이트별로 광고와 트래커를 차단할지 관리할 수 있습니다. 특정 사이트에서 광고를 표시하려면, 해당 사이트에서 활성화합니다.";
+
+/* Brave panel topmost title */
+"Site shield settings" = "사이트 shield 설정";
+
+/* No comment provided by engineer. */
+"Start Browsing" = "브라우징 시작";
+
+/* Accessibility Label for the browser toolbar Stop button */
+"Stop" = "일시중지";
+
+/* Support section title */
+"Support" = "지원";
+
+/* Accessibility hint for tab tray's displayed tab. */
+"Swipe right or left with three fingers to close the tab." = "세 손가락으로 오른쪽이나 왼쪽으로 스와이프하여 탭을 닫습니다.";
+
+/* Sync settings section title */
+"Sync" = "동기화";
+
+/* Sync settings welcome */
+"Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started." = "Brave 동기화를 사용하여 기기 간 브라우저 데이터를 안전하게 동기화할 수 있으며, 이때 계정을 만들 필요가 없습니다. 시작하려면 아래를 탭하세요.";
+
+/* Sync device settings section title */
+"Sync on this device" = "이 기기에서 동기화";
+
+/* Sync to existing device */
+"Sync to device" = "기기에 동기화";
+
+/* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
+"Tab %@ of %@" = "탭 %1$@/%2$@";
+
+/* Accessibility label for the Tabs. */
+"Tabs" = "탭";
+
+/* Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \"Tabs 8 to 10 of 15\" says tabs 8, 9 and 10 are visible, out of 15 tabs total. */
+"Tabs %@ to %@ of %@" = "탭 (%1$@~%2$@)/%3$@";
+
+/* Accessibility label for the Tabs Tray view. */
+"Tabs Tray" = "탭 트레이";
+
+/* Shown in intro screens */
+"Tap the Brave button to temporarily disable ad blocking and privacy features." = "일시적으로 광고 차단 및 개인 정보 보호 기능을 해제하려면 Brave 버튼을 누르세요.";
+
+/* Show Brave Browser TOS page from the Privacy section in the settings. */
+"Terms of Use" = "이용 약관";
+
+/* Warning text on the certificate error page */
+"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "%@ 소유자가 웹사이트를 제대로 구성하지 못했습니다. 정보를 도난당하지 않도록 Brave에서 이 웹사이트에 연결하지 않았습니다.";
+
+/* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"The page could not be displayed in Reader View." = "리더 보기에 페이지를 표시할 수 없습니다.";
+
+/* Error displayed when reader mode cannot be enabled */
+"There was an error converting the page" = "페이지를 변환하는 중에 오류가 발생했습니다.";
+
+/* Description of the confirmation dialog shown when a user tries to clear their private data. */
+"This action will clear all of your private data. It cannot be undone." = "이 작업은 여러분의 모든 개인 정보를 삭제하며 실행 취소할 수 없습니다.";
+
+/* See http://mzl.la/1G7uHo7 */
+"This allows you to save the image to your Camera Roll." = "이는 카메라 롤에 이미지를 저장하도록 허용합니다.";
+
+/* Sync remove device? */
+/* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
+"This folder isn't empty." = "이 폴더는 비어 있지 않습니다.";
+
+/* Private tab title */
+"This is a Private Tab" = "비공개 탭임";
+
+/* History tableview section header */
+"Today" = "오늘";
+
+/* Panel accessibility label */
+"Top sites" = "자주 가는 사이트";
+
+/* Shields Trackers Stat */
+/* Shown in error pages on a button that will try to load the page again */
+"Try again" = "다시 시도";
+
+/* Prompt shown before enabling provider search queries */
+"Turn on search suggestions?" = "추천 검색어를 사용 설정하시겠습니까?";
+
+/* Accessiblity hint for toggling on/off private mode */
+"Turns private mode on or off" = "비공개 모드 사용 설정 또는 사용 중지";
+
+/* Bookmark URL */
+"URL" = "URL";
+
+/* Description on popup when setting up a sync group fails */
+"Unable to create new sync group." = "새 동기화 그룹을 만들 수 없습니다.";
+
+/* The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android. */
+"Unsorted Bookmarks" = "분류되지 않은 북마크";
+
+/* No comment provided by engineer. */
+"Unsuccessful" = "실패";
+
+/* The default name for bookmark item without titles. */
+"Untitled" = "제목 없음";
+
+/* brave shield on/off toggle on state */
+"Up" = "위로";
+
+/* Button to update the user's password */
+"Update" = "업데이트";
+
+/* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
+"Update login %@ for %@?" = "%2$@에 대한 %1$@ 로그인 정보를 업데이트하시겠습니까?";
+
+/* Prompt for updating a password with no username. The parameter is the hostname of the site. */
+"Update password for %@?" = "%@에 대한 비밀번호를 업데이트하시겠습니까?";
+
+/* Setting to allow user in non-english locale to use adblock rules specifc to their language */
+"Use regional adblock" = "지역 Adblock 사용";
+
+/* Sync add device description */
+"Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "보조 기기를 사용하여 Brave 설정 > 동기화로 이동합니다. 보조 기기로 QR 코드(위 참조)를 캡처하거나, 카메라를 사용할 수 없는 경우 코드 단어를 입력합니다.";
+
+/* Sync to existing device description */
+"Using existing synced device open Brave Settings and navigate to “Devices & Settings”, tap ‘+’ to add a new device and reveal sync code." = "기존 동기화된 기기를 사용하여 Brave 설정을 열고 “기기 및 설정”으로 이동한 다음 ‘+’를 탭하여 동기화 코드를 표시합니다.";
+
+/* Version number of Brave shown in settings */
+"Version %@ (%@)" = "버전 %1$@(%2$@)";
+
+/* Button label to temporarily continue to the site from the certificate error page */
+"Visit site anyway" = "사이트 방문";
+
+/* Warning text when clicking the Advanced button on error pages */
+"Warning: we can't confirm your connection to this website is secure." = "경고 : 이 웹사이트에 대한 연결이 안전한지 확신할 수 없습니다.";
+
+/* Accessibility label for the main web content view */
+"Web content" = "웹 콘텐츠";
+
+/* Shown in intro screens */
+"Welcome to Brave." = "Brave에 오신 것을 환영합니다.";
+
+/* The title for the empty Top Sites state */
+"Welcome to Top Sites" = "자주 가는 사이트에 오신 것을 환영합니다.";
+
+/* See http://mzl.la/1LXbDOL */
+"Welcome to your Reading List" = "읽기 목록에 오신 것을 환영합니다.";
+
+/* Will be displayed in Settings under 'Close Private Tabs' */
+"When Leaving Private Browsing" = "비공개 브라우징에서 나가는 경우";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"Yes" = "네";
+
+/* History tableview section header */
+"Yesterday" = "어제";
+
+/* Footer message on picker for 3rd party password manager setting */
+"You can choose to show a popup to pick your password manager, or have the selected one open automatically." = "팝업을 표시하여 비밀번호 관리자를 선택하도록 하거나, 선택된 비밀번호가 자동으로 표시되도록 합니다.";
+
+/* Title on the certificate error page */
+"Your connection is not private" = "연결 상태는 비공개가 아닙니다.";
+
+/* Description label for the empty Top Sites state. */
+"Your most visited sites will show up here." = "자주 방문하는 사이트가 여기에 표시됩니다.";
+
+/* Time Saved Days */
+/* Time Saved Hours */
+/* Relative time for a tab that was visited within the last few moments. */
+"just now" = "방금 전";
+
+/* Time Saved Minutes */
+/* Relative date for dates older than a month and less than two months. */
+"more than a month ago" = "한 달 전 이상";
+
+/* Description for a date more than a week ago, but less than a month ago. */
+"more than a week ago" = "일주일 전 이상";
+
+/* Title for password row in Login Detail View */
+"password" = "비밀번호";
+
+/* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
+"read" = "읽음";
+
+/* Time Saved Seconds */
+/* Relative date for date in past week. */
+"this week" = "이번 주";
+
+/* Relative date for date older than a minute. */
+"today at %@" = "오늘 %@";
+
+/* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
+"unread" = "읽지 않음";
+
+/* Title for username row in Login Detail View */
+"username" = "사용자 이름";
+
+/* Title for website row in Login Detail View */
+"website" = "웹사이트";
+

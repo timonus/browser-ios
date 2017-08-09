@@ -9,19 +9,19 @@ public struct ExtensionUtils {
     /// Look through the extensionContext for a url and title. Walks over all inputItems and then over all the attachments.
     /// Has a completionHandler because ultimately an XPC call to the sharing application is done.
     /// We can always extract a URL and sometimes a title. The favicon is currently just a placeholder, but future code can possibly interact with a web page to find a proper icon.
-    public static func extractSharedItemFromExtensionContext(extensionContext: NSExtensionContext?, completionHandler: (ShareItem?, NSError!) -> Void) {
+    public static func extractSharedItemFromExtensionContext(_ extensionContext: NSExtensionContext?, completionHandler: @escaping (ShareItem?, NSError?) -> Void) {
         if extensionContext != nil {
             if let inputItems : [NSExtensionItem] = extensionContext!.inputItems as? [NSExtensionItem] {
                 for inputItem in inputItems {
                     if let attachments = inputItem.attachments as? [NSItemProvider] {
                         for attachment in attachments {
                             if attachment.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                                attachment.loadItemForTypeIdentifier(kUTTypeURL as String, options: nil, completionHandler: { (obj, err) -> Void in
+                                attachment.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (obj, err) -> Void in
                                     if err != nil {
-                                        completionHandler(nil, err)
+                                        completionHandler(nil, err as! NSError)
                                     } else {
                                         let title = inputItem.attributedContentText?.string as String?
-                                        if let url = obj as? NSURL {
+                                        if let url = obj as? URL {
                                             completionHandler(ShareItem(url: url.absoluteString ?? "", title: title, favicon: nil), nil)
                                         } else {
                                             completionHandler(nil, NSError(domain: "org.mozilla.fennec", code: 999, userInfo: ["Problem": "Non-URL result."]))

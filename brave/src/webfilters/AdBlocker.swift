@@ -19,30 +19,30 @@ class AdBlocker {
     static let dataVersion = "2"
 
     var isNSPrefEnabled = true
-    private var fifoCacheOfUrlsChecked = FifoDict()
-    private var regionToS3FileName = [localeCode: String]()
-    private var networkLoaders = [localeCode: AdblockNetworkDataFileLoader]()
-    private lazy var abpFilterLibWrappers: [localeCode: ABPFilterLibWrapper] = { return ["en": ABPFilterLibWrapper()] }()
+    fileprivate var fifoCacheOfUrlsChecked = FifoDict()
+    fileprivate var regionToS3FileName = [localeCode: String]()
+    fileprivate var networkLoaders = [localeCode: AdblockNetworkDataFileLoader]()
+    fileprivate lazy var abpFilterLibWrappers: [localeCode: ABPFilterLibWrapper] = { return ["en": ABPFilterLibWrapper()] }()
     var currentLocaleCode: localeCode = "en" {
         didSet {
             updateRegionalAdblockEnabledState()
         }
     }
-    private var isRegionalAdblockEnabled: Bool? = nil
+    fileprivate var isRegionalAdblockEnabled: Bool? = nil
     // From https://github.com/brave/browser-android-tabs/blob/master/chrome/android/java/src/org/chromium/chrome/browser/init/ChromeBrowserInitializer.java#L84
-    private let wellTestedAdblockRegions = ["ru", "uk", "be", "hi"]
+    fileprivate let wellTestedAdblockRegions = ["ru", "uk", "be", "hi"]
 
-    private init() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AdBlocker.prefsChanged(_:)), name: NSUserDefaultsDidChangeNotification, object: nil)
+    fileprivate init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(AdBlocker.prefsChanged(_:)), name: UserDefaults.didChangeNotification, object: nil)
 
         updateEnabledState()
 
         networkLoaders["en"] = getNetworkLoader(forLocale: "en", name: "ABPFilterParserData")
 
-        let regional = try! NSString(contentsOfFile: NSBundle.mainBundle().pathForResource("adblock-regions", ofType: "txt")!, encoding: NSUTF8StringEncoding) as String
-        regional.componentsSeparatedByString("\n").forEach {
-            let parts = String($0).componentsSeparatedByString(",")
-            guard let filename = parts.last where parts.count > 1 else {
+        let regional = try! NSString(contentsOfFile: Bundle.main.path(forResource: "adblock-regions", ofType: "txt")!, encoding: String.Encoding.utf8.rawValue) as String
+        regional.components(separatedBy: "\n").forEach {
+            let parts = String($0).components(separatedBy: ",")
+            guard let filename = parts.last, parts.count > 1 else {
                 return
             }
 
@@ -53,7 +53,7 @@ class AdBlocker {
                 }
                 if twoLetterLocale.characters.count > 2 {
                     print("Only 2 letter locale codes are handled.")
-                    twoLetterLocale = (twoLetterLocale as NSString).substringToIndex(2)
+                    twoLetterLocale = (twoLetterLocale as NSString).substring(to: 2)
                 }
                 regionToS3FileName[twoLetterLocale] = filename // looks like: "cs": "7CCB6921-7FDA"
             }
@@ -61,13 +61,13 @@ class AdBlocker {
         }
 
         defer { // so that didSet is called from init
-            let lang = NSLocale.preferredLanguages()[0] as NSString
-            self.currentLocaleCode = lang.substringToIndex(2)
+            let lang = Locale.preferredLanguages[0] as NSString
+            self.currentLocaleCode = lang.substring(to: 2)
         }
     }
 
-    private func getNetworkLoader(forLocale locale: localeCode, name: String) -> AdblockNetworkDataFileLoader {
-        let dataUrl = NSURL(string: "https://s3.amazonaws.com/adblock-data/\(AdBlocker.dataVersion)/\(name).dat")!
+    fileprivate func getNetworkLoader(forLocale locale: localeCode, name: String) -> AdblockNetworkDataFileLoader {
+        let dataUrl = URL(string: "https://s3.amazonaws.com/adblock-data/\(AdBlocker.dataVersion)/\(name).dat")!
         let dataFile = "abp-data-\(AdBlocker.dataVersion)-\(locale).dat"
         let loader = AdblockNetworkDataFileLoader(url: dataUrl, file: dataFile, localDirName: "abp-data")
         loader.lang = locale
@@ -89,7 +89,7 @@ class AdBlocker {
         isNSPrefEnabled = BraveApp.getPrefs()?.boolForKey(AdBlocker.prefKey) ?? AdBlocker.prefKeyDefaultValue
     }
 
-    private func updateRegionalAdblockEnabledState() {
+    fileprivate func updateRegionalAdblockEnabledState() {
         isRegionalAdblockEnabled = BraveApp.getPrefs()?.boolForKey(AdBlocker.prefKeyUseRegional)
         if isRegionalAdblockEnabled == nil && wellTestedAdblockRegions.contains(currentLocaleCode) {
             // in this case it is only enabled by default for well tested regions (leave set to nil otherwise)
@@ -109,7 +109,7 @@ class AdBlocker {
         }
     }
 
-    @objc func prefsChanged(info: NSNotification) {
+    @objc func prefsChanged(_ info: Notification) {
         updateEnabledState()
 
         updateRegionalAdblockEnabledState()
@@ -119,7 +119,7 @@ class AdBlocker {
     }
 
     // We can add whitelisting logic here for puzzling adblock problems
-    private func isWhitelistedUrl(url: String?, forMainDocDomain domain: String) -> Bool {
+    fileprivate func isWhitelistedUrl(_ url: String?, forMainDocDomain domain: String) -> Bool {
         guard let url = url else { return false }
         // https://github.com/brave/browser-ios/issues/89
         if domain.contains("yahoo") && url.contains("s.yimg.com/zz/combo") {
@@ -136,8 +136,8 @@ class AdBlocker {
 
     func setForbesCookie() {
         let cookieName = "forbes bypass"
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        let existing = storage.cookiesForURL(NSURL(string: "http://www.forbes.com")!)
+        let storage = HTTPCookieStorage.shared
+        let existing = storage.cookies(for: URL(string: "http://www.forbes.com")!)
         if let existing = existing {
             for c in existing {
                 if c.name == cookieName {
@@ -146,29 +146,29 @@ class AdBlocker {
             }
         }
 
-        var dict: [String:AnyObject] = [:]
-        dict[NSHTTPCookiePath] = "/"
-        dict[NSHTTPCookieName] = cookieName
-        dict[NSHTTPCookieValue] = "forbes_ab=true; welcomeAd=true; adblock_session=Off; dailyWelcomeCookie=true"
-        dict[NSHTTPCookieDomain] = "www.forbes.com"
+        var dict: [HTTPCookiePropertyKey:Any] = [:]
+        dict[HTTPCookiePropertyKey.path] = "/"
+        dict[HTTPCookiePropertyKey.name] = cookieName
+        dict[HTTPCookiePropertyKey.value] = "forbes_ab=true; welcomeAd=true; adblock_session=Off; dailyWelcomeCookie=true"
+        dict[HTTPCookiePropertyKey.domain] = "www.forbes.com"
 
-        let components: NSDateComponents = NSDateComponents()
-        components.setValue(1, forComponent: NSCalendarUnit.Month);
-        dict[NSHTTPCookieExpires] = NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: NSDate(), options: NSCalendarOptions(rawValue: 0))
+        let components: DateComponents = DateComponents()
+        (components as NSDateComponents).setValue(1, forComponent: NSCalendar.Unit.month);
+        dict[HTTPCookiePropertyKey.expires] = (Calendar.current as NSCalendar).date(byAdding: components, to: Date(), options: NSCalendar.Options(rawValue: 0))
 
-        let newCookie = NSHTTPCookie(properties: dict)
+        let newCookie = HTTPCookie(properties: dict)
         if let c = newCookie {
             storage.setCookie(c)
         }
     }
 
     class RedirectLoopGuard {
-        let timeWindow: NSTimeInterval // seconds
+        let timeWindow: TimeInterval // seconds
         let maxRedirects: Int
-        var startTime = NSDate()
+        var startTime = Date()
         var redirects = 0
 
-        init(timeWindow: NSTimeInterval, maxRedirects: Int) {
+        init(timeWindow: TimeInterval, maxRedirects: Int) {
             self.timeWindow = timeWindow
             self.maxRedirects = maxRedirects
         }
@@ -178,8 +178,8 @@ class AdBlocker {
         }
 
         func increment() {
-            let time = NSDate()
-            if time.timeIntervalSinceDate(startTime) > timeWindow {
+            let time = Date()
+            if time.timeIntervalSince(startTime) > timeWindow {
                 startTime = time
                 redirects = 0
             }
@@ -191,32 +191,32 @@ class AdBlocker {
     // Set the window as 10x in 10sec, after that stop forwarding the page.
     var forbesRedirectGuard = RedirectLoopGuard(timeWindow: 10.0, maxRedirects: 10)
 
-    func shouldBlock(request: NSURLRequest) -> Bool {
+    func shouldBlock(_ request: URLRequest) -> Bool {
         // synchronize code from this point on.
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
 
-        guard let url = request.URL else {
+        guard let url = request.url else {
             return false
         }
 
         if url.host?.contains("forbes.com") ?? false {
             setForbesCookie()
 
-            if url.absoluteString?.contains("/forbes/welcome") ?? false {
+            if url.absoluteString.contains("/forbes/welcome") ?? false {
                 forbesRedirectGuard.increment()
                 if !forbesRedirectGuard.isLooping() {
                     postAsyncToMain(0.5) {
                         /* For some reason, even with the cookie set, I can't get past the welcome page, until I manually load a page on forbes. So if a do a google search for a subpage on forbes, I can click on that and get to forbes, and from that point on, I no longer see the welcome page. This hack seems to work perfectly for duplicating that behaviour. */
-                        BraveApp.getCurrentWebView()?.loadRequest(NSURLRequest(URL: NSURL(string: "http://www.forbes.com")!))
+                        BraveApp.getCurrentWebView()?.loadRequest(URLRequest(url: URL(string: "http://www.forbes.com")!))
                     }
                 }
             }
         }
 
 
-        if let main = request.mainDocumentURL?.absoluteString where (main.startsWith(WebServer.sharedInstance.base) ?? false) {
-            if !main.containsString("testing/") { // don't skip for localhost testing
+        if let main = request.mainDocumentURL?.absoluteString, (main.startsWith(WebServer.sharedInstance.base) ?? false) {
+            if !main.contains("testing/") { // don't skip for localhost testing
                 return false
             }
         }
@@ -228,7 +228,7 @@ class AdBlocker {
             return false
         }
 
-        if !mainDocDomain.isEmpty && url.absoluteString?.contains(mainDocDomain) ?? false {
+        if !mainDocDomain.isEmpty && url.absoluteString.contains(mainDocDomain) ?? false {
             return false // ignore top level doc
         }
 
@@ -248,17 +248,17 @@ class AdBlocker {
         for (locale, adblocker) in abpFilterLibWrappers {
             isBlocked = adblocker.isBlockedConsideringType(url.absoluteString,
                                                            mainDocumentUrl: mainDocDomain,
-                                                           acceptHTTPHeader:request.valueForHTTPHeaderField("Accept"))
+                                                           acceptHTTPHeader:request.value(forHTTPHeaderField: "Accept"))
 
             if isBlocked {
                 blockedByLocale = locale
                 if locale != "en" && AppConstants.IsRunningTest {
-                    messageUITest(identifier: "blocked-url", message:"\(blockedByLocale) \(url.absoluteString!)")
+                    messageUITest(identifier: "blocked-url", message:"\(blockedByLocale) \(url.absoluteString)")
                 }
                 break
             }
         }
-        fifoCacheOfUrlsChecked.addItem(key, value: isBlocked)
+        fifoCacheOfUrlsChecked.addItem(key, value: isBlocked as AnyObject)
 
 
         #if LOG_AD_BLOCK
@@ -271,7 +271,7 @@ class AdBlocker {
     }
 
     // Hack to use a UILabel to send UITest app a message
-    private func messageUITest(identifier identifier:String, message: String) {
+    fileprivate func messageUITest(identifier:String, message: String) {
         postAsyncToMain {
             let tag = 19283
             let v = getApp().rootViewController.view.viewWithTag(tag) as? UILabel ?? UILabel()
@@ -291,23 +291,23 @@ class AdBlocker {
 
 extension AdBlocker: NetworkDataFileLoaderDelegate {
 
-    func fileLoader(loader: NetworkDataFileLoader, setDataFile data: NSData?) {
-        guard let loader = loader as? AdblockNetworkDataFileLoader, adblocker = abpFilterLibWrappers[loader.lang] else {
+    func fileLoader(_ loader: NetworkDataFileLoader, setDataFile data: Data?) {
+        guard let loader = loader as? AdblockNetworkDataFileLoader, let adblocker = abpFilterLibWrappers[loader.lang] else {
             assert(false)
             return
         }
         adblocker.setDataFile(data)
     }
 
-    func fileLoaderHasDataFile(loader: NetworkDataFileLoader) -> Bool {
-        guard let loader = loader as? AdblockNetworkDataFileLoader, adblocker = abpFilterLibWrappers[loader.lang] else {
+    func fileLoaderHasDataFile(_ loader: NetworkDataFileLoader) -> Bool {
+        guard let loader = loader as? AdblockNetworkDataFileLoader, let adblocker = abpFilterLibWrappers[loader.lang] else {
             assert(false)
             return false
         }
         return adblocker.hasDataFile()
     }
 
-    func fileLoaderDelegateWillHandleInitialRead(loader: NetworkDataFileLoader) -> Bool {
+    func fileLoaderDelegateWillHandleInitialRead(_ loader: NetworkDataFileLoader) -> Bool {
         return false
     }
 }

@@ -10,11 +10,14 @@ class SyncPairWordsViewController: UIViewController {
     var helpLabel: UILabel!
     var codewordsView: SyncCodewordsView!
     
+    // Kind of an odd mechanism for passing this info
+    var deviceName: String?
+    
     var loadingView: UIView!
-    let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -29,8 +32,8 @@ class SyncPairWordsViewController: UIViewController {
         
         containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = UIColor.whiteColor()
-        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).CGColor
+        containerView.backgroundColor = UIColor.white
+        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).cgColor
         containerView.layer.shadowRadius = 0
         containerView.layer.shadowOpacity = 1.0
         containerView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
@@ -44,7 +47,7 @@ class SyncPairWordsViewController: UIViewController {
         
         helpLabel = UILabel()
         helpLabel.translatesAutoresizingMaskIntoConstraints = false
-        helpLabel.font = UIFont.systemFontOfSize(15, weight: UIFontWeightRegular)
+        helpLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
         helpLabel.textColor = UIColor(rgb: 0x696969)
         helpLabel.text = Strings.EnterCodeWordsBelow
         scrollView.addSubview(helpLabel)
@@ -53,13 +56,13 @@ class SyncPairWordsViewController: UIViewController {
         
         loadingView = UIView()
         loadingView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
-        loadingView.hidden = true
+        loadingView.isHidden = true
         loadingView.addSubview(loadingSpinner)
         view.addSubview(loadingView)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(SEL_done))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SEL_done))
         
-        edgesForExtendedLayout = .None
+        edgesForExtendedLayout = UIRectEdge()
         
         scrollView.snp_makeConstraints { (make) in
             make.edges.equalTo(self.view)
@@ -72,6 +75,7 @@ class SyncPairWordsViewController: UIViewController {
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
             make.height.equalTo(295)
+            make.width.equalTo(self.view)
         }
         
         helpLabel.snp_makeConstraints { (make) in
@@ -92,14 +96,14 @@ class SyncPairWordsViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Focus on first input field.
         codewordsView.fields[0].becomeFirstResponder()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
     }
@@ -111,17 +115,21 @@ class SyncPairWordsViewController: UIViewController {
     func checkCodes() {
         debugPrint("check codes")
         
-        func alert(title title: String? = nil, message: String? = nil) {
+        func alert(title: String? = nil, message: String? = nil) {
+            if Sync.shared.isInSyncGroup {
+                // No alert
+                return
+            }
             let title = title ?? "Unable to Connect"
             let message = message ?? "Unable to join sync group. Please check the entered words and try again."
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
         
-        func loading(isLoading: Bool = true) {
-            self.loadingView.hidden = !isLoading
-            navigationItem.rightBarButtonItem?.enabled = !isLoading
+        func loading(_ isLoading: Bool = true) {
+            self.loadingView.isHidden = !isLoading
+            navigationItem.rightBarButtonItem?.isEnabled = !isLoading
         }
         
         let codes = self.codewordsView.codeWords()
@@ -136,7 +144,7 @@ class SyncPairWordsViewController: UIViewController {
         loading()
         
         // forced timeout
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(25.0) * Int64(NSEC_PER_SEC)), dispatch_get_main_queue(), {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(25.0) * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
             loading(false)
             alert()
         })
@@ -144,7 +152,7 @@ class SyncPairWordsViewController: UIViewController {
         Niceware.shared.bytes(fromPassphrase: codes) { (result, error) in
             if result?.count == 0 || error != nil {
                 var errorText = error?.userInfo["WKJavaScriptExceptionMessage"] as? String
-                if let er = errorText where er.contains("Invalid word") {
+                if let er = errorText, er.contains("Invalid word") {
                     errorText = er + "\n Please recheck spelling"
                 }
                 
@@ -153,7 +161,7 @@ class SyncPairWordsViewController: UIViewController {
                 return
             }
             
-            Sync.shared.initializeSync(result)
+            Sync.shared.initializeSync(seed: result)
         }
     }
 }

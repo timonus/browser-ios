@@ -1,15 +1,17 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import Shared
+
 class SyncCodewordsView: UIView, UITextFieldDelegate {
     var fields: [UITextField] = []
     
     let DefaultBackgroundColor = UIColor(rgb: 0xcccccc)
-    let SelectedBackgroundColor = UIColor.whiteColor()
+    let SelectedBackgroundColor = UIColor.white
     
     let DefaultBorderWidth: CGFloat = 0.0
     let SelectedBorderWidth: CGFloat = 0.5
     
-    let DefaultBorderColor = UIColor(rgb: 0x696969).CGColor
+    let DefaultBorderColor = UIColor(rgb: 0x696969).cgColor
     
     var doneKeyCallback: (() -> Void)?
     
@@ -20,13 +22,13 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
             let field = UITextField()
             field.delegate = self
             field.tag = i
-            field.font = UIFont.systemFontOfSize(14, weight: UIFontWeightRegular)
-            field.textAlignment = .Center
-            field.textColor = UIColor.blackColor()
-            field.keyboardAppearance = .Dark
-            field.autocapitalizationType = .None
-            field.autocorrectionType = .No
-            field.returnKeyType = i < 15 ? .Continue : .Done
+            field.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightRegular)
+            field.textAlignment = .center
+            field.textColor = UIColor.black
+            field.keyboardAppearance = .dark
+            field.autocapitalizationType = .none
+            field.autocorrectionType = .no
+            field.returnKeyType = i < 15 ? .continue : .done
             field.text = data.count > i ? data[i] : ""
             field.backgroundColor = DefaultBackgroundColor
             field.layer.cornerRadius = 4
@@ -40,12 +42,12 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         
         // Read-only if data passed.
         if !data.isEmpty {
-            fields.forEach { $0.enabled = false }
+            fields.forEach { $0.isEnabled = false }
         }
     }
     
     func codeWords() -> [String] {
-        return fields.map { $0.text?.withoutSpaces }.filter { $0?.characters.count > 0 }.flatMap { $0 }
+        return fields.map { $0.text?.withoutSpaces }.filter { $0?.characters.count ?? 0 > 0 }.flatMap { $0 }
     }
     
     override func layoutSubviews() {
@@ -53,17 +55,17 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         let spaceY: CGFloat = 7
         var x: CGFloat = 0
         var y: CGFloat = 0
-        let w: CGFloat = (UIScreen.mainScreen().bounds.width - spaceX * 4) / 3
+        let w: CGFloat = (bounds.width - spaceX * 4) / 3
         let h: CGFloat = 26
         for i in 0..<fields.count {
             x = x + spaceX
-            if x + w > UIScreen.mainScreen().bounds.width {
+            if x + w > bounds.width {
                 x = spaceX
                 y = y + h + spaceY
             }
             if i == fields.count - 1 {
                 // Center last.
-                x = (UIScreen.mainScreen().bounds.width - w) / 2
+                x = (bounds.width - w) / 2
             }
             // debugPrint("w \(w) x \(x) y\(y)")
             
@@ -82,12 +84,12 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     override func sizeToFit() {
         let field = fields[fields.count - 1]
         var f = frame
-        f.size.width = UIScreen.mainScreen().bounds.width
-        f.size.height = CGRectGetMaxY(field.frame)
+        f.size.width = bounds.width
+        f.size.height = field.frame.maxY
         frame = f
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.layer.borderWidth = SelectedBorderWidth
         textField.backgroundColor = SelectedBackgroundColor
         
@@ -95,12 +97,12 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         textField.text = nil
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         textField.layer.borderWidth = DefaultBorderWidth
         textField.backgroundColor = DefaultBackgroundColor
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.tag < fields.count - 1 {
             let field = fields[textField.tag + 1]
             field.becomeFirstResponder()
@@ -110,14 +112,18 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
         return true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         guard let text = textField.text else {
             return true
         }
         
         // Filter out whitespace and apply change to current text
-        let result = (text as NSString).stringByReplacingCharactersInRange(range, withString: string.withoutSpaces)
+        
+        let start = text.index(text.startIndex, offsetBy: range.location)
+        let end = text.index(text.startIndex, offsetBy: range.location + range.length)
+        let result = text.replacingCharacters(in: start..<end, with: string.withoutSpaces)
+
         
         // Manually apple text to have better control over what is being entered
         //  Could use this for custom autocomplete for pre-defined keywords

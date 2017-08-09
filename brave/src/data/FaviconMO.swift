@@ -13,17 +13,17 @@ class FaviconMO: NSManagedObject {
     @NSManaged var type: Int16
     @NSManaged var domain: Domain?
 
-    static func entity(context: NSManagedObjectContext) -> NSEntityDescription {
-        return NSEntityDescription.entityForName("Favicon", inManagedObjectContext: context)!
+    static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
+        return NSEntityDescription.entity(forEntityName: "Favicon", in: context)!
     }
 
     class func get(forFaviconUrl urlString: String, context: NSManagedObjectContext) -> FaviconMO? {
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = FaviconMO.entity(context)
         fetchRequest.predicate = NSPredicate(format: "url == %@", urlString)
         var result: FaviconMO? = nil
         do {
-            let results = try context.executeFetchRequest(fetchRequest) as? [FaviconMO]
+            let results = try context.fetch(fetchRequest) as? [FaviconMO]
             if let item = results?.first {
                 result = item
             }
@@ -34,12 +34,12 @@ class FaviconMO: NSManagedObject {
         return result
     }
 
-    class func add(favicon favicon: Favicon, forSiteUrl siteUrl: NSURL) {
-        let context = DataController.shared.workerContext()
-        context.performBlock {
+    class func add(_ favicon: Favicon, forSiteUrl siteUrl: URL) {
+        let context = DataController.shared.workerContext
+        context.perform {
             var item = FaviconMO.get(forFaviconUrl: favicon.url, context: context)
             if item == nil {
-                item = FaviconMO(entity: FaviconMO.entity(context), insertIntoManagedObjectContext: context)
+                item = FaviconMO(entity: FaviconMO.entity(context), insertInto: context)
                 item!.url = favicon.url
             }
             if item?.domain == nil {
@@ -71,7 +71,7 @@ class FaviconMO: NSManagedObject {
                 item!.type = t
             }
 
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
         }
     }
 }

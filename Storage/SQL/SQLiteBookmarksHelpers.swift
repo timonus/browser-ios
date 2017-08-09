@@ -5,42 +5,40 @@
 import Foundation
 import Shared
 
-public func titleForSpecialGUID(guid: GUID) -> String? {
+public func titleForSpecialGUID(_ guid: GUID) -> String? {
     switch guid {
     case BookmarkRoots.RootGUID:
         return "<Root>"
     case BookmarkRoots.MobileFolderGUID:
-        return Strings.BookmarksFolderTitleMobile
+        return BookmarksFolderTitleMobile
     case BookmarkRoots.ToolbarFolderGUID:
-        return Strings.BookmarksFolderTitleToolbar
+        return BookmarksFolderTitleToolbar
     case BookmarkRoots.MenuFolderGUID:
-        return Strings.BookmarksFolderTitleMenu
+        return BookmarksFolderTitleMenu
     case BookmarkRoots.UnfiledFolderGUID:
-        return Strings.BookmarksFolderTitleUnsorted
+        return BookmarksFolderTitleUnsorted
     default:
         return nil
     }
 }
 
 extension SQLiteBookmarks: ShareToDestination {
-    public func addToMobileBookmarks(url: NSURL, title: String, intoFolder: GUID, folderName: String, favicon: Favicon?) -> Success {
-        return self.insertBookmark(url, title: title, favicon: favicon, intoFolder: intoFolder, withTitle: folderName)
+    public func addToMobileBookmarks(_ url: URL, title: String, favicon: Favicon?) -> Success {
+        return isBookmarked(String(describing: url), direction: Direction.local)
+            >>== { yes in
+                guard !yes else { return succeed() }
+                return self.insertBookmark(url, title: title, favicon: favicon,
+                                           intoFolder: BookmarkRoots.MobileFolderGUID,
+                                           withTitle: BookmarksFolderTitleMobile)
+        }
     }
 
-    public func shareItem(item: ShareItem) -> Success {
+    public func shareItem(_ item: ShareItem) -> Success {
         // We parse here in anticipation of getting real URLs at some point.
         if let url = item.url.asURL {
             let title = item.title ?? url.absoluteString
-            var folderGUID = BookmarkRoots.MobileFolderGUID
-            var folderName = Strings.BookmarksFolderTitleMobile
-            if let folderId = item.folderId {
-                folderGUID = folderId
-                // Must always replace name to make sure default name doesn't exist with valid ID
-                folderName = item.folderTitle ?? ""
-            }
-            
-            return self.addToMobileBookmarks(url, title: title!, intoFolder: folderGUID, folderName: folderName, favicon: item.favicon)
+            return self.addToMobileBookmarks(url, title: title, favicon: item.favicon)
         }
-        return Success(value: Maybe(failure: DatabaseError(err: nil)))
+        return succeed()
     }
 }

@@ -7,15 +7,15 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var cameraOverlayView: UIImageView!
     
-    var scanCallback: ((data: String) -> Void)?
-    var authorizedCallback: ((authorized: Bool) -> Void)?
+    var scanCallback: ((_ data: String) -> Void)?
+    var authorizedCallback: ((_ authorized: Bool) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        cameraOverlayView = UIImageView(image: UIImage(named: "camera-overlay")?.imageWithRenderingMode(.AlwaysTemplate))
-        cameraOverlayView.contentMode = .Center
-        cameraOverlayView.tintColor = UIColor.whiteColor()
+        cameraOverlayView = UIImageView(image: UIImage(named: "camera-overlay")?.withRenderingMode(.alwaysTemplate))
+        cameraOverlayView.contentMode = .center
+        cameraOverlayView.tintColor = UIColor.white
         addSubview(cameraOverlayView)
     }
     
@@ -31,7 +31,7 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     }
     
     func startCapture() {
-        let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
         let input: AVCaptureDeviceInput?
         do {
@@ -48,7 +48,7 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
         let captureMetadataOutput = AVCaptureMetadataOutput()
         captureSession?.addOutput(captureMetadataOutput)
         
-        captureMetadataOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
+        captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
         captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
         
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -57,23 +57,23 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
         layer.addSublayer(videoPreviewLayer!)
         
         captureSession?.startRunning()
-        bringSubviewToFront(cameraOverlayView)
+        bringSubview(toFront: cameraOverlayView)
         
-        if AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo) ==  AVAuthorizationStatus.Authorized {
+        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized {
             if let callback = authorizedCallback {
-                callback(authorized: true)
+                callback(true)
             }
         }
         else {
-            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: { (granted :Bool) -> Void in
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted :Bool) -> Void in
                 if let callback = self.authorizedCallback {
-                    callback(authorized: granted)
+                    callback(granted)
                 }
             });
         }
     }
     
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         
         // Check if the metadataObjects array is not nil and it contains at least one object.
         if metadataObjects == nil || metadataObjects.count == 0 {
@@ -83,26 +83,26 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         if metadataObj.type == AVMetadataObjectTypeQRCode {
             if let callback = scanCallback {
-                callback(data: metadataObj.stringValue)
+                callback(metadataObj.stringValue)
             }
         }
     }
     
     func cameraOverlayError() {
-        NSObject.cancelPreviousPerformRequestsWithTarget(self)
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
         
-        cameraOverlayView.tintColor = UIColor.redColor()
-        performSelector(#selector(cameraOverlayNormal), withObject: self, afterDelay: 1.0)
+        cameraOverlayView.tintColor = UIColor.red
+        perform(#selector(cameraOverlayNormal), with: self, afterDelay: 1.0)
     }
     
     func cameraOverlaySucess() {
-        NSObject.cancelPreviousPerformRequestsWithTarget(self)
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
         
-        cameraOverlayView.tintColor = UIColor.greenColor()
-        performSelector(#selector(cameraOverlayNormal), withObject: self, afterDelay: 1.0)
+        cameraOverlayView.tintColor = UIColor.green
+        perform(#selector(cameraOverlayNormal), with: self, afterDelay: 1.0)
     }
     
     func cameraOverlayNormal() {
-        cameraOverlayView.tintColor = UIColor.whiteColor()
+        cameraOverlayView.tintColor = UIColor.white
     }
 }

@@ -1,6 +1,877 @@
 "CFBundleDisplayName" = "Buka di Brave";
 
+/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
+"%@ search" = "Pencarian %@";
+
+/* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"+" = "+";
+
+/* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"-" = "-";
+
+/* Button for reader mode font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"Aa" = "Aa";
+
+/* About settings section title */
+"About" = "Tentang";
+
+/* Button to add a bookmark */
+"Add Bookmark" = "Tambah Markah";
+
+/* Add device to sync */
+"Add Device" = "Tambah Perangkat";
+
+/* Accessibility label for the Add Tab button in the Tab Tray. */
+"Add Tab" = "Tambah Tab";
+
+/* Accessibility label for action adding current page to reading list. */
+"Add to Reading List" = "Tambahkan ke Daftar Bacaan";
+
+/* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
+"Added page to Reading List" = "Tambahkan laman ke Daftar Bacaan";
+
+/* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
+"Address and Search" = "Alamat dan Pencarian";
+
+/* Shields Ads Stat */
+"Ads \rBlocked" = "Iklan 
+Diblokir";
+
+/* individual blocking statistic title */
+"Ads and Trackers" = "Iklan dan Pelacak";
+
+/* Label for button to perform advanced actions on the error page */
+"Advanced" = "Lanjutan";
+
+/* Ask user if site can open iTunes store URL */
+"Allow %@ to open iTunes?" = "Izinkan %@ membuka iTunes?";
+
+/* tabs bar show/hide option */
+"Always show" = "Selalu tampilkan";
+
+/* Message shown in the dialog prompting users if they want to clear everything */
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "Anda yakin ingin menghapus semua data? Tindakan ini juga akan menutup semua tab yang terbuka.";
+
+/* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
+"Are you sure you want to delete it and its contents?" = "Anda yakin ingin menghapus beserta isinya?";
+
 /* No comment provided by engineer. */
+"Are you sure?" = "Anda yakin?";
+
+/* Accessibility Label for the browser toolbar Back button */
+"Back" = "Kembali";
+
+/* cookie settings option */
+"Block 3rd party cookies" = "Blokir kuki pihak ke-3";
+
 /* No comment provided by engineer. */
+"Block Ads & Tracking" = "Blokir Iklan & Pelacakan";
+
+/* Brave panel individual toggle title */
+"Block Phishing" = "Blokir Phishing";
+
 /* No comment provided by engineer. */
+"Block Phishing and Malware" = "Blokir Phishing dan Malware";
+
+/* Block pop-up windows setting */
+"Block Pop-up Windows" = "Blokir Jendela Popup";
+
+/* Setting to enable popup blocking */
+"Block Popups" = "Blokir Popup";
+
 /* No comment provided by engineer. */
+"Block Scripts" = "Blokir Skrip";
+
+/* cookie settings option */
+"Block all cookies" = "Blokir semua kuki";
+
+/* title for section showing page blocking statistics */
+"Blocking Monitor" = "Memblokir Monitor";
+
+/* Accessibility Label for the browser toolbar Bookmark button */
+"Bookmark" = "Markah";
+
+/* Bookmark Folder Section Title */
+"Bookmark Folder" = "Folder Markah";
+
+/* Bookmark Info Section Title */
+"Bookmark Info" = "Informasi Markah";
+
+/* title for bookmarks panel */
+"Bookmarks" = "Markah";
+
+/* The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android. */
+"Bookmarks Menu" = "Menu Markah";
+
+/* The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android. */
+"Bookmarks Toolbar" = "Bilah Alat Markah";
+
+/* Button to show the bookmarks and history panel */
+"Bookmarks and History Panel" = "Panel Markah dan Riwayat";
+
+/* Button to show the brave panel */
+"Brave Panel" = "Panel Brave";
+
+/* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
+"Brave Shield Defaults" = "Perisai Baku Brave";
+
+/* Brave sync page title */
+"Brave Sync" = "Brave Sync";
+
+/* Shown in intro screens */
+"Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency." = "Brave memblokir iklan.
+Brave menghentikan pelacak.
+Brave dirancang untuk kecepatan dan efisiensi.";
+
+/* email subject */
+"Brave for iOS Feedback" = "Umpan balik Brave untuk iOS";
+
+/* Shown in intro screens */
+"Brave is Faster,\nand here's why..." = "Brave lebih Cepat,
+dan berikut alasannya...";
+
+/* Shown in intro screens */
+"Brave keeps you safe as you browse." = "Brave menjaga Anda tetap aman selama penjelajahan";
+
+/* No comment provided by engineer. */
+"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave tidak akan mengingat riwayat atau kuki Anda, namun markah baru akan tersimpan.";
+
+/* See http://mzl.la/1G7uHo7 */
+"Brave would like to access your Photos" = "Brave ingin mengakses Foto Anda";
+
+/* Accessibility label for brightness adjustment slider in Reader Mode display settings */
+"Brightness" = "Kecerahan";
+
+/* Shown in intro screens */
+"Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Menjelajah bersama kami dan privasi Anda akan dilindungi, tanpa pemasangan, belajar, atau konfigurasi lainnya.";
+
+/* Settings item for clearing browsing history */
+"Browsing History" = "Riwayat Penjelajahan";
+
+/* Settings item for clearing the cache */
+"Cache" = "Tembolok";
+
+/* Alert Call Button */
+"Call" = "Panggil";
+
+/* No comment provided by engineer. */
+"Cancel" = "Batal";
+
+/* Accessibility hint for the color theme setting buttons in reader mode display settings */
+"Changes color theme." = "Ubah warna tema.";
+
+/* Accessibility hint for the font type buttons in reader mode display settings */
+"Changes font type." = "Ubah tipe huruf.";
+
+/* Sync device settings footer details */
+"Changing settings will only affect data that this device shares with others." = "Mengubah pengaturan hanya akan berdampak pada data yang perangkat ini bagikan dengan perangkat lainnya.";
+
+/* Used as a button label in the dialog to Clear private data dialog */
+"Clear" = "Hapus";
+
+/* Title of the Clear private data dialog. */
+"Clear Everything" = "Hapus Semua";
+
+/* Button in settings that clears private data for the selected items. Also used as section title in settings panel */
+"Clear Private Data" = "Hapus Data Pribadi";
+
+/* No comment provided by engineer. */
+"Clear Search" = "Hapus Pencarian";
+
+/* Accessibility label for action denoting closing a tab in tab list (tray) */
+"Close" = "Tutup";
+
+/* Setting for closing private tabs */
+"Close Private Tabs" = "Tutup Tab Pribadi";
+
+/* No comment provided by engineer. */
+"Close Tab" = "Tutup Tab";
+
+/* No comment provided by engineer. */
+"Closing tab" = "Menutup tab";
+
+/* Code words section title */
+"Code Words" = "Kode Kata";
+
+/* Cookie settings option title */
+"Cookie Control" = "Kontrol Kuki";
+
+/* Settings item for clearing cookies */
+"Cookies" = "Kuki";
+
+/* No comment provided by engineer. */
+"Copy" = "Salin";
+
+/* Copy the URL from the location bar */
+"Copy Address" = "Salin Alamat";
+
+/* Context menu item for copying an image to the clipboard */
+"Copy Image" = "Salin Gambar";
+
+/* Context menu item for copying a link URL to the clipboard */
+"Copy Link" = "Salin Tautan";
+
+/* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
+"Could not add page to Reading List. Maybe it's already there?" = "Tidak dapat menambahkan laman ke Daftar Bacaan. Mungkin sudah ada?";
+
+/* Dark theme setting in Reading View settings */
+"Dark" = "Gelap";
+
+/* Accessibility label for button decreasing font size in display settings of reader mode */
+"Decrease text size" = "Kurangi ukuran teks";
+
+/* Open search section of settings */
+"Default Search Engine" = "Mesin Pencari Baku";
+
+/* No comment provided by engineer. */
+"Delete" = "Hapus";
+
+/* Title for deselecting all selected logins */
+"Deselect All" = "Batal Pilih Semua";
+
+/* The folder name for the virtual folder that contains all desktop bookmarks. */
+"Desktop Bookmarks" = "Markah Desktop";
+
+/* Title for new device popup */
+"Device Name" = "Nama Perangkat";
+
+/* Sync device settings page title. */
+"Devices" = "Perangkat";
+
+/* Sync you browser settings across devices. */
+"Devices & Settings" = "Perangkat & Pengaturan";
+
+/* cookie settings option */
+"Don't block cookies" = "Jangan blokir kuki";
+
+/* No comment provided by engineer. */
+"Done" = "Selesai";
+
+/* Button to not save the user's password */
+"Don’t Save" = "Jangan Simpan";
+
+/* brave shield on/off toggle off state */
+"Down" = "Turun";
+
+/* No comment provided by engineer. */
+"Edit" = "Edit";
+
+/* Accessibility label for entering search mode for logins */
+"Enter Search Mode" = "Aktifkan Mode Pencarian";
+
+/* Sync enter code words */
+"Enter code words" = "Masukkan kode kata";
+
+/* Enter sync code words below */
+"Enter code words below" = "Masukkan kode kata di bawah ini";
+
+/* Description for new folder popup */
+"Enter folder name" = "Masukkan nama folder";
+
+/* Shields Time Saved Stat */
+"Est. Time \rSaved" = "Est. Waktu 
+Dihemat";
+
+/* Private tab details */
+"Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Meskipun situs yang Anda kunjungi di tab pribadi tidak disimpan secara lokal, mereka tidak membuat Anda anonim atau tidak terlihat oleh ISP Anda, bos Anda, atau pada situs yang Anda kunjungi.";
+
+/* No comment provided by engineer. */
+"Find" = "Temukan";
+
+/* Find text in page. */
+"Find \"%@\"" = "Temukan \"%@\"";
+
+/* Share action title */
+"Find in Page" = "Cari di Laman";
+
+/* individual blocking statistic title */
+"Fingerprinting Methods" = "Metode Sidik Jari";
+
+/* No comment provided by engineer. */
+"Fingerprinting Protection" = "Perlindungan Sidik Jari";
+
+/* blocking stat title */
+"Fingerprinting\nProtection" = "Perlindungan
+Sidik Jari";
+
+/* Folder */
+"Folder" = "Folder";
+
+/* Accessibility Label for the browser toolbar Forward button */
+"Forward" = "Teruskan";
+
+/* General settings section title */
+"General" = "Umum";
+
+/* New sync code button title */
+"Get a new sync code" = "Dapatkan kode sinkronisasi baru";
+
+/* Shown in intro screens */
+"Get ready to experience a Faster, Safer, Better Web." = "Bersiap untuk menikmati web yang Lebih Cepat, Lebih Aman, dan  Lebih Baik.";
+
+/* Label for button to go back from the error page */
+"Go Back" = "Kembali";
+
+/* Grand camera access */
+"Grant camera access" = "Berikan akses kamera";
+
+/* No comment provided by engineer. */
+"HTTPS Everywhere" = "HTTPS Everywhere";
+
+/* individual blocking statistic title */
+"HTTPS Upgrades" = "Peningkatan HTTPS";
+
+/* Shields Https Stat */
+"HTTPS \rUpgrades" = "Peningkatan 
+HTTPS";
+
+/* Hide password text selection menu item */
+"Hide" = "Sembunyikan";
+
+/* Panel accessibility label */
+"History" = "Riwayat";
+
+/* Shown in intro screens */
+"In case you hit a speed bump" = "Jika Anda mengalami kendala";
+
+/* Accessibility label for button increasing font size in display settings of reader mode */
+"Increase text size" = "Perbesar ukuran teks";
+
+/* title for per-site shield toggles */
+"Individual Controls" = "Kontrol Individual";
+
+/* Accessibility label for the introduction tour carousel */
+"Intro Tour Carousel" = "Tur Pengenalan";
+
+/* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
+"Introductory slide %@ of %@" = "Slide Pengantar %1$@ dari %2$@";
+
+/* Additional warning text when clicking the Advanced button on error pages */
+"It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk." = "Mungkin terjadi kesalahan konfigurasi atau penyalahgunaan oleh penyerang. Lanjutkan jika Anda bersedia menanggung kemungkinan risiko.";
+
+/* Footer label describing when the login was last modified with the timestamp as the parameter */
+"Last modified %@" = "Terakhir dimodifikasi %@";
+
+/* History tableview section header */
+"Last month" = "Bulan lalu";
+
+/* History tableview section header */
+"Last week" = "Minggu lalu";
+
+/* Text button displayed when there are no tabs open while in private mode */
+"Learn More" = "Selengkapnya";
+
+/* Private tab information link */
+"Learn about private tabs." = "Pelajari tentang tab pribadi.";
+
+/* Light theme setting in Reading View settings */
+"Light" = "Terang";
+
+/* Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"Load original page" = "Muat laman asli";
+
+/* Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app. */
+"Loading content…" = "Memuat konten...";
+
+/* Bookmark folder location */
+"Location" = "Lokasi";
+
+/* Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager. */
+"Logins" = "Info masuk";
+
+/* No comment provided by engineer. */
+"Logins will be permanently removed." = "Info masuk akan dihapus secara permanen.";
+
+/* No comment provided by engineer. */
+"Logins will be removed from all connected devices." = "Info masuk akan dihapus dari semua perangkat tersambung.";
+
+/* Name for Mark as read button in reader mode */
+"Mark as Read" = "Tandai Telah Dibaca";
+
+/* Name for Mark as unread button in reader mode */
+"Mark as Unread" = "Tandai Belum Dibaca";
+
+/* The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android. */
+"Mobile Bookmarks" = "Markah Ponsel";
+
+/* Bookmark title / Device name */
+"Name" = "Nama";
+
+/* Accessibility label for the navigation toolbar displayed at the bottom of the screen. */
+"Navigation Toolbar" = "Bilah Alat Navigasi";
+
+/* tabs bar show/hide option */
+"Never show" = "Jangan tampilkan";
+
+/* Title for new folder popup */
+"New Folder" = "Folder Baru";
+
+/* No comment provided by engineer. */
+"New Private Tab" = "Tab Pribadi Baru";
+
+/* No comment provided by engineer. */
+"New Tab" = "Tab Baru";
+
+/* Accessibility label for next result button in Find in Page Toolbar. */
+"Next in-page result" = "Hasil halaman berikutnya";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"No" = "Tidak";
+
+/* Title displayed when no logins are found after searching */
+"No logins found" = "Info masuk tidak ditemukan";
+
+/* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
+"No tabs" = "Tidak ada tab";
+
+/* shields overview footer message */
+"Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Catatan: Beberapa situs mungkin memerlukan skrip untuk bekerja dengan baik sehingga perisai ini dimatikan secara bawaan.";
+
+/* OK button */
+"OK" = "Oke";
+
+/* Toggled OFF accessibility value */
+"Off" = "Mati";
+
+/* Settings item for clearing website data */
+"Offline Website Data" = "Data Situs Web Luring";
+
+/* Toggled ON accessibility value */
+"On" = "Aktif";
+
+/* Open and Fill website text selection menu item */
+"Open & Fill" = "Buka & Isi";
+
+/* Share action title */
+"Open Desktop Site tab" = "Buka tab SItus Desktop";
+
+/* Context menu for opening image in new tab */
+"Open Image In New Tab" = "Buka Gambar di Tab Baru";
+
+/* Context menu option for opening a link in a new private tab */
+"Open In New Private Tab" = "Buka di Tab Pribadi Baru";
+
+/* Context menu item for opening a link in a new tab */
+"Open In New Tab" = "Buka di Tab Baru";
+
+/* See http://mzl.la/1G7uHo7 */
+"Open Settings" = "Buka Pengaturan";
+
+/* See http://mzl.la/1LXbDOL */
+"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Buka artikel pada Tampilan Baca dengan mengetuk ikon buku saat muncul di panel judul.";
+
+/* Shown in error pages for files that can't be shown and need to be downloaded. */
+"Open in Safari" = "Buka di Safari";
+
+/* String indicating that the file can be opened in another application on the device */
+"Open in…" = "Buka di...";
+
+/* Sync pair device settings section title */
+"Pair" = "Pasangan";
+
+/* Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list). */
+"Panel Chooser" = "Pemilih Panel";
+
+/* Accessibility Label for the browser toolbar Password Manager button */
+"Password Manager" = "Pengelola Sandi";
+
+/* Setting for behaviour of password manager button */
+"Password Manager Button" = "Tombol Pengelola Sandi";
+
+/* Paste the URL into the location bar */
+"Paste" = "Tempel";
+
+/* Paste the URL into the location bar and visit */
+"Paste & Go" = "Tempel & Buka";
+
+/* Description for new device popup */
+"Please enter a name for this device" = "Silakan masukkan nama untuk perangkat ini";
+
+/* Accessibility label for previous result button in Find in Page Toolbar. */
+"Previous in-page result" = "Hasil halaman sebelumnya";
+
+/* Settings privacy section title */
+"Privacy" = "Privasi";
+
+/* Show Brave Browser Privacy Policy page from the Privacy section in the settings. */
+"Privacy Policy" = "Kebijakan Privasi";
+
+/* Private button title */
+"Private" = "Pribadi";
+
+/* No comment provided by engineer. */
+"Private Browsing" = "Penjelajahan Pribadi";
+
+/* Setting to keep app in private mode */
+"Private Browsing Only" = "Hanya Penjelajahan Pribadi";
+
+/* Accessibility label for toggling on/off private mode */
+"Private Mode" = "Mode Pribadi";
+
+/* Private mode icon next to location string */
+"Private mode icon" = "Ikon mode pribadi";
+
+/* QR Code section title */
+"QR Code" = "Kode QR";
+
+/* Title for quick-search engines settings section. */
+"Quick-search Engines" = "Mesin Pencarian Cepat";
+
+/* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
+"Reader Mode Settings" = "Pengaturan Mode Baca";
+
+/* Accessibility label for the Reader View button */
+"Reader View" = "Tampilan Baca";
+
+/* Panel accessibility label */
+"Reading list" = "Daftar bacaan";
+
+/* Accessibility Label for the browser toolbar Reload button */
+"Reload" = "Muat Ulang";
+
+/* No comment provided by engineer. */
+"Reload Page" = "Muat Ulang Laman";
+
+/* Action button for deleting_history_entries_in_the_history_panel. */
+"Remove" = "Hapus";
+
+/* Name for button removing current article from reading list in reader mode */
+"Remove from Reading List" = "Hapus dari Daftar Bacaan";
+
+/* Button shown in editing mode to remove this site from the top sites panel. */
+"Remove page" = "Hapus halaman";
+
+/* Sync remove device. */
+"Remove this device" = "Hapus perangkat ini";
+
+/* Sync remove device? */
+"Remove this device?" = "Hapus perangkat ini?";
+
+/* Show mail composer to report a bug. */
+"Report a bug" = "Laporkan masalah";
+
+/* Reveal password text selection menu item */
+"Reveal" = "Buka";
+
+/* Font type setting in the reading view settings */
+"Sans-serif" = "Sans-serif";
+
+/* Context menu item for saving an image */
+"Save Image" = "Simpan Gambar";
+
+/* Button to save the user's password */
+"Save Login" = "Simpan Info Masuk";
+
+/* Setting to enable the built-in password manager */
+"Save Logins" = "Simpan Info Masuk";
+
+/* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
+"Save login %@ for %@?" = "Simpan info masuk %1$@ untuk %2$@?";
+
+/* See http://mzl.la/1LXbDOL */
+"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Simpan laman ke Daftar Bacaan dengan mengetuk ikon tambah buku pada kontrol Tampilan Baca.";
+
+/* Prompt for saving a password with no username. The parameter is the hostname of the site. */
+"Save password for %@?" = "Simpan sandi untuk %@?";
+
+/* Settings item for clearing passwords and login data */
+"Saved Logins" = "Info Masuk Tersimpan";
+
+/* Scan sync code button title */
+"Scan or enter code" = "Pindai atau masukkan kode";
+
+/* individual blocking statistic title */
+"Scripts Blocked" = "Skrip Diblokir";
+
+/* No comment provided by engineer. */
+"Search" = "Cari";
+
+/* Accessibility label for the search input field in the Logins list */
+"Search Input Field" = "Bidang Input Pencarian";
+
+/* No comment provided by engineer. */
+"Search Settings" = "Pengaturan Pencarian";
+
+/* No comment provided by engineer. */
+"Search in page" = "Cari di laman";
+
+/* The text shown in the URL bar on about:home */
+"Search or enter address" = "Cari atau masukkan alamat";
+
+/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
+"Search suggestions from %@" = "Saran pencarian dari %@";
+
+/* Accessibility hint describing the action performed when a search suggestion is clicked */
+"Searches for the suggestion" = "Cari saran";
+
+/* Accessibility label for the lock icon, which is only present if the connection is secure */
+"Secure connection" = "Sambungan aman";
+
+/* Title for selecting all logins */
+"Select All" = "Pilih Semua";
+
+/* No comment provided by engineer. */
+"Select Location Bar" = "Pilih Bilah Lokasi";
+
+/* option in settings screen */
+"Send crash reports and metrics" = "Kirim laporan kemacetan sistem dan metrik";
+
+/* Sepia theme setting in Reading View settings */
+"Sepia" = "Sepia";
+
+/* Font type setting in the reading view settings */
+"Serif" = "Serif";
+
+/* No comment provided by engineer. */
+"Settings" = "Pengaturan";
+
+/* Accessibility Label for the browser toolbar Share button */
+"Share" = "Bagikan";
+
+/* Context menu item for sharing a link URL */
+"Share Link" = "Bagikan Tautan";
+
+/* message shown briefly in URL bar */
+"Shields Down" = "Perisai Tidak Aktif";
+
+/* message shown briefly in URL bar */
+"Shields Up" = "Perisai Aktif";
+
+/* Button to show the bookmarks list */
+"Show Bookmarks" = "Tampilkan Markah";
+
+/* Button to show the history list */
+"Show History" = "Tampilkan Riwayat";
+
+/* No comment provided by engineer. */
+"Show Next Tab" = "Tampilkan Tab Berikutnya";
+
+/* No comment provided by engineer. */
+"Show Previous Tab" = "Tampilkan Tab Sebelumnya";
+
+/* Label for show search suggestions setting. */
+"Show Search Suggestions" = "Tampilkan Saran Pencarian";
+
+/* Accessibility Label for the tabs button in the browser toolbar */
+"Show Tabs" = "Tampilkan Tab";
+
+/* Setting to show/hide the tabs bar */
+"Show Tabs Bar" = "Tampilkan Bilah Tab";
+
+/* Show the on-boarding screen again from the settings */
+"Show Tour" = "Tampilkan Tur";
+
+/* tabs bar show/hide option */
+"Show in landscape only" = "Tampilkan hanya dalam mode datar";
+
+/* Password Manager show picker option */
+"Show picker" = "Tampilkan pemilih";
+
+/* shields overview message */
+"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Perisai Situs memungkinkan Anda untuk mengontrol kapan iklan dan pelacak diblokir untuk tiap situs yang Anda kunjungi. Jika Anda lebih memilih untuk melihat iklan pada situs tertentu, Anda dapat mengaktifkannya di sini.";
+
+/* Brave panel topmost title */
+"Site shield settings" = "Pengaturan perisai situs";
+
+/* No comment provided by engineer. */
+"Start Browsing" = "Mulai Penjelajahan";
+
+/* Accessibility Label for the browser toolbar Stop button */
+"Stop" = "Hentikan";
+
+/* Support section title */
+"Support" = "Dukungan";
+
+/* Accessibility hint for tab tray's displayed tab. */
+"Swipe right or left with three fingers to close the tab." = "Geser ke kanan atau kiri dengan tiga jari untuk menutup tab.";
+
+/* Sync settings section title */
+"Sync" = "Sinkronisasi";
+
+/* Sync settings welcome */
+"Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started." = "Sinkronisasi data peramban antarperangkat Anda secara aman menggunakan Brave Sync, tidak perlu membuat akun. Ketuk di bawah ini untuk memulai.";
+
+/* Sync device settings section title */
+"Sync on this device" = "Sinkronisasi pada perangkat ini";
+
+/* Sync to existing device */
+"Sync to device" = "Sinkronkan ke perangkat";
+
+/* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
+"Tab %@ of %@" = "Tab %1$@ dari %2$@";
+
+/* Accessibility label for the Tabs. */
+"Tabs" = "Tab";
+
+/* Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \"Tabs 8 to 10 of 15\" says tabs 8, 9 and 10 are visible, out of 15 tabs total. */
+"Tabs %@ to %@ of %@" = "Tab %1$@ hingga %2$@ dari %3$@";
+
+/* Accessibility label for the Tabs Tray view. */
+"Tabs Tray" = "Daftar Tab";
+
+/* Shown in intro screens */
+"Tap the Brave button to temporarily disable ad blocking and privacy features." = "Ketuk tombol Brave untuk menonaktifkan sementara fitur pemblokiran iklan dan privasi.";
+
+/* Show Brave Browser TOS page from the Privacy section in the settings. */
+"Terms of Use" = "Persyaratan Penggunaan";
+
+/* Warning text on the certificate error page */
+"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "Pemilik %@ salah mengkonfigurasi situs web-nya. Untuk melindungi informasi Anda agar tidak dicuri, Brave belum menyambungkan ke situs web ini.";
+
+/* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"The page could not be displayed in Reader View." = "Laman ini tidak dapat ditampilkan pada Tampilan Baca.";
+
+/* Error displayed when reader mode cannot be enabled */
+"There was an error converting the page" = "Terjadi kesalahan saat mengkonversi laman";
+
+/* Description of the confirmation dialog shown when a user tries to clear their private data. */
+"This action will clear all of your private data. It cannot be undone." = "Tindakan ini akan menghapus semua data pribadi Anda. Tindakan ini tidak dapat dibatalkan.";
+
+/* See http://mzl.la/1G7uHo7 */
+"This allows you to save the image to your Camera Roll." = "Tindakan ini memungkinkan Anda menyimpan gambar ke Galeri Kamera.";
+
+/* Sync remove device? */
+"This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device." = "Perangkat ini akan diputuskan dari grup sinkronisasi dan tidak lagi menerima atau mengirim data sinkronisasi. Semua data yang ada akan tetap ada di perangkat.";
+
+/* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
+"This folder isn't empty." = "Folder ini tidak kosong.";
+
+/* Private tab title */
+"This is a Private Tab" = "Ini adalah Tab Pribadi";
+
+/* History tableview section header */
+"Today" = "Hari Ini";
+
+/* Panel accessibility label */
+"Top sites" = "Situs teratas";
+
+/* Shields Trackers Stat */
+"Trackers \rBlocked" = "Pelacak 
+Diblokir";
+
+/* Shown in error pages on a button that will try to load the page again */
+"Try again" = "Coba lagi";
+
+/* Prompt shown before enabling provider search queries */
+"Turn on search suggestions?" = "Aktifkan saran pencarian?";
+
+/* Accessiblity hint for toggling on/off private mode */
+"Turns private mode on or off" = "Aktifkan atau nonaktifkan mode pribadi";
+
+/* Bookmark URL */
+"URL" = "URL";
+
+/* Description on popup when setting up a sync group fails */
+"Unable to create new sync group." = "Tidak bisa membuat grup sinkronisasi baru.";
+
+/* The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android. */
+"Unsorted Bookmarks" = "Markah Belum Disortir";
+
+/* No comment provided by engineer. */
+"Unsuccessful" = "Tidak berhasil";
+
+/* The default name for bookmark item without titles. */
+"Untitled" = "Tidak Berjudul";
+
+/* brave shield on/off toggle on state */
+"Up" = "Naik";
+
+/* Button to update the user's password */
+"Update" = "Perbarui";
+
+/* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
+"Update login %@ for %@?" = "Perbarui info masuk %1$@ untuk %2$@?";
+
+/* Prompt for updating a password with no username. The parameter is the hostname of the site. */
+"Update password for %@?" = "Perbarui sandi untuk %@?";
+
+/* Setting to allow user in non-english locale to use adblock rules specifc to their language */
+"Use regional adblock" = "Gunakan pemblokir iklan regional";
+
+/* Sync add device description */
+"Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "Menggunakan perangkat kedua, menavigasi ke Pengaturan Brave > Sinkronisasi. Tangkap kode QR (di atas) dengan perangkat kedua, atau masukkan kode kata jika kamera tidak tersedia.";
+
+/* Sync to existing device description */
+"Using existing synced device open Brave Settings and navigate to “Devices & Settings”, tap ‘+’ to add a new device and reveal sync code." = "Menggunakan perangkat yang sudah disinkronkan buka Pengaturan Brave dan menavigasi ke \"Perangkat & Pengaturan\", ketuk ‘+’ untuk menambahkan perangkat baru dan memperlihatkan kode sinkronisasi.";
+
+/* Version number of Brave shown in settings */
+"Version %@ (%@)" = "Versi %1$@ (%2$@)";
+
+/* Button label to temporarily continue to the site from the certificate error page */
+"Visit site anyway" = "Tetap kunjungi situs";
+
+/* Warning text when clicking the Advanced button on error pages */
+"Warning: we can't confirm your connection to this website is secure." = "Peringatan: kami tidak dapat mengkonfirmasikan sambungan Anda ke situs web ini aman.";
+
+/* Accessibility label for the main web content view */
+"Web content" = "Konten web";
+
+/* Shown in intro screens */
+"Welcome to Brave." = "Selamat Datang di Brave.";
+
+/* The title for the empty Top Sites state */
+"Welcome to Top Sites" = "Selamat Datang di Situs Teratas";
+
+/* See http://mzl.la/1LXbDOL */
+"Welcome to your Reading List" = "Selamat datang di Daftar Bacaan Anda";
+
+/* Will be displayed in Settings under 'Close Private Tabs' */
+"When Leaving Private Browsing" = "Bila Meninggalkan Mode Penjelajahan Pribadi";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"Yes" = "Ya";
+
+/* History tableview section header */
+"Yesterday" = "Kemarin";
+
+/* Footer message on picker for 3rd party password manager setting */
+"You can choose to show a popup to pick your password manager, or have the selected one open automatically." = "Anda dapat memilih untuk menampilkan popup atau memilih pengelola sandi Anda, atau membuka otomatis salah satu pilihan.";
+
+/* Title on the certificate error page */
+"Your connection is not private" = "Sambungan Anda tidak pribadi";
+
+/* Description label for the empty Top Sites state. */
+"Your most visited sites will show up here." = "Situs yang paling sering Anda kunjungi akan muncul di sini.";
+
+/* Time Saved Days */
+"d" = "hr";
+
+/* Time Saved Hours */
+"h" = "jam";
+
+/* Relative time for a tab that was visited within the last few moments. */
+"just now" = "baru saja";
+
+/* Time Saved Minutes */
+"min" = "mnt";
+
+/* Relative date for dates older than a month and less than two months. */
+"more than a month ago" = "lebih dari sebulan yang lalu";
+
+/* Description for a date more than a week ago, but less than a month ago. */
+"more than a week ago" = "lebih dari seminggu yang lalu";
+
+/* Title for password row in Login Detail View */
+"password" = "sandi";
+
+/* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
+"read" = "baca";
+
+/* Time Saved Seconds */
+"s" = "dtk";
+
+/* Relative date for date in past week. */
+"this week" = "minggu ini";
+
+/* Relative date for date older than a minute. */
+"today at %@" = "hari ini di %@";
+
+/* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
+"unread" = "belum dibaca";
+
+/* Title for username row in Login Detail View */
+"username" = "nama pengguna";
+
+/* Title for website row in Login Detail View */
+"website" = "situs web";
+

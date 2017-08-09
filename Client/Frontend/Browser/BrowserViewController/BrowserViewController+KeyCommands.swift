@@ -21,7 +21,7 @@ extension BrowserViewController {
     }
 
     func findOnPage(){
-        if let tab = tabManager.selectedTab where homePanelController == nil {
+        if let tab = tabManager.selectedTab, homePanelController == nil {
             browser(tab, didSelectFindInPageForSelection: "")
         }
     }
@@ -47,54 +47,54 @@ extension BrowserViewController {
     func closeTab() {
         guard let tab = tabManager.selectedTab else { return }
         let priv = tab.isPrivate
-        nextOrPrevTabShortcut(isNext: false)
+        nextOrPrevTabShortcut(false)
         tabManager.removeTab(tab, createTabIfNoneLeft: !priv)
         if priv && tabManager.tabs.privateTabs.count == 0 {
             urlBarDidPressTabs(urlBar)
         }
     }
 
-    private func nextOrPrevTabShortcut(isNext isNext: Bool) {
+    fileprivate func nextOrPrevTabShortcut(_ isNext: Bool) {
         guard let tab = tabManager.selectedTab else { return }
         let step = isNext ? 1 : -1
         let tabList: [Browser] = tabManager.tabs.displayedTabsForCurrentPrivateMode
-        func wrappingMod(val:Int, mod:Int) -> Int {
+        func wrappingMod(_ val:Int, mod:Int) -> Int {
             return ((val % mod) + mod) % mod
         }
         assert(wrappingMod(-1, mod: 10) == 9)
-        let index = wrappingMod((tabList.indexOf(tab)! + step), mod: tabList.count)
+        let index = wrappingMod((tabList.index(of: tab)! + step), mod: tabList.count)
         tabManager.selectTab(tabList[index])
     }
 
     func nextTab() {
-        nextOrPrevTabShortcut(isNext: true)
+        nextOrPrevTabShortcut(true)
     }
 
     func previousTab() {
-        nextOrPrevTabShortcut(isNext: false)
+        nextOrPrevTabShortcut(false)
     }
 
     override var keyCommands: [UIKeyCommand]? {
         let result =  [
-            UIKeyCommand(input: "r", modifierFlags: .Command, action: #selector(BrowserViewController.reloadTab), discoverabilityTitle: Strings.ReloadPageTitle),
-            UIKeyCommand(input: "[", modifierFlags: .Command, action: #selector(BrowserViewController.goBack), discoverabilityTitle: Strings.BackTitle),
-            UIKeyCommand(input: "]", modifierFlags: .Command, action: #selector(BrowserViewController.goForward), discoverabilityTitle: Strings.ForwardTitle),
+            UIKeyCommand(input: "r", modifierFlags: .command, action: #selector(BrowserViewController.reloadTab), discoverabilityTitle: Strings.ReloadPageTitle),
+            UIKeyCommand(input: "[", modifierFlags: .command, action: #selector(BrowserViewController.goBack), discoverabilityTitle: Strings.BackTitle),
+            UIKeyCommand(input: "]", modifierFlags: .command, action: #selector(BrowserViewController.goForward), discoverabilityTitle: Strings.ForwardTitle),
 
-            UIKeyCommand(input: "f", modifierFlags: .Command, action: #selector(BrowserViewController.findOnPage), discoverabilityTitle: Strings.FindTitle),
-            UIKeyCommand(input: "l", modifierFlags: .Command, action: #selector(BrowserViewController.selectLocationBar), discoverabilityTitle: Strings.SelectLocationBarTitle),
-            UIKeyCommand(input: "t", modifierFlags: .Command, action: #selector(BrowserViewController.newTab), discoverabilityTitle: Strings.NewTabTitle),
+            UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(BrowserViewController.findOnPage), discoverabilityTitle: Strings.FindTitle),
+            UIKeyCommand(input: "l", modifierFlags: .command, action: #selector(BrowserViewController.selectLocationBar), discoverabilityTitle: Strings.SelectLocationBarTitle),
+            UIKeyCommand(input: "t", modifierFlags: .command, action: #selector(BrowserViewController.newTab), discoverabilityTitle: Strings.NewTabTitle),
             //#if DEBUG
-                UIKeyCommand(input: "t", modifierFlags: .Control, action: #selector(BrowserViewController.newTab), discoverabilityTitle: Strings.NewTabTitle),
+                UIKeyCommand(input: "t", modifierFlags: .control, action: #selector(BrowserViewController.newTab), discoverabilityTitle: Strings.NewTabTitle),
             //#endif
-            UIKeyCommand(input: "p", modifierFlags: [.Command, .Shift], action: #selector(BrowserViewController.newPrivateTab), discoverabilityTitle: Strings.NewPrivateTabTitle),
-            UIKeyCommand(input: "w", modifierFlags: .Command, action: #selector(BrowserViewController.closeTab), discoverabilityTitle: Strings.CloseTabTitle),
-            UIKeyCommand(input: "\t", modifierFlags: .Control, action: #selector(BrowserViewController.nextTab), discoverabilityTitle: Strings.ShowNextTabTitle),
-            UIKeyCommand(input: "\t", modifierFlags: [.Control, .Shift], action: #selector(BrowserViewController.previousTab), discoverabilityTitle: Strings.ShowPreviousTabTitle),
+            UIKeyCommand(input: "p", modifierFlags: [.command, .shift], action: #selector(BrowserViewController.newPrivateTab), discoverabilityTitle: Strings.NewPrivateTabTitle),
+            UIKeyCommand(input: "w", modifierFlags: .command, action: #selector(BrowserViewController.closeTab), discoverabilityTitle: Strings.CloseTabTitle),
+            UIKeyCommand(input: "\t", modifierFlags: .control, action: #selector(BrowserViewController.nextTab), discoverabilityTitle: Strings.ShowNextTabTitle),
+            UIKeyCommand(input: "\t", modifierFlags: [.control, .shift], action: #selector(BrowserViewController.previousTab), discoverabilityTitle: Strings.ShowPreviousTabTitle),
         ]
         #if DEBUG
             // in simulator, CMD+t is slow-mo animation
             return result + [
-                UIKeyCommand(input: "t", modifierFlags: [.Command, .Shift], action: #selector(BrowserViewController.newTab))]
+                UIKeyCommand(input: "t", modifierFlags: [.command, .shift], action: #selector(BrowserViewController.newTab))]
         #else
             return result
         #endif

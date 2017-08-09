@@ -6,12 +6,12 @@ import Foundation
 import WebKit
 
 protocol SessionRestoreHelperDelegate: class {
-    func sessionRestoreHelper(helper: SessionRestoreHelper, didRestoreSessionForBrowser browser: Browser)
+    func sessionRestoreHelper(_ helper: SessionRestoreHelper, didRestoreSessionForBrowser browser: Browser)
 }
 
 class SessionRestoreHelper: BrowserHelper {
     weak var delegate: SessionRestoreHelperDelegate?
-    private weak var browser: Browser?
+    fileprivate weak var browser: Browser?
 
     required init(browser: Browser) {
         self.browser = browser
@@ -21,10 +21,10 @@ class SessionRestoreHelper: BrowserHelper {
         return "sessionRestoreHelper"
     }
 
-    func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        if let browser = browser, params = message.body as? [String: AnyObject] {
+    func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+        if let browser = browser, let params = message.body as? [String: AnyObject] {
             if params["name"] as! String == "didRestoreSession" {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.delegate?.sessionRestoreHelper(self, didRestoreSessionForBrowser: browser)
                 }
             }

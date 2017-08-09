@@ -6,18 +6,18 @@ import Foundation
 import WebKit
 
 protocol WindowCloseHelperDelegate: class {
-    func windowCloseHelper(windowCloseHelper: WindowCloseHelper, didRequestToCloseBrowser browser: Browser)
+    func windowCloseHelper(_ windowCloseHelper: WindowCloseHelper, didRequestToCloseBrowser browser: Browser)
 }
 
 class WindowCloseHelper: BrowserHelper {
     weak var delegate: WindowCloseHelperDelegate?
-    private weak var browser: Browser?
+    fileprivate weak var browser: Browser?
 
     required init(browser: Browser) {
         self.browser = browser
-        if let path = NSBundle.mainBundle().pathForResource("WindowCloseHelper", ofType: "js") {
-            if let source = try? NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String {
-                let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.AtDocumentEnd, forMainFrameOnly: true)
+        if let path = Bundle.main.path(forResource: "WindowCloseHelper", ofType: "js") {
+            if let source = try? NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String {
+                let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
                 browser.webView!.configuration.userContentController.addUserScript(userScript)
             }
         }
@@ -27,9 +27,9 @@ class WindowCloseHelper: BrowserHelper {
         return "windowCloseHelper"
     }
 
-    func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+    func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
         if let browser = browser {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.delegate?.windowCloseHelper(self, didRequestToCloseBrowser: browser)
             }
         }

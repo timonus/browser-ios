@@ -7,18 +7,18 @@ import Shared
 
 extension UIImage{
 
-    func alpha(value:CGFloat)->UIImage
+    func alpha(_ value:CGFloat)->UIImage
     {
         UIGraphicsBeginImageContextWithOptions(self.size, false, 0.0)
 
         let ctx = UIGraphicsGetCurrentContext();
         let area = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height);
 
-        CGContextScaleCTM(ctx!, 1, -1);
-        CGContextTranslateCTM(ctx!, 0, -area.size.height);
-        CGContextSetBlendMode(ctx!, .Multiply);
-        CGContextSetAlpha(ctx!, value);
-        CGContextDrawImage(ctx!, area, self.CGImage!);
+        ctx!.scaleBy(x: 1, y: -1);
+        ctx!.translateBy(x: 0, y: -area.size.height);
+        ctx!.setBlendMode(.multiply);
+        ctx!.setAlpha(value);
+        ctx!.draw(self.cgImage!, in: area);
 
         let newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -33,7 +33,7 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
     lazy var tabsButton: TabsButton = {
         let tabsButton = TabsButton()
         tabsButton.titleLabel.text = "\(tabsCount)"
-        tabsButton.addTarget(self, action: #selector(BraveBrowserBottomToolbar.onClickShowTabs), forControlEvents: UIControlEvents.TouchUpInside)
+        tabsButton.addTarget(self, action: #selector(BraveBrowserBottomToolbar.onClickShowTabs), for: UIControlEvents.touchUpInside)
         tabsButton.accessibilityLabel = Strings.Show_Tabs
         tabsButton.accessibilityIdentifier = "Toolbar.ShowTabs"
         return tabsButton
@@ -42,10 +42,10 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
     var leftSpacer = UIView()
     var rightSpacer = UIView()
 
-    private weak var clonedTabsButton: TabsButton?
+    fileprivate weak var clonedTabsButton: TabsButton?
     var tabsContainer = UIView()
 
-    private static weak var currentInstance: BraveBrowserBottomToolbar?
+    fileprivate static weak var currentInstance: BraveBrowserBottomToolbar?
 
     override init(frame: CGRect) {
 
@@ -56,17 +56,17 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
         tabsContainer.addSubview(tabsButton)
         addSubview(tabsContainer)
 
-        bringSubviewToFront(backButton)
-        bringSubviewToFront(forwardButton)
+        bringSubview(toFront: backButton)
+        bringSubview(toFront: forwardButton)
 
         addSubview(leftSpacer)
         addSubview(rightSpacer)
-        rightSpacer.userInteractionEnabled = false
-        leftSpacer.userInteractionEnabled = false
+        rightSpacer.isUserInteractionEnabled = false
+        leftSpacer.isUserInteractionEnabled = false
 
         [backButton, forwardButton, shareButton].forEach {
             if let img = $0.currentImage {
-                $0.setImage(img.alpha(BraveUX.BackForwardDisabledButtonAlpha), forState: .Disabled)
+                $0.setImage(img.alpha(BraveUX.BackForwardDisabledButtonAlpha), for: .disabled)
             }
         }
     }
@@ -75,19 +75,19 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func applyTheme(themeName: String) {
+    override func applyTheme(_ themeName: String) {
         super.applyTheme(themeName)
         tabsButton.applyTheme(themeName)
     }
 
-    class func updateTabCountDuplicatedButton(count: Int, animated: Bool) {
+    class func updateTabCountDuplicatedButton(_ count: Int, animated: Bool) {
         guard let instance = BraveBrowserBottomToolbar.currentInstance else { return }
         tabsCount = count
         URLBarView.updateTabCount(instance.tabsButton,
                                   clonedTabsButton: &instance.clonedTabsButton, count: count, animated: animated)
     }
 
-    func setAlphaOnAllExceptTabButton(alpha: CGFloat) {
+    func setAlphaOnAllExceptTabButton(_ alpha: CGFloat) {
         actionButtons.forEach { $0.alpha = alpha }
     }
 
@@ -103,7 +103,7 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
     override func updateConstraints() {
         super.updateConstraints()
 
-        func common(make: ConstraintMaker, bottomInset: Int = 0) {
+        func common(_ make: ConstraintMaker, bottomInset: Int = 0) {
             make.top.equalTo(self)
             make.bottom.equalTo(self).inset(bottomInset)
             make.width.equalTo(self).dividedBy(5)
@@ -142,8 +142,8 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
         }
     }
 
-    override func updatePageStatus(isWebPage isWebPage: Bool) {
-        super.updatePageStatus(isWebPage: isWebPage)
+    override func updatePageStatus(_ isWebPage: Bool) {
+        super.updatePageStatus(isWebPage)
         
         let isPrivate = getApp().browserViewController.tabManager.selectedTab?.isPrivate ?? false
         if isPrivate {

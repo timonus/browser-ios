@@ -5,6 +5,7 @@
 import Foundation
 import Shared
 import WebKit
+import SwiftyJSON
 
 let ReaderModeProfileKeyStyle = "readermode.style"
 
@@ -35,22 +36,22 @@ enum ReaderModeFontType: String {
 }
 
 enum ReaderModeFontSize: Int {
-    case Size1 = 1
-    case Size2 = 2
-    case Size3 = 3
-    case Size4 = 4
-    case Size5 = 5
-    case Size6 = 6
-    case Size7 = 7
-    case Size8 = 8
-    case Size9 = 9
-    case Size10 = 10
-    case Size11 = 11
-    case Size12 = 12
-    case Size13 = 13
+    case size1 = 1
+    case size2 = 2
+    case size3 = 3
+    case size4 = 4
+    case size5 = 5
+    case size6 = 6
+    case size7 = 7
+    case size8 = 8
+    case size9 = 9
+    case size10 = 10
+    case size11 = 11
+    case size12 = 12
+    case size13 = 13
 
     func isSmallest() -> Bool {
-        return self == Size1
+        return self == ReaderModeFontSize.size1
     }
 
     func smaller() -> ReaderModeFontSize {
@@ -62,27 +63,27 @@ enum ReaderModeFontSize: Int {
     }
 
     func isLargest() -> Bool {
-        return self == Size13
+        return self == ReaderModeFontSize.size13
     }
 
     static var defaultSize: ReaderModeFontSize {
-        switch UIApplication.sharedApplication().preferredContentSizeCategory {
-        case UIContentSizeCategoryExtraSmall:
-            return .Size1
-        case UIContentSizeCategorySmall:
-            return .Size3
-        case UIContentSizeCategoryMedium:
-            return .Size5
-        case UIContentSizeCategoryLarge:
-            return .Size7
-        case UIContentSizeCategoryExtraLarge:
-            return .Size9
-        case UIContentSizeCategoryExtraExtraLarge:
-            return .Size11
-        case UIContentSizeCategoryExtraExtraExtraLarge:
-            return .Size13
+        switch UIApplication.shared.preferredContentSizeCategory {
+        case UIContentSizeCategory.extraSmall:
+            return .size1
+        case UIContentSizeCategory.small:
+            return .size3
+        case UIContentSizeCategory.medium:
+            return .size5
+        case UIContentSizeCategory.large:
+            return .size7
+        case UIContentSizeCategory.extraLarge:
+            return .size9
+        case UIContentSizeCategory.extraExtraLarge:
+            return .size11
+        case UIContentSizeCategory.extraExtraExtraLarge:
+            return .size13
         default:
-            return .Size5
+            return .size5
         }
     }
 
@@ -102,11 +103,11 @@ struct ReaderModeStyle {
 
     /// Encode the style to a JSON dictionary that can be passed to ReaderMode.js
     func encode() -> String {
-        return JSON(["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]).toString(false)
+        return JSON(["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]).rawString() ?? ""
     }
 
     /// Encode the style to a dictionary that can be stored in the profile
-    func encode() -> [String:AnyObject] {
+    func encode() -> [String:Any] {
         return ["theme": theme.rawValue, "fontType": fontType.rawValue, "fontSize": fontSize.rawValue]
     }
 
@@ -117,7 +118,7 @@ struct ReaderModeStyle {
     }
 
     /// Initialize the style from a dictionary, taken from the profile. Returns nil if the object cannot be decoded.
-    init?(dict: [String:AnyObject]) {
+    init?(dict: [String:Any]) {
         let themeRawValue = dict["theme"] as? String
         let fontTypeRawValue = dict["fontType"] as? String
         let fontSizeRawValue = dict["fontSize"] as? Int
@@ -174,12 +175,12 @@ struct ReadabilityResult {
 
     /// Initialize from a JSON encoded string
     init?(string: String) {
-        let object = JSON(string: string)
-        let domain = object["domain"].asString
-        let url = object["url"].asString
-        let content = object["content"].asString
-        let title = object["title"].asString
-        let credits = object["credits"].asString
+        let object = JSON(parseJSON: string)
+        let domain = object["domain"].string
+        let url = object["url"].string
+        let content = object["content"].string
+        let title = object["title"].string
+        let credits = object["credits"].string
 
         if domain == nil || url == nil || content == nil || title == nil || credits == nil {
             return nil
@@ -193,20 +194,21 @@ struct ReadabilityResult {
     }
 
     /// Encode to a dictionary, which can then for example be json encoded
-    func encode() -> [String:AnyObject] {
+    func encode() -> [String:Any] {
         return ["domain": domain, "url": url, "content": content, "title": title, "credits": credits]
     }
 
     /// Encode to a JSON encoded string
     func encode() -> String {
-        return JSON(encode() as [String:AnyObject]).toString(false)
+        let dict: [String: Any] = self.encode()
+        return JSON(object: dict).rawString()!
     }
 }
 
 /// Delegate that contains callbacks that we have added on top of the built-in WKWebViewDelegate
 protocol ReaderModeDelegate {
-    func readerMode(readerMode: ReaderMode, didChangeReaderModeState state: ReaderModeState, forBrowser browser: Browser)
-    func readerMode(readerMode: ReaderMode, didDisplayReaderizedContentForBrowser browser: Browser)
+    func readerMode(_ readerMode: ReaderMode, didChangeReaderModeState state: ReaderModeState, forBrowser browser: Browser)
+    func readerMode(_ readerMode: ReaderMode, didDisplayReaderizedContentForBrowser browser: Browser)
 }
 
 let ReaderModeNamespace = "_firefox_ReaderMode"
@@ -215,31 +217,31 @@ class ReaderMode: BrowserHelper {
 
     var delegate: ReaderModeDelegate?
 
-    private weak var browser: Browser?
+    fileprivate weak var browser: Browser?
     var state: ReaderModeState = ReaderModeState.Unavailable
-    private var originalURL: NSURL?
+    fileprivate var originalURL: URL?
 
     required init(browser: Browser) {
         self.browser = browser
 
         // This is a WKUserScript at the moment because webView.evaluateJavaScript() fails with an unspecified error. Possibly script size related.
-        if let path = NSBundle.mainBundle().pathForResource("Readability", ofType: "js") {
-            if let source = try? NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String {
-                let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.AtDocumentEnd, forMainFrameOnly: true)
+        if let path = Bundle.main.path(forResource: "Readability", ofType: "js") {
+            if let source = try? NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String {
+                let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
                 browser.webView?.configuration.userContentController.addUserScript(userScript)
             }
         }
 
         // This is executed after a page has been loaded. It executes Readability and then fires a script message to let us know if the page is compatible with reader mode.
-        if let path = NSBundle.mainBundle().pathForResource("ReaderMode", ofType: "js") {
-            if let source = try? NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String {
-                let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.AtDocumentEnd, forMainFrameOnly: true)
+        if let path = Bundle.main.path(forResource: "ReaderMode", ofType: "js") {
+            if let source = try? NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String {
+                let userScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
                 browser.webView?.configuration.userContentController.addUserScript(userScript)
             }
         }
 
         if let dict = getApp().profile?.prefs.dictionaryForKey(ReaderModeProfileKeyStyle) {
-            if let _style = ReaderModeStyle(dict: dict) {
+            if let _style = ReaderModeStyle(dict: dict as [String : AnyObject]) {
                 // Force didSet to get called to ensure style is updated on the page
                 style = _style
             }
@@ -250,7 +252,7 @@ class ReaderMode: BrowserHelper {
         return "readerModeMessageHandler"
     }
 
-    private func handleReaderPageEvent(readerPageEvent: ReaderPageEvent) {
+    fileprivate func handleReaderPageEvent(_ readerPageEvent: ReaderPageEvent) {
         switch readerPageEvent {
             case .PageShow:
                 if let browser = browser {
@@ -259,19 +261,18 @@ class ReaderMode: BrowserHelper {
         }
     }
 
-    private func handleReaderModeStateChange(state: ReaderModeState) {
+    fileprivate func handleReaderModeStateChange(_ state: ReaderModeState) {
         self.state = state
         if let browser = browser {
             delegate?.readerMode(self, didChangeReaderModeState: state, forBrowser: browser)
             if state == .Active {
-                style = (style)
+                (style = style)
             }
         }
     }
 
-    func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        if let msg = message.body as? Dictionary<String,String> {
-            
+    func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+        if let msg = message.body as? Dictionary<String, String> {
             if let messageType = ReaderModeMessageType(rawValue: msg["Type"] ?? "") {
                 switch messageType {
                     case .PageEvent:
@@ -291,9 +292,8 @@ class ReaderMode: BrowserHelper {
 
     var style: ReaderModeStyle = DefaultReaderModeStyle {
         didSet {
-            if let browser = browser where state == ReaderModeState.Active {
-                browser.webView?.evaluateJavaScript("\(ReaderModeNamespace).setStyle(\(style.encode()))", completionHandler: {
-                    (object, error) -> Void in
+            if state == ReaderModeState.Active {
+                browser?.webView?.evaluateJavaScript("\(ReaderModeNamespace).setStyle(\(style.encode() as String))", completionHandler: { (object, error) -> Void in
                     return
                 })
             }

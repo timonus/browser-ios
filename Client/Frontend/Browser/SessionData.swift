@@ -9,24 +9,24 @@ import Storage
 
 class SessionData: NSObject, NSCoding {
     let currentPage: Int
-    let urls: [NSURL]
+    let urls: [URL]
     let lastUsedTime: Timestamp
     var currentTitle: String = ""
     var currentFavicon: Favicon?
 
-    var jsonDictionary: [String: AnyObject] {
+    var jsonDictionary: [String: Any] {
         return [
             "currentPage": String(self.currentPage),
             "lastUsedTime": String(self.lastUsedTime),
-            "urls": urls.map { $0.absoluteString ?? "" }
+            "urls": urls.map { $0.absoluteString }
         ]
     }
     
     // This is not a fully direct mapping, but rather an attempt to reconcile data differences, primarily used for tab restoration
     var savedTabData: SavedTab {
         // (id: String, title: String, url: String, isSelected: Bool, order: Int16, screenshot: UIImage?, history: [String], historyIndex: Int16)
-        let urlStrings = urls.map { $0.absoluteString ?? "" }
-        let currentURL = urlStrings[currentPage] ?? ""
+        let urlStrings = urls.map { $0.absoluteString }
+        let currentURL = urlStrings[(currentPage < 0 ? max(urlStrings.count-1, 0) : currentPage)]
         return ("InvalidId", currentTitle, currentURL, false, -1, nil, urlStrings, Int16(currentPage))
     }
 
@@ -38,7 +38,7 @@ class SessionData: NSObject, NSCoding {
         - parameter urls:            The sequence of URLs in this tab's session history.
         - parameter lastUsedTime:    The last time this tab was modified.
     **/
-    init(currentPage: Int, currentTitle: String?, currentFavicon: Favicon?, urls: [NSURL], lastUsedTime: Timestamp) {
+    init(currentPage: Int, currentTitle: String?, currentFavicon: Favicon?, urls: [URL], lastUsedTime: Timestamp) {
         self.currentPage = currentPage
         self.urls = urls
         self.lastUsedTime = lastUsedTime
@@ -50,18 +50,18 @@ class SessionData: NSObject, NSCoding {
     }
 
     required init?(coder: NSCoder) {
-        self.currentPage = coder.decodeObjectForKey("currentPage") as? Int ?? 0
-        self.urls = coder.decodeObjectForKey("urls") as? [NSURL] ?? []
-        self.lastUsedTime = UInt64(coder.decodeInt64ForKey("lastUsedTime")) ?? NSDate.now()
-        self.currentTitle = coder.decodeObjectForKey("currentTitle") as? String ?? ""
-        self.currentFavicon = coder.decodeObjectForKey("currentFavicon") as? Favicon
+        self.currentPage = coder.decodeObject(forKey: "currentPage") as? Int ?? 0
+        self.urls = coder.decodeObject(forKey: "urls") as? [URL] ?? []
+        self.lastUsedTime = UInt64(coder.decodeInt64(forKey: "lastUsedTime")) ?? Date.now()
+        self.currentTitle = coder.decodeObject(forKey: "currentTitle") as? String ?? ""
+        self.currentFavicon = coder.decodeObject(forKey: "currentFavicon") as? Favicon
     }
 
-    func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(currentPage, forKey: "currentPage")
-        coder.encodeObject(urls, forKey: "urls")
-        coder.encodeInt64(Int64(lastUsedTime), forKey: "lastUsedTime")
-        coder.encodeObject(currentTitle, forKey: "currentTitle")
-        coder.encodeObject(currentFavicon, forKey: "currentFavicon")
+    func encode(with coder: NSCoder) {
+        coder.encode(currentPage, forKey: "currentPage")
+        coder.encode(urls, forKey: "urls")
+        coder.encode(Int64(lastUsedTime), forKey: "lastUsedTime")
+        coder.encode(currentTitle, forKey: "currentTitle")
+        coder.encode(currentFavicon, forKey: "currentFavicon")
     }
 }

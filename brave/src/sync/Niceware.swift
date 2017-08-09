@@ -3,17 +3,20 @@
 import UIKit
 import WebKit
 import Shared
+import SwiftyJSON
 
 class Niceware: JSInjector {
 
     static let shared = Niceware()
     
-    private let nicewareWebView = WKWebView(frame: CGRectZero, configuration: Niceware.webConfig)
+    fileprivate let nicewareWebView = WKWebView(frame: CGRect.zero, configuration: Niceware.webConfig)
     /// Whehter or not niceware is ready to be used
-    private var isNicewareReady = false
+    fileprivate var isNicewareReady = false
     
     override init() {
         super.init()
+        
+        self.maximumDelayAttempts = 4
         
         // Overriding javascript check for this subclass
         self.isJavascriptReadyCheck = { return self.isNicewareReady }
@@ -24,10 +27,10 @@ class Niceware: JSInjector {
         self.nicewareWebView.loadHTMLString("<body>TEST</body>", baseURL: nil)
     }
     
-    private class var webConfig:WKWebViewConfiguration {
+    fileprivate class var webConfig:WKWebViewConfiguration {
         let webCfg = WKWebViewConfiguration()
         webCfg.userContentController = WKUserContentController()
-        webCfg.userContentController.addUserScript(WKUserScript(source: Sync.getScript("niceware"), injectionTime: .AtDocumentEnd, forMainFrameOnly: true))
+        webCfg.userContentController.addUserScript(WKUserScript(source: Sync.getScript("niceware"), injectionTime: .atDocumentEnd, forMainFrameOnly: true))
         return webCfg
     }
     
@@ -40,13 +43,13 @@ class Niceware: JSInjector {
     /// Used to retrive unique bytes for UUIDs (e.g. bookmarks), that will map well with niceware
     /// count: The number of unique bytes desired
     /// returns (via completion): Array of unique bytes
-    func uniqueBytes(count byteCount: Int, completion: (([Int]?, NSError?) -> Void)) {
+    func uniqueBytes(count byteCount: Int, completion: @escaping (([Int]?, Error?) -> Void)) {
         // TODO: Add byteCount validation (e.g. must be even)
         
         executeBlockOnReady {
             self.nicewareWebView.evaluateJavaScript("JSON.stringify(niceware.passphraseToBytes(niceware.generatePassphrase(\(byteCount))))") { (result, error) in
                 
-                let bytes = NSJSONSerialization.swiftObject(withJSON: result)?["data"] as? [Int]
+                let bytes = JSON(parseJSON: result as? String ?? "")["data"].array?.map({ $0.intValue })
                 completion(bytes, error)
             }
         }
@@ -56,7 +59,7 @@ class Niceware: JSInjector {
     /// fromBytes: Array of hex strings (no "0x" prefix) : ["00", "ee", "4a", "42"]
     /// returns (via completion): Array of words from niceware that map to those hex values : ["administrational", "experimental"]
     // TODO: Massage data a bit more for completion block
-    func passphrase(fromBytes bytes: [Int], completion: (([String]?, NSError?) -> Void)) {
+    func passphrase(fromBytes bytes: [Int], completion: @escaping (([String]?, Error?) -> Void)) {
         
         executeBlockOnReady {
             
@@ -66,8 +69,8 @@ class Niceware: JSInjector {
             self.nicewareWebView.evaluateJavaScript(jsToExecute, completionHandler: {
                 (result, error) in
                 
-                let jsonArray = JSON(string: result as? String ?? "").asArray
-                let words = jsonArray?.map { $0.asString }.flatMap { $0 }
+                let jsonArray = JSON(parseJSON: result as? String ?? "").array
+                let words = jsonArray?.map { $0.string }.flatMap { $0 }
                 
                 if words?.count != bytes.count / 2 {
                     completion(nil, nil)
@@ -80,7 +83,7 @@ class Niceware: JSInjector {
     }
     
     /// Takes joined string of unique hex bytes (e.g. from QR code) and returns
-    func passphrase(fromJoinedBytes bytes: String, completion: (([String]?, NSError?) -> Void)) {
+    func passphrase(fromJoinedBytes bytes: String, completion: @escaping (([String]?, Error?) -> Void)) {
         if let split = splitBytes(fromJoinedBytes: bytes) {
             return passphrase(fromBytes: split, completion: completion)
         }
@@ -101,7 +104,7 @@ class Niceware: JSInjector {
         
         var result = [Int]()
         while !chars.isEmpty {
-            let hex = chars[0...1].reduce("", combine: +)
+            let hex = chars[0...1].reduce("", +)
             guard let integer = Int(hex, radix: 16) else {
                 // bad error
                 return nil
@@ -124,14 +127,14 @@ class Niceware: JSInjector {
         
         // Sync hex must be 2 chars, with optional leading 0
         let fullHex = hex.map { $0.characters.count == 2 ? $0 : "0" + $0 }
-        let combinedHex = fullHex.joinWithSeparator("")
+        let combinedHex = fullHex.joined(separator: "")
         return combinedHex
     }
     
     /// Takes English words and returns associated bytes (2 bytes per word)
     /// fromPassphrase: An array of words : ["administrational", "experimental"]
     /// returns (via completion): Array of integer values : [0x00, 0xee, 0x4a, 0x42]
-    func bytes(fromPassphrase passphrase: Array<String>, completion: (([Int]?, NSError?) -> Void)?) {
+    func bytes(fromPassphrase passphrase: Array<String>, completion: (([Int]?, Error?) -> Void)?) {
         // TODO: Add some keyword validation
         executeBlockOnReady {
             
@@ -140,7 +143,7 @@ class Niceware: JSInjector {
             self.nicewareWebView.evaluateJavaScript(jsToExecute, completionHandler: {
                 (result, error) in
                 
-                let bytes = NSJSONSerialization.swiftObject(withJSON: result)?["data"] as? [Int]
+                let bytes = JSON(parseJSON: result as? String ?? "")["data"].array?.map({ $0.intValue })
                 completion?(bytes, error)
             })
         }
@@ -148,7 +151,7 @@ class Niceware: JSInjector {
 }
 
 extension Niceware: WKNavigationDelegate {
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.isNicewareReady = true
     }
 }

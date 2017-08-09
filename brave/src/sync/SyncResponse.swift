@@ -2,6 +2,7 @@
 
 import Foundation
 import Shared
+import SwiftyJSON
 
 // TODO: Make follow API convetion (e.g. super generic names)
 // TODO: Remove public declarations
@@ -10,7 +11,7 @@ typealias SyncDefaultResponseType = SyncRecord
 public final class SyncResponse {
     
     // MARK: Declaration for string constants to be used to decode and also serialize.
-    private struct SerializationKeys {
+    fileprivate struct SerializationKeys {
         static let arg2 = "arg2"
         static let message = "message"
         static let arg1 = "arg1"
@@ -30,8 +31,8 @@ public final class SyncResponse {
     ///
     /// - parameter object: The object of either Dictionary or Array kind that was passed.
     /// - returns: An initialized instance of the class.
-    public convenience init(object: AnyObject) {
-        self.init(json: JSON(string: object as? String ?? ""))
+    public convenience init(object: String) {
+        self.init(json: JSON(parseJSON: object))
     }
     
     /// Initiates the instance based on the JSON that was passed.
@@ -40,9 +41,9 @@ public final class SyncResponse {
     public required init(json: JSON?) {
         rootElements = json?[SerializationKeys.arg2]
         
-        message = json?[SerializationKeys.message].asString
-        arg1 = json?[SerializationKeys.arg1].asString
-        lastFetchedTimestamp = json?[SerializationKeys.arg3].asInt
-        isTruncated = json?[SerializationKeys.arg4].asBool
+        message = json?[SerializationKeys.message].string
+        arg1 = json?[SerializationKeys.arg1].string
+        lastFetchedTimestamp = json?[SerializationKeys.arg3].int
+        isTruncated = json?[SerializationKeys.arg4].bool
     }
 }

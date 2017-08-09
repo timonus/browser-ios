@@ -25,41 +25,41 @@ import Shared
 //}
 
 class WebViewLoadTestUtils {
-    static func urlProtocolEnabled(enable:Bool) {
+    static func urlProtocolEnabled(_ enable:Bool) {
         if enable {
-          NSURLProtocol.registerClass(URLProtocol);
+          URLProtocol.registerClass(URLProtocol);
         } else {
-          NSURLProtocol.unregisterClass(URLProtocol);
+          URLProtocol.unregisterClass(URLProtocol);
         }
     }
 
-    static func httpseEnabled(enable: Bool) {
+    static func httpseEnabled(_ enable: Bool) {
         URLProtocol.testShieldState = BraveShieldState()
         URLProtocol.testShieldState?.setState(.HTTPSE, on: enable)
     }
 
-    static func loadSite(testCase: XCTestCase, site:String, webview:BraveWebView) ->Bool {
-        let url = NSURL(string: "http://" + site)
+    static func loadSite(_ testCase: XCTestCase, site:String, webview:BraveWebView) ->Bool {
+        let url = URL(string: "http://" + site)
         testCase.expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
-        webview.loadRequest(NSURLRequest(URL: url!))
+        webview.loadRequest(URLRequest(URL: url!))
         var isOk = true
-        testCase.waitForExpectationsWithTimeout(15) { (error:NSError?) -> Void in
+        testCase.waitForExpectations(timeout: 15) { (error:NSError?) -> Void in
             if let _ = error {
                 isOk = false
             }
-        }
+        } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
 
         webview.stopLoading()
         testCase.expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
         webview.loadHTMLString("<html><head></head><body></body></html>", baseURL: nil)
-        testCase.waitForExpectationsWithTimeout(2, handler: nil)
+        testCase.waitForExpectations(timeout: 2, handler: nil)
 
         return isOk
     }
 
 
-    static func loadSites(testCase: XCTestCase, sites:[String]) {
-        let w = BraveWebView(frame: CGRectMake(0,0,200,200), useDesktopUserAgent: false)
+    static func loadSites(_ testCase: XCTestCase, sites:[String]) {
+        let w = BraveWebView(frame: CGRect(x: 0,y: 0,width: 200,height: 200), useDesktopUserAgent: false)
         for site in sites {
             print("\(site)")
             self.loadSite(testCase, site: site, webview: w)

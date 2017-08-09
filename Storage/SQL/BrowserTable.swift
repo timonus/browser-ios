@@ -6,6 +6,11 @@ import Foundation
 import Shared
 import XCGLogger
 
+let BookmarksFolderTitleMobile: String = NSLocalizedString("Mobile Bookmarks", tableName: "Storage", comment: "The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android.")
+let BookmarksFolderTitleMenu: String = NSLocalizedString("Bookmarks Menu", tableName: "Storage", comment: "The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android.")
+let BookmarksFolderTitleToolbar: String = NSLocalizedString("Bookmarks Toolbar", tableName: "Storage", comment: "The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android.")
+let BookmarksFolderTitleUnsorted: String = NSLocalizedString("Unsorted Bookmarks", tableName: "Storage", comment: "The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.")
+
 let _TableBookmarks = "bookmarks"                                      // Removed in v12. Kept for migration.
 let TableBookmarksMirror = "bookmarksMirror"                           // Added in v9.
 let TableBookmarksMirrorStructure = "bookmarksMirrorStructure"         // Added in v10.
@@ -22,6 +27,13 @@ let TableDomains = "domains"
 let TableVisits = "visits"
 let TableFaviconSites = "favicon_sites"
 let TableQueuedTabs = "queue"
+
+let TableActivityStreamBlocklist = "activity_stream_blocklist"
+let TablePageMetadata = "page_metadata"
+let TableHighlights = "highlights"
+public let AttachedDatabaseMetadata = "metadataDB" // Added in v22
+let AttachedTablePageMetadata = AttachedDatabaseMetadata + "." + TablePageMetadata // Added in v22
+let AttachedTableHighlights = AttachedDatabaseMetadata + "." + TableHighlights // Added in v23
 
 let ViewBookmarksBufferOnMirror = "view_bookmarksBuffer_on_mirror"
 let ViewBookmarksBufferStructureOnMirror = "view_bookmarksBufferStructure_on_mirror"
@@ -43,6 +55,10 @@ let IndexBookmarksMirrorStructureParentIdx = "idx_bookmarksMirrorStructure_paren
 let IndexBookmarksLocalStructureParentIdx = "idx_bookmarksLocalStructure_parent_idx"     // Added in v12.
 let IndexBookmarksBufferStructureParentIdx = "idx_bookmarksBufferStructure_parent_idx"   // Added in v12.
 let IndexBookmarksMirrorStructureChild = "idx_bookmarksMirrorStructure_child"            // Added in v14.
+let IndexPageMetadataCacheKey = "idx_page_metadata_cache_key_uniqueindex" // Added in v19
+let IndexPageMetadataSiteURL = "idx_page_metadata_site_url_uniqueindex" // Added in v21
+let AttachedIndexPageMetadataCacheKey = AttachedDatabaseMetadata + "." + IndexPageMetadataCacheKey // Added in v22
+let AttachedIndexPageMetadataSiteURL = AttachedDatabaseMetadata + "." + IndexPageMetadataSiteURL // Added in v22
 
 private let AllTables: [String] = [
     TableDomains,
@@ -59,8 +75,11 @@ private let AllTables: [String] = [
     TableBookmarksLocalStructure,
     TableBookmarksMirror,
     TableBookmarksMirrorStructure,
-
     TableQueuedTabs,
+
+    TableActivityStreamBlocklist,
+    AttachedTablePageMetadata,
+    AttachedTableHighlights,
 ]
 
 private let AllViews: [String] = [
@@ -74,7 +93,7 @@ private let AllViews: [String] = [
     ViewAllBookmarks,
     ViewAwesomebarBookmarks,
     ViewAwesomebarBookmarksWithIcons,
-    ViewHistoryVisits,
+    ViewHistoryVisits
 ]
 
 private let AllIndices: [String] = [
@@ -84,6 +103,8 @@ private let AllIndices: [String] = [
     IndexBookmarksLocalStructureParentIdx,
     IndexBookmarksMirrorStructureParentIdx,
     IndexBookmarksMirrorStructureChild,
+    IndexPageMetadataCacheKey,
+    IndexPageMetadataSiteURL
 ]
 
 private let AllTablesIndicesAndViews: [String] = AllViews + AllIndices + AllTables
@@ -94,12 +115,12 @@ private let log = Logger.syncLogger
  * The monolithic class that manages the inter-related history etc. tables.
  * We rely on SQLiteHistory having initialized the favicon table first.
  */
-public class BrowserTable: Table {
-    static let DefaultVersion = 16    // Bug 1185038.
+open class BrowserTable: Table {
+    static let DefaultVersion = 24    // Bug 1358154.
 
     // TableInfo fields.
-    public var name: String { return "BROWSER" }
-    public var version: Int { return BrowserTable.DefaultVersion }
+    var name: String { return "BROWSER" }
+    var version: Int { return BrowserTable.DefaultVersion }
 
     let sqliteVersion: Int32
     let supportsPartialIndices: Bool
@@ -108,21 +129,21 @@ public class BrowserTable: Table {
         let v = sqlite3_libversion_number()
         self.sqliteVersion = v
         self.supportsPartialIndices = v >= 3008000          // 3.8.0.
-        let ver = String.fromCString(sqlite3_libversion())!
+        let ver = String(cString: sqlite3_libversion())
         log.info("SQLite version: \(ver) (\(v)).")
     }
 
-    func run(db: SQLiteDBConnection, sql: String, args: Args? = nil) -> Bool {
+    func run(_ db: SQLiteDBConnection, sql: String, args: Args? = nil) -> Bool {
         let err = db.executeChange(sql, withArgs: args)
         if err != nil {
-            log.error("Error running SQL in BrowserTable. \(err?.localizedDescription)")
+            log.error("Error running SQL in BrowserTable: \(err?.localizedDescription ?? "nil")")
             log.error("SQL was \(sql)")
         }
         return err == nil
     }
 
     // TODO: transaction.
-    func run(db: SQLiteDBConnection, queries: [(String, Args?)]) -> Bool {
+    func run(_ db: SQLiteDBConnection, queries: [(String, Args?)]) -> Bool {
         for (sql, args) in queries {
             if !run(db, sql: sql, args: args) {
                 return false
@@ -131,7 +152,7 @@ public class BrowserTable: Table {
         return true
     }
 
-    func run(db: SQLiteDBConnection, queries: [String]) -> Bool {
+    func run(_ db: SQLiteDBConnection, queries: [String]) -> Bool {
         for sql in queries {
             if !run(db, sql: sql) {
                 return false
@@ -140,7 +161,7 @@ public class BrowserTable: Table {
         return true
     }
 
-    func runValidQueries(db: SQLiteDBConnection, queries: [(String?, Args?)]) -> Bool {
+    func runValidQueries(_ db: SQLiteDBConnection, queries: [(String?, Args?)]) -> Bool {
         for (sql, args) in queries {
             if let sql = sql {
                 if !run(db, sql: sql, args: args) {
@@ -151,14 +172,14 @@ public class BrowserTable: Table {
         return true
     }
 
-    func runValidQueries(db: SQLiteDBConnection, queries: [String?]) -> Bool {
+    func runValidQueries(_ db: SQLiteDBConnection, queries: [String?]) -> Bool {
         return self.run(db, queries: optFilter(queries))
     }
 
-    func prepopulateRootFolders(db: SQLiteDBConnection) -> Bool {
-        let type = BookmarkNodeType.Folder.rawValue
-        let now = NSDate.nowNumber()
-        let status = SyncStatus.New.rawValue
+    func prepopulateRootFolders(_ db: SQLiteDBConnection) -> Bool {
+        let type = BookmarkNodeType.folder.rawValue
+        let now = Date.nowNumber()
+        let status = SyncStatus.new.rawValue
 
         let localArgs: Args = [
             BookmarkRoots.RootID, BookmarkRoots.RootGUID, type, BookmarkRoots.RootGUID, status, now,
@@ -166,7 +187,7 @@ public class BrowserTable: Table {
             BookmarkRoots.MenuID, BookmarkRoots.MenuFolderGUID, type, BookmarkRoots.RootGUID, status, now,
             BookmarkRoots.ToolbarID, BookmarkRoots.ToolbarFolderGUID, type, BookmarkRoots.RootGUID, status, now,
             BookmarkRoots.UnfiledID, BookmarkRoots.UnfiledFolderGUID, type, BookmarkRoots.RootGUID, status, now,
-            ]
+        ]
 
         // Compute these args using the sequence in RootChildren, rather than hard-coding.
         var idx = 0
@@ -185,13 +206,13 @@ public class BrowserTable: Table {
         // via titleForSpecialGUID, if necessary.
 
         let local =
-            "INSERT INTO \(TableBookmarksLocal) " +
-                "(id, guid, type, parentid, title, parentName, sync_status, local_modified) VALUES " +
-                Array(count: BookmarkRoots.RootChildren.count + 1, repeatedValue: "(?, ?, ?, ?, '', '', ?, ?)").joinWithSeparator(", ")
+        "INSERT INTO \(TableBookmarksLocal) " +
+        "(id, guid, type, parentid, title, parentName, sync_status, local_modified) VALUES " +
+        Array(repeating: "(?, ?, ?, ?, '', '', ?, ?)", count: BookmarkRoots.RootChildren.count + 1).joined(separator: ", ")
 
         let structure =
-            "INSERT INTO \(TableBookmarksLocalStructure) (parent, child, idx) VALUES " +
-                Array(count: BookmarkRoots.RootChildren.count, repeatedValue: "(?, ?, ?)").joinWithSeparator(", ")
+        "INSERT INTO \(TableBookmarksLocalStructure) (parent, child, idx) VALUES " +
+        Array(repeating: "(?, ?, ?)", count: BookmarkRoots.RootChildren.count).joined(separator: ", ")
 
         return self.run(db, queries: [(local, localArgs), (structure, structureArgs)])
     }
@@ -214,57 +235,116 @@ public class BrowserTable: Table {
             "iconType INTEGER, " +
             "iconWidth INTEGER, " +
             "frecencies REAL" +
-    ")"
+        ")"
 
     let domainsTableCreate =
         "CREATE TABLE IF NOT EXISTS \(TableDomains) (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "domain TEXT NOT NULL UNIQUE, " +
-            "showOnTopSites TINYINT NOT NULL DEFAULT 1" +
-    ")"
+           "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+           "domain TEXT NOT NULL UNIQUE, " +
+           "showOnTopSites TINYINT NOT NULL DEFAULT 1" +
+       ")"
 
     let queueTableCreate =
         "CREATE TABLE IF NOT EXISTS \(TableQueuedTabs) (" +
             "url TEXT NOT NULL UNIQUE, " +
             "title TEXT" +
+        ") "
+
+    let activityStreamBlocklistCreate =
+        "CREATE TABLE IF NOT EXISTS \(TableActivityStreamBlocklist) (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "url TEXT NOT NULL UNIQUE, " +
+            "created_at DATETIME DEFAULT CURRENT_TIMESTAMP " +
+        ") "
+
+    let pageMetadataCreate =
+        "CREATE TABLE IF NOT EXISTS \(TablePageMetadata) (" +
+            "id INTEGER PRIMARY KEY, " +
+            "cache_key LONGVARCHAR UNIQUE, " +
+            "site_url TEXT, " +
+            "media_url LONGVARCHAR, " +
+            "title TEXT, " +
+            "type VARCHAR(32), " +
+            "description TEXT, " +
+            "provider_name TEXT, " +
+            "created_at DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+            "expired_at LONG" +
     ") "
+
+    let attachedPageMetadataCreate =
+        "CREATE TABLE IF NOT EXISTS \(AttachedTablePageMetadata) (" +
+            "id INTEGER PRIMARY KEY, " +
+            "cache_key LONGVARCHAR UNIQUE, " +
+            "site_url TEXT, " +
+            "media_url LONGVARCHAR, " +
+            "title TEXT, " +
+            "type VARCHAR(32), " +
+            "description TEXT, " +
+            "provider_name TEXT, " +
+            "created_at DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+            "expired_at LONG" +
+    ") "
+
+    let attachedHighlightsCreate =
+        "CREATE TABLE IF NOT EXISTS \(AttachedTableHighlights) (" +
+            "historyID INTEGER PRIMARY KEY," +
+            "cache_key LONGVARCHAR," +
+            "url TEXT," +
+            "title TEXT," +
+            "guid TEXT," +
+            "visitCount INTEGER," +
+            "visitDate DATETIME," +
+            "is_bookmarked INTEGER" +
+    ") "
+
+    let indexPageMetadataCacheKeyCreate =
+    "CREATE UNIQUE INDEX IF NOT EXISTS \(IndexPageMetadataCacheKey) ON page_metadata (cache_key)"
+
+    let indexPageMetadataSiteURLCreate =
+    "CREATE UNIQUE INDEX IF NOT EXISTS \(IndexPageMetadataSiteURL) ON page_metadata (site_url)"
+
+    let attachedIndexPageMetadataCacheKeyCreate =
+    "CREATE UNIQUE INDEX IF NOT EXISTS \(AttachedIndexPageMetadataCacheKey) ON \(TablePageMetadata) (cache_key)"
+
+    let attachedIndexPageMetadataSiteURLCreate =
+    "CREATE UNIQUE INDEX IF NOT EXISTS \(AttachedIndexPageMetadataSiteURL) ON \(TablePageMetadata) (site_url)"
 
     let iconColumns = ", faviconID INTEGER REFERENCES \(TableFavicons)(id) ON DELETE SET NULL"
     let mirrorColumns = ", is_overridden TINYINT NOT NULL DEFAULT 0"
 
     let serverColumns = ", server_modified INTEGER NOT NULL" +    // Milliseconds.
-    ", hasDupe TINYINT NOT NULL DEFAULT 0"    // Boolean, 0 (false) if deleted.
+                        ", hasDupe TINYINT NOT NULL DEFAULT 0"    // Boolean, 0 (false) if deleted.
 
     let localColumns = ", local_modified INTEGER" +            // Can be null. Client clock. In extremis only.
-    ", sync_status TINYINT NOT NULL"        // SyncStatus enum. Set when changed or created.
+                       ", sync_status TINYINT NOT NULL"        // SyncStatus enum. Set when changed or created.
 
-    func getBookmarksTableCreationStringForTable(table: String, withAdditionalColumns: String="") -> String {
+    func getBookmarksTableCreationStringForTable(_ table: String, withAdditionalColumns: String="") -> String {
         // The stupid absence of naming conventions here is thanks to pre-Sync Weave. Sorry.
         // For now we have the simplest possible schema: everything in one.
         let sql =
-            "CREATE TABLE IF NOT EXISTS \(table) " +
+        "CREATE TABLE IF NOT EXISTS \(table) " +
 
-                // Shared fields.
-                "( id INTEGER PRIMARY KEY AUTOINCREMENT" +
-                ", guid TEXT NOT NULL UNIQUE" +
-                ", type TINYINT NOT NULL" +                    // Type enum.
+        // Shared fields.
+        "( id INTEGER PRIMARY KEY AUTOINCREMENT" +
+        ", guid TEXT NOT NULL UNIQUE" +
+        ", type TINYINT NOT NULL" +                    // Type enum.
 
-                // Record/envelope metadata that'll allow us to do merges.
-                ", is_deleted TINYINT NOT NULL DEFAULT 0" +    // Boolean
+        // Record/envelope metadata that'll allow us to do merges.
+        ", is_deleted TINYINT NOT NULL DEFAULT 0" +    // Boolean
 
-                ", parentid TEXT" +                            // GUID
-                ", parentName TEXT" +
+        ", parentid TEXT" +                            // GUID
+        ", parentName TEXT" +
 
-                // Type-specific fields. These should be NOT NULL in many cases, but we're going
-                // for a sparse schema, so this'll do for now. Enforce these in the application code.
-                ", feedUri TEXT, siteUri TEXT" +               // LIVEMARKS
-                ", pos INT" +                                  // SEPARATORS
-                ", title TEXT, description TEXT" +             // FOLDERS, BOOKMARKS, QUERIES
-                ", bmkUri TEXT, tags TEXT, keyword TEXT" +     // BOOKMARKS, QUERIES
-                ", folderName TEXT, queryId TEXT" +            // QUERIES
-                withAdditionalColumns +
-                ", CONSTRAINT parentidOrDeleted CHECK (parentid IS NOT NULL OR is_deleted = 1)" +
-                ", CONSTRAINT parentNameOrDeleted CHECK (parentName IS NOT NULL OR is_deleted = 1)" +
+        // Type-specific fields. These should be NOT NULL in many cases, but we're going
+        // for a sparse schema, so this'll do for now. Enforce these in the application code.
+        ", feedUri TEXT, siteUri TEXT" +               // LIVEMARKS
+        ", pos INT" +                                  // SEPARATORS
+        ", title TEXT, description TEXT" +             // FOLDERS, BOOKMARKS, QUERIES
+        ", bmkUri TEXT, tags TEXT, keyword TEXT" +     // BOOKMARKS, QUERIES
+        ", folderName TEXT, queryId TEXT" +            // QUERIES
+        withAdditionalColumns +
+        ", CONSTRAINT parentidOrDeleted CHECK (parentid IS NOT NULL OR is_deleted = 1)" +
+        ", CONSTRAINT parentNameOrDeleted CHECK (parentName IS NOT NULL OR is_deleted = 1)" +
         ")"
 
         return sql
@@ -274,160 +354,164 @@ public class BrowserTable: Table {
      * We need to explicitly store what's provided by the server, because we can't rely on
      * referenced child nodes to exist yet!
      */
-    func getBookmarksStructureTableCreationStringForTable(table: String, referencingMirror mirror: String) -> String {
+    func getBookmarksStructureTableCreationStringForTable(_ table: String, referencingMirror mirror: String) -> String {
         let sql =
-            "CREATE TABLE IF NOT EXISTS \(table) " +
-                "( parent TEXT NOT NULL REFERENCES \(mirror)(guid) ON DELETE CASCADE" +
-                ", child TEXT NOT NULL" +      // Should be the GUID of a child.
-                ", idx INTEGER NOT NULL" +     // Should advance from 0.
+        "CREATE TABLE IF NOT EXISTS \(table) " +
+        "( parent TEXT NOT NULL REFERENCES \(mirror)(guid) ON DELETE CASCADE" +
+        ", child TEXT NOT NULL" +      // Should be the GUID of a child.
+        ", idx INTEGER NOT NULL" +     // Should advance from 0.
         ")"
 
         return sql
     }
 
-    private let bufferBookmarksView =
-        "CREATE VIEW \(ViewBookmarksBufferOnMirror) AS " +
-            "SELECT" +
-            "  -1 AS id" +
-            ", mirror.guid AS guid" +
-            ", mirror.type AS type" +
-            ", mirror.is_deleted AS is_deleted" +
-            ", mirror.parentid AS parentid" +
-            ", mirror.parentName AS parentName" +
-            ", mirror.feedUri AS feedUri" +
-            ", mirror.siteUri AS siteUri" +
-            ", mirror.pos AS pos" +
-            ", mirror.title AS title" +
-            ", mirror.description AS description" +
-            ", mirror.bmkUri AS bmkUri" +
-            ", mirror.folderName AS folderName" +
-            ", null AS faviconID" +
-            ", 0 AS is_overridden" +
+    fileprivate let bufferBookmarksView =
+    "CREATE VIEW \(ViewBookmarksBufferOnMirror) AS " +
+    "SELECT" +
+    "  -1 AS id" +
+    ", mirror.guid AS guid" +
+    ", mirror.type AS type" +
+    ", mirror.is_deleted AS is_deleted" +
+    ", mirror.parentid AS parentid" +
+    ", mirror.parentName AS parentName" +
+    ", mirror.feedUri AS feedUri" +
+    ", mirror.siteUri AS siteUri" +
+    ", mirror.pos AS pos" +
+    ", mirror.title AS title" +
+    ", mirror.description AS description" +
+    ", mirror.bmkUri AS bmkUri" +
+    ", mirror.keyword AS keyword" +
+    ", mirror.folderName AS folderName" +
+    ", null AS faviconID" +
+    ", 0 AS is_overridden" +
 
-            // LEFT EXCLUDING JOIN to get mirror records that aren't in the buffer.
-            // We don't have an is_overridden flag to help us here.
-            " FROM \(TableBookmarksMirror) mirror LEFT JOIN" +
-            " \(TableBookmarksBuffer) buffer ON mirror.guid = buffer.guid" +
-            " WHERE buffer.guid IS NULL" +
-            " UNION ALL " +
-            "SELECT" +
-            "  -1 AS id" +
-            ", guid" +
-            ", type" +
-            ", is_deleted" +
-            ", parentid" +
-            ", parentName" +
-            ", feedUri" +
-            ", siteUri" +
-            ", pos" +
-            ", title" +
-            ", description" +
-            ", bmkUri" +
-            ", folderName" +
-            ", null AS faviconID" +
-            ", 1 AS is_overridden" +
-            " FROM \(TableBookmarksBuffer) WHERE is_deleted IS 0"
-
-    // TODO: phrase this without the subselect…
-    private let bufferBookmarksStructureView =
-        // We don't need to exclude deleted parents, because we drop those from the structure
-        // table when we see them.
-        "CREATE VIEW \(ViewBookmarksBufferStructureOnMirror) AS " +
-            "SELECT parent, child, idx, 1 AS is_overridden FROM \(TableBookmarksBufferStructure) " +
-            "UNION ALL " +
-
-            // Exclude anything from the mirror that's present in the buffer -- dynamic is_overridden.
-            "SELECT parent, child, idx, 0 AS is_overridden FROM \(TableBookmarksMirrorStructure) " +
-            "LEFT JOIN \(TableBookmarksBuffer) ON parent = guid WHERE guid IS NULL"
-
-    private let localBookmarksView =
-        "CREATE VIEW \(ViewBookmarksLocalOnMirror) AS " +
-            "SELECT -1 AS id, guid, type, is_deleted, parentid, parentName, feedUri, siteUri, pos, title, description, bmkUri, folderName, faviconID, 0 AS is_overridden " +
-            "FROM \(TableBookmarksMirror) WHERE is_overridden IS NOT 1 " +
-            "UNION ALL " +
-            "SELECT -1 AS id, guid, type, is_deleted, parentid, parentName, feedUri, siteUri, pos, title, description, bmkUri, folderName, faviconID, 1 AS is_overridden " +
-            "FROM \(TableBookmarksLocal) WHERE is_deleted IS NOT 1"
+    // LEFT EXCLUDING JOIN to get mirror records that aren't in the buffer.
+    // We don't have an is_overridden flag to help us here.
+    " FROM \(TableBookmarksMirror) mirror LEFT JOIN" +
+    " \(TableBookmarksBuffer) buffer ON mirror.guid = buffer.guid" +
+    " WHERE buffer.guid IS NULL" +
+    " UNION ALL " +
+    "SELECT" +
+    "  -1 AS id" +
+    ", guid" +
+    ", type" +
+    ", is_deleted" +
+    ", parentid" +
+    ", parentName" +
+    ", feedUri" +
+    ", siteUri" +
+    ", pos" +
+    ", title" +
+    ", description" +
+    ", bmkUri" +
+    ", keyword" +
+    ", folderName" +
+    ", null AS faviconID" +
+    ", 1 AS is_overridden" +
+    " FROM \(TableBookmarksBuffer) WHERE is_deleted IS 0"
 
     // TODO: phrase this without the subselect…
-    private let localBookmarksStructureView =
-        "CREATE VIEW \(ViewBookmarksLocalStructureOnMirror) AS " +
-            "SELECT parent, child, idx, 1 AS is_overridden FROM \(TableBookmarksLocalStructure) " +
-            "WHERE " +
-            "((SELECT is_deleted FROM \(TableBookmarksLocal) WHERE guid = parent) IS NOT 1) " +
-            "UNION ALL " +
-            "SELECT parent, child, idx, 0 AS is_overridden FROM \(TableBookmarksMirrorStructure) " +
-            "WHERE " +
-            "((SELECT is_overridden FROM \(TableBookmarksMirror) WHERE guid = parent) IS NOT 1) "
+    fileprivate let bufferBookmarksStructureView =
+    // We don't need to exclude deleted parents, because we drop those from the structure
+    // table when we see them.
+    "CREATE VIEW \(ViewBookmarksBufferStructureOnMirror) AS " +
+    "SELECT parent, child, idx, 1 AS is_overridden FROM \(TableBookmarksBufferStructure) " +
+    "UNION ALL " +
+
+    // Exclude anything from the mirror that's present in the buffer -- dynamic is_overridden.
+    "SELECT parent, child, idx, 0 AS is_overridden FROM \(TableBookmarksMirrorStructure) " +
+    "LEFT JOIN \(TableBookmarksBuffer) ON parent = guid WHERE guid IS NULL"
+
+    fileprivate let localBookmarksView =
+    "CREATE VIEW \(ViewBookmarksLocalOnMirror) AS " +
+    "SELECT -1 AS id, guid, type, is_deleted, parentid, parentName, feedUri," +
+    "   siteUri, pos, title, description, bmkUri, folderName, faviconID, NULL AS local_modified, server_modified, 0 AS is_overridden " +
+    "FROM \(TableBookmarksMirror) WHERE is_overridden IS NOT 1 " +
+    "UNION ALL " +
+    "SELECT -1 AS id, guid, type, is_deleted, parentid, parentName, feedUri, siteUri, pos, title, description, bmkUri, folderName, faviconID," +
+    "   local_modified, NULL AS server_modified, 1 AS is_overridden " +
+    "FROM \(TableBookmarksLocal) WHERE is_deleted IS NOT 1"
+
+    // TODO: phrase this without the subselect…
+    fileprivate let localBookmarksStructureView =
+    "CREATE VIEW \(ViewBookmarksLocalStructureOnMirror) AS " +
+    "SELECT parent, child, idx, 1 AS is_overridden FROM \(TableBookmarksLocalStructure) " +
+    "WHERE " +
+    "((SELECT is_deleted FROM \(TableBookmarksLocal) WHERE guid = parent) IS NOT 1) " +
+    "UNION ALL " +
+    "SELECT parent, child, idx, 0 AS is_overridden FROM \(TableBookmarksMirrorStructure) " +
+    "WHERE " +
+    "((SELECT is_overridden FROM \(TableBookmarksMirror) WHERE guid = parent) IS NOT 1) "
 
     // This view exists only to allow for text searching of URLs and titles in the awesomebar.
     // As such, we cheat a little: we include buffer, non-overridden mirror, and local.
     // Usually this will be indistinguishable from a more sophisticated approach, and it's way
     // easier.
-    private let allBookmarksView =
-        "CREATE VIEW \(ViewAllBookmarks) AS " +
-            "SELECT guid, bmkUri AS url, title, description, faviconID FROM " +
-            "\(TableBookmarksMirror) WHERE " +
-            "type = \(BookmarkNodeType.Bookmark.rawValue) AND is_overridden IS 0 AND is_deleted IS 0 " +
-            "UNION ALL " +
-            "SELECT guid, bmkUri AS url, title, description, faviconID FROM " +
-            "\(TableBookmarksLocal) WHERE " +
-            "type = \(BookmarkNodeType.Bookmark.rawValue) AND is_deleted IS 0 " +
-            "UNION ALL " +
-            "SELECT guid, bmkUri AS url, title, description, -1 AS faviconID FROM " +
-            "\(TableBookmarksBuffer) WHERE " +
-            "type = \(BookmarkNodeType.Bookmark.rawValue) AND is_deleted IS 0"
+    fileprivate let allBookmarksView =
+    "CREATE VIEW \(ViewAllBookmarks) AS " +
+    "SELECT guid, bmkUri AS url, title, description, faviconID FROM " +
+    "\(TableBookmarksMirror) WHERE " +
+    "type = \(BookmarkNodeType.bookmark.rawValue) AND is_overridden IS 0 AND is_deleted IS 0 " +
+    "UNION ALL " +
+    "SELECT guid, bmkUri AS url, title, description, faviconID FROM " +
+    "\(TableBookmarksLocal) WHERE " +
+    "type = \(BookmarkNodeType.bookmark.rawValue) AND is_deleted IS 0 " +
+    "UNION ALL " +
+    "SELECT guid, bmkUri AS url, title, description, -1 AS faviconID FROM " +
+    "\(TableBookmarksBuffer) WHERE " +
+    "type = \(BookmarkNodeType.bookmark.rawValue) AND is_deleted IS 0"
 
     // This smushes together remote and local visits. So it goes.
-    private let historyVisitsView =
-        "CREATE VIEW \(ViewHistoryVisits) AS " +
-            "SELECT h.url AS url, MAX(v.date) AS visitDate FROM " +
-            "\(TableHistory) h JOIN \(TableVisits) v ON v.siteID = h.id " +
+    fileprivate let historyVisitsView =
+    "CREATE VIEW \(ViewHistoryVisits) AS " +
+    "SELECT h.url AS url, MAX(v.date) AS visitDate, h.domain_id AS domain_id FROM " +
+    "\(TableHistory) h JOIN \(TableVisits) v ON v.siteID = h.id " +
     "GROUP BY h.id"
 
     // Join all bookmarks against history to find the most recent visit.
     // visits.
-    private let awesomebarBookmarksView =
-        "CREATE VIEW \(ViewAwesomebarBookmarks) AS " +
-            "SELECT b.guid AS guid, b.url AS url, b.title AS title, " +
-            "b.description AS description, b.faviconID AS faviconID, " +
-            "h.visitDate AS visitDate " +
-            "FROM \(ViewAllBookmarks) b " +
-            "LEFT JOIN " +
-            "\(ViewHistoryVisits) h ON b.url = h.url"
+    fileprivate let awesomebarBookmarksView =
+    "CREATE VIEW \(ViewAwesomebarBookmarks) AS " +
+    "SELECT b.guid AS guid, b.url AS url, b.title AS title, " +
+    "b.description AS description, b.faviconID AS faviconID, " +
+    "h.visitDate AS visitDate " +
+    "FROM \(ViewAllBookmarks) b " +
+    "LEFT JOIN " +
+    "\(ViewHistoryVisits) h ON b.url = h.url"
 
-    private let awesomebarBookmarksWithIconsView =
-        "CREATE VIEW \(ViewAwesomebarBookmarksWithIcons) AS " +
-            "SELECT b.guid AS guid, b.url AS url, b.title AS title, " +
-            "b.description AS description, b.visitDate AS visitDate, " +
-            "f.id AS iconID, f.url AS iconURL, f.date AS iconDate, " +
-            "f.type AS iconType, f.width AS iconWidth " +
-            "FROM \(ViewAwesomebarBookmarks) b " +
-            "LEFT JOIN " +
-            "\(TableFavicons) f ON f.id = b.faviconID"
+    fileprivate let awesomebarBookmarksWithIconsView =
+    "CREATE VIEW \(ViewAwesomebarBookmarksWithIcons) AS " +
+    "SELECT b.guid AS guid, b.url AS url, b.title AS title, " +
+    "b.description AS description, b.visitDate AS visitDate, " +
+    "f.id AS iconID, f.url AS iconURL, f.date AS iconDate, " +
+    "f.type AS iconType, f.width AS iconWidth " +
+    "FROM \(ViewAwesomebarBookmarks) b " +
+    "LEFT JOIN " +
+    "\(TableFavicons) f ON f.id = b.faviconID"
 
-    public func create(db: SQLiteDBConnection) -> Bool {
+    func create(_ db: SQLiteDBConnection) -> Bool {
         let favicons =
-            "CREATE TABLE IF NOT EXISTS \(TableFavicons) (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "url TEXT NOT NULL UNIQUE, " +
-                "width INTEGER, " +
-                "height INTEGER, " +
-                "type INTEGER NOT NULL, " +
-                "date REAL NOT NULL" +
+        "CREATE TABLE IF NOT EXISTS \(TableFavicons) (" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        "url TEXT NOT NULL UNIQUE, " +
+        "width INTEGER, " +
+        "height INTEGER, " +
+        "type INTEGER NOT NULL, " +
+        "date REAL NOT NULL" +
         ") "
 
         let history =
-            "CREATE TABLE IF NOT EXISTS \(TableHistory) (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "guid TEXT NOT NULL UNIQUE, " +       // Not null, but the value might be replaced by the server's.
-                "url TEXT UNIQUE, " +                 // May only be null for deleted records.
-                "title TEXT NOT NULL, " +
-                "server_modified INTEGER, " +         // Can be null. Integer milliseconds.
-                "local_modified INTEGER, " +          // Can be null. Client clock. In extremis only.
-                "is_deleted TINYINT NOT NULL, " +     // Boolean. Locally deleted.
-                "should_upload TINYINT NOT NULL, " +  // Boolean. Set when changed or visits added.
-                "domain_id INTEGER REFERENCES \(TableDomains)(id) ON DELETE CASCADE, " +
-                "CONSTRAINT urlOrDeleted CHECK (url IS NOT NULL OR is_deleted = 1)" +
+        "CREATE TABLE IF NOT EXISTS \(TableHistory) (" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        "guid TEXT NOT NULL UNIQUE, " +       // Not null, but the value might be replaced by the server's.
+        "url TEXT UNIQUE, " +                 // May only be null for deleted records.
+        "title TEXT NOT NULL, " +
+        "server_modified INTEGER, " +         // Can be null. Integer milliseconds.
+        "local_modified INTEGER, " +          // Can be null. Client clock. In extremis only.
+        "is_deleted TINYINT NOT NULL, " +     // Boolean. Locally deleted.
+        "should_upload TINYINT NOT NULL, " +  // Boolean. Set when changed or visits added.
+        "domain_id INTEGER REFERENCES \(TableDomains)(id) ON DELETE CASCADE, " +
+        "CONSTRAINT urlOrDeleted CHECK (url IS NOT NULL OR is_deleted = 1)" +
         ")"
 
         // Right now we don't need to track per-visit deletions: Sync can't
@@ -436,65 +520,65 @@ public class BrowserTable: Table {
         // If we ever want to support logic like not bothering to sync if we added
         // and then rapidly removed a visit, then we need an 'is_new' flag on each visit.
         let visits =
-            "CREATE TABLE IF NOT EXISTS \(TableVisits) (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "siteID INTEGER NOT NULL REFERENCES \(TableHistory)(id) ON DELETE CASCADE, " +
-                "date REAL NOT NULL, " +           // Microseconds since epoch.
-                "type INTEGER NOT NULL, " +
-                "is_local TINYINT NOT NULL, " +    // Some visits are local. Some are remote ('mirrored'). This boolean flag is the split.
-                "UNIQUE (siteID, date, type) " +
+        "CREATE TABLE IF NOT EXISTS \(TableVisits) (" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        "siteID INTEGER NOT NULL REFERENCES \(TableHistory)(id) ON DELETE CASCADE, " +
+        "date REAL NOT NULL, " +           // Microseconds since epoch.
+        "type INTEGER NOT NULL, " +
+        "is_local TINYINT NOT NULL, " +    // Some visits are local. Some are remote ('mirrored'). This boolean flag is the split.
+        "UNIQUE (siteID, date, type) " +
         ") "
 
         let indexShouldUpload: String
         if self.supportsPartialIndices {
             // There's no point tracking rows that are not flagged for upload.
             indexShouldUpload =
-                "CREATE INDEX IF NOT EXISTS \(IndexHistoryShouldUpload) " +
-                "ON \(TableHistory) (should_upload) WHERE should_upload = 1"
+            "CREATE INDEX IF NOT EXISTS \(IndexHistoryShouldUpload) " +
+            "ON \(TableHistory) (should_upload) WHERE should_upload = 1"
         } else {
             indexShouldUpload =
-                "CREATE INDEX IF NOT EXISTS \(IndexHistoryShouldUpload) " +
-                "ON \(TableHistory) (should_upload)"
+            "CREATE INDEX IF NOT EXISTS \(IndexHistoryShouldUpload) " +
+            "ON \(TableHistory) (should_upload)"
         }
 
         let indexSiteIDDate =
-            "CREATE INDEX IF NOT EXISTS \(IndexVisitsSiteIDIsLocalDate) " +
-                "ON \(TableVisits) (siteID, is_local, date)"
+        "CREATE INDEX IF NOT EXISTS \(IndexVisitsSiteIDIsLocalDate) " +
+        "ON \(TableVisits) (siteID, is_local, date)"
 
         let faviconSites =
-            "CREATE TABLE IF NOT EXISTS \(TableFaviconSites) (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "siteID INTEGER NOT NULL REFERENCES \(TableHistory)(id) ON DELETE CASCADE, " +
-                "faviconID INTEGER NOT NULL REFERENCES \(TableFavicons)(id) ON DELETE CASCADE, " +
-                "UNIQUE (siteID, faviconID) " +
+        "CREATE TABLE IF NOT EXISTS \(TableFaviconSites) (" +
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        "siteID INTEGER NOT NULL REFERENCES \(TableHistory)(id) ON DELETE CASCADE, " +
+        "faviconID INTEGER NOT NULL REFERENCES \(TableFavicons)(id) ON DELETE CASCADE, " +
+        "UNIQUE (siteID, faviconID) " +
         ") "
 
         let widestFavicons =
-            "CREATE VIEW IF NOT EXISTS \(ViewWidestFaviconsForSites) AS " +
-                "SELECT " +
-                "\(TableFaviconSites).siteID AS siteID, " +
-                "\(TableFavicons).id AS iconID, " +
-                "\(TableFavicons).url AS iconURL, " +
-                "\(TableFavicons).date AS iconDate, " +
-                "\(TableFavicons).type AS iconType, " +
-                "MAX(\(TableFavicons).width) AS iconWidth " +
-                "FROM \(TableFaviconSites), \(TableFavicons) WHERE " +
-                "\(TableFaviconSites).faviconID = \(TableFavicons).id " +
+        "CREATE VIEW IF NOT EXISTS \(ViewWidestFaviconsForSites) AS " +
+        "SELECT " +
+        "\(TableFaviconSites).siteID AS siteID, " +
+        "\(TableFavicons).id AS iconID, " +
+        "\(TableFavicons).url AS iconURL, " +
+        "\(TableFavicons).date AS iconDate, " +
+        "\(TableFavicons).type AS iconType, " +
+        "MAX(\(TableFavicons).width) AS iconWidth " +
+        "FROM \(TableFaviconSites), \(TableFavicons) WHERE " +
+        "\(TableFaviconSites).faviconID = \(TableFavicons).id " +
         "GROUP BY siteID "
 
         let historyIDsWithIcon =
-            "CREATE VIEW IF NOT EXISTS \(ViewHistoryIDsWithWidestFavicons) AS " +
-                "SELECT \(TableHistory).id AS id, " +
-                "iconID, iconURL, iconDate, iconType, iconWidth " +
-                "FROM \(TableHistory) " +
-                "LEFT OUTER JOIN " +
-                "\(ViewWidestFaviconsForSites) ON history.id = \(ViewWidestFaviconsForSites).siteID "
+        "CREATE VIEW IF NOT EXISTS \(ViewHistoryIDsWithWidestFavicons) AS " +
+        "SELECT \(TableHistory).id AS id, " +
+        "iconID, iconURL, iconDate, iconType, iconWidth " +
+        "FROM \(TableHistory) " +
+        "LEFT OUTER JOIN " +
+        "\(ViewWidestFaviconsForSites) ON history.id = \(ViewWidestFaviconsForSites).siteID "
 
         let iconForURL =
-            "CREATE VIEW IF NOT EXISTS \(ViewIconForURL) AS " +
-                "SELECT history.url AS url, icons.iconID AS iconID FROM " +
-                "\(TableHistory), \(ViewWidestFaviconsForSites) AS icons WHERE " +
-                "\(TableHistory).id = icons.siteID "
+        "CREATE VIEW IF NOT EXISTS \(ViewIconForURL) AS " +
+        "SELECT history.url AS url, icons.iconID AS iconID FROM " +
+        "\(TableHistory), \(ViewWidestFaviconsForSites) AS icons WHERE " +
+        "\(TableHistory).id = icons.siteID "
 
         // Locally we track faviconID.
         // Local changes end up in the mirror, so we track it there too.
@@ -536,6 +620,10 @@ public class BrowserTable: Table {
             widestFavicons,
             historyIDsWithIcon,
             iconForURL,
+            attachedPageMetadataCreate,
+            attachedHighlightsCreate,
+            attachedIndexPageMetadataSiteURLCreate,
+            attachedIndexPageMetadataCacheKeyCreate,
             self.queueTableCreate,
             self.topSitesTableCreate,
             self.localBookmarksView,
@@ -546,17 +634,18 @@ public class BrowserTable: Table {
             historyVisitsView,
             awesomebarBookmarksView,
             awesomebarBookmarksWithIconsView,
-            ]
+            activityStreamBlocklistCreate
+        ]
 
         assert(queries.count == AllTablesIndicesAndViews.count, "Did you forget to add your table, index, or view to the list?")
 
         log.debug("Creating \(queries.count) tables, views, and indices.")
 
         return self.run(db, queries: queries) &&
-            self.prepopulateRootFolders(db)
+               self.prepopulateRootFolders(db)
     }
 
-    public func updateTable(db: SQLiteDBConnection, from: Int) -> Bool {
+    func updateTable(_ db: SQLiteDBConnection, from: Int) -> Bool {
         let to = BrowserTable.DefaultVersion
         if from == to {
             log.debug("Skipping update from \(from) to \(to).")
@@ -593,7 +682,7 @@ public class BrowserTable: Table {
                 "CREATE INDEX IF NOT EXISTS \(IndexVisitsSiteIDIsLocalDate) ON \(TableVisits) (siteID, is_local, date)",
                 self.domainsTableCreate,
                 "ALTER TABLE \(TableHistory) ADD COLUMN domain_id INTEGER REFERENCES \(TableDomains)(id) ON DELETE CASCADE",
-                ]) {
+            ]) {
                 return false
             }
 
@@ -621,7 +710,7 @@ public class BrowserTable: Table {
             }
 
             let indexStructureParentIdx = "CREATE INDEX IF NOT EXISTS \(IndexBookmarksMirrorStructureParentIdx) " +
-                "ON \(TableBookmarksMirrorStructure) (parent, idx)"
+                                          "ON \(TableBookmarksMirrorStructure) (parent, idx)"
             if !self.run(db, sql: indexStructureParentIdx) {
                 return false
             }
@@ -660,35 +749,35 @@ public class BrowserTable: Table {
                 bookmarksMirror,
                 bookmarksLocalStructure,
                 bookmarksMirrorStructure,
-                ]
+            ]
 
             // Only migrate bookmarks. The only folders are our roots, and we'll create those later.
             // There should be nothing else in the table, and no structure.
             // Our old bookmarks table didn't have creation date, so we use the current timestamp.
-            let modified = NSDate.now()
-            let status = SyncStatus.New.rawValue
+            let modified = Date.now()
+            let status = SyncStatus.new.rawValue
 
             // We don't specify a title, expecting it to be generated on the fly, because we're smarter than Android.
             // We also don't migrate the 'id' column; we'll generate new ones that won't conflict with our roots.
             let migrateArgs: Args = [BookmarkRoots.MobileFolderGUID]
             let migrateLocal =
-                "INSERT INTO \(TableBookmarksLocal) " +
-                    "(guid, type, bmkUri, title, faviconID, local_modified, sync_status, parentid, parentName) " +
-                    "SELECT guid, type, url AS bmkUri, title, faviconID, " +
-                    "\(modified) AS local_modified, \(status) AS sync_status, ?, '' " +
-                    "FROM \(_TableBookmarks) WHERE type IS \(BookmarkNodeType.Bookmark.rawValue)"
+            "INSERT INTO \(TableBookmarksLocal) " +
+            "(guid, type, bmkUri, title, faviconID, local_modified, sync_status, parentid, parentName) " +
+            "SELECT guid, type, url AS bmkUri, title, faviconID, " +
+            "\(modified) AS local_modified, \(status) AS sync_status, ?, '' " +
+            "FROM \(_TableBookmarks) WHERE type IS \(BookmarkNodeType.bookmark.rawValue)"
 
             // Create structure for our migrated bookmarks.
             // In order to get contiguous positions (idx), we first insert everything we just migrated under
             // Mobile Bookmarks into a temporary table, then use rowid as our idx.
 
             let temporaryTable =
-                "CREATE TEMPORARY TABLE children AS " +
-                    "SELECT guid FROM \(_TableBookmarks) WHERE " +
-                    "type IS \(BookmarkNodeType.Bookmark.rawValue) ORDER BY id ASC"
+            "CREATE TEMPORARY TABLE children AS " +
+            "SELECT guid FROM \(_TableBookmarks) WHERE " +
+            "type IS \(BookmarkNodeType.bookmark.rawValue) ORDER BY id ASC"
 
             let createStructure =
-                "INSERT INTO \(TableBookmarksLocalStructure) (parent, child, idx) " +
+            "INSERT INTO \(TableBookmarksLocalStructure) (parent, child, idx) " +
             "SELECT ? AS parent, guid AS child, (rowid - 1) AS idx FROM children"
 
             let migrate: [(String, Args?)] = [
@@ -709,8 +798,8 @@ public class BrowserTable: Table {
             ]
 
             if !self.run(db, queries: prep) ||
-                !self.prepopulateRootFolders(db) ||
-                !self.run(db, queries: migrate) {
+               !self.prepopulateRootFolders(db) ||
+               !self.run(db, queries: migrate) {
                 return false
             }
             // TODO: trigger a sync?
@@ -719,8 +808,8 @@ public class BrowserTable: Table {
         // Add views for the overlays.
         if from < 14 && to >= 14 {
             let indexMirrorStructureChild =
-                "CREATE INDEX IF NOT EXISTS \(IndexBookmarksMirrorStructureChild) " +
-                    "ON \(TableBookmarksMirrorStructure) (child)"
+            "CREATE INDEX IF NOT EXISTS \(IndexBookmarksMirrorStructureChild) " +
+            "ON \(TableBookmarksMirrorStructure) (child)"
             if !self.run(db, queries: [
                 self.bufferBookmarksView,
                 self.bufferBookmarksStructureView,
@@ -756,10 +845,82 @@ public class BrowserTable: Table {
             }
         }
 
+        if from < 17 && to >= 17 {
+            if !self.run(db, queries: [
+                // Adds the local_modified, server_modified times to the local bookmarks view
+                "DROP VIEW IF EXISTS \(ViewBookmarksLocalOnMirror)",
+                self.localBookmarksView]) {
+                return false
+            }
+        }
+
+        if from < 18 && to >= 18 {
+            if !self.run(db, queries: [
+
+                // Adds the Activity Stream blocklist table
+                activityStreamBlocklistCreate]) {
+                return false
+            }
+        }
+
+        if from < 19 && to >= 19 {
+            if !self.run(db, queries: [
+
+                // Adds tables/indicies for metadata content
+                pageMetadataCreate,
+                indexPageMetadataCacheKeyCreate]) {
+                return false
+            }
+        }
+
+        if from < 20 && to >= 20 {
+            if !self.run(db, queries: [
+                "DROP VIEW IF EXISTS \(ViewBookmarksBufferOnMirror)",
+                self.bufferBookmarksView]) {
+                return false
+            }
+        }
+
+        if from < 21 && to >= 21 {
+            if !self.run(db, queries: [
+                "DROP VIEW IF EXISTS \(ViewHistoryVisits)",
+                self.historyVisitsView,
+                indexPageMetadataSiteURLCreate]) {
+                return false
+            }
+        }
+
+        if from < 22 && to >= 22 {
+            if !self.run(db, queries: [
+                "DROP TABLE IF EXISTS \(TablePageMetadata)",
+                attachedPageMetadataCreate,
+                attachedIndexPageMetadataCacheKeyCreate,
+                attachedIndexPageMetadataSiteURLCreate]) {
+                return false
+            }
+        }
+
+        if from < 23 && to >= 23 {
+            if !self.run(db, queries: [
+                attachedHighlightsCreate]) {
+                return false
+            }
+        }
+
+        if from < 24 && to >= 24 {
+            if !self.run(db, queries: [
+                // We can safely drop the highlights cache table since it gets cleared on every invalidate anyways.
+                "DROP TABLE IF EXISTS \(AttachedTableHighlights)",
+                attachedHighlightsCreate
+            ]) {
+                return false
+            }
+        }
+
         return true
     }
 
-    private func fillDomainNamesFromCursor(cursor: Cursor<String>, db: SQLiteDBConnection) -> Bool {
+    fileprivate func fillDomainNamesFromCursor(_ cursor: Cursor<String>, db: SQLiteDBConnection) -> Bool {
         if cursor.count == 0 {
             return true
         }
@@ -768,7 +929,7 @@ public class BrowserTable: Table {
         var pairs = Args()
         pairs.reserveCapacity(cursor.count * 2)
         for url in cursor {
-            if let url = url, let host = url.asURL?.normalizedHost() {
+            if let url = url, let host = url.asURL?.normalizedHost {
                 pairs.append(url)
                 pairs.append(host)
             }
@@ -786,37 +947,37 @@ public class BrowserTable: Table {
         let chunks = chunk(pairs, by: BrowserDB.MaxVariableNumber - (BrowserDB.MaxVariableNumber % 2))
         for chunk in chunks {
             let ins = "INSERT INTO \(tmpTable) (url, domain) VALUES " +
-                Array<String>(count: chunk.count / 2, repeatedValue: "(?, ?)").joinWithSeparator(", ")
+                      Array<String>(repeating: "(?, ?)", count: chunk.count / 2).joined(separator: ", ")
             if !self.run(db, sql: ins, args: Array(chunk)) {
                 log.error("Couldn't insert domains into temporary table. Aborting migration.")
                 return false
             }
         }
-        
+
         // Now make those into domains.
         let domains = "INSERT OR IGNORE INTO \(TableDomains) (domain) SELECT DISTINCT domain FROM \(tmpTable)"
-        
+
         // … and fill that temporary column.
         let domainIDs = "UPDATE \(tmpTable) SET domain_id = (SELECT id FROM \(TableDomains) WHERE \(TableDomains).domain = \(tmpTable).domain)"
-        
+
         // Update the history table from the temporary table.
         let updateHistory = "UPDATE \(TableHistory) SET domain_id = (SELECT domain_id FROM \(tmpTable) WHERE \(tmpTable).url = \(TableHistory).url)"
-        
+
         // Clean up.
         let dropTemp = "DROP TABLE \(tmpTable)"
-        
+
         // Now run these.
         if !self.run(db, queries: [domains,
-            domainIDs,
-            updateHistory,
-            dropTemp]) {
+                                   domainIDs,
+                                   updateHistory,
+                                   dropTemp]) {
             log.error("Unable to migrate domains.")
             return false
         }
-        
+
         return true
     }
-    
+
     /**
      * The Table mechanism expects to be able to check if a 'table' exists. In our (ab)use
      * of Table, that means making sure that any of our tables and views exist.
@@ -824,20 +985,20 @@ public class BrowserTable: Table {
      * that we get back more than one.
      * Note that we don't check for views -- trust to luck.
      */
-    public func exists(db: SQLiteDBConnection) -> Bool {
+    func exists(_ db: SQLiteDBConnection) -> Bool {
         return db.tablesExist(AllTables)
     }
-    
-    public func drop(db: SQLiteDBConnection) -> Bool {
+
+    func drop(_ db: SQLiteDBConnection) -> Bool {
         log.debug("Dropping all browser tables.")
         let additional = [
             "DROP TABLE IF EXISTS faviconSites" // We renamed it to match naming convention.
         ]
-        
+
         let views = AllViews.map { "DROP VIEW IF EXISTS \($0)" }
         let indices = AllIndices.map { "DROP INDEX IF EXISTS \($0)" }
         let tables = AllTables.map { "DROP TABLE IF EXISTS \($0)" }
-        let queries = Array([views, indices, tables, additional].flatten())
+        let queries = Array([views, indices, tables, additional].joined())
         return self.run(db, queries: queries)
     }
 }

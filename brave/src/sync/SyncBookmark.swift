@@ -2,11 +2,13 @@
 
 import Foundation
 import Shared
+import SwiftyJSON
+import Shared
 
 final class SyncBookmark: SyncRecord {
     
     // MARK: Declaration for string constants to be used to decode and also serialize.
-    private struct SerializationKeys {
+    fileprivate struct SerializationKeys {
         static let isFolder = "isFolder"
         static let parentFolderObjectId = "parentFolderObjectId"
         static let site = "site"
@@ -62,19 +64,19 @@ final class SyncBookmark: SyncRecord {
         guard let objectData = self.objectData else { return }
         
         let bookmark = json?[objectData.rawValue]
-        isFolder = bookmark?[SerializationKeys.isFolder].asBool
-        if let items = bookmark?[SerializationKeys.parentFolderObjectId].asArray { parentFolderObjectId = items.map { $0.asInt ?? 0 } }
+        isFolder = bookmark?[SerializationKeys.isFolder].bool
+        if let items = bookmark?[SerializationKeys.parentFolderObjectId].array { parentFolderObjectId = items.map { $0.intValue } }
         site = SyncSite(json: bookmark?[SerializationKeys.site])
     }
     
     /// Generates description of the object in the form of a NSDictionary.
     ///
     /// - returns: A Key value pair containing all valid values in the object.
-    override func dictionaryRepresentation() -> [String: AnyObject] {
+    override func dictionaryRepresentation() -> [String: Any] {
         guard let objectData = self.objectData else { return [:] }
 
         // Create nested bookmark dictionary
-        var bookmarkDict = [String: AnyObject]()
+        var bookmarkDict = [String: Any]()
         bookmarkDict[SerializationKeys.isFolder] = isFolder
         if let value = parentFolderObjectId { bookmarkDict[SerializationKeys.parentFolderObjectId] = value }
         if let value = site { bookmarkDict[SerializationKeys.site] = value.dictionaryRepresentation() }

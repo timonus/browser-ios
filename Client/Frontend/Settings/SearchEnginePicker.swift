@@ -6,7 +6,7 @@ import UIKit
 import Shared
 
 protocol SearchEnginePickerDelegate {
-    func searchEnginePicker(searchEnginePicker: SearchEnginePicker, didSelectSearchEngine engine: OpenSearchEngine?) -> Void
+    func searchEnginePicker(_ searchEnginePicker: SearchEnginePicker, didSelectSearchEngine engine: OpenSearchEngine?) -> Void
 }
 
 class SearchEnginePicker: UITableViewController {
@@ -18,34 +18,34 @@ class SearchEnginePicker: UITableViewController {
         super.viewDidLoad()
 
         navigationItem.title = Strings.DefaultSearchEngine
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: Strings.Cancel, style: .Plain, target: self, action: #selector(SearchEnginePicker.SELcancel))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: Strings.Cancel, style: .plain, target: self, action: #selector(SearchEnginePicker.SELcancel))
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return engines.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let engine = engines[indexPath.item]
-        let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         cell.textLabel?.text = engine.shortName
         cell.imageView?.image = engine.image?.createScaled(CGSize(width: OpenSearchEngine.PreferredIconSize, height: OpenSearchEngine.PreferredIconSize))
         if engine.shortName == selectedSearchEngineName {
-            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            cell.accessoryType = UITableViewCellAccessoryType.checkmark
         }
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let engine = engines[indexPath.item]
         delegate?.searchEnginePicker(self, didSelectSearchEngine: engine)
 
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return }
-        cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.accessoryType = UITableViewCellAccessoryType.checkmark
     }
 
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = UITableViewCellAccessoryType.None
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
     }
 
     func SELcancel() {

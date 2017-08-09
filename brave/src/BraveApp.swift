@@ -10,25 +10,25 @@ import Deferred
 #endif
 
 #if !DEBUG
-    func print(items: Any..., separator: String = " ", terminator: String = "\n") {}
+    func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {}
 #endif
 
 private let _singleton = BraveApp()
 
 let kAppBootingIncompleteFlag = "kAppBootingIncompleteFlag"
-let kDesktopUserAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Version/5.0 Safari/537.36"
+let kDesktopUserAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_12) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.0 Safari/602.1.31"
 
 #if !TEST
     func getApp() -> AppDelegate {
-        return UIApplication.sharedApplication().delegate as! AppDelegate
+        return UIApplication.shared.delegate as! AppDelegate
     }
 #endif
 
-extension NSURL {
+extension URL {
     // The url is a local webserver url or an about url, a.k.a something we don't display to users
     public func isSpecialInternalUrl() -> Bool {
         assert(WebServer.sharedInstance.base.startsWith("http"))
-        return (absoluteString ?? "").startsWith(WebServer.sharedInstance.base) || AboutUtils.isAboutURL(self)
+        return absoluteString.startsWith(WebServer.sharedInstance.base) || AboutUtils.isAboutURL(self)
     }
 }
 
@@ -48,22 +48,22 @@ class BraveApp {
     }
     #endif
 
-    private init() {
+    fileprivate init() {
     }
 
     class func isIPhoneLandscape() -> Bool {
-        return UIDevice.currentDevice().userInterfaceIdiom == .Phone &&
-            UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation)
+        return UIDevice.current.userInterfaceIdiom == .phone &&
+            UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation)
     }
 
     class func isIPhonePortrait() -> Bool {
-        return UIDevice.currentDevice().userInterfaceIdiom == .Phone &&
-            UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication().statusBarOrientation)
+        return UIDevice.current.userInterfaceIdiom == .phone &&
+            UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation)
     }
 
     class func setupCacheDefaults() {
-        NSURLCache.sharedURLCache().memoryCapacity = 6 * 1024 * 1024; // 6 MB
-        NSURLCache.sharedURLCache().diskCapacity = 40 * 1024 * 1024;
+        URLCache.shared.memoryCapacity = 6 * 1024 * 1024; // 6 MB
+        URLCache.shared.diskCapacity = 40 * 1024 * 1024;
     }
 
     class func didFinishLaunching() {
@@ -72,7 +72,7 @@ class BraveApp {
             if telemetryOn {
                 Fabric.with([Crashlytics.self])
 
-                if let dict = NSBundle.mainBundle().infoDictionary, let token = dict["MIXPANEL_TOKEN"] as? String {
+                if let dict = Bundle.main.infoDictionary, let token = dict["MIXPANEL_TOKEN"] as? String {
                     // note: setting this in willFinishLaunching is causing a crash, keep it in didFinish
                     mixpanelInstance = Mixpanel.initialize(token: token)
                     mixpanelInstance?.serverURL = "https://metric-proxy.brave.com"
@@ -86,22 +86,22 @@ class BraveApp {
     // Be aware: the Prefs object has not been created yet
     class func willFinishLaunching_begin() {
         BraveApp.setupCacheDefaults()
-        NSURLProtocol.registerClass(URLProtocol);
+        Foundation.URLProtocol.registerClass(URLProtocol);
 
-        NSNotificationCenter.defaultCenter().addObserver(BraveApp.singleton,
-             selector: #selector(BraveApp.didEnterBackground(_:)), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(BraveApp.singleton,
+             selector: #selector(BraveApp.didEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(BraveApp.singleton,
-             selector: #selector(BraveApp.willEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(BraveApp.singleton,
+             selector: #selector(BraveApp.willEnterForeground(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(BraveApp.singleton,
-             selector: #selector(BraveApp.memoryWarning(_:)), name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+        NotificationCenter.default.addObserver(BraveApp.singleton,
+             selector: #selector(BraveApp.memoryWarning(_:)), name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
 
         #if !TEST
             //  these quiet the logging from the core of fx ios
             // GCDWebServer.setLogLevel(5)
-            Logger.syncLogger.setup(.None)
-            Logger.browserLogger.setup(.None)
+            Logger.syncLogger.setup(level: .none)
+            Logger.browserLogger.setup(level: .none)
         #endif
 
         #if DEBUG
@@ -117,13 +117,12 @@ class BraveApp {
         BraveApp.isSafeToRestoreTabs = BraveApp.getPrefs()?.stringForKey(kAppBootingIncompleteFlag) == nil
         BraveApp.getPrefs()?.setString("remove me when booted", forKey: kAppBootingIncompleteFlag)
 
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, BraveApp.kDelayBeforeDecidingAppHasBootedOk),
-                       dispatch_get_main_queue(), {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(BraveApp.kDelayBeforeDecidingAppHasBootedOk) / Double(NSEC_PER_SEC), execute: {
                         BraveApp.getPrefs()?.removeObjectForKey(kAppBootingIncompleteFlag)
         })
 
 
-        let args = NSProcessInfo.processInfo().arguments
+        let args = ProcessInfo.processInfo.arguments
         if args.contains("BRAVE-TEST-CLEAR-PREFS") {
             BraveApp.getPrefs()!.clearAll()
         }
@@ -135,19 +134,21 @@ class BraveApp {
         }
         if args.contains("BRAVE-DELETE-BOOKMARKS") {
             succeed().upon { _ in
+                // TODO: Fix
+                // Check if this is still required. Do not think so, if not, remove
                 getApp().profile!.bookmarks.modelFactory >>== {
-                    $0.clearBookmarks().uponQueue(dispatch_get_main_queue()) { res in
+                    $0
+//                    $0.clearBookmarks().uponQueue(DispatchQueue.main) { res in
                         // test case should just sleep or wait for bm count to be zero
-                    }
+//                    }
                 }
             }
         }
-        if args.contains("BRAVE-UI-TEST") || AppConstants.IsRunningTestNonUI {
+        if args.contains("BRAVE-UI-TEST") || AppConstants.IsRunningTest {
             // Maybe we will need a specific flag to keep tabs for restoration testing
             BraveApp.isSafeToRestoreTabs = false
-            AppConstants.IsRunningUITest = !AppConstants.IsRunningTestNonUI
             
-            if args.filter({ $0.startsWith("BRAVE") }).count == 1 || AppConstants.IsRunningTestNonUI { // only contains 1 arg
+            if args.filter({ $0.startsWith("BRAVE") }).count == 1 || AppConstants.IsRunningTest { // only contains 1 arg
                 BraveApp.getPrefs()!.setInt(1, forKey: IntroViewControllerSeenProfileKey)
                 BraveApp.getPrefs()!.setInt(1, forKey: BraveUX.PrefKeyOptInDialogWasSeen)
             }
@@ -171,7 +172,7 @@ class BraveApp {
 
         Domain.loadShieldsIntoMemory {
             guard let shieldState = getApp().tabManager.selectedTab?.braveShieldStateSafeAsync.get() else { return }
-            if let wv = getCurrentWebView(), url = wv.URL, dbState = BraveShieldState.perNormalizedDomain[url.normalizedHost()] where shieldState.isNotSet() {
+            if let wv = getCurrentWebView(), let url = wv.URL, let dbState = BraveShieldState.perNormalizedDomain[url.normalizedHost!], shieldState.isNotSet() {
                 // on init, the webview's shield state doesn't match the db
                 getApp().tabManager.selectedTab?.braveShieldStateSafeAsync.set(dbState)
                 wv.reloadFromOrigin()
@@ -189,21 +190,21 @@ class BraveApp {
         return ok
     }
 
-    @objc func memoryWarning(_: NSNotification) {
-        NSURLCache.sharedURLCache().memoryCapacity = 0
+    @objc func memoryWarning(_: Notification) {
+        URLCache.shared.memoryCapacity = 0
         BraveApp.setupCacheDefaults()
     }
 
-    @objc func didEnterBackground(_: NSNotification) {
+    @objc func didEnterBackground(_: Notification) {
     }
 
-    @objc func willEnterForeground(_ : NSNotification) {
+    @objc func willEnterForeground(_ : Notification) {
         postAsyncToMain(10) {
             BraveApp.updateDauStat()
         }
     }
 
-    class func shouldHandleOpenURL(components: NSURLComponents) -> Bool {
+    class func shouldHandleOpenURL(_ components: URLComponents) -> Bool {
         // TODO look at what x-callback is for
         let handled = components.scheme == "brave" || components.scheme == "brave-x-callback"
         return handled
@@ -213,14 +214,14 @@ class BraveApp {
         return getApp().profile?.prefs
     }
 
-    static func showErrorAlert(title title: String,  error: String) {
+    static func showErrorAlert(title: String,  error: String) {
         postAsyncToMain(0) { // this utility function can be called from anywhere
             UIAlertView(title: title, message: error, delegate: nil, cancelButtonTitle: "Close").show()
         }
     }
 
     static func statusBarHeight() -> CGFloat {
-        if UIScreen.mainScreen().traitCollection.verticalSizeClass == .Compact {
+        if UIScreen.main.traitCollection.verticalSizeClass == .compact {
             return 0
         }
         return 20
@@ -228,11 +229,11 @@ class BraveApp {
 
     static var isPasswordManagerInstalled: Bool?
 
-    static func is3rdPartyPasswordManagerInstalled(refreshLookup refreshLookup: Bool) -> Deferred<Bool> {
+    static func is3rdPartyPasswordManagerInstalled(_ refreshLookup: Bool) -> Deferred<Bool> {
         let deferred = Deferred<Bool>()
         if refreshLookup || isPasswordManagerInstalled == nil {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                isPasswordManagerInstalled = OnePasswordExtension.sharedExtension().isAppExtensionAvailable()
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+                isPasswordManagerInstalled = OnePasswordExtension.shared().isAppExtensionAvailable()
                 deferred.fill(isPasswordManagerInstalled!)
             }
         } else {
@@ -250,17 +251,17 @@ extension BraveApp {
         let prefName = "dau_stat"
         let dauStat = prefs.arrayForKey(prefName)
 
-        let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
+        let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         var statsQuery = "https://laptop-updates.brave.com/1/usage/ios?platform=ios" + "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
             + "&version=\(appVersion)"
             + "&first=\(dauStat != nil)"
 
-        let today = NSDate()
-        let components = NSCalendar.currentCalendar().components([.Month , .Year], fromDate: today)
+        let today = Date()
+        let components = (Calendar.current as NSCalendar).components([.month , .year], from: today)
         let year =  components.year
         let month = components.month
 
-        if let stat = dauStat as? [Int] where stat.count == 3 {
+        if let stat = dauStat as? [Int], stat.count == 3 {
             let dSecs = Int(today.timeIntervalSince1970) - stat[0]
             let _month = stat[1]
             let _year = stat[2]
@@ -278,13 +279,13 @@ extension BraveApp {
         let secsMonthYear = [Int(today.timeIntervalSince1970), month, year]
         prefs.setObject(secsMonthYear, forKey: prefName)
 
-        guard let url = NSURL(string: statsQuery) else {
+        guard let url = URL(string: statsQuery) else {
             if !BraveUX.IsRelease {
                 BraveApp.showErrorAlert(title: "Debug", error: "failed stats update")
             }
             return
         }
-        let task = NSURLSession.sharedSession().dataTaskWithURL(url) {
+        let task = URLSession.shared.dataTask(with: url) {
             (_, _, error) in
             if let e = error { NSLog("status update error: \(e)") }
         }

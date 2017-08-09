@@ -25,7 +25,7 @@ class SettingsViewTest : XCTestCase {
         let addressTextField = app.textFields["address"]
         addressTextField.tap()
         let url = addressTextField.value as? String
-        XCTAssertTrue(url != nil && url!.containsString("https://community.brave.com"))
+        XCTAssertTrue(url != nil && url!.contains("https://community.brave.com"))
     }
 
     func testPrivacyPolicy() {
@@ -35,7 +35,7 @@ class SettingsViewTest : XCTestCase {
         table.staticTexts["Privacy Policy"].tap()
         sleep(1)
         let search = NSPredicate(format: "label contains %@", "Brave Privacy Policy") // case sensitive
-        let found = app.staticTexts.elementMatchingPredicate(search)
+        let found = app.staticTexts.element(matching: search)
         XCTAssertTrue(found.exists)
     }
 
@@ -46,7 +46,7 @@ class SettingsViewTest : XCTestCase {
         table.staticTexts["Terms of Use"].tap()
         sleep(1)
         let search = NSPredicate(format: "label contains[c] %@", "Please read these terms of use") // case insensitive
-        let found = app.staticTexts.elementMatchingPredicate(search)
+        let found = app.staticTexts.element(matching: search)
         XCTAssertTrue(found.exists)
     }
 

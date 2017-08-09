@@ -5,11 +5,11 @@ import XCTest
 
 extension XCUIElement {
     func forceTapElement() {
-        if self.hittable {
+        if self.isHittable {
             self.tap()
         }
         else {
-            let coordinate: XCUICoordinate = self.coordinateWithNormalizedOffset(CGVectorMake(0.0, 0.0))
+            let coordinate: XCUICoordinate = self.coordinate(withNormalizedOffset: CGVector(dx: 0.0, dy: 0.0))
             coordinate.tap()
         }
     }
@@ -22,13 +22,13 @@ class UITestUtils {
         app.typeText("\r")
     }
 
-    static func pasteTextFieldText(app:XCUIApplication, element:XCUIElement, value:String) {
-        UIPasteboard.generalPasteboard().string = value
+    static func pasteTextFieldText(_ app:XCUIApplication, element:XCUIElement, value:String) {
+        UIPasteboard.general.string = value
         element.tap()
         app.menuItems["Paste"].tap()
     }
 
-    static func restart(bootArgs: [String] = []) {
+    static func restart(_ bootArgs: [String] = []) {
         let app = XCUIApplication()
 
         app.terminate()
@@ -39,13 +39,13 @@ class UITestUtils {
         app.launch()
     }
 
-    static func waitForGooglePageLoad(test: XCTestCase) {
+    static func waitForGooglePageLoad(_ test: XCTestCase) {
         let app = XCUIApplication()
         // TODO: find a better way to see if google is loaded, other than looking for links on the page
         [app.links["IMAGES"], app.links["Advertising"]].forEach {
             let predicate = NSPredicate(format: "exists == 1")
-            test.expectationForPredicate(predicate, evaluatedWithObject: $0, handler: nil)
-            test.waitForExpectationsWithTimeout(3, handler: nil)
+            test.expectation(for: predicate, evaluatedWith: $0, handler: nil)
+            test.waitForExpectations(timeout: 3, handler: nil)
         }
     }
 }

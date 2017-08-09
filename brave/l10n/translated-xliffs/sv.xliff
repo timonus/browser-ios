@@ -1,0 +1,1517 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="sv">
+    <header>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName">
+        <source>Open in Brave</source>
+        <target>Öppna i Brave</target>
+      </trans-unit>
+      </body>
+  </file>
+  <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="sv">
+    <header>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+    </header>
+    <body>
+      <trans-unit id="%@ search">
+        <source>%@ search</source>
+        <target>%@ sök</target>
+        <note>Label for search engine buttons. The argument corresponds to the name of the search engine.</note>
+      </trans-unit>
+      <trans-unit id="+">
+        <source>+</source>
+        <target>+</target>
+        <note>Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar.</note>
+      </trans-unit>
+      <trans-unit id="-">
+        <source>-</source>
+        <target>-</target>
+        <note>Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar.</note>
+      </trans-unit>
+      <trans-unit id="Aa">
+        <source>Aa</source>
+        <target>Aa</target>
+        <note>Button for reader mode font size. Keep this extremely short! This is shown in the reader mode toolbar.</note>
+      </trans-unit>
+      <trans-unit id="About">
+        <source>About</source>
+        <target>Om</target>
+        <note>About settings section title</note>
+      </trans-unit>
+      <trans-unit id="Add Bookmark">
+        <source>Add Bookmark</source>
+        <target>Lägg till bokmärke</target>
+        <note>Button to add a bookmark</note>
+      </trans-unit>
+      <trans-unit id="Add Device">
+        <source>Add Device</source>
+        <target>Lägg till enhet</target>
+        <note>Add device to sync</note>
+      </trans-unit>
+      <trans-unit id="Add Tab">
+        <source>Add Tab</source>
+        <target>Lägg till flik</target>
+        <note>Accessibility label for the Add Tab button in the Tab Tray.</note>
+      </trans-unit>
+      <trans-unit id="Add to Reading List">
+        <source>Add to Reading List</source>
+        <target>Lägg till i läslistan</target>
+        <note>Accessibility label for action adding current page to reading list.</note>
+      </trans-unit>
+      <trans-unit id="Added page to Reading List">
+        <source>Added page to Reading List</source>
+        <target>Lade till sidan i läslistan</target>
+        <note>Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action.</note>
+      </trans-unit>
+      <trans-unit id="Address and Search">
+        <source>Address and Search</source>
+        <target>Adress och Sök</target>
+        <note>Accessibility label for address and search field, both words (Address, Search) are therefore nouns.</note>
+      </trans-unit>
+      <trans-unit id="Ads \rBlocked">
+        <source>Ads 
+Blocked</source>
+        <target>Blockerad reklam</target>
+        <note>Shields Ads Stat</note>
+      </trans-unit>
+      <trans-unit id="Ads and Trackers">
+        <source>Ads and Trackers</source>
+        <target>Annonser och Spårare</target>
+        <note>individual blocking statistic title</note>
+      </trans-unit>
+      <trans-unit id="Advanced">
+        <source>Advanced</source>
+        <target>Avancerat</target>
+        <note>Label for button to perform advanced actions on the error page</note>
+      </trans-unit>
+      <trans-unit id="Allow %@ to open iTunes?">
+        <source>Allow %@ to open iTunes?</source>
+        <target>Tillåt %@ att öppna iTunes?</target>
+        <note>Ask user if site can open iTunes store URL</note>
+      </trans-unit>
+      <trans-unit id="Always show">
+        <source>Always show</source>
+        <target>Visa alltid</target>
+        <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="Are you sure you want to clear all of your data? This will also close all open tabs.">
+        <source>Are you sure you want to clear all of your data? This will also close all open tabs.</source>
+        <target>Är du säker på att du vill rensa all din data? Detta stänger även all öppna flikar.</target>
+        <note>Message shown in the dialog prompting users if they want to clear everything</note>
+      </trans-unit>
+      <trans-unit id="Are you sure you want to delete it and its contents?">
+        <source>Are you sure you want to delete it and its contents?</source>
+        <target>Är du säker på att du vill radera den och dess innehåll?</target>
+        <note>Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders.</note>
+      </trans-unit>
+      <trans-unit id="Are you sure?">
+        <source>Are you sure?</source>
+        <target>Är du säker?</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Back">
+        <source>Back</source>
+        <target>Bakåt</target>
+        <note>Accessibility Label for the browser toolbar Back button</note>
+      </trans-unit>
+      <trans-unit id="Block 3rd party cookies">
+        <source>Block 3rd party cookies</source>
+        <target>Blockera cookies från 3:e part</target>
+        <note>cookie settings option</note>
+      </trans-unit>
+      <trans-unit id="Block Ads &amp; Tracking">
+        <source>Block Ads &amp; Tracking</source>
+        <target>Blockera Annonser &amp; Spårning</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Block Phishing">
+        <source>Block Phishing</source>
+        <target>Blockera phishing</target>
+        <note>Brave panel individual toggle title</note>
+      </trans-unit>
+      <trans-unit id="Block Phishing and Malware">
+        <source>Block Phishing and Malware</source>
+        <target>Blockera phishing och malware</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Block Pop-up Windows">
+        <source>Block Pop-up Windows</source>
+        <target>Blockera popup-fönster</target>
+        <note>Block pop-up windows setting</note>
+      </trans-unit>
+      <trans-unit id="Block Popups">
+        <source>Block Popups</source>
+        <target>Blockera popup-fönster</target>
+        <note>Setting to enable popup blocking</note>
+      </trans-unit>
+      <trans-unit id="Block Scripts">
+        <source>Block Scripts</source>
+        <target>Blockera skript</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Block all cookies">
+        <source>Block all cookies</source>
+        <target>Blockera alla cookies</target>
+        <note>cookie settings option</note>
+      </trans-unit>
+      <trans-unit id="Blocking Monitor">
+        <source>Blocking Monitor</source>
+        <target>Blockeringsvisare</target>
+        <note>title for section showing page blocking statistics</note>
+      </trans-unit>
+      <trans-unit id="Bookmark">
+        <source>Bookmark</source>
+        <target>Bokmärke</target>
+        <note>Accessibility Label for the browser toolbar Bookmark button</note>
+      </trans-unit>
+      <trans-unit id="Bookmark Folder">
+        <source>Bookmark Folder</source>
+        <target>Bokmärkesmapp</target>
+        <note>Bookmark Folder Section Title</note>
+      </trans-unit>
+      <trans-unit id="Bookmark Info">
+        <source>Bookmark Info</source>
+        <target>Bokmärkesinformation</target>
+        <note>Bookmark Info Section Title</note>
+      </trans-unit>
+      <trans-unit id="Bookmarks">
+        <source>Bookmarks</source>
+        <target>Bokmärken</target>
+        <note>title for bookmarks panel</note>
+      </trans-unit>
+      <trans-unit id="Bookmarks Menu">
+        <source>Bookmarks Menu</source>
+        <target>Bokmärkesmeny</target>
+        <note>The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Bookmarks Toolbar">
+        <source>Bookmarks Toolbar</source>
+        <target>Bokmärkesfältet</target>
+        <note>The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Bookmarks and History Panel">
+        <source>Bookmarks and History Panel</source>
+        <target>Bokmärkes och historik panel</target>
+        <note>Button to show the bookmarks and history panel</note>
+      </trans-unit>
+      <trans-unit id="Brave Panel">
+        <source>Brave Panel</source>
+        <target>Brave panelen</target>
+        <note>Button to show the brave panel</note>
+      </trans-unit>
+      <trans-unit id="Brave Shield Defaults">
+        <source>Brave Shield Defaults</source>
+        <target>Standardinställningar för Brave:s sköldar</target>
+        <note>Section title for adbblock, tracking protection, HTTPS-E, and cookies</note>
+      </trans-unit>
+      <trans-unit id="Brave Sync">
+        <source>Brave Sync</source>
+        <target>Brave Synkronisering</target>
+        <note>Brave sync page title</note>
+      </trans-unit>
+      <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
+        <source>Brave blocks ads.
+Brave stops trackers.
+Brave is designed for speed and efficiency.</source>
+        <target>Brave blockerar annonser.
+Brave stoppar spårare.
+Brave är designad för snabbhet och effektivitet.</target>
+        <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Brave for iOS Feedback">
+        <source>Brave for iOS Feedback</source>
+        <target>Feedback för Brave på iOS</target>
+        <note>email subject</note>
+      </trans-unit>
+      <trans-unit id="Brave is Faster,\nand here's why...">
+        <source>Brave is Faster,
+and here's why...</source>
+        <target>Brave är snabbare,
+och här är varför...</target>
+        <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Brave keeps you safe as you browse.">
+        <source>Brave keeps you safe as you browse.</source>
+        <target>Brave håller dig trygg när du surfar.</target>
+        <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
+        <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
+        <target>Brave kommer inte ihåg din historik eller din cookies, men nya bokmärken kommer att sparas.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Brave would like to access your Photos">
+        <source>Brave would like to access your Photos</source>
+        <target>Brave vill ha tillgång till dina foton</target>
+        <note>See http://mzl.la/1G7uHo7</note>
+      </trans-unit>
+      <trans-unit id="Brightness">
+        <source>Brightness</source>
+        <target>Ljusstyrka</target>
+        <note>Accessibility label for brightness adjustment slider in Reader Mode display settings</note>
+      </trans-unit>
+      <trans-unit id="Browse with us and your privacy is protected, with nothing further to install, learn or configure.">
+        <source>Browse with us and your privacy is protected, with nothing further to install, learn or configure.</source>
+        <target>Surfa med oss och din integritet kommer vara skyddad utan att behöva installera, lära sig eller konfigurera något.</target>
+        <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Browsing History">
+        <source>Browsing History</source>
+        <target>Sökhistorik</target>
+        <note>Settings item for clearing browsing history</note>
+      </trans-unit>
+      <trans-unit id="Cache">
+        <source>Cache</source>
+        <target>Cache</target>
+        <note>Settings item for clearing the cache</note>
+      </trans-unit>
+      <trans-unit id="Call">
+        <source>Call</source>
+        <target>Ring</target>
+        <note>Alert Call Button</note>
+      </trans-unit>
+      <trans-unit id="Cancel">
+        <source>Cancel</source>
+        <target>Avbryt</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Changes color theme.">
+        <source>Changes color theme.</source>
+        <target>Ändrar färgtemat.</target>
+        <note>Accessibility hint for the color theme setting buttons in reader mode display settings</note>
+      </trans-unit>
+      <trans-unit id="Changes font type.">
+        <source>Changes font type.</source>
+        <target>Ändrar font-typ.</target>
+        <note>Accessibility hint for the font type buttons in reader mode display settings</note>
+      </trans-unit>
+      <trans-unit id="Changing settings will only affect data that this device shares with others.">
+        <source>Changing settings will only affect data that this device shares with others.</source>
+        <target>Ändrade inställningar kommer bara påverka den datan som denna enhet delar med andra.</target>
+        <note>Sync device settings footer details</note>
+      </trans-unit>
+      <trans-unit id="Clear">
+        <source>Clear</source>
+        <target>Rensa</target>
+        <note>Used as a button label in the dialog to Clear private data dialog</note>
+      </trans-unit>
+      <trans-unit id="Clear Everything">
+        <source>Clear Everything</source>
+        <target>Rensa allt</target>
+        <note>Title of the Clear private data dialog.</note>
+      </trans-unit>
+      <trans-unit id="Clear Private Data">
+        <source>Clear Private Data</source>
+        <target>Rensa privat data</target>
+        <note>Button in settings that clears private data for the selected items. Also used as section title in settings panel</note>
+      </trans-unit>
+      <trans-unit id="Clear Search">
+        <source>Clear Search</source>
+        <target>Rensa Sök</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Close">
+        <source>Close</source>
+        <target>Stäng</target>
+        <note>Accessibility label for action denoting closing a tab in tab list (tray)</note>
+      </trans-unit>
+      <trans-unit id="Close Private Tabs">
+        <source>Close Private Tabs</source>
+        <target>Stäng privata flikar</target>
+        <note>Setting for closing private tabs</note>
+      </trans-unit>
+      <trans-unit id="Close Tab">
+        <source>Close Tab</source>
+        <target>Stäng flik</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Closing tab">
+        <source>Closing tab</source>
+        <target>Stänger flik</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Code Words">
+        <source>Code Words</source>
+        <target>Kodord</target>
+        <note>Code words section title</note>
+      </trans-unit>
+      <trans-unit id="Cookie Control">
+        <source>Cookie Control</source>
+        <target>Cookie kontroll</target>
+        <note>Cookie settings option title</note>
+      </trans-unit>
+      <trans-unit id="Cookies">
+        <source>Cookies</source>
+        <target>Cookies</target>
+        <note>Settings item for clearing cookies</note>
+      </trans-unit>
+      <trans-unit id="Copy">
+        <source>Copy</source>
+        <target>Kopiera</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Copy Address">
+        <source>Copy Address</source>
+        <target>Kopiera adress</target>
+        <note>Copy the URL from the location bar</note>
+      </trans-unit>
+      <trans-unit id="Copy Image">
+        <source>Copy Image</source>
+        <target>Kopiera bild</target>
+        <note>Context menu item for copying an image to the clipboard</note>
+      </trans-unit>
+      <trans-unit id="Copy Link">
+        <source>Copy Link</source>
+        <target>Kopiera länk</target>
+        <note>Context menu item for copying a link URL to the clipboard</note>
+      </trans-unit>
+      <trans-unit id="Could not add page to Reading List. Maybe it's already there?">
+        <source>Could not add page to Reading List. Maybe it's already there?</source>
+        <target>Kunde inte lägga till sidan till läslistan. Den kanske redan är där?</target>
+        <note>Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures.</note>
+      </trans-unit>
+      <trans-unit id="Dark">
+        <source>Dark</source>
+        <target>Mörk</target>
+        <note>Dark theme setting in Reading View settings</note>
+      </trans-unit>
+      <trans-unit id="Decrease text size">
+        <source>Decrease text size</source>
+        <target>Minska textstorleken</target>
+        <note>Accessibility label for button decreasing font size in display settings of reader mode</note>
+      </trans-unit>
+      <trans-unit id="Default Search Engine">
+        <source>Default Search Engine</source>
+        <target>Standardsökmotor</target>
+        <note>Open search section of settings</note>
+      </trans-unit>
+      <trans-unit id="Delete">
+        <source>Delete</source>
+        <target>Radera</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Deselect All">
+        <source>Deselect All</source>
+        <target>Avmarkera alla</target>
+        <note>Title for deselecting all selected logins</note>
+      </trans-unit>
+      <trans-unit id="Desktop Bookmarks">
+        <source>Desktop Bookmarks</source>
+        <target>Desktop bokmärken</target>
+        <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
+      </trans-unit>
+      <trans-unit id="Device Name">
+        <source>Device Name</source>
+        <target>Enhetsnamn</target>
+        <note>Title for new device popup</note>
+      </trans-unit>
+      <trans-unit id="Devices">
+        <source>Devices</source>
+        <target>Enheter</target>
+        <note>Sync device settings page title.</note>
+      </trans-unit>
+      <trans-unit id="Devices &amp; Settings">
+        <source>Devices &amp; Settings</source>
+        <target>Enheter &amp; inställningar</target>
+        <note>Sync you browser settings across devices.</note>
+      </trans-unit>
+      <trans-unit id="Don't block cookies">
+        <source>Don't block cookies</source>
+        <target>Blockera inte cookies</target>
+        <note>cookie settings option</note>
+      </trans-unit>
+      <trans-unit id="Done">
+        <source>Done</source>
+        <target>Klar</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Don’t Save">
+        <source>Don’t Save</source>
+        <target>Spara inte</target>
+        <note>Button to not save the user's password</note>
+      </trans-unit>
+      <trans-unit id="Down">
+        <source>Down</source>
+        <target>Av</target>
+        <note>brave shield on/off toggle off state</note>
+      </trans-unit>
+      <trans-unit id="Edit">
+        <source>Edit</source>
+        <target>Ändra</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Enter Search Mode">
+        <source>Enter Search Mode</source>
+        <target>Ange sökläge</target>
+        <note>Accessibility label for entering search mode for logins</note>
+      </trans-unit>
+      <trans-unit id="Enter code words">
+        <source>Enter code words</source>
+        <target>Skriv in kodord</target>
+        <note>Sync enter code words</note>
+      </trans-unit>
+      <trans-unit id="Enter code words below">
+        <source>Enter code words below</source>
+        <target>Skriv in kodord nedanför</target>
+        <note>Enter sync code words below</note>
+      </trans-unit>
+      <trans-unit id="Enter folder name">
+        <source>Enter folder name</source>
+        <target>Ange mappnamn</target>
+        <note>Description for new folder popup</note>
+      </trans-unit>
+      <trans-unit id="Est. Time \rSaved">
+        <source>Est. Time 
+Saved</source>
+        <target>Sparad tid</target>
+        <note>Shields Time Saved Stat</note>
+      </trans-unit>
+      <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
+        <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <target>Även om webbplatser som du besöker i privata flikar inte sparas lokalt, gör de dig inte anonym eller osynlig för din Internetleverantör, din arbetsgivare eller de webbplatser du besöker.</target>
+        <note>Private tab details</note>
+      </trans-unit>
+      <trans-unit id="Find">
+        <source>Find</source>
+        <target>Sök</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Find &quot;%@&quot;">
+        <source>Find &quot;%@&quot;</source>
+        <target>Sök &quot;%@&quot;</target>
+        <note>Find text in page.</note>
+      </trans-unit>
+      <trans-unit id="Find in Page">
+        <source>Find in Page</source>
+        <target>Sök på sidan</target>
+        <note>Share action title</note>
+      </trans-unit>
+      <trans-unit id="Fingerprinting Methods">
+        <source>Fingerprinting Methods</source>
+        <target>Fingeravtrycksmetoder</target>
+        <note>individual blocking statistic title</note>
+      </trans-unit>
+      <trans-unit id="Fingerprinting Protection">
+        <source>Fingerprinting Protection</source>
+        <target>Fingeravtrycksskydd</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Fingerprinting\nProtection">
+        <source>Fingerprinting
+Protection</source>
+        <target>Fingeravtrycks
+skydd</target>
+        <note>blocking stat title</note>
+      </trans-unit>
+      <trans-unit id="Folder">
+        <source>Folder</source>
+        <target>Mapp</target>
+        <note>Folder</note>
+      </trans-unit>
+      <trans-unit id="Forward">
+        <source>Forward</source>
+        <target>Framåt</target>
+        <note>Accessibility Label for the browser toolbar Forward button</note>
+      </trans-unit>
+      <trans-unit id="General">
+        <source>General</source>
+        <target>Allmäna inställningar</target>
+        <note>General settings section title</note>
+      </trans-unit>
+      <trans-unit id="Get a new sync code">
+        <source>Get a new sync code</source>
+        <target>Få en ny synkroniseringskod </target>
+        <note>New sync code button title</note>
+      </trans-unit>
+      <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
+        <source>Get ready to experience a Faster, Safer, Better Web.</source>
+        <target>Gör dig redo för att uppleva en Snabbare, säkrare och bättre webb.</target>
+        <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Go Back">
+        <source>Go Back</source>
+        <target>Gå tillbaka</target>
+        <note>Label for button to go back from the error page</note>
+      </trans-unit>
+      <trans-unit id="Grant camera access">
+        <source>Grant camera access</source>
+        <target>Ge tillgång till kameran</target>
+        <note>Grand camera access</note>
+      </trans-unit>
+      <trans-unit id="HTTPS Everywhere">
+        <source>HTTPS Everywhere</source>
+        <target>HTTPS Everywhere</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="HTTPS Upgrades">
+        <source>HTTPS Upgrades</source>
+        <target>HTTPS-uppgraderingar</target>
+        <note>individual blocking statistic title</note>
+      </trans-unit>
+      <trans-unit id="HTTPS \rUpgrades">
+        <source>HTTPS 
+Upgrades</source>
+        <target>HTTPS-
+uppgraderingar</target>
+        <note>Shields Https Stat</note>
+      </trans-unit>
+      <trans-unit id="Hide">
+        <source>Hide</source>
+        <target>Dölj</target>
+        <note>Hide password text selection menu item</note>
+      </trans-unit>
+      <trans-unit id="History">
+        <source>History</source>
+        <target>Historik</target>
+        <note>Panel accessibility label</note>
+      </trans-unit>
+      <trans-unit id="In case you hit a speed bump">
+        <source>In case you hit a speed bump</source>
+        <target>Om du stöter på ett problem</target>
+        <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Increase text size">
+        <source>Increase text size</source>
+        <target>Öka textstorleken</target>
+        <note>Accessibility label for button increasing font size in display settings of reader mode</note>
+      </trans-unit>
+      <trans-unit id="Individual Controls">
+        <source>Individual Controls</source>
+        <target>Inviduella kontroller</target>
+        <note>title for per-site shield toggles</note>
+      </trans-unit>
+      <trans-unit id="Intro Tour Carousel">
+        <source>Intro Tour Carousel</source>
+        <target>Genomgång</target>
+        <note>Accessibility label for the introduction tour carousel</note>
+      </trans-unit>
+      <trans-unit id="Introductory slide %@ of %@">
+        <source>Introductory slide %1$@ of %2$@</source>
+        <target>Introduktions-sida %1$@ av %2$@</target>
+        <note>String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3</note>
+      </trans-unit>
+      <trans-unit id="It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk.">
+        <source>It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk.</source>
+        <target>Det kan vara en felkonfiguration eller manipulering av en angripare. Fortsätt om du accepterar den potentiella risken.</target>
+        <note>Additional warning text when clicking the Advanced button on error pages</note>
+      </trans-unit>
+      <trans-unit id="Last modified %@">
+        <source>Last modified %@</source>
+        <target>Senast ändrad %@</target>
+        <note>Footer label describing when the login was last modified with the timestamp as the parameter</note>
+      </trans-unit>
+      <trans-unit id="Last month">
+        <source>Last month</source>
+        <target>Förra månaden</target>
+        <note>History tableview section header</note>
+      </trans-unit>
+      <trans-unit id="Last week">
+        <source>Last week</source>
+        <target>Förra veckan</target>
+        <note>History tableview section header</note>
+      </trans-unit>
+      <trans-unit id="Learn More">
+        <source>Learn More</source>
+        <target>Lär dig mer</target>
+        <note>Text button displayed when there are no tabs open while in private mode</note>
+      </trans-unit>
+      <trans-unit id="Learn about private tabs.">
+        <source>Learn about private tabs.</source>
+        <target>Lär dig om privata flikar.</target>
+        <note>Private tab information link</note>
+      </trans-unit>
+      <trans-unit id="Light">
+        <source>Light</source>
+        <target>Ljus</target>
+        <note>Light theme setting in Reading View settings</note>
+      </trans-unit>
+      <trans-unit id="Load original page">
+        <source>Load original page</source>
+        <target>Ladda standardsida</target>
+        <note>Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app.</note>
+      </trans-unit>
+      <trans-unit id="Loading content…">
+        <source>Loading content…</source>
+        <target>Laddar innehåll...</target>
+        <note>Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app.</note>
+      </trans-unit>
+      <trans-unit id="Location">
+        <source>Location</source>
+        <target>Plats</target>
+        <note>Bookmark folder location</note>
+      </trans-unit>
+      <trans-unit id="Logins">
+        <source>Logins</source>
+        <target>Inloggningar</target>
+        <note>Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager.</note>
+      </trans-unit>
+      <trans-unit id="Logins will be permanently removed.">
+        <source>Logins will be permanently removed.</source>
+        <target>Inloggningar kommer bli permanent borttagna.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Logins will be removed from all connected devices.">
+        <source>Logins will be removed from all connected devices.</source>
+        <target>Inloggningar tas bort från alla anslutna enheter.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Mark as Read">
+        <source>Mark as Read</source>
+        <target>Markera som läst</target>
+        <note>Name for Mark as read button in reader mode</note>
+      </trans-unit>
+      <trans-unit id="Mark as Unread">
+        <source>Mark as Unread</source>
+        <target>Markera som oläst</target>
+        <note>Name for Mark as unread button in reader mode</note>
+      </trans-unit>
+      <trans-unit id="Mobile Bookmarks">
+        <source>Mobile Bookmarks</source>
+        <target>Mobila bokmärken</target>
+        <note>The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Name">
+        <source>Name</source>
+        <target>Namn</target>
+        <note>Bookmark title / Device name</note>
+      </trans-unit>
+      <trans-unit id="Navigation Toolbar">
+        <source>Navigation Toolbar</source>
+        <target>Navigationsfältet</target>
+        <note>Accessibility label for the navigation toolbar displayed at the bottom of the screen.</note>
+      </trans-unit>
+      <trans-unit id="Never show">
+        <source>Never show</source>
+        <target>Visa aldrig</target>
+        <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="New Folder">
+        <source>New Folder</source>
+        <target>Ny mapp </target>
+        <note>Title for new folder popup</note>
+      </trans-unit>
+      <trans-unit id="New Private Tab">
+        <source>New Private Tab</source>
+        <target>Ny privat flik</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="New Tab">
+        <source>New Tab</source>
+        <target>Ny flik</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Next in-page result">
+        <source>Next in-page result</source>
+        <target>Nästa resultat på sidan</target>
+        <note>Accessibility label for next result button in Find in Page Toolbar.</note>
+      </trans-unit>
+      <trans-unit id="No">
+        <source>No</source>
+        <target>Nej</target>
+        <note>For search suggestions prompt. This string should be short so it fits nicely on the prompt row.</note>
+      </trans-unit>
+      <trans-unit id="No logins found">
+        <source>No logins found</source>
+        <target>Inga inloggningar hittades</target>
+        <note>Title displayed when no logins are found after searching</note>
+      </trans-unit>
+      <trans-unit id="No tabs">
+        <source>No tabs</source>
+        <target>Inga flikar</target>
+        <note>Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray</note>
+      </trans-unit>
+      <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
+        <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
+        <target>Obs: Några webbplatser kan behöva skript för att fungera korrekt, därför är denna skölden avstängd som standard.</target>
+        <note>shields overview footer message</note>
+      </trans-unit>
+      <trans-unit id="OK">
+        <source>OK</source>
+        <target>OK</target>
+        <note>OK button</note>
+      </trans-unit>
+      <trans-unit id="Off">
+        <source>Off</source>
+        <target>Av</target>
+        <note>Toggled OFF accessibility value</note>
+      </trans-unit>
+      <trans-unit id="Offline Website Data">
+        <source>Offline Website Data</source>
+        <target>Nedkopplad webbplatsdata</target>
+        <note>Settings item for clearing website data</note>
+      </trans-unit>
+      <trans-unit id="On">
+        <source>On</source>
+        <target>På</target>
+        <note>Toggled ON accessibility value</note>
+      </trans-unit>
+      <trans-unit id="Open &amp; Fill">
+        <source>Open &amp; Fill</source>
+        <target>Open &amp; Fill</target>
+        <note>Open and Fill website text selection menu item</note>
+      </trans-unit>
+      <trans-unit id="Open Desktop Site tab">
+        <source>Open Desktop Site tab</source>
+        <target>Begär datorwebbplats</target>
+        <note>Share action title</note>
+      </trans-unit>
+      <trans-unit id="Open Image In New Tab">
+        <source>Open Image In New Tab</source>
+        <target>Öppna bild i ny flik</target>
+        <note>Context menu for opening image in new tab</note>
+      </trans-unit>
+      <trans-unit id="Open In New Private Tab">
+        <source>Open In New Private Tab</source>
+        <target>Öppna i ny privat flik </target>
+        <note>Context menu option for opening a link in a new private tab</note>
+      </trans-unit>
+      <trans-unit id="Open In New Tab">
+        <source>Open In New Tab</source>
+        <target>Öppna i ny flik</target>
+        <note>Context menu item for opening a link in a new tab</note>
+      </trans-unit>
+      <trans-unit id="Open Settings">
+        <source>Open Settings</source>
+        <target>Öppna inställningar</target>
+        <note>See http://mzl.la/1G7uHo7</note>
+      </trans-unit>
+      <trans-unit id="Open articles in Reader View by tapping the book icon when it appears in the title bar.">
+        <source>Open articles in Reader View by tapping the book icon when it appears in the title bar.</source>
+        <target>Öppna artiklar i läsläge genom att trycka på bok-ikonen när den syns i titelfältet.</target>
+        <note>See http://mzl.la/1LXbDOL</note>
+      </trans-unit>
+      <trans-unit id="Open in Safari">
+        <source>Open in Safari</source>
+        <target>Öppna i Safari</target>
+        <note>Shown in error pages for files that can't be shown and need to be downloaded.</note>
+      </trans-unit>
+      <trans-unit id="Open in…">
+        <source>Open in…</source>
+        <target>Öppna i...</target>
+        <note>String indicating that the file can be opened in another application on the device</note>
+      </trans-unit>
+      <trans-unit id="Pair">
+        <source>Pair</source>
+        <target>Para</target>
+        <note>Sync pair device settings section title</note>
+      </trans-unit>
+      <trans-unit id="Panel Chooser">
+        <source>Panel Chooser</source>
+        <target>Panelväljare</target>
+        <note>Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list).</note>
+      </trans-unit>
+      <trans-unit id="Password Manager">
+        <source>Password Manager</source>
+        <target>Lösenordshanterare</target>
+        <note>Accessibility Label for the browser toolbar Password Manager button</note>
+      </trans-unit>
+      <trans-unit id="Password Manager Button">
+        <source>Password Manager Button</source>
+        <target>Lösenordshanterar-knapp</target>
+        <note>Setting for behaviour of password manager button</note>
+      </trans-unit>
+      <trans-unit id="Paste">
+        <source>Paste</source>
+        <target>Klistra in</target>
+        <note>Paste the URL into the location bar</note>
+      </trans-unit>
+      <trans-unit id="Paste &amp; Go">
+        <source>Paste &amp; Go</source>
+        <target>Klistra in och surfa</target>
+        <note>Paste the URL into the location bar and visit</note>
+      </trans-unit>
+      <trans-unit id="Please enter a name for this device">
+        <source>Please enter a name for this device</source>
+        <target>Vänligen ange ett namn för denna enhet</target>
+        <note>Description for new device popup</note>
+      </trans-unit>
+      <trans-unit id="Previous in-page result">
+        <source>Previous in-page result</source>
+        <target>Föregående resultat på sidan</target>
+        <note>Accessibility label for previous result button in Find in Page Toolbar.</note>
+      </trans-unit>
+      <trans-unit id="Privacy">
+        <source>Privacy</source>
+        <target>Integritet</target>
+        <note>Settings privacy section title</note>
+      </trans-unit>
+      <trans-unit id="Privacy Policy">
+        <source>Privacy Policy</source>
+        <target>Integritetspolicy</target>
+        <note>Show Brave Browser Privacy Policy page from the Privacy section in the settings.</note>
+      </trans-unit>
+      <trans-unit id="Private">
+        <source>Private</source>
+        <target>Privat</target>
+        <note>Private button title</note>
+      </trans-unit>
+      <trans-unit id="Private Browsing">
+        <source>Private Browsing</source>
+        <target>Privat surfning</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Private Browsing Only">
+        <source>Private Browsing Only</source>
+        <target>Privat surfning bara</target>
+        <note>Setting to keep app in private mode</note>
+      </trans-unit>
+      <trans-unit id="Private Mode">
+        <source>Private Mode</source>
+        <target>Privat läge</target>
+        <note>Accessibility label for toggling on/off private mode</note>
+      </trans-unit>
+      <trans-unit id="Private mode icon">
+        <source>Private mode icon</source>
+        <target>Privatlägesikon</target>
+        <note>Private mode icon next to location string</note>
+      </trans-unit>
+      <trans-unit id="QR Code">
+        <source>QR Code</source>
+        <target>QR-kod</target>
+        <note>QR Code section title</note>
+      </trans-unit>
+      <trans-unit id="Quick-search Engines">
+        <source>Quick-search Engines</source>
+        <target>Snabbsökmotorer</target>
+        <note>Title for quick-search engines settings section.</note>
+      </trans-unit>
+      <trans-unit id="Reader Mode Settings">
+        <source>Reader Mode Settings</source>
+        <target>Läsläges-inställningar</target>
+        <note>Name for display settings button in reader mode. Display in the meaning of presentation, not monitor.</note>
+      </trans-unit>
+      <trans-unit id="Reader View">
+        <source>Reader View</source>
+        <target>Läsläge</target>
+        <note>Accessibility label for the Reader View button</note>
+      </trans-unit>
+      <trans-unit id="Reading list">
+        <source>Reading list</source>
+        <target>Läslista</target>
+        <note>Panel accessibility label</note>
+      </trans-unit>
+      <trans-unit id="Reload">
+        <source>Reload</source>
+        <target>Ladda om</target>
+        <note>Accessibility Label for the browser toolbar Reload button</note>
+      </trans-unit>
+      <trans-unit id="Reload Page">
+        <source>Reload Page</source>
+        <target>Ladda om sidan</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Remove">
+        <source>Remove</source>
+        <target>Ta bort</target>
+        <note>Action button for deleting_history_entries_in_the_history_panel.</note>
+      </trans-unit>
+      <trans-unit id="Remove from Reading List">
+        <source>Remove from Reading List</source>
+        <target>Ta bort från läslistan</target>
+        <note>Name for button removing current article from reading list in reader mode</note>
+      </trans-unit>
+      <trans-unit id="Remove page">
+        <source>Remove page</source>
+        <target>Ta bort sida</target>
+        <note>Button shown in editing mode to remove this site from the top sites panel.</note>
+      </trans-unit>
+      <trans-unit id="Remove this device">
+        <source>Remove this device</source>
+        <target>Ta bort denna enhet</target>
+        <note>Sync remove device.</note>
+      </trans-unit>
+      <trans-unit id="Remove this device?">
+        <source>Remove this device?</source>
+        <target>Radera denna enhet?</target>
+        <note>Sync remove device?</note>
+      </trans-unit>
+      <trans-unit id="Report a bug">
+        <source>Report a bug</source>
+        <target>Raportera en bugg</target>
+        <note>Show mail composer to report a bug.</note>
+      </trans-unit>
+      <trans-unit id="Reveal">
+        <source>Reveal</source>
+        <target>Avslöja</target>
+        <note>Reveal password text selection menu item</note>
+      </trans-unit>
+      <trans-unit id="Sans-serif">
+        <source>Sans-serif</source>
+        <target>Sans serif</target>
+        <note>Font type setting in the reading view settings</note>
+      </trans-unit>
+      <trans-unit id="Save Image">
+        <source>Save Image</source>
+        <target>Spara bild</target>
+        <note>Context menu item for saving an image</note>
+      </trans-unit>
+      <trans-unit id="Save Login">
+        <source>Save Login</source>
+        <target>Spara inloggning</target>
+        <note>Button to save the user's password</note>
+      </trans-unit>
+      <trans-unit id="Save Logins">
+        <source>Save Logins</source>
+        <target>Spara inloggningar</target>
+        <note>Setting to enable the built-in password manager</note>
+      </trans-unit>
+      <trans-unit id="Save login %@ for %@?">
+        <source>Save login %1$@ for %2$@?</source>
+        <target>Spara inloggning %1$@ för %2$@?</target>
+        <note>Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site.</note>
+      </trans-unit>
+      <trans-unit id="Save pages to your Reading List by tapping the book plus icon in the Reader View controls.">
+        <source>Save pages to your Reading List by tapping the book plus icon in the Reader View controls.</source>
+        <target>Spara sidor till din läslista genom att trycka på bokmärkesikonen med ett plus i läsläge kontrollerna.</target>
+        <note>See http://mzl.la/1LXbDOL</note>
+      </trans-unit>
+      <trans-unit id="Save password for %@?">
+        <source>Save password for %@?</source>
+        <target>Spara lösenord för %@?</target>
+        <note>Prompt for saving a password with no username. The parameter is the hostname of the site.</note>
+      </trans-unit>
+      <trans-unit id="Saved Logins">
+        <source>Saved Logins</source>
+        <target>Spara inloggningar</target>
+        <note>Settings item for clearing passwords and login data</note>
+      </trans-unit>
+      <trans-unit id="Scan or enter code">
+        <source>Scan or enter code</source>
+        <target>Skanna eller ange kod</target>
+        <note>Scan sync code button title</note>
+      </trans-unit>
+      <trans-unit id="Scripts Blocked">
+        <source>Scripts Blocked</source>
+        <target>Blockerade skript</target>
+        <note>individual blocking statistic title</note>
+      </trans-unit>
+      <trans-unit id="Search">
+        <source>Search</source>
+        <target>Sök</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search Input Field">
+        <source>Search Input Field</source>
+        <target>Sök inmatningsfältet</target>
+        <note>Accessibility label for the search input field in the Logins list</note>
+      </trans-unit>
+      <trans-unit id="Search Settings">
+        <source>Search Settings</source>
+        <target>Sökinställningar</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search in page">
+        <source>Search in page</source>
+        <target>Sök på sidan</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search or enter address">
+        <source>Search or enter address</source>
+        <target>Sök eller ange adress</target>
+        <note>The text shown in the URL bar on about:home</note>
+      </trans-unit>
+      <trans-unit id="Search suggestions from %@">
+        <source>Search suggestions from %@</source>
+        <target>Sökförslag från %@</target>
+        <note>Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \&quot;%@\&quot; is the name of the search engine. E.g.: Search suggestions from Google</note>
+      </trans-unit>
+      <trans-unit id="Searches for the suggestion">
+        <source>Searches for the suggestion</source>
+        <target>Söker efter förslag</target>
+        <note>Accessibility hint describing the action performed when a search suggestion is clicked</note>
+      </trans-unit>
+      <trans-unit id="Secure connection">
+        <source>Secure connection</source>
+        <target>Säker anslutning</target>
+        <note>Accessibility label for the lock icon, which is only present if the connection is secure</note>
+      </trans-unit>
+      <trans-unit id="Select All">
+        <source>Select All</source>
+        <target>Välj alla</target>
+        <note>Title for selecting all logins</note>
+      </trans-unit>
+      <trans-unit id="Select Location Bar">
+        <source>Select Location Bar</source>
+        <target>Välj adressfältet</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Send crash reports and metrics">
+        <source>Send crash reports and metrics</source>
+        <target>Skicka kraschrapporter och mätvärden</target>
+        <note>option in settings screen</note>
+      </trans-unit>
+      <trans-unit id="Sepia">
+        <source>Sepia</source>
+        <target>Sepia</target>
+        <note>Sepia theme setting in Reading View settings</note>
+      </trans-unit>
+      <trans-unit id="Serif">
+        <source>Serif</source>
+        <target>Serif</target>
+        <note>Font type setting in the reading view settings</note>
+      </trans-unit>
+      <trans-unit id="Settings">
+        <source>Settings</source>
+        <target>Inställningar</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Share">
+        <source>Share</source>
+        <target>Dela</target>
+        <note>Accessibility Label for the browser toolbar Share button</note>
+      </trans-unit>
+      <trans-unit id="Share Link">
+        <source>Share Link</source>
+        <target>Dela länk</target>
+        <note>Context menu item for sharing a link URL</note>
+      </trans-unit>
+      <trans-unit id="Shields Down">
+        <source>Shields Down</source>
+        <target>Sköldar nere</target>
+        <note>message shown briefly in URL bar</note>
+      </trans-unit>
+      <trans-unit id="Shields Up">
+        <source>Shields Up</source>
+        <target>Sköldar uppe</target>
+        <note>message shown briefly in URL bar</note>
+      </trans-unit>
+      <trans-unit id="Show Bookmarks">
+        <source>Show Bookmarks</source>
+        <target>Visa bokmärken</target>
+        <note>Button to show the bookmarks list</note>
+      </trans-unit>
+      <trans-unit id="Show History">
+        <source>Show History</source>
+        <target>Visa historik</target>
+        <note>Button to show the history list</note>
+      </trans-unit>
+      <trans-unit id="Show Next Tab">
+        <source>Show Next Tab</source>
+        <target>Visa nästa flik</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Show Previous Tab">
+        <source>Show Previous Tab</source>
+        <target>Visa tidigare flik</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Show Search Suggestions">
+        <source>Show Search Suggestions</source>
+        <target>Visa sökförslag</target>
+        <note>Label for show search suggestions setting.</note>
+      </trans-unit>
+      <trans-unit id="Show Tabs">
+        <source>Show Tabs</source>
+        <target>Visa flikar</target>
+        <note>Accessibility Label for the tabs button in the browser toolbar</note>
+      </trans-unit>
+      <trans-unit id="Show Tabs Bar">
+        <source>Show Tabs Bar</source>
+        <target>Visa flikar</target>
+        <note>Setting to show/hide the tabs bar</note>
+      </trans-unit>
+      <trans-unit id="Show Tour">
+        <source>Show Tour</source>
+        <target>Visa genomgång</target>
+        <note>Show the on-boarding screen again from the settings</note>
+      </trans-unit>
+      <trans-unit id="Show in landscape only">
+        <source>Show in landscape only</source>
+        <target>Visa endast i landskapsläge</target>
+        <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="Show picker">
+        <source>Show picker</source>
+        <target>Visa väljare</target>
+        <note>Password Manager show picker option</note>
+      </trans-unit>
+      <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
+        <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
+        <target>Sköldarna låter dig styra när annonser och spårare blockeras för varje webbplats du besöker. Om du föredrar att se annonser på en viss webbplats kan du aktivera dem här.</target>
+        <note>shields overview message</note>
+      </trans-unit>
+      <trans-unit id="Site shield settings">
+        <source>Site shield settings</source>
+        <target>Sköldinställningar</target>
+        <note>Brave panel topmost title</note>
+      </trans-unit>
+      <trans-unit id="Start Browsing">
+        <source>Start Browsing</source>
+        <target>Börja surfa</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Stop">
+        <source>Stop</source>
+        <target>Stoppa</target>
+        <note>Accessibility Label for the browser toolbar Stop button</note>
+      </trans-unit>
+      <trans-unit id="Support">
+        <source>Support</source>
+        <target>Support</target>
+        <note>Support section title</note>
+      </trans-unit>
+      <trans-unit id="Swipe right or left with three fingers to close the tab.">
+        <source>Swipe right or left with three fingers to close the tab.</source>
+        <target>Dra höger eller vänster med tre fingrar för att stänga fliken.</target>
+        <note>Accessibility hint for tab tray's displayed tab.</note>
+      </trans-unit>
+      <trans-unit id="Sync">
+        <source>Sync</source>
+        <target>Synkronisering</target>
+        <note>Sync settings section title</note>
+      </trans-unit>
+      <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
+        <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <target>Synkronisera webbläsardata mellan dina enheter på ett säkert sätt med Brave Sync, inget konto behövs. Tryck nedan för att komma igång.</target>
+        <note>Sync settings welcome</note>
+      </trans-unit>
+      <trans-unit id="Sync on this device">
+        <source>Sync on this device</source>
+        <target>Synkronisering på denna enhet</target>
+        <note>Sync device settings section title</note>
+      </trans-unit>
+      <trans-unit id="Sync to device">
+        <source>Sync to device</source>
+        <target>Synkronisera till enhet</target>
+        <note>Sync to existing device</note>
+      </trans-unit>
+      <trans-unit id="Tab %@ of %@">
+        <source>Tab %1$@ of %2$@</source>
+        <target>Flik %1$@ av %2$@</target>
+        <note>Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \&quot;Tab 2 of 5\&quot; says that tab 2 is visible (and is the only visible tab), out of 5 tabs total.</note>
+      </trans-unit>
+      <trans-unit id="Tabs">
+        <source>Tabs</source>
+        <target>Flikar</target>
+        <note>Accessibility label for the Tabs.</note>
+      </trans-unit>
+      <trans-unit id="Tabs %@ to %@ of %@">
+        <source>Tabs %1$@ to %2$@ of %3$@</source>
+        <target>Flikar %1$@ till %2$@ av %3$@</target>
+        <note>Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \&quot;Tabs 8 to 10 of 15\&quot; says tabs 8, 9 and 10 are visible, out of 15 tabs total.</note>
+      </trans-unit>
+      <trans-unit id="Tabs Tray">
+        <source>Tabs Tray</source>
+        <target>Flikfack</target>
+        <note>Accessibility label for the Tabs Tray view.</note>
+      </trans-unit>
+      <trans-unit id="Tap the Brave button to temporarily disable ad blocking and privacy features.">
+        <source>Tap the Brave button to temporarily disable ad blocking and privacy features.</source>
+        <target>Tryck på Brave-knappen för att tillfälligt inaktivera annonsblockering och integritetsfunktioner.</target>
+        <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Terms of Use">
+        <source>Terms of Use</source>
+        <target>Villkor</target>
+        <note>Show Brave Browser TOS page from the Privacy section in the settings.</note>
+      </trans-unit>
+      <trans-unit id="The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website.">
+        <source>The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website.</source>
+        <target>Ägaren till % @ har konfigurerat sin webbplats felaktigt. För att skydda din information från att bli stulen så anslöt inte Brave till denna webbplats.</target>
+        <note>Warning text on the certificate error page</note>
+      </trans-unit>
+      <trans-unit id="The page could not be displayed in Reader View.">
+        <source>The page could not be displayed in Reader View.</source>
+        <target>Sidan kunde inte visas i läsläge.</target>
+        <note>Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app.</note>
+      </trans-unit>
+      <trans-unit id="There was an error converting the page">
+        <source>There was an error converting the page</source>
+        <target>Det gick inte att konvertera sidan</target>
+        <note>Error displayed when reader mode cannot be enabled</note>
+      </trans-unit>
+      <trans-unit id="This action will clear all of your private data. It cannot be undone.">
+        <source>This action will clear all of your private data. It cannot be undone.</source>
+        <target>Den här åtgärden rensar all dina privata data. Dettta kan inte ångras.</target>
+        <note>Description of the confirmation dialog shown when a user tries to clear their private data.</note>
+      </trans-unit>
+      <trans-unit id="This allows you to save the image to your Camera Roll.">
+        <source>This allows you to save the image to your Camera Roll.</source>
+        <target>Detta låter dig spara bilden till din kamerarulle.</target>
+        <note>See http://mzl.la/1G7uHo7</note>
+      </trans-unit>
+      <trans-unit id="This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.">
+        <source>This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.</source>
+        <target>Denna enhet kommer bli frånkopplad från sync gruppen och den kommer inte sända eller ta emot sync data. All existerande data kommer finnas kvar på enheten.</target>
+        <note>Sync remove device?</note>
+      </trans-unit>
+      <trans-unit id="This folder isn't empty.">
+        <source>This folder isn't empty.</source>
+        <target>Denna mapp är inte tom.</target>
+        <note>Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders.</note>
+      </trans-unit>
+      <trans-unit id="This is a Private Tab">
+        <source>This is a Private Tab</source>
+        <target>Detta är en privat flik</target>
+        <note>Private tab title</note>
+      </trans-unit>
+      <trans-unit id="Today">
+        <source>Today</source>
+        <target>Idag</target>
+        <note>History tableview section header</note>
+      </trans-unit>
+      <trans-unit id="Top sites">
+        <source>Top sites</source>
+        <target>Populära webbplatser</target>
+        <note>Panel accessibility label</note>
+      </trans-unit>
+      <trans-unit id="Trackers \rBlocked">
+        <source>Trackers 
+Blocked</source>
+        <target>Blockerade
+spårare</target>
+        <note>Shields Trackers Stat</note>
+      </trans-unit>
+      <trans-unit id="Try again">
+        <source>Try again</source>
+        <target>Försök igen</target>
+        <note>Shown in error pages on a button that will try to load the page again</note>
+      </trans-unit>
+      <trans-unit id="Turn on search suggestions?">
+        <source>Turn on search suggestions?</source>
+        <target>Sätt på sökförslag?</target>
+        <note>Prompt shown before enabling provider search queries</note>
+      </trans-unit>
+      <trans-unit id="Turns private mode on or off">
+        <source>Turns private mode on or off</source>
+        <target>Sätter på och av Privat läge</target>
+        <note>Accessiblity hint for toggling on/off private mode</note>
+      </trans-unit>
+      <trans-unit id="URL">
+        <source>URL</source>
+        <target>URL</target>
+        <note>Bookmark URL</note>
+      </trans-unit>
+      <trans-unit id="Unable to create new sync group.">
+        <source>Unable to create new sync group.</source>
+        <target>Kunde inte skapa en ny synkroniseringsgrupp.</target>
+        <note>Description on popup when setting up a sync group fails</note>
+      </trans-unit>
+      <trans-unit id="Unsorted Bookmarks">
+        <source>Unsorted Bookmarks</source>
+        <target>Osorterade bokmärken</target>
+        <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Unsuccessful">
+        <source>Unsuccessful</source>
+        <target>Misslyckad</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Untitled">
+        <source>Untitled</source>
+        <target>Utan titel</target>
+        <note>The default name for bookmark item without titles.</note>
+      </trans-unit>
+      <trans-unit id="Up">
+        <source>Up</source>
+        <target>På</target>
+        <note>brave shield on/off toggle on state</note>
+      </trans-unit>
+      <trans-unit id="Update">
+        <source>Update</source>
+        <target>Uppdatera</target>
+        <note>Button to update the user's password</note>
+      </trans-unit>
+      <trans-unit id="Update login %@ for %@?">
+        <source>Update login %1$@ for %2$@?</source>
+        <target>Uppdatera inloggning %1$@ för %2$@?</target>
+        <note>Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site.</note>
+      </trans-unit>
+      <trans-unit id="Update password for %@?">
+        <source>Update password for %@?</source>
+        <target>Uppdatera lösenord för %@?</target>
+        <note>Prompt for updating a password with no username. The parameter is the hostname of the site.</note>
+      </trans-unit>
+      <trans-unit id="Use regional adblock">
+        <source>Use regional adblock</source>
+        <target>Använd regional annonsblockering</target>
+        <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
+      </trans-unit>
+      <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
+        <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <target>Använd en annan enhet för att navigera till Brave inställningar&gt; Sync. Skanna QR-koden (ovan) med en annan enhet, eller ange kodordet om ingen kamera är tillgänglig.</target>
+        <note>Sync add device description</note>
+      </trans-unit>
+      <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
+        <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <target>Använd den befintliga synkroniserade enheten och öppna Brave inställningar och navigera till &quot;Enheter och inställningar&quot;, tryck på &quot;+&quot; för att lägga till en ny enhet och avslöja synkroniseringskoden.</target>
+        <note>Sync to existing device description</note>
+      </trans-unit>
+      <trans-unit id="Version %@ (%@)">
+        <source>Version %1$@ (%2$@)</source>
+        <target>Version %1$@ (%2$@)</target>
+        <note>Version number of Brave shown in settings</note>
+      </trans-unit>
+      <trans-unit id="Visit site anyway">
+        <source>Visit site anyway</source>
+        <target>Besök webbplatsen ändå</target>
+        <note>Button label to temporarily continue to the site from the certificate error page</note>
+      </trans-unit>
+      <trans-unit id="Warning: we can't confirm your connection to this website is secure.">
+        <source>Warning: we can't confirm your connection to this website is secure.</source>
+        <target>Varning: Vi kan inte garantera att kopplingen till denna webbplats är säker.</target>
+        <note>Warning text when clicking the Advanced button on error pages</note>
+      </trans-unit>
+      <trans-unit id="Web content">
+        <source>Web content</source>
+        <target>Webbinnehåll</target>
+        <note>Accessibility label for the main web content view</note>
+      </trans-unit>
+      <trans-unit id="Welcome to Brave.">
+        <source>Welcome to Brave.</source>
+        <target>Välkommen till Brave</target>
+        <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Welcome to Top Sites">
+        <source>Welcome to Top Sites</source>
+        <target>Välkommen till Populära webbplatser</target>
+        <note>The title for the empty Top Sites state</note>
+      </trans-unit>
+      <trans-unit id="Welcome to your Reading List">
+        <source>Welcome to your Reading List</source>
+        <target>Välkommen till din läslista</target>
+        <note>See http://mzl.la/1LXbDOL</note>
+      </trans-unit>
+      <trans-unit id="When Leaving Private Browsing">
+        <source>When Leaving Private Browsing</source>
+        <target>När du lämnar privat surfning</target>
+        <note>Will be displayed in Settings under 'Close Private Tabs'</note>
+      </trans-unit>
+      <trans-unit id="Yes">
+        <source>Yes</source>
+        <target>Ja</target>
+        <note>For search suggestions prompt. This string should be short so it fits nicely on the prompt row.</note>
+      </trans-unit>
+      <trans-unit id="Yesterday">
+        <source>Yesterday</source>
+        <target>I går</target>
+        <note>History tableview section header</note>
+      </trans-unit>
+      <trans-unit id="You can choose to show a popup to pick your password manager, or have the selected one open automatically.">
+        <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
+        <target>Du kan välja att visa ett popup för att välja din lösenordshanterare, eller att ha den valda är öppna automatiskt.</target>
+        <note>Footer message on picker for 3rd party password manager setting</note>
+      </trans-unit>
+      <trans-unit id="Your connection is not private">
+        <source>Your connection is not private</source>
+        <target>Din anslutning är inte säker</target>
+        <note>Title on the certificate error page</note>
+      </trans-unit>
+      <trans-unit id="Your most visited sites will show up here.">
+        <source>Your most visited sites will show up here.</source>
+        <target>Dina mest besökta sidor kommer visas här.</target>
+        <note>Description label for the empty Top Sites state.</note>
+      </trans-unit>
+      <trans-unit id="d">
+        <source>d</source>
+        <target>d</target>
+        <note>Time Saved Days</note>
+      </trans-unit>
+      <trans-unit id="h">
+        <source>h</source>
+        <target>h</target>
+        <note>Time Saved Hours</note>
+      </trans-unit>
+      <trans-unit id="just now">
+        <source>just now</source>
+        <target>just nu</target>
+        <note>Relative time for a tab that was visited within the last few moments.</note>
+      </trans-unit>
+      <trans-unit id="min">
+        <source>min</source>
+        <target>min</target>
+        <note>Time Saved Minutes</note>
+      </trans-unit>
+      <trans-unit id="more than a month ago">
+        <source>more than a month ago</source>
+        <target>mer än en månad sedan</target>
+        <note>Relative date for dates older than a month and less than two months.</note>
+      </trans-unit>
+      <trans-unit id="more than a week ago">
+        <source>more than a week ago</source>
+        <target>mer än en vecka sedan</target>
+        <note>Description for a date more than a week ago, but less than a month ago.</note>
+      </trans-unit>
+      <trans-unit id="password">
+        <source>password</source>
+        <target>lösenord</target>
+        <note>Title for password row in Login Detail View</note>
+      </trans-unit>
+      <trans-unit id="read">
+        <source>read</source>
+        <target>läs</target>
+        <note>Accessibility label for read article in reading list. It's a past participle - functions as an adjective.</note>
+      </trans-unit>
+      <trans-unit id="s">
+        <source>s</source>
+        <target>s</target>
+        <note>Time Saved Seconds</note>
+      </trans-unit>
+      <trans-unit id="this week">
+        <source>this week</source>
+        <target>denna vecka</target>
+        <note>Relative date for date in past week.</note>
+      </trans-unit>
+      <trans-unit id="today at %@">
+        <source>today at %@</source>
+        <target>idag vid %@</target>
+        <note>Relative date for date older than a minute.</note>
+      </trans-unit>
+      <trans-unit id="unread">
+        <source>unread</source>
+        <target>oläst</target>
+        <note>Accessibility label for unread article in reading list. It's a past participle - functions as an adjective.</note>
+      </trans-unit>
+      <trans-unit id="username">
+        <source>username</source>
+        <target>användarnamn</target>
+        <note>Title for username row in Login Detail View</note>
+      </trans-unit>
+      <trans-unit id="website">
+        <source>website</source>
+        <target>hemsida</target>
+        <note>Title for website row in Login Detail View</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="sv">
+    <header>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName">
+        <source>Open in Brave</source>
+        <target>Öppna i Brave</target>
+      </trans-unit>
+      </body>
+  </file>
+  <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="sv">
+    <header>
+      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+    </header>
+    <body>
+      <trans-unit id="Accept &amp; Continue">
+        <source>Accept &amp; Continue</source>
+        <target>Acceptera &amp; fortsätt</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="By using this application, you agree to Brave’s Terms of Use.">
+        <source>By using this application, you agree to Brave’s Terms of Use.</source>
+        <target>Genom att använda den här applikationen godkänner du Braves användarvillkor.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Help make Brave better by sending usage statistics and crash reports to us.">
+        <source>Help make Brave better by sending usage statistics and crash reports to us.</source>
+        <target>Hjälpa Brave att bli bättre genom att skicka användarstatistik och kraschrapporter till oss.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Terms of Use.">
+        <source>Terms of Use.</source>
+        <target>Villkor.</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+    </body>
+  </file>
+  </xliff>

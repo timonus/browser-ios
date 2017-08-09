@@ -1,6 +1,851 @@
 "CFBundleDisplayName" = "Abrir no Brave";
 
+/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
+"%@ search" = "Busca do %@";
+
+/* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"+" = "+";
+
+/* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"-" = "-";
+
+/* Button for reader mode font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"Aa" = "Aa";
+
+/* About settings section title */
+"About" = "Sobre";
+
+/* Button to add a bookmark */
+"Add Bookmark" = "Adicionar Marcador";
+
+/* Add device to sync */
+"Add Device" = "Adicionar Dispositivo";
+
+/* Accessibility label for the Add Tab button in the Tab Tray. */
+"Add Tab" = "Adicionar Aba";
+
+/* Accessibility label for action adding current page to reading list. */
+"Add to Reading List" = "Adicionar à Lista de Leitura";
+
+/* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
+"Added page to Reading List" = "Página adicionada à Lista de Leitura";
+
+/* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
+"Address and Search" = "Endereço e Busca";
+
+/* Shields Ads Stat */
+/* individual blocking statistic title */
+"Ads and Trackers" = "Anúncios e Rastreadores";
+
+/* Label for button to perform advanced actions on the error page */
+"Advanced" = "Avançado";
+
+/* Ask user if site can open iTunes store URL */
+"Allow %@ to open iTunes?" = "Permitir que o %@ abra no iTunes?";
+
+/* tabs bar show/hide option */
+"Always show" = "Mostrar sempre";
+
+/* Message shown in the dialog prompting users if they want to clear everything */
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "Tem certeza que deseja limpar todos os seus dados? Isto fechará todas as abas abertas.";
+
+/* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
+"Are you sure you want to delete it and its contents?" = "Tem certeza que deseja excluir isso e seus conteúdos?";
+
 /* No comment provided by engineer. */
+"Are you sure?" = "Tem certeza?";
+
+/* Accessibility Label for the browser toolbar Back button */
+"Back" = "Voltar";
+
+/* cookie settings option */
+"Block 3rd party cookies" = "Bloquear cookies de terceiros";
+
 /* No comment provided by engineer. */
+"Block Ads & Tracking" = "Bloquear Anúncios e Rastreamento";
+
+/* Brave panel individual toggle title */
+"Block Phishing" = "Bloquear Phishing";
+
 /* No comment provided by engineer. */
+"Block Phishing and Malware" = "Bloquear Phishing e Malware";
+
+/* Block pop-up windows setting */
+"Block Pop-up Windows" = "Bloquear Janelas Pop-up";
+
+/* Setting to enable popup blocking */
+"Block Popups" = "Bloquear Popups";
+
 /* No comment provided by engineer. */
+"Block Scripts" = "Bloquear Scripts";
+
+/* cookie settings option */
+"Block all cookies" = "Bloquear todos os cookies";
+
+/* title for section showing page blocking statistics */
+"Blocking Monitor" = "Monitor de Bloqueio";
+
+/* Accessibility Label for the browser toolbar Bookmark button */
+"Bookmark" = "Marcador";
+
+/* Bookmark Folder Section Title */
+"Bookmark Folder" = "Pasta do Marcador";
+
+/* Bookmark Info Section Title */
+"Bookmark Info" = "Informações do Marcador";
+
+/* title for bookmarks panel */
+"Bookmarks" = "Marcadores";
+
+/* The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android. */
+"Bookmarks Menu" = "Menu de Marcadores";
+
+/* The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android. */
+"Bookmarks Toolbar" = "Barra de Ferramentas de Marcadores";
+
+/* Button to show the bookmarks and history panel */
+"Bookmarks and History Panel" = "Painel de Marcadores e Histórico";
+
+/* Button to show the brave panel */
+"Brave Panel" = "Painel do Brave";
+
+/* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
+"Brave Shield Defaults" = "Padrões de Logomarcas do Brave";
+
+/* Brave sync page title */
+"Brave Sync" = "Brave Sync";
+
+/* Shown in intro screens */
+"Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency." = "O Brave bloqueia anúncios.
+O Brave bloqueia rastreadores.
+O Brave foi desenvolvido para velocidade e eficiência.";
+
+/* email subject */
+"Brave for iOS Feedback" = "Feedback do Brave para iOS";
+
+/* Shown in intro screens */
+"Brave is Faster,\nand here's why..." = "O Brave é mais rápido,
+saiba por que...";
+
+/* Shown in intro screens */
+"Brave keeps you safe as you browse." = "O Brave lhe oferece segurança enquanto você navega.";
+
+/* No comment provided by engineer. */
+"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "O Brave não se lembra de seu histórico ou cookies, mas novos marcadores serão salvos.";
+
+/* See http://mzl.la/1G7uHo7 */
+"Brave would like to access your Photos" = "O Brave gostaria de acessar suas Fotos";
+
+/* Accessibility label for brightness adjustment slider in Reader Mode display settings */
+"Brightness" = "Brilho";
+
+/* Shown in intro screens */
+"Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Navegue conosco e sua privacidade será protegida, com nada mais a instalar, aprender ou configurar.";
+
+/* Settings item for clearing browsing history */
+"Browsing History" = "Histórico de Navegação";
+
+/* Settings item for clearing the cache */
+"Cache" = "Cache";
+
+/* Alert Call Button */
+"Call" = "Ligar";
+
+/* No comment provided by engineer. */
+"Cancel" = "Cancelar";
+
+/* Accessibility hint for the color theme setting buttons in reader mode display settings */
+"Changes color theme." = "Altera o tema de cores.";
+
+/* Accessibility hint for the font type buttons in reader mode display settings */
+"Changes font type." = "Altera o tipo da fonte.";
+
+/* Sync device settings footer details */
+"Changing settings will only affect data that this device shares with others." = "A alteração das configurações afetará apenas os dados que este dispositivo compartilha com outros.";
+
+/* Used as a button label in the dialog to Clear private data dialog */
+"Clear" = "Limpar";
+
+/* Title of the Clear private data dialog. */
+"Clear Everything" = "Limpar Tudo";
+
+/* Button in settings that clears private data for the selected items. Also used as section title in settings panel */
+"Clear Private Data" = "Limpar Dados Privados";
+
+/* No comment provided by engineer. */
+"Clear Search" = "Limpar Busca";
+
+/* Accessibility label for action denoting closing a tab in tab list (tray) */
+"Close" = "Fechar";
+
+/* Setting for closing private tabs */
+"Close Private Tabs" = "Fechar Abas Privadas";
+
+/* No comment provided by engineer. */
+"Close Tab" = "Fechar Aba";
+
+/* No comment provided by engineer. */
+"Closing tab" = "Fechando Aba";
+
+/* Code words section title */
+"Code Words" = "Palavras Secretas";
+
+/* Cookie settings option title */
+"Cookie Control" = "Controle de Cookies";
+
+/* Settings item for clearing cookies */
+"Cookies" = "Cookies";
+
+/* No comment provided by engineer. */
+"Copy" = "Copiar";
+
+/* Copy the URL from the location bar */
+"Copy Address" = "Copiar Endereço";
+
+/* Context menu item for copying an image to the clipboard */
+"Copy Image" = "Copiar Imagem";
+
+/* Context menu item for copying a link URL to the clipboard */
+"Copy Link" = "Copiar Link";
+
+/* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
+"Could not add page to Reading List. Maybe it's already there?" = "Não foi possível adicionar a página à Lista de Leitura. Talvez ela já esteja na lista?";
+
+/* Dark theme setting in Reading View settings */
+"Dark" = "Escuro";
+
+/* Accessibility label for button decreasing font size in display settings of reader mode */
+"Decrease text size" = "Reduzir o tamanho do texto";
+
+/* Open search section of settings */
+"Default Search Engine" = "Mecanismo de Busca Padrão";
+
+/* No comment provided by engineer. */
+"Delete" = "Excluir";
+
+/* Title for deselecting all selected logins */
+"Deselect All" = "Excluir Seleção de Tudo";
+
+/* The folder name for the virtual folder that contains all desktop bookmarks. */
+"Desktop Bookmarks" = "Marcadores de Desktop";
+
+/* Title for new device popup */
+"Device Name" = "Nome do Dispositivo";
+
+/* Sync device settings page title. */
+"Devices" = "Dispositivos";
+
+/* Sync you browser settings across devices. */
+"Devices & Settings" = "Dispositivos e Configurações";
+
+/* cookie settings option */
+"Don't block cookies" = "Não bloquear cookies";
+
+/* No comment provided by engineer. */
+"Done" = "Concluído";
+
+/* Button to not save the user's password */
+"Don’t Save" = "Não Salvar";
+
+/* brave shield on/off toggle off state */
+"Down" = "Desligado";
+
+/* No comment provided by engineer. */
+"Edit" = "Editar";
+
+/* Accessibility label for entering search mode for logins */
+"Enter Search Mode" = "Digitar Modo de Busca";
+
+/* Sync enter code words */
+"Enter code words" = "Digite as palavras secretas";
+
+/* Enter sync code words below */
+"Enter code words below" = "Digite as palavras secretas abaixo";
+
+/* Description for new folder popup */
+"Enter folder name" = "Digite o nome da pasta";
+
+/* Shields Time Saved Stat */
+/* Private tab details */
+"Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "Embora os sites que você visita em guias privadas não sejam salvos localmente, eles não deixam você anônimo ou invisível para o seu ISP, para seu empregador ou para os sites que você visita.";
+
+/* No comment provided by engineer. */
+"Find" = "Encontrar";
+
+/* Find text in page. */
+"Find \"%@\"" = "Encontrar \"%@\"";
+
+/* Share action title */
+"Find in Page" = "Encontrar na Página";
+
+/* individual blocking statistic title */
+"Fingerprinting Methods" = "Métodos de Identificação";
+
+/* No comment provided by engineer. */
+"Fingerprinting Protection" = "Proteção de Identificação";
+
+/* blocking stat title */
+"Fingerprinting\nProtection" = "Proteção de
+Identificação";
+
+/* Folder */
+"Folder" = "Pasta";
+
+/* Accessibility Label for the browser toolbar Forward button */
+"Forward" = "Avançar";
+
+/* General settings section title */
+"General" = "Geral";
+
+/* New sync code button title */
+"Get a new sync code" = "Receber um novo código de sincronização";
+
+/* Shown in intro screens */
+"Get ready to experience a Faster, Safer, Better Web." = "Prepare-se para experimentar uma Internet mais rápida, mais segura e melhor.";
+
+/* Label for button to go back from the error page */
+"Go Back" = "Voltar";
+
+/* Grand camera access */
+"Grant camera access" = "Conceder acesso à câmera";
+
+/* No comment provided by engineer. */
+"HTTPS Everywhere" = "HTTPS em todos os lugares";
+
+/* individual blocking statistic title */
+"HTTPS Upgrades" = "Atualizações de HTTPS";
+
+/* Shields Https Stat */
+/* Hide password text selection menu item */
+"Hide" = "Ocultar";
+
+/* Panel accessibility label */
+"History" = "Histórico";
+
+/* Shown in intro screens */
+"In case you hit a speed bump" = "Caso você precise de mais velocidade";
+
+/* Accessibility label for button increasing font size in display settings of reader mode */
+"Increase text size" = "Aumentar o tamanho do texto";
+
+/* title for per-site shield toggles */
+"Individual Controls" = "Controles Individuais";
+
+/* Accessibility label for the introduction tour carousel */
+"Intro Tour Carousel" = "Apresentação de Introdução";
+
+/* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
+"Introductory slide %@ of %@" = "Slide de apresentação %1$@ de %2$@";
+
+/* Additional warning text when clicking the Advanced button on error pages */
+"It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk." = "Pode ser uma configuração errada ou uma falsificação de um intruso. Continue se você aceitar o risco em potencial.";
+
+/* Footer label describing when the login was last modified with the timestamp as the parameter */
+"Last modified %@" = "Última modificação %@";
+
+/* History tableview section header */
+"Last month" = "Mês passado";
+
+/* History tableview section header */
+"Last week" = "Semana passada";
+
+/* Text button displayed when there are no tabs open while in private mode */
+"Learn More" = "Saiba Mais";
+
+/* Private tab information link */
+"Learn about private tabs." = "Saiba mais sobre as guias privadas.";
+
+/* Light theme setting in Reading View settings */
+"Light" = "Claro";
+
+/* Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"Load original page" = "Carregar página original";
+
+/* Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app. */
+"Loading content…" = "Carregando conteúdo...";
+
+/* Bookmark folder location */
+"Location" = "Local";
+
+/* Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager. */
+"Logins" = "Logins";
+
+/* No comment provided by engineer. */
+"Logins will be permanently removed." = "Os logins serão removidos permanentemente.";
+
+/* No comment provided by engineer. */
+"Logins will be removed from all connected devices." = "Os logins serão removidos de todos os dispositivos conectados.";
+
+/* Name for Mark as read button in reader mode */
+"Mark as Read" = "Marcar como Lido";
+
+/* Name for Mark as unread button in reader mode */
+"Mark as Unread" = "Marcar como Não Lido";
+
+/* The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android. */
+"Mobile Bookmarks" = "Marcadores Móveis";
+
+/* Bookmark title / Device name */
+"Name" = "Nome";
+
+/* Accessibility label for the navigation toolbar displayed at the bottom of the screen. */
+"Navigation Toolbar" = "Barra de Ferramentas de Navegação";
+
+/* tabs bar show/hide option */
+"Never show" = "Nunca mostrar";
+
+/* Title for new folder popup */
+"New Folder" = "Nova Pasta";
+
+/* No comment provided by engineer. */
+"New Private Tab" = "Nova Aba Privada";
+
+/* No comment provided by engineer. */
+"New Tab" = "Nova Aba";
+
+/* Accessibility label for next result button in Find in Page Toolbar. */
+"Next in-page result" = "Próximo resultado da página";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"No" = "Não";
+
+/* Title displayed when no logins are found after searching */
+"No logins found" = "Nenhum login encontrad";
+
+/* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
+"No tabs" = "Nenhuma aba";
+
+/* shields overview footer message */
+"Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Nota: alguns sites podem exigir scripts para funcionar corretamente, por isso esta proteção é desativada por padrão.";
+
+/* OK button */
+"OK" = "OK";
+
+/* Toggled OFF accessibility value */
+"Off" = "Desligado";
+
+/* Settings item for clearing website data */
+"Offline Website Data" = "Dados do Site Offline";
+
+/* Toggled ON accessibility value */
+"On" = "Ligado";
+
+/* Open and Fill website text selection menu item */
+"Open & Fill" = "Abrir e Preencher";
+
+/* Share action title */
+"Open Desktop Site tab" = "Aba Abrir Site Desktop";
+
+/* Context menu for opening image in new tab */
+"Open Image In New Tab" = "Abrir Imagem em Nova Aba";
+
+/* Context menu option for opening a link in a new private tab */
+"Open In New Private Tab" = "Abrir em Nova Aba Privada";
+
+/* Context menu item for opening a link in a new tab */
+"Open In New Tab" = "Abrir em Nova Aba";
+
+/* See http://mzl.la/1G7uHo7 */
+"Open Settings" = "Abrir Configurações";
+
+/* See http://mzl.la/1LXbDOL */
+"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "Abrir artigos no Reader View tocando no ícone do livro quando aparecer na barra de títulos.";
+
+/* Shown in error pages for files that can't be shown and need to be downloaded. */
+"Open in Safari" = "Abrir no Safari";
+
+/* String indicating that the file can be opened in another application on the device */
+"Open in…" = "Abrir no...";
+
+/* Sync pair device settings section title */
+"Pair" = "Parear";
+
+/* Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list). */
+"Panel Chooser" = "Seletor de Painel";
+
+/* Accessibility Label for the browser toolbar Password Manager button */
+"Password Manager" = "Gerenciador de Senhas";
+
+/* Setting for behaviour of password manager button */
+"Password Manager Button" = "Botão do Gerenciador de Senhas";
+
+/* Paste the URL into the location bar */
+"Paste" = "Colar";
+
+/* Paste the URL into the location bar and visit */
+"Paste & Go" = "Colar e Ir";
+
+/* Description for new device popup */
+"Please enter a name for this device" = "Digite um nome para este dispositivo";
+
+/* Accessibility label for previous result button in Find in Page Toolbar. */
+"Previous in-page result" = "Resultado anterior da página";
+
+/* Settings privacy section title */
+"Privacy" = "Privacidade";
+
+/* Show Brave Browser Privacy Policy page from the Privacy section in the settings. */
+"Privacy Policy" = "Política de Privacidade";
+
+/* Private button title */
+"Private" = "Privado";
+
+/* No comment provided by engineer. */
+"Private Browsing" = "Navegação Privada";
+
+/* Setting to keep app in private mode */
+"Private Browsing Only" = "Apenas Navegação Privada";
+
+/* Accessibility label for toggling on/off private mode */
+"Private Mode" = "Modo Privado";
+
+/* Private mode icon next to location string */
+"Private mode icon" = "Ícone do modo Privado";
+
+/* QR Code section title */
+"QR Code" = "Código QR";
+
+/* Title for quick-search engines settings section. */
+"Quick-search Engines" = "Mecanismo de busca rápida";
+
+/* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
+"Reader Mode Settings" = "Configurações do Modo Leitura";
+
+/* Accessibility label for the Reader View button */
+"Reader View" = "Reader View";
+
+/* Panel accessibility label */
+"Reading list" = "Lista de Leitura";
+
+/* Accessibility Label for the browser toolbar Reload button */
+"Reload" = "Recarregar";
+
+/* No comment provided by engineer. */
+"Reload Page" = "Recarregar Página";
+
+/* Action button for deleting_history_entries_in_the_history_panel. */
+"Remove" = "Remover";
+
+/* Name for button removing current article from reading list in reader mode */
+"Remove from Reading List" = "Remover da Lista de Leitura";
+
+/* Button shown in editing mode to remove this site from the top sites panel. */
+"Remove page" = "Remover página";
+
+/* Sync remove device. */
+"Remove this device" = "Remover este dispositivo";
+
+/* Sync remove device? */
+/* Show mail composer to report a bug. */
+"Report a bug" = "Comunicar um bug";
+
+/* Reveal password text selection menu item */
+"Reveal" = "Revelar";
+
+/* Font type setting in the reading view settings */
+"Sans-serif" = "Sans-serif";
+
+/* Context menu item for saving an image */
+"Save Image" = "Salvar Imagem";
+
+/* Button to save the user's password */
+"Save Login" = "Salvar Login";
+
+/* Setting to enable the built-in password manager */
+"Save Logins" = "Salvar Logins";
+
+/* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
+"Save login %@ for %@?" = "Salvar login %1$@ para %2$@?";
+
+/* See http://mzl.la/1LXbDOL */
+"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "Salve páginas à sua Lista de Leitura tocando no ícone de livro mais nos controles do Reader View.";
+
+/* Prompt for saving a password with no username. The parameter is the hostname of the site. */
+"Save password for %@?" = "Salvar senha para %@?";
+
+/* Settings item for clearing passwords and login data */
+"Saved Logins" = "Logins Salvos";
+
+/* Scan sync code button title */
+"Scan or enter code" = "Escanear ou digitar código";
+
+/* individual blocking statistic title */
+"Scripts Blocked" = "Scripts Bloqueados";
+
+/* No comment provided by engineer. */
+"Search" = "Busca";
+
+/* Accessibility label for the search input field in the Logins list */
+"Search Input Field" = "Campo de Entrada da Busca";
+
+/* No comment provided by engineer. */
+"Search Settings" = "Configurações de Busca";
+
+/* No comment provided by engineer. */
+"Search in page" = "Buscar na página";
+
+/* The text shown in the URL bar on about:home */
+"Search or enter address" = "Buscar ou digitar endereço";
+
+/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
+"Search suggestions from %@" = "Sugestões de busca de %@";
+
+/* Accessibility hint describing the action performed when a search suggestion is clicked */
+"Searches for the suggestion" = "Busca pela sugestão";
+
+/* Accessibility label for the lock icon, which is only present if the connection is secure */
+"Secure connection" = "Conexão segura";
+
+/* Title for selecting all logins */
+"Select All" = "Selecionar Tudo";
+
+/* No comment provided by engineer. */
+"Select Location Bar" = "Selecionar Barra de Localização";
+
+/* option in settings screen */
+"Send crash reports and metrics" = "Envie relatórios e métricas de travamento";
+
+/* Sepia theme setting in Reading View settings */
+"Sepia" = "Sepia";
+
+/* Font type setting in the reading view settings */
+"Serif" = "Serif";
+
+/* No comment provided by engineer. */
+"Settings" = "Configurações";
+
+/* Accessibility Label for the browser toolbar Share button */
+"Share" = "Compartilhar";
+
+/* Context menu item for sharing a link URL */
+"Share Link" = "Compartilhar Link";
+
+/* message shown briefly in URL bar */
+"Shields Down" = "Proteção Desligada";
+
+/* message shown briefly in URL bar */
+"Shields Up" = "Proteção Ligada";
+
+/* Button to show the bookmarks list */
+"Show Bookmarks" = "Mostrar Marcadores";
+
+/* Button to show the history list */
+"Show History" = "Mostrar Histórico";
+
+/* No comment provided by engineer. */
+"Show Next Tab" = "Mostrar Próxima Aba";
+
+/* No comment provided by engineer. */
+"Show Previous Tab" = "Mostrar Aba Anterior";
+
+/* Label for show search suggestions setting. */
+"Show Search Suggestions" = "Mostrar Sugestões de Busca";
+
+/* Accessibility Label for the tabs button in the browser toolbar */
+"Show Tabs" = "Mostrar Abas";
+
+/* Setting to show/hide the tabs bar */
+"Show Tabs Bar" = "Mostrar Barra de Abas";
+
+/* Show the on-boarding screen again from the settings */
+"Show Tour" = "Mostrar Tour";
+
+/* tabs bar show/hide option */
+"Show in landscape only" = "Mostrar apenas em paisagem";
+
+/* Password Manager show picker option */
+/* shields overview message */
+"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Proteções do Site permitem controlar quando anúncios e rastreadores são bloqueados para cada site que você visita. Se você preferir ver os anúncios de um site específico, é possível habilitá-los aqui.";
+
+/* Brave panel topmost title */
+"Site shield settings" = "Configurações de proteção do site";
+
+/* No comment provided by engineer. */
+"Start Browsing" = "Comece a Navegar";
+
+/* Accessibility Label for the browser toolbar Stop button */
+"Stop" = "Parar";
+
+/* Support section title */
+"Support" = "Suporte";
+
+/* Accessibility hint for tab tray's displayed tab. */
+"Swipe right or left with three fingers to close the tab." = "Deslize para a direita ou esquerda com três dedos para fechar a aba.";
+
+/* Sync settings section title */
+"Sync" = "Sincronizar";
+
+/* Sync settings welcome */
+"Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started." = "Sincronize os dados do navegador entre seus dispositivos de forma segura usando o Brave Sync, não é necessário criar uma conta. Toque abaixo para começar.";
+
+/* Sync device settings section title */
+"Sync on this device" = "Sincronizar neste dispositivo";
+
+/* Sync to existing device */
+"Sync to device" = "Sincronizar no dispositivo";
+
+/* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
+"Tab %@ of %@" = "Aba %1$@ de %2$@";
+
+/* Accessibility label for the Tabs. */
+"Tabs" = "Abas";
+
+/* Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \"Tabs 8 to 10 of 15\" says tabs 8, 9 and 10 are visible, out of 15 tabs total. */
+"Tabs %@ to %@ of %@" = "Abas %1$@ para %2$@ de %3$@";
+
+/* Accessibility label for the Tabs Tray view. */
+"Tabs Tray" = "Bandeja de Abas";
+
+/* Shown in intro screens */
+"Tap the Brave button to temporarily disable ad blocking and privacy features." = "Toque no botão do Brave para desabilitar bloqueio de anúncios e recursos de privacidade temporariamente.";
+
+/* Show Brave Browser TOS page from the Privacy section in the settings. */
+"Terms of Use" = "Termos de Uso";
+
+/* Warning text on the certificate error page */
+"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "O proprietário de %@ configurou o site incorretamente. Para evitar que suas informações sejam roubadas, o Brave não se conectou a esse site.";
+
+/* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"The page could not be displayed in Reader View." = "Não foi possível exibir a página no Reader View.";
+
+/* Error displayed when reader mode cannot be enabled */
+"There was an error converting the page" = "Ocorreu um erro ao converter a página";
+
+/* Description of the confirmation dialog shown when a user tries to clear their private data. */
+"This action will clear all of your private data. It cannot be undone." = "Esta ação limpará todos os seus dados particulares. Isso não pode ser desfeito.";
+
+/* See http://mzl.la/1G7uHo7 */
+"This allows you to save the image to your Camera Roll." = "Isto permite que você salve a imagem no Rolo da Câmera.";
+
+/* Sync remove device? */
+/* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
+"This folder isn't empty." = "Esta pasta não está vazia.";
+
+/* Private tab title */
+"This is a Private Tab" = "Esta é uma Aba Privada";
+
+/* History tableview section header */
+"Today" = "Hoje";
+
+/* Panel accessibility label */
+"Top sites" = "Melhores sites";
+
+/* Shields Trackers Stat */
+/* Shown in error pages on a button that will try to load the page again */
+"Try again" = "Tente novamente";
+
+/* Prompt shown before enabling provider search queries */
+"Turn on search suggestions?" = "Ativar as sugestões de busca?";
+
+/* Accessiblity hint for toggling on/off private mode */
+"Turns private mode on or off" = "Ativa ou desativa o modo privado";
+
+/* Bookmark URL */
+"URL" = "URL";
+
+/* Description on popup when setting up a sync group fails */
+"Unable to create new sync group." = "Não foi possível criar um novo grupo de sincronização.";
+
+/* The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android. */
+"Unsorted Bookmarks" = "Marcadores Não Ordenados";
+
+/* No comment provided by engineer. */
+"Unsuccessful" = "Malsucedido";
+
+/* The default name for bookmark item without titles. */
+"Untitled" = "Sem Título";
+
+/* brave shield on/off toggle on state */
+"Up" = "Acima";
+
+/* Button to update the user's password */
+"Update" = "Atualizar";
+
+/* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
+"Update login %@ for %@?" = "Atualizar login %1$@ para %2$@?";
+
+/* Prompt for updating a password with no username. The parameter is the hostname of the site. */
+"Update password for %@?" = "Atualizar senha para %@?";
+
+/* Setting to allow user in non-english locale to use adblock rules specifc to their language */
+"Use regional adblock" = "Usar adblock regional";
+
+/* Sync add device description */
+"Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "Usando um segundo dispositivo. Acesse Configurações do Brave > Sincronização. Capture o Código QR (acima) com o segundo dispositivo ou digite as palavras secretas caso não haja uma câmera disponível.";
+
+/* Sync to existing device description */
+"Using existing synced device open Brave Settings and navigate to “Devices & Settings”, tap ‘+’ to add a new device and reveal sync code." = "Usando um dispositivo existente sincronizado. Abra as Configurações do Brave e acesse \"Dispositivos e Configurações\", toque em \"+\" para adicionar um novo dispositivo e mostrar um código de sincronização.";
+
+/* Version number of Brave shown in settings */
+"Version %@ (%@)" = "Versão %1$@ (%2$@)";
+
+/* Button label to temporarily continue to the site from the certificate error page */
+"Visit site anyway" = "Visitar o site assim mesmo";
+
+/* Warning text when clicking the Advanced button on error pages */
+"Warning: we can't confirm your connection to this website is secure." = "Aviso: não podemos confirmar se a sua conexão com esse site é segura.";
+
+/* Accessibility label for the main web content view */
+"Web content" = "Conteúdo da Web";
+
+/* Shown in intro screens */
+"Welcome to Brave." = "Bem-vindo ao Brave.";
+
+/* The title for the empty Top Sites state */
+"Welcome to Top Sites" = "Bem-vindo aos Melhores Sites";
+
+/* See http://mzl.la/1LXbDOL */
+"Welcome to your Reading List" = "Bem-vindo à sua Lista de Leitura";
+
+/* Will be displayed in Settings under 'Close Private Tabs' */
+"When Leaving Private Browsing" = "Quando Sair da Navegação Privada";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"Yes" = "Sim";
+
+/* History tableview section header */
+"Yesterday" = "Ontem";
+
+/* Footer message on picker for 3rd party password manager setting */
+"You can choose to show a popup to pick your password manager, or have the selected one open automatically." = "Você pode escolher mostrar um popup para selecionar seu gerenciador de senhas ou deixar que o selecionado seja aberto automaticamente.";
+
+/* Title on the certificate error page */
+"Your connection is not private" = "Sua conexão não é privada";
+
+/* Description label for the empty Top Sites state. */
+"Your most visited sites will show up here." = "Seus sites mais visitados aparecerão aqui.";
+
+/* Time Saved Days */
+/* Time Saved Hours */
+/* Relative time for a tab that was visited within the last few moments. */
+"just now" = "agora mesmo";
+
+/* Time Saved Minutes */
+/* Relative date for dates older than a month and less than two months. */
+"more than a month ago" = "mais que um mês atrás";
+
+/* Description for a date more than a week ago, but less than a month ago. */
+"more than a week ago" = "mais que uma semana atrás";
+
+/* Title for password row in Login Detail View */
+"password" = "senha";
+
+/* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
+"read" = "lido";
+
+/* Time Saved Seconds */
+/* Relative date for date in past week. */
+"this week" = "esta semana";
+
+/* Relative date for date older than a minute. */
+"today at %@" = "hoje às %@";
+
+/* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
+"unread" = "não lido";
+
+/* Title for username row in Login Detail View */
+"username" = "nome do usuário";
+
+/* Title for website row in Login Detail View */
+"website" = "site";
+

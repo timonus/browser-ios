@@ -13,34 +13,34 @@ class BraveTermsViewController: UIViewController {
     
     var delegate: BraveTermsViewControllerDelegate?
     
-    private var braveLogo: UIImageView!
-    private var termsLabel: UITextView!
-    private var optLabel: UILabel!
-    private var checkButton: UIButton!
-    private var continueButton: UIButton!
+    fileprivate var braveLogo: UIImageView!
+    fileprivate var termsLabel: UITextView!
+    fileprivate var optLabel: UILabel!
+    fileprivate var checkButton: UIButton!
+    fileprivate var continueButton: UIButton!
     
     override func loadView() {
         super.loadView()
         
         braveLogo = UIImageView(image: UIImage(named: "braveLogoLarge"))
-        braveLogo.contentMode = .Center
+        braveLogo.contentMode = .center
         view.addSubview(braveLogo)
         
         termsLabel = UITextView()
-        termsLabel.backgroundColor = UIColor.clearColor()
-        termsLabel.scrollEnabled = false
-        termsLabel.selectable = true
-        termsLabel.editable = false
-        termsLabel.dataDetectorTypes = [.All]
+        termsLabel.backgroundColor = UIColor.clear
+        termsLabel.isScrollEnabled = false
+        termsLabel.isSelectable = true
+        termsLabel.isEditable = false
+        termsLabel.dataDetectorTypes = [.all]
         
         let attributedString = NSMutableAttributedString(string: NSLocalizedString("By using this application, you agree to Brave’s Terms of Use.", comment: ""))
-        let linkRange = (attributedString.string as NSString).rangeOfString(NSLocalizedString("Terms of Use.", comment: ""))
+        let linkRange = (attributedString.string as NSString).range(of: NSLocalizedString("Terms of Use.", comment: ""))
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .Center
+        paragraphStyle.alignment = .center
         
         let fontAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.systemFontOfSize(18.0, weight: UIFontWeightMedium),
+            NSForegroundColorAttributeName: UIColor.white,
+            NSFontAttributeName: UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightMedium),
             NSParagraphStyleAttributeName: paragraphStyle ]
         
         attributedString.addAttributes(fontAttributes, range: NSMakeRange(0, (attributedString.string.characters.count - 1)))
@@ -56,24 +56,24 @@ class BraveTermsViewController: UIViewController {
         
         optLabel = UILabel()
         optLabel.text = NSLocalizedString("Help make Brave better by sending usage statistics and crash reports to us.", comment: "")
-        optLabel.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightMedium)
+        optLabel.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
         optLabel.textColor = UIColor(white: 1.0, alpha: 0.5)
         optLabel.numberOfLines = 0
-        optLabel.lineBreakMode = .ByWordWrapping
+        optLabel.lineBreakMode = .byWordWrapping
         view.addSubview(optLabel)
         
-        checkButton = UIButton(type: .Custom)
-        checkButton.setImage(UIImage(named: "sharedata_uncheck"), forState: .Normal)
-        checkButton.setImage(UIImage(named: "sharedata_check"), forState: .Selected)
-        checkButton.addTarget(self, action: #selector(checkUncheck(_:)), forControlEvents: .TouchUpInside)
-        checkButton.selected = true
+        checkButton = UIButton(type: .custom)
+        checkButton.setImage(UIImage(named: "sharedata_uncheck"), for: .normal)
+        checkButton.setImage(UIImage(named: "sharedata_check"), for: .selected)
+        checkButton.addTarget(self, action: #selector(checkUncheck(_:)), for: .touchUpInside)
+        checkButton.isSelected = true
         view.addSubview(checkButton)
         
-        continueButton = UIButton(type: .System)
-        continueButton.titleLabel?.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightMedium)
-        continueButton.setTitle(NSLocalizedString("Accept & Continue", comment: ""), forState: .Normal)
-        continueButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        continueButton.addTarget(self, action: #selector(acceptAndContinue(_:)), forControlEvents: .TouchUpInside)
+        continueButton = UIButton(type: .system)
+        continueButton.titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
+        continueButton.setTitle(NSLocalizedString("Accept & Continue", comment: ""), for: .normal)
+        continueButton.setTitleColor(UIColor.white, for: .normal)
+        continueButton.addTarget(self, action: #selector(acceptAndContinue(_:)), for: .touchUpInside)
         continueButton.backgroundColor = UIColor(red: 255/255.0, green: 80/255.0, blue: 0/255.0, alpha: 1.0)
         continueButton.layer.cornerRadius = 4.5
         continueButton.layer.masksToBounds = true
@@ -84,17 +84,17 @@ class BraveTermsViewController: UIViewController {
             make.bottom.equalTo(self.view).offset(-30)
             make.height.equalTo(40)
             
-            let width = self.continueButton.sizeThatFits(CGSizeMake(CGFloat.max, CGFloat.max)).width
+            let width = self.continueButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
             make.width.equalTo(width + 40)
         }
         
         optLabel.snp_makeConstraints { (make) in
             make.centerX.equalTo(self.view).offset(36/2)
             
-            let width = min(UIScreen.mainScreen().bounds.width * 0.65, 350)
+            let width = min(UIScreen.main.bounds.width * 0.65, 350)
             make.width.equalTo(width)
             
-            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            if UIDevice.current.userInterfaceIdiom == .pad {
                 make.bottom.equalTo(continueButton.snp_top).offset(-60).priorityHigh()
             }
             else {
@@ -110,7 +110,7 @@ class BraveTermsViewController: UIViewController {
         termsLabel.snp_makeConstraints { (make) in
             make.centerX.equalTo(self.view)
             
-            let width = min(UIScreen.mainScreen().bounds.width * 0.70, 350)
+            let width = min(UIScreen.main.bounds.width * 0.70, 350)
             make.width.equalTo(width)
             make.bottom.equalTo(optLabel.snp_top).offset(-35).priorityMedium()
         }
@@ -119,34 +119,34 @@ class BraveTermsViewController: UIViewController {
             make.centerX.equalTo(self.view)
             make.top.equalTo(10)
             
-            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            if UIDevice.current.userInterfaceIdiom == .pad {
                 make.bottom.equalTo(termsLabel.snp_top)
             }
             else {
-                make.height.equalTo(UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height ? UIScreen.mainScreen().bounds.height : UIScreen.mainScreen().bounds.width)
+                make.height.equalTo(UIScreen.main.bounds.width > UIScreen.main.bounds.height ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
             }
         }
         
         view.backgroundColor = UIColor(red: 63/255.0, green: 63/255.0, blue: 63/255.0, alpha: 1.0)
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             return
         }
         
-        if toInterfaceOrientation == .LandscapeLeft || toInterfaceOrientation == .LandscapeRight {
-            UIView.animateWithDuration(0.2, animations: { 
+        if toInterfaceOrientation == .landscapeLeft || toInterfaceOrientation == .landscapeRight {
+            UIView.animate(withDuration: 0.2, animations: { 
                 self.braveLogo.alpha = 0.15
             })
         }
         else {
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 self.braveLogo.alpha = 1.0
             })
         }
@@ -156,28 +156,28 @@ class BraveTermsViewController: UIViewController {
     
     // MARK: Actions
     
-    func checkUncheck(sender: UIButton) {
-        sender.selected = !sender.selected
+    func checkUncheck(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
     }
     
-    func acceptAndContinue(sender: UIButton) {
-        if checkButton.selected {
+    func acceptAndContinue(_ sender: UIButton) {
+        if checkButton.isSelected {
             delegate?.braveTermsAcceptedTermsAndOptIn()
         }
         else {
             delegate?.braveTermsAcceptedTermsAndOptOut()
         }
-        dismissViewControllerAnimated(false, completion: nil)
+        dismiss(animated: false, completion: nil)
     }
 
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
-        super.dismissViewControllerAnimated(flag, completion: completion)
+    override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
+        super.dismiss(animated: flag, completion: completion)
         delegate?.dismissed()
     }
 }
 
 extension BraveTermsViewController: UITextViewDelegate {
-    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         return true
     }
 }

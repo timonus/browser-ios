@@ -1,7 +1,7 @@
 private let _singleton = TrackingProtection()
 
 class TrackingProtection {
-    private static let prefKey: Bool? = nil // Use the prefkey from Adblock for both
+    fileprivate static let prefKey: Bool? = nil // Use the prefkey from Adblock for both
 
     static let dataVersion = "1"
     var isEnabled = true
@@ -9,7 +9,7 @@ class TrackingProtection {
     var parser: TrackingProtectionCpp = TrackingProtectionCpp()
 
     lazy var networkFileLoader: NetworkDataFileLoader = {
-        let dataUrl = NSURL(string: "https://s3.amazonaws.com/tracking-protection-data/\(dataVersion)/TrackingProtection.dat")!
+        let dataUrl = URL(string: "https://s3.amazonaws.com/tracking-protection-data/\(dataVersion)/TrackingProtection.dat")!
         let dataFile = "tp-data-\(dataVersion).dat"
         let loader = NetworkDataFileLoader(url: dataUrl, file: dataFile, localDirName: "tp-data")
         loader.delegate = self
@@ -20,8 +20,8 @@ class TrackingProtection {
         return _singleton
     }
 
-    private init() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackingProtection.prefsChanged(_:)), name: NSUserDefaultsDidChangeNotification, object: nil)
+    fileprivate init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(TrackingProtection.prefsChanged(_:)), name: UserDefaults.didChangeNotification, object: nil)
         updateEnabledState()
     }
 
@@ -29,12 +29,12 @@ class TrackingProtection {
         isEnabled = BraveApp.getPrefs()?.boolForKey(AdBlocker.prefKey) ?? AdBlocker.prefKeyDefaultValue
     }
 
-    @objc func prefsChanged(info: NSNotification) {
+    @objc func prefsChanged(_ info: Notification) {
         updateEnabledState()
     }
 
 
-    func shouldBlock(request: NSURLRequest) -> Bool {
+    func shouldBlock(_ request: URLRequest) -> Bool {
         // synchronize code from this point on.
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
@@ -43,13 +43,13 @@ class TrackingProtection {
             return false
         }
 
-        guard let url = request.URL,
+        guard let url = request.url,
             var mainDocDomain = request.mainDocumentURL?.host else {
                 return false
         }
         guard var host = url.host else { return false}
 
-        if request.mainDocumentURL?.absoluteString?.startsWith(WebServer.sharedInstance.base) ?? false {
+        if request.mainDocumentURL?.absoluteString.startsWith(WebServer.sharedInstance.base) ?? false {
             return false
         }
 
@@ -74,7 +74,7 @@ class TrackingProtection {
 }
 
 extension TrackingProtection: NetworkDataFileLoaderDelegate {
-    func fileLoader(_: NetworkDataFileLoader, setDataFile data: NSData?) {
+    func fileLoader(_: NetworkDataFileLoader, setDataFile data: Data?) {
         parser.setDataFile(data)
     }
 

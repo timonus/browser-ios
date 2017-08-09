@@ -5,44 +5,44 @@
 let kNotificationMainWindowTapAndHold = "kNotificationMainWindowTapAndHold"
 
 class BraveContextMenu {
-    private var tapLocation = CGPointZero
-    private var tappedElement: ContextMenuHelper.Elements?
+    fileprivate var tapLocation = CGPoint.zero
+    fileprivate var tappedElement: ContextMenuHelper.Elements?
 
-    private var timer1_cancelDefaultMenu = NSTimer()
-    private var timer2_showMenuIfStillPressed = NSTimer()
+    fileprivate var timer1_cancelDefaultMenu = Timer()
+    fileprivate var timer2_showMenuIfStillPressed = Timer()
 
     static let initialDelayToCancelBuiltinMenu = 0.25 // seconds, must be <0.3 or built-in menu can't be cancelled
     static let totalDelayToShowContextMenu = 0.85 - initialDelayToCancelBuiltinMenu // 850 is copied from Safari
 
-    private let fingerMovedTolerance = Float(5.0)
+    fileprivate let fingerMovedTolerance = Float(5.0)
 
-    private func reset() {
+    fileprivate func reset() {
         timer1_cancelDefaultMenu.invalidate()
         timer2_showMenuIfStillPressed.invalidate()
         tappedElement = nil
-        tapLocation = CGPointZero
+        tapLocation = CGPoint.zero
     }
 
-    private func isActive() -> Bool {
-        return tapLocation != CGPointZero && (timer1_cancelDefaultMenu.valid || timer2_showMenuIfStillPressed.valid)
+    fileprivate func isActive() -> Bool {
+        return tapLocation != CGPoint.zero && (timer1_cancelDefaultMenu.isValid || timer2_showMenuIfStillPressed.isValid)
     }
 
-    private func isBrowserTopmostAndNoPanelsOpen() ->  Bool {
+    fileprivate func isBrowserTopmostAndNoPanelsOpen() ->  Bool {
         guard let top = getApp().rootViewController.visibleViewController as? BraveTopViewController else {
             return false
         }
 
-        return top.mainSidePanel.view.hidden && top.rightSidePanel.view.hidden
+        return top.mainSidePanel.view.isHidden && top.rightSidePanel.view.isHidden
     }
 
-    private func fingerMovedTooFar(touch: UITouch, window: UIView) -> Bool {
-        let p1 = touch.locationInView(window)
+    fileprivate func fingerMovedTooFar(_ touch: UITouch, window: UIView) -> Bool {
+        let p1 = touch.location(in: window)
         let p2 = tapLocation
         let distance = hypotf(Float(p1.x) - Float(p2.x), Float(p1.y) - Float(p2.y))
         return distance > fingerMovedTolerance
     }
 
-    func sendEvent(event: UIEvent, window: UIWindow) {
+    func sendEvent(_ event: UIEvent, window: UIWindow) {
         if !isBrowserTopmostAndNoPanelsOpen() {
             reset()
             return
@@ -50,26 +50,26 @@ class BraveContextMenu {
 
         guard let braveWebView = BraveApp.getCurrentWebView() else { return }
 
-        if let touches = event.touchesForWindow(window), let touch = touches.first where touches.count == 1 {
-            braveWebView.lastTappedTime = NSDate()
+        if let touches = event.touches(for: window), let touch = touches.first, touches.count == 1 {
+            braveWebView.lastTappedTime = Date()
             switch touch.phase {
-            case .Began:  // A finger touched the screen
+            case .began:  // A finger touched the screen
                 reset()
-                guard let touchView = event.allTouches()?.first?.view where touchView.isDescendantOfView(braveWebView) else {
+                guard let touchView = event.allTouches?.first?.view, touchView.isDescendant(of: braveWebView) else {
                     return
                 }
 
-                tapLocation = touch.locationInView(window)
-                timer1_cancelDefaultMenu = NSTimer.scheduledTimerWithTimeInterval(BraveContextMenu.initialDelayToCancelBuiltinMenu, target: self, selector: #selector(BraveContextMenu.cancelDefaultMenuAndFindTappedItem), userInfo: nil, repeats: false)
-            case .Moved, .Stationary:
+                tapLocation = touch.location(in: window)
+                timer1_cancelDefaultMenu = Timer.scheduledTimer(timeInterval: BraveContextMenu.initialDelayToCancelBuiltinMenu, target: self, selector: #selector(BraveContextMenu.cancelDefaultMenuAndFindTappedItem), userInfo: nil, repeats: false)
+            case .moved, .stationary:
                 if isActive() && fingerMovedTooFar(touch, window: window) {
                     // my test for this: tap with edge of finger, then roll to opposite edge while holding finger down, is 5-10 px of movement; Should still show context menu, don't want this to trigger a reset()
                     reset()
                 }
-            case .Ended, .Cancelled:
+            case .ended, .cancelled:
                 if isActive() {
-                    if let url = tappedElement?.link where !fingerMovedTooFar(touch, window: window) {
-                        BraveApp.getCurrentWebView()?.loadRequest(NSURLRequest(URL: url))
+                    if let url = tappedElement?.link, !fingerMovedTooFar(touch, window: window) {
+                        BraveApp.getCurrentWebView()?.loadRequest(URLRequest(url: url as URL))
                     }
 
                     reset()
@@ -81,14 +81,14 @@ class BraveContextMenu {
     }
 
     @objc func showContextMenu() {
-        func showContextMenuForElement(tappedElement:  ContextMenuHelper.Elements) {
-            let info = ["point": NSValue(CGPoint: tapLocation)]
-            NSNotificationCenter.defaultCenter().postNotificationName(kNotificationMainWindowTapAndHold, object: self, userInfo: info)
+        func showContextMenuForElement(_ tappedElement:  ContextMenuHelper.Elements) {
+            let info = ["point": NSValue(cgPoint: tapLocation)]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: kNotificationMainWindowTapAndHold), object: self, userInfo: info)
             guard let bvc = getApp().browserViewController else { return }
             if bvc.urlBar.inSearchMode {
                 return
             }
-            bvc.showContextMenu(elements: tappedElement, touchPoint: tapLocation)
+            bvc.showContextMenu(tappedElement, touchPoint: tapLocation)
             reset()
         }
 
@@ -110,7 +110,7 @@ class BraveContextMenu {
 
         let hit: (url: String?, image: String?, urlTarget: String?)?
 
-        if [".jpg", ".png", ".gif"].filter({ webView.URL?.absoluteString?.endsWith($0) ?? false }).count > 0 {
+        if [".jpg", ".png", ".gif"].filter({ webView.URL?.absoluteString.endsWith($0) ?? false }).count > 0 {
             // web view is just showing an image
             hit = (url:nil, image:webView.URL!.absoluteString, urlTarget:nil)
         } else {
@@ -122,17 +122,17 @@ class BraveContextMenu {
             return
         }
 
-        tappedElement = ContextMenuHelper.Elements(link: hit!.url != nil ? NSURL(string: hit!.url!) : nil, image: hit!.image != nil ? NSURL(string: hit!.image!) : nil)
+        tappedElement = ContextMenuHelper.Elements(link: hit!.url != nil ? URL(string: hit!.url!) : nil, image: hit!.image != nil ? URL(string: hit!.image!) : nil)
 
-        func blockOtherGestures(views: [UIView]?) {
+        func blockOtherGestures(_ views: [UIView]?) {
             guard let views = views else { return }
             for view in views {
                 if let gestures = view.gestureRecognizers as [UIGestureRecognizer]! {
                     for gesture in gestures {
                         if gesture is UILongPressGestureRecognizer {
                             // toggling gets the gesture to ignore this long press
-                            gesture.enabled = false
-                            gesture.enabled = true
+                            gesture.isEnabled = false
+                            gesture.isEnabled = true
                         }
                     }
                 }
@@ -141,6 +141,6 @@ class BraveContextMenu {
         
         blockOtherGestures(BraveApp.getCurrentWebView()?.scrollView.subviews)
 
-        timer2_showMenuIfStillPressed = NSTimer.scheduledTimerWithTimeInterval(BraveContextMenu.totalDelayToShowContextMenu, target: self, selector: #selector(BraveContextMenu.showContextMenu), userInfo: nil, repeats: false)
+        timer2_showMenuIfStillPressed = Timer.scheduledTimer(timeInterval: BraveContextMenu.totalDelayToShowContextMenu, target: self, selector: #selector(BraveContextMenu.showContextMenu), userInfo: nil, repeats: false)
     }
 }

@@ -8,10 +8,10 @@ import Storage
 struct SiteTableViewControllerUX {
     static let HeaderHeight = CGFloat(25)
     static let RowHeight = CGFloat(58)
-    static let HeaderBorderColor = UIColor(rgb: 0xCFD5D9).colorWithAlphaComponent(0.8)
-    static let HeaderTextColor = UIAccessibilityDarkerSystemColorsEnabled() ? UIColor.blackColor() : UIColor(rgb: 0x232323)
-    static let HeaderBackgroundColor = UIColor(rgb: 0xECF0F3).colorWithAlphaComponent(0.3)
-    static let HeaderFont = UIFont.systemFontOfSize(12, weight: UIFontWeightMedium)
+    static let HeaderBorderColor = UIColor(rgb: 0xCFD5D9).withAlphaComponent(0.8)
+    static let HeaderTextColor = UIAccessibilityDarkerSystemColorsEnabled() ? UIColor.black : UIColor(rgb: 0x232323)
+    static let HeaderBackgroundColor = UIColor(rgb: 0xECF0F3).withAlphaComponent(0.3)
+    static let HeaderFont = UIFont.systemFont(ofSize: 12, weight: UIFontWeightMedium)
     static let HeaderTextMargin = CGFloat(10)
 }
 
@@ -29,13 +29,13 @@ class SiteTableViewHeader : UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
 
-        topBorder.backgroundColor = UIColor.whiteColor()
+        topBorder.backgroundColor = UIColor.white
         bottomBorder.backgroundColor = SiteTableViewControllerUX.HeaderBorderColor
-        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.backgroundColor = UIColor.white
 
         titleLabel.font = DynamicFontHelper.defaultHelper.DeviceFontSmallLight
         titleLabel.textColor = SiteTableViewControllerUX.HeaderTextColor
-        titleLabel.textAlignment = .Left
+        titleLabel.textAlignment = .left
 
         addSubview(topBorder)
         addSubview(bottomBorder)
@@ -70,9 +70,9 @@ class SiteTableViewHeader : UITableViewHeaderFooterView {
  * Provides base shared functionality for site rows and headers.
  */
 class SiteTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    private let DefaultCellIdentifier = "Cell"
-    private let CellIdentifier = "CellIdentifier"
-    private let HeaderIdentifier = "HeaderIdentifier"
+    fileprivate let DefaultCellIdentifier = "Cell"
+    fileprivate let CellIdentifier = "CellIdentifier"
+    fileprivate let HeaderIdentifier = "HeaderIdentifier"
     var iconForSiteId = [Int : Favicon]()
 
     var tableView = UITableView()
@@ -88,11 +88,11 @@ class SiteTableViewController: UIViewController, UITableViewDelegate, UITableVie
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: DefaultCellIdentifier)
-        tableView.registerClass(HistoryTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
-        tableView.registerClass(SiteTableViewHeader.self, forHeaderFooterViewReuseIdentifier: HeaderIdentifier)
-        tableView.layoutMargins = UIEdgeInsetsZero
-        tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: DefaultCellIdentifier)
+        tableView.register(HistoryTableViewCell.self, forCellReuseIdentifier: CellIdentifier)
+        tableView.register(SiteTableViewHeader.self, forHeaderFooterViewReuseIdentifier: HeaderIdentifier)
+        tableView.layoutMargins = UIEdgeInsets.zero
+        tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.onDrag
         tableView.backgroundColor = UIConstants.PanelBackgroundColor
         tableView.separatorColor = UIConstants.SeparatorColor
         tableView.accessibilityIdentifier = "SiteTable"
@@ -114,17 +114,17 @@ class SiteTableViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.reloadData()
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath)
         if self.tableView(tableView, hasFullWidthSeparatorForRowAtIndexPath: indexPath) {
-            cell.separatorInset = UIEdgeInsetsZero
+            cell.separatorInset = UIEdgeInsets.zero
         }
         
-        if tableView.editing == false {
+        if tableView.isEditing == false {
             cell.gestureRecognizers?.forEach { cell.removeGestureRecognizer($0) }
             let lp = UILongPressGestureRecognizer(target: self, action: #selector(longPressOnCell))
             cell.addGestureRecognizer(lp)
@@ -132,40 +132,40 @@ class SiteTableViewController: UIViewController, UITableViewDelegate, UITableVie
         return cell
     }
 
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableHeaderFooterViewWithIdentifier(HeaderIdentifier)
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableView.dequeueReusableHeaderFooterView(withIdentifier: HeaderIdentifier)
     }
 
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return SiteTableViewControllerUX.HeaderHeight
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return SiteTableViewControllerUX.RowHeight
     }
 
-    func tableView(tableView: UITableView, hasFullWidthSeparatorForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, hasFullWidthSeparatorForRowAtIndexPath indexPath: IndexPath) -> Bool {
         return false
     }
 
-    func getLongPressUrl(forIndexPath indexPath: NSIndexPath) -> NSURL? {
+    func getLongPressUrl(forIndexPath indexPath: IndexPath) -> URL? {
         print("override in subclass for long press behaviour")
         return nil
     }
 
-    @objc func longPressOnCell(gesture: UILongPressGestureRecognizer) {
-        if tableView.editing { //disable context menu on editing mode
+    @objc func longPressOnCell(_ gesture: UILongPressGestureRecognizer) {
+        if tableView.isEditing { //disable context menu on editing mode
             return
         }
         
-        if gesture.state != .Began {
+        if gesture.state != .began {
             return
         }
-        guard let cell = gesture.view as? UITableViewCell, let indexPath = tableView.indexPathForCell(cell) else { return }
+        guard let cell = gesture.view as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) else { return }
 
         let tappedElement = ContextMenuHelper.Elements(link: getLongPressUrl(forIndexPath: indexPath), image: nil)
-        var p = getApp().window!.convertPoint(cell.center, fromView:cell.superview!)
+        var p = getApp().window!.convert(cell.center, from:cell.superview!)
         p.x += cell.frame.width * 0.33
-        getApp().browserViewController.showContextMenu(elements: tappedElement, touchPoint: p)
+        getApp().browserViewController.showContextMenu(tappedElement, touchPoint: p)
     }
 }

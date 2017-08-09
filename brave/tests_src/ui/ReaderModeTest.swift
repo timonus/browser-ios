@@ -10,7 +10,7 @@ class ReaderModeTest : XCTestCase {
         UITestUtils.loadSite(app, "www.google.com/intl/en/about")
 
         app.buttons["Reader View"].tap()
-        app.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 100, dy: 75)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0)).withOffset(CGVector(dx: 100, dy: 75)).tap()
 
         app.buttons["Serif"].tap()
         app.buttons["Sans-serif"].tap()

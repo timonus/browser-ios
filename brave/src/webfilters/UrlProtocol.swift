@@ -2,6 +2,7 @@
 
 import UIKit
 import CoreData
+import Shared
 
 var requestCount = 0
 let markerRequestHandled = "request-already-handled"
@@ -12,23 +13,23 @@ let markerRequestHandled = "request-already-handled"
  doesn't return, the WebThread is locked, and accessing UIWebView on the main thread will deadlock.
  */
 
-class URLProtocol: NSURLProtocol {
+class URLProtocol: Foundation.URLProtocol {
 
     var connection: NSURLConnection?
     var disableJavascript = false
     static var testShieldState: BraveShieldState?
 
-    override class func canInitWithRequest(request: NSURLRequest) -> Bool {
+    override class func canInit(with request: URLRequest) -> Bool {
         //print("Request #\(requestCount++): URL = \(request.mainDocumentURL?.absoluteString)")
-        if let scheme = request.URL?.scheme where !scheme.startsWith("http") {
+        if let scheme = request.url?.scheme, !scheme.startsWith("http") {
             return false
         }
 
-        if NSURLProtocol.propertyForKey(markerRequestHandled, inRequest: request) != nil {
+        if Foundation.URLProtocol.property(forKey: markerRequestHandled, in: request) != nil {
             return false
         }
 
-        guard let url = request.URL else { return false }
+        guard let url = request.url else { return false }
 
         let shieldState = testShieldState != nil ? testShieldState! : getShields(request)
         if shieldState.isAllOff() {
@@ -52,7 +53,7 @@ class URLProtocol: NSURLProtocol {
      - protocol maps request to brave web view
      - brave web view has shield state, grab that state, apply it to request
      */
-    static func getShields(request: NSURLRequest) -> BraveShieldState {
+    static func getShields(_ request: URLRequest) -> BraveShieldState {
         let ua = request.allHTTPHeaderFields?["User-Agent"]
         var webViewShield:BraveShieldState? = nil
         var shieldResult = BraveShieldState()
@@ -66,7 +67,7 @@ class URLProtocol: NSURLProtocol {
             webViewShield = LastBrowserTab.val?.braveShieldStateSafeAsync.get()
         }
 
-        if let webViewShield = webViewShield where webViewShield.isAllOff() {
+        if let webViewShield = webViewShield, webViewShield.isAllOff() {
             shieldResult.setState(.AllOff, on: true)
             return shieldResult
         }
@@ -75,24 +76,24 @@ class URLProtocol: NSURLProtocol {
         return shieldResult
     }
 
-    override class func canonicalRequestForRequest(request: NSURLRequest) -> NSURLRequest {
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
         return request
     }
 
-    private class func cloneRequest(request: NSURLRequest) -> NSMutableURLRequest {
+    fileprivate class func cloneRequest(_ request: URLRequest) -> NSMutableURLRequest {
         // Reportedly not safe to use built-in cloning methods: http://openradar.appspot.com/11596316
-        let newRequest = NSMutableURLRequest(URL: request.URL!, cachePolicy: request.cachePolicy, timeoutInterval: request.timeoutInterval)
+        let newRequest = NSMutableURLRequest(url: request.url!, cachePolicy: request.cachePolicy, timeoutInterval: request.timeoutInterval)
         newRequest.allHTTPHeaderFields = request.allHTTPHeaderFields
-        if let m = request.HTTPMethod {
-            newRequest.HTTPMethod = m
+        if let m = request.httpMethod {
+            newRequest.httpMethod = m
         }
-        if let b = request.HTTPBodyStream {
-            newRequest.HTTPBodyStream = b
+        if let b = request.httpBodyStream {
+            newRequest.httpBodyStream = b
         }
-        if let b = request.HTTPBody {
-            newRequest.HTTPBody = b
+        if let b = request.httpBody {
+            newRequest.httpBody = b
         }
-        newRequest.HTTPShouldUsePipelining = request.HTTPShouldUsePipelining
+        newRequest.httpShouldUsePipelining = request.httpShouldUsePipelining
         newRequest.mainDocumentURL = request.mainDocumentURL
         newRequest.networkServiceType = request.networkServiceType
         return newRequest
@@ -104,49 +105,49 @@ class URLProtocol: NSURLProtocol {
         // Not nice => isLoading stays true while page waits for blocked items that never arrive
 
         // IIRC expectedContentLength of 0 is buggy (can't find the reference now).
-        guard let url = request.URL else { return }
-        let response = NSURLResponse(URL: url, MIMEType: "text/html", expectedContentLength: 1, textEncodingName: "utf-8")
-        client?.URLProtocol(self, didReceiveResponse: response, cacheStoragePolicy: .NotAllowed)
-        client?.URLProtocol(self, didLoadData: NSData())
-        client?.URLProtocolDidFinishLoading(self)
+        guard let url = request.url else { return }
+        let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: 1, textEncodingName: "utf-8")
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: Data())
+        client?.urlProtocolDidFinishLoading(self)
     }
 
     //a special artificial response that includes content that explains why the page was
     //blocked by phishing detection
     func returnBlockedPageResponse() {
-        let path = NSBundle.mainBundle().pathForResource("SafeBrowsingError", ofType: "html")!
-        let src = try! NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
-        guard let url = request.URL else { return }
+        let path = Bundle.main.path(forResource: "SafeBrowsingError", ofType: "html")!
+        let src = try! NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
+        guard let url = request.url else { return }
         
-        let blockedResponse = NSHTTPURLResponse(URL: url, statusCode: 200, HTTPVersion: "1.1", headerFields: nil)
-        client?.URLProtocol(self, didReceiveResponse: blockedResponse!, cacheStoragePolicy: .NotAllowed)
-        client?.URLProtocol(self, didLoadData: src.dataUsingEncoding(NSUTF8StringEncoding)!)
-        client?.URLProtocolDidFinishLoading(self)
+        let blockedResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "1.1", headerFields: nil)
+        client?.urlProtocol(self, didReceive: blockedResponse!, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: src.data(using: String.Encoding.utf8)!)
+        client?.urlProtocolDidFinishLoading(self)
     }
     
 
-    static var blankPixel: NSData? = {
-        let rect = CGRectMake(0, 0, 1, 1)
+    static var blankPixel: Data? = {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         UIGraphicsBeginImageContext(rect.size)
         let c = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(c!, UIColor.clearColor().CGColor)
-        CGContextFillRect(c!, rect)
+        c!.setFillColor(UIColor.clear.cgColor)
+        c!.fill(rect)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return UIImageJPEGRepresentation(image!, 0.4)
     }()
 
     func returnBlankPixel() {
-        guard let url = request.URL, pixel = URLProtocol.blankPixel else { return }
-        let response = NSURLResponse(URL: url, MIMEType: "image/jpeg", expectedContentLength: pixel.length, textEncodingName: nil)
-        client?.URLProtocol(self, didReceiveResponse: response, cacheStoragePolicy: .NotAllowed)
-        client?.URLProtocol(self, didLoadData: pixel)
-        client?.URLProtocolDidFinishLoading(self)
+        guard let url = request.url, let pixel = URLProtocol.blankPixel else { return }
+        let response = URLResponse(url: url, mimeType: "image/jpeg", expectedContentLength: pixel.count, textEncodingName: nil)
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: pixel)
+        client?.urlProtocolDidFinishLoading(self)
     }
 
     override func startLoading() {
         let newRequest = URLProtocol.cloneRequest(request)
-        NSURLProtocol.setProperty(true, forKey: markerRequestHandled, inRequest: newRequest)
+        Foundation.URLProtocol.setProperty(true, forKey: markerRequestHandled, in: newRequest)
 
         let shieldState = URLProtocol.getShields(request)
         let ua = request.allHTTPHeaderFields?["User-Agent"]
@@ -156,22 +157,22 @@ class URLProtocol: NSURLProtocol {
             return
         } else if shieldState.isOnAdBlockAndTp() ?? false && (TrackingProtection.singleton.shouldBlock(request) || AdBlocker.singleton.shouldBlock(request)) {
 
-            if request.URL?.host?.contains("pcworldcommunication.d2.sc.omtrdc.net") ?? false || request.URL?.host?.contains("b.scorecardresearch.com") ?? false {
+            if request.url?.host?.contains("pcworldcommunication.d2.sc.omtrdc.net") ?? false || request.url?.host?.contains("b.scorecardresearch.com") ?? false {
                 // sites such as macworld.com need this, or links are not clickable
                 returnBlankPixel()
             } else {
                 returnEmptyResponse()
             }
             let isBlockedByTP = TrackingProtection.singleton.shouldBlock(request)
-            if let url = request.URL?.absoluteString {
+            if let url = request.url?.absoluteString {
                 postAsyncToMain(0.1) {
                     BrowserTabToUAMapper.userAgentToBrowserTab(ua)?.webView?.shieldStatUpdate(isBlockedByTP ? .tpIncrement : .abIncrement, increment: 1, affectedUrl: url)
                 }
             }
             return
-        } else if let url = request.URL, redirectedUrl = shieldState.isOnHTTPSE() ?? false ? HttpsEverywhere.singleton.tryRedirectingUrl(url) : nil {
+        } else if let url = request.url, let redirectedUrl = shieldState.isOnHTTPSE() ?? false ? HttpsEverywhere.singleton.tryRedirectingUrl(url) : nil {
             // TODO handle https redirect loop
-            newRequest.URL = redirectedUrl
+            newRequest.url = redirectedUrl
             #if DEBUG
                 //print(url.absoluteString + " [HTTPE to] " + redirectedUrl.absoluteString)
             #endif
@@ -179,10 +180,10 @@ class URLProtocol: NSURLProtocol {
             if url == request.mainDocumentURL {
                 returnEmptyResponse()
                 postAsyncToMain(0) {
-                    BrowserTabToUAMapper.userAgentToBrowserTab(ua)?.webView?.loadRequest(newRequest)
+                    BrowserTabToUAMapper.userAgentToBrowserTab(ua)?.webView?.loadRequest(newRequest as URLRequest)
                 }
             } else {
-                connection = NSURLConnection(request: newRequest, delegate: self)
+                connection = NSURLConnection(request: newRequest as URLRequest, delegate: self)
                 postAsyncToMain(0.1) {
                     BrowserTabToUAMapper.userAgentToBrowserTab(ua)?.webView?.shieldStatUpdate(.httpseIncrement)
                 }
@@ -192,12 +193,12 @@ class URLProtocol: NSURLProtocol {
 
         disableJavascript = shieldState.isOnScriptBlocking() ?? false
 
-        if let url = request.URL?.absoluteString where disableJavascript && (url.contains(".js?") || url.contains(".js#") || url.endsWith(".js")) {
+        if let url = request.url?.absoluteString, disableJavascript && (url.contains(".js?") || url.contains(".js#") || url.endsWith(".js")) {
             returnEmptyResponse()
             return
         }
 
-        self.connection = NSURLConnection(request: newRequest, delegate: self)
+        self.connection = NSURLConnection(request: newRequest as URLRequest, delegate: self)
     }
 
     override func stopLoading() {
@@ -206,38 +207,37 @@ class URLProtocol: NSURLProtocol {
     }
 
     // MARK: NSURLConnection
-    func connection(connection: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {
-        var returnedResponse: NSURLResponse = response
-        if let response = response as? NSHTTPURLResponse,
-            url = response.URL
-            where disableJavascript && !AboutUtils.isAboutURL(url)
+    func connection(_ connection: NSURLConnection!, didReceiveResponse response: URLResponse!) {
+        var returnedResponse: URLResponse = response
+        if let response = response as? HTTPURLResponse,
+            let url = response.url, disableJavascript && !AboutUtils.isAboutURL(url)
         {
             var fields = response.allHeaderFields as? [String : String] ?? [String : String]()
             fields["X-WebKit-CSP"] = "script-src none"
-            returnedResponse = NSHTTPURLResponse(URL: url, statusCode: response.statusCode, HTTPVersion: "HTTP/1.1" /*not used*/, headerFields: fields)!
+            returnedResponse = HTTPURLResponse(url: url, statusCode: response.statusCode, httpVersion: "HTTP/1.1" /*not used*/, headerFields: fields)!
         }
-        self.client!.URLProtocol(self, didReceiveResponse: returnedResponse, cacheStoragePolicy: .Allowed)
+        self.client!.urlProtocol(self, didReceive: returnedResponse, cacheStoragePolicy: .allowed)
     }
 
-    func connection(connection: NSURLConnection, willSendRequest request: NSURLRequest, redirectResponse response: NSURLResponse?) -> NSURLRequest?
+    func connection(_ connection: NSURLConnection, willSendRequest request: URLRequest, redirectResponse response: URLResponse?) -> URLRequest?
     {
         if let response = response {
-            client?.URLProtocol(self, wasRedirectedToRequest: request, redirectResponse: response)
+            client?.urlProtocol(self, wasRedirectedTo: request, redirectResponse: response)
         }
         return request
     }
 
-    func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
-        self.client!.URLProtocol(self, didLoadData: data)
+    func connection(_ connection: NSURLConnection!, didReceiveData data: Data!) {
+        self.client!.urlProtocol(self, didLoad: data)
         //self.mutableData.appendData(data)
     }
 
-    func connectionDidFinishLoading(connection: NSURLConnection!) {
-        self.client!.URLProtocolDidFinishLoading(self)
+    func connectionDidFinishLoading(_ connection: NSURLConnection!) {
+        self.client!.urlProtocolDidFinishLoading(self)
     }
 
-    func connection(connection: NSURLConnection!, didFailWithError error: NSError!) {
-        self.client!.URLProtocol(self, didFailWithError: error)
-        print("* Error url: \(self.request.URLString)\n* Details: \(error)")
+    func connection(_ connection: NSURLConnection!, didFailWithError error: NSError!) {
+        self.client!.urlProtocol(self, didFailWithError: error)
+        print("* Error url: \(self.request.url?.absoluteString)\n* Details: \(error)")
     }
 }

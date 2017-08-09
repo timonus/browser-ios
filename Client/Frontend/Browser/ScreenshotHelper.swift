@@ -9,13 +9,13 @@ import Shared
  * Handles screenshots for a given browser, including pages with non-webview content.
  */
 class ScreenshotHelper {
-    private weak var controller: BrowserViewController?
+    fileprivate weak var controller: BrowserViewController?
 
     init(controller: BrowserViewController) {
         self.controller = controller
     }
 
-    func takeScreenshot(tab: Browser) {
+    func takeScreenshot(_ tab: Browser) {
         var screenshot: UIImage?
 
         if let url = tab.url {
@@ -25,12 +25,12 @@ class ScreenshotHelper {
                     tab.setScreenshot(screenshot)
                 }
             } else if let wv = tab.webView {
-                let offset = CGPointMake(0, -wv.scrollView.contentInset.top)
+                let offset = CGPoint(x: 0, y: -wv.scrollView.contentInset.top)
                 // If webview is hidden, need to add it for screenshot.
                 let showForScreenshot = wv.superview == nil && getApp().tabManager.selectedTab != tab
                 if showForScreenshot {
-                    getApp().rootViewController.view.insertSubview(wv, atIndex: 0)
-                    wv.frame = wv.convertRect(getApp().tabManager.selectedTab?.webView?.frame ?? CGRectZero, toView: nil)
+                    getApp().rootViewController.view.insertSubview(wv, at: 0)
+                    wv.frame = wv.convert(getApp().tabManager.selectedTab?.webView?.frame ?? CGRect.zero, to: nil)
                     postAsyncToMain(0.1) { [weak tab] in
                         screenshot = tab?.webView?.screenshot(offset: offset)
                         tab?.setScreenshot(screenshot)
@@ -53,7 +53,7 @@ class ScreenshotHelper {
     /// Takes a screenshot after a small delay.
     /// Trying to take a screenshot immediately after didFinishNavigation results in a screenshot
     /// of the previous page, presumably due to an iOS bug. Adding a brief delay fixes this.
-    func takeDelayedScreenshot(tab: Browser) {
+    func takeDelayedScreenshot(_ tab: Browser) {
         if tab.pendingScreenshot {
             return
         }

@@ -11,19 +11,19 @@ import XCGLogger
 private let log = Logger.browserLogger
 
 protocol BrowserLocationViewDelegate {
-    func browserLocationViewDidTapLocation(browserLocationView: BrowserLocationView)
-    func browserLocationViewDidLongPressLocation(browserLocationView: BrowserLocationView)
-    func browserLocationViewDidTapReaderMode(browserLocationView: BrowserLocationView)
+    func browserLocationViewDidTapLocation(_ browserLocationView: BrowserLocationView)
+    func browserLocationViewDidLongPressLocation(_ browserLocationView: BrowserLocationView)
+    func browserLocationViewDidTapReaderMode(_ browserLocationView: BrowserLocationView)
     /// - returns: whether the long-press was handled by the delegate; i.e. return `false` when the conditions for even starting handling long-press were not satisfied
-    func browserLocationViewDidLongPressReaderMode(browserLocationView: BrowserLocationView) -> Bool
-    func browserLocationViewLocationAccessibilityActions(browserLocationView: BrowserLocationView) -> [UIAccessibilityCustomAction]?
-    func browserLocationViewDidTapReload(browserLocationView: BrowserLocationView)
-    func browserLocationViewDidTapStop(browserLocationView: BrowserLocationView)
+    func browserLocationViewDidLongPressReaderMode(_ browserLocationView: BrowserLocationView) -> Bool
+    func browserLocationViewLocationAccessibilityActions(_ browserLocationView: BrowserLocationView) -> [UIAccessibilityCustomAction]?
+    func browserLocationViewDidTapReload(_ browserLocationView: BrowserLocationView)
+    func browserLocationViewDidTapStop(_ browserLocationView: BrowserLocationView)
 }
 
 struct BrowserLocationViewUX {
-    static let HostFontColor = UIColor.blackColor()
-    static let BaseURLFontColor = UIColor.grayColor()
+    static let HostFontColor = UIColor.black
+    static let BaseURLFontColor = UIColor.gray
     static let BaseURLPitch = 0.75
     static let HostPitch = 1.0
     static let LocationContentInset = 8
@@ -44,7 +44,7 @@ struct BrowserLocationViewUX {
         theme = Theme()
         theme.URLFontColor = BraveUX.LocationBarTextColor_URLBaseComponent
         theme.hostFontColor = BraveUX.LocationBarTextColor_URLHostComponent
-        theme.textColor = .whiteColor()
+        theme.textColor = .white
         theme.backgroundColor = BraveUX.LocationBarBackgroundColor_PrivateMode
         themes[Theme.PrivateMode] = theme
 
@@ -75,11 +75,11 @@ class BrowserLocationView: UIView {
         }
     }
 
-    var url: NSURL? {
+    var url: URL? {
         didSet {
-            let wasHidden = lockImageView.hidden
-            lockImageView.hidden = url?.scheme != "https"
-            if wasHidden != lockImageView.hidden {
+            let wasHidden = lockImageView.isHidden
+            lockImageView.isHidden = url?.scheme != "https"
+            if wasHidden != lockImageView.isHidden {
                 UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
             }
             updateTextWithURL()
@@ -93,13 +93,13 @@ class BrowserLocationView: UIView {
         }
         set (newReaderModeState) {
             if newReaderModeState != self.readerModeButton.readerModeState {
-                let wasHidden = readerModeButton.hidden
+                let wasHidden = readerModeButton.isHidden
                 self.readerModeButton.readerModeState = newReaderModeState
-                readerModeButton.hidden = (newReaderModeState == ReaderModeState.Unavailable)
-                if wasHidden != readerModeButton.hidden {
+                readerModeButton.isHidden = (newReaderModeState == ReaderModeState.Unavailable)
+                if wasHidden != readerModeButton.isHidden {
                     UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
                 }
-                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                UIView.animate(withDuration: 0.1, animations: { () -> Void in
                     if newReaderModeState == ReaderModeState.Unavailable {
                         self.readerModeButton.alpha = 0.0
                     } else {
@@ -115,7 +115,7 @@ class BrowserLocationView: UIView {
     /// Returns constant placeholder text with current URL color
     var placeholder: NSAttributedString {
         let placeholderText = Strings.Search_or_enter_address
-        return NSAttributedString(string: placeholderText, attributes: [NSForegroundColorAttributeName: self.fullURLFontColor.colorWithAlphaComponent(0.5)])
+        return NSAttributedString(string: placeholderText, attributes: [NSForegroundColorAttributeName: self.fullURLFontColor.withAlphaComponent(0.5)])
     }
 
     lazy var urlTextField: UITextField = {
@@ -125,7 +125,7 @@ class BrowserLocationView: UIView {
         urlTextField.addGestureRecognizer(self.longPressRecognizer)
         self.tapRecognizer.delegate = self
         urlTextField.addGestureRecognizer(self.tapRecognizer)
-        urlTextField.keyboardAppearance = .Dark
+        urlTextField.keyboardAppearance = .dark
         urlTextField.attributedPlaceholder = self.placeholder
         urlTextField.accessibilityIdentifier = "url"
         urlTextField.accessibilityActionsSource = self
@@ -133,19 +133,19 @@ class BrowserLocationView: UIView {
         return urlTextField
     }()
 
-    private lazy var lockImageView: UIImageView = {
+    fileprivate lazy var lockImageView: UIImageView = {
         let lockImageView = UIImageView(image: UIImage(named: "lock_verified"))
-        lockImageView.hidden = true
+        lockImageView.isHidden = true
         lockImageView.isAccessibilityElement = true
-        lockImageView.contentMode = UIViewContentMode.Center
+        lockImageView.contentMode = UIViewContentMode.center
         lockImageView.accessibilityLabel = Strings.Secure_connection
         return lockImageView
     }()
 
-    private lazy var readerModeButton: ReaderModeButton = {
-        let readerModeButton = ReaderModeButton(frame: CGRectZero)
-        readerModeButton.hidden = true
-        readerModeButton.addTarget(self, action: #selector(BrowserLocationView.SELtapReaderModeButton), forControlEvents: .TouchUpInside)
+    fileprivate lazy var readerModeButton: ReaderModeButton = {
+        let readerModeButton = ReaderModeButton(frame: CGRect.zero)
+        readerModeButton.isHidden = true
+        readerModeButton.addTarget(self, action: #selector(BrowserLocationView.SELtapReaderModeButton), for: .touchUpInside)
         readerModeButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(BrowserLocationView.SELlongPressReaderModeButton(_:))))
         readerModeButton.isAccessibilityElement = true
         readerModeButton.accessibilityLabel = Strings.Reader_View
@@ -155,8 +155,8 @@ class BrowserLocationView: UIView {
 
     let stopReloadButton = UIButton()
 
-    func stopReloadButtonIsLoading(isLoading: Bool) {
-        stopReloadButton.selected = isLoading
+    func stopReloadButtonIsLoading(_ isLoading: Bool) {
+        stopReloadButton.isSelected = isLoading
         stopReloadButton.accessibilityLabel = isLoading ? Strings.Stop : Strings.Reload
     }
 
@@ -169,19 +169,19 @@ class BrowserLocationView: UIView {
     }
 
     // Prefixing with brave to distinguish from progress view that firefox has (which we hide)
-    var braveProgressView: UIView = UIView(frame: CGRectMake(0, 0, 0, CGFloat(URLBarViewUX.LocationHeight)))
+    var braveProgressView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat(URLBarViewUX.LocationHeight)))
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         stopReloadButton.accessibilityIdentifier = "BrowserToolbar.stopReloadButton"
         
-        stopReloadButton.setImage(UIImage.templateImage(named: "reload"), forState: .Normal)
-        stopReloadButton.setImage(UIImage.templateImage(named: "stop"), forState: .Selected)
+        stopReloadButton.setImage(UIImage.templateImageNamed("reload"), for: .normal)
+        stopReloadButton.setImage(UIImage.templateImageNamed("stop"), for: .selected)
         // Setup the state dependent visuals
         stopReloadButtonIsLoading(false)
         
-        stopReloadButton.addTarget(self, action: #selector(BrowserLocationView.didClickStopReload), forControlEvents: UIControlEvents.TouchUpInside)
+        stopReloadButton.addTarget(self, action: #selector(BrowserLocationView.didClickStopReload), for: UIControlEvents.touchUpInside)
 
         longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(BrowserLocationView.SELlongPressLocation(_:)))
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(BrowserLocationView.SELtapLocation(_:)))
@@ -196,12 +196,12 @@ class BrowserLocationView: UIView {
         braveProgressView.layer.cornerRadius = BraveUX.TextFieldCornerRadius
         braveProgressView.layer.masksToBounds = true
         self.addSubview(braveProgressView)
-        self.sendSubviewToBack(braveProgressView)
+        self.sendSubview(toBack: braveProgressView)
     }
 
-    override var accessibilityElements: [AnyObject]! {
+    override var accessibilityElements: [Any]! {
         get {
-            return [lockImageView, urlTextField, readerModeButton].filter { !$0.hidden }
+            return [lockImageView, urlTextField, readerModeButton].filter { !$0.isHidden }
         }
         set {
             super.accessibilityElements = newValue
@@ -217,7 +217,7 @@ class BrowserLocationView: UIView {
         lockImageView.snp_makeConstraints { make in
             make.centerY.equalTo(self)
             make.left.equalTo(self).offset(BrowserLocationViewUX.LocationContentInset)
-            make.width.equalTo(self.lockImageView.intrinsicContentSize().width)
+            make.width.equalTo(self.lockImageView.intrinsicContentSize.width)
         }
 
         readerModeButton.snp_makeConstraints { make in
@@ -235,13 +235,13 @@ class BrowserLocationView: UIView {
         urlTextField.snp_remakeConstraints { make in
             make.top.bottom.equalTo(self)
 
-            if lockImageView.hidden {
+            if lockImageView.isHidden {
                 make.left.equalTo(self).offset(BrowserLocationViewUX.LocationContentInset)
             } else {
                 make.left.equalTo(self.lockImageView.snp_right).offset(BrowserLocationViewUX.LocationContentInset)
             }
 
-            if readerModeButton.hidden {
+            if readerModeButton.isHidden {
                 make.right.equalTo(self.stopReloadButton.snp_left)
             } else {
                 make.right.equalTo(self.readerModeButton.snp_left).inset(-4)
@@ -255,19 +255,19 @@ class BrowserLocationView: UIView {
         delegate?.browserLocationViewDidTapReaderMode(self)
     }
 
-    func SELlongPressReaderModeButton(recognizer: UILongPressGestureRecognizer) {
-        if recognizer.state == UIGestureRecognizerState.Began {
+    func SELlongPressReaderModeButton(_ recognizer: UILongPressGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.began {
             delegate?.browserLocationViewDidLongPressReaderMode(self)
         }
     }
 
-    func SELlongPressLocation(recognizer: UITapGestureRecognizer) {
-        if recognizer.state == UIGestureRecognizerState.Began {
+    func SELlongPressLocation(_ recognizer: UITapGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.began {
             delegate?.browserLocationViewDidLongPressLocation(self)
         }
     }
 
-    func SELtapLocation(recognizer: UITapGestureRecognizer) {
+    func SELtapLocation(_ recognizer: UITapGestureRecognizer) {
         delegate?.browserLocationViewDidTapLocation(self)
     }
 
@@ -275,19 +275,19 @@ class BrowserLocationView: UIView {
         return delegate?.browserLocationViewDidLongPressReaderMode(self) ?? false
     }
 
-    private func updateTextWithURL() {
+    fileprivate func updateTextWithURL() {
         if url == nil {
             urlTextField.text = ""
             return
         }
 
-        if let httplessURL = url?.absoluteDisplayString(), let baseDomain = url?.baseDomain() {
+        if let httplessURL = url?.absoluteDisplayString, let baseDomain = url?.baseDomain {
             // Highlight the base domain of the current URL.
             let attributedString = NSMutableAttributedString(string: httplessURL)
             let nsRange = NSMakeRange(0, httplessURL.characters.count)
             attributedString.addAttribute(NSForegroundColorAttributeName, value: baseURLFontColor, range: nsRange)
             attributedString.colorSubstring(baseDomain, withColor: hostFontColor)
-            attributedString.addAttribute(UIAccessibilitySpeechAttributePitch, value: NSNumber(double: BrowserLocationViewUX.BaseURLPitch), range: nsRange)
+            attributedString.addAttribute(UIAccessibilitySpeechAttributePitch, value: NSNumber(value: BrowserLocationViewUX.BaseURLPitch), range: nsRange)
             attributedString.pitchSubstring(baseDomain, withPitch: BrowserLocationViewUX.HostPitch)
             urlTextField.attributedText = attributedString
         } else {
@@ -301,18 +301,18 @@ class BrowserLocationView: UIView {
 }
 
 extension BrowserLocationView: UIGestureRecognizerDelegate {
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailByGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         // If the longPressRecognizer is active, fail all other recognizers to avoid conflicts.
         return gestureRecognizer == longPressRecognizer
     }
 }
 
 extension BrowserLocationView: AccessibilityActionsSource {
-    func accessibilityCustomActionsForView(view: UIView) -> [UIAccessibilityCustomAction]? {
+    func accessibilityCustomActionsForView(_ view: UIView) -> [UIAccessibilityCustomAction]? {
         if view === urlTextField {
             return delegate?.browserLocationViewLocationAccessibilityActions(self)
         }
@@ -321,7 +321,7 @@ extension BrowserLocationView: AccessibilityActionsSource {
 }
 
 extension BrowserLocationView: Themeable {
-    func applyTheme(themeName: String) {
+    func applyTheme(_ themeName: String) {
         guard let theme = BrowserLocationViewUX.Themes[themeName] else {
             log.error("Unable to apply unknown theme \(themeName)")
             return
@@ -338,8 +338,8 @@ private class ReaderModeButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         tintColor = BraveUX.ActionButtonTintColor
-        setImage(UIImage(named: "reader.png")!.imageWithRenderingMode(.AlwaysTemplate), forState: UIControlState.Normal)
-        setImage(UIImage(named: "reader_active.png"), forState: UIControlState.Selected)
+        setImage(UIImage(named: "reader.png")!.withRenderingMode(.alwaysTemplate), for: .normal)
+        setImage(UIImage(named: "reader_active.png"), for: UIControlState.selected)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -356,14 +356,14 @@ private class ReaderModeButton: UIButton {
             _readerModeState = newReaderModeState
             switch _readerModeState {
             case .Available:
-                self.enabled = true
-                self.selected = false
+                self.isEnabled = true
+                self.isSelected = false
             case .Unavailable:
-                self.enabled = false
-                self.selected = false
+                self.isEnabled = false
+                self.isSelected = false
             case .Active:
-                self.enabled = true
-                self.selected = true
+                self.isEnabled = true
+                self.isSelected = true
             }
         }
     }
@@ -381,7 +381,7 @@ private class DisplayTextField: UITextField {
         }
     }
 
-    private override func canBecomeFirstResponder() -> Bool {
+    fileprivate override var canBecomeFirstResponder : Bool {
         return false
     }
 }

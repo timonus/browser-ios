@@ -10,7 +10,7 @@ extension BrowserViewController: WKUIDelegate {
 
     #if !BRAVE
     /// THIS IS FOR _blank TARGETS
-    func webView(webView: WKWebView, createWebViewWithConfiguration configuration: WKWebViewConfiguration, forNavigationAction navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         guard let currentTab = tabManager.selectedTab else { return nil }
 
         screenshotHelper.takeScreenshot(currentTab)
@@ -18,13 +18,13 @@ extension BrowserViewController: WKUIDelegate {
         // If the page uses window.open() or target="_blank", open the page in a new tab.
         // TODO: This doesn't work for window.open() without user action (bug 1124942).
         let newTab: Browser
-        newTab = tabManager.addTab(navigationAction.request, configuration: configuration, isPrivate: currentTab.isPrivate)!
+        newTab = tabManager.addTab(navigationAction.request, configuration: configuration, zombie: currentTab.isPrivate)!
         tabManager.selectTab(newTab)
 
         // If the page we just opened has a bad scheme, we return nil here so that JavaScript does not
         // get a reference to it which it can return from window.open() - this will end up as a
         // CFErrorHTTPBadURL being presented.
-        guard let scheme = navigationAction.request.URL?.scheme?.lowercaseString where SchemesAllowedToOpenPopups.contains(scheme) else {
+        guard let scheme = (navigationAction.request as URLRequest).url?.scheme?.lowercased(), SchemesAllowedToOpenPopups.contains(scheme) else {
             return nil
         }
 
@@ -32,15 +32,15 @@ extension BrowserViewController: WKUIDelegate {
     }
     #endif
     #if !BRAVE
-    private func canDisplayJSAlertForWebView(webView: WKWebView) -> Bool {
+    fileprivate func canDisplayJSAlertForWebView(_ webView: WKWebView) -> Bool {
         // Only display a JS Alert if we are selected and there isn't anything being shown
         return (tabManager.selectedTab?.webView == webView ?? false) && (self.presentedViewController == nil)
     }
 
-    func webView(webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: () -> Void) {
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
         var messageAlert = MessageAlert(message: message, frame: frame, completionHandler: completionHandler)
         if canDisplayJSAlertForWebView(webView) {
-            presentViewController(messageAlert.alertController(), animated: true, completion: nil)
+            present(messageAlert.alertController(), animated: true, completion: nil)
         } else if let promptingTab = tabManager[webView] {
             promptingTab.queueJavascriptAlertPrompt(messageAlert)
         } else {
@@ -51,10 +51,10 @@ extension BrowserViewController: WKUIDelegate {
     }
     #endif
     #if !BRAVE
-    func webView(webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: (Bool) -> Void) {
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
         var confirmAlert = ConfirmPanelAlert(message: message, frame: frame, completionHandler: completionHandler)
         if canDisplayJSAlertForWebView(webView) {
-            presentViewController(confirmAlert.alertController(), animated: true, completion: nil)
+            present(confirmAlert.alertController(), animated: true, completion: nil)
         } else if let promptingTab = tabManager[webView] {
             promptingTab.queueJavascriptAlertPrompt(confirmAlert)
         } else {
@@ -63,10 +63,10 @@ extension BrowserViewController: WKUIDelegate {
     }
     #endif
     #if !BRAVE
-    func webView(webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: (String?) -> Void) {
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
         var textInputAlert = TextInputAlert(message: prompt, frame: frame, completionHandler: completionHandler, defaultText: defaultText)
         if canDisplayJSAlertForWebView(webView) {
-            presentViewController(textInputAlert.alertController(), animated: true, completion: nil)
+            present(textInputAlert.alertController(), animated: true, completion: nil)
         } else if let promptingTab = tabManager[webView] {
             promptingTab.queueJavascriptAlertPrompt(textInputAlert)
         } else {
@@ -76,7 +76,7 @@ extension BrowserViewController: WKUIDelegate {
     #endif
 
     /// Invoked when an error occurs while starting to load data for the main frame.
-    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
         // Ignore the "Frame load interrupted" error that is triggered when we cancel a request
         // to open an external application and hand it over to UIApplication.openURL(). The result
         // will be that we switch to the external app, for example the app store, while keeping the
@@ -89,16 +89,16 @@ extension BrowserViewController: WKUIDelegate {
             return
         }
 
-        if error.code == Int(CFNetworkErrors.CFURLErrorCancelled.rawValue) {
+        if error.code == Int(CFNetworkErrors.cfurlErrorCancelled.rawValue) {
             guard let container = webView as? ContainerWebView else { return }
             guard let legacyWebView = container.legacyWebView else { return }
-            if let browser = tabManager.tabForWebView(legacyWebView) where browser === tabManager.selectedTab {
+            if let browser = tabManager.tabForWebView(legacyWebView), browser === tabManager.selectedTab {
                 urlBar.currentURL = browser.displayURL
             }
             return
         }
 
-        if let url = error.userInfo[NSURLErrorFailingURLErrorKey] as? NSURL {
+        if let url = error.userInfo[NSURLErrorFailingURLErrorKey] as? URL {
             guard let uiwebview = (webView as? ContainerWebView)?.legacyWebView else { assert(false) ; return }
             ErrorPageHelper().showPage(error, forUrl: url, inWebView: uiwebview)
 
@@ -112,8 +112,8 @@ extension BrowserViewController: WKUIDelegate {
         }
     }
 
-    private func checkIfWebContentProcessHasCrashed(webView: WKWebView, error: NSError) -> Bool {
-        if error.code == WKErrorCode.WebContentProcessTerminated.rawValue && error.domain == "WebKitErrorDomain" {
+    fileprivate func checkIfWebContentProcessHasCrashed(_ webView: WKWebView, error: NSError) -> Bool {
+        if error.code == WKError.webContentProcessTerminated.rawValue && error.domain == "WebKitErrorDomain" {
             log.debug("WebContent process has crashed. Trying to reloadFromOrigin to restart it.")
             webView.reloadFromOrigin()
             return true

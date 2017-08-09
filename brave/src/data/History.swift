@@ -4,19 +4,19 @@
 import CoreData
 import Shared
 
-private func getDate(dayOffset dayOffset: Int) -> NSDate {
-    let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-    let nowComponents = calendar.components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: NSDate())
-    let today = calendar.dateFromComponents(nowComponents)!
-    return calendar.dateByAddingUnit(NSCalendarUnit.Day, value: dayOffset, toDate: today, options: [])!
+private func getDate(_ dayOffset: Int) -> Date {
+    let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+    let nowComponents = calendar.dateComponents([Calendar.Component.year, Calendar.Component.month, Calendar.Component.day], from: Date())
+    let today = calendar.date(from: nowComponents)!
+    return (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: dayOffset, to: today, options: [])!
 }
 
 private var ignoredSchemes = ["about"]
 
-public func isIgnoredURL(url: NSURL) -> Bool {
+public func isIgnoredURL(_ url: URL) -> Bool {
     guard let scheme = url.scheme else { return false }
 
-    if let _ = ignoredSchemes.indexOf(scheme) {
+    if let _ = ignoredSchemes.index(of: scheme) {
         return true
     }
 
@@ -27,8 +27,8 @@ public func isIgnoredURL(url: NSURL) -> Bool {
     return false
 }
 
-public func isIgnoredURL(url: String) -> Bool {
-    if let url = NSURL(string: url) {
+public func isIgnoredURL(_ url: String) -> Bool {
+    if let url = URL(string: url) {
         return isIgnoredURL(url)
     }
 
@@ -39,8 +39,8 @@ class History: NSManagedObject, WebsitePresentable {
 
     @NSManaged var title: String?
     @NSManaged var url: String?
-    @NSManaged var visitedOn: NSDate?
-    @NSManaged var syncUUID: NSUUID?
+    @NSManaged var visitedOn: Date?
+    @NSManaged var syncUUID: UUID?
     @NSManaged var domain: Domain?
     @NSManaged var sectionIdentifier: String?
 
@@ -49,42 +49,44 @@ class History: NSManagedObject, WebsitePresentable {
     // are displayed in a table and waiting for a favicon, you can change markDirty, and the favicon will update
     @NSManaged var markDirty: Int16
     
-    static let Today = getDate(dayOffset: 0)
-    static let Yesterday = getDate(dayOffset: -1)
-    static let ThisWeek = getDate(dayOffset: -7)
-    static let ThisMonth = getDate(dayOffset: -31)
+    static let Today = getDate(0)
+    static let Yesterday = getDate(-1)
+    static let ThisWeek = getDate(-7)
+    static let ThisMonth = getDate(-31)
 
-    static func entity(context: NSManagedObjectContext) -> NSEntityDescription {
-        return NSEntityDescription.entityForName("History", inManagedObjectContext: context)!
+    static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
+        return NSEntityDescription.entity(forEntityName: "History", in: context)!
     }
 
-    class func add(title title: String, url: NSURL) {
-        let context = DataController.shared.workerContext()
-        context.performBlock {
+    class func add(_ title: String, url: URL) {
+        let context = DataController.shared.workerContext
+        context.perform {
             var item = History.getExisting(url, context: context)
             if item == nil {
-                item = History(entity: History.entity(context), insertIntoManagedObjectContext: context)
+                item = History(entity: History.entity(context), insertInto: context)
                 item!.domain = Domain.getOrCreateForUrl(url, context: context)
                 item!.url = url.absoluteString
             }
             item?.title = title
             item?.domain?.visits += 1
-            item?.visitedOn = NSDate()
+            item?.visitedOn = Date()
             item?.sectionIdentifier = Strings.Today
 
-            DataController.saveContext(context)
+            DataController.saveContext(context: context)
         }
     }
 
-    class func frc() -> NSFetchedResultsController {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = History.entity(DataController.moc)
+    class func frc() -> NSFetchedResultsController<NSFetchRequestResult> {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        let context = DataController.shared.mainThreadContext
+        
+        fetchRequest.entity = History.entity(context)
         fetchRequest.fetchBatchSize = 20
         fetchRequest.fetchLimit = 200
         fetchRequest.sortDescriptors = [NSSortDescriptor(key:"visitedOn", ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "visitedOn >= %@", History.ThisMonth)
+        fetchRequest.predicate = NSPredicate(format: "visitedOn >= %@", History.ThisMonth as CVarArg)
 
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:DataController.moc, sectionNameKeyPath: "sectionIdentifier", cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context, sectionNameKeyPath: "sectionIdentifier", cacheName: nil)
     }
 
     override func awakeFromFetch() {
@@ -92,27 +94,26 @@ class History: NSManagedObject, WebsitePresentable {
             return
         }
 
-        if visitedOn?.compare(History.Today) == NSComparisonResult.OrderedDescending {
+        if visitedOn?.compare(History.Today) == ComparisonResult.orderedDescending {
             sectionIdentifier = Strings.Today
-        } else if visitedOn?.compare(History.Yesterday) == NSComparisonResult.OrderedDescending {
+        } else if visitedOn?.compare(History.Yesterday) == ComparisonResult.orderedDescending {
             sectionIdentifier = Strings.Yesterday
-        } else if visitedOn?.compare(History.ThisWeek) == NSComparisonResult.OrderedDescending {
+        } else if visitedOn?.compare(History.ThisWeek) == ComparisonResult.orderedDescending {
             sectionIdentifier = Strings.Last_week
         } else {
             sectionIdentifier = Strings.Last_month
         }
     }
 
-    class func getExisting(url: NSURL, context: NSManagedObjectContext) -> History? {
-        assert(!NSThread.isMainThread())
+    class func getExisting(_ url: URL, context: NSManagedObjectContext) -> History? {
+        assert(!Thread.isMainThread)
 
-        guard let urlString = url.absoluteString else { return nil }
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = History.entity(context)
-        fetchRequest.predicate = NSPredicate(format: "url == %@", urlString)
+        fetchRequest.predicate = NSPredicate(format: "url == %@", url.absoluteString)
         var result: History? = nil
         do {
-            let results = try context.executeFetchRequest(fetchRequest) as? [History]
+            let results = try context.fetch(fetchRequest) as? [History]
             if let item = results?.first {
                 result = item
             }
@@ -123,14 +124,14 @@ class History: NSManagedObject, WebsitePresentable {
         return result
     }
 
-    class func frecencyQuery(context: NSManagedObjectContext, containing:String? = nil) -> [History] {
-        assert(!NSThread.isMainThread())
+    class func frecencyQuery(_ context: NSManagedObjectContext, containing:String? = nil) -> [History] {
+        assert(!Thread.isMainThread)
 
-        let fetchRequest = NSFetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.fetchLimit = 100
         fetchRequest.entity = History.entity(context)
         
-        var predicate = NSPredicate(format: "visitedOn > %@", History.ThisWeek)
+        var predicate = NSPredicate(format: "visitedOn > %@", History.ThisWeek as CVarArg)
         if let query = containing {
             predicate = NSPredicate(format: predicate.predicateFormat + " AND url CONTAINS %@", query)
         }
@@ -138,7 +139,7 @@ class History: NSManagedObject, WebsitePresentable {
         fetchRequest.predicate = predicate
 
         do {
-            if let results = try context.executeFetchRequest(fetchRequest) as? [History] {
+            if let results = try context.fetch(fetchRequest) as? [History] {
                 return results
             }
         } catch {
@@ -148,16 +149,16 @@ class History: NSManagedObject, WebsitePresentable {
         return []
     }
     
-    class func deleteAll(completionOnMain: ()->()) {
-        let context = DataController.shared.workerContext()
-        context.performBlock {
-            let fetchRequest = NSFetchRequest()
+    class func deleteAll(_ completionOnMain: @escaping ()->()) {
+        let context = DataController.shared.workerContext
+        context.perform {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = History.entity(context)
             fetchRequest.includesPropertyValues = false
             do {
-                let results = try context.executeFetchRequest(fetchRequest)
+                let results = try context.fetch(fetchRequest)
                 for result in results {
-                    context.deleteObject(result as! NSManagedObject)
+                    context.delete(result as! NSManagedObject)
                 }
 
             } catch {

@@ -4,38 +4,38 @@ import Shared
 private let log = Logger.browserLogger
 
 extension BrowserViewController: FindInPageBarDelegate, FindInPageHelperDelegate {
-    func findInPage(findInPage: FindInPageBar, didTextChange text: String) {
+    func findInPage(_ findInPage: FindInPageBar, didTextChange text: String) {
         find(text, function: "find")
     }
 
-    func findInPage(findInPage: FindInPageBar, didFindNextWithText text: String) {
+    func findInPage(_ findInPage: FindInPageBar, didFindNextWithText text: String) {
         findInPageBar?.endEditing(true)
         find(text, function: "findNext")
     }
 
-    func findInPage(findInPage: FindInPageBar, didFindPreviousWithText text: String) {
+    func findInPage(_ findInPage: FindInPageBar, didFindPreviousWithText text: String) {
         findInPageBar?.endEditing(true)
         find(text, function: "findPrevious")
     }
 
-    func findInPageDidPressClose(findInPage: FindInPageBar) {
-        updateFindInPageVisibility(visible: false)
+    func findInPageDidPressClose(_ findInPage: FindInPageBar) {
+        updateFindInPageVisibility(false)
     }
 
-    private func find(text: String, function: String) {
+    fileprivate func find(_ text: String, function: String) {
         guard let webView = tabManager.selectedTab?.webView else { return }
 
-        let escaped = text.stringByReplacingOccurrencesOfString("\\", withString: "\\\\")
-                          .stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+        let escaped = text.replacingOccurrences(of: "\\", with: "\\\\")
+                          .replacingOccurrences(of: "\"", with: "\\\"")
 
         webView.evaluateJavaScript("__firefox__.\(function)(\"\(escaped)\")", completionHandler: nil)
     }
 
-    func findInPageHelper(findInPageHelper: FindInPageHelper, didUpdateCurrentResult currentResult: Int) {
+    func findInPageHelper(_ findInPageHelper: FindInPageHelper, didUpdateCurrentResult currentResult: Int) {
         findInPageBar?.currentResult = currentResult
     }
 
-    func findInPageHelper(findInPageHelper: FindInPageHelper, didUpdateTotalResults totalResults: Int) {
+    func findInPageHelper(_ findInPageHelper: FindInPageHelper, didUpdateTotalResults totalResults: Int) {
         findInPageBar?.totalResults = totalResults
     }
 }

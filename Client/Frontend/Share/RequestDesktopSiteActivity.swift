@@ -6,26 +6,26 @@ import Foundation
 import Shared
 
 class RequestDesktopSiteActivity: UIActivity {
-    private let callback: () -> ()
+    fileprivate let callback: () -> ()
 
-    init(callback: () -> ()) {
+    init(callback: @escaping () -> ()) {
         self.callback = callback
     }
 
-    override func activityTitle() -> String? {
+    override var activityTitle : String? {
         return Strings.Open_Desktop_Site_tab
     }
 
-    override func activityImage() -> UIImage? {
+    override var activityImage : UIImage? {
         return UIImage(named: "shareRequestDesktopSite")
     }
 
-    override func performActivity() {
+    override func perform() {
         callback()
         activityDidFinish(true)
     }
 
-    override func canPerformWithActivityItems(activityItems: [AnyObject]) -> Bool {
+    override func canPerform(withActivityItems activityItems: [Any]) -> Bool {
         return true
     }
 }

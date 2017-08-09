@@ -4,11 +4,11 @@ import Social
 import MobileCoreServices
 
 extension NSObject {
-    func callSelector(selector: Selector, object: AnyObject?, delay: NSTimeInterval) {
+    func callSelector(_ selector: Selector, object: AnyObject?, delay: TimeInterval) {
         let delay = delay * Double(NSEC_PER_SEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-        dispatch_after(time, dispatch_get_main_queue(), {
-            NSThread.detachNewThreadSelector(selector, toTarget:self, withObject: object)
+        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            Thread.detachNewThreadSelector(selector, toTarget:self, with: object)
         })
     }
 }
@@ -23,47 +23,43 @@ class ShareToBraveViewController: SLComposeServiceViewController {
         return
     }
 
-    override func configurationItems() -> [AnyObject]! {
+    override func configurationItems() -> [Any]! {
         let item: NSExtensionItem = extensionContext!.inputItems[0] as! NSExtensionItem
         let itemProvider: NSItemProvider = item.attachments![0] as! NSItemProvider
         let type = kUTTypeURL as String
 
         if itemProvider.hasItemConformingToTypeIdentifier(type) {
-            itemProvider.loadItemForTypeIdentifier(type, options: nil, completionHandler: {
+            itemProvider.loadItem(forTypeIdentifier: type, options: nil, completionHandler: {
                 (urlItem, error) in
-                guard let url = (urlItem as! NSURL).absoluteString?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet()),
-                    let braveUrl = NSURL(string: "brave://open-url?url=\(url)") else { return }
+                guard let url = (urlItem as! URL).absoluteString.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
+                    let braveUrl = URL(string: "brave://open-url?url=\(url)") else { return }
 
                 // From http://stackoverflow.com/questions/24297273/openurl-not-work-in-action-extension
                 var responder = self as UIResponder?
                 while (responder != nil) {
-                    if responder!.respondsToSelector(#selector(UIApplication.openURL(_:))) {
-                        responder!.callSelector(#selector(UIApplication.openURL(_:)), object: braveUrl, delay: 0)
+                    if responder!.responds(to: #selector(UIApplication.openURL(_:))) {
+                        responder!.callSelector(#selector(UIApplication.openURL(_:)), object: braveUrl as AnyObject, delay: 0)
                     }
-                    responder = responder!.nextResponder()
+                    responder = responder!.next
                 }
 
-                dispatch_after(
-                    dispatch_time(
-                        DISPATCH_TIME_NOW,
-                        Int64(0.1 * Double(NSEC_PER_SEC))
-                    ),
-                    dispatch_get_main_queue(), { self.cancel() })
+                DispatchQueue.main.asyncAfter(
+                    deadline: DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: { self.cancel() })
             })
         }
 
         return []
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Stop keyboard from showing
         textView.resignFirstResponder()
-        textView.editable = false
+        textView.isEditable = false
 
         super.viewDidAppear(animated)
     }
 
-    override func willMoveToParentViewController(parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         view.alpha = 0
     }
 }

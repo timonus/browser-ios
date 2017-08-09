@@ -17,15 +17,15 @@ private let log = Logger.browserLogger
 private let HistoryClearableIndex = 0
 
 class ClearPrivateDataTableViewController: UITableViewController {
-    private var clearButton: UITableViewCell?
+    fileprivate var clearButton: UITableViewCell?
 
     var profile: Profile!
 
-    private var gotNotificationDeathOfAllWebViews = false
+    fileprivate var gotNotificationDeathOfAllWebViews = false
 
-    private typealias DefaultCheckedState = Bool
+    fileprivate typealias DefaultCheckedState = Bool
 
-    private lazy var clearables: [(clearable: Clearable, checked: DefaultCheckedState)] = {
+    fileprivate lazy var clearables: [(clearable: Clearable, checked: DefaultCheckedState)] = {
         return [
             (HistoryClearable(), true),
             (CacheClearable(), true),
@@ -34,7 +34,7 @@ class ClearPrivateDataTableViewController: UITableViewController {
             ]
     }()
 
-    private lazy var toggles: [Bool] = {
+    fileprivate lazy var toggles: [Bool] = {
         if let savedToggles = self.profile.prefs.arrayForKey(TogglesPrefKey) as? [Bool] {
             return savedToggles
         }
@@ -42,9 +42,9 @@ class ClearPrivateDataTableViewController: UITableViewController {
         return self.clearables.map { $0.checked }
     }()
 
-    private var clearButtonEnabled = true {
+    fileprivate var clearButtonEnabled = true {
         didSet {
-            clearButton?.textLabel?.textColor = clearButtonEnabled ? UIConstants.DestructiveRed : UIColor.lightGrayColor()
+            clearButton?.textLabel?.textColor = clearButtonEnabled ? UIConstants.DestructiveRed : UIColor.lightGray
         }
     }
 
@@ -53,7 +53,7 @@ class ClearPrivateDataTableViewController: UITableViewController {
 
         title = Strings.ClearPrivateData
 
-        tableView.registerClass(SettingsTableSectionHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: SectionHeaderFooterIdentifier)
+        tableView.register(SettingsTableSectionHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: SectionHeaderFooterIdentifier)
 
         tableView.separatorColor = UIConstants.TableViewSeparatorColor
         tableView.backgroundColor = UIConstants.TableViewHeaderBackgroundColor
@@ -62,22 +62,22 @@ class ClearPrivateDataTableViewController: UITableViewController {
         tableView.tableFooterView = footer
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
 
         if indexPath.section == SectionToggles {
             cell.textLabel?.text = clearables[indexPath.item].clearable.label
             let control = UISwitch()
             control.onTintColor = UIConstants.ControlTintColor
-            control.addTarget(self, action: #selector(ClearPrivateDataTableViewController.switchValueChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
-            control.on = toggles[indexPath.item]
+            control.addTarget(self, action: #selector(ClearPrivateDataTableViewController.switchValueChanged(_:)), for: UIControlEvents.valueChanged)
+            control.isOn = toggles[indexPath.item]
             cell.accessoryView = control
-            cell.selectionStyle = .None
+            cell.selectionStyle = .none
             control.tag = indexPath.item
         } else {
             assert(indexPath.section == SectionButton)
             cell.textLabel?.text = Strings.ClearPrivateData
-            cell.textLabel?.textAlignment = NSTextAlignment.Center
+            cell.textLabel?.textAlignment = NSTextAlignment.center
             cell.textLabel?.textColor = UIConstants.DestructiveRed
             cell.accessibilityTraits = UIAccessibilityTraitButton
             cell.accessibilityIdentifier = "ClearPrivateData"
@@ -87,11 +87,11 @@ class ClearPrivateDataTableViewController: UITableViewController {
         return cell
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return NumberOfSections
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == SectionToggles {
             return clearables.count
         }
@@ -100,17 +100,17 @@ class ClearPrivateDataTableViewController: UITableViewController {
         return 1
     }
 
-    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         guard indexPath.section == SectionButton else { return false }
 
         // Highlight the button only if it's enabled.
         return clearButtonEnabled
     }
 
-    static func clearPrivateData(clearables: [Clearable], secondAttempt: Bool = false) -> Deferred<Void> {
+    static func clearPrivateData(_ clearables: [Clearable], secondAttempt: Bool = false) -> Deferred<Void> {
         let deferred = Deferred<Void>()
 
-        clearables.enumerate().map { clearable in
+        clearables.enumerated().map { clearable in
                 print("Clearing \(clearable.element).")
             
                 if "\(clearable.element)" == "Client.HistoryClearable" {
@@ -147,7 +147,7 @@ class ClearPrivateDataTableViewController: UITableViewController {
         return deferred
     }
 
-    @objc private func allWebViewsKilled() {
+    @objc fileprivate func allWebViewsKilled() {
         gotNotificationDeathOfAllWebViews = true
 
         postAsyncToMain(0.5) { // for some reason, even after all webviews killed, an big delay is needed before the filehandles are unlocked
@@ -168,7 +168,7 @@ class ClearPrivateDataTableViewController: UITableViewController {
                     }
                 }
             } else {
-                ClearPrivateDataTableViewController.clearPrivateData(clear).uponQueue(dispatch_get_main_queue()) {
+                ClearPrivateDataTableViewController.clearPrivateData(clear).uponQueue(DispatchQueue.main) {
                     // TODO: add API to avoid add/remove
                     getApp().tabManager.removeTab(getApp().tabManager.addTab()!, createTabIfNoneLeft: true)
                 }
@@ -178,15 +178,15 @@ class ClearPrivateDataTableViewController: UITableViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.section == SectionButton else { return }
         
         getApp().profile?.prefs.setObject(self.toggles, forKey: TogglesPrefKey)
         self.clearButtonEnabled = false
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
 
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(allWebViewsKilled), name: kNotificationAllWebViewsDeallocated, object: nil)
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(allWebViewsKilled), name: NSNotification.Name(rawValue: kNotificationAllWebViewsDeallocated), object: nil)
 
         if (BraveWebView.allocCounter == 0) {
             allWebViewsKilled()
@@ -194,23 +194,23 @@ class ClearPrivateDataTableViewController: UITableViewController {
             getApp().tabManager.removeAll()
             postAsyncToMain(0.5, closure: {
                 if !self.gotNotificationDeathOfAllWebViews {
-                    getApp().tabManager.tabs.internalTabList.forEach { $0.deleteWebView(isTabDeleted: true) }
+                    getApp().tabManager.tabs.internalTabList.forEach { $0.deleteWebView(true) }
                     self.allWebViewsKilled()
                 }
             })
         }
     }
 
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableHeaderFooterViewWithIdentifier(SectionHeaderFooterIdentifier) as! SettingsTableSectionHeaderFooterView
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableView.dequeueReusableHeaderFooterView(withIdentifier: SectionHeaderFooterIdentifier) as! SettingsTableSectionHeaderFooterView
     }
 
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UIConstants.TableViewHeaderFooterHeight
     }
 
-    @objc func switchValueChanged(toggle: UISwitch) {
-        toggles[toggle.tag] = toggle.on
+    @objc func switchValueChanged(_ toggle: UISwitch) {
+        toggles[toggle.tag] = toggle.isOn
 
         // Dim the clear button if no clearables are selected.
         clearButtonEnabled = toggles.contains(true)

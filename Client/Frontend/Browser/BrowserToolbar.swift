@@ -18,24 +18,27 @@ protocol BrowserToolbarProtocol {
     var forwardButton: UIButton { get }
     var backButton: UIButton { get }
     var addTabButton: UIButton { get }
+    
+    // While implementing protocol lazy var `self` is not usable to access instance variables, so this needs to be a function/calc var
     var actionButtons: [UIButton] { get }
 
-    func updateBackStatus(canGoBack: Bool)
-    func updateForwardStatus(canGoForward: Bool)
-    func updateReloadStatus(isLoading: Bool)
-    func updatePageStatus(isWebPage isWebPage: Bool)
+    func updateBackStatus(_ canGoBack: Bool)
+    func updateForwardStatus(_ canGoForward: Bool)
+    func updateReloadStatus(_ isLoading: Bool)
+    func updatePageStatus(_ isWebPage: Bool)
 }
 
 @objc
 protocol BrowserToolbarDelegate: class {
-    func browserToolbarDidPressBack(browserToolbar: BrowserToolbarProtocol, button: UIButton)
-    func browserToolbarDidPressForward(browserToolbar: BrowserToolbarProtocol, button: UIButton)
-    func browserToolbarDidPressBookmark(browserToolbar: BrowserToolbarProtocol, button: UIButton)
-    func browserToolbarDidPressShare(browserToolbar: BrowserToolbarProtocol, button: UIButton)
+    func browserToolbarDidPressBack(_ browserToolbar: BrowserToolbarProtocol, button: UIButton)
+    func browserToolbarDidPressForward(_ browserToolbar: BrowserToolbarProtocol, button: UIButton)
+    func browserToolbarDidPressBookmark(_ browserToolbar: BrowserToolbarProtocol, button: UIButton)
+    func browserToolbarDidPressShare(_ browserToolbar: BrowserToolbarProtocol, button: UIButton)
+    func browserToolbarDidPressPwdMgr(browserToolbar: BrowserToolbarProtocol, button: UIButton)
 }
 
 @objc
-public class BrowserToolbarHelper: NSObject {
+open class BrowserToolbarHelper: NSObject {
     let toolbar: BrowserToolbarProtocol
 
     var buttonTintColor = BraveUX.ActionButtonTintColor { // TODO see if setting it here can be avoided
@@ -44,7 +47,7 @@ public class BrowserToolbarHelper: NSObject {
         }
     }
 
-    private func setTintColor(color: UIColor, forButtons buttons: [UIButton]) {
+    fileprivate func setTintColor(_ color: UIColor, forButtons buttons: [UIButton]) {
       buttons.forEach { $0.tintColor = color }
     }
 
@@ -54,26 +57,27 @@ public class BrowserToolbarHelper: NSObject {
 
         // TODO: All of this should be configured directly inside the browser toolbar
         
-        toolbar.backButton.setImage(UIImage(named: "back"), forState: .Normal)
+        toolbar.backButton.setImage(UIImage(named: "back"), for: .normal)
         toolbar.backButton.accessibilityLabel = Strings.Back
-        toolbar.backButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickBack), forControlEvents: UIControlEvents.TouchUpInside)
+        toolbar.backButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickBack), for: UIControlEvents.touchUpInside)
 
-        toolbar.forwardButton.setImage(UIImage(named: "forward"), forState: .Normal)
+        toolbar.forwardButton.setImage(UIImage(named: "forward"), for: .normal)
         toolbar.forwardButton.accessibilityLabel = Strings.Forward
-        toolbar.forwardButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickForward), forControlEvents: UIControlEvents.TouchUpInside)
+        toolbar.forwardButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickForward), for: UIControlEvents.touchUpInside)
 
-        toolbar.shareButton.setImage(UIImage(named: "send"), forState: .Normal)
+        toolbar.shareButton.setImage(UIImage(named: "send"), for: .normal)
         toolbar.shareButton.accessibilityLabel = Strings.Share
-        toolbar.shareButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickShare), forControlEvents: UIControlEvents.TouchUpInside)
+        toolbar.shareButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickShare), for: UIControlEvents.touchUpInside)
         
-        toolbar.addTabButton.setImage(UIImage(named: "add"), forState: .Normal)
+        toolbar.addTabButton.setImage(UIImage(named: "add"), for: .normal)
         toolbar.addTabButton.accessibilityLabel = Strings.Add_Tab
-        toolbar.addTabButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickAddTab), forControlEvents: UIControlEvents.TouchUpInside)
+        toolbar.addTabButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickAddTab), for: UIControlEvents.touchUpInside)
 
-        toolbar.pwdMgrButton.setImage(UIImage(named: "passhelper_1pwd")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        toolbar.pwdMgrButton.hidden = true
-        toolbar.pwdMgrButton.tintColor = UIColor.whiteColor()
+        toolbar.pwdMgrButton.setImage(UIImage(named: "passhelper_1pwd")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        toolbar.pwdMgrButton.isHidden = true
+        toolbar.pwdMgrButton.tintColor = UIColor.white
         toolbar.pwdMgrButton.accessibilityLabel = Strings.PasswordManager
+        toolbar.pwdMgrButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickPwdMgr), for: UIControlEvents.touchUpInside)
 
         setTintColor(buttonTintColor, forButtons: toolbar.actionButtons)
     }
@@ -91,9 +95,13 @@ public class BrowserToolbarHelper: NSObject {
     }
     
     func SELdidClickAddTab() {
-        let app = UIApplication.sharedApplication().delegate as! AppDelegate
+        let app = UIApplication.shared.delegate as! AppDelegate
         app.tabManager.addTabAndSelect()
         app.browserViewController.urlBar.browserLocationViewDidTapLocation(app.browserViewController.urlBar.locationView)
+    }
+    
+    func SELdidClickPwdMgr() {
+        toolbar.browserToolbarDelegate?.browserToolbarDidPressPwdMgr(browserToolbar: toolbar, button: toolbar.pwdMgrButton)
     }
 }
 
@@ -109,9 +117,9 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
     let backButton = UIButton()
     let addTabButton = UIButton()
     
-    lazy var actionButtons: [UIButton] = {
+    var actionButtons: [UIButton] {
         return [self.shareButton, self.forwardButton, self.backButton, self.addTabButton]
-    }()
+    }
 
     var stopReloadButton: UIButton {
         get {
@@ -129,7 +137,7 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
 
         theme = Theme()
         theme.buttonTintColor = BraveUX.ActionButtonTintColor
-        theme.backgroundColor = UIColor.clearColor()
+        theme.backgroundColor = UIColor.clear
         themes[Theme.NormalMode] = theme
 
         return themes
@@ -147,7 +155,7 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
 
         addButtons(actionButtons)
 
-        accessibilityNavigationStyle = .Combined
+        accessibilityNavigationStyle = .combined
         accessibilityLabel = Strings.Navigation_Toolbar
     }
 
@@ -155,21 +163,21 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateBackStatus(canGoBack: Bool) {
-        backButton.enabled = canGoBack
+    func updateBackStatus(_ canGoBack: Bool) {
+        backButton.isEnabled = canGoBack
     }
 
-    func updateForwardStatus(canGoForward: Bool) {
-        forwardButton.enabled = canGoForward
+    func updateForwardStatus(_ canGoForward: Bool) {
+        forwardButton.isEnabled = canGoForward
     }
 
-    func updateReloadStatus(isLoading: Bool) {
+    func updateReloadStatus(_ isLoading: Bool) {
         getApp().browserViewController.urlBar.locationView.stopReloadButtonIsLoading(isLoading)
     }
 
-    func updatePageStatus(isWebPage isWebPage: Bool) {
-        stopReloadButton.enabled = isWebPage
-        shareButton.enabled = isWebPage
+    func updatePageStatus(_ isWebPage: Bool) {
+        stopReloadButton.isEnabled = isWebPage
+        shareButton.isEnabled = isWebPage
     }
 }
 
@@ -185,7 +193,7 @@ extension BrowserToolbar {
 }
 
 extension BrowserToolbar: Themeable {
-    func applyTheme(themeName: String) {
+    func applyTheme(_ themeName: String) {
         guard let theme = BrowserToolbar.Themes[themeName] else {
             log.error("Unable to apply unknown theme \(themeName)")
             return

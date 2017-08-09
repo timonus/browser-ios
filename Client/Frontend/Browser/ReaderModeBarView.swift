@@ -11,29 +11,29 @@ import XCGLogger
 private let log = Logger.browserLogger
 
 enum ReaderModeBarButtonType {
-    case MarkAsRead, MarkAsUnread, Settings, AddToReadingList, RemoveFromReadingList
+    case markAsRead, markAsUnread, settings, addToReadingList, removeFromReadingList
 
-    private var localizedDescription: String {
+    fileprivate var localizedDescription: String {
         switch self {
-        case .MarkAsRead: return Strings.Mark_as_Read
-        case .MarkAsUnread: return Strings.Mark_as_Unread
-        case .Settings: return Strings.Reader_Mode_Settings
-        case .AddToReadingList: return Strings.Add_to_Reading_List
-        case .RemoveFromReadingList: return Strings.Remove_from_Reading_List
+        case .markAsRead: return Strings.Mark_as_Read
+        case .markAsUnread: return Strings.Mark_as_Unread
+        case .settings: return Strings.Reader_Mode_Settings
+        case .addToReadingList: return Strings.Add_to_Reading_List
+        case .removeFromReadingList: return Strings.Remove_from_Reading_List
         }
     }
 
-    private var imageName: String {
+    fileprivate var imageName: String {
         switch self {
-        case .MarkAsRead: return "MarkAsRead"
-        case .MarkAsUnread: return "MarkAsUnread"
-        case .Settings: return "SettingsSerif"
-        case .AddToReadingList: return "addToReadingList"
-        case .RemoveFromReadingList: return "removeFromReadingList"
+        case .markAsRead: return "MarkAsRead"
+        case .markAsUnread: return "MarkAsUnread"
+        case .settings: return "SettingsSerif"
+        case .addToReadingList: return "addToReadingList"
+        case .removeFromReadingList: return "removeFromReadingList"
         }
     }
 
-    private var image: UIImage? {
+    fileprivate var image: UIImage? {
         let image = UIImage(named: imageName)
         image?.accessibilityLabel = localizedDescription
         return image
@@ -41,7 +41,7 @@ enum ReaderModeBarButtonType {
 }
 
 protocol ReaderModeBarViewDelegate {
-    func readerModeBar(readerModeBar: ReaderModeBarView, didSelectButton buttonType: ReaderModeBarButtonType)
+    func readerModeBar(_ readerModeBar: ReaderModeBarView, didSelectButton buttonType: ReaderModeBarButtonType)
 }
 
 struct ReaderModeBarViewUX {
@@ -50,12 +50,12 @@ struct ReaderModeBarViewUX {
         var themes = [String: Theme]()
         var theme = Theme()
         theme.backgroundColor = UIConstants.PrivateModeReaderModeBackgroundColor
-        theme.buttonTintColor = UIColor.whiteColor()
+        theme.buttonTintColor = UIColor.white
         themes[Theme.PrivateMode] = theme
 
         theme = Theme()
-        theme.backgroundColor = UIColor.whiteColor()
-        theme.buttonTintColor = UIColor.darkGrayColor()
+        theme.backgroundColor = UIColor.white
+        theme.buttonTintColor = UIColor.darkGray
         themes[Theme.NormalMode] = theme
 
         return themes
@@ -66,7 +66,7 @@ class ReaderModeBarView: UIView {
     var delegate: ReaderModeBarViewDelegate?
     var settingsButton: UIButton!
 
-    dynamic var buttonTintColor: UIColor = UIColor.clearColor() {
+    dynamic var buttonTintColor: UIColor = UIColor.clear {
         didSet {
             settingsButton.tintColor = self.buttonTintColor
         }
@@ -79,10 +79,10 @@ class ReaderModeBarView: UIView {
         // route clicks here. See see BrowserViewController.ViewToCaptureReaderModeTap
         // TODO: Redo urlbar layout so that we can place this within the frame *if* we decide to keep the reader settings attached to urlbar
         settingsButton = UIButton()
-        settingsButton.setTitleColor(BraveUX.BraveOrange, forState: .Normal)
-        settingsButton.titleLabel?.font = UIFont.boldSystemFontOfSize(UIFont.systemFontSize() - 1)
-        settingsButton.setTitle(Strings.Reader_Mode_Settings, forState: .Normal)
-        settingsButton.addTarget(self, action: #selector(ReaderModeBarView.SELtappedSettingsButton), forControlEvents: .TouchUpInside)
+        settingsButton.setTitleColor(BraveUX.BraveOrange, for: .normal)
+        settingsButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize - 1)
+        settingsButton.setTitle(Strings.Reader_Mode_Settings, for: .normal)
+        settingsButton.addTarget(self, action: #selector(ReaderModeBarView.SELtappedSettingsButton), for: .touchUpInside)
         settingsButton.accessibilityLabel = Strings.Reader_Mode_Settings
         addSubview(settingsButton)
 
@@ -90,27 +90,27 @@ class ReaderModeBarView: UIView {
             make.centerX.centerY.equalTo(self)
 
         }
-        self.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(1.0)
+        self.backgroundColor = UIColor.white.withAlphaComponent(1.0)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetLineWidth(context!, 0.5)
-        CGContextSetRGBStrokeColor(context!, 0.1, 0.1, 0.1, 1.0)
-        CGContextSetStrokeColorWithColor(context!, UIColor.grayColor().CGColor)
-        CGContextBeginPath(context!)
-        CGContextMoveToPoint(context!, 0, frame.height)
-        CGContextAddLineToPoint(context!, frame.width, frame.height)
-        CGContextStrokePath(context!)
+        context!.setLineWidth(0.5)
+        context!.setStrokeColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
+        context!.setStrokeColor(UIColor.gray.cgColor)
+        context!.beginPath()
+        context!.move(to: CGPoint(x: 0, y: frame.height))
+        context!.addLine(to: CGPoint(x: frame.width, y: frame.height))
+        context!.strokePath()
     }
 
     func SELtappedSettingsButton() {
-        delegate?.readerModeBar(self, didSelectButton: .Settings)
+        delegate?.readerModeBar(self, didSelectButton: .settings)
     }
 
 }

@@ -18,7 +18,7 @@ class SyncWelcomeViewController: UIViewController {
     var loadingView = UIView()
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -34,58 +34,58 @@ class SyncWelcomeViewController: UIViewController {
         
         bg = UIImageView(image: UIImage(named: "sync-gradient"))
         bg.translatesAutoresizingMaskIntoConstraints = false
-        bg.contentMode = .ScaleAspectFill
+        bg.contentMode = .scaleAspectFill
         bg.clipsToBounds = true
         scrollView.addSubview(bg)
         
         graphic = UIImageView(image: UIImage(named: "sync-art"))
         graphic.translatesAutoresizingMaskIntoConstraints = false
-        graphic.contentMode = .Center
+        graphic.contentMode = .center
         scrollView.addSubview(graphic)
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.systemFontOfSize(20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = UIColor.blackColor()
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
+        titleLabel.textColor = UIColor.black
         titleLabel.text = Strings.BraveSync
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.font = UIFont.systemFontOfSize(15, weight: UIFontWeightRegular)
+        descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
         descriptionLabel.textColor = UIColor(rgb: 0x696969)
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.lineBreakMode = .ByWordWrapping
-        descriptionLabel.textAlignment = .Center
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.textAlignment = .center
         descriptionLabel.text = Strings.BraveSyncWelcome
         scrollView.addSubview(descriptionLabel)
         
-        newToSyncButton = UIButton(type: .RoundedRect)
+        newToSyncButton = UIButton(type: .roundedRect)
         newToSyncButton.translatesAutoresizingMaskIntoConstraints = false
-        newToSyncButton.setTitle(Strings.NewSyncCode, forState: .Normal)
-        newToSyncButton.titleLabel?.font = UIFont.systemFontOfSize(17, weight: UIFontWeightBold)
-        newToSyncButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        newToSyncButton.setTitle(Strings.NewSyncCode, for: .normal)
+        newToSyncButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
+        newToSyncButton.setTitleColor(UIColor.white, for: .normal)
         newToSyncButton.backgroundColor = BraveUX.DefaultBlue
         newToSyncButton.layer.cornerRadius = 8
-        newToSyncButton.addTarget(self, action: #selector(SEL_newToSync), forControlEvents: .TouchUpInside)
+        newToSyncButton.addTarget(self, action: #selector(SEL_newToSync), for: .touchUpInside)
         scrollView.addSubview(newToSyncButton)
         
-        existingUserButton = UIButton(type: .RoundedRect)
+        existingUserButton = UIButton(type: .roundedRect)
         existingUserButton.translatesAutoresizingMaskIntoConstraints = false
-        existingUserButton.setTitle(Strings.ScanSyncCode, forState: .Normal)
-        existingUserButton.titleLabel?.font = UIFont.systemFontOfSize(15, weight: UIFontWeightSemibold)
-        existingUserButton.setTitleColor(UIColor(rgb: 0x696969), forState: .Normal)
-        existingUserButton.addTarget(self, action: #selector(SEL_existingUser), forControlEvents: .TouchUpInside)
+        existingUserButton.setTitle(Strings.ScanSyncCode, for: .normal)
+        existingUserButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+        existingUserButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        existingUserButton.addTarget(self, action: #selector(SEL_existingUser), for: .touchUpInside)
         scrollView.addSubview(existingUserButton)
         
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         spinner.startAnimating()
         loadingView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
-        loadingView.hidden = true
+        loadingView.isHidden = true
         loadingView.addSubview(spinner)
         view.addSubview(loadingView)
         
-        edgesForExtendedLayout = .None
+        edgesForExtendedLayout = UIRectEdge()
         
         scrollView.snp_makeConstraints { (make) in
             make.edges.equalTo(self.view)
@@ -147,15 +147,15 @@ class SyncWelcomeViewController: UIViewController {
                 view.navigationItem.hidesBackButton = true
                 navigationController?.pushViewController(view, animated: true)
             } else {
-                self.loadingView.hidden = true
-                let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: Strings.OK, style: .Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.loadingView.isHidden = true
+                let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
         
         if !Sync.shared.isInSyncGroup {
-            NSNotificationCenter.defaultCenter().addObserverForName(NotificationSyncReady, object: nil, queue: NSOperationQueue.mainQueue()) {
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main) {
                 _ in attemptPush()
             }
             
@@ -184,14 +184,14 @@ class SyncWelcomeViewController: UIViewController {
         }
     }
     
-    func getDeviceName(callback: String? -> ()) {
-        self.loadingView.hidden = false
+    func getDeviceName(callback: @escaping (String?) -> ()) {
+        self.loadingView.isHidden = false
 
-        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.currentDevice().name, forcedInput: false) {
+        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.current.name, forcedInput: false) {
             callback($0)
-            self.loadingView.hidden = true
+            self.loadingView.isHidden = true
         }
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

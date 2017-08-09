@@ -47,6 +47,7 @@
       </trans-unit>
       <trans-unit id="Add Device">
         <source>Add Device</source>
+        <target>デバイスを追加</target>
         <note>Add device to sync</note>
       </trans-unit>
       <trans-unit id="Add Tab">
@@ -68,6 +69,11 @@
         <source>Address and Search</source>
         <target>アドレスと検索</target>
         <note>Accessibility label for address and search field, both words (Address, Search) are therefore nouns.</note>
+      </trans-unit>
+      <trans-unit id="Ads \rBlocked">
+        <source>Ads 
+Blocked</source>
+        <note>Shields Ads Stat</note>
       </trans-unit>
       <trans-unit id="Ads and Trackers">
         <source>Ads and Trackers</source>
@@ -201,6 +207,7 @@
       </trans-unit>
       <trans-unit id="Brave Sync">
         <source>Brave Sync</source>
+        <target>Brave同期</target>
         <note>Brave sync page title</note>
       </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
@@ -281,6 +288,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Changing settings will only affect data that this device shares with others.">
         <source>Changing settings will only affect data that this device shares with others.</source>
+        <target>設定の変更は、このデバイスが外部に共有しているデータにのみ影響します。</target>
         <note>Sync device settings footer details</note>
       </trans-unit>
       <trans-unit id="Clear">
@@ -325,6 +333,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Code Words">
         <source>Code Words</source>
+        <target>コードワード</target>
         <note>Code words section title</note>
       </trans-unit>
       <trans-unit id="Cookie Control">
@@ -394,14 +403,17 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Device Name">
         <source>Device Name</source>
+        <target>デバイス名</target>
         <note>Title for new device popup</note>
       </trans-unit>
       <trans-unit id="Devices">
         <source>Devices</source>
+        <target>デバイス</target>
         <note>Sync device settings page title.</note>
       </trans-unit>
       <trans-unit id="Devices &amp; Settings">
         <source>Devices &amp; Settings</source>
+        <target>デバイスと設定</target>
         <note>Sync you browser settings across devices.</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
@@ -436,18 +448,27 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Enter code words">
         <source>Enter code words</source>
+        <target>コードワードを入力</target>
         <note>Sync enter code words</note>
       </trans-unit>
       <trans-unit id="Enter code words below">
         <source>Enter code words below</source>
+        <target>以下にコードワードを入力</target>
         <note>Enter sync code words below</note>
       </trans-unit>
       <trans-unit id="Enter folder name">
         <source>Enter folder name</source>
+        <target>フォルダ名を入力</target>
         <note>Description for new folder popup</note>
+      </trans-unit>
+      <trans-unit id="Est. Time \rSaved">
+        <source>Est. Time 
+Saved</source>
+        <note>Shields Time Saved Stat</note>
       </trans-unit>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
+        <target>プライベートタブでアクセスしたサイトはローカル保存はされませんが、ISP、雇用主、またはアクセス先のサイトに対して匿名になったり見えなくなるわけではありません。</target>
         <note>Private tab details</note>
       </trans-unit>
       <trans-unit id="Find">
@@ -457,6 +478,7 @@ and here's why...</source>
       </trans-unit>
       <trans-unit id="Find &quot;%@&quot;">
         <source>Find &quot;%@&quot;</source>
+        <target>&quot;%@&quot;を検索</target>
         <note>Find text in page.</note>
       </trans-unit>
       <trans-unit id="Find in Page">
@@ -498,6 +520,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Get a new sync code">
         <source>Get a new sync code</source>
+        <target>新しい同期コードを取得</target>
         <note>New sync code button title</note>
       </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
@@ -512,6 +535,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Grant camera access">
         <source>Grant camera access</source>
+        <target>カメラへのアクセスを許可</target>
         <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
@@ -523,6 +547,11 @@ Protection</source>
         <source>HTTPS Upgrades</source>
         <target>HTTPSにアップグレード</target>
         <note>individual blocking statistic title</note>
+      </trans-unit>
+      <trans-unit id="HTTPS \rUpgrades">
+        <source>HTTPS 
+Upgrades</source>
+        <note>Shields Https Stat</note>
       </trans-unit>
       <trans-unit id="Hide">
         <source>Hide</source>
@@ -586,6 +615,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Learn about private tabs.">
         <source>Learn about private tabs.</source>
+        <target>プライベートタブについて詳しく。</target>
         <note>Private tab information link</note>
       </trans-unit>
       <trans-unit id="Light">
@@ -760,6 +790,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
+        <target>ペア</target>
         <note>Sync pair device settings section title</note>
       </trans-unit>
       <trans-unit id="Panel Chooser">
@@ -789,6 +820,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
+        <target>このデバイスの名前を入力してください</target>
         <note>Description for new device popup</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
@@ -833,6 +865,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="QR Code">
         <source>QR Code</source>
+        <target>QRコード</target>
         <note>QR Code section title</note>
       </trans-unit>
       <trans-unit id="Quick-search Engines">
@@ -882,7 +915,12 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Remove this device">
         <source>Remove this device</source>
+        <target>このデバイスを削除</target>
         <note>Sync remove device.</note>
+      </trans-unit>
+      <trans-unit id="Remove this device?">
+        <source>Remove this device?</source>
+        <note>Sync remove device?</note>
       </trans-unit>
       <trans-unit id="Report a bug">
         <source>Report a bug</source>
@@ -936,6 +974,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Scan or enter code">
         <source>Scan or enter code</source>
+        <target>コードをスキャンまたは入力</target>
         <note>Scan sync code button title</note>
       </trans-unit>
       <trans-unit id="Scripts Blocked">
@@ -960,6 +999,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Search in page">
         <source>Search in page</source>
+        <target>ページ内を検索</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search or enter address">
@@ -1077,6 +1117,10 @@ Protection</source>
         <target>横向きのみで表示</target>
         <note>tabs bar show/hide option</note>
       </trans-unit>
+      <trans-unit id="Show picker">
+        <source>Show picker</source>
+        <note>Password Manager show picker option</note>
+      </trans-unit>
       <trans-unit id="Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.">
         <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
         <target>サイトの保護設定から、訪問したサイトで広告とトラッカーをブロックするタイミングをコントロールすることができます。特定のサイトで広告を表示させたい場合、ここで設定することができます。</target>
@@ -1109,18 +1153,22 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Sync">
         <source>Sync</source>
+        <target>同期</target>
         <note>Sync settings section title</note>
       </trans-unit>
       <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
         <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
+        <target>Brave同期を使ってデバイス間でブラウザデータを安全に同期します。アカウント作成は不要です。始めるには下をタップしてください。</target>
         <note>Sync settings welcome</note>
       </trans-unit>
       <trans-unit id="Sync on this device">
         <source>Sync on this device</source>
+        <target>このデバイスで同期</target>
         <note>Sync device settings section title</note>
       </trans-unit>
       <trans-unit id="Sync to device">
         <source>Sync to device</source>
+        <target>デバイスに同期</target>
         <note>Sync to existing device</note>
       </trans-unit>
       <trans-unit id="Tab %@ of %@">
@@ -1130,6 +1178,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Tabs">
         <source>Tabs</source>
+        <target>タブ</target>
         <note>Accessibility label for the Tabs.</note>
       </trans-unit>
       <trans-unit id="Tabs %@ to %@ of %@">
@@ -1177,6 +1226,10 @@ Protection</source>
         <target>これにより、画像をカメラロールに保存することができます。</target>
         <note>See http://mzl.la/1G7uHo7</note>
       </trans-unit>
+      <trans-unit id="This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.">
+        <source>This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.</source>
+        <note>Sync remove device?</note>
+      </trans-unit>
       <trans-unit id="This folder isn't empty.">
         <source>This folder isn't empty.</source>
         <target>フォルダーが空ではありません。</target>
@@ -1184,6 +1237,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="This is a Private Tab">
         <source>This is a Private Tab</source>
+        <target>これはプライベートタブです</target>
         <note>Private tab title</note>
       </trans-unit>
       <trans-unit id="Today">
@@ -1195,6 +1249,11 @@ Protection</source>
         <source>Top sites</source>
         <target>上位のサイト</target>
         <note>Panel accessibility label</note>
+      </trans-unit>
+      <trans-unit id="Trackers \rBlocked">
+        <source>Trackers 
+Blocked</source>
+        <note>Shields Trackers Stat</note>
       </trans-unit>
       <trans-unit id="Try again">
         <source>Try again</source>
@@ -1218,6 +1277,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Unable to create new sync group.">
         <source>Unable to create new sync group.</source>
+        <target>新しい同期グループを作成できません。</target>
         <note>Description on popup when setting up a sync group fails</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
@@ -1227,6 +1287,7 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Unsuccessful">
         <source>Unsuccessful</source>
+        <target>失敗</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Untitled">
@@ -1261,10 +1322,12 @@ Protection</source>
       </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+        <target>2台目のデバイスを使って「Brave設定」&gt;「同期」を選択します。2台目のデバイスでQRコード（上）を取り込むか、カメラが使えない場合はコードワードを入力します。</target>
         <note>Sync add device description</note>
       </trans-unit>
       <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
         <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
+        <target>既存の同期済みデバイスを使って「Brave設定」を開き、「デバイスと設定」を選択します。「+」をタップして新しいデバイスを追加し、同期コードを表示します。</target>
         <note>Sync to existing device description</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">
@@ -1332,10 +1395,22 @@ Protection</source>
         <target>最も多く訪問したサイトはここに表示されます。</target>
         <note>Description label for the empty Top Sites state.</note>
       </trans-unit>
+      <trans-unit id="d">
+        <source>d</source>
+        <note>Time Saved Days</note>
+      </trans-unit>
+      <trans-unit id="h">
+        <source>h</source>
+        <note>Time Saved Hours</note>
+      </trans-unit>
       <trans-unit id="just now">
         <source>just now</source>
         <target>たった今</target>
         <note>Relative time for a tab that was visited within the last few moments.</note>
+      </trans-unit>
+      <trans-unit id="min">
+        <source>min</source>
+        <note>Time Saved Minutes</note>
       </trans-unit>
       <trans-unit id="more than a month ago">
         <source>more than a month ago</source>
@@ -1356,6 +1431,10 @@ Protection</source>
         <source>read</source>
         <target>既読</target>
         <note>Accessibility label for read article in reading list. It's a past participle - functions as an adjective.</note>
+      </trans-unit>
+      <trans-unit id="s">
+        <source>s</source>
+        <note>Time Saved Seconds</note>
       </trans-unit>
       <trans-unit id="this week">
         <source>this week</source>

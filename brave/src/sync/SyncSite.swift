@@ -2,11 +2,12 @@
 
 import Foundation
 import Shared
+import SwiftyJSON
 
 public final class SyncSite {
     
     // MARK: Declaration for string constants to be used to decode and also serialize.
-    private struct SerializationKeys {
+    fileprivate struct SerializationKeys {
         static let customTitle = "customTitle"
         static let title = "title"
         static let favicon = "favicon"
@@ -23,12 +24,12 @@ public final class SyncSite {
     public var creationTime: Int?
     public var lastAccessedTime: Int?
     
-    public var creationNativeDate: NSDate? {
-        return NSDate.fromTimestamp(Timestamp(creationTime ?? 0))
+    public var creationNativeDate: Date? {
+        return Date.fromTimestamp(Timestamp(creationTime ?? 0))
     }
     
-    public var lastAccessedNativeDate: NSDate? {
-        return NSDate.fromTimestamp(Timestamp(lastAccessedTime ?? 0))
+    public var lastAccessedNativeDate: Date? {
+        return Date.fromTimestamp(Timestamp(lastAccessedTime ?? 0))
     }
     
     public convenience init() {
@@ -47,12 +48,12 @@ public final class SyncSite {
     ///
     /// - parameter json: JSON object from SwiftyJSON.
     public required init(json: JSON?) {
-        customTitle = json?[SerializationKeys.customTitle].asString
-        title = json?[SerializationKeys.title].asString
-        favicon = json?[SerializationKeys.favicon].asString
-        location = json?[SerializationKeys.location].asString
-        creationTime = json?[SerializationKeys.creationTime].asInt
-        lastAccessedTime = json?[SerializationKeys.lastAccessedTime].asInt
+        customTitle = json?[SerializationKeys.customTitle].string
+        title = json?[SerializationKeys.title].string
+        favicon = json?[SerializationKeys.favicon].string
+        location = json?[SerializationKeys.location].string
+        creationTime = json?[SerializationKeys.creationTime].int
+        lastAccessedTime = json?[SerializationKeys.lastAccessedTime].int
     }
     
     /// Generates description of the object in the form of a NSDictionary.
@@ -60,12 +61,12 @@ public final class SyncSite {
     /// - returns: A Key value pair containing all valid values in the object.
     public func dictionaryRepresentation() -> [String: AnyObject] {
         var dictionary: [String: AnyObject] = [:]
-        if let value = customTitle { dictionary[SerializationKeys.customTitle] = value }
-        if let value = title { dictionary[SerializationKeys.title] = value }
-        if let value = favicon { dictionary[SerializationKeys.favicon] = value }
-        if let value = location { dictionary[SerializationKeys.location] = value }
-        if let value = creationTime { dictionary[SerializationKeys.creationTime] = value }
-        if let value = lastAccessedTime { dictionary[SerializationKeys.lastAccessedTime] = value }
+        if let value = customTitle { dictionary[SerializationKeys.customTitle] = value as AnyObject }
+        if let value = title { dictionary[SerializationKeys.title] = value as AnyObject }
+        if let value = favicon { dictionary[SerializationKeys.favicon] = value as AnyObject }
+        if let value = location { dictionary[SerializationKeys.location] = value as AnyObject }
+        if let value = creationTime { dictionary[SerializationKeys.creationTime] = value as AnyObject }
+        if let value = lastAccessedTime { dictionary[SerializationKeys.lastAccessedTime] = value as AnyObject }
         return dictionary
     }
     

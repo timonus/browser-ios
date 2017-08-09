@@ -12,20 +12,19 @@ public struct ShareItem {
     public let url: String
     public let title: String?
     public let favicon: Favicon?
-    public let folderId: String?
-    public let folderTitle: String?
-    public let completion: dispatch_block_t?
 
-    public init(url: String, title: String?, favicon: Favicon?, folderId:String? = nil, folderTitle:String? = nil, completion: dispatch_block_t? = nil) {
+    public init(url: String, title: String?, favicon: Favicon?) {
         self.url = url
         self.title = title
         self.favicon = favicon
-        self.folderId = folderId
-        self.folderTitle = folderTitle
-        self.completion = completion
+    }
+
+    // We only support sharing HTTP and HTTPS URLs, as well as data URIs.
+    public var isShareable: Bool {
+        return URL(string: url)?.isWebPage() ?? false
     }
 }
 
 public protocol ShareToDestination {
-    func shareItem(item: ShareItem) -> Success
+    func shareItem(_ item: ShareItem) -> Success
 }

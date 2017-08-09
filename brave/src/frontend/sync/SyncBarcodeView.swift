@@ -5,16 +5,16 @@ let BarcodeSize: CGFloat = 200.0
 class SyncBarcodeView: UIImageView {
     
     convenience init(data: String) {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
         
-        contentMode = .ScaleAspectFill
+        contentMode = .scaleAspectFill
         
         if let img = createQRFromString(data) {
             let scaleX = BarcodeSize / img.extent.size.width
             let scaleY = BarcodeSize / img.extent.size.height
             
-            let resultQrImage = img.imageByApplyingTransform(CGAffineTransformMakeScale(scaleX, scaleY))
-            let barcode = UIImage(CIImage: resultQrImage, scale: UIScreen.mainScreen().scale, orientation: UIImageOrientation.Down)
+            let resultQrImage = img.applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
+            let barcode = UIImage(ciImage: resultQrImage, scale: UIScreen.main.scale, orientation: UIImageOrientation.down)
             image = barcode
         }
     }
@@ -27,8 +27,8 @@ class SyncBarcodeView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func createQRFromString(str: String) -> CIImage? {
-        let stringData = str.dataUsingEncoding(NSUTF8StringEncoding)
+    func createQRFromString(_ str: String) -> CIImage? {
+        let stringData = str.data(using: String.Encoding.utf8)
         let filter = CIFilter(name: "CIQRCodeGenerator")
         
         filter?.setValue(stringData, forKey: "inputMessage")

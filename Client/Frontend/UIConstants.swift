@@ -6,9 +6,9 @@ import Foundation
 import Shared
 
 public struct UIConstants {
-    static let DefaultHomePage = NSURL(string: "\(WebServer.sharedInstance.base)/about/home/#panel=0")!
+    static let DefaultHomePage = URL(string: "\(WebServer.sharedInstance.base)/about/home/#panel=0")!
 
-    static let AppBackgroundColor = UIColor.whiteColor()
+    static let AppBackgroundColor = UIColor.white
     static let PrivateModePurple = UIColor(red: 207 / 255, green: 104 / 255, blue: 255 / 255, alpha: 1)
     static let PrivateModeLocationBackgroundColor = UIColor(red: 31 / 255, green: 31 / 255, blue: 31 / 255, alpha: 1)
     static let PrivateModeLocationBorderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
@@ -25,27 +25,27 @@ public struct UIConstants {
     static let DefaultChromeSize: CGFloat = 14
     static let DefaultChromeSmallSize: CGFloat = 11
     static let PasscodeEntryFontSize: CGFloat = 36
-    static let DefaultChromeFont: UIFont = UIFont.systemFontOfSize(DefaultChromeSize, weight: UIFontWeightRegular)
-    static let DefaultChromeBoldFont = UIFont.boldSystemFontOfSize(DefaultChromeSize)
-    static let DefaultChromeSmallFontBold = UIFont.boldSystemFontOfSize(DefaultChromeSmallSize)
-    static let PasscodeEntryFont = UIFont.systemFontOfSize(PasscodeEntryFontSize, weight: UIFontWeightBold)
+    static let DefaultChromeFont: UIFont = UIFont.systemFont(ofSize: DefaultChromeSize, weight: UIFontWeightRegular)
+    static let DefaultChromeBoldFont = UIFont.boldSystemFont(ofSize: DefaultChromeSize)
+    static let DefaultChromeSmallFontBold = UIFont.boldSystemFont(ofSize: DefaultChromeSmallSize)
+    static let PasscodeEntryFont = UIFont.systemFont(ofSize: PasscodeEntryFontSize, weight: UIFontWeightBold)
 
     // These highlight colors are currently only used on Snackbar buttons when they're pressed
     static let HighlightColor = UIColor(red: 205/255, green: 223/255, blue: 243/255, alpha: 0.9)
     static let HighlightText = UIColor(red: 42/255, green: 121/255, blue: 213/255, alpha: 1.0)
 
-    static let PanelBackgroundColor = UIColor.whiteColor()
+    static let PanelBackgroundColor = UIColor.white
     static let SeparatorColor = UIColor(rgb: 0xcccccc)
     static let HighlightBlue = BraveUX.DefaultBlue
     static let DestructiveRed = UIColor(red: 255/255, green: 64/255, blue: 0/255, alpha: 1.0)
-    static let BorderColor = UIColor.blackColor().colorWithAlphaComponent(0.25)
+    static let BorderColor = UIColor.black.withAlphaComponent(0.25)
     static let BackgroundColor = UIColor(red: 0.21, green: 0.23, blue: 0.25, alpha: 1)
 
     // settings
     static let TableViewHeaderBackgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1.0)
     static let TableViewHeaderTextColor = UIColor(red: 109/255, green: 109/255, blue: 109/255, alpha: 1.0)
     static let TableViewRowTextColor = UIColor(red: 53.55/255, green: 53.55/255, blue: 53.55/255, alpha: 1.0)
-    static let TableViewDisabledRowTextColor = UIColor.lightGrayColor()
+    static let TableViewDisabledRowTextColor = UIColor.lightGray
     static let TableViewSeparatorColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0)
     static let TableViewHeaderFooterHeight = CGFloat(44)
 

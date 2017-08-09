@@ -9,98 +9,74 @@ public protocol Identifiable: Equatable {
     var id: Int? { get set }
 }
 
-public func ==<T where T: Identifiable>(lhs: T, rhs: T) -> Bool {
+public func ==<T>(lhs: T, rhs: T) -> Bool where T: Identifiable {
     return lhs.id == rhs.id
 }
 
 public enum IconType: Int {
-    public func isPreferredTo (other: IconType) -> Bool {
+    public func isPreferredTo (_ other: IconType) -> Bool {
         return rank > other.rank
     }
 
-    private var rank: Int {
+    fileprivate var rank: Int {
         switch self {
-        case .AppleIconPrecomposed:
+        case .appleIconPrecomposed:
             return 5
-        case .AppleIcon:
+        case .appleIcon:
             return 4
-        case .Icon:
+        case .icon:
             return 3
-        case .Local:
+        case .local:
             return 2
-        case .Guess:
+        case .guess:
             return 1
-        case .NoneFound:
+        case .noneFound:
             return 0
         }
     }
 
-    case Icon = 0
-    case AppleIcon = 1
-    case AppleIconPrecomposed = 2
-    case Guess = 3
-    case Local = 4
-    case NoneFound = 5
+    case icon = 0
+    case appleIcon = 1
+    case appleIconPrecomposed = 2
+    case guess = 3
+    case local = 4
+    case noneFound = 5
 }
 
-public class Favicon: NSObject, Identifiable, NSCoding {
-    public var id: Int? = nil
+open class Favicon: Identifiable {
+    open var id: Int?
 
-    public let url: String
-    public let date: NSDate
-    public var width: Int?
-    public var height: Int?
-    public let type: IconType
+    open let url: String
+    open let date: Date
+    open var width: Int?
+    open var height: Int?
+    open let type: IconType
 
-    public init(url: String, date: NSDate = NSDate(), type: IconType) {
+    public init(url: String, date: Date = Date(), type: IconType) {
         self.url = url
         self.date = date
         self.type = type
-    }
-    
-    required public init?(coder: NSCoder) {
-        self.id = Int(coder.decodeInt64ForKey("id"))
-        self.url = coder.decodeObjectForKey("url") as? String ?? ""
-        self.date = coder.decodeObjectForKey("date") as? NSDate ?? NSDate()
-        self.width = Int(coder.decodeInt64ForKey("width"))
-        self.height = Int(coder.decodeInt64ForKey("height"))
-        self.type = IconType(rawValue: Int(coder.decodeInt64ForKey("type"))) ?? .NoneFound
-    }
-    
-    public func encodeWithCoder(coder: NSCoder) {
-        if let id = id {
-            coder.encodeInt64(Int64(id), forKey: "id")
-        }
-        coder.encodeObject(url, forKey: "url")
-        coder.encodeObject(date, forKey: "date")
-        if let width = width {
-            coder.encodeInt64(Int64(width), forKey: "width")
-        }
-        
-        if let height = height {
-            coder.encodeInt64(Int64(height), forKey: "height")
-        }
-        
-        coder.encodeInt64(Int64(type.rawValue), forKey: "type")
     }
 }
 
 // TODO: Site shouldn't have all of these optional decorators. Include those in the
 // cursor results, perhaps as a tuple.
-public class Site: Identifiable, Hashable {
-    public var id: Int? = nil
-    var guid: String? = nil
+// Move `Site: Hashable` to extension to keep parallel with FF
+open class Site: Identifiable, Hashable {
+    open var id: Int?
+    var guid: String?
 
-    public var tileURL: NSURL {
-        return NSURL(string: url)?.domainURL() ?? NSURL(string: "about:blank")!
+    open var tileURL: URL {
+        return URL(string: url)?.domainURL ?? URL(string: "about:blank")!
     }
 
-    public let url: String
-    public let title: String
+    open let url: String
+    open let title: String
+    open var metadata: PageMetadata?
      // Sites may have multiple favicons. We'll return the largest.
-    public var icon: Favicon?
-    public var latestVisit: Visit?
-    public let bookmarked: Bool?
+    open var icon: Favicon?
+    open var latestVisit: Visit?
+    open fileprivate(set) var bookmarked: Bool?
 
     public convenience init(url: String, title: String) {
         self.init(url: url, title: title, bookmarked: false)
@@ -111,10 +87,14 @@ public class Site: Identifiable, Hashable {
         self.title = title
         self.bookmarked = bookmarked
     }
+
+    open func setBookmarked(_ bookmarked: Bool) {
+        self.bookmarked = bookmarked
+    }
     
     // This hash is a bit limited in scope, but contains enough data to make a unique distinction.
     //  If modified, verify usage elsewhere, as places may rely on the hash only including these two elements.
-    public var hashValue: Int {
+    open var hashValue: Int {
         return 31 &* self.url.hash &+ self.title.hash
     }
 }

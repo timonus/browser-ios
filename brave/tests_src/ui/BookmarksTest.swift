@@ -5,7 +5,7 @@ import XCTest
 
 class BookmarksTest: XCTestCase {
 
-    private func openBookmarks() {
+    fileprivate func openBookmarks() {
         let app = XCUIApplication()
         let bookmarksAndHistoryPanelButton = app.buttons["Bookmarks and History Panel"]
         bookmarksAndHistoryPanelButton.tap()
@@ -13,7 +13,7 @@ class BookmarksTest: XCTestCase {
         app.scrollViews.otherElements.buttons["Show Bookmarks"].tap()
     }
     
-    private func addGoogleAsFirstBookmark() {
+    fileprivate func addGoogleAsFirstBookmark() {
         let app = XCUIApplication()
         UITestUtils.loadSite(app, "www.google.com")
         openBookmarks()
@@ -24,7 +24,7 @@ class BookmarksTest: XCTestCase {
     }
     
     // Requries bookmark page being open
-    private func createFolder(title: String) {
+    fileprivate func createFolder(_ title: String) {
         let app = XCUIApplication()
         let toolbarsQuery = app.scrollViews.otherElements.toolbars
         toolbarsQuery.buttons["Edit"].tap()
@@ -47,7 +47,7 @@ class BookmarksTest: XCTestCase {
 
         // close panel
         //app.otherElements["webViewContainer"].tap()
-        app.coordinateWithNormalizedOffset(CGVector(dx: UIScreen.mainScreen().bounds.width, dy:  UIScreen.mainScreen().bounds.height)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: UIScreen.main.bounds.width, dy:  UIScreen.main.bounds.height)).tap()
 
         // switch sites
         UITestUtils.loadSite(app, "www.example.com")
@@ -73,7 +73,7 @@ class BookmarksTest: XCTestCase {
         elementsQuery.tables["SiteTable"].tap()
 
         // close the panel
-        app.coordinateWithNormalizedOffset(CGVector(dx: UIScreen.mainScreen().bounds.width, dy:  UIScreen.mainScreen().bounds.height)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: UIScreen.main.bounds.width, dy:  UIScreen.main.bounds.height)).tap()
     }
 
 
@@ -88,7 +88,7 @@ class BookmarksTest: XCTestCase {
     
         elementsQuery.tables["SiteTable"].staticTexts["Google"].tap()
         elementsQuery.tables.staticTexts["Root Folder"].tap()
-        app.pickerWheels.elementBoundByIndex(0).adjustToPickerWheelValue("Foo")
+        app.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: "Foo")
         elementsQuery.navigationBars["Bookmarks"].buttons["Bookmarks"].tap()
 
         XCTAssert(app.scrollViews.otherElements.tables["SiteTable"].cells.count == 1)
@@ -100,7 +100,7 @@ class BookmarksTest: XCTestCase {
         elementsQuery.tables["SiteTable"].staticTexts["Google"].tap()
 
         // close the panel (bug #448)
-        app.coordinateWithNormalizedOffset(CGVector(dx: UIScreen.mainScreen().bounds.width, dy:  UIScreen.mainScreen().bounds.height)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: UIScreen.main.bounds.width, dy:  UIScreen.main.bounds.height)).tap()
     }
     
     func testBookmarkNameEncoding() {

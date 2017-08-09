@@ -1,6 +1,851 @@
 "CFBundleDisplayName" = "以 Brave 開啟";
 
+/* Label for search engine buttons. The argument corresponds to the name of the search engine. */
+"%@ search" = "%@ 搜尋";
+
+/* Button for larger reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"+" = "+";
+
+/* Button for smaller reader font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"-" = "-";
+
+/* Button for reader mode font size. Keep this extremely short! This is shown in the reader mode toolbar. */
+"Aa" = "文字";
+
+/* About settings section title */
+"About" = "關於";
+
+/* Button to add a bookmark */
+"Add Bookmark" = "新增書籤";
+
+/* Add device to sync */
+"Add Device" = "新增裝置";
+
+/* Accessibility label for the Add Tab button in the Tab Tray. */
+"Add Tab" = "新增分頁";
+
+/* Accessibility label for action adding current page to reading list. */
+"Add to Reading List" = "新增至閱讀清單";
+
+/* Accessibility message e.g. spoken by VoiceOver after the current page gets added to the Reading List using the Reader View button, e.g. by long-pressing it or by its accessibility custom action. */
+"Added page to Reading List" = "將頁面新增至閱讀清單";
+
+/* Accessibility label for address and search field, both words (Address, Search) are therefore nouns. */
+"Address and Search" = "網址和搜尋內容";
+
+/* Shields Ads Stat */
+/* individual blocking statistic title */
+"Ads and Trackers" = "廣告和追蹤器";
+
+/* Label for button to perform advanced actions on the error page */
+"Advanced" = "進階";
+
+/* Ask user if site can open iTunes store URL */
+"Allow %@ to open iTunes?" = "允許 %@ 開啟 iTunes？";
+
+/* tabs bar show/hide option */
+"Always show" = "永遠顯示";
+
+/* Message shown in the dialog prompting users if they want to clear everything */
+"Are you sure you want to clear all of your data? This will also close all open tabs." = "確定要清除所有資料嗎？這會關閉所有使用中的分頁。";
+
+/* Main body of the confirmation alert when the user tries to delete a folder that still contains bookmarks and/or folders. */
+"Are you sure you want to delete it and its contents?" = "確定要刪除資料夾與其中的內容嗎？";
+
 /* No comment provided by engineer. */
+"Are you sure?" = "確定嗎？";
+
+/* Accessibility Label for the browser toolbar Back button */
+"Back" = "返回";
+
+/* cookie settings option */
+"Block 3rd party cookies" = "封鎖第三方 Cookie";
+
 /* No comment provided by engineer. */
+"Block Ads & Tracking" = "封鎖廣告和追蹤器";
+
+/* Brave panel individual toggle title */
+"Block Phishing" = "封鎖網路釣魚";
+
 /* No comment provided by engineer. */
+"Block Phishing and Malware" = "封鎖網路釣魚和惡意程式";
+
+/* Block pop-up windows setting */
+"Block Pop-up Windows" = "封鎖彈出視窗";
+
+/* Setting to enable popup blocking */
+"Block Popups" = "封鎖彈出視窗";
+
 /* No comment provided by engineer. */
+"Block Scripts" = "封鎖指令碼";
+
+/* cookie settings option */
+"Block all cookies" = "封鎖所有 Cookie";
+
+/* title for section showing page blocking statistics */
+"Blocking Monitor" = "封鎖監控程式";
+
+/* Accessibility Label for the browser toolbar Bookmark button */
+"Bookmark" = "書籤";
+
+/* Bookmark Folder Section Title */
+"Bookmark Folder" = "書籤資料夾";
+
+/* Bookmark Info Section Title */
+"Bookmark Info" = "書籤資訊";
+
+/* title for bookmarks panel */
+"Bookmarks" = "書籤";
+
+/* The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android. */
+"Bookmarks Menu" = "書籤選單";
+
+/* The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android. */
+"Bookmarks Toolbar" = "書籤工具列";
+
+/* Button to show the bookmarks and history panel */
+"Bookmarks and History Panel" = "書籤和記錄面板";
+
+/* Button to show the brave panel */
+"Brave Panel" = "Brave 面板";
+
+/* Section title for adbblock, tracking protection, HTTPS-E, and cookies */
+"Brave Shield Defaults" = "Brave Shield 預設";
+
+/* Brave sync page title */
+"Brave Sync" = "Brave 同步";
+
+/* Shown in intro screens */
+"Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency." = "Brave 可封鎖廣告。
+Brave 可停止追蹤器。
+Brave 專為提高速度及效率而設計。";
+
+/* email subject */
+"Brave for iOS Feedback" = "可使用 iOS Feedback 的 Brave";
+
+/* Shown in intro screens */
+"Brave is Faster,\nand here's why..." = "Brave 速度更快
+原因如下…";
+
+/* Shown in intro screens */
+"Brave keeps you safe as you browse." = "Brave 維護您的瀏覽安全。";
+
+/* No comment provided by engineer. */
+"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave 不會儲存您的瀏覽記錄或 Cookie，但會儲存新的書籤。";
+
+/* See http://mzl.la/1G7uHo7 */
+"Brave would like to access your Photos" = "Brave 希望存取您的 Photos";
+
+/* Accessibility label for brightness adjustment slider in Reader Mode display settings */
+"Brightness" = "亮度";
+
+/* Shown in intro screens */
+"Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "使用我們的瀏覽器可以保護您的隱私，而且不需額外安裝程式、費心學習或設定。";
+
+/* Settings item for clearing browsing history */
+"Browsing History" = "瀏覽記錄";
+
+/* Settings item for clearing the cache */
+"Cache" = "快取";
+
+/* Alert Call Button */
+"Call" = "撥打";
+
+/* No comment provided by engineer. */
+"Cancel" = "取消";
+
+/* Accessibility hint for the color theme setting buttons in reader mode display settings */
+"Changes color theme." = "變更顏色主題。";
+
+/* Accessibility hint for the font type buttons in reader mode display settings */
+"Changes font type." = "變更字型。";
+
+/* Sync device settings footer details */
+"Changing settings will only affect data that this device shares with others." = "變更設定只會影響此裝置與他人分享的資料。";
+
+/* Used as a button label in the dialog to Clear private data dialog */
+"Clear" = "清除";
+
+/* Title of the Clear private data dialog. */
+"Clear Everything" = "清除全部";
+
+/* Button in settings that clears private data for the selected items. Also used as section title in settings panel */
+"Clear Private Data" = "清除隱私資料";
+
+/* No comment provided by engineer. */
+"Clear Search" = "清除搜尋";
+
+/* Accessibility label for action denoting closing a tab in tab list (tray) */
+"Close" = "關閉";
+
+/* Setting for closing private tabs */
+"Close Private Tabs" = "關閉隱私分頁";
+
+/* No comment provided by engineer. */
+"Close Tab" = "關閉分頁";
+
+/* No comment provided by engineer. */
+"Closing tab" = "正在關閉分頁";
+
+/* Code words section title */
+"Code Words" = "文字代碼";
+
+/* Cookie settings option title */
+"Cookie Control" = "Cookie 控制項";
+
+/* Settings item for clearing cookies */
+"Cookies" = "Cookie";
+
+/* No comment provided by engineer. */
+"Copy" = "複製";
+
+/* Copy the URL from the location bar */
+"Copy Address" = "複製網址";
+
+/* Context menu item for copying an image to the clipboard */
+"Copy Image" = "複製圖片";
+
+/* Context menu item for copying a link URL to the clipboard */
+"Copy Link" = "複製連結";
+
+/* Accessibility message e.g. spoken by VoiceOver after the user wanted to add current page to the Reading List and this was not done, likely because it already was in the Reading List, but perhaps also because of real failures. */
+"Could not add page to Reading List. Maybe it's already there?" = "無法將頁面新增至閱讀清單，或許是因為頁面早已存在？";
+
+/* Dark theme setting in Reading View settings */
+"Dark" = "暗";
+
+/* Accessibility label for button decreasing font size in display settings of reader mode */
+"Decrease text size" = "調小字體";
+
+/* Open search section of settings */
+"Default Search Engine" = "預設搜尋引擎";
+
+/* No comment provided by engineer. */
+"Delete" = "刪除";
+
+/* Title for deselecting all selected logins */
+"Deselect All" = "取消所有選擇";
+
+/* The folder name for the virtual folder that contains all desktop bookmarks. */
+"Desktop Bookmarks" = "桌面版書籤";
+
+/* Title for new device popup */
+"Device Name" = "裝置名稱";
+
+/* Sync device settings page title. */
+"Devices" = "裝置";
+
+/* Sync you browser settings across devices. */
+"Devices & Settings" = "裝置與設定";
+
+/* cookie settings option */
+"Don't block cookies" = "不要封鎖 Cookie";
+
+/* No comment provided by engineer. */
+"Done" = "完成";
+
+/* Button to not save the user's password */
+"Don’t Save" = "不要儲存";
+
+/* brave shield on/off toggle off state */
+"Down" = "關閉";
+
+/* No comment provided by engineer. */
+"Edit" = "編輯";
+
+/* Accessibility label for entering search mode for logins */
+"Enter Search Mode" = "進入搜尋模式";
+
+/* Sync enter code words */
+"Enter code words" = "輸入文字代碼";
+
+/* Enter sync code words below */
+"Enter code words below" = "在下方輸入文字代碼";
+
+/* Description for new folder popup */
+"Enter folder name" = "輸入資料夾名稱";
+
+/* Shields Time Saved Stat */
+/* Private tab details */
+"Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting." = "雖然您用隱私分頁瀏覽的網站不會儲存在本機上，但您對您的 ISP、雇主或造訪的網站不會因此呈現匿名或隱藏。";
+
+/* No comment provided by engineer. */
+"Find" = "尋找";
+
+/* Find text in page. */
+"Find \"%@\"" = "尋找「%@」";
+
+/* Share action title */
+"Find in Page" = "在頁面中尋找";
+
+/* individual blocking statistic title */
+"Fingerprinting Methods" = "指紋識別方法";
+
+/* No comment provided by engineer. */
+"Fingerprinting Protection" = "指紋識別防護";
+
+/* blocking stat title */
+"Fingerprinting\nProtection" = "指紋識別
+防護";
+
+/* Folder */
+"Folder" = "資料夾";
+
+/* Accessibility Label for the browser toolbar Forward button */
+"Forward" = "下一頁";
+
+/* General settings section title */
+"General" = "一般";
+
+/* New sync code button title */
+"Get a new sync code" = "取得新的同步代碼";
+
+/* Shown in intro screens */
+"Get ready to experience a Faster, Safer, Better Web." = "準備擁有更快、更安全、更優異的瀏覽體驗。";
+
+/* Label for button to go back from the error page */
+"Go Back" = "返回";
+
+/* Grand camera access */
+"Grant camera access" = "授予相機存取權限";
+
+/* No comment provided by engineer. */
+"HTTPS Everywhere" = "HTTPS Everywhere";
+
+/* individual blocking statistic title */
+"HTTPS Upgrades" = "HTTPS 升級";
+
+/* Shields Https Stat */
+/* Hide password text selection menu item */
+"Hide" = "隱藏";
+
+/* Panel accessibility label */
+"History" = "記錄";
+
+/* Shown in intro screens */
+"In case you hit a speed bump" = "若網頁開啟速度太慢";
+
+/* Accessibility label for button increasing font size in display settings of reader mode */
+"Increase text size" = "調大字體";
+
+/* title for per-site shield toggles */
+"Individual Controls" = "個人控制項";
+
+/* Accessibility label for the introduction tour carousel */
+"Intro Tour Carousel" = "導覽介紹";
+
+/* String spoken by assistive technology (like VoiceOver) stating on which page of the intro wizard we currently are. E.g. Introductory slide 1 of 3 */
+"Introductory slide %@ of %@" = "介紹簡報 %1$@/%2$@";
+
+/* Additional warning text when clicking the Advanced button on error pages */
+"It may be a misconfiguration or tampering by an attacker. Proceed if you accept the potential risk." = "這可能導致設定錯誤或遭攻擊者竄改。如果接受此潛在風險，請繼續操作。";
+
+/* Footer label describing when the login was last modified with the timestamp as the parameter */
+"Last modified %@" = "最後一次編輯 %@";
+
+/* History tableview section header */
+"Last month" = "上個月";
+
+/* History tableview section header */
+"Last week" = "上週";
+
+/* Text button displayed when there are no tabs open while in private mode */
+"Learn More" = "深入瞭解";
+
+/* Private tab information link */
+"Learn about private tabs." = "深入瞭解隱私分頁。";
+
+/* Light theme setting in Reading View settings */
+"Light" = "亮";
+
+/* Link for going to the non-reader page when the reader view could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"Load original page" = "載入原始頁面";
+
+/* Message displayed when the reader mode page is loading. This message will appear only when sharing to Firefox reader mode from another app. */
+"Loading content…" = "正在載入內容…";
+
+/* Bookmark folder location */
+"Location" = "位置";
+
+/* Label used as an item in Settings. When touched, the user will be navigated to the Logins/Password manager. */
+"Logins" = "登入";
+
+/* No comment provided by engineer. */
+"Logins will be permanently removed." = "登入資訊會永遠移除。";
+
+/* No comment provided by engineer. */
+"Logins will be removed from all connected devices." = "登入資訊會從所有連線的裝置上移除。";
+
+/* Name for Mark as read button in reader mode */
+"Mark as Read" = "標示為已讀";
+
+/* Name for Mark as unread button in reader mode */
+"Mark as Unread" = "標示為未讀";
+
+/* The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android. */
+"Mobile Bookmarks" = "行動版書籤";
+
+/* Bookmark title / Device name */
+"Name" = "名稱";
+
+/* Accessibility label for the navigation toolbar displayed at the bottom of the screen. */
+"Navigation Toolbar" = "導覽工具列";
+
+/* tabs bar show/hide option */
+"Never show" = "一律不顯示";
+
+/* Title for new folder popup */
+"New Folder" = "新增資料夾";
+
+/* No comment provided by engineer. */
+"New Private Tab" = "新增隱私分頁";
+
+/* No comment provided by engineer. */
+"New Tab" = "新增分頁";
+
+/* Accessibility label for next result button in Find in Page Toolbar. */
+"Next in-page result" = "下一個頁面結果";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"No" = "否";
+
+/* Title displayed when no logins are found after searching */
+"No logins found" = "找不到登入資訊";
+
+/* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
+"No tabs" = "沒有分頁";
+
+/* shields overview footer message */
+"Note: Some sites may require scripts to work properly so this shield is turned off by default." = "請注意：部分網站可能需要指令碼才能正確運作，所以此防護設定預設為關閉。";
+
+/* OK button */
+"OK" = "確定";
+
+/* Toggled OFF accessibility value */
+"Off" = "關閉";
+
+/* Settings item for clearing website data */
+"Offline Website Data" = "離線網站資料";
+
+/* Toggled ON accessibility value */
+"On" = "開啟";
+
+/* Open and Fill website text selection menu item */
+"Open & Fill" = "開啟並填寫";
+
+/* Share action title */
+"Open Desktop Site tab" = "開啟桌面版網站分頁";
+
+/* Context menu for opening image in new tab */
+"Open Image In New Tab" = "在新分頁中開啟圖片";
+
+/* Context menu option for opening a link in a new private tab */
+"Open In New Private Tab" = "以新的隱私分頁開啟";
+
+/* Context menu item for opening a link in a new tab */
+"Open In New Tab" = "在新分頁中開啟";
+
+/* See http://mzl.la/1G7uHo7 */
+"Open Settings" = "開啟設定";
+
+/* See http://mzl.la/1LXbDOL */
+"Open articles in Reader View by tapping the book icon when it appears in the title bar." = "標題列顯示書籍圖示時，點擊該圖示就能以閱讀模式開啟文章。";
+
+/* Shown in error pages for files that can't be shown and need to be downloaded. */
+"Open in Safari" = "以 Safari 開啟";
+
+/* String indicating that the file can be opened in another application on the device */
+"Open in…" = "以…開啟";
+
+/* Sync pair device settings section title */
+"Pair" = "配對";
+
+/* Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list). */
+"Panel Chooser" = "面板選擇器";
+
+/* Accessibility Label for the browser toolbar Password Manager button */
+"Password Manager" = "密碼管理員";
+
+/* Setting for behaviour of password manager button */
+"Password Manager Button" = "密碼管理員按鈕";
+
+/* Paste the URL into the location bar */
+"Paste" = "貼上";
+
+/* Paste the URL into the location bar and visit */
+"Paste & Go" = "貼上並開始";
+
+/* Description for new device popup */
+"Please enter a name for this device" = "請輸入此裝置的名稱";
+
+/* Accessibility label for previous result button in Find in Page Toolbar. */
+"Previous in-page result" = "上一個頁面結果";
+
+/* Settings privacy section title */
+"Privacy" = "隱私";
+
+/* Show Brave Browser Privacy Policy page from the Privacy section in the settings. */
+"Privacy Policy" = "隱私權政策";
+
+/* Private button title */
+"Private" = "隱私";
+
+/* No comment provided by engineer. */
+"Private Browsing" = "隱私瀏覽";
+
+/* Setting to keep app in private mode */
+"Private Browsing Only" = "僅限隱私瀏覽";
+
+/* Accessibility label for toggling on/off private mode */
+"Private Mode" = "隱私模式";
+
+/* Private mode icon next to location string */
+"Private mode icon" = "隱私模式圖示";
+
+/* QR Code section title */
+"QR Code" = "QR 碼";
+
+/* Title for quick-search engines settings section. */
+"Quick-search Engines" = "快速搜尋引擎";
+
+/* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
+"Reader Mode Settings" = "閱讀模式設定";
+
+/* Accessibility label for the Reader View button */
+"Reader View" = "閱讀模式";
+
+/* Panel accessibility label */
+"Reading list" = "閱讀清單";
+
+/* Accessibility Label for the browser toolbar Reload button */
+"Reload" = "重新載入";
+
+/* No comment provided by engineer. */
+"Reload Page" = "重新載入頁面";
+
+/* Action button for deleting_history_entries_in_the_history_panel. */
+"Remove" = "移除";
+
+/* Name for button removing current article from reading list in reader mode */
+"Remove from Reading List" = "從閱讀清單中移除";
+
+/* Button shown in editing mode to remove this site from the top sites panel. */
+"Remove page" = "移除頁面";
+
+/* Sync remove device. */
+"Remove this device" = "移除此裝置";
+
+/* Sync remove device? */
+/* Show mail composer to report a bug. */
+"Report a bug" = "回報錯誤";
+
+/* Reveal password text selection menu item */
+"Reveal" = "顯示";
+
+/* Font type setting in the reading view settings */
+"Sans-serif" = "Sans-serif";
+
+/* Context menu item for saving an image */
+"Save Image" = "儲存圖片";
+
+/* Button to save the user's password */
+"Save Login" = "儲存登入資訊";
+
+/* Setting to enable the built-in password manager */
+"Save Logins" = "儲存登入資訊";
+
+/* Prompt for saving a login. The first parameter is the username being saved. The second parameter is the hostname of the site. */
+"Save login %@ for %@?" = "儲存 %2$@ 的登入資訊 %1$@？";
+
+/* See http://mzl.la/1LXbDOL */
+"Save pages to your Reading List by tapping the book plus icon in the Reader View controls." = "在閱讀模式控制項中，點擊帶有加號的書籍圖示，即可將頁面儲存至閱讀清單。";
+
+/* Prompt for saving a password with no username. The parameter is the hostname of the site. */
+"Save password for %@?" = "儲存 %@ 的密碼？";
+
+/* Settings item for clearing passwords and login data */
+"Saved Logins" = "已儲存的登入資訊";
+
+/* Scan sync code button title */
+"Scan or enter code" = "掃描或輸入代碼";
+
+/* individual blocking statistic title */
+"Scripts Blocked" = "已封鎖指令碼";
+
+/* No comment provided by engineer. */
+"Search" = "搜尋";
+
+/* Accessibility label for the search input field in the Logins list */
+"Search Input Field" = "搜尋輸入欄位";
+
+/* No comment provided by engineer. */
+"Search Settings" = "搜尋設定";
+
+/* No comment provided by engineer. */
+"Search in page" = "在頁面中搜尋";
+
+/* The text shown in the URL bar on about:home */
+"Search or enter address" = "搜尋或輸入網址";
+
+/* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
+"Search suggestions from %@" = "%@ 提供的搜尋建議";
+
+/* Accessibility hint describing the action performed when a search suggestion is clicked */
+"Searches for the suggestion" = "搜尋建議內容";
+
+/* Accessibility label for the lock icon, which is only present if the connection is secure */
+"Secure connection" = "安全連線";
+
+/* Title for selecting all logins */
+"Select All" = "全選";
+
+/* No comment provided by engineer. */
+"Select Location Bar" = "選擇位置列";
+
+/* option in settings screen */
+"Send crash reports and metrics" = "傳送當機報告與指標";
+
+/* Sepia theme setting in Reading View settings */
+"Sepia" = "Sepia";
+
+/* Font type setting in the reading view settings */
+"Serif" = "Serif";
+
+/* No comment provided by engineer. */
+"Settings" = "設定";
+
+/* Accessibility Label for the browser toolbar Share button */
+"Share" = "分享";
+
+/* Context menu item for sharing a link URL */
+"Share Link" = "分享連結";
+
+/* message shown briefly in URL bar */
+"Shields Down" = "Shields 已關閉";
+
+/* message shown briefly in URL bar */
+"Shields Up" = "Shields 已開啟";
+
+/* Button to show the bookmarks list */
+"Show Bookmarks" = "顯示書籤";
+
+/* Button to show the history list */
+"Show History" = "顯示記錄";
+
+/* No comment provided by engineer. */
+"Show Next Tab" = "顯示下一個分頁";
+
+/* No comment provided by engineer. */
+"Show Previous Tab" = "顯示上一個分頁";
+
+/* Label for show search suggestions setting. */
+"Show Search Suggestions" = "顯示搜尋建議";
+
+/* Accessibility Label for the tabs button in the browser toolbar */
+"Show Tabs" = "顯示分頁";
+
+/* Setting to show/hide the tabs bar */
+"Show Tabs Bar" = "顯示分頁列";
+
+/* Show the on-boarding screen again from the settings */
+"Show Tour" = "顯示導覽";
+
+/* tabs bar show/hide option */
+"Show in landscape only" = "僅以橫向畫面顯示";
+
+/* Password Manager show picker option */
+/* shields overview message */
+"Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "「網站防護」可控制您在造訪每個網站時，是否直接封鎖網站上的廣告與追踪器。若您希望在特定網站上顯示廣告，可以在這裡啟用廣告。";
+
+/* Brave panel topmost title */
+"Site shield settings" = "網站防護設定";
+
+/* No comment provided by engineer. */
+"Start Browsing" = "開始瀏覽";
+
+/* Accessibility Label for the browser toolbar Stop button */
+"Stop" = "停止";
+
+/* Support section title */
+"Support" = "支援";
+
+/* Accessibility hint for tab tray's displayed tab. */
+"Swipe right or left with three fingers to close the tab." = "以三指左右滑動即可關閉分頁。";
+
+/* Sync settings section title */
+"Sync" = "同步";
+
+/* Sync settings welcome */
+"Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started." = "不必建立帳戶，即可使用 Brave Sync 同步多部裝置的瀏覽器資料。輕觸下方開始使用。";
+
+/* Sync device settings section title */
+"Sync on this device" = "在此裝置上同步";
+
+/* Sync to existing device */
+"Sync to device" = "同步至裝置";
+
+/* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
+"Tab %@ of %@" = "分頁 %1$@，共 %2$@ 個";
+
+/* Accessibility label for the Tabs. */
+"Tabs" = "分頁";
+
+/* Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \"Tabs 8 to 10 of 15\" says tabs 8, 9 and 10 are visible, out of 15 tabs total. */
+"Tabs %@ to %@ of %@" = "分頁 %1$@ 至 %2$@，共 %3$@ 個";
+
+/* Accessibility label for the Tabs Tray view. */
+"Tabs Tray" = "分頁盤";
+
+/* Shown in intro screens */
+"Tap the Brave button to temporarily disable ad blocking and privacy features." = "點擊 Brave 按鈕可暫時關閉廣告封鎖和隱私功能。";
+
+/* Show Brave Browser TOS page from the Privacy section in the settings. */
+"Terms of Use" = "使用條款";
+
+/* Warning text on the certificate error page */
+"The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website." = "%@ 的擁有者不當設定網站。為避免您的資料遭竊，Brave 尚未連線至此網站。";
+
+/* Message displayed when the reader mode page could not be loaded. This message will appear only when sharing to Firefox reader mode from another app. */
+"The page could not be displayed in Reader View." = "頁面無法以閱讀模式顯示。";
+
+/* Error displayed when reader mode cannot be enabled */
+"There was an error converting the page" = "轉換頁面時發生錯誤";
+
+/* Description of the confirmation dialog shown when a user tries to clear their private data. */
+"This action will clear all of your private data. It cannot be undone." = "此動作會清除您的所有隱私資料，且無法復原。";
+
+/* See http://mzl.la/1G7uHo7 */
+"This allows you to save the image to your Camera Roll." = "這能將圖片儲存至您的相機膠卷。";
+
+/* Sync remove device? */
+/* Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders. */
+"This folder isn't empty." = "此資料夾含有內容。";
+
+/* Private tab title */
+"This is a Private Tab" = "這是隱私分頁";
+
+/* History tableview section header */
+"Today" = "今天";
+
+/* Panel accessibility label */
+"Top sites" = "最愛網站";
+
+/* Shields Trackers Stat */
+/* Shown in error pages on a button that will try to load the page again */
+"Try again" = "再試一次";
+
+/* Prompt shown before enabling provider search queries */
+"Turn on search suggestions?" = "開啟搜尋建議？";
+
+/* Accessiblity hint for toggling on/off private mode */
+"Turns private mode on or off" = "開啟或關閉隱私模式";
+
+/* Bookmark URL */
+"URL" = "網址";
+
+/* Description on popup when setting up a sync group fails */
+"Unable to create new sync group." = "無法建立新的同步群組。";
+
+/* The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android. */
+"Unsorted Bookmarks" = "未排序書籤";
+
+/* No comment provided by engineer. */
+"Unsuccessful" = "失敗";
+
+/* The default name for bookmark item without titles. */
+"Untitled" = "無標題";
+
+/* brave shield on/off toggle on state */
+"Up" = "往上";
+
+/* Button to update the user's password */
+"Update" = "更新";
+
+/* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
+"Update login %@ for %@?" = "更新 %2$@ 的登入資訊 %1$@？";
+
+/* Prompt for updating a password with no username. The parameter is the hostname of the site. */
+"Update password for %@?" = "更新 %@ 的密碼？";
+
+/* Setting to allow user in non-english locale to use adblock rules specifc to their language */
+"Use regional adblock" = "使用區域性廣告封鎖程式";
+
+/* Sync add device description */
+"Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "使用第二部裝置依序瀏覽「Brave 設定 > 同步」。透過第二部裝置擷取 QR 碼 (如上方所示)，若無法使用相機，請輸入文字代碼。";
+
+/* Sync to existing device description */
+"Using existing synced device open Brave Settings and navigate to “Devices & Settings”, tap ‘+’ to add a new device and reveal sync code." = "使用現有的已同步裝置開啟「Brave 設定」並瀏覽至「裝置與設定」，然後輕觸「+」新增裝置並顯示同步代碼。";
+
+/* Version number of Brave shown in settings */
+"Version %@ (%@)" = "版本 %1$@ (%2$@)";
+
+/* Button label to temporarily continue to the site from the certificate error page */
+"Visit site anyway" = "繼續造訪網站";
+
+/* Warning text when clicking the Advanced button on error pages */
+"Warning: we can't confirm your connection to this website is secure." = "警告：我們無法確定您所連線的網站是否安全。";
+
+/* Accessibility label for the main web content view */
+"Web content" = "網頁內容";
+
+/* Shown in intro screens */
+"Welcome to Brave." = "歡迎使用 Brave。";
+
+/* The title for the empty Top Sites state */
+"Welcome to Top Sites" = "歡迎使用最愛網站。";
+
+/* See http://mzl.la/1LXbDOL */
+"Welcome to your Reading List" = "歡迎使用您的閱讀清單";
+
+/* Will be displayed in Settings under 'Close Private Tabs' */
+"When Leaving Private Browsing" = "離開隱私瀏覽時";
+
+/* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
+"Yes" = "是";
+
+/* History tableview section header */
+"Yesterday" = "昨天";
+
+/* Footer message on picker for 3rd party password manager setting */
+"You can choose to show a popup to pick your password manager, or have the selected one open automatically." = "您可以選擇顯示彈出式視窗，供您挑選密碼管理員，或者也能讓系統自動開啟您所選的密碼管理員。";
+
+/* Title on the certificate error page */
+"Your connection is not private" = "您的連線方式並非隱私瀏覽";
+
+/* Description label for the empty Top Sites state. */
+"Your most visited sites will show up here." = "這裡會顯示您最常造訪的網站。";
+
+/* Time Saved Days */
+/* Time Saved Hours */
+/* Relative time for a tab that was visited within the last few moments. */
+"just now" = "剛剛";
+
+/* Time Saved Minutes */
+/* Relative date for dates older than a month and less than two months. */
+"more than a month ago" = "超過一個月前";
+
+/* Description for a date more than a week ago, but less than a month ago. */
+"more than a week ago" = "超過一週前";
+
+/* Title for password row in Login Detail View */
+"password" = "密碼";
+
+/* Accessibility label for read article in reading list. It's a past participle - functions as an adjective. */
+"read" = "已讀";
+
+/* Time Saved Seconds */
+/* Relative date for date in past week. */
+"this week" = "本週";
+
+/* Relative date for date older than a minute. */
+"today at %@" = "今天 %@";
+
+/* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
+"unread" = "未讀";
+
+/* Title for username row in Login Detail View */
+"username" = "使用者名稱";
+
+/* Title for website row in Login Detail View */
+"website" = "網站";
+

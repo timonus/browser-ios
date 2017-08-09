@@ -21,7 +21,7 @@ class SidePanelBaseViewController : UIViewController {
     var parentSideConstraints: [Constraint?]?
 
     override func loadView() {
-        self.view = UIScrollView(frame: UIScreen.mainScreen().bounds)
+        self.view = UIScrollView(frame: UIScreen.main.bounds)
     }
 
     func viewAsScrollView() -> UIScrollView {
@@ -29,37 +29,37 @@ class SidePanelBaseViewController : UIViewController {
     }
 
     func setupContainerViewSize() {
-        containerView.frame = CGRectMake(0, 0, CGFloat(BraveUX.WidthOfSlideOut), self.view.frame.height)
-        viewAsScrollView().contentSize = CGSizeMake(containerView.frame.width, containerView.frame.height)
+        containerView.frame = CGRect(x: 0, y: 0, width: CGFloat(BraveUX.WidthOfSlideOut), height: self.view.frame.height)
+        viewAsScrollView().contentSize = CGSize(width: containerView.frame.width, height: containerView.frame.height)
     }
 
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animateAlongsideTransition({
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: {
             _ in
             self.setupContainerViewSize()
             }, completion: nil)
 
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        super.viewWillTransition(to: size, with: coordinator)
     }
 
     override func viewDidLoad() {
-        viewAsScrollView().scrollEnabled = false
+        viewAsScrollView().isScrollEnabled = false
 
         view.addSubview(containerView)
         setupContainerViewSize()
         containerView.backgroundColor = BraveUX.BackgroundColorForSideToolbars
 
-        view.hidden = true
+        view.isHidden = true
     }
 
     /// This should just be called one time to initially setup the UI elements for the side panels
     func setupUIElements() {
         shadow.image = UIImage(named: "panel_shadow")
-        shadow.contentMode = .ScaleToFill
+        shadow.contentMode = .scaleToFill
         shadow.alpha = 0.5
 
         if !isLeftSidePanel {
-            shadow.transform = CGAffineTransformMakeScale(-1, 1)
+            shadow.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
 
         if BraveUX.PanelShadowWidth > 0 {
@@ -74,7 +74,7 @@ class SidePanelBaseViewController : UIViewController {
                 }
                 make.width.equalTo(BraveUX.PanelShadowWidth)
 
-                let b = UIScreen.mainScreen().bounds
+                let b = UIScreen.main.bounds
                 make.height.equalTo(max(b.width, b.height))
             }
         }
@@ -95,13 +95,13 @@ class SidePanelBaseViewController : UIViewController {
         return Double(UIConstants.ToolbarHeight) + spaceForStatusBar()
     }
 
-    func showPanel(showing: Bool, parentSideConstraints: [Constraint?]? = nil) {
+    func showPanel(_ showing: Bool, parentSideConstraints: [Constraint?]? = nil) {
         if (parentSideConstraints != nil) {
             self.parentSideConstraints = parentSideConstraints
         }
 
         if (showing) {
-            view.hidden = false
+            view.isHidden = false
             setupConstraints()
         }
         view.layoutIfNeeded()
@@ -120,15 +120,15 @@ class SidePanelBaseViewController : UIViewController {
             }
 
             if let constraints = self.parentSideConstraints {
-                if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-                    if let c = constraints.first where c != nil && self.isLeftSidePanel {
-                        c!.updateOffset(width)
-                    } else if let c = constraints.last where c != nil && !self.isLeftSidePanel {
-                        c!.updateOffset(-width)
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    if let c = constraints.first, c != nil && self.isLeftSidePanel {
+                        c!.updateOffset(amount: width)
+                    } else if let c = constraints.last, c != nil && !self.isLeftSidePanel {
+                        c!.updateOffset(amount: -width)
                     }
                 } else {
                     for c in constraints where c != nil {
-                        c!.updateOffset(self.isLeftSidePanel ? width : -width)
+                        c!.updateOffset(amount: self.isLeftSidePanel ? width : -width)
                     }
                 }
             }
@@ -143,13 +143,13 @@ class SidePanelBaseViewController : UIViewController {
             percentComplete = 1.0 - percentComplete
         }
         let duration = 0.2 * percentComplete
-        UIView.animateWithDuration(duration, animations: animation)
+        UIView.animate(withDuration: duration, animations: animation)
         if (!showing) { // for reasons unknown, wheh put in a animation completion block, this is called immediately
-            postAsyncToMain(duration) { self.view.hidden = true }
+            postAsyncToMain(duration) { self.view.isHidden = true }
         }
     }
 
-    func setHomePanelDelegate(delegate: HomePanelDelegate?) {}
+    func setHomePanelDelegate(_ delegate: HomePanelDelegate?) {}
 
 }
 

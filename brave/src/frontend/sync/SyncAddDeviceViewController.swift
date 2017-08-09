@@ -26,8 +26,8 @@ class SyncAddDeviceViewController: UIViewController {
         
         containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = UIColor.whiteColor()
-        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).CGColor
+        containerView.backgroundColor = UIColor.white
+        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).cgColor
         containerView.layer.shadowRadius = 0
         containerView.layer.shadowOpacity = 1.0
         containerView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
@@ -45,7 +45,7 @@ class SyncAddDeviceViewController: UIViewController {
         }
         
         Niceware.shared.passphrase(fromBytes: syncSeed) { (words, error) in
-            guard let words = words where error == nil else {
+            guard let words = words, error == nil else {
                 return
             }
 
@@ -59,44 +59,44 @@ class SyncAddDeviceViewController: UIViewController {
     func setupVisuals() {
         containerView.addSubview(barcodeView)
         
-        codewordsView.hidden = true
+        codewordsView.isHidden = true
         containerView.addSubview(codewordsView)
         
         modeControl = UISegmentedControl(items: [Strings.QRCode, Strings.CodeWords])
         modeControl.translatesAutoresizingMaskIntoConstraints = false
         modeControl.tintColor = BraveUX.DefaultBlue
         modeControl.selectedSegmentIndex = 0
-        modeControl.addTarget(self, action: #selector(SEL_changeMode), forControlEvents: .ValueChanged)
+        modeControl.addTarget(self, action: #selector(SEL_changeMode), for: .valueChanged)
         scrollView.addSubview(modeControl)
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.systemFontOfSize(20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = UIColor.blackColor()
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
+        titleLabel.textColor = UIColor.black
         titleLabel.text = Strings.SyncAddDevice
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.font = UIFont.systemFontOfSize(15, weight: UIFontWeightRegular)
+        descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
         descriptionLabel.textColor = UIColor(rgb: 0x696969)
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.lineBreakMode = .ByWordWrapping
-        descriptionLabel.textAlignment = .Center
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.textAlignment = .center
         descriptionLabel.text = Strings.SyncAddDeviceDescription
         scrollView.addSubview(descriptionLabel)
         
-        doneButton = UIButton(type: .RoundedRect)
+        doneButton = UIButton(type: .roundedRect)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
-        doneButton.setTitle(Strings.Done, forState: .Normal)
-        doneButton.titleLabel?.font = UIFont.systemFontOfSize(17, weight: UIFontWeightBold)
-        doneButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        doneButton.setTitle(Strings.Done, for: .normal)
+        doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
+        doneButton.setTitleColor(UIColor.white, for: .normal)
         doneButton.backgroundColor = BraveUX.DefaultBlue
         doneButton.layer.cornerRadius = 8
-        doneButton.addTarget(self, action: #selector(SEL_done), forControlEvents: .TouchUpInside)
+        doneButton.addTarget(self, action: #selector(SEL_done), for: .touchUpInside)
         scrollView.addSubview(doneButton)
         
-        edgesForExtendedLayout = .None
+        edgesForExtendedLayout = UIRectEdge()
         
         scrollView.snp_makeConstraints { (make) in
             make.edges.equalTo(self.view)
@@ -145,7 +145,7 @@ class SyncAddDeviceViewController: UIViewController {
         }
     }
     
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         
         if toInterfaceOrientation.isLandscape {
             
@@ -157,26 +157,26 @@ class SyncAddDeviceViewController: UIViewController {
         self.view.setNeedsUpdateConstraints()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
     }
     
     func SEL_changeMode() {
-        barcodeView.hidden = (modeControl.selectedSegmentIndex == 1)
-        codewordsView.hidden = (modeControl.selectedSegmentIndex == 0)
+        barcodeView.isHidden = (modeControl.selectedSegmentIndex == 1)
+        codewordsView.isHidden = (modeControl.selectedSegmentIndex == 0)
     }
     
     func SEL_done() {
         // Re-activate pop gesture in case it was removed
-        navigationController?.interactivePopGestureRecognizer?.enabled = true
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 

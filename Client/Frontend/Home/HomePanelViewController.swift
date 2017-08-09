@@ -11,20 +11,20 @@ import Storage        // For VisitType.
 private struct HomePanelViewControllerUX {
     // Height of the top panel switcher button toolbar.
     static let ButtonContainerHeight: CGFloat = 0
-    static let ButtonContainerBorderColor = UIColor.blackColor().colorWithAlphaComponent(0.1)
+    static let ButtonContainerBorderColor = UIColor.black.withAlphaComponent(0.1)
     static let BackgroundColor = UIConstants.PanelBackgroundColor
     static let EditDoneButtonRightPadding: CGFloat = -12
 }
 
 protocol HomePanelViewControllerDelegate: class {
-    func homePanelViewController(homePanelViewController: HomePanelViewController, didSelectURL url: NSURL)
-    func homePanelViewController(HomePanelViewController: HomePanelViewController, didSelectPanel panel: Int)
+    func homePanelViewController(_ homePanelViewController: HomePanelViewController, didSelectURL url: URL)
+    func homePanelViewController(_ HomePanelViewController: HomePanelViewController, didSelectPanel panel: Int)
 }
 
 @objc
 protocol HomePanel: class {
     weak var homePanelDelegate: HomePanelDelegate? { get set }
-    optional func endEditing()
+    @objc optional func endEditing()
 }
 
 struct HomePanelUX {
@@ -33,30 +33,30 @@ struct HomePanelUX {
 
 @objc
 protocol HomePanelDelegate: class {
-    func homePanel(homePanel: HomePanel, didSelectURL url: NSURL)
-    optional func homePanel(homePanel: HomePanel, didSelectURLString url: String, visitType: VisitType)
-    optional func homePanelWillEnterEditingMode(homePanel: HomePanel)
+    func homePanel(_ homePanel: HomePanel, didSelectURL url: URL)
+    @objc optional func homePanel(_ homePanel: HomePanel, didSelectURLString url: String, visitType: VisitType)
+    @objc optional func homePanelWillEnterEditingMode(_ homePanel: HomePanel)
 }
 
 class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelDelegate {
     var profile: Profile!
     var notificationToken: NSObjectProtocol!
     var panels: [HomePanelDescriptor]!
-    var url: NSURL?
+    var url: URL?
     weak var delegate: HomePanelViewControllerDelegate?
 
-    private var buttonContainerView: UIView!
-    private var buttonContainerBottomBorderView: UIView!
-    private var controllerContainerView: UIView!
-    private var buttons: [UIButton] = []
+    fileprivate var buttonContainerView: UIView!
+    fileprivate var buttonContainerBottomBorderView: UIView!
+    fileprivate var controllerContainerView: UIView!
+    fileprivate var buttons: [UIButton] = []
 
-    private var finishEditingButton: UIButton?
-    private var editingPanel: HomePanel?
+    fileprivate var finishEditingButton: UIButton?
+    fileprivate var editingPanel: HomePanel?
 
     override func viewDidLoad() {
         view.backgroundColor = HomePanelViewControllerUX.BackgroundColor
 
-        let blur: UIVisualEffectView? = DeviceInfo.isBlurSupported() ? UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light)) : nil
+        let blur: UIVisualEffectView? = DeviceInfo.isBlurSupported() ? UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light)) : nil
 
         if let blur = blur {
             view.addSubview(blur)
@@ -65,7 +65,7 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
         buttonContainerView = UIView()
         buttonContainerView.backgroundColor = HomePanelViewControllerUX.BackgroundColor
         buttonContainerView.clipsToBounds = true
-        buttonContainerView.accessibilityNavigationStyle = .Combined
+        buttonContainerView.accessibilityNavigationStyle = .combined
         buttonContainerView.accessibilityLabel = Strings.Panel_Chooser
         view.addSubview(buttonContainerView)
 
@@ -104,7 +104,7 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
         buttonContainerView.addGestureRecognizer(dismissKeyboardGestureRecognizer)
     }
 
-    func SELhandleDismissKeyboardGestureRecognizer(gestureRecognizer: UITapGestureRecognizer) {
+    func SELhandleDismissKeyboardGestureRecognizer(_ gestureRecognizer: UITapGestureRecognizer) {
         view.window?.rootViewController?.view.endEditing(true)
     }
 
@@ -118,7 +118,7 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
             if let index = oldValue {
                 if index < buttons.count {
                     let currentButton = buttons[index]
-                    currentButton.selected = false
+                    currentButton.isSelected = false
                 }
             }
 
@@ -127,11 +127,11 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
             if let index = selectedButtonIndex {
                 if index < buttons.count {
                     let newButton = buttons[index]
-                    newButton.selected = true
+                    newButton.isSelected = true
                 }
 
                 if index < panels.count {
-                    let panel = self.panels[index].makeViewController(profile: profile)
+                    let panel = self.panels[index].makeViewController(profile)
                     let accessibilityLabel = self.panels[index].accessibilityLabel
                     if let panelController = panel as? UINavigationController,
                      let rootPanel = panelController.viewControllers.first {
@@ -146,32 +146,32 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
         }
     }
 
-    func setupHomePanel(panel: UIViewController, accessibilityLabel: String) {
+    func setupHomePanel(_ panel: UIViewController, accessibilityLabel: String) {
         (panel as? HomePanel)?.homePanelDelegate = self
-        panel.view.accessibilityNavigationStyle = .Combined
+        panel.view.accessibilityNavigationStyle = .combined
         panel.view.accessibilityLabel = accessibilityLabel
     }
 
-    private func hideCurrentPanel() {
+    fileprivate func hideCurrentPanel() {
         if let panel = childViewControllers.first {
-            panel.willMoveToParentViewController(nil)
+            panel.willMove(toParentViewController: nil)
             panel.view.removeFromSuperview()
             panel.removeFromParentViewController()
         }
     }
 
-    private func showPanel(panel: UIViewController) {
+    fileprivate func showPanel(_ panel: UIViewController) {
         addChildViewController(panel)
         controllerContainerView.addSubview(panel.view)
         panel.view.snp_makeConstraints { make in
             make.top.equalTo(self.buttonContainerView.snp_bottom)
             make.left.right.bottom.equalTo(self.view)
         }
-        panel.didMoveToParentViewController(self)
+        panel.didMove(toParentViewController: self)
     }
 
-    func SELtappedButton(sender: UIButton!) {
-        for (index, button) in buttons.enumerate() {
+    func SELtappedButton(_ sender: UIButton!) {
+        for (index, button) in buttons.enumerated() {
             if (button == sender) {
                 selectedButtonIndex = index
                 delegate?.homePanelViewController(self, didSelectPanel: index)
@@ -180,13 +180,13 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
         }
     }
 
-    func endEditing(sender: UIButton!) {
+    func endEditing(_ sender: UIButton!) {
         toggleEditingMode(false)
         editingPanel?.endEditing?()
         editingPanel = nil
     }
 
-    private func updateButtons() {
+    fileprivate func updateButtons() {
         // Remove any existing buttons if we're rebuilding the toolbar.
         for button in buttons {
             button.removeFromSuperview()
@@ -197,12 +197,12 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
         for panel in panels {
             let button = UIButton()
             buttonContainerView.addSubview(button)
-            button.addTarget(self, action: #selector(HomePanelViewController.SELtappedButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            button.addTarget(self, action: #selector(HomePanelViewController.SELtappedButton(_:)), for: UIControlEvents.touchUpInside)
             if let image = UIImage(named: "panelIcon\(panel.imageName)") {
-                button.setImage(image, forState: UIControlState.Normal)
+                button.setImage(image, for: .normal)
             }
             if let image = UIImage(named: "panelIcon\(panel.imageName)Selected") {
-                button.setImage(image, forState: UIControlState.Selected)
+                button.setImage(image, for: UIControlState.selected)
             }
             button.accessibilityLabel = panel.accessibilityLabel
             button.accessibilityIdentifier = panel.accessibilityIdentifier
@@ -219,7 +219,7 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
         }
     }
 
-    func homePanel(homePanel: HomePanel, didSelectURLString url: String) {
+    func homePanel(_ homePanel: HomePanel, didSelectURLString url: String) {
         // If we can't get a real URL out of what should be a URL, we let the user's
         // default search engine give it a shot.
         // Typically we'll be in this state if the user has tapped a bookmarked search template
@@ -235,25 +235,25 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
         return self.homePanel(homePanel, didSelectURL: url)
     }
 
-    func homePanel(homePanel: HomePanel, didSelectURL url: NSURL) {
+    func homePanel(_ homePanel: HomePanel, didSelectURL url: URL) {
         delegate?.homePanelViewController(self, didSelectURL: url)
     }
 
-    func homePanelWillEnterEditingMode(homePanel: HomePanel) {
+    func homePanelWillEnterEditingMode(_ homePanel: HomePanel) {
         editingPanel = homePanel
         toggleEditingMode(true)
     }
 
-    func toggleEditingMode(editing: Bool) {
-        let translateDown = CGAffineTransformMakeTranslation(0, UIConstants.ToolbarHeight)
-        let translateUp = CGAffineTransformMakeTranslation(0, -UIConstants.ToolbarHeight)
+    func toggleEditingMode(_ editing: Bool) {
+        let translateDown = CGAffineTransform(translationX: 0, y: UIConstants.ToolbarHeight)
+        let translateUp = CGAffineTransform(translationX: 0, y: -UIConstants.ToolbarHeight)
 
         if editing {
-            let button = UIButton(type: UIButtonType.System)
-            button.setTitle(Strings.Done, forState: UIControlState.Normal)
-            button.addTarget(self, action: #selector(HomePanelViewController.endEditing(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            let button = UIButton(type: UIButtonType.system)
+            button.setTitle(Strings.Done, for: UIControlState.normal)
+            button.addTarget(self, action: #selector(HomePanelViewController.endEditing(_:)), for: UIControlEvents.touchUpInside)
             button.transform = translateDown
-            button.titleLabel?.textAlignment = .Right
+            button.titleLabel?.textAlignment = .right
             self.buttonContainerView.addSubview(button)
             button.snp_makeConstraints { make in
                 make.right.equalTo(self.buttonContainerView).offset(HomePanelViewControllerUX.EditDoneButtonRightPadding)
@@ -263,9 +263,9 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
             finishEditingButton = button
         }
 
-        UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [UIViewAnimationOptions.AllowUserInteraction, UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
-            self.buttons.forEach { $0.transform = editing ? translateUp : CGAffineTransformIdentity }
-            self.finishEditingButton?.transform = editing ? CGAffineTransformIdentity : translateDown
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: { () -> Void in
+            self.buttons.forEach { $0.transform = editing ? translateUp : CGAffineTransform.identity }
+            self.finishEditingButton?.transform = editing ? CGAffineTransform.identity : translateDown
         }, completion: { _ in
             if !editing {
                 self.finishEditingButton?.removeFromSuperview()

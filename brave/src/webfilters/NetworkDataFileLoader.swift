@@ -5,19 +5,19 @@ import Shared
 import Alamofire
 
 protocol NetworkDataFileLoaderDelegate: class {
-    func fileLoader(_: NetworkDataFileLoader, setDataFile data: NSData?)
+    func fileLoader(_: NetworkDataFileLoader, setDataFile data: Data?)
     func fileLoaderHasDataFile(_: NetworkDataFileLoader) -> Bool
     func fileLoaderDelegateWillHandleInitialRead(_: NetworkDataFileLoader) -> Bool
 }
 
 class NetworkDataFileLoader {
-    let dataUrl: NSURL
+    let dataUrl: URL
     let dataFile: String
     let nameOfDataDir: String
 
     weak var delegate: NetworkDataFileLoaderDelegate?
 
-    init(url: NSURL, file: String, localDirName: String) {
+    init(url: URL, file: String, localDirName: String) {
         dataUrl = url
         dataFile = file
         nameOfDataDir = localDirName
@@ -25,12 +25,12 @@ class NetworkDataFileLoader {
 
     // return the dir and a bool if the dir was created
     func createAndGetDataDirPath() -> (String, Bool) {
-        if let dir = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first {
+        if let dir = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first {
             let path = dir + "/" + nameOfDataDir
             var wasCreated = false
-            if !NSFileManager.defaultManager().fileExistsAtPath(path) {
+            if !FileManager.default.fileExists(atPath: path) {
                 do {
-                    try NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: false, attributes: nil)
+                    try FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
                 } catch {
                     BraveApp.showErrorAlert(title: "NetworkDataFileLoader error", error: "dataDir(): \(error)")
                 }
@@ -43,32 +43,32 @@ class NetworkDataFileLoader {
         }
     }
 
-    func etagFileNameFromDataFile(dataFileName: String) -> String {
+    func etagFileNameFromDataFile(_ dataFileName: String) -> String {
         return dataFileName + ".etag"
     }
 
     func readDataEtag() -> String? {
         let (dir, _) = createAndGetDataDirPath()
         let path = etagFileNameFromDataFile(dir + "/" + dataFile)
-        if !NSFileManager.defaultManager().fileExistsAtPath(path) {
+        if !FileManager.default.fileExists(atPath: path) {
             return nil
         }
-        guard let data = NSFileManager.defaultManager().contentsAtPath(path) else { return nil }
-        return NSString(data: data, encoding: NSUTF8StringEncoding) as? String
+        guard let data = FileManager.default.contents(atPath: path) else { return nil }
+        return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
     }
 
-    private func finishWritingToDisk(data: NSData, etag: String?) {
+    fileprivate func finishWritingToDisk(_ data: Data, etag: String?) {
         let (dir, _) = createAndGetDataDirPath()
         let path = dir + "/" + dataFile
-        if !data.writeToFile(path, atomically: true) { // will overwrite
+        if !((try? data.write(to: URL(fileURLWithPath: path), options: [.atomic])) != nil) { // will overwrite
             BraveApp.showErrorAlert(title: "NetworkDataFileLoader error", error: "Failed to write data to \(path)")
         }
 
-        addSkipBackupAttributeToItemAtURL(NSURL(fileURLWithPath: dir, isDirectory: true))
+        addSkipBackupAttributeToItemAtURL(URL(fileURLWithPath: dir, isDirectory: true))
 
-        if let etagData = etag?.dataUsingEncoding(NSUTF8StringEncoding) {
+        if let etagData = etag?.data(using: String.Encoding.utf8) {
             let etagPath = etagFileNameFromDataFile(path)
-            if !etagData.writeToFile(etagPath, atomically: true) {
+            if !((try? etagData.write(to: URL(fileURLWithPath: etagPath), options: [.atomic])) != nil) {
                 BraveApp.showErrorAlert(title: "NetworkDataFileLoader error", error: "Failed to write data to \(etagPath)")
             }
         }
@@ -76,9 +76,9 @@ class NetworkDataFileLoader {
         delegate?.fileLoader(self, setDataFile: data)
     }
 
-    private func networkRequest() {
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(dataUrl) {
+    fileprivate func networkRequest() {
+        let session = URLSession.shared
+        let task = session.dataTask(with: dataUrl, completionHandler: {
             (data, response, error) -> Void in
             if let err = error {
                 print(err.localizedDescription)
@@ -88,33 +88,32 @@ class NetworkDataFileLoader {
                 }
             }
             else {
-                if let data = data, response = response as? NSHTTPURLResponse {
+                if let data = data, let response = response as? HTTPURLResponse {
                     if 400...499 ~= response.statusCode { // error
-                        print("Failed to download, error: \(response.statusCode), URL:\(response.URL)")
+                        print("Failed to download, error: \(response.statusCode), URL:\(response.url)")
                     } else {
                         let etag = response.allHeaderFields["Etag"] as? String
                         self.finishWritingToDisk(data, etag: etag)
                     }
                 }
             }
-        }
+        }) 
         task.resume()
     }
 
     func pathToExistingDataOnDisk() -> String? {
         let (dir, _) = createAndGetDataDirPath()
         let path = dir + "/" + dataFile
-        return NSFileManager.defaultManager().fileExistsAtPath(path) ? path : nil
+        return FileManager.default.fileExists(atPath: path) ? path : nil
     }
 
-    private func checkForUpdatedFileAfterDelay() {
+    fileprivate func checkForUpdatedFileAfterDelay() {
         postAsyncToMain(10.0) { // a few seconds after startup, check to see if a new file is available
-            Alamofire.request(.HEAD, self.dataUrl).response {
-                request, response, data, error in
-                if let err = error {
+            Alamofire.request(self.dataUrl, method: .head, encoding: JSONEncoding.default).response { response in
+                if let err = response.error {
                     print("\(err)")
                 } else {
-                    guard let etag = response?.allHeaderFields["Etag"] as? String else { return }
+                    guard let etag = response.response?.allHeaderFields["Etag"] as? String else { return }
                     let etagOnDisk = self.readDataEtag()
                     if etagOnDisk != etag {
                         self.networkRequest()
@@ -131,9 +130,9 @@ class NetworkDataFileLoader {
         if !delegate.fileLoaderHasDataFile(self) {
             networkRequest()
         } else if !delegate.fileLoaderDelegateWillHandleInitialRead(self) {
-            func readData() -> NSData? {
+            func readData() -> Data? {
                 guard let path = pathToExistingDataOnDisk() else { return nil }
-                return NSFileManager.defaultManager().contentsAtPath(path)
+                return FileManager.default.contents(atPath: path)
             }
 
             let data = readData()

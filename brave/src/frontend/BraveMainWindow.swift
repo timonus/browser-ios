@@ -2,7 +2,7 @@
 
 protocol WindowTouchFilter: class {
     // return true to block the event
-    func filterTouch(touch: UITouch) -> Bool
+    func filterTouch(_ touch: UITouch) -> Bool
 }
 
 class BraveMainWindow : UIWindow {
@@ -14,31 +14,31 @@ class BraveMainWindow : UIWindow {
         weak var value : WindowTouchFilter?
         init (value: WindowTouchFilter) { self.value = value }
     }
-    private var delegatesForTouchFiltering = [Weak_WindowTouchFilter]()
+    fileprivate var delegatesForTouchFiltering = [Weak_WindowTouchFilter]()
 
     // Guarantee: *All* filters will see the event.
     // *Any* filter can stop the call to super.sendEvent
-    func addTouchFilter(filter: WindowTouchFilter) {
+    func addTouchFilter(_ filter: WindowTouchFilter) {
         delegatesForTouchFiltering = delegatesForTouchFiltering.filter { $0.value != nil }
-        if let _ = delegatesForTouchFiltering.indexOf({ $0.value === filter }) {
+        if let _ = delegatesForTouchFiltering.index(where: { $0.value === filter }) {
             return
         }
         delegatesForTouchFiltering.append(Weak_WindowTouchFilter(value: filter))
     }
 
-    func removeTouchFilter(filter: WindowTouchFilter) {
-        let found = delegatesForTouchFiltering.indexOf { $0.value === filter }
+    func removeTouchFilter(_ filter: WindowTouchFilter) {
+        let found = delegatesForTouchFiltering.index { $0.value === filter }
         if let found = found {
-            delegatesForTouchFiltering.removeAtIndex(found)
+            delegatesForTouchFiltering.remove(at: found)
         }
     }
 
-    override func sendEvent(event: UIEvent) {
+    override func sendEvent(_ event: UIEvent) {
         contextMenuHandler.sendEvent(event, window: self)
         blankTargetLinkHandler.sendEvent(event, window: self)
 
         let braveTopVC = getApp().rootViewController.visibleViewController as? BraveTopViewController
-        if let _ = braveTopVC, touches = event.touchesForWindow(self), let touch = touches.first where touches.count == 1 {
+        if let _ = braveTopVC, let touches = event.touches(for: self), let touch = touches.first, touches.count == 1 {
             var eaten = false
             for filter in delegatesForTouchFiltering where filter.value != nil {
                 if filter.value!.filterTouch(touch) {

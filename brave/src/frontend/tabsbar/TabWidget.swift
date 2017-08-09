@@ -3,10 +3,10 @@ import UIKit
 import SnapKit
 
 protocol TabWidgetDelegate: class {
-    func tabWidgetClose(tab: TabWidget)
-    func tabWidgetSelected(tab: TabWidget)
-    func tabWidgetDragMoved(tab: TabWidget, distance: CGFloat, isEnding: Bool)
-    func tabWidgetDragStarted(tab: TabWidget)
+    func tabWidgetClose(_ tab: TabWidget)
+    func tabWidgetSelected(_ tab: TabWidget)
+    func tabWidgetDragMoved(_ tab: TabWidget, distance: CGFloat, isEnding: Bool)
+    func tabWidgetDragStarted(_ tab: TabWidget)
 }
 
 let labelInsetFromRight = CGFloat(24)
@@ -17,8 +17,8 @@ class TabDragClone : UIImageView {
         self.parent = parent
         super.init(frame: frame)
         layer.borderWidth = 1
-        layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.4).CGColor
-        backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        layer.borderColor = UIColor.black.withAlphaComponent(0.4).cgColor
+        backgroundColor = UIColor.black.withAlphaComponent(0.2)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -27,20 +27,20 @@ class TabDragClone : UIImageView {
 
     var lastLocation:CGPoint?
     var translation:CGPoint!
-    func detectPan(recognizer:UIPanGestureRecognizer) {
+    func detectPan(_ recognizer:UIPanGestureRecognizer) {
         if lastLocation == nil {
             lastLocation = self.center
         }
-        translation = recognizer.translationInView(superview!)
-        center = CGPointMake(lastLocation!.x + translation.x, lastLocation!.y)
+        translation = recognizer.translation(in: superview!)
+        center = CGPoint(x: lastLocation!.x + translation.x, y: lastLocation!.y)
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.superview?.bringSubviewToFront(self)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.superview?.bringSubview(toFront: self)
         lastLocation = self.center
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let lastLocation = lastLocation {
             center = lastLocation
         }
@@ -53,7 +53,7 @@ class TabWidget : UIView {
     let title = UIButton()
     let close = UIButton()
     weak var delegate: TabWidgetDelegate?
-    private(set) weak var browser: Browser?
+    fileprivate(set) weak var browser: Browser?
     var widthConstraint: Constraint? = nil
 
     // Drag and drop items
@@ -63,7 +63,7 @@ class TabWidget : UIView {
     let separatorLine = UIView() // visibility is controlled by TabsBarViewController
 
     init(browser: Browser, parentScrollView: UIScrollView) {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         parentScrollView.addSubview(spacerRight)
 
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -74,22 +74,22 @@ class TabWidget : UIView {
         }
 
 
-        close.addTarget(self, action: #selector(clicked), forControlEvents: .TouchUpInside)
-        title.addTarget(self, action: #selector(selected), forControlEvents: .TouchUpInside)
-        title.setTitle("", forState: .Normal)
+        close.addTarget(self, action: #selector(clicked), for: .touchUpInside)
+        title.addTarget(self, action: #selector(selected), for: .touchUpInside)
+        title.setTitle("", for: .normal)
         [close, title, separatorLine].forEach { addSubview($0) }
 
-        close.setImage(UIImage(named: "stop")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        close.snp_makeConstraints(closure: { (make) in
+        close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        close.snp_makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
             make.left.equalTo(self).inset(4)
             make.width.equalTo(24)
         })
-        close.tintColor = UIColor.blackColor()
+        close.tintColor = UIColor.black
 
         reinstallConstraints()
 
-        separatorLine.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        separatorLine.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         separatorLine.snp_makeConstraints { (make) in
             make.left.equalTo(self)
             make.width.equalTo(1)
@@ -138,10 +138,10 @@ class TabWidget : UIView {
 
     func deselect() {
         backgroundColor = UIColor.init(white: 0.0, alpha: 0.1)
-        title.titleLabel!.font = UIFont.systemFontOfSize(12)
-        title.setTitleColor(PrivateBrowsing.singleton.isOn ? UIColor(white: 1.0, alpha: 0.4) : UIColor(white: 0.0, alpha: 0.4), forState: .Normal)
-        close.hidden = true
-        close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.whiteColor() : UIColor.blackColor()
+        title.titleLabel!.font = UIFont.systemFont(ofSize: 12)
+        title.setTitleColor(PrivateBrowsing.singleton.isOn ? UIColor(white: 1.0, alpha: 0.4) : UIColor(white: 0.0, alpha: 0.4), for: .normal)
+        close.isHidden = true
+        close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
     }
 
     func selected() {
@@ -149,18 +149,18 @@ class TabWidget : UIView {
     }
 
     func setStyleToSelected() {
-        title.titleLabel!.font = UIFont.systemFontOfSize(12, weight: UIFontWeightSemibold)
-        title.setTitleColor(PrivateBrowsing.singleton.isOn ? UIColor.whiteColor() : UIColor.blackColor(), forState: .Normal)
-        backgroundColor = UIColor.clearColor()
-        close.hidden = false
+        title.titleLabel!.font = UIFont.systemFont(ofSize: 12, weight: UIFontWeightSemibold)
+        title.setTitleColor(PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black, for: .normal)
+        backgroundColor = UIColor.clear
+        close.isHidden = false
         
     }
 
     func isSelectedStyle() -> Bool {
-        return !close.hidden
+        return !close.isHidden
     }
 
-    private var titleUpdateScheduled = false
+    fileprivate var titleUpdateScheduled = false
     func updateTitle_throttled() {
         if titleUpdateScheduled {
             return
@@ -168,48 +168,48 @@ class TabWidget : UIView {
         titleUpdateScheduled = true
         postAsyncToMain(0.2) { [weak self] in
             self?.titleUpdateScheduled = false
-            if let t = self?.browser?.webView?.title where !t.isEmpty {
+            if let t = self?.browser?.webView?.title, !t.isEmpty {
                 self?.setTitle(t)
             }
         }
     }
 
-    func setTitle(title: String?) {
-        if let title = title where title != "localhost" {
-            self.title.setTitle(title, forState: .Normal)
+    func setTitle(_ title: String?) {
+        if let title = title, title != "localhost" {
+            self.title.setTitle(title, for: .normal)
         } else {
-            self.title.setTitle("", forState: .Normal)
+            self.title.setTitle("", for: .normal)
         }
     }
 }
 
 extension TabWidget : WebPageStateDelegate {
-    func webView(webView: UIWebView, urlChanged: String) {
-        if let t = browser?.url?.baseDomain() where  title.titleLabel?.text?.isEmpty ?? true {
+    func webView(_ webView: UIWebView, urlChanged: String) {
+        if let t = browser?.url?.baseDomain,  title.titleLabel?.text?.isEmpty ?? true {
             setTitle(t)
         }
 
         updateTitle_throttled()
     }
 
-    func webView(webView: UIWebView, progressChanged: Float) {
+    func webView(_ webView: UIWebView, progressChanged: Float) {
         updateTitle_throttled()
     }
 
-    func webView(webView: UIWebView, isLoading: Bool) {}
-    func webView(webView: UIWebView, canGoBack: Bool) {}
-    func webView(webView: UIWebView, canGoForward: Bool) {}
+    func webView(_ webView: UIWebView, isLoading: Bool) {}
+    func webView(_ webView: UIWebView, canGoBack: Bool) {}
+    func webView(_ webView: UIWebView, canGoForward: Bool) {}
 }
 
 extension TabWidget : UIGestureRecognizerDelegate {
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
 extension TabWidget {
-    func remakeLayout(prev prev: UIView, width: CGFloat, scrollView: UIView) {
-        snp_remakeConstraints("tab: \(title.titleLabel?.text) ") {
+    func remakeLayout(_ prev: UIView, width: CGFloat, scrollView: UIView) {
+        snp_remakeConstraints {
             make in
             widthConstraint = make.width.equalTo(width).constraint
             make.height.equalTo(tabHeight)
@@ -217,20 +217,20 @@ extension TabWidget {
             make.top.equalTo(0)
         }
 
-        spacerRight.snp_remakeConstraints("spacer: \(title.titleLabel?.text) ", closure:
+        spacerRight.snp_remakeConstraints
             { (make) in
                 make.top.equalTo(scrollView)
                 make.height.equalTo(tabHeight)
                 make.left.equalTo(snp_right)
                 make.width.equalTo(0)
                 make.top.equalTo(0)
-        })
+        }
     }
 
-    func longPress(g: UILongPressGestureRecognizer) {
-        if g.state == .Ended {
+    func longPress(_ g: UILongPressGestureRecognizer) {
+        if g.state == .ended {
             postAsyncToMain(0.1) {
-                if let dragClone = self.dragClone where dragClone.lastLocation == nil {
+                if let dragClone = self.dragClone, dragClone.lastLocation == nil {
                     dragClone.removeFromSuperview()
                     self.dragClone = nil
                     self.alpha = 1.0
@@ -238,7 +238,7 @@ extension TabWidget {
             }
         }
 
-        if dragClone != nil || g.state != .Began {
+        if dragClone != nil || g.state != .began {
             return
         }
 
@@ -247,7 +247,7 @@ extension TabWidget {
         dragClone = TabDragClone(parent: self, frame: frame)
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        layer.renderInContext(context)
+        layer.render(in: context)
         let screenShot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         dragClone!.image = screenShot
@@ -255,10 +255,10 @@ extension TabWidget {
         alpha = 0
     }
 
-    func detectPan(recognizer:UIPanGestureRecognizer) {
+    func detectPan(_ recognizer:UIPanGestureRecognizer) {
         if let dragClone = dragClone {
             dragClone.detectPan(recognizer)
-            delegate?.tabWidgetDragMoved(self, distance: recognizer.translationInView(superview!).x, isEnding: recognizer.state == .Ended)
+            delegate?.tabWidgetDragMoved(self, distance: recognizer.translation(in: superview!).x, isEnding: recognizer.state == .ended)
         }
     }
 }

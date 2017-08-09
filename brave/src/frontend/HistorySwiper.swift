@@ -4,20 +4,20 @@
 // Used by Browser as a member var to store sceenshots
 class ScreenshotsForHistory {
     let kMaxItems = 4
-    var items: [(location: String, lastVisited: NSDate, image: UIImage)] = []
+    var items: [(location: String, lastVisited: Date, image: UIImage)] = []
 
-    func addForLocation(location: String, image: UIImage) {
+    func addForLocation(_ location: String, image: UIImage) {
         if items.count == kMaxItems {
             var oldest = 0
             for i in 1..<items.count {
-                if items[i].lastVisited.timeIntervalSinceDate(items[oldest].lastVisited) < 0 {
+                if items[i].lastVisited.timeIntervalSince(items[oldest].lastVisited) < 0 {
                     oldest = i
                 }
             }
-            items.removeAtIndex(oldest)
+            items.remove(at: oldest)
         }
 
-        items.append((location: location, lastVisited: NSDate(), image: image))
+        items.append((location: location, lastVisited: Date(), image: image))
         //        #if DEBUG
         //        for item in items {
         //            print("§ \(item)")
@@ -26,11 +26,11 @@ class ScreenshotsForHistory {
     }
 
     // updates date visited and return true if item with location exists
-    func touchExistingItem(location: String) -> Bool {
+    func touchExistingItem(_ location: String) -> Bool {
         for i in 0..<items.count {
             if items[i].location == location {
                 let image = items[i].image
-                items.removeAtIndex(i)
+                items.remove(at: i)
                 addForLocation(location, image: image)
                 return true
             }
@@ -38,7 +38,7 @@ class ScreenshotsForHistory {
         return false
     }
 
-    func get(location: String) -> UIImage? {
+    func get(_ location: String) -> UIImage? {
         for i in 0..<items.count {
             if items[i].location == location {
                 return items[i].image
@@ -53,7 +53,7 @@ class HistorySwiper : NSObject {
     var topLevelView: UIView!
     var webViewContainer: UIView!
 
-    func setup(topLevelView topLevelView: UIView, webViewContainer: UIView) {
+    func setup(_ topLevelView: UIView, webViewContainer: UIView) {
         self.topLevelView = topLevelView
         self.webViewContainer = webViewContainer
 
@@ -85,7 +85,7 @@ class HistorySwiper : NSObject {
     var imageView: UIImageView?
 #endif
 
-    private func handleSwipe(recognizer: UIGestureRecognizer) {
+    fileprivate func handleSwipe(_ recognizer: UIGestureRecognizer) {
         if getApp().browserViewController.homePanelController != nil {
             return
         }
@@ -93,17 +93,17 @@ class HistorySwiper : NSObject {
             return
         }
 
-        guard let tab = getApp().browserViewController.tabManager.selectedTab, webview = tab.webView else { return }
-        let p = recognizer.locationInView(recognizer.view)
+        guard let tab = getApp().browserViewController.tabManager.selectedTab, let webview = tab.webView else { return }
+        let p = recognizer.location(in: recognizer.view)
         let shouldReturnToZero = recognizer == goBackSwipe ? p.x < screenWidth() / 2.0 : p.x > screenWidth() / 2.0
 
-        if recognizer.state == .Ended || recognizer.state == .Cancelled || recognizer.state == .Failed {
-            UIView.animateWithDuration(0.25, animations: {
+        if recognizer.state == .ended || recognizer.state == .cancelled || recognizer.state == .failed {
+            UIView.animate(withDuration: 0.25, animations: {
                 if shouldReturnToZero {
-                    self.webViewContainer.transform = CGAffineTransformMakeTranslation(0, self.webViewContainer.transform.ty)
+                    self.webViewContainer.transform = CGAffineTransform(translationX: 0, y: self.webViewContainer.transform.ty)
                 } else {
                     let x = recognizer == self.goBackSwipe ? self.screenWidth() : -self.screenWidth()
-                    self.webViewContainer.transform = CGAffineTransformMakeTranslation(x, self.webViewContainer.transform.ty)
+                    self.webViewContainer.transform = CGAffineTransform(translationX: x, y: self.webViewContainer.transform.ty)
                     self.webViewContainer.alpha = 0
                 }
                 }, completion: { (Bool) -> Void in
@@ -114,15 +114,15 @@ class HistorySwiper : NSObject {
                             tab.goForward()
                         }
 
-                        self.webViewContainer.transform = CGAffineTransformMakeTranslation(0, self.webViewContainer.transform.ty)
+                        self.webViewContainer.transform = CGAffineTransform(translationX: 0, y: self.webViewContainer.transform.ty)
 
                         // when content size is updated
                         postAsyncToMain(3.0) {
                             self.restoreWebview()
                         }
-                        NSNotificationCenter.defaultCenter().removeObserver(self)
-                        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HistorySwiper.updateDetected), name: BraveWebViewConstants.kNotificationPageInteractive, object: webview)
-                        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HistorySwiper.updateDetected), name: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: webview)
+                        NotificationCenter.default.removeObserver(self)
+                        NotificationCenter.default.addObserver(self, selector: #selector(HistorySwiper.updateDetected), name: NSNotification.Name(rawValue: BraveWebViewConstants.kNotificationPageInteractive), object: webview)
+                        NotificationCenter.default.addObserver(self, selector: #selector(HistorySwiper.updateDetected), name: NSNotification.Name(rawValue: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed), object: webview)
                     } else {
                         getApp().browserViewController.scrollController.edgeSwipingActive = false
 #if IMAGE_SWIPE_ON
@@ -137,10 +137,10 @@ class HistorySwiper : NSObject {
         } else {
             getApp().browserViewController.scrollController.edgeSwipingActive = true
             let tx = recognizer == goBackSwipe ? p.x : p.x - screenWidth()
-            webViewContainer.transform = CGAffineTransformMakeTranslation(tx, self.webViewContainer.transform.ty)
+            webViewContainer.transform = CGAffineTransform(translationX: tx, y: self.webViewContainer.transform.ty)
 #if IMAGE_SWIPE_ON
             let image = recognizer.edges == .Left ? tab.screenshotForBackHistory() : tab.screenshotForForwardHistory()
-            if let image = image where imageView == nil {
+            if let image = image, imageView == nil {
                 imageView = UIImageView(image: image)
 
                 getApp().browserViewController.webViewContainerBackdrop.addSubview(imageView!)
@@ -152,13 +152,13 @@ class HistorySwiper : NSObject {
     }
 
     func restoreWebview() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         if webViewContainer.alpha < 1 && getApp().browserViewController.scrollController.edgeSwipingActive {
             getApp().browserViewController.scrollController.edgeSwipingActive = false
             postAsyncToMain(0.4) { // after a render detected, allow ample time for drawing to complete
-                UIView.animateWithDuration(0.2) {
+                UIView.animate(withDuration: 0.2, animations: {
                     self.webViewContainer.alpha = 1.0
-                }
+                }) 
             }
 
 #if IMAGE_SWIPE_ON
@@ -171,34 +171,34 @@ class HistorySwiper : NSObject {
         }
     }
 
-    @objc func screenRightEdgeSwiped(recognizer: UIScreenEdgePanGestureRecognizer) {
+    @objc func screenRightEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         handleSwipe(recognizer)
     }
 
-    @objc func screenLeftEdgeSwiped(recognizer: UIScreenEdgePanGestureRecognizer) {
+    @objc func screenLeftEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         handleSwipe(recognizer)
     }
 }
 
 extension HistorySwiper : UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(recognizer: UIGestureRecognizer) -> Bool {
-        guard let tab = getApp().browserViewController.tabManager.selectedTab, webview = tab.webView else { return false}
+    func gestureRecognizerShouldBegin(_ recognizer: UIGestureRecognizer) -> Bool {
+        guard let tab = getApp().browserViewController.tabManager.selectedTab, let webview = tab.webView else { return false}
         if (recognizer == goBackSwipe && !webview.canNavigateBackward()) ||
             (recognizer == goForwardSwipe && !webview.canNavigateForward()) {
             return false
         }
 
         guard let recognizer = recognizer as? UIPanGestureRecognizer else { return false }
-        let v = recognizer.velocityInView(recognizer.view)
+        let v = recognizer.velocity(in: recognizer.view)
         if fabs(v.x) < fabs(v.y) {
             return false
         }
 
         let tolerance = CGFloat(30.0)
-        let p = recognizer.locationInView(recognizer.view)
+        let p = recognizer.location(in: recognizer.view)
         return recognizer == goBackSwipe ? p.x < tolerance : p.x > screenWidth() - tolerance
     }
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }

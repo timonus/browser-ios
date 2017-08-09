@@ -8,7 +8,7 @@ import JavaScriptCore
 let kNotificationPageUnload = "kNotificationPageUnload"
 let kNotificationAllWebViewsDeallocated = "kNotificationAllWebViewsDeallocated"
 
-func convertNavActionToWKType(type:UIWebViewNavigationType) -> WKNavigationType {
+func convertNavActionToWKType(_ type:UIWebViewNavigationType) -> WKNavigationType {
     return WKNavigationType(rawValue: type.rawValue)!
 }
 
@@ -19,16 +19,16 @@ class ContainerWebView : WKWebView {
 var globalContainerWebView = ContainerWebView()
 
 protocol WebPageStateDelegate : class {
-    func webView(webView: UIWebView, progressChanged: Float)
-    func webView(webView: UIWebView, isLoading: Bool)
-    func webView(webView: UIWebView, urlChanged: String)
-    func webView(webView: UIWebView, canGoBack: Bool)
-    func webView(webView: UIWebView, canGoForward: Bool)
+    func webView(_ webView: UIWebView, progressChanged: Float)
+    func webView(_ webView: UIWebView, isLoading: Bool)
+    func webView(_ webView: UIWebView, urlChanged: String)
+    func webView(_ webView: UIWebView, canGoBack: Bool)
+    func webView(_ webView: UIWebView, canGoForward: Bool)
 }
 
 
 @objc class HandleJsWindowOpen : NSObject {
-    static func open(url: String) {
+    static func open(_ url: String) {
         postAsyncToMain(0) { // we now know JS callbacks can be off main
             guard let wv = BraveApp.getCurrentWebView() else { return }
             let current = wv.URL
@@ -41,7 +41,7 @@ protocol WebPageStateDelegate : class {
                 }
             }
             wv.lastTappedTime = nil
-            if let _url = NSURL(string: url, relativeToURL: current) {
+            if let _url = URL(string: url, relativeTo: current) {
                 getApp().browserViewController.openURLInNewTab(_url)
             }
         }
@@ -49,27 +49,30 @@ protocol WebPageStateDelegate : class {
 }
 
 class BrowserTabToUAMapper {
-    static private let idToBrowserTab = NSMapTable(keyOptions: .StrongMemory, valueOptions: .WeakMemory)
+    static fileprivate let idToBrowserTab = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
 
-    static func setId(uniqueId: Int, tab: Browser) {
+    static func setId(_ uniqueId: Int, tab: Browser) {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
-        idToBrowserTab.setObject(tab, forKey: uniqueId)
+        idToBrowserTab.setObject(tab, forKey: "\(uniqueId)" as NSString)
     }
 
-    static func userAgentToBrowserTab(ua: String?) -> Browser? {
+    static func userAgentToBrowserTab(_ ua: String?) -> Browser? {
         // synchronize code from this point on.
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
 
         guard let ua = ua else { return nil }
-        guard let loc = ua.rangeOfString("_id/") else {
+        guard let loc = ua.range(of: "_id/") else {
             // the first created webview doesn't have this id set (see webviewBuiltinUserAgent to explain)
-            return idToBrowserTab.objectForKey(1) as? Browser
+            return idToBrowserTab.object(forKey: "1") as? Browser
         }
-        let keyString = ua.substringWithRange(loc.endIndex..<loc.endIndex.advancedBy(6))
+
+        let to = ua.index(loc.upperBound, offsetBy: 6)
+        let keyString = ua.substring(with: loc.upperBound..<to)
         guard let key = Int(keyString) else { return nil }
-        return idToBrowserTab.objectForKey(key) as? Browser
+        // Cast to an int and back again
+        return idToBrowserTab.object(forKey: "\(key)" as NSString) as? Browser
     }
 }
 
@@ -97,14 +100,14 @@ class BraveWebView: UIWebView {
 
     var uniqueId = -1
     var knownFrameContexts = Set<NSObject>()
-    private static var containerWebViewForCallbacks = { return ContainerWebView() }()
+    fileprivate static var containerWebViewForCallbacks = { return ContainerWebView() }()
     // From http://stackoverflow.com/questions/14268230/has-anybody-found-a-way-to-load-https-pages-with-an-invalid-server-certificate-u
     var loadingUnvalidatedHTTPSPage: Bool = false
 
 
 
     var blankTargetLinkDetectionOn = true
-    var lastTappedTime: NSDate?
+    var lastTappedTime: Date?
     var removeBvcObserversOnDeinit: ((UIWebView) -> Void)?
     var removeProgressObserversOnDeinit: ((UIWebView) -> Void)?
 
@@ -119,16 +122,17 @@ class BraveWebView: UIWebView {
         }
     }
 
-    private var _url: (url: NSURL?, prevUrl: NSURL?) = (nil, nil)
+    fileprivate var _url: (url: Foundation.URL?, prevUrl: Foundation.URL?) = (nil, nil)
 
-    private var lastBroadcastedKvoUrl: String = ""
+    fileprivate var lastBroadcastedKvoUrl: String = ""
     // return true if set, false if unchanged
-    func setUrl( newUrl: NSURL?) -> Bool {
-        guard var newUrl = newUrl, let urlString = newUrl.absoluteString where !urlString.isEmpty else { return false }
-
+    func setUrl( _ newUrl: Foundation.URL?) -> Bool {
+        guard var newUrl = newUrl, !newUrl.absoluteString.isEmpty else { return false }
+        let urlString = newUrl.absoluteString
+        
         if urlString.endsWith("?") {
-            if let noEndingQ = URL?.absoluteString?.componentsSeparatedByString("?")[0] {
-                newUrl = NSURL(string: noEndingQ) ?? newUrl
+            if let noEndingQ = URL?.absoluteString.components(separatedBy: "?")[0] {
+                newUrl = Foundation.URL(string: noEndingQ) ?? newUrl
             }
         }
 
@@ -147,30 +151,30 @@ class BraveWebView: UIWebView {
         return true
     }
 
-    var previousUrl: NSURL? { get { return _url.prevUrl } }
+    var previousUrl: Foundation.URL? { get { return _url.prevUrl } }
 
-    var URL: NSURL? {
+    var URL: Foundation.URL? {
         get {
             return _url.url
         }
     }
 
     func updateLocationFromHtml() -> Bool {
-        guard let js = stringByEvaluatingJavaScriptFromString("document.location.href"), let location = NSURL(string: js) else { return false }
+        guard let js = stringByEvaluatingJavaScript(from: "document.location.href"), let location = Foundation.URL(string: js) else { return false }
         
         // Must be in same domain space to allow document location changes
-        if location.baseDomain() != self.URL?.baseDomain() || !location.schemeIsValid {
+        if location.baseDomain != self.URL?.baseDomain || !location.schemeIsValid {
             return false
         }
         
-        print(location.domainURL())
+        print(location.domainURL)
         if AboutUtils.isAboutHomeURL(location) {
             return false
         }
         return setUrl(location)
     }
 
-    private static var webviewBuiltinUserAgent = UserAgent.defaultUserAgent()
+    fileprivate static var webviewBuiltinUserAgent = UserAgent.defaultUserAgent()
 
     // Needed to identify webview in url protocol
     func generateUniqueUserAgent() {
@@ -181,13 +185,13 @@ class BraveWebView: UIWebView {
         StaticCounter.counter += 1
         let userAgentBase = usingDesktopUserAgent ? kDesktopUserAgent : BraveWebView.webviewBuiltinUserAgent
         let userAgent = userAgentBase + String(format:" _id/%06d", StaticCounter.counter)
-        let defaults = NSUserDefaults(suiteName: AppInfo.sharedContainerIdentifier())!
-        defaults.registerDefaults(["UserAgent": userAgent ])
+        let defaults = UserDefaults(suiteName: AppInfo.sharedContainerIdentifier)!
+        defaults.register(defaults: ["UserAgent": userAgent ])
         self.uniqueId = StaticCounter.counter
     }
 
-    private var braveShieldState = BraveShieldState()
-    private func internalSetBraveShieldStateForDomain(domain: String) {
+    fileprivate var braveShieldState = BraveShieldState()
+    fileprivate func internalSetBraveShieldStateForDomain(_ domain: String) {
         braveShieldState = BraveShieldState.perNormalizedDomain[domain] ?? BraveShieldState()
 
         // we need to propagate this change to the thread-safe wrapper
@@ -198,28 +202,28 @@ class BraveWebView: UIWebView {
         }
     }
 
-    func setShieldStateSafely(state: BraveShieldState) {
-        assert(NSThread.isMainThread())
-        if (!NSThread.isMainThread()) { return }
+    func setShieldStateSafely(_ state: BraveShieldState) {
+        assert(Thread.isMainThread)
+        if (!Thread.isMainThread) { return }
         braveShieldState = state
     }
 
-    var triggeredLocationCheckTimer = NSTimer()
+    var triggeredLocationCheckTimer = Timer()
     // On page load, the contentSize of the webview is updated (**). If the webview has not been notified of a page change (i.e. shouldStartLoadWithRequest was never called) then 'loading' will be false, and we should check the page location using JS.
     // (** Not always updated, particularly on back/forward. For instance load duckduckgo.com, then google.com, and go back. No content size change detected.)
     func contentSizeChangeDetected() {
-        if triggeredLocationCheckTimer.valid {
+        if triggeredLocationCheckTimer.isValid {
             return
         }
 
         // Add a time delay so that multiple calls are aggregated
-        triggeredLocationCheckTimer = NSTimer.scheduledTimerWithTimeInterval(0.15, target: self, selector: #selector(timeoutCheckLocation), userInfo: nil, repeats: false)
+        triggeredLocationCheckTimer = Timer.scheduledTimer(timeInterval: 0.15, target: self, selector: #selector(timeoutCheckLocation), userInfo: nil, repeats: false)
     }
 
     // Pushstate navigation may require this case (see brianbondy.com), as well as sites for which simple pushstate detection doesn't work:
     // youtube and yahoo news are examples of this (http://stackoverflow.com/questions/24297929/javascript-to-listen-for-url-changes-in-youtube-html5-player)
     @objc func timeoutCheckLocation() {
-        assert(NSThread.isMainThread())
+        assert(Thread.isMainThread)
 
         if URL?.isSpecialInternalUrl() ?? true {
             return
@@ -231,12 +235,12 @@ class BraveWebView: UIWebView {
 
         // print("Page change detected by content size change triggered timer: \(URL?.absoluteString ?? "")")
 
-        NSNotificationCenter.defaultCenter().postNotificationName(kNotificationPageUnload, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kNotificationPageUnload), object: self)
         shieldStatUpdate(.reset)
         progress?.reset()
 
-        if (!loading ||
-            stringByEvaluatingJavaScriptFromString("document.readyState.toLowerCase()") == "complete")
+        if (!isLoading ||
+            stringByEvaluatingJavaScript(from: "document.readyState.toLowerCase()") == "complete")
         {
             progress?.completeProgress()
         } else {
@@ -250,10 +254,10 @@ class BraveWebView: UIWebView {
             title = ""
             return
         }
-        if let t = stringByEvaluatingJavaScriptFromString("document.title") where !t.isEmpty {
+        if let t = stringByEvaluatingJavaScript(from: "document.title"), !t.isEmpty {
             title = t
         } else {
-            title = URL?.baseDomain() ?? ""
+            title = URL?.baseDomain ?? ""
         }
     }
 
@@ -265,7 +269,7 @@ class BraveWebView: UIWebView {
 
     static var allocCounter = 0
 
-    private func commonInit() {
+    fileprivate func commonInit() {
         BraveWebView.allocCounter += 1
         print("webview init  \(BraveWebView.allocCounter)")
         generateUniqueUserAgent()
@@ -277,13 +281,13 @@ class BraveWebView: UIWebView {
         scalesPageToFit = true
         scrollView.showsHorizontalScrollIndicator = false
         allowsInlineMediaPlayback = true
-        opaque = false
-        backgroundColor = UIColor.whiteColor()
+        isOpaque = false
+        backgroundColor = UIColor.white
 
         let rate = UIScrollViewDecelerationRateFast + (UIScrollViewDecelerationRateNormal - UIScrollViewDecelerationRateFast) * 0.5;
-            scrollView.setValue(NSValue(CGSize: CGSizeMake(rate, rate)), forKey: "_decelerationFactor")
+            scrollView.setValue(NSValue(cgSize: CGSize(width: rate, height: rate)), forKey: "_decelerationFactor")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(firstLayoutPerformed), name: swizzledFirstLayoutNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(firstLayoutPerformed), name: NSNotification.Name(rawValue: swizzledFirstLayoutNotification), object: nil)
     }
 
     func firstLayoutPerformed() {
@@ -294,12 +298,12 @@ class BraveWebView: UIWebView {
     func checkScriptBlockedAndBroadcastStats() {
         let state = braveShieldState
         if state.isOnScriptBlocking() ?? BraveApp.getPrefs()?.boolForKey(kPrefKeyNoScriptOn) ?? false {
-            let jsBlocked = Int(stringByEvaluatingJavaScriptFromString("document.getElementsByTagName('script').length") ?? "0") ?? 0
+            let jsBlocked = Int(stringByEvaluatingJavaScript(from: "document.getElementsByTagName('script').length") ?? "0") ?? 0
 
-            if request?.URL?.absoluteString == jsBlockedStatLastUrl && jsBlocked == 0 {
+            if request?.url?.absoluteString == jsBlockedStatLastUrl && jsBlocked == 0 {
                 return
             }
-            jsBlockedStatLastUrl = request?.URL?.absoluteString
+            jsBlockedStatLastUrl = request?.url?.absoluteString
 
             shieldStatUpdate(.jsSetValue, increment: jsBlocked)
         } else {
@@ -307,7 +311,7 @@ class BraveWebView: UIWebView {
         }
     }
 
-    func internalProgressNotification(notification: NSNotification) {
+    func internalProgressNotification(_ notification: Notification) {
         if let prog = notification.userInfo?["WebProgressEstimatedProgressKey"] as? Double {
             progress?.setProgress(prog)
             if prog > 0.99 {
@@ -316,7 +320,7 @@ class BraveWebView: UIWebView {
         }
     }
 
-    override var loading: Bool {
+    override var isLoading: Bool {
         get {
             return estimatedProgress > 0 && estimatedProgress < 0.99
         }
@@ -331,11 +335,11 @@ class BraveWebView: UIWebView {
     deinit {
         BraveWebView.allocCounter -= 1
         if (BraveWebView.allocCounter == 0) {
-            NSNotificationCenter.defaultCenter().postNotificationName(kNotificationAllWebViewsDeallocated, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: kNotificationAllWebViewsDeallocated), object: nil)
             print("NO LIVE WEB VIEWS")
         }
 
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         _ = Try(withTry: {
             self.removeBvcObserversOnDeinit?(self)
@@ -360,15 +364,15 @@ class BraveWebView: UIWebView {
 
     let swizzledFirstLayoutNotification = "WebViewFirstLayout" // not broadcast on history push nav
 
-    override func loadRequest(request: NSURLRequest) {
+    override func loadRequest(_ request: URLRequest) {
         clearLoadCompletedHtmlProperty()
 
-        guard let internalWebView = valueForKeyPath("documentView.webView") else { return }
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: internalProgressChangedNotification, object: internalWebView)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BraveWebView.internalProgressNotification(_:)), name: internalProgressChangedNotification, object: internalWebView)
+        guard let internalWebView = value(forKeyPath: "documentView.webView") else { return }
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: internalProgressChangedNotification), object: internalWebView)
+        NotificationCenter.default.addObserver(self, selector: #selector(BraveWebView.internalProgressNotification(_:)), name: NSNotification.Name(rawValue: internalProgressChangedNotification), object: internalWebView)
 
-        if let url = request.URL {
-            internalSetBraveShieldStateForDomain(url.normalizedHost())
+        if let url = request.url {
+            internalSetBraveShieldStateForDomain(url.normalizedHost!)
         }
         super.loadRequest(request)
     }
@@ -380,34 +384,34 @@ class BraveWebView: UIWebView {
     // Not pretty, but we set some items on the page to know when the load completion arrived
     // You would think the DOM gets refreshed on page change, but not with modern js lib navigation
     // Domain changes will reset the DOM, which is easily to detect, but path changes require a few properties to reliably detect
-    func loadCompleteHtmlProperty(option option: LoadCompleteHtmlPropertyOption) -> Bool {
+    func loadCompleteHtmlProperty(option: LoadCompleteHtmlPropertyOption) -> Bool {
         let sentinels = ["_brave_cached_title": "document.title", "_brave_cached_location" : "location.href"]
 
         if option == .debug {
-            let js = sentinels.values.joinWithSeparator(",")
-            print(stringByEvaluatingJavaScriptFromString("JSON.stringify({ \(js) })"))
+            let js = sentinels.values.joined(separator: ",")
+            print(stringByEvaluatingJavaScript(from: "JSON.stringify({ \(js) })"))
             return false
         }
 
         let oper = (option != .checkIsCompleted) ? " = " : " === "
         let joiner = (option != .checkIsCompleted) ? "; " : " && "
 
-        var js = sentinels.map{ $0 + oper + (option == .clear ? "''" :$1) }.joinWithSeparator(joiner)
+        var js = sentinels.map{ $0 + oper + (option == .clear ? "''" :$1) }.joined(separator: joiner)
         if option == .checkIsCompleted {
             js = "('_brave_cached_title' in window) && \(js) "
         }
-        return stringByEvaluatingJavaScriptFromString(js) == "true"
+        return stringByEvaluatingJavaScript(from: js) == "true"
     }
 
-    private func isLoadCompletedHtmlPropertySet() -> Bool {
+    fileprivate func isLoadCompletedHtmlPropertySet() -> Bool {
         return loadCompleteHtmlProperty(option: .checkIsCompleted)
     }
 
-    private func setLoadCompletedHtmlProperty() {
+    fileprivate func setLoadCompletedHtmlProperty() {
         loadCompleteHtmlProperty(option: .setCompleted)
     }
 
-    private func clearLoadCompletedHtmlProperty() {
+    fileprivate func clearLoadCompletedHtmlProperty() {
         loadCompleteHtmlProperty(option: .clear)
     }
 
@@ -430,25 +434,25 @@ class BraveWebView: UIWebView {
         // Wait a tiny bit in hopes the page contents are updated. Load completed doesn't mean the UIWebView has done any rendering (or even has the JS engine for the page ready, see the delay() below)
         postAsyncToMain(0.1) {
             [weak self] in
-            guard let me = self, tab = getApp().tabManager.tabForWebView(me) else {
+            guard let me = self, let tab = getApp().tabManager.tabForWebView(me) else {
                     return
             }
 
             me.updateLocationFromHtml()
             me.updateTitleFromHtml()
-            tab.lastExecutedTime = NSDate.now()
+            tab.lastExecutedTime = Date.now()
             getApp().browserViewController.updateProfileForLocationChange(tab)
 
             me.configuration.userContentController.injectJsIntoPage()
-            NSNotificationCenter.defaultCenter().postNotificationName(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: me)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed), object: me)
             LegacyUserContentController.injectJsIntoAllFrames(me, script: "document.body.style.webkitTouchCallout='none'")
 
-            me.stringByEvaluatingJavaScriptFromString("console.log('get favicons'); __firefox__.favicons.getFavicons()")
+            me.stringByEvaluatingJavaScript(from: "console.log('get favicons'); __firefox__.favicons.getFavicons()")
 
             postAsyncToMain(0.3) { // the longer we wait, the more reliable the result (even though this script does polling for a result)
                 [weak self] in
                 let readerjs = ReaderModeNamespace + ".checkReadability()"
-                self?.stringByEvaluatingJavaScriptFromString(readerjs)
+                self?.stringByEvaluatingJavaScript(from: readerjs)
             }
 
             me.checkScriptBlockedAndBroadcastStats()
@@ -462,10 +466,10 @@ class BraveWebView: UIWebView {
     // URL changes are NOT broadcast here. Have to be selective with those until the receiver code is improved to be more careful about updating
     func broadcastToPageStateDelegates() {
         delegatesForPageState.forEach {
-            $0.value?.webView(self, isLoading: loading)
+            $0.value?.webView(self, isLoading: isLoading)
             $0.value?.webView(self, canGoBack: canGoBack)
             $0.value?.webView(self, canGoForward: canGoForward)
-            $0.value?.webView(self, progressChanged: loading ? Float(estimatedProgress) : 1.0)
+            $0.value?.webView(self, progressChanged: isLoading ? Float(estimatedProgress) : 1.0)
         }
     }
 
@@ -485,13 +489,13 @@ class BraveWebView: UIWebView {
         clearLoadCompletedHtmlProperty()
         shieldStatUpdate(.reset)
         progress?.setProgress(0.3)
-        NSURLCache.sharedURLCache().removeAllCachedResponses()
-        NSURLCache.sharedURLCache().diskCapacity = 0
-        NSURLCache.sharedURLCache().memoryCapacity = 0
+        URLCache.shared.removeAllCachedResponses()
+        URLCache.shared.diskCapacity = 0
+        URLCache.shared.memoryCapacity = 0
 
         if let url = URL {
-            internalSetBraveShieldStateForDomain(url.normalizedHost())
-            (getApp().browserViewController as! BraveBrowserViewController).updateBraveShieldButtonState(animated: false)
+            internalSetBraveShieldStateForDomain(url.normalizedHost!)
+            (getApp().browserViewController as! BraveBrowserViewController).updateBraveShieldButtonState(false)
         }
         super.reload()
         
@@ -503,10 +507,10 @@ class BraveWebView: UIWebView {
         self.progress?.reset()
     }
 
-    private func convertStringToDictionary(text: String?) -> [String:AnyObject]? {
-        if let data = text?.dataUsingEncoding(NSUTF8StringEncoding) where text?.characters.count > 0 {
+    fileprivate func convertStringToDictionary(_ text: String?) -> [String:AnyObject]? {
+        if let data = text?.data(using: String.Encoding.utf8), (text?.characters.count ?? 0) > 0 {
             do {
-                let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String:AnyObject]
+                let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
                 return json
             } catch {
                 print("Something went wrong")
@@ -515,22 +519,22 @@ class BraveWebView: UIWebView {
         return nil
     }
 
-    func evaluateJavaScript(javaScriptString: String, completionHandler: ((AnyObject?, NSError?) -> Void)?) {
+    func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((AnyObject?, NSError?) -> Void)?) {
         postAsyncToMain(0) { // evaluateJavaScript is for compat with WKWebView/Firefox, I didn't vet all the uses, guard by posting to main
             let wrapped = "var result = \(javaScriptString); JSON.stringify(result)"
-            let string = self.stringByEvaluatingJavaScriptFromString(wrapped)
+            let string = self.stringByEvaluatingJavaScript(from: wrapped)
             let dict = self.convertStringToDictionary(string)
-            completionHandler?(dict, NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotOpenFile, userInfo: nil))
+            completionHandler?(dict as AnyObject, NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotOpenFile, userInfo: nil))
         }
     }
 
-    func goToBackForwardListItem(item: LegacyBackForwardListItem) {
-        if let index = backForwardList.backList.indexOf(item) {
+    func goToBackForwardListItem(_ item: LegacyBackForwardListItem) {
+        if let index = backForwardList.backList.index(of: item) {
             let backCount = backForwardList.backList.count - index
             for _ in 0..<backCount {
                 goBack()
             }
-        } else if let index = backForwardList.forwardList.indexOf(item) {
+        } else if let index = backForwardList.forwardList.index(of: item) {
             for _ in 0..<(index + 1) {
                 goForward()
             }
@@ -542,7 +546,7 @@ class BraveWebView: UIWebView {
 
         // stop scrolling so the web view will respond faster
         scrollView.setContentOffset(scrollView.contentOffset, animated: false)
-        NSNotificationCenter.defaultCenter().postNotificationName(kNotificationPageUnload, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kNotificationPageUnload), object: self)
         super.goBack()
     }
 
@@ -550,21 +554,21 @@ class BraveWebView: UIWebView {
         clearLoadCompletedHtmlProperty()
 
         scrollView.setContentOffset(scrollView.contentOffset, animated: false)
-        NSNotificationCenter.defaultCenter().postNotificationName(kNotificationPageUnload, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kNotificationPageUnload), object: self)
         super.goForward()
     }
 
-    class func isTopFrameRequest(request:NSURLRequest) -> Bool {
-        guard let url = request.URL, mainDoc = request.mainDocumentURL else { return false }
+    class func isTopFrameRequest(_ request:URLRequest) -> Bool {
+        guard let url = request.url, let mainDoc = request.mainDocumentURL else { return false }
         return url.host == mainDoc.host && url.path == mainDoc.path
     }
 
     // Long press context menu text selection overriding
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         return super.canPerformAction(action, withSender: sender)
     }
 
-    func injectCSS(css: String) {
+    func injectCSS(_ css: String) {
         var js = "var script = document.createElement('style');"
         js += "script.type = 'text/css';"
         js += "script.innerHTML = '\(css)';"
@@ -586,12 +590,12 @@ class BraveWebView: UIWebView {
 
     // Some sites will re-try loads (us.yahoo.com). Trivially block this case by keeping small list of recently blocked
     struct RecentlyBlocked {
-        var urls = [String](count: 5, repeatedValue: "")
+        var urls = [String](repeating: "", count: 5)
         var insertAtIndex = 0
     }
     var recentlyBlocked = RecentlyBlocked()
 
-    func shieldStatUpdate(stat: ShieldStatUpdate, increment: Int = 1, affectedUrl: String = "") {
+    func shieldStatUpdate(_ stat: ShieldStatUpdate, increment: Int = 1, affectedUrl: String = "") {
         if !affectedUrl.isEmpty {
             if recentlyBlocked.urls.contains(affectedUrl) {
                 return
@@ -623,7 +627,7 @@ class BraveWebView: UIWebView {
         }
 
         postAsyncToMain(0.2) { [weak self] in
-            if let me = self where BraveApp.getCurrentWebView() === me {
+            if let me = self, BraveApp.getCurrentWebView() === me {
                 getApp().braveTopViewController.rightSidePanel.setShieldBlockedStats(me.shieldStats)
             }
         }
@@ -633,29 +637,28 @@ class BraveWebView: UIWebView {
 extension BraveWebView: UIWebViewDelegate {
 
     class LegacyNavigationAction : WKNavigationAction {
-        var writableRequest: NSURLRequest
+        var writableRequest: URLRequest
         var writableType: WKNavigationType
 
-        init(type: WKNavigationType, request: NSURLRequest) {
+        init(type: WKNavigationType, request: URLRequest) {
             writableType = type
             writableRequest = request
             super.init()
         }
 
-        override var request: NSURLRequest { get { return writableRequest} }
+        override var request: URLRequest { get { return writableRequest} }
         override var navigationType: WKNavigationType { get { return writableType } }
         override var sourceFrame: WKFrameInfo {
             get { return WKFrameInfo() }
         }
     }
 
-    func webView(webView: UIWebView,shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType ) -> Bool {
-        guard let url = request.URL else { return false }
+    func webView(_ webView: UIWebView,shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType ) -> Bool {
+        guard let url = request.url else { return false }
 
-        webView.backgroundColor = UIColor.whiteColor()
+        webView.backgroundColor = UIColor.white
 
-        if let contextMenu = window?.rootViewController?.presentedViewController
-            where contextMenu.view.tag == BraveWebViewConstants.kContextMenuBlockNavigation {
+        if let contextMenu = window?.rootViewController?.presentedViewController, contextMenu.view.tag == BraveWebViewConstants.kContextMenuBlockNavigation {
             // When showing a context menu, the webview will often still navigate (ex. news.google.com)
             // We need to block navigation using this tag.
             return false
@@ -689,17 +692,17 @@ extension BraveWebView: UIWebViewDelegate {
         blankTargetUrl = nil
 
         if url.scheme == "mailto" {
-            UIApplication.sharedApplication().openURL(url)
+            UIApplication.shared.openURL(url)
             return false
         }
 
         if AboutUtils.isAboutHomeURL(url) {
-            setUrl(url)
+            _ = setUrl(url)
             progress?.setProgress(1.0)
             return true
         }
 
-        if url.absoluteString?.contains(specialStopLoadUrl) ?? false {
+        if url.absoluteString.contains(specialStopLoadUrl) {
             progress?.completeProgress()
             return false
         }
@@ -710,7 +713,7 @@ extension BraveWebView: UIWebViewDelegate {
             return false
         }
 
-        if let progressCheck = progress?.shouldStartLoadWithRequest(request, navigationType: navigationType) where !progressCheck {
+        if let progressCheck = progress?.shouldStartLoadWithRequest(request, navigationType: navigationType), !progressCheck {
             return false
         }
 
@@ -731,12 +734,12 @@ extension BraveWebView: UIWebViewDelegate {
         if locationChanged {
             blankTargetLinkDetectionOn = true
             // TODO Maybe separate page unload from link clicked.
-            NSNotificationCenter.defaultCenter().postNotificationName(kNotificationPageUnload, object: self)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: kNotificationPageUnload), object: self)
             setUrl(url)
             //print("Page changed by shouldStartLoad: \(URL?.absoluteString ?? "")")
 
-            if let url = request.URL {
-                internalSetBraveShieldStateForDomain(url.normalizedHost())
+            if let url = request.url?.normalizedHost {
+                internalSetBraveShieldStateForDomain(url)
             }
 
             shieldStatUpdate(.reset)
@@ -748,7 +751,7 @@ extension BraveWebView: UIWebViewDelegate {
     }
 
 
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webViewDidStartLoad(_ webView: UIWebView) {
         backForwardList.update()
         
         if let nd = navigationDelegate {
@@ -767,8 +770,8 @@ extension BraveWebView: UIWebViewDelegate {
         configuration.userContentController.injectFingerprintProtection()
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
-        assert(NSThread.isMainThread())
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        assert(Thread.isMainThread)
 #if DEBUGJS
         let context = valueForKeyPath("documentView.webView.mainFrame.javaScriptContext") as! JSContext
         let logFunction : @convention(block) (String) -> Void = { (msg: String) in
@@ -779,43 +782,44 @@ extension BraveWebView: UIWebViewDelegate {
         // browserleaks canvas requires injection at this point
         configuration.userContentController.injectFingerprintProtection()
 
-        let readyState = stringByEvaluatingJavaScriptFromString("document.readyState.toLowerCase()")
+        let readyState = stringByEvaluatingJavaScript(from: "document.readyState.toLowerCase()")
         updateTitleFromHtml()
 
-        if let isSafeBrowsingBlock = stringByEvaluatingJavaScriptFromString("document['BraveSafeBrowsingPageResult']") {
+        if let isSafeBrowsingBlock = stringByEvaluatingJavaScript(from: "document['BraveSafeBrowsingPageResult']") {
             safeBrowsingBlockTriggered = (isSafeBrowsingBlock as NSString).boolValue
         }
 
-        progress?.webViewDidFinishLoad(documentReadyState: readyState)
+        progress?.webViewDidFinishLoad(readyState)
 
         backForwardList.update()
         broadcastToPageStateDelegates()
     }
 
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         //print("didFailLoadWithError: \(error)")
-        guard let errorUrl = error.userInfo[NSURLErrorFailingURLErrorKey] as? NSURL else { return }
+        guard let errorUrl = error.userInfo[NSURLErrorFailingURLErrorKey] as? Foundation.URL else { return }
         if errorUrl.isSpecialInternalUrl() {
             return
         }
 
+        // TODO: Move to extension
         if (error.domain == NSURLErrorDomain) &&
                (error.code == NSURLErrorServerCertificateHasBadDate      ||
                 error.code == NSURLErrorServerCertificateUntrusted         ||
                 error.code == NSURLErrorServerCertificateHasUnknownRoot    ||
                 error.code == NSURLErrorServerCertificateNotYetValid)
         {
-            if errorUrl.absoluteString?.regexReplacePattern("^.+://", with: "") != URL?.absoluteString?.regexReplacePattern("^.+://", with: "") {
+            if errorUrl.absoluteString.regexReplacePattern("^.+://", with: "") != URL?.absoluteString.regexReplacePattern("^.+://", with: "") {
                 print("only show cert error for top-level page")
                 return
             }
 
             let alertUrl = errorUrl.absoluteString ?? "this site"
-            let alert = UIAlertController(title: "Certificate Error", message: "The identity of \(alertUrl) can't be verified", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default) {
+            let alert = UIAlertController(title: "Certificate Error", message: "The identity of \(alertUrl) can't be verified", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
                 handler in
                 self.stopLoading()
-                webView.loadRequest(NSURLRequest(URL: NSURL(string: self.specialStopLoadUrl)!))
+                webView.loadRequest(URLRequest(url: Foundation.URL(string: self.specialStopLoadUrl)!))
 
                 // The current displayed url is wrong, so easiest hack is:
                 if (self.canGoBack) { // I don't think the !canGoBack case needs handling
@@ -823,26 +827,26 @@ extension BraveWebView: UIWebViewDelegate {
                     self.goForward()
                 }
                 })
-            alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.Default) {
+            alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default) {
                 handler in
                 self.loadingUnvalidatedHTTPSPage = true;
-                self.loadRequest(NSURLRequest(URL: errorUrl))
+                self.loadRequest(URLRequest(url: errorUrl))
                 })
 
-            window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            window?.rootViewController?.present(alert, animated: true, completion: nil)
             return
         }
 
-        NSNotificationCenter.defaultCenter()
-            .postNotificationName(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: self)
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed), object: self)
 
         // The error may not be the main document that failed to load. Check if the failing URL matches the URL being loaded
 
-        if let errorUrl = error.userInfo[NSURLErrorFailingURLErrorKey] as? NSURL {
+        if let errorUrl = error.userInfo[NSURLErrorFailingURLErrorKey] as? Foundation.URL {
             var handled = false
             if error.code == -1009 /*kCFURLErrorNotConnectedToInternet*/ {
-                let cache = NSURLCache.sharedURLCache().cachedResponseForRequest(NSURLRequest(URL: errorUrl))
-                if let html = cache?.data.utf8EncodedString where html.characters.count > 100 {
+                let cache = URLCache.shared.cachedResponse(for: URLRequest(url: errorUrl))
+                if let html = cache?.data.utf8EncodedString, html.characters.count > 100 {
                     loadHTMLString(html, baseURL: errorUrl)
                     handled = true
                 }
@@ -852,7 +856,7 @@ extension BraveWebView: UIWebViewDelegate {
             if !handled && URL?.absoluteString == errorUrl.absoluteString && error.code != kPluginIsHandlingLoad {
                 if let nd = navigationDelegate {
                     globalContainerWebView.legacyWebView = self
-                    nd.webViewDidFailNavigation(self, withError: error ?? NSError.init(domain: "", code: 0, userInfo: nil))
+                    nd.webViewDidFailNavigation(self, withError: error as NSError ?? NSError.init(domain: "", code: 0, userInfo: nil))
                 }
             }
         }
@@ -863,18 +867,18 @@ extension BraveWebView: UIWebViewDelegate {
 }
 
 extension BraveWebView : NSURLConnectionDelegate, NSURLConnectionDataDelegate {
-    func connection(connection: NSURLConnection, willSendRequestForAuthenticationChallenge challenge: NSURLAuthenticationChallenge) {
+    func connection(_ connection: NSURLConnection, willSendRequestFor challenge: URLAuthenticationChallenge) {
         guard let trust = challenge.protectionSpace.serverTrust else { return }
-        let cred = NSURLCredential(forTrust: trust)
-        challenge.sender?.useCredential(cred, forAuthenticationChallenge: challenge)
-        challenge.sender?.continueWithoutCredentialForAuthenticationChallenge(challenge)
+        let cred = URLCredential(trust: trust)
+        challenge.sender?.use(cred, for: challenge)
+        challenge.sender?.continueWithoutCredential(for: challenge)
         loadingUnvalidatedHTTPSPage = false
     }
 
-    func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
+    func connection(_ connection: NSURLConnection, didReceive response: URLResponse) {
         guard let url = URL else { return }
         loadingUnvalidatedHTTPSPage = false
-        loadRequest(NSURLRequest(URL: url))
+        loadRequest(URLRequest(url: url))
         certificateInvalidConnection?.cancel()
     }    
 }

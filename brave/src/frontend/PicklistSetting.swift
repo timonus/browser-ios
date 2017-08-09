@@ -3,7 +3,7 @@
 import Shared
 
 protocol PicklistSettingOptionsViewDelegate {
-    func picklistSetting(setting: PicklistSettingOptionsView, pickedOptionId: Int)
+    func picklistSetting(_ setting: PicklistSettingOptionsView, pickedOptionId: Int)
 }
 
 class PicklistSettingOptionsView: UITableViewController {
@@ -14,7 +14,7 @@ class PicklistSettingOptionsView: UITableViewController {
     var footerMessage = ""
 
     convenience init(options: [(displayName: String, id: Int)], title: String, current: Int, footerMessage: String) {
-        self.init(style: UITableViewStyle.Grouped)
+        self.init(style: UITableViewStyle.grouped)
         self.options = options
         self.headerTitle = title
         self.initialIndex = current
@@ -26,7 +26,7 @@ class PicklistSettingOptionsView: UITableViewController {
     }
 
     // Here due to 8.x bug: https://openradar.appspot.com/23709930
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -34,53 +34,53 @@ class PicklistSettingOptionsView: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell!
-        cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+        cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         cell.textLabel?.text = options[indexPath.row].displayName
         // cell.tag = options[indexPath.row].uniqueId --> if we want to decouple row order from option order in future
         if initialIndex == indexPath.row {
-            cell.accessoryType = .Checkmark
+            cell.accessoryType = .checkmark
         }
         return cell
     }
 
-    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return footerMessage
     }
 
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerTitle
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count ?? 0
     }
 
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        navigationController?.popViewControllerAnimated(true)
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        navigationController?.popViewController(animated: true)
         delegate?.picklistSetting(self, pickedOptionId: options[indexPath.row].id)
         return nil
     }
 
     // Don't show delete button on the left.
-    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.None
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.none
     }
 
     // Don't reserve space for the delete button on the left.
-    override func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
     }
 }
 
 //typealias PicklistSettingChoice = (displayName: String, internalObject: AnyObject, optionId: Int)
 struct Choice<T> {
-    let item: Void -> (displayName: String, object: T, optionId: Int)
+    let item: (Void) -> (displayName: String, object: T, optionId: Int)
 }
 
 class PicklistSettingMainItem<T>: Setting, PicklistSettingOptionsViewDelegate {
@@ -89,15 +89,15 @@ class PicklistSettingMainItem<T>: Setting, PicklistSettingOptionsViewDelegate {
     let displayName: String
     let options: [Choice<T>]
     var picklistFooterMessage = ""
-    override var accessoryType: UITableViewCellAccessoryType { return .DisclosureIndicator }
-    override var style: UITableViewCellStyle { return .Value1 }
+    override var accessoryType: UITableViewCellAccessoryType { return .disclosureIndicator }
+    override var style: UITableViewCellStyle { return .value1 }
     override var status: NSAttributedString {
         let currentId = getCurrent()
         let option = lookupOptionById(Int(currentId))
-        return NSAttributedString(string: option?.item().displayName ?? "", attributes: [ NSFontAttributeName: UIFont.systemFontOfSize(13)])
+        return NSAttributedString(string: option?.item().displayName ?? "", attributes: [ NSFontAttributeName: UIFont.systemFont(ofSize: 13)])
     }
 
-    func lookupOptionById(id: Int) -> Choice<T>? {
+    func lookupOptionById(_ id: Int) -> Choice<T>? {
         for option in options {
             if option.item().optionId == id {
                 return option
@@ -119,13 +119,13 @@ class PicklistSettingMainItem<T>: Setting, PicklistSettingOptionsViewDelegate {
     }
 
     var picklist: PicklistSettingOptionsView? // on iOS8 there is a crash, seems like it requires this to be retained
-    override func onClick(navigationController: UINavigationController?) {
+    override func onClick(_ navigationController: UINavigationController?) {
         picklist = PicklistSettingOptionsView(options: options.map { ($0.item().displayName,  $0.item().optionId) }, title: displayName, current: getCurrent(), footerMessage: picklistFooterMessage)
         navigationController?.pushViewController(picklist!, animated: true)
         picklist!.delegate = self
     }
 
-    func picklistSetting(setting: PicklistSettingOptionsView, pickedOptionId: Int) {
+    func picklistSetting(_ setting: PicklistSettingOptionsView, pickedOptionId: Int) {
         profile.prefs.setInt(Int32(pickedOptionId), forKey: prefName)
     }
 }

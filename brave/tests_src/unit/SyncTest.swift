@@ -15,7 +15,7 @@ class SyncTest: XCTestCase {
         expectationForNotification(NotificationSyncReady, object: nil, handler:nil)
         
         let sync = Sync.shared
-        waitForExpectationsWithTimeout(15) { error in
+        waitForExpectations(timeout: 15) { error in
             XCTAssertNil(error, "Error timeout waiting sync ready")
         }
         
@@ -39,20 +39,20 @@ class SyncTest: XCTestCase {
                 "isFolder: false," +
                 "parentFolderObjectId: undefined } }]"
         
-        let syncbm = SyncBookmark(json: JSON(string:bm))
+        let syncbm = SyncBookmark(json: JSON(parseJSON:bm))
         let realbm = Bookmark.add(rootObject: syncbm, save: true, sendToSync: true)
 
         sleep(5)
         
-        let fetchExpect = expectationWithDescription("Fetch result expectation")
+        let fetchExpect = expectation(description: "Fetch result expectation")
         sync.fetch() { error in
             XCTAssertNil(error, "Fetching had result error")
             fetchExpect.fulfill()
         }
 
-        waitForExpectationsWithTimeout(4) { (error:NSError?) -> Void in
+        waitForExpectations(timeout: 4) { (error:NSError?) -> Void in
             XCTAssertNil(error, "Fetching had expectation error")
-        }
+        } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
         
         // TODO: Somehow need to check the fetched results
 

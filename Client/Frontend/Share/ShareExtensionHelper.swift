@@ -8,28 +8,26 @@ import Shared
 private let log = Logger.browserLogger
 
 class ShareExtensionHelper: NSObject {
-    private weak var selectedTab: Browser?
+    fileprivate weak var selectedTab: Browser?
 
-    private let selectedURL: NSURL
-    private var onePasswordExtensionItem: NSExtensionItem!
-    private let activities: [UIActivity]
+    fileprivate let selectedURL: URL
+    fileprivate var onePasswordExtensionItem: NSExtensionItem!
+    fileprivate let activities: [UIActivity]
 
-    init(url: NSURL, tab: Browser?, activities: [UIActivity]) {
+    init(url: URL, tab: Browser?, activities: [UIActivity]) {
         self.selectedURL = url
         self.selectedTab = tab
         self.activities = activities
     }
 
-    func createActivityViewController(completionHandler: (Bool) -> Void) -> UIActivityViewController {
+    func createActivityViewController(_ completionHandler: @escaping (Bool) -> Void) -> UIActivityViewController {
         var activityItems = [AnyObject]()
 
         let printInfo = UIPrintInfo(dictionary: nil)
 
         let absoluteString = selectedTab?.url?.absoluteString ?? selectedURL.absoluteString
-        if let absoluteString = absoluteString {
-            printInfo.jobName = absoluteString
-        }
-        printInfo.outputType = .General
+        printInfo.jobName = absoluteString
+        printInfo.outputType = .general
         activityItems.append(printInfo)
 
         if let tab = selectedTab {
@@ -48,7 +46,7 @@ class ShareExtensionHelper: NSObject {
         // We would also hide View Later, if possible, but the exclusion list doesn't currently support
         // third-party activity types (rdar://19430419).
         activityViewController.excludedActivityTypes = [
-            UIActivityTypeAddToReadingList,
+            UIActivityType.addToReadingList,
         ]
 
         // This needs to be ready by the time the share menu has been displayed and
@@ -59,9 +57,9 @@ class ShareExtensionHelper: NSObject {
         }
 
         activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
-            if completed, let activityType = activityType where self.isPasswordManagerActivityType(activityType) {
+            if completed, let activityType = activityType, self.isPasswordManagerActivityType(activityType.rawValue) {
                 if let logins = returnedItems {
-                    self.fillPasswords(logins)
+                    self.fillPasswords(logins as [AnyObject])
                 }
             }
 
@@ -72,33 +70,31 @@ class ShareExtensionHelper: NSObject {
 }
 
 extension ShareExtensionHelper: UIActivityItemSource {
-    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject {
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         if let displayURL = selectedTab?.displayURL {
             return displayURL
         }
         return selectedURL
     }
 
-    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
-        if isPasswordManagerActivityType(activityType) {
+    // IMPORTANT: This method needs Swift compiler optimization DISABLED to prevent a nasty
+    // crash from happening in release builds. It seems as though the check for `nil` may
+    // get removed by the optimizer which leads to a crash when that happens.
+    @_semantics("optimize.sil.never") func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        // activityType actually is nil sometimes (in the simulator at least)
+        if activityType != nil && isPasswordManagerActivityType(activityType.rawValue) {
             return onePasswordExtensionItem
         } else {
             // Return the URL for the selected tab. If we are in reader view then decode
             // it so that we copy the original and not the internal localhost one.
-            if let url = selectedTab?.displayURL where ReaderModeUtils.isReaderModeURL(url) {
-                return ReaderModeUtils.decodeURL(url)
+            if let url = selectedTab?.url?.displayURL, url.isReaderModeURL {
+                return url.decodeReaderModeURL
             }
-            
-            let url = selectedTab?.displayURL ?? selectedURL
-            if activityType == UIActivityTypePostToTwitter {
-                return url.absoluteString ?? ""
-            } else {
-                return url
-            }
+            return selectedTab?.url?.displayURL ?? selectedURL
         }
     }
-
-    func activityViewController(activityViewController: UIActivityViewController, dataTypeIdentifierForActivityType activityType: String?) -> String {
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, dataTypeIdentifierForActivityType activityType: UIActivityType?) -> String {
         // Because of our UTI declaration, this UTI now satisfies both the 1Password Extension and the usual NSURL for Share extensions.
         return "org.appextension.fill-browser-action"
     }
@@ -106,10 +102,10 @@ extension ShareExtensionHelper: UIActivityItemSource {
 
 private extension ShareExtensionHelper {
     static func isPasswordManagerExtensionAvailable() -> Bool {
-        return OnePasswordExtension.sharedExtension().isAppExtensionAvailable()
+        return OnePasswordExtension.shared().isAppExtensionAvailable()
     }
 
-    func isPasswordManagerActivityType(activityType: String) -> Bool {
+    func isPasswordManagerActivityType(_ activityType: String) -> Bool {
         if (!ShareExtensionHelper.isPasswordManagerExtensionAvailable()) {
             return false
         }
@@ -120,7 +116,8 @@ private extension ShareExtensionHelper {
         
         let additionalIdentifiers = [
             "com.lastpass.ilastpass.LastPassExt",
-            "com.8bit.bitwarden.find-login-action-extension"
+            "com.8bit.bitwarden.find-login-action-extension",
+            "com.intelsecurity.truekey.find-login-action"
         ]
         
         return activityType.contains("password") || additionalIdentifiers.contains(activityType)
@@ -136,7 +133,7 @@ private extension ShareExtensionHelper {
         }
 
         // Add 1Password to share sheet
-        OnePasswordExtension.sharedExtension().createExtensionItemForWebView(selectedWebView, completion: {(extensionItem, error) -> Void in
+        OnePasswordExtension.shared().createExtensionItem(forWebView: selectedWebView, completion: {(extensionItem, error) -> Void in
             if extensionItem == nil {
                 log.error("Failed to create the password manager extension item: \(error).")
                 return
@@ -147,12 +144,12 @@ private extension ShareExtensionHelper {
         })
     }
 
-    func fillPasswords(returnedItems: [AnyObject]) {
+    func fillPasswords(_ returnedItems: [AnyObject]) {
         guard let selectedWebView = selectedTab?.webView else {
             return
         }
 
-        OnePasswordExtension.sharedExtension().fillReturnedItems(returnedItems, intoWebView: selectedWebView, completion: { (success, returnedItemsError) -> Void in
+        OnePasswordExtension.shared().fillReturnedItems(returnedItems, intoWebView: selectedWebView, completion: { (success, returnedItemsError) -> Void in
             if !success {
                 log.error("Failed to fill item into webview: \(returnedItemsError).")
             }
