@@ -115,7 +115,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         
         divider.backgroundColor = BraveUX.ColorForSidebarLineSeparators
 
-        divider.snp_makeConstraints { make in
+        divider.snp.makeConstraints { make in
             make.right.bottom.left.equalTo(divider.superview!)
             make.height.equalTo(1.0)
         }
@@ -133,11 +133,11 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             topTitle.font = UIFont.systemFont(ofSize: ui_sectionTitleFontSize)
             topTitle.alpha = 0.6
             topTitle.text = title
-            topTitle.snp_makeConstraints { (make) in
+            topTitle.snp.makeConstraints { (make) in
                 make.left.equalTo(topTitle.superview!).offset(ui_edgeInset)
                 make.bottom.equalTo(topTitle.superview!)
             }
-            container.snp_makeConstraints { (make) in
+            container.snp.makeConstraints { (make) in
                 make.height.equalTo(sectionHeight)
             }
             return container
@@ -163,7 +163,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         }
         sections.forEach { containerView.addSubview($0) }
         sections.enumerated().forEach { i, section in
-            section.snp_makeConstraints({ (make) in
+            section.snp.makeConstraints({ (make) in
                 make.left.right.equalTo(section.superview!)
 
                 if i == 0 {
@@ -220,7 +220,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             heading.textColor = UIColor.black
             heading.font = UIFont.boldSystemFont(ofSize: 18)
             
-            heading.snp_makeConstraints { (make) in
+            heading.snp.makeConstraints { (make) in
                 make.right.equalTo(heading.superview!)
                 make.bottom.equalTo(heading.superview!).inset(12)
                 make.left.equalTo(heading.superview!).offset(ui_edgeInset)
@@ -242,16 +242,16 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             
             [shieldsOverview, shieldsOverviewFooter].forEach { shieldsOverviewContainer.addSubview($0) }
             
-            shieldsOverview.snp_makeConstraints {
+            shieldsOverview.snp.makeConstraints {
                 make in
                 make.top.equalTo(shieldsOverview.superview!).offset(30)
                 make.left.equalTo(shieldsOverview.superview!).inset(ui_edgeInset)
                 make.right.equalTo(shieldsOverview.superview!).inset(ui_edgeInset)
             }
             
-            shieldsOverviewFooter.snp_makeConstraints {
+            shieldsOverviewFooter.snp.makeConstraints {
                 make in
-                make.top.equalTo(shieldsOverview.snp_bottom).offset(20)
+                make.top.equalTo(shieldsOverview.snp.bottom).offset(20)
                 make.left.equalTo(shieldsOverviewFooter.superview!).inset(ui_edgeInset)
                 make.right.equalTo(shieldsOverviewFooter.superview!).inset(ui_edgeInset)
                 make.bottom.equalTo(shieldsOverviewFooter.superview!).inset(50)
@@ -272,11 +272,11 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
 
             [siteName, up, down, shieldToggle].forEach { siteNameContainer.addSubview($0) }
 
-            siteName.snp_makeConstraints {
+            siteName.snp.makeConstraints {
                 make in
                 make.left.equalTo(siteName.superview!).inset(ui_edgeInset)
                 make.right.equalTo(siteName.superview!).inset(ui_edgeInset)
-                make.bottom.equalTo(shieldToggle.snp_top).inset(-8)
+                make.bottom.equalTo(shieldToggle.snp.top).inset(-8)
             }
             siteName.adjustsFontSizeToFitWidth = true
 
@@ -285,22 +285,22 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                 setGrayTextColor($0)
             }
 
-            down.snp_makeConstraints {
+            down.snp.makeConstraints {
                 make in
                 make.left.equalTo(down.superview!).inset(ui_edgeInset + 2)
                 make.centerY.equalTo(shieldToggle)
             }
 
-            up.snp_makeConstraints {
+            up.snp.makeConstraints {
                 make in
-                make.left.equalTo(shieldToggle.snp_right).offset(10)
+                make.left.equalTo(shieldToggle.snp.right).offset(10)
                 make.centerY.equalTo(shieldToggle)
             }
 
-            shieldToggle.snp_makeConstraints {
+            shieldToggle.snp.makeConstraints {
                 make in
-                make.left.equalTo(down.snp_right).offset(8)
-                make.bottom.equalTo(shieldToggle.superview!.snp_bottomMargin)
+                make.left.equalTo(down.snp.right).offset(8)
+                make.bottom.equalTo(shieldToggle.superview!.snp.bottomMargin)
             }
             shieldToggle.onTintColor = BraveUX.BraveOrange
             shieldToggle.tintColor = BraveUX.SwitchTintColor
@@ -318,15 +318,15 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                 row.addSubview(switchItem)
                 row.addSubview(label)
                 
-                switchItem.snp_makeConstraints { (make) in
+                switchItem.snp.makeConstraints { (make) in
                     make.left.equalTo(row)
                     make.centerY.equalTo(row)
                 }
 
-                label.snp_makeConstraints { make in
-                    make.left.equalTo(switchItem.snp_right).offset(10)
-                    make.centerY.equalTo(switchItem.snp_centerY)
-                    make.right.equalTo(label.superview!.snp_right)
+                label.snp.makeConstraints { make in
+                    make.left.equalTo(switchItem.snp.right).offset(10)
+                    make.centerY.equalTo(switchItem.snp.centerY)
+                    make.right.equalTo(label.superview!.snp.right)
                 }
 
                 return row
@@ -346,18 +346,18 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             }
 
             rows.enumerated().forEach { i, row in
-                row.snp_remakeConstraints({ (make) in
+                row.snp.remakeConstraints({ (make) in
                     make.left.right.equalTo(row.superview!).inset(ui_edgeInset)
                     if i == 0 {
                         make.height.equalTo(ui_togglesContainerRowHeight)
                         make.top.equalTo(row.superview!).offset(5)
-                        make.bottom.equalTo(rows[i + 1].snp_top)
+                        make.bottom.equalTo(rows[i + 1].snp.top)
                     } else if i == rows.count - 1 {
-                        make.top.greaterThanOrEqualTo(rows[i - 1].snp_bottom)
+                        make.top.greaterThanOrEqualTo(rows[i - 1].snp.bottom)
                         make.bottom.greaterThanOrEqualTo(row.superview!).inset(5)
                     } else {
-                        make.top.greaterThanOrEqualTo(rows[i - 1].snp_bottom)
-                        make.bottom.equalTo(rows[i + 1].snp_top)
+                        make.top.greaterThanOrEqualTo(rows[i - 1].snp.bottom)
+                        make.bottom.equalTo(rows[i + 1].snp.top)
                     }
                     if i > 0 {
                         make.height.equalTo(rows[0])
@@ -392,11 +392,11 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                 stat.textColor = statColors[i]
                 stat.textAlignment = .right
 
-                stat.snp_makeConstraints {
+                stat.snp.makeConstraints {
                     make in
                     make.left.equalTo(stat.superview!).offset(ui_edgeInset)
                     if let prevTitle = prevTitle {
-                        make.top.equalTo(prevTitle.snp_bottom)
+                        make.top.equalTo(prevTitle.snp.bottom)
                         make.height.equalTo(statViews[0])
                     } else {
                         make.top.equalTo(stat.superview!)
@@ -409,10 +409,10 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                     make.width.equalTo(40)
                 }
 
-                label.snp_makeConstraints({ (make) in
-                    make.left.equalTo(stat.snp_right).offset(6 + 14)
+                label.snp.makeConstraints({ (make) in
+                    make.left.equalTo(stat.snp.right).offset(6 + 14)
                     make.centerY.equalTo(stat)
-                    make.right.equalTo(label.superview!.snp_right)
+                    make.right.equalTo(label.superview!.snp.right)
                 })
 
                 prevTitle = label

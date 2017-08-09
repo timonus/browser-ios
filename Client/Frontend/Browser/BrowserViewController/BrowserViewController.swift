@@ -374,12 +374,12 @@ class BrowserViewController: UIViewController {
 
     func setupConstraints() {
         
-        statusBarOverlay.snp_makeConstraints { make in
+        statusBarOverlay.snp.makeConstraints { make in
             make.top.right.left.equalTo(statusBarOverlay.superview!)
             make.bottom.equalTo(topLayoutGuide.snp.bottom)
         }
         
-        header.snp_makeConstraints { make in
+        header.snp.makeConstraints { make in
             
             scrollController.headerTopConstraint = make.top.equalTo(self.topLayoutGuide.snp.bottom).constraint
             if let headerHeightConstraint = headerHeightConstraint {
@@ -397,11 +397,11 @@ class BrowserViewController: UIViewController {
         // webViewContainer constraints set in Brave subclass.
         // TODO: This should be centralized
 
-        webViewContainerBackdrop.snp_makeConstraints { make in
+        webViewContainerBackdrop.snp.makeConstraints { make in
             make.edges.equalTo(webViewContainer)
         }
 
-        webViewContainerToolbar.snp_makeConstraints { make in
+        webViewContainerToolbar.snp.makeConstraints { make in
             make.left.right.top.equalTo(webViewContainer)
             make.height.equalTo(0)
         }
@@ -532,29 +532,29 @@ class BrowserViewController: UIViewController {
     override func updateViewConstraints() {
         super.updateViewConstraints()
 
-        topTouchArea.snp_remakeConstraints { make in
+        topTouchArea.snp.remakeConstraints { make in
             make.top.left.right.equalTo(self.view)
             make.height.equalTo(BrowserViewControllerUX.ShowHeaderTapAreaHeight)
         }
 
-        readerModeBar?.snp_remakeConstraints { make in
-            make.top.equalTo(self.header.snp_bottom).constraint
+        readerModeBar?.snp.remakeConstraints { make in
+            make.top.equalTo(self.header.snp.bottom).constraint
             make.height.equalTo(BraveUX.ReaderModeBarHeight)
             make.leading.trailing.equalTo(self.view)
         }
 
-        footer.snp_remakeConstraints { make in
-            scrollController.footerBottomConstraint = make.bottom.equalTo(self.view.snp_bottom).constraint
-            make.top.equalTo(self.snackBars.snp_top)
+        footer.snp.remakeConstraints { make in
+            scrollController.footerBottomConstraint = make.bottom.equalTo(self.view.snp.bottom).constraint
+            make.top.equalTo(self.snackBars.snp.top)
             make.leading.trailing.equalTo(self.view)
         }
 
-        footerBackdrop.snp_remakeConstraints { make in
+        footerBackdrop.snp.remakeConstraints { make in
             make.edges.equalTo(self.footer)
         }
 
         updateSnackBarConstraints()
-        footerBackground?.snp_remakeConstraints { make in
+        footerBackground?.snp.remakeConstraints { make in
             make.bottom.left.right.equalTo(self.footer)
             make.height.equalTo(UIConstants.ToolbarHeight)
         }
@@ -562,23 +562,23 @@ class BrowserViewController: UIViewController {
 
         // Remake constraints even if we're already showing the home controller.
         // The home controller may change sizes if we tap the URL bar while on about:home.
-        homePanelController?.view.snp_remakeConstraints { make in
-            make.top.equalTo(self.header.snp_bottom)
+        homePanelController?.view.snp.remakeConstraints { make in
+            make.top.equalTo(self.header.snp.bottom)
             make.left.right.equalTo(self.view)
             if self.homePanelIsInline {
-                make.bottom.equalTo(self.toolbar?.snp_top ?? self.view.snp_bottom)
+                make.bottom.equalTo(self.toolbar?.snp.top ?? self.view.snp.bottom)
             } else {
-                make.bottom.equalTo(self.view.snp_bottom)
+                make.bottom.equalTo(self.view.snp.bottom)
             }
         }
 
-        findInPageContainer.snp_remakeConstraints { make in
+        findInPageContainer.snp.remakeConstraints { make in
             make.left.right.equalTo(self.view)
 
             if let keyboardHeight = keyboardState?.intersectionHeightForView(self.view), keyboardHeight > 0 {
                 make.bottom.equalTo(self.view).offset(-keyboardHeight)
             } else if let toolbar = self.toolbar {
-                make.bottom.equalTo(toolbar.snp_top)
+                make.bottom.equalTo(toolbar.snp.top)
             } else {
                 make.bottom.equalTo(self.view)
             }
@@ -902,7 +902,7 @@ class BrowserViewController: UIViewController {
                 findInPageBar.delegate = self
                 findInPageContainer.addSubview(findInPageBar)
 
-                findInPageBar.snp_makeConstraints { make in
+                findInPageBar.snp.makeConstraints { make in
                     make.edges.equalTo(findInPageContainer)
                     make.height.equalTo(UIConstants.ToolbarHeight)
                 }
@@ -1182,7 +1182,7 @@ class BlurWrapper: UIView {
             effectView.removeFromSuperview()
             effectView = newEffect
             insertSubview(effectView, belowSubview: wrappedView)
-            effectView.snp_remakeConstraints { make in
+            effectView.snp.remakeConstraints { make in
                 make.edges.equalTo(self)
             }
         }
@@ -1199,11 +1199,11 @@ class BlurWrapper: UIView {
         addSubview(effectView)
         addSubview(wrappedView)
 
-        effectView.snp_makeConstraints { make in
+        effectView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
 
-        wrappedView.snp_makeConstraints { make in
+        wrappedView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
     }

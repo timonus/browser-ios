@@ -142,10 +142,10 @@ extension BrowserViewController: WKCompatNavigationDelegate {
         guard let url = url, let openInHelper = OpenInHelperFactory.helperForURL(url) else { return }
         let view = openInHelper.openInView
         webViewContainerToolbar.addSubview(view)
-        webViewContainerToolbar.snp_updateConstraints { make in
+        webViewContainerToolbar.snp.updateConstraints { make in
             make.height.equalTo(OpenInViewUX.ViewHeight)
         }
-        view.snp_makeConstraints { make in
+        view.snp.makeConstraints { make in
             make.edges.equalTo(webViewContainerToolbar)
         }
 
@@ -156,7 +156,7 @@ extension BrowserViewController: WKCompatNavigationDelegate {
         guard let _ = self.openInHelper else { return }
         webViewContainerToolbar.subviews.forEach { $0.removeFromSuperview() }
 
-        webViewContainerToolbar.snp_updateConstraints { make in
+        webViewContainerToolbar.snp.updateConstraints { make in
             make.height.equalTo(0)
         }
 

@@ -214,37 +214,37 @@ class BrowserLocationView: UIView {
 
     override func updateConstraints() {
 
-        lockImageView.snp_makeConstraints { make in
+        lockImageView.snp.makeConstraints { make in
             make.centerY.equalTo(self)
             make.left.equalTo(self).offset(BrowserLocationViewUX.LocationContentInset)
             make.width.equalTo(self.lockImageView.intrinsicContentSize.width)
         }
 
-        readerModeButton.snp_makeConstraints { make in
-            make.right.equalTo(stopReloadButton.snp_left).inset(-6)
+        readerModeButton.snp.makeConstraints { make in
+            make.right.equalTo(stopReloadButton.snp.left).inset(-6)
             make.height.centerY.equalTo(self)
             make.width.equalTo(20)
         }
 
-        stopReloadButton.snp_makeConstraints { make in
+        stopReloadButton.snp.makeConstraints { make in
             make.right.equalTo(self).inset(BrowserLocationViewUX.LocationContentInset)
             make.height.centerY.equalTo(self)
             make.width.equalTo(20)
         }
 
-        urlTextField.snp_remakeConstraints { make in
+        urlTextField.snp.remakeConstraints { make in
             make.top.bottom.equalTo(self)
 
             if lockImageView.isHidden {
                 make.left.equalTo(self).offset(BrowserLocationViewUX.LocationContentInset)
             } else {
-                make.left.equalTo(self.lockImageView.snp_right).offset(BrowserLocationViewUX.LocationContentInset)
+                make.left.equalTo(self.lockImageView.snp.right).offset(BrowserLocationViewUX.LocationContentInset)
             }
 
             if readerModeButton.isHidden {
-                make.right.equalTo(self.stopReloadButton.snp_left)
+                make.right.equalTo(self.stopReloadButton.snp.left)
             } else {
-                make.right.equalTo(self.readerModeButton.snp_left).inset(-4)
+                make.right.equalTo(self.readerModeButton.snp.left).inset(-4)
             }
         }
 

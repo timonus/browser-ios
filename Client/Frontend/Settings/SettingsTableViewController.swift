@@ -430,12 +430,12 @@ class SettingsTableSectionHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     func setupInitialConstraints() {
-        bottomBorder.snp_makeConstraints { make in
+        bottomBorder.snp.makeConstraints { make in
             make.bottom.left.right.equalTo(self)
             make.height.equalTo(0.5)
         }
 
-        topBorder.snp_makeConstraints { make in
+        topBorder.snp.makeConstraints { make in
             make.top.left.right.equalTo(self)
             make.height.equalTo(0.5)
         }
@@ -454,13 +454,13 @@ class SettingsTableSectionHeaderFooterView: UITableViewHeaderFooterView {
     fileprivate func remakeTitleAlignmentConstraints() {
         switch titleAlignment {
         case .top:
-            titleLabel.snp_remakeConstraints { make in
+            titleLabel.snp.remakeConstraints { make in
                 make.left.right.equalTo(self).inset(SettingsTableSectionHeaderFooterViewUX.titleHorizontalPadding)
                 make.top.equalTo(self).offset(SettingsTableSectionHeaderFooterViewUX.titleVerticalPadding)
                 make.bottom.equalTo(self).offset(-SettingsTableSectionHeaderFooterViewUX.titleVerticalLongPadding)
             }
         case .bottom:
-            titleLabel.snp_remakeConstraints { make in
+            titleLabel.snp.remakeConstraints { make in
                 make.left.right.equalTo(self).inset(SettingsTableSectionHeaderFooterViewUX.titleHorizontalPadding)
                 make.bottom.equalTo(self).offset(-SettingsTableSectionHeaderFooterViewUX.titleVerticalPadding)
                 make.top.equalTo(self).offset(SettingsTableSectionHeaderFooterViewUX.titleVerticalLongPadding)

@@ -94,7 +94,7 @@ class AppSettingsTableViewController: SettingsTableViewController {
                     headerView.titleAlignment = .top
                     headerView.titleLabel.numberOfLines = 0
                     headerView.showBottomBorder = false
-                    headerView.titleLabel.snp_updateConstraints { make in
+                    headerView.titleLabel.snp.updateConstraints { make in
                         make.right.equalTo(headerView).offset(-50)
                     }
 

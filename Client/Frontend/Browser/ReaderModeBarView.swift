@@ -86,7 +86,7 @@ class ReaderModeBarView: UIView {
         settingsButton.accessibilityLabel = Strings.Reader_Mode_Settings
         addSubview(settingsButton)
 
-        settingsButton.snp_makeConstraints { make in
+        settingsButton.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(self)
 
         }

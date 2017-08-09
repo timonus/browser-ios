@@ -79,7 +79,7 @@ class BraveTermsViewController: UIViewController {
         continueButton.layer.masksToBounds = true
         view.addSubview(continueButton)
         
-        continueButton.snp_makeConstraints { (make) in
+        continueButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
             make.bottom.equalTo(self.view).offset(-30)
             make.height.equalTo(40)
@@ -88,39 +88,39 @@ class BraveTermsViewController: UIViewController {
             make.width.equalTo(width + 40)
         }
         
-        optLabel.snp_makeConstraints { (make) in
+        optLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view).offset(36/2)
             
             let width = min(UIScreen.main.bounds.width * 0.65, 350)
             make.width.equalTo(width)
             
             if UIDevice.current.userInterfaceIdiom == .pad {
-                make.bottom.equalTo(continueButton.snp_top).offset(-60).priorityHigh()
+                make.bottom.equalTo(continueButton.snp.top).offset(-60).priorityHigh()
             }
             else {
-                make.bottom.lessThanOrEqualTo(continueButton.snp_top).offset(-60).priorityHigh()
+                make.bottom.lessThanOrEqualTo(continueButton.snp.top).offset(-60).priorityHigh()
             }
         }
         
-        checkButton.snp_makeConstraints { (make) in
-            make.left.equalTo(optLabel.snp_left).offset(-36)
-            make.top.equalTo(optLabel.snp_top).offset(4).priorityHigh()
+        checkButton.snp.makeConstraints { (make) in
+            make.left.equalTo(optLabel.snp.left).offset(-36)
+            make.top.equalTo(optLabel.snp.top).offset(4).priorityHigh()
         }
         
-        termsLabel.snp_makeConstraints { (make) in
+        termsLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
             
             let width = min(UIScreen.main.bounds.width * 0.70, 350)
             make.width.equalTo(width)
-            make.bottom.equalTo(optLabel.snp_top).offset(-35).priorityMedium()
+            make.bottom.equalTo(optLabel.snp.top).offset(-35).priorityMedium()
         }
         
-        braveLogo.snp_makeConstraints { (make) in
+        braveLogo.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
             make.top.equalTo(10)
             
             if UIDevice.current.userInterfaceIdiom == .pad {
-                make.bottom.equalTo(termsLabel.snp_top)
+                make.bottom.equalTo(termsLabel.snp.top)
             }
             else {
                 make.height.equalTo(UIScreen.main.bounds.width > UIScreen.main.bounds.height ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)

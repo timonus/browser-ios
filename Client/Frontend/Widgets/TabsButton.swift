@@ -108,16 +108,16 @@ class TabsButton: UIControl {
     override func updateConstraints() {
         super.updateConstraints()
 
-        labelBackground.snp_remakeConstraints { (make) -> Void in
+        labelBackground.snp.remakeConstraints { (make) -> Void in
             make.edges.equalTo(insideButton)
         }
-        borderView.snp_remakeConstraints { (make) -> Void in
+        borderView.snp.remakeConstraints { (make) -> Void in
             make.edges.equalTo(insideButton)
         }
-        titleLabel.snp_remakeConstraints { (make) -> Void in
+        titleLabel.snp.remakeConstraints { (make) -> Void in
             make.edges.equalTo(insideButton)
         }
-        insideButton.snp_remakeConstraints { (make) -> Void in
+        insideButton.snp.remakeConstraints { (make) -> Void in
           // BRAVE mod: getting layout errors with firefox method, temporary hack to bypass the errors
           make.right.equalTo(self).inset(12)
           make.centerY.equalTo(self).inset(1)

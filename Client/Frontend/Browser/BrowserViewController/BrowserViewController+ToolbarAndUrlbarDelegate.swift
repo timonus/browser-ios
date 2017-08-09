@@ -21,8 +21,8 @@ extension BrowserViewController: URLBarDelegate {
 
         addChildViewController(searchController!)
         view.addSubview(searchController!.view)
-        searchController!.view.snp_makeConstraints { make in
-            make.top.equalTo(self.header.snp_bottom)
+        searchController!.view.snp.makeConstraints { make in
+            make.top.equalTo(self.header.snp.bottom)
             make.left.right.bottom.equalTo(self.view)
             return
         }

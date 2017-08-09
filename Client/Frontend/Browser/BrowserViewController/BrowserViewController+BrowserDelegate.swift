@@ -153,13 +153,13 @@ extension BrowserViewController: BrowserDelegate {
     }
 
     func updateSnackBarConstraints() {
-        snackBars.snp_remakeConstraints { make in
-            make.bottom.equalTo(findInPageContainer.snp_top)
+        snackBars.snp.remakeConstraints { make in
+            make.bottom.equalTo(findInPageContainer.snp.top)
 
             let bars = self.snackBars.subviews
             if bars.count > 0 {
                 let view = bars[bars.count-1]
-                make.top.equalTo(view.snp_top)
+                make.top.equalTo(view.snp.top)
             } else {
                 make.height.equalTo(0)
             }
@@ -185,14 +185,14 @@ extension BrowserViewController: BrowserDelegate {
             if index < bars.count-1 {
                 // Move the bar above this one
                 let nextbar = bars[index+1] as! SnackBar
-                nextbar.snp_updateConstraints { make in
+                nextbar.snp.updateConstraints { make in
                     // If this wasn't the bottom bar, attach to the bar below it
                     if index > 0 {
                         let bar = bars[index-1] as! SnackBar
-                        nextbar.bottom = make.bottom.equalTo(bar.snp_top).constraint
+                        nextbar.bottom = make.bottom.equalTo(bar.snp.top).constraint
                     } else {
                         // Otherwise, we attach it to the bottom of the snackbars
-                        nextbar.bottom = make.bottom.equalTo(self.snackBars.snp_bottom).constraint
+                        nextbar.bottom = make.bottom.equalTo(self.snackBars.snp.bottom).constraint
                     }
                 }
             }
@@ -204,7 +204,7 @@ extension BrowserViewController: BrowserDelegate {
 
     fileprivate func finishAddingBar(_ bar: SnackBar) {
         snackBars.addSubview(bar)
-        bar.snp_remakeConstraints { make in
+        bar.snp.remakeConstraints { make in
             // If there are already bars showing, add this on top of them
             let bars = self.snackBars.subviews
 
@@ -212,9 +212,9 @@ extension BrowserViewController: BrowserDelegate {
             // We're the new top bar in the stack, so make sure we ignore ourself
             if bars.count > 1 {
                 let view = bars[bars.count - 2]
-                bar.bottom = make.bottom.equalTo(view.snp_top).offset(0).constraint
+                bar.bottom = make.bottom.equalTo(view.snp.top).offset(0).constraint
             } else {
-                bar.bottom = make.bottom.equalTo(self.snackBars.snp_bottom).offset(0).constraint
+                bar.bottom = make.bottom.equalTo(self.snackBars.snp.bottom).offset(0).constraint
             }
             make.leading.trailing.equalTo(self.snackBars)
         }

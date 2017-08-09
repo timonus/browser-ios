@@ -239,7 +239,7 @@ class URLBarView: UIView {
 
         locationContainer.addSubview(locationTextField)
 
-        locationTextField.snp_makeConstraints { make in
+        locationTextField.snp.makeConstraints { make in
             make.edges.equalTo(self.locationView.urlTextField)
         }
 
@@ -355,7 +355,7 @@ class URLBarView: UIView {
             self.rightBarConstraint?.updateOffset(amount: URLBarViewUX.URLBarCurveOffset + URLBarViewUX.URLBarCurveBounceBuffer + tabsButton.frame.width)
 
             // Make the editable text field span the entire URL bar, covering the lock and reader icons.
-            self.locationTextField?.snp_remakeConstraints { make in
+            self.locationTextField?.snp.remakeConstraints { make in
                 make.leading.equalTo(self.locationContainer).offset(URLBarViewUX.LocationContentOffset)
                 make.top.bottom.trailing.equalTo(self.locationContainer)
             }
@@ -366,7 +366,7 @@ class URLBarView: UIView {
             self.rightBarConstraint?.updateOffset(amount: defaultRightOffset)
 
             // Shrink the editable text field back to the size of the location view before hiding it.
-            self.locationTextField?.snp_remakeConstraints { make in
+            self.locationTextField?.snp.remakeConstraints { make in
                 make.edges.equalTo(self.locationView.urlTextField)
             }
         }

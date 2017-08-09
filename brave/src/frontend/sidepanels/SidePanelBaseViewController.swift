@@ -65,7 +65,7 @@ class SidePanelBaseViewController : UIViewController {
         if BraveUX.PanelShadowWidth > 0 {
             view.addSubview(shadow)
 
-            shadow.snp_makeConstraints { make in
+            shadow.snp.makeConstraints { make in
                 if isLeftSidePanel {
                     make.right.top.equalTo(containerView)
                 } else {
@@ -109,7 +109,7 @@ class SidePanelBaseViewController : UIViewController {
         let width = showing ? BraveUX.WidthOfSlideOut : 0
         let animation = {
             guard let superview = self.view.superview else { return }
-            self.view.snp_remakeConstraints {
+            self.view.snp.remakeConstraints {
                 make in
                 if self.isLeftSidePanel {
                     make.bottom.left.top.equalTo(superview)

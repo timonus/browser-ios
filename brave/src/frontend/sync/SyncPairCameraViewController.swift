@@ -140,46 +140,46 @@ class SyncPairCameraViewController: UIViewController {
         
         edgesForExtendedLayout = UIRectEdge()
         
-        scrollView.snp_makeConstraints { (make) in
+        scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
         
-        cameraView.snp_makeConstraints { (make) in
+        cameraView.snp.makeConstraints { (make) in
             make.top.equalTo(self.scrollView).offset(24)
             make.size.equalTo(300)
             make.centerX.equalTo(self.scrollView)
         }
         
-        titleLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.cameraView.snp_bottom).offset(30)
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.cameraView.snp.bottom).offset(30)
             make.centerX.equalTo(self.scrollView)
         }
         
-        descriptionLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp_bottom).offset(7)
+        descriptionLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(7)
             make.leftMargin.equalTo(30)
             make.rightMargin.equalTo(-30)
         }
         
-        cameraAccessButton.snp_makeConstraints { (make) in
-            make.top.equalTo(self.descriptionLabel.snp_bottom).offset(30)
+        cameraAccessButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
             make.centerX.equalTo(self.scrollView)
             make.left.equalTo(16)
             make.right.equalTo(-16)
             make.height.equalTo(50)
         }
         
-        enterWordsButton.snp_makeConstraints { (make) in
-            make.top.equalTo(self.cameraAccessButton.snp_bottom).offset(8)
+        enterWordsButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.cameraAccessButton.snp.bottom).offset(8)
             make.centerX.equalTo(self.scrollView)
             make.bottom.equalTo(-10)
         }
         
-        loadingView.snp_makeConstraints { make in
-            make.margins.equalTo(cameraView.snp_margins)
+        loadingView.snp.makeConstraints { make in
+            make.margins.equalTo(cameraView.snp.margins)
         }
         
-        loadingSpinner.snp_makeConstraints { make in
+        loadingSpinner.snp.makeConstraints { make in
             make.center.equalTo(loadingSpinner.superview!)
         }
         

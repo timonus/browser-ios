@@ -79,7 +79,7 @@ class HistoryPanel: SiteTableViewController, HomePanel {
         if frc?.fetchedObjects?.count == 0 {
             if self.emptyStateOverlayView.superview == nil {
                 self.tableView.addSubview(self.emptyStateOverlayView)
-                self.emptyStateOverlayView.snp_makeConstraints { make -> Void in
+                self.emptyStateOverlayView.snp.makeConstraints { make -> Void in
                     make.edges.equalTo(self.tableView)
                     make.size.equalTo(self.view)
                 }
