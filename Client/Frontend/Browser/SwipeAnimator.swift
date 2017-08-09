@@ -128,7 +128,7 @@ extension SwipeAnimator {
         animateAwayWithVelocity(CGPoint(x: -direction * params.minExitVelocity, y: 0), speed: direction * params.minExitVelocity)
     }
 
-    @objc func SELcloseWithoutGesture() -> Bool {
+    @discardableResult @objc func SELcloseWithoutGesture() -> Bool {
         close(false)
         return true
     }

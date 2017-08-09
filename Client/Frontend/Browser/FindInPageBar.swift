@@ -135,7 +135,7 @@ class FindInPageBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func becomeFirstResponder() -> Bool {
+    @discardableResult override func becomeFirstResponder() -> Bool {
         searchText.becomeFirstResponder()
         return super.becomeFirstResponder()
     }

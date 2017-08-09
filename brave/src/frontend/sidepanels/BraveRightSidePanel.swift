@@ -108,7 +108,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     }
     
     // Creates a new divider pinned to bottom of the super view
-    fileprivate func newDivider(_ superView: UIView) -> UIView {
+    @discardableResult fileprivate func newDivider(_ superView: UIView) -> UIView {
 
         let divider = UIView()
         superView.addSubview(divider)

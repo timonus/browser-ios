@@ -292,7 +292,7 @@ open class BrowserProfile: Profile {
         return self.remoteClientsAndTabs.getClientsAndTabs()
     } 
 
-    func storeTabs(_ tabs: [RemoteTab]) -> Deferred<Maybe<Int>> {
+    @discardableResult func storeTabs(_ tabs: [RemoteTab]) -> Deferred<Maybe<Int>> {
         return self.remoteClientsAndTabs.insertOrUpdateTabs(tabs)
     }
 

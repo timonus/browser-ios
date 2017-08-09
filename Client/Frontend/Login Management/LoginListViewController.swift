@@ -168,7 +168,7 @@ class LoginListViewController: UIViewController {
         }
     }
 
-    fileprivate func loadLogins(_ query: String? = nil) -> Success {
+    @discardableResult fileprivate func loadLogins(_ query: String? = nil) -> Success {
         loadingStateView.isHidden = false
         let query = profile.logins.searchLoginsWithQuery(query).bindQueue(DispatchQueue.main, f: reloadTableWithResult)
         activeLoginQuery = query

@@ -21,7 +21,7 @@ class WebServer {
     static var port = 5309
     static let kMaxPortNum = 5400
 
-    func start() throws -> Bool{
+    @discardableResult func start() throws -> Bool{
         if !server.isRunning {
           do {
             try server.start(options: [GCDWebServerOption_Port: WebServer.port, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true])

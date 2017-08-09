@@ -274,7 +274,7 @@ class Sync: JSInjector {
     ////////////////////////////////
     
 
-    func checkIsSyncReady() -> Bool {
+    @discardableResult func checkIsSyncReady() -> Bool {
         
         if syncReadyLock {
             return true

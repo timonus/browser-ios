@@ -15,7 +15,7 @@ protocol BrowserLocationViewDelegate {
     func browserLocationViewDidLongPressLocation(_ browserLocationView: BrowserLocationView)
     func browserLocationViewDidTapReaderMode(_ browserLocationView: BrowserLocationView)
     /// - returns: whether the long-press was handled by the delegate; i.e. return `false` when the conditions for even starting handling long-press were not satisfied
-    func browserLocationViewDidLongPressReaderMode(_ browserLocationView: BrowserLocationView) -> Bool
+    @discardableResult func browserLocationViewDidLongPressReaderMode(_ browserLocationView: BrowserLocationView) -> Bool
     func browserLocationViewLocationAccessibilityActions(_ browserLocationView: BrowserLocationView) -> [UIAccessibilityCustomAction]?
     func browserLocationViewDidTapReload(_ browserLocationView: BrowserLocationView)
     func browserLocationViewDidTapStop(_ browserLocationView: BrowserLocationView)
