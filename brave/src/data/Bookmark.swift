@@ -187,7 +187,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     
     // TODO: DELETE
     // Aways uses main context
-    class func add(url: URL?,
+    @discardableResult class func add(url: URL?,
                        title: String?,
                        customTitle: String? = nil, // Folders only use customTitle
                        parentFolder:Bookmark? = nil,

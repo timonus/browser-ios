@@ -109,36 +109,36 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
             make.width.equalTo(self).dividedBy(5)
         }
 
-        backButton.snp_remakeConstraints { make in
+        backButton.snp.remakeConstraints { make in
             common(make)
             make.left.equalTo(self)
         }
 
-        forwardButton.snp_remakeConstraints { make in
+        forwardButton.snp.remakeConstraints { make in
             common(make)
-            make.left.equalTo(backButton.snp_right)
+            make.left.equalTo(backButton.snp.right)
         }
 
-        shareButton.snp_remakeConstraints { make in
+        shareButton.snp.remakeConstraints { make in
             common(make)
             make.centerX.equalTo(self)
         }
 
-        addTabButton.snp_remakeConstraints { make in
+        addTabButton.snp.remakeConstraints { make in
             common(make)
-            make.left.equalTo(shareButton.snp_right)
+            make.left.equalTo(shareButton.snp.right)
         }
 
-        tabsContainer.snp_remakeConstraints { make in
+        tabsContainer.snp.remakeConstraints { make in
             common(make)
             make.right.equalTo(self)
         }
 
-        tabsButton.snp_remakeConstraints { make in
+        tabsButton.snp.remakeConstraints { make in
             make.center.equalTo(tabsContainer)
             make.top.equalTo(tabsContainer)
             make.bottom.equalTo(tabsContainer)
-            make.width.equalTo(tabsButton.snp_height)
+            make.width.equalTo(tabsButton.snp.height)
         }
     }
 

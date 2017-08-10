@@ -129,8 +129,8 @@ class BraveURLBarView : URLBarView {
         let shouldShow = showingPolicy != TabsBarShowPolicy.never && tabCount > 1 && !noShowDueToPortrait
 
         func updateOffsets() {
-            bvc?.headerHeightConstraint?.updateOffset(amount: BraveURLBarView.CurrentHeight)
-            bvc?.webViewContainerTopOffset?.updateOffset(amount: BraveURLBarView.CurrentHeight)
+            bvc?.headerHeightConstraint?.update(offset: BraveURLBarView.CurrentHeight)
+            bvc?.webViewContainerTopOffset?.update(offset: BraveURLBarView.CurrentHeight)
         }
 
         if !isShowing && shouldShow {
@@ -253,7 +253,7 @@ class BraveURLBarView : URLBarView {
 
         if tabsBarController.view.superview != nil {
             bringSubview(toFront: tabsBarController.view)
-            tabsBarController.view.snp_makeConstraints { (make) in
+            tabsBarController.view.snp.makeConstraints { (make) in
                 make.bottom.left.right.equalTo(self)
                 make.height.equalTo(TabsBarHeight)
             }
@@ -262,22 +262,22 @@ class BraveURLBarView : URLBarView {
         clipsToBounds = false
         if let readerModeToolbar = readerModeToolbar {
             bringSubview(toFront: readerModeToolbar)
-            readerModeToolbar.snp_makeConstraints {
+            readerModeToolbar.snp.makeConstraints {
                 make in
                 make.left.right.equalTo(self)
-                make.top.equalTo(snp_bottom)
+                make.top.equalTo(snp.bottom)
                 make.height.equalTo(24)
             }
         }
         
-        leftSidePanelButton.underlay.snp_makeConstraints {
+        leftSidePanelButton.underlay.snp.makeConstraints {
             make in
             make.left.right.equalTo(leftSidePanelButton).inset(4)
             make.top.bottom.equalTo(leftSidePanelButton).inset(7)
         }
 
         func pinLeftPanelButtonToLeft() {
-            leftSidePanelButton.snp_remakeConstraints { make in
+            leftSidePanelButton.snp.remakeConstraints { make in
                 make.left.equalTo(self)
                 make.centerY.equalTo(self.locationContainer)
                 make.size.equalTo(UIConstants.ToolbarHeight)
@@ -286,18 +286,18 @@ class BraveURLBarView : URLBarView {
 
         if inSearchMode {
             // In overlay mode, we always show the location view full width
-            self.locationContainer.snp_remakeConstraints { make in
-                make.left.equalTo(self.leftSidePanelButton.snp_right)//.offset(URLBarViewUX.LocationLeftPadding)
-                make.right.equalTo(self.cancelButton.snp_left)
+            self.locationContainer.snp.remakeConstraints { make in
+                make.left.equalTo(self.leftSidePanelButton.snp.right)//.offset(URLBarViewUX.LocationLeftPadding)
+                make.right.equalTo(self.cancelButton.snp.left)
                 make.height.equalTo(URLBarViewUX.LocationHeight)
                 make.top.equalTo(self).inset(8)
             }
             pinLeftPanelButtonToLeft()
         } else {
-            self.locationContainer.snp_remakeConstraints { make in
+            self.locationContainer.snp.remakeConstraints { make in
                 if self.bottomToolbarIsHidden {
                     // Firefox is not referring to the bottom toolbar, it is asking is this class showing more tool buttons
-                    make.leading.equalTo(self.leftSidePanelButton.snp_trailing)
+                    make.leading.equalTo(self.leftSidePanelButton.snp.trailing)
                     make.trailing.equalTo(self).inset(-(UIConstants.ToolbarHeight * (3 + (pwdMgrButton.isHidden == false ? 1 : 0))))
                     
                 } else {
@@ -309,8 +309,8 @@ class BraveURLBarView : URLBarView {
             }
 
             if self.bottomToolbarIsHidden {
-                leftSidePanelButton.snp_remakeConstraints { make in
-                    make.left.equalTo(self.forwardButton.snp_right)
+                leftSidePanelButton.snp.remakeConstraints { make in
+                    make.left.equalTo(self.forwardButton.snp.right)
                     make.centerY.equalTo(self.locationContainer)
                     make.size.equalTo(UIConstants.ToolbarHeight)
                 }
@@ -318,59 +318,59 @@ class BraveURLBarView : URLBarView {
                 pinLeftPanelButtonToLeft()
             }
 
-            braveButton.snp_remakeConstraints { make in
-                make.left.equalTo(self.locationContainer.snp_right)
+            braveButton.snp.remakeConstraints { make in
+                make.left.equalTo(self.locationContainer.snp.right)
                 make.centerY.equalTo(self.locationContainer)
                 make.size.equalTo(UIConstants.ToolbarHeight)
             }
             
-            pwdMgrButton.snp_updateConstraints { make in
+            pwdMgrButton.snp.updateConstraints { make in
                 make.width.equalTo(pwdMgrButton.isHidden ? 0 : UIConstants.ToolbarHeight)
             }
         }
     }
 
     override func setupConstraints() {
-        backButton.snp_remakeConstraints { make in
+        backButton.snp.remakeConstraints { make in
             make.centerY.equalTo(self.locationContainer)
             make.left.equalTo(self)
             make.size.equalTo(UIConstants.ToolbarHeight)
         }
 
-        forwardButton.snp_makeConstraints { make in
-            make.left.equalTo(self.backButton.snp_right)
+        forwardButton.snp.makeConstraints { make in
+            make.left.equalTo(self.backButton.snp.right)
             make.centerY.equalTo(self.locationContainer)
             make.size.equalTo(backButton)
         }
 
-        leftSidePanelButton.snp_makeConstraints { make in
-            make.left.equalTo(self.forwardButton.snp_right)
+        leftSidePanelButton.snp.makeConstraints { make in
+            make.left.equalTo(self.forwardButton.snp.right)
             make.centerY.equalTo(self.locationContainer)
             make.size.equalTo(UIConstants.ToolbarHeight)
         }
 
-        locationView.snp_makeConstraints { make in
+        locationView.snp.makeConstraints { make in
             make.edges.equalTo(self.locationContainer)
         }
 
-        cancelButton.snp_makeConstraints { make in
+        cancelButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.locationContainer)
             make.trailing.equalTo(self)
         }
 
-        shareButton.snp_remakeConstraints { make in
-            make.right.equalTo(self.pwdMgrButton.snp_left).offset(0)
+        shareButton.snp.remakeConstraints { make in
+            make.right.equalTo(self.pwdMgrButton.snp.left).offset(0)
             make.centerY.equalTo(self.locationContainer)
             make.width.equalTo(UIConstants.ToolbarHeight)
         }
         
-        pwdMgrButton.snp_remakeConstraints { make in
-            make.right.equalTo(self.tabsButton.snp_left).offset(0)
+        pwdMgrButton.snp.remakeConstraints { make in
+            make.right.equalTo(self.tabsButton.snp.left).offset(0)
             make.centerY.equalTo(self.locationContainer)
             make.width.equalTo(0)
         }
 
-        tabsButton.snp_makeConstraints { make in
+        tabsButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.locationContainer)
             make.trailing.equalTo(self)
             make.size.equalTo(UIConstants.ToolbarHeight)

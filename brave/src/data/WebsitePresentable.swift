@@ -23,7 +23,7 @@ protocol Syncable {
     
     func update(syncRecord record: SyncRecord)
     
-    static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable?
+    @discardableResult static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable?
 }
 
 // ??

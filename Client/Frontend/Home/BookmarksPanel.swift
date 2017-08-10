@@ -233,14 +233,14 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         self.view.addSubview(editBookmarksToolbar)
         
-        editBookmarksToolbar.snp_makeConstraints { make in
+        editBookmarksToolbar.snp.makeConstraints { make in
             make.height.equalTo(toolbarHeight)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
             make.bottom.equalTo(self.view)
         }
         
-        tableView.snp_makeConstraints { make in
+        tableView.snp.makeConstraints { make in
             make.bottom.equalTo(self.view).inset(UIEdgeInsetsMake(0, 0, toolbarHeight, 0))
         }
         
@@ -663,25 +663,25 @@ fileprivate class BookmarkFolderTableViewHeader : UITableViewHeaderFooterView {
         contentView.addSubview(chevron)
         contentView.addSubview(titleLabel)
 
-        chevron.snp_makeConstraints { make in
+        chevron.snp.makeConstraints { make in
             make.left.equalTo(contentView).offset(BookmarksPanelUX.BookmarkFolderHeaderViewChevronInset)
             make.centerY.equalTo(contentView)
             make.size.equalTo(BookmarksPanelUX.BookmarkFolderChevronSize)
         }
 
-        titleLabel.snp_makeConstraints { make in
-            make.left.equalTo(chevron.snp_right).offset(BookmarksPanelUX.BookmarkFolderHeaderViewChevronInset)
+        titleLabel.snp.makeConstraints { make in
+            make.left.equalTo(chevron.snp.right).offset(BookmarksPanelUX.BookmarkFolderHeaderViewChevronInset)
             make.right.greaterThanOrEqualTo(contentView).offset(-BookmarksPanelUX.BookmarkFolderHeaderViewChevronInset)
             make.centerY.equalTo(contentView)
         }
 
-        topBorder.snp_makeConstraints { make in
+        topBorder.snp.makeConstraints { make in
             make.left.right.equalTo(self)
             make.top.equalTo(self).offset(-0.5)
             make.height.equalTo(0.5)
         }
 
-        bottomBorder.snp_makeConstraints { make in
+        bottomBorder.snp.makeConstraints { make in
             make.left.right.bottom.equalTo(self)
             make.height.equalTo(0.5)
         }

@@ -210,7 +210,6 @@
 		5C10DFFB1EEB2BD900203C93 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10DFA91EE9BF5A00203C93 /* UIColorExtensions.swift */; };
 		5C10DFFC1EEB2BD900203C93 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10DFAA1EE9BF5A00203C93 /* UIImageExtensions.swift */; };
 		5C10DFFD1EEB2BD900203C93 /* URLRequestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10DFAB1EE9BF5A00203C93 /* URLRequestExtensions.swift */; };
-		5C10DFFE1EEB2BDF00203C93 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C10DF941EE9BF4F00203C93 /* Info.plist */; };
 		5C10DFFF1EEB2BE200203C93 /* Shared-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C10DFC61EEAF1D900203C93 /* Shared-Bridging-Header.h */; };
 		5C10E0001EEB2BF300203C93 /* Storage-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8EF46DEDD284137E2279BB /* Storage-Bridging-Header.h */; };
 		5C10E0C31EEF07DF00203C93 /* SQLiteMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0AF1EEF07D400203C93 /* SQLiteMetadata.swift */; };
@@ -3567,7 +3566,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Mozilla;
 				TargetAttributes = {
 					288A2D851AB8B3260023ABC3 = {
@@ -3843,7 +3842,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C10DFFE1EEB2BDF00203C93 /* Info.plist in Resources */,
 				5C10DFD51EEB2BD200203C93 /* effective_tld_names.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

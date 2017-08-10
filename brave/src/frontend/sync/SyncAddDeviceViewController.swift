@@ -98,45 +98,45 @@ class SyncAddDeviceViewController: UIViewController {
         
         edgesForExtendedLayout = UIRectEdge()
         
-        scrollView.snp_makeConstraints { (make) in
+        scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
         
-        containerView.snp_makeConstraints { (make) in
+        containerView.snp.makeConstraints { (make) in
             make.top.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
             make.height.equalTo(295)
         }
         
-        modeControl.snp_makeConstraints { (make) in
-            make.top.equalTo(self.containerView.snp_top).offset(10)
+        modeControl.snp.makeConstraints { (make) in
+            make.top.equalTo(self.containerView.snp.top).offset(10)
             make.left.equalTo(8)
             make.right.equalTo(-8)
         }
         
-        barcodeView.snp_makeConstraints { (make) in
+        barcodeView.snp.makeConstraints { (make) in
             make.top.equalTo(65)
             make.centerX.equalTo(self.containerView)
             make.size.equalTo(BarcodeSize)
         }
         
-        codewordsView.snp_makeConstraints { (make) in
+        codewordsView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.containerView).inset(UIEdgeInsetsMake(64, 0, 0, 0))
         }
         
-        titleLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.containerView.snp_bottom).offset(30)
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.containerView.snp.bottom).offset(30)
             make.centerX.equalTo(self.scrollView)
         }
         
-        descriptionLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp_bottom).offset(7)
+        descriptionLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(7)
             make.leftMargin.equalTo(30)
             make.rightMargin.equalTo(-30)
         }
         
-        doneButton.snp_makeConstraints { (make) in
-            make.top.equalTo(self.descriptionLabel.snp_bottom).offset(30)
+        doneButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
             make.centerX.equalTo(self.scrollView)
             make.left.equalTo(16)
             make.right.equalTo(-16)

@@ -133,7 +133,7 @@ class MainSidePanelViewController : SidePanelBaseViewController {
     override func setupConstraints() {
         super.setupConstraints()
         
-        topButtonsView.snp_remakeConstraints {
+        topButtonsView.snp.remakeConstraints {
             make in
             make.top.equalTo(containerView).offset(spaceForStatusBar())
             make.left.right.equalTo(containerView)
@@ -146,48 +146,48 @@ class MainSidePanelViewController : SidePanelBaseViewController {
             make.width.equalTo(60)
         }
 
-        settingsButton.snp_remakeConstraints {
+        settingsButton.snp.remakeConstraints {
             make in
             common(make)
             make.centerX.equalTo(self.topButtonsView).multipliedBy(0.25)
         }
 
-        divider.snp_remakeConstraints {
+        divider.snp.remakeConstraints {
             make in
             make.bottom.equalTo(self.topButtonsView)
             make.width.equalTo(self.topButtonsView)
             make.height.equalTo(1.0)
         }
 
-        historyButton.snp_remakeConstraints {
+        historyButton.snp.remakeConstraints {
             make in
             make.bottom.equalTo(self.topButtonsView)
             make.height.equalTo(UIConstants.ToolbarHeight)
             make.centerX.equalTo(self.topButtonsView).multipliedBy(0.75)
         }
 
-        bookmarksButton.snp_remakeConstraints {
+        bookmarksButton.snp.remakeConstraints {
             make in
             make.bottom.equalTo(self.topButtonsView)
             make.height.equalTo(UIConstants.ToolbarHeight)
             make.centerX.equalTo(self.topButtonsView).multipliedBy(1.25)
         }
 
-        addBookmarkButton.snp_remakeConstraints {
+        addBookmarkButton.snp.remakeConstraints {
             make in
             make.bottom.equalTo(self.topButtonsView)
             make.height.equalTo(UIConstants.ToolbarHeight)
             make.centerX.equalTo(self.topButtonsView).multipliedBy(1.75)
         }
 
-        bookmarksNavController.view.snp_remakeConstraints { make in
+        bookmarksNavController.view.snp.remakeConstraints { make in
             make.left.right.bottom.equalTo(containerView)
-            make.top.equalTo(topButtonsView.snp_bottom)
+            make.top.equalTo(topButtonsView.snp.bottom)
         }
 
-        history.view.snp_remakeConstraints { make in
+        history.view.snp.remakeConstraints { make in
             make.left.right.bottom.equalTo(containerView)
-            make.top.equalTo(topButtonsView.snp_bottom)
+            make.top.equalTo(topButtonsView.snp.bottom)
         }
     }
     

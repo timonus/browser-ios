@@ -23,15 +23,15 @@ class BackForwardListViewController: UIViewController, UITableViewDelegate, UITa
         listTableView.delegate = self
         view.addSubview(listTableView)
 
-        toolbar.snp_makeConstraints { make in
+        toolbar.snp.makeConstraints { make in
             let topLayoutGuide = self.topLayoutGuide as! UIView
-            make.top.equalTo(topLayoutGuide.snp_bottom)
+            make.top.equalTo(topLayoutGuide.snp.bottom)
             make.left.right.equalTo(self.view)
             return
         }
 
-        listTableView.snp_makeConstraints { make in
-            make.top.equalTo(toolbar.snp_bottom)
+        listTableView.snp.makeConstraints { make in
+            make.top.equalTo(toolbar.snp.bottom)
             make.left.right.bottom.equalTo(self.view)
         }
     }

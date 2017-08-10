@@ -99,26 +99,26 @@ class LoginListViewController: UIViewController {
 
         loadingStateView.isHidden = true
 
-        searchView.snp_makeConstraints { make in
+        searchView.snp.makeConstraints { make in
             make.top.equalTo(self.topLayoutGuide.snp.bottom).constraint
             make.left.right.equalTo(self.view)
             make.height.equalTo(LoginListUX.SearchHeight)
         }
 
-        tableView.snp_makeConstraints { make in
-            make.top.equalTo(searchView.snp_bottom)
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(searchView.snp.bottom)
             make.left.right.equalTo(self.view)
-            make.bottom.equalTo(self.selectionButton.snp_top)
+            make.bottom.equalTo(self.selectionButton.snp.top)
         }
 
-        selectionButton.snp_makeConstraints { make in
+        selectionButton.snp.makeConstraints { make in
             make.left.right.bottom.equalTo(self.view)
-            make.top.equalTo(self.tableView.snp_bottom)
+            make.top.equalTo(self.tableView.snp.bottom)
             make.bottom.equalTo(self.view)
             selectionButtonHeightConstraint = make.height.equalTo(0).constraint
         }
 
-        loadingStateView.snp_makeConstraints { make in
+        loadingStateView.snp.makeConstraints { make in
             make.edges.equalTo(tableView)
         }
     }
@@ -168,7 +168,7 @@ class LoginListViewController: UIViewController {
         }
     }
 
-    fileprivate func loadLogins(_ query: String? = nil) -> Success {
+    @discardableResult fileprivate func loadLogins(_ query: String? = nil) -> Success {
         loadingStateView.isHidden = false
         let query = profile.logins.searchLoginsWithQuery(query).bindQueue(DispatchQueue.main, f: reloadTableWithResult)
         activeLoginQuery = query
@@ -201,7 +201,7 @@ extension LoginListViewController {
     func SELedit() {
         navigationItem.rightBarButtonItem = nil
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(LoginListViewController.SELcancel))
-        selectionButtonHeightConstraint?.updateOffset(amount: UIConstants.ToolbarHeight)
+        selectionButtonHeightConstraint?.update(offset: UIConstants.ToolbarHeight)
         self.view.layoutIfNeeded()
         tableView.setEditing(true, animated: true)
     }
@@ -210,7 +210,7 @@ extension LoginListViewController {
         // Update selection and select all button
         loginSelectionController.deselectAll()
         toggleSelectionTitle()
-        selectionButtonHeightConstraint?.updateOffset(amount: 0)
+        selectionButtonHeightConstraint?.update(offset: 0)
         self.view.layoutIfNeeded()
 
         tableView.setEditing(false, animated: true)
@@ -541,7 +541,7 @@ fileprivate class NoLoginsView: UIView {
 
     fileprivate override func updateConstraints() {
         super.updateConstraints()
-        titleLabel.snp_remakeConstraints { make in
+        titleLabel.snp.remakeConstraints { make in
             make.centerX.equalTo(self)
             make.centerY.equalTo(self).offset(-(searchBarHeight / 2))
         }
@@ -576,7 +576,7 @@ fileprivate class LoadingLoginsView: UIView {
 
     fileprivate override func updateConstraints() {
         super.updateConstraints()
-        indicator.snp_remakeConstraints { make in
+        indicator.snp.remakeConstraints { make in
             make.centerX.equalTo(self)
             make.centerY.equalTo(self).offset(-(searchBarHeight / 2))
         }

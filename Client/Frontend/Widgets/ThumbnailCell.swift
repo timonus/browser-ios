@@ -230,10 +230,10 @@ class ThumbnailCell: UICollectionViewCell {
         contentView.addSubview(textLabel)
         contentView.addSubview(removeButton)
 
-        textLabel.snp_remakeConstraints { make in
+        textLabel.snp.remakeConstraints { make in
             // TODO: relook at insets
             make.left.right.equalTo(self.contentView).inset(ThumbnailCellUX.LabelInsets)
-            make.top.equalTo(imageView.snp_bottom).offset(5)
+            make.top.equalTo(imageView.snp.bottom).offset(5)
         }
 
         // Prevents the textLabel from getting squished in relation to other view priorities.
@@ -311,10 +311,10 @@ class ThumbnailCell: UICollectionViewCell {
         let additionalW = fractionalW / 2
         
         // TODO: Should not remade on every layout call
-        imageView.snp_remakeConstraints { make in
+        imageView.snp.remakeConstraints { make in
             make.top.equalTo(self.contentView).inset(8)
             make.right.left.equalTo(self.contentView).inset(16 + additionalW)
-            make.height.equalTo(imageView.snp_width)
+            make.height.equalTo(imageView.snp.width)
         }
         imageView.setNeedsUpdateConstraints()
     }

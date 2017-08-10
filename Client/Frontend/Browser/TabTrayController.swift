@@ -124,42 +124,42 @@ class TabCell: UICollectionViewCell {
         
         let generalOffset = 4
         
-        shadowView.snp_remakeConstraints { make in
+        shadowView.snp.remakeConstraints { make in
             make.edges.equalTo(shadowView.superview!)
         }
         
-        backgroundHolder.snp_remakeConstraints { make in
+        backgroundHolder.snp.remakeConstraints { make in
             make.edges.equalTo(backgroundHolder.superview!)
         }
 
-        background.snp_remakeConstraints { make in
+        background.snp.remakeConstraints { make in
             make.edges.equalTo(background.superview!)
         }
 
-        favicon.snp_remakeConstraints { make in
+        favicon.snp.remakeConstraints { make in
             make.top.left.equalTo(favicon.superview!).offset(generalOffset)
-            make.size.equalTo(titleWrapper.snp_height).offset(-generalOffset * 2)
+            make.size.equalTo(titleWrapper.snp.height).offset(-generalOffset * 2)
         }
 
-        titleWrapper.snp_remakeConstraints { make in
+        titleWrapper.snp.remakeConstraints { make in
             make.left.top.equalTo(titleWrapper.superview!)
-            make.width.equalTo(titleWrapper.superview!.snp_width)
+            make.width.equalTo(titleWrapper.superview!.snp.width)
             make.height.equalTo(TabTrayControllerUX.TitleBoxHeight)
         }
         
-        titleWrapperBackground.snp_remakeConstraints { make in
+        titleWrapperBackground.snp.remakeConstraints { make in
             make.top.left.right.equalTo(titleWrapperBackground.superview!)
             make.height.equalTo(TabTrayControllerUX.TitleBoxHeight + 15)
         }
 
-        titleLbl.snp_remakeConstraints { make in
-            make.left.equalTo(favicon.snp_right).offset(generalOffset)
-            make.right.equalTo(closeButton.snp_left).offset(generalOffset)
+        titleLbl.snp.remakeConstraints { make in
+            make.left.equalTo(favicon.snp.right).offset(generalOffset)
+            make.right.equalTo(closeButton.snp.left).offset(generalOffset)
             make.top.bottom.equalTo(titleLbl.superview!)
         }
 
-        closeButton.snp_remakeConstraints { make in
-            make.size.equalTo(titleWrapper.snp_height)
+        closeButton.snp.remakeConstraints { make in
+            make.size.equalTo(titleWrapper.snp.height)
             make.centerY.equalTo(titleWrapper)
             make.right.equalTo(closeButton.superview!)
         }
@@ -390,7 +390,7 @@ class TabTrayController: UIViewController {
 
         view.insertSubview(emptyPrivateTabsView, aboveSubview: collectionView)
         emptyPrivateTabsView.alpha = privateTabsAreEmpty() ? 1 : 0
-        emptyPrivateTabsView.snp_makeConstraints { make in
+        emptyPrivateTabsView.snp.makeConstraints { make in
             make.edges.equalTo(self.view)
         }
 
@@ -428,23 +428,23 @@ class TabTrayController: UIViewController {
 
     fileprivate func makeConstraints() {
         
-        togglePrivateMode.snp_makeConstraints { make in
-            make.right.equalTo(addTabButton.snp_left).offset(-10)
-            make.centerY.equalTo(self.addTabButton.snp_centerY)
+        togglePrivateMode.snp.makeConstraints { make in
+            make.right.equalTo(addTabButton.snp.left).offset(-10)
+            make.centerY.equalTo(self.addTabButton.snp.centerY)
         }
 
-        addTabButton.snp_makeConstraints { make in
+        addTabButton.snp.makeConstraints { make in
             make.trailing.equalTo(self.view)
             make.top.equalTo(self.topLayoutGuide.snp.bottom)
             make.size.equalTo(UIConstants.ToolbarHeight)
         }
 
-        collectionView.snp_makeConstraints { make in
-            make.top.equalTo(addTabButton.snp_bottom)
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(addTabButton.snp.bottom)
             make.left.right.bottom.equalTo(self.view)
         }
         
-        blurBackdropView.snp_makeConstraints { (make) in
+        blurBackdropView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
     }
@@ -472,12 +472,12 @@ class TabTrayController: UIViewController {
         emptyView.addSubview(titleLabel)
         emptyView.addSubview(descriptionLabel)
         
-        titleLabel.snp_makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.center.equalTo(emptyView)
         }
         
-        descriptionLabel.snp_makeConstraints { make in
-            make.top.equalTo(titleLabel.snp_bottom).offset(EmptyPrivateTabsViewUX.TextMargin)
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(EmptyPrivateTabsViewUX.TextMargin)
             make.centerX.equalTo(emptyView)
         }
         return emptyView

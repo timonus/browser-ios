@@ -244,7 +244,7 @@ class TabManager : NSObject {
         return tab
     }
 
-    func addTabAndSelect(_ request: URLRequest! = nil, configuration: WKWebViewConfiguration! = nil) -> Browser? {
+    @discardableResult func addTabAndSelect(_ request: URLRequest! = nil, configuration: WKWebViewConfiguration! = nil) -> Browser? {
         guard let tab = addTab(request, configuration: configuration, id: TabMO.freshTab()) else { return nil }
         selectTab(tab)
         return tab

@@ -106,7 +106,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         startBrowsingButton.contentEdgeInsets = UIEdgeInsetsMake(20, 20, 0, 0);
 
         view.addSubview(startBrowsingButton)
-        startBrowsingButton.snp_makeConstraints { (make) -> Void in
+        startBrowsingButton.snp.makeConstraints { (make) -> Void in
             make.left.right.bottom.equalTo(self.view)
             make.height.equalTo(self.view.frame.width <= 320 ? 60 : IntroViewControllerUX.StartBrowsingButtonHeight)
         }
@@ -130,9 +130,9 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         }
 
         scrollView.addSubview(slideContainer)
-        scrollView.snp_makeConstraints { (make) -> Void in
+        scrollView.snp.makeConstraints { (make) -> Void in
             make.left.right.top.equalTo(self.view)
-            make.bottom.equalTo(startBrowsingButton.snp_top)
+            make.bottom.equalTo(startBrowsingButton.snp.top)
         }
 
         pageControl = UIPageControl()
@@ -143,9 +143,9 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         pageControl.addTarget(self, action: #selector(IntroViewController.changePage), for: UIControlEvents.valueChanged)
 
         view.addSubview(pageControl)
-        pageControl.snp_makeConstraints { (make) -> Void in
+        pageControl.snp.makeConstraints { (make) -> Void in
             make.left.equalTo(self.scrollView).offset(20.0)
-            make.centerY.equalTo(self.startBrowsingButton.snp_top).offset(-IntroViewControllerUX.PagerCenterOffsetFromScrollViewBottom)
+            make.centerY.equalTo(self.startBrowsingButton.snp.top).offset(-IntroViewControllerUX.PagerCenterOffsetFromScrollViewBottom)
         }
 
 
@@ -166,9 +166,9 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         for introView in introViews {
             introView.alpha = 0
             self.view.addSubview(introView)
-            introView.snp_makeConstraints { (make) -> Void in
-                make.top.equalTo(self.slideContainer.snp_bottom)
-                make.bottom.equalTo(self.startBrowsingButton.snp_top)
+            introView.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(self.slideContainer.snp.bottom)
+                make.bottom.equalTo(self.startBrowsingButton.snp.top)
                 make.left.right.equalTo(self.view)
             }
         }
@@ -214,9 +214,9 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        scrollView.snp_remakeConstraints { (make) -> Void in
+        scrollView.snp.remakeConstraints { (make) -> Void in
             make.left.right.top.equalTo(self.view)
-            make.bottom.equalTo(self.startBrowsingButton.snp_top)
+            make.bottom.equalTo(self.startBrowsingButton.snp.top)
         }
 
         for i in 0..<IntroViewControllerUX.NumberOfCards {
@@ -348,7 +348,7 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
 
     fileprivate func addViewsToIntroView(_ introView: UIView, label: UIView, title: String = "") {
         introView.addSubview(label)
-        label.snp_makeConstraints { (make) -> Void in
+        label.snp.makeConstraints { (make) -> Void in
             make.centerY.equalTo(introView)
             make.left.equalTo(introView).offset(20)
             make.width.equalTo(self.view.frame.width <= 320 ? 260 : 300) // TODO Talk to UX about small screen sizes
@@ -366,9 +366,9 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
             titleLabel.text = title
             titleLabels.append(titleLabel)
             introView.addSubview(titleLabel)
-            titleLabel.snp_makeConstraints { (make) -> Void in
+            titleLabel.snp.makeConstraints { (make) -> Void in
                 make.top.equalTo(introView)
-                make.bottom.equalTo(label.snp_top)
+                make.bottom.equalTo(label.snp.top)
                 make.left.equalTo(titleLabel.superview!).offset(20)
                 make.width.equalTo(self.view.frame.width <= 320 ? 260 : 300) // TODO Talk to UX about small screen sizes
             }

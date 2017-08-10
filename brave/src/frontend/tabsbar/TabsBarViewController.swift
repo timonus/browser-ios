@@ -40,7 +40,7 @@ class TabsBarViewController: UIViewController {
         scrollView.delegate = self
         view.addSubview(scrollView)
 
-        scrollView.snp_makeConstraints { (make) in
+        scrollView.snp.makeConstraints { (make) in
             make.bottom.top.left.equalTo(view)
             make.right.equalTo(view).inset(BraveUX.TabsBarPlusButtonWidth)
         }
@@ -53,7 +53,7 @@ class TabsBarViewController: UIViewController {
             plusButton.addTarget(self, action: #selector(addTabPressed), for: .touchUpInside)
             view.addSubview(plusButton)
 
-            plusButton.snp_makeConstraints { (make) in
+            plusButton.snp.makeConstraints { (make) in
                 make.right.top.bottom.equalTo(view)
                 make.width.equalTo(BraveUX.TabsBarPlusButtonWidth)
             }
@@ -61,11 +61,11 @@ class TabsBarViewController: UIViewController {
             let vertLine = UIView()
             vertLine.backgroundColor = UIColor.black
             plusButton.addSubview(vertLine)
-            vertLine.snp_makeConstraints { (make) in
+            vertLine.snp.makeConstraints { (make) in
                 make.left.equalTo(plusButton)
                 make.width.equalTo(1)
                 make.height.equalTo(22)
-                make.centerY.equalTo(plusButton.snp_centerY)
+                make.centerY.equalTo(plusButton.snp.centerY)
             }
 
         }
@@ -73,7 +73,7 @@ class TabsBarViewController: UIViewController {
         getApp().tabManager.addDelegate(self)
 
         scrollView.addSubview(spacerLeftmost)
-        spacerLeftmost.snp_makeConstraints { (make) in
+        spacerLeftmost.snp.makeConstraints { (make) in
             make.top.left.equalTo(scrollView)
             make.height.equalTo(tabHeight)
             make.width.equalTo(0)
@@ -101,7 +101,7 @@ class TabsBarViewController: UIViewController {
 
     func updateTabWidthConstraint(_ width: CGFloat) {
         tabs.forEach {
-            $0.widthConstraint?.updateOffset(amount: width)
+            $0.widthConstraint?.update(offset: width)
         }
 
         self.tabs.forEach {
@@ -191,7 +191,7 @@ class TabsBarViewController: UIViewController {
         if self.isVisible {
             isAddTabAnimationRunning = true
             t.alpha = 0
-            t.widthConstraint?.updateOffset(amount: 0)
+            t.widthConstraint?.update(offset: 0)
         }
         
         scrollView.addSubview(t)
@@ -255,9 +255,9 @@ class TabsBarViewController: UIViewController {
             
             tab.spacerRight.removeFromSuperview()
             tab.removeFromSuperview()
-            next?.snp_makeConstraints({ (make) in
+            next?.snp.makeConstraints({ (make) in
                 if let prev = prev {
-                    make.left.equalTo(prev.snp_right)
+                    make.left.equalTo(prev.snp.right)
                 }
             })
             self.tabs.remove(at: index)
@@ -446,7 +446,7 @@ extension TabsBarViewController {
             }
         }
         UIView.animate(withDuration: 0.5, animations: {
-            view?.snp_updateConstraints{ (make) in
+            view?.snp.updateConstraints{ (make) in
                 make.width.equalTo(width)
             }
             self.view.layoutIfNeeded()
@@ -503,7 +503,7 @@ extension TabsBarViewController {
                 }
                 }, completion: {_ in
                     if newIndex > -1 {
-                        self.spacerLeftmost.snp_updateConstraints { (make) in
+                        self.spacerLeftmost.snp.updateConstraints { (make) in
                             make.width.equalTo(0)
                         }
                         self.moveTab(tab, index: newIndex)

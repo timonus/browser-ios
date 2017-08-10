@@ -126,7 +126,7 @@ class BraveWebView: UIWebView {
 
     fileprivate var lastBroadcastedKvoUrl: String = ""
     // return true if set, false if unchanged
-    func setUrl( _ newUrl: Foundation.URL?) -> Bool {
+    @discardableResult func setUrl( _ newUrl: Foundation.URL?) -> Bool {
         guard var newUrl = newUrl, !newUrl.absoluteString.isEmpty else { return false }
         let urlString = newUrl.absoluteString
         
@@ -159,7 +159,7 @@ class BraveWebView: UIWebView {
         }
     }
 
-    func updateLocationFromHtml() -> Bool {
+    @discardableResult func updateLocationFromHtml() -> Bool {
         guard let js = stringByEvaluatingJavaScript(from: "document.location.href"), let location = Foundation.URL(string: js) else { return false }
         
         // Must be in same domain space to allow document location changes
@@ -384,7 +384,7 @@ class BraveWebView: UIWebView {
     // Not pretty, but we set some items on the page to know when the load completion arrived
     // You would think the DOM gets refreshed on page change, but not with modern js lib navigation
     // Domain changes will reset the DOM, which is easily to detect, but path changes require a few properties to reliably detect
-    func loadCompleteHtmlProperty(option: LoadCompleteHtmlPropertyOption) -> Bool {
+    @discardableResult func loadCompleteHtmlProperty(option: LoadCompleteHtmlPropertyOption) -> Bool {
         let sentinels = ["_brave_cached_title": "document.title", "_brave_cached_location" : "location.href"]
 
         if option == .debug {

@@ -44,13 +44,13 @@ class BraveTopViewController : UIViewController {
         addVC(rightSidePanel)
 
 
-        mainSidePanel.view.snp_makeConstraints {
+        mainSidePanel.view.snp.makeConstraints {
             make in
             make.bottom.left.top.equalTo(view)
             make.width.equalTo(0)
         }
 
-        rightSidePanel.view.snp_makeConstraints {
+        rightSidePanel.view.snp.makeConstraints {
             make in
             make.bottom.right.top.equalTo(view)
             make.width.equalTo(0)
@@ -172,11 +172,11 @@ class BraveTopViewController : UIViewController {
             clickDetectionView.isUserInteractionEnabled = true
 
             view.addSubview(clickDetectionView)
-            clickDetectionView.snp_remakeConstraints {
+            clickDetectionView.snp.remakeConstraints {
                 make in
                 make.top.bottom.equalTo(browserViewController.view)
-                make.right.equalTo(rightSidePanel.view.snp_left)
-                make.left.equalTo(mainSidePanel.view.snp_right)
+                make.right.equalTo(rightSidePanel.view.snp.left)
+                make.left.equalTo(mainSidePanel.view.snp.right)
             }
             clickDetectionView.layoutIfNeeded()
 

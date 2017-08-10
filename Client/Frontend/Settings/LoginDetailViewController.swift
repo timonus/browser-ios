@@ -80,7 +80,7 @@ class LoginDetailViewController: UIViewController {
         tableView.register(SettingsTableSectionHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: SeparatorIdentifier)
 
         view.addSubview(tableView)
-        tableView.snp_makeConstraints { make in
+        tableView.snp.makeConstraints { make in
             make.edges.equalTo(self.view)
         }
     }
@@ -209,7 +209,7 @@ extension LoginDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: DefaultCellIdentifier, for: indexPath)
         cell.selectionStyle = .none
         cell.addSubview(footer)
-        footer.snp_makeConstraints { make in
+        footer.snp.makeConstraints { make in
             make.edges.equalTo(cell)
         }
         return cell

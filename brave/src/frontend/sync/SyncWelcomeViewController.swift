@@ -87,49 +87,49 @@ class SyncWelcomeViewController: UIViewController {
         
         edgesForExtendedLayout = UIRectEdge()
         
-        scrollView.snp_makeConstraints { (make) in
+        scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
         
-        bg.snp_makeConstraints { (make) in
+        bg.snp.makeConstraints { (make) in
             make.top.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
         }
         
-        graphic.snp_makeConstraints { (make) in
+        graphic.snp.makeConstraints { (make) in
             make.edges.equalTo(self.bg).inset(UIEdgeInsetsMake(0, 19, 0, 0))
         }
         
-        titleLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.bg.snp_bottom).offset(30)
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.bg.snp.bottom).offset(30)
             make.centerX.equalTo(self.scrollView)
         }
         
-        descriptionLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp_bottom).offset(7)
+        descriptionLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(7)
             make.left.equalTo(30)
             make.right.equalTo(-30)
         }
         
-        newToSyncButton.snp_makeConstraints { (make) in
-            make.top.equalTo(self.descriptionLabel.snp_bottom).offset(30)
+        newToSyncButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
             make.centerX.equalTo(self.scrollView)
             make.left.equalTo(16)
             make.right.equalTo(-16)
             make.height.equalTo(50)
         }
         
-        existingUserButton.snp_makeConstraints { (make) in
-            make.top.equalTo(self.newToSyncButton.snp_bottom).offset(8)
+        existingUserButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.newToSyncButton.snp.bottom).offset(8)
             make.centerX.equalTo(self.scrollView)
             make.bottom.equalTo(-10)
         }
         
-        spinner.snp_makeConstraints { (make) in
+        spinner.snp.makeConstraints { (make) in
             make.center.equalTo(spinner.superview!)
         }
         
-        loadingView.snp_makeConstraints { (make) in
+        loadingView.snp.makeConstraints { (make) in
             make.edges.equalTo(loadingView.superview!)
         }
     }

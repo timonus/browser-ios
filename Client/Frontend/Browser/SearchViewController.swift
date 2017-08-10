@@ -109,7 +109,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         layoutTable()
         layoutSearchEngineScrollView()
 
-        searchEngineScrollViewContent.snp_makeConstraints { make in
+        searchEngineScrollViewContent.snp.makeConstraints { make in
             make.center.equalTo(self.searchEngineScrollView).priorityLow()
             //left-align the engines on iphones, center on ipad
             if(UIScreen.main.traitCollection.horizontalSizeClass == .compact) {
@@ -122,7 +122,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
             make.bottom.equalTo(self.searchEngineScrollView)
         }
 
-        blur.snp_makeConstraints { make in
+        blur.snp.makeConstraints { make in
             make.edges.equalTo(self.view)
         }
 
@@ -149,7 +149,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
 
     fileprivate func layoutSearchEngineScrollView() {
         let keyboardHeight = KeyboardHelper.defaultHelper.currentState?.intersectionHeightForView(self.view) ?? 0
-        searchEngineScrollView.snp_remakeConstraints { make in
+        searchEngineScrollView.snp.remakeConstraints { make in
             make.left.right.equalTo(self.view)
             make.bottom.equalTo(self.view).offset(-keyboardHeight)
         }
@@ -261,37 +261,37 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         // otherwise the label (i.e. question) is visited by VoiceOver *after* yes and no buttons
         prompt.accessibilityElements = [promptImage, promptLabel, promptYesButton, promptNoButton]
 
-        promptImage.snp_makeConstraints { make in
+        promptImage.snp.makeConstraints { make in
             make.left.equalTo(prompt).offset(SearchViewControllerUX.PromptInsets.left)
             make.centerY.equalTo(prompt)
         }
 
-        promptLabel.snp_makeConstraints { make in
-            make.left.equalTo(promptImage.snp_right).offset(SearchViewControllerUX.PromptInsets.left)
+        promptLabel.snp.makeConstraints { make in
+            make.left.equalTo(promptImage.snp.right).offset(SearchViewControllerUX.PromptInsets.left)
             let insets = SearchViewControllerUX.PromptInsets
             make.top.equalTo(prompt).inset(insets.top)
             make.bottom.equalTo(prompt).inset(insets.bottom)
-            make.right.lessThanOrEqualTo(promptYesButton.snp_left)
+            make.right.lessThanOrEqualTo(promptYesButton.snp.left)
             return
         }
 
-        promptNoButton.snp_makeConstraints { make in
+        promptNoButton.snp.makeConstraints { make in
             make.right.equalTo(prompt).inset(SearchViewControllerUX.PromptInsets.right)
             make.centerY.equalTo(prompt)
         }
 
-        promptYesButton.snp_makeConstraints { make in
-            make.right.equalTo(promptNoButton.snp_left).inset(SearchViewControllerUX.PromptInsets.right)
+        promptYesButton.snp.makeConstraints { make in
+            make.right.equalTo(promptNoButton.snp.left).inset(SearchViewControllerUX.PromptInsets.right)
             make.centerY.equalTo(prompt)
         }
 
-        promptBottomBorder.snp_makeConstraints { make in
+        promptBottomBorder.snp.makeConstraints { make in
             make.trailing.leading.equalTo(self.view)
-            make.top.equalTo(prompt.snp_bottom).offset(-1)
+            make.top.equalTo(prompt.snp.bottom).offset(-1)
             make.height.equalTo(1)
         }
 
-        prompt.snp_makeConstraints { make in
+        prompt.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(self.view)
         }
 
@@ -310,16 +310,16 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
     }
 
     fileprivate func layoutTable() {
-        tableView.snp_remakeConstraints { make in
-            make.top.equalTo(self.suggestionPrompt?.snp_bottom ?? self.view.snp_top)
+        tableView.snp.remakeConstraints { make in
+            make.top.equalTo(self.suggestionPrompt?.snp.bottom ?? self.view.snp.top)
             make.leading.trailing.equalTo(self.view)
-            make.bottom.equalTo(self.searchEngineScrollView.snp_top)
+            make.bottom.equalTo(self.searchEngineScrollView.snp.top)
         }
     }
 
     fileprivate func reloadSearchEngines() {
         searchEngineScrollViewContent.subviews.forEach { $0.removeFromSuperview() }
-        var leftEdge = searchEngineScrollViewContent.snp_left
+        var leftEdge = searchEngineScrollViewContent.snp.left
 
         //search settings icon
         let searchButton = UIButton()
@@ -329,13 +329,13 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         searchButton.addTarget(self, action: #selector(SearchViewController.SELdidClickSearchButton), for: UIControlEvents.touchUpInside)
         searchButton.accessibilityLabel = Strings.Search_Settings
 
-        searchButton.imageView?.snp_makeConstraints { make in
+        searchButton.imageView?.snp.makeConstraints { make in
             make.width.height.equalTo(SearchViewControllerUX.SearchImageWidth)
             return
         }
 
         searchEngineScrollViewContent.addSubview(searchButton)
-        searchButton.snp_makeConstraints { make in
+        searchButton.snp.makeConstraints { make in
             make.width.equalTo(SearchViewControllerUX.SearchImageWidth)
             make.height.equalTo(SearchViewControllerUX.SearchImageHeight)
             //offset the left edge to align with search results
@@ -345,7 +345,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         }
 
         //search engines
-        leftEdge = searchButton.snp_right
+        leftEdge = searchButton.snp.right
         for engine in quickSearchEngines {
             let engineButton = UIButton()
             engineButton.setImage(engine.image, for: .normal)
@@ -354,13 +354,13 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
             engineButton.addTarget(self, action: #selector(SearchViewController.SELdidSelectEngine(_:)), for: UIControlEvents.touchUpInside)
             engineButton.accessibilityLabel = String(format: Strings.Search_arg_site_template, engine.shortName)
 
-            engineButton.imageView?.snp_makeConstraints { make in
+            engineButton.imageView?.snp.makeConstraints { make in
                 make.width.height.equalTo(OpenSearchEngine.PreferredIconSize)
                 return
             }
 
             searchEngineScrollViewContent.addSubview(engineButton)
-            engineButton.snp_makeConstraints { make in
+            engineButton.snp.makeConstraints { make in
                 make.width.equalTo(SearchViewControllerUX.EngineButtonWidth)
                 make.height.equalTo(SearchViewControllerUX.EngineButtonHeight)
                 make.left.equalTo(leftEdge)
@@ -370,7 +370,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
                     make.right.equalTo(self.searchEngineScrollViewContent)
                 }
             }
-            leftEdge = engineButton.snp_right
+            leftEdge = engineButton.snp.right
         }
     }
 

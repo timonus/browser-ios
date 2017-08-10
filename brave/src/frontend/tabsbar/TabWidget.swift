@@ -80,7 +80,7 @@ class TabWidget : UIView {
         [close, title, separatorLine].forEach { addSubview($0) }
 
         close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        close.snp_makeConstraints({ (make) in
+        close.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
             make.left.equalTo(self).inset(4)
             make.width.equalTo(24)
@@ -90,11 +90,11 @@ class TabWidget : UIView {
         reinstallConstraints()
 
         separatorLine.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        separatorLine.snp_makeConstraints { (make) in
+        separatorLine.snp.makeConstraints { (make) in
             make.left.equalTo(self)
             make.width.equalTo(1)
             make.height.equalTo(22)
-            make.centerY.equalTo(self.snp_centerY)
+            make.centerY.equalTo(self.snp.centerY)
         }
 
         deselect()
@@ -112,17 +112,17 @@ class TabWidget : UIView {
     }
 
     func reinstallConstraints() {
-        title.snp_remakeConstraints { (make) in
+        title.snp.remakeConstraints { (make) in
             make.top.bottom.equalTo(self)
-            make.left.equalTo(close.snp_right)
+            make.left.equalTo(close.snp.right)
             make.right.equalTo(self).inset(labelInsetFromRight)
         }
     }
 
     func breakConstraintsForShrinking() {
-        title.snp_remakeConstraints { (make) in
+        title.snp.remakeConstraints { (make) in
             make.top.bottom.equalTo(self)
-            make.left.lessThanOrEqualTo(close.snp_right)
+            make.left.lessThanOrEqualTo(close.snp.right)
             make.width.lessThanOrEqualTo(title.frame.width)
             make.right.greaterThanOrEqualTo(self).inset(labelInsetFromRight)
         }
@@ -209,19 +209,19 @@ extension TabWidget : UIGestureRecognizerDelegate {
 
 extension TabWidget {
     func remakeLayout(_ prev: UIView, width: CGFloat, scrollView: UIView) {
-        snp_remakeConstraints {
+        snp.remakeConstraints {
             make in
             widthConstraint = make.width.equalTo(width).constraint
             make.height.equalTo(tabHeight)
-            make.left.equalTo(prev.snp_right)
+            make.left.equalTo(prev.snp.right)
             make.top.equalTo(0)
         }
 
-        spacerRight.snp_remakeConstraints
+        spacerRight.snp.remakeConstraints
             { (make) in
                 make.top.equalTo(scrollView)
                 make.height.equalTo(tabHeight)
-                make.left.equalTo(snp_right)
+                make.left.equalTo(snp.right)
                 make.width.equalTo(0)
                 make.top.equalTo(0)
         }

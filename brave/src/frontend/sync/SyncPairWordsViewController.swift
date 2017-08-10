@@ -64,11 +64,11 @@ class SyncPairWordsViewController: UIViewController {
         
         edgesForExtendedLayout = UIRectEdge()
         
-        scrollView.snp_makeConstraints { (make) in
+        scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
         
-        containerView.snp_makeConstraints { (make) in
+        containerView.snp.makeConstraints { (make) in
             // Making these edges based off of the scrollview removes selectability on codewords.
             //  This currently works for all layouts and enables interaction, so using `view` instead.
             make.top.equalTo(self.view)
@@ -78,20 +78,20 @@ class SyncPairWordsViewController: UIViewController {
             make.width.equalTo(self.view)
         }
         
-        helpLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(self.containerView.snp_top).offset(10)
+        helpLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.containerView.snp.top).offset(10)
             make.centerX.equalTo(self.scrollView)
         }
         
-        codewordsView.snp_makeConstraints { (make) in
+        codewordsView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.containerView).inset(UIEdgeInsetsMake(44, 0, 0, 0))
         }
         
-        loadingView.snp_makeConstraints { (make) in
+        loadingView.snp.makeConstraints { (make) in
             make.edges.equalTo(loadingView.superview!)
         }
         
-        loadingSpinner.snp_makeConstraints { (make) in
+        loadingSpinner.snp.makeConstraints { (make) in
             make.center.equalTo(loadingView)
         }
     }

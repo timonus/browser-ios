@@ -41,7 +41,7 @@ class TabMO: NSManagedObject {
         return tab.syncUUID!
     }
 
-    class func add(_ tabInfo: SavedTab, context: NSManagedObjectContext) -> TabMO? {
+    @discardableResult class func add(_ tabInfo: SavedTab, context: NSManagedObjectContext) -> TabMO? {
         let tab: TabMO? = getByID(tabInfo.id, context: context)
         if tab == nil {
             return nil
