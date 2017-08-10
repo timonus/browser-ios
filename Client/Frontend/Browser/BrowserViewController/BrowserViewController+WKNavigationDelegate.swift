@@ -95,7 +95,7 @@ extension BrowserViewController: WKCompatNavigationDelegate {
                 static let tag = (UUID() as NSUUID).hash
             }
             let hasOneAlready = tab.bars.contains(where: { $0.tag == StaticTag.tag })
-            if hasOneAlready ?? false {
+            if hasOneAlready {
                 return
             }
 

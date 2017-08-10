@@ -49,7 +49,7 @@ class BackForwardListViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         let item = listData![indexPath.item]
-        cell.textLabel?.text = item.title ?? item.URL.absoluteString
+        cell.textLabel?.text = item.title.isEmpty ? item.URL.absoluteString : item.title
         return cell
     }
 

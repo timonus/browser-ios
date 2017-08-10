@@ -27,7 +27,7 @@ class LegacyBackForwardListItem {
         // In order to mimic the built-in API somewhat, the initial url is stripped of mobile site
         // parts of the host (mobile.nytimes.com -> initial url is nytimes.com). The initial url
         // is the pre-page-forwarding url
-        let normal = url.scheme ?? "http" + "://" + (url.normalizedHostAndPath ?? url.absoluteString ?? "")
+        let normal = url.scheme ?? "http" + "://" + (url.normalizedHostAndPath ?? url.absoluteString)
         initialURL = Foundation.URL(string: normal) ?? url
     }
 }
@@ -63,9 +63,9 @@ class WebViewBackForwardList {
     func update() {
         let currIndicator = ">>> "
         guard let obj = webView?.value(forKeyPath: "documentView.webView.backForwardList") else { return }
-        let history = (obj as AnyObject).description
+        let history = (obj as AnyObject).description ?? ""
         let nsHistory = history as! NSString
-
+        
         if cachedHistoryStringLength > 0 && cachedHistoryStringLength == nsHistory.length &&
             cachedHistoryStringPositionOfCurrentMarker > -1 &&
             nsHistory.substring(with: NSMakeRange(cachedHistoryStringPositionOfCurrentMarker, currIndicator.characters.count)) == currIndicator {
@@ -78,7 +78,7 @@ class WebViewBackForwardList {
         backForwardList = []
 
         let regex = try! NSRegularExpression(pattern:"\\d+\\) +<WebHistoryItem.+> (http.+) ", options: [])
-        let result = regex.matches(in: history!, options: [], range: NSMakeRange(0, (history?.characters.count)!))
+        let result = regex.matches(in: history, options: [], range: NSMakeRange(0, (history.characters.count)))
         var i = 0
         var foundCurrent = false
         for match in result {
