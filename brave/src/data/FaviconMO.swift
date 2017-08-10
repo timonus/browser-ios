@@ -57,7 +57,7 @@ class FaviconMO: NSManagedObject {
 
             let w = Int16(favicon.width ?? 0)
             let h = Int16(favicon.height ?? 0)
-            let t = Int16(favicon.type.rawValue ?? 0)
+            let t = Int16(favicon.type.rawValue)
 
             if w != item!.width && w > 0 {
                 item!.width = w

@@ -181,7 +181,7 @@ open class BrowserProfile: Profile {
             // Only record local vists if the change notification originated from a non-private tab
             if !(info["isPrivate"] as? Bool ?? false) {
                 // We don't record a visit if no type was specified -- that means "ignore me".
-                let site = Site(url: url.absoluteString ?? "", title: title as String)
+                let site = Site(url: url.absoluteString, title: title as String)
                 let visit = SiteVisit(site: site, date: Date.nowMicroseconds(), type: visitType)
                 succeed().upon() { _ in // move off main thread
                     self.history.addLocalVisit(visit)

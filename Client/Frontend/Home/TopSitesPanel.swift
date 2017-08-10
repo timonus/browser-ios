@@ -518,7 +518,7 @@ class TopSitesLayout: UICollectionViewLayout {
                 cols = 5
             }
             // Split screen iPad width
-            else if size.widthLargerOrEqualThanHalfIPad() ?? false {
+            else if size.widthLargerOrEqualThanHalfIPad() {
                 cols = 4
             }
             // iPhone portrait

@@ -152,7 +152,7 @@ extension HttpsEverywhere {
             }
             
             let url = HttpsEverywhere.singleton.tryRedirectingUrl(unwrappedURL)
-            if url == nil || !(url!.absoluteString.hasSuffix("?sa=L&ai=CD0d/") ?? false) {
+            if url == nil || !(url!.absoluteString.hasSuffix("?sa=L&ai=CD0d/")) {
                 BraveApp.showErrorAlert(title: "Debug Error", error: "HTTPS-E validation failed for url args")
             }
         #endif

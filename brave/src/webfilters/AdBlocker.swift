@@ -203,7 +203,7 @@ class AdBlocker {
         if url.host?.contains("forbes.com") ?? false {
             setForbesCookie()
 
-            if url.absoluteString.contains("/forbes/welcome") ?? false {
+            if url.absoluteString.contains("/forbes/welcome") {
                 forbesRedirectGuard.increment()
                 if !forbesRedirectGuard.isLooping() {
                     postAsyncToMain(0.5) {
@@ -215,7 +215,7 @@ class AdBlocker {
         }
 
 
-        if let main = request.mainDocumentURL?.absoluteString, (main.startsWith(WebServer.sharedInstance.base) ?? false) {
+        if let main = request.mainDocumentURL?.absoluteString, (main.startsWith(WebServer.sharedInstance.base)) {
             if !main.contains("testing/") { // don't skip for localhost testing
                 return false
             }
@@ -228,7 +228,7 @@ class AdBlocker {
             return false
         }
 
-        if !mainDocDomain.isEmpty && url.absoluteString.contains(mainDocDomain) ?? false {
+        if !mainDocDomain.isEmpty && url.absoluteString.contains(mainDocDomain) {
             return false // ignore top level doc
         }
 

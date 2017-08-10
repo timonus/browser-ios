@@ -814,7 +814,7 @@ extension BraveWebView: UIWebViewDelegate {
                 return
             }
 
-            let alertUrl = errorUrl.absoluteString ?? "this site"
+            let alertUrl = errorUrl.absoluteString.isEmpty ? "this site" : errorUrl.absoluteString
             let alert = UIAlertController(title: "Certificate Error", message: "The identity of \(alertUrl) can't be verified", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
                 handler in
@@ -856,7 +856,7 @@ extension BraveWebView: UIWebViewDelegate {
             if !handled && URL?.absoluteString == errorUrl.absoluteString && error.code != kPluginIsHandlingLoad {
                 if let nd = navigationDelegate {
                     globalContainerWebView.legacyWebView = self
-                    nd.webViewDidFailNavigation(self, withError: error as NSError ?? NSError.init(domain: "", code: 0, userInfo: nil))
+                    nd.webViewDidFailNavigation(self, withError: error as NSError)
                 }
             }
         }

@@ -55,7 +55,7 @@ class SafeBrowsing {
         let host: String = request.mainDocumentURL?.host ?? url.host ?? ""
 
         // A cache entry is like: fifoOfCachedUrlChunks[0]["www.microsoft.com_http://some.url"] = true/false for blocking
-        let key = "\(host)_" + (url.absoluteString ?? "")
+        let key = "\(host)_" + url.absoluteString
 
         if let checkedItem = fifoCacheOfUrlsChecked.getItem(key) {
             if checkedItem === NSNull() {
