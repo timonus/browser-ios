@@ -8,13 +8,7 @@ Brave is based on Firefox iOS, most of the Brave-specific code is in the [brave 
 
 Either ensure your app supports [opening urls in a share menu](https://github.com/brave/browser-ios/wiki) or use this project https://github.com/brave/ios-open-thirdparty-browser to open links directly.
 
-## Swift 3 Update
-
-We are currently in the process of migrating Brave from Swift 2.3 to Swift 3.1. To inquire or ask any questions please see #799. All related PRs should be pointed at the associated Swift3 branch.
-
 ## Setup
-
-The master branch (i.e. the mainline) is Xcode8 + Swift2.3
 
 <strong> 1. Install [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) from the AppStore </strong>
 
