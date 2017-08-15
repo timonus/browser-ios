@@ -285,6 +285,8 @@ class BraveURLBarView : URLBarView {
         }
 
         if inSearchMode {
+            pwdMgrButton.isHidden = true
+            
             // In overlay mode, we always show the location view full width
             self.locationContainer.snp.remakeConstraints { make in
                 make.left.equalTo(self.leftSidePanelButton.snp.right)//.offset(URLBarViewUX.LocationLeftPadding)
