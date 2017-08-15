@@ -147,6 +147,17 @@ class BraveSettingsView : AppSettingsTableViewController {
                 VersionSetting(settings: self),
                 ])
         ]
+        
+        // Debug
+        #if DEBUG
+            
+            supportChildren = [DebugSettings()]
+            settings += [
+                SettingSection(title: NSAttributedString(string: "DEBUG - BETA ONLY"), children: supportChildren)
+            ]
+            
+        #endif
+        
         return settings
     }
 }
