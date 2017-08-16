@@ -12,7 +12,7 @@ private let log = Logger.browserLogger
 
 protocol TabManagerDelegate: class {
     func tabManager(_ tabManager: TabManager, didSelectedTabChange selected: Browser?)
-    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?, at: Int?)
+    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?)
     func tabManager(_ tabManager: TabManager, didAddTab tab: Browser)
     func tabManager(_ tabManager: TabManager, didRemoveTab tab: Browser)
     func tabManagerDidRestoreTabs(_ tabManager: TabManager)
@@ -212,7 +212,7 @@ class TabManager : NSObject {
         if let t = self.selectedTab, t.webView == nil {
             t.createWebview()
             for delegate in delegates where t.webView != nil {
-                delegate.value?.tabManager(self, didCreateWebView: t, url: nil, at: nil)
+                delegate.value?.tabManager(self, didCreateWebView: t, url: nil)
             }
         }
 
@@ -281,6 +281,13 @@ class TabManager : NSObject {
     
     fileprivate func restoreTabsInternal() {
         var tabToSelect: Browser?
+        
+        // These tabs MUST be sorted by `order` currently, as they are created in a linear manor 0..<max
+        // Future optimizations to launching can be made by predicting what tabs will most likely be used
+        //  (e.g. the last active tab), and loading those first, and inserting restored tabs in a non-linear
+        //  fashion. This currently has exponential launch delay consequences though. Most of the time impact
+        //  has been related to layout constraints on the tab tray (re-arranging tabs as they are being created)
+        //  Since `move` recalculates each pre-existing tab's position. Hence the forced order here.
         let savedTabs = TabMO.getAll()
         for savedTab in savedTabs {
             if savedTab.url == nil {
@@ -406,7 +413,7 @@ class TabManager : NSObject {
         tab.createWebview(useDesktopUserAgent)
 
         for delegate in delegates {
-            delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url, at: lastIndex)
+            delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url)
         }
 
         tab.navigationDelegate = navDelegate
