@@ -419,6 +419,9 @@ class TabManager : NSObject {
         tab.navigationDelegate = navDelegate
         _ = tab.loadRequest(request ?? defaultNewTabRequest)
         
+        // During launch, this is called for each tab (although only read operations are happening)
+        // Should be no performance impact, since no save will happen without changes having taken place.
+        // But something to be aware of
         TabMO.preserveTab(tab: tab)
     }
 

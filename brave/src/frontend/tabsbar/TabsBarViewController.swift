@@ -412,9 +412,13 @@ extension TabsBarViewController {
     func moveTab(_ tab: TabWidget, index: Int) {
         guard let oldIndex = tabs.index(of: tab) else { return }
 
-        tabs.remove(at: oldIndex)
-        tabs.insert(tab, at: index)
+        // Could look at further optimizations (e.g. returning when no change)
 
+        if oldIndex != index {
+            tabs.remove(at: oldIndex)
+            tabs.insert(tab, at: index)
+        }
+        
         let w = calcTabWidth(tabs.count)
 
         var prev = spacerLeftmost
