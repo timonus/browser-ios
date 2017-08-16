@@ -16,7 +16,7 @@ Either ensure your app supports [opening urls in a share menu](https://github.co
 
 <strong> 3. Install Homebrew: </strong>
 ```
-./usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 <strong> 4. Install Carthage: </strong>
 ```
