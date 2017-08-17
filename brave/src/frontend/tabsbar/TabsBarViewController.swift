@@ -184,7 +184,7 @@ class TabsBarViewController: UIViewController {
     }
 
 
-    func addTab(_ browser: Browser, at: Int?) -> TabWidget {
+    func addTab(_ browser: Browser) -> TabWidget {
         let t = TabWidget(browser: browser, parentScrollView: scrollView)
         t.delegate = self
         
@@ -200,14 +200,6 @@ class TabsBarViewController: UIViewController {
         
         t.remakeLayout(tabs.last?.spacerRight != nil ? tabs.last!.spacerRight : self.spacerLeftmost, width: w, scrollView: scrollView)
         tabs.append(t)
-        
-        if let index = at, index > -1 && index < tabs.count {
-            isAddTabAnimationRunning = false
-            moveTab(t, index: index)
-            recalculateTabView()
-            updateSeparatorLineBetweenTabs()
-            return t
-        }
 
         if self.isVisible {
             UIView.animate(withDuration: 0.2, animations: {
@@ -349,7 +341,7 @@ extension TabsBarViewController: TabManagerDelegate {
         tabs.removeAll()
 
         tabManager.tabs.internalTabList.forEach {
-            let t = addTab($0, at: nil)
+            let t = addTab($0)
             t.setTitle($0.lastTitle)
             if tabManager.selectedTab === $0 {
                 tabWidgetSelected(t)
@@ -368,7 +360,7 @@ extension TabsBarViewController: TabManagerDelegate {
         updateSeparatorLineBetweenTabs()
     }
 
-    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?, at: Int?) {
+    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?) {
         if let t = tabs.find({ $0.browser === tab }) {
             if let wv = t.browser?.webView {
                 wv.delegatesForPageState.append(BraveWebView.Weak_WebPageStateDelegate(value: t))
@@ -376,7 +368,7 @@ extension TabsBarViewController: TabManagerDelegate {
             return
         }
 
-        let t = addTab(tab, at: at)
+        let t = addTab(tab)
         if let url = url {
             let title = url.baseDomain
             t.setTitle(title)
@@ -420,9 +412,13 @@ extension TabsBarViewController {
     func moveTab(_ tab: TabWidget, index: Int) {
         guard let oldIndex = tabs.index(of: tab) else { return }
 
-        tabs.remove(at: oldIndex)
-        tabs.insert(tab, at: index)
+        // Could look at further optimizations (e.g. returning when no change)
 
+        if oldIndex != index {
+            tabs.remove(at: oldIndex)
+            tabs.insert(tab, at: index)
+        }
+        
         let w = calcTabWidth(tabs.count)
 
         var prev = spacerLeftmost
