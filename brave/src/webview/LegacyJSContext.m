@@ -2,7 +2,7 @@
 
 #import "LegacyJSContext.h"
 #import <JavaScriptCore/JavaScriptCore.h>
-//#import "Client-Swift.h"
+#import "Client-Swift.h"
 
 @interface FrameInfoWrapper : WKFrameInfo
 @property (atomic, retain) NSURLRequest* writableRequest;
@@ -147,7 +147,7 @@ JSCallbackBlock blockFactory(NSString *handlerName, id<WKScriptMessageHandler> h
     }
 
     context[@"window"][@"open"] = ^(NSString *url) {
-//        [HandleJsWindowOpen open:url];
+        [HandleJsWindowOpen open:url];
     };
 }
 
