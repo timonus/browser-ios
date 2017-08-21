@@ -112,12 +112,17 @@ class PrivateBrowsing {
     @discardableResult func exit() -> Deferred<Void> {
         let isAlwaysPrivate = getApp().profile?.prefs.boolForKey(kPrefKeyPrivateBrowsingAlwaysOn) ?? false
 
-        exitDeferred = Deferred<Void>()
         if isAlwaysPrivate || !isOn {
-            exitDeferred.fill(())
-            return exitDeferred
+            let immediateExit = Deferred<Void>()
+            immediateExit.fill(())
+            return immediateExit
         }
 
+        // Since this an instance var, it needs to be used carefully.
+        // The usage of this deferred, is async, and is generally handled, by a response to a notification
+        //  if it is overwritten, it will lead to race conditions, and generally a dropped deferment, since the
+        //  notification will be executed on _only_ the newest version of this property
+        exitDeferred = Deferred<Void>()
         isOn = false
         UserDefaults.standard.set(false, forKey: "WebKitPrivateBrowsingEnabled")
         NotificationCenter.default.removeObserver(self)
@@ -154,6 +159,12 @@ class PrivateBrowsing {
         }
 
         if ReentrantGuard.inFunc {
+            // This is kind of a predicament
+            //  On one hand, we cannot drop promises,
+            //  on the other, if processes are killing webviews, this could end up executing logic that should not happen
+            //  so quickly. A better refactor would be to propogate some piece of data (e.g. Bool), that indicates
+            //  the current state of promise chain (e.g. ReentrantGuard value)
+            self.exitDeferred.fillIfUnfilled(())
             return
         }
         ReentrantGuard.inFunc = true

@@ -282,6 +282,9 @@ class TabManager : NSObject {
     fileprivate func restoreTabsInternal() {
         var tabToSelect: Browser?
         
+        // Do not want to load any tabs if PM is enabled
+        assert(!PrivateBrowsing.singleton.isOn, "Tab restoration should never happen in PM")
+        
         // These tabs MUST be sorted by `order` currently, as they are created in a linear manor 0..<max
         // Future optimizations to launching can be made by predicting what tabs will most likely be used
         //  (e.g. the last active tab), and loading those first, and inserting restored tabs in a non-linear

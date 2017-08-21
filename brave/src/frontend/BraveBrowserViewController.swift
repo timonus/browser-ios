@@ -6,14 +6,12 @@ import SafariServices
 
 class BraveBrowserViewController : BrowserViewController {
     fileprivate lazy var __once: () = {
-        if !PrivateBrowsing.singleton.isOn {
-            // Only do tab restoration if in normal mode.
-            //  If in PM, restoration happens on leaving.
-            _ = self.tabManager.restoreTabs
+        if self.profile.prefs.boolForKey(kPrefKeyPrivateBrowsingAlwaysOn) ?? false {
+            getApp().browserViewController.switchBrowsingMode(toPrivate: true)
+            // Auto-creates new tab
         } else {
-            _ = self.tabManager.addTabAndSelect()
+            _ = self.tabManager.restoreTabs
         }
-        
     }()
     
     var historySwiper = HistorySwiper()
@@ -33,13 +31,6 @@ class BraveBrowserViewController : BrowserViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        struct RunOnceAtStartup { static var ran = false }
-        if !RunOnceAtStartup.ran && profile.prefs.boolForKey(kPrefKeyPrivateBrowsingAlwaysOn) ?? false {
-            getApp().browserViewController.switchBrowsingMode(toPrivate: true)
-        }
-
-        RunOnceAtStartup.ran = true
-        
         // Initialize Sync without connecting. Sync webview needs to be in a "permanent" location to continue working predictably
         //  If Sync is not in the view "hierarchy" it will behavior extremely unpredictably, often just dying in the middle of a promize chain
         //  Added to keyWindow, since it can then be utilized from any VC (e.g. settings modal)
@@ -65,7 +56,6 @@ class BraveBrowserViewController : BrowserViewController {
         // TODO: Should never call setupConstraints multiple times, this can cause huge headaches. Constraints should mostly be static with adjustments made to those constraints.
         setupConstraints()
 
-        struct RunOnceAtStartup { static var token: Int = 0 }
         _ = self.__once
 
         updateTabCountUsingTabManager(tabManager, animated: false)
