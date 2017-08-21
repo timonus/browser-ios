@@ -466,7 +466,7 @@ dan berikut alasannya...</target>
       <trans-unit id="Est. Time \rSaved">
         <source>Est. Time 
 Saved</source>
-        <target>Est. Waktu 
+        <target>± Waktu 
 Dihemat</target>
         <note>Shields Time Saved Stat</note>
       </trans-unit>
@@ -741,7 +741,7 @@ HTTPS</target>
       </trans-unit>
       <trans-unit id="Offline Website Data">
         <source>Offline Website Data</source>
-        <target>Data Situs Web Luring</target>
+        <target>Data Situs Luring</target>
         <note>Settings item for clearing website data</note>
       </trans-unit>
       <trans-unit id="On">
@@ -1211,7 +1211,7 @@ HTTPS</target>
       </trans-unit>
       <trans-unit id="The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website.">
         <source>The owner of %@ has configured their website improperly. To protect your information from being stolen, Brave has not connected to this website.</source>
-        <target>Pemilik %@ salah mengkonfigurasi situs web-nya. Untuk melindungi informasi Anda agar tidak dicuri, Brave belum menyambungkan ke situs web ini.</target>
+        <target>Pemilik %@ salah mengkonfigurasi situsnya. Untuk melindungi informasi Anda agar tidak dicuri, Brave belum menyambungkan ke situs web ini.</target>
         <note>Warning text on the certificate error page</note>
       </trans-unit>
       <trans-unit id="The page could not be displayed in Reader View.">
@@ -1353,7 +1353,7 @@ Diblokir</target>
       </trans-unit>
       <trans-unit id="Warning: we can't confirm your connection to this website is secure.">
         <source>Warning: we can't confirm your connection to this website is secure.</source>
-        <target>Peringatan: kami tidak dapat mengkonfirmasikan sambungan Anda ke situs web ini aman.</target>
+        <target>Peringatan: kami tidak dapat mengkonfirmasikan sambungan Anda ke situs ini aman.</target>
         <note>Warning text when clicking the Advanced button on error pages</note>
       </trans-unit>
       <trans-unit id="Web content">
@@ -1473,7 +1473,7 @@ Diblokir</target>
       </trans-unit>
       <trans-unit id="website">
         <source>website</source>
-        <target>situs web</target>
+        <target>situs</target>
         <note>Title for website row in Login Detail View</note>
       </trans-unit>
     </body>

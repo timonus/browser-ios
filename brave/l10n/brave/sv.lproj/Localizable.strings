@@ -34,7 +34,8 @@
 "Address and Search" = "Adress och Sök";
 
 /* Shields Ads Stat */
-"Ads \rBlocked" = "Blockerad reklam";
+"Ads \rBlocked" = "Blockerade
+annonser";
 
 /* individual blocking statistic title */
 "Ads and Trackers" = "Annonser och Spårare";
@@ -289,8 +290,7 @@ och här är varför...";
 "Fingerprinting Protection" = "Fingeravtrycksskydd";
 
 /* blocking stat title */
-"Fingerprinting\nProtection" = "Fingeravtrycks
-skydd";
+"Fingerprinting\nProtection" = "Fingeratrycksskydd";
 
 /* Folder */
 "Folder" = "Mapp";
@@ -474,7 +474,7 @@ uppgraderingar";
 "Password Manager" = "Lösenordshanterare";
 
 /* Setting for behaviour of password manager button */
-"Password Manager Button" = "Lösenordshanterar-knapp";
+"Password Manager Button" = "Lösenordshanterare";
 
 /* Paste the URL into the location bar */
 "Paste" = "Klistra in";
@@ -501,7 +501,7 @@ uppgraderingar";
 "Private Browsing" = "Privat surfning";
 
 /* Setting to keep app in private mode */
-"Private Browsing Only" = "Privat surfning bara";
+"Private Browsing Only" = "Endast privat surfning";
 
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "Privat läge";
