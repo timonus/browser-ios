@@ -13,9 +13,10 @@ private let log = Logger.browserLogger
 struct URLBarViewUX {
     static let TextFieldContentInset = UIOffsetMake(9, 5)
     static let LocationLeftPadding = 5
-    static let LocationHeight = 28
+    static let LocationHeight = 34
+    static let LocationInset = 5
     static let LocationContentOffset: CGFloat = 8
-    static let TextFieldCornerRadius: CGFloat = 3
+    static let TextFieldCornerRadius: CGFloat = 6
     static let TextFieldBorderWidth: CGFloat = 0
     // offset from edge of tabs button
     static let URLBarCurveOffset: CGFloat = 14

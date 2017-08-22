@@ -18,14 +18,15 @@ struct BraveUX {
     static let BraveButtonMessageInUrlBarColor = BraveOrange
     static let BraveButtonMessageInUrlBarShowTime = 0.5
     static let BraveButtonMessageInUrlBarFadeTime = 0.7
+    
+    static let lockIconColor = UIColor.black
 
     static let TabsBarPlusButtonWidth = (UIDevice.current.userInterfaceIdiom == .pad) ? 40 : 0
     
     static let SwitchTintColor = UIColor(white: 0.8, alpha: 1.0)
     
-    static let ToolbarsBackgroundSolidColor = UIColor(red: 206/255.0, green: 206/255.0, blue: 206/255.0, alpha: 1.0)
+    static let ToolbarsBackgroundSolidColor = UIColor(red: 215/255.0, green: 215/255.0, blue: 215/255.0, alpha: 1.0)
     static let DarkToolbarsBackgroundSolidColor = UIColor(red: 63/255.0, green: 63/255.0, blue: 63/255.0, alpha: 1.0)
-    static let ToolbarsBackgroundColor = UIColor(white: 0.0, alpha: 0.19)
     static let DarkToolbarsBackgroundColor = UIColor(red: 57/255.0, green: 57/255.0, blue: 57/255.0, alpha: 0.8)
     
     static let TopSitesStatTitleColor = UIColor(white: 0.6, alpha: 1.0)
@@ -71,7 +72,7 @@ struct BraveUX {
     // Setting this to clearColor() and setting LocationContainerBackgroundColor to a definitive color
     //  with transparency (e.g. allwhile 0.3 alpha) is how to make a non-opaque URL bar (e.g. for blurring).
     // Not currently needed since top bar is entirely opaque
-    static let LocationBarBackgroundColor = UIColor(white: 221 / 255, alpha: 1.0)
+    static let LocationBarBackgroundColor = UIColor(white: 243/255.0, alpha: 1.0)
     static let LocationContainerBackgroundColor = LocationBarBackgroundColor
     
     // Editing colors same as standard coloring
@@ -109,8 +110,8 @@ struct BraveUX {
     static let BottomToolbarNumberButtonsToRightOfBackForward = 3
     static let BackForwardButtonLeftOffset = CGFloat(10)
 
-    static let ProgressBarColor = UIColor(white: 0.0, alpha: 0.2)
-    static let ProgressBarDarkColor = UIColor(white: 1.0, alpha: 0.3)
+    static let ProgressBarColor = UIColor(white: 0.0, alpha: 0.08)
+    static let ProgressBarDarkColor = UIColor(white: 1.0, alpha: 0.08)
     
     static let TabTrayCellCornerRadius = CGFloat(6.0)
     static let TabTrayCellBackgroundColor = UIColor.white

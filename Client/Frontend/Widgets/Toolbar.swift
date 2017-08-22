@@ -8,7 +8,6 @@ class Toolbar : UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clear
 
         // Allow the view to redraw itself on rotation changes
         contentMode = UIViewContentMode.redraw
@@ -29,11 +28,11 @@ class Toolbar : UIView {
     override func draw(_ rect: CGRect) {
         if let context = UIGraphicsGetCurrentContext() {
             if drawTopBorder {
-                drawLine(context, width: 1, start: CGPoint(x: 0, y: 0), end: CGPoint(x: frame.width, y: 0))
+                drawLine(context, width: 4, start: CGPoint(x: 0, y: 0), end: CGPoint(x: frame.width, y: 0))
             }
 
             if drawBottomBorder {
-                drawLine(context, width: 1, start: CGPoint(x: 0, y: frame.height), end: CGPoint(x: frame.width, y: frame.height))
+                drawLine(context, width: 4, start: CGPoint(x: 0, y: frame.height), end: CGPoint(x: frame.width, y: frame.height))
             }
 
             if drawSeperators {

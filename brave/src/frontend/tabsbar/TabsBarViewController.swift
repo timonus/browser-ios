@@ -12,7 +12,7 @@ let kPrefKeyTabsBarShowPolicy = "kPrefKeyTabsBarShowPolicy"
 let kPrefKeyTabsBarOnDefaultValue = UIDevice.current.userInterfaceIdiom == .pad ? TabsBarShowPolicy.always : TabsBarShowPolicy.landscapeOnly
 
 let minTabWidth =  UIDevice.current.userInterfaceIdiom == .pad ? CGFloat(180) : CGFloat(160)
-let tabHeight = TabsBarHeight - 1
+let tabHeight = TabsBarHeight
 
 class TabsBarViewController: UIViewController {
     var scrollView: UIScrollView!

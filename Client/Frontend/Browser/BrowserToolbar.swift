@@ -151,7 +151,7 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
         super.init(frame: frame)
 
         self.helper = BrowserToolbarHelper(toolbar: self)
-        self.backgroundColor = BraveUX.ToolbarsBackgroundColor
+        self.backgroundColor = UIColor.clear
 
         addButtons(actionButtons)
 
