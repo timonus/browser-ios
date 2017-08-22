@@ -619,7 +619,7 @@ uppgraderingar</target>
       </trans-unit>
       <trans-unit id="Learn about private tabs.">
         <source>Learn about private tabs.</source>
-        <target>Lär dig om privata flikar.</target>
+        <target>Lär dig mer om privata flikar</target>
         <note>Private tab information link</note>
       </trans-unit>
       <trans-unit id="Light">
