@@ -78,7 +78,7 @@ class BrowserViewController: UIViewController {
     var header: BlurWrapper!
     var footer: UIView!
     var footerBackdrop: UIView!
-    var footerBackground: BlurWrapper?
+    var footerBackground: UIView?
     var topTouchArea: UIButton!
 
     // Backdrop used for displaying greyed background for private tabs
@@ -183,9 +183,18 @@ class BrowserViewController: UIViewController {
         if bottomToolbarIsHidden {
             toolbar = BraveBrowserBottomToolbar()
             toolbar?.browserToolbarDelegate = self
-            footerBackground = BlurWrapper(view: toolbar!)
+            toolbar?.drawTopBorder = false
+            
+            footerBackground = UIView()
             footerBackground?.translatesAutoresizingMaskIntoConstraints = false
+            footerBackground?.addSubview(toolbar!)
             footer.addSubview(footerBackground!)
+            
+            footer.layer.shadowOffset = CGSize(width: 0, height: -1)
+            footer.layer.shadowColor = UIConstants.BorderColor.cgColor
+            footer.layer.shadowRadius = 0
+            footer.layer.shadowOpacity = 1.0
+            footer.layer.masksToBounds = false
             
             // Since this is freshly created, theme needs to be applied
             if let currentThemeName = self.currentThemeName {
@@ -321,6 +330,12 @@ class BrowserViewController: UIViewController {
         urlBar.browserToolbarDelegate = self
         header = BlurWrapper(view: urlBar)
         view.addSubview(header)
+    
+        header.layer.shadowOffset = CGSize(width: 0, height: 1)
+        header.layer.shadowColor = UIConstants.BorderColor.cgColor
+        header.layer.shadowRadius = 0
+        header.layer.shadowOpacity = 1.0
+        header.layer.masksToBounds = false
 
         (view as! ViewToCaptureReaderModeTap).urlBarView = (urlBar as! BraveURLBarView)
  #endif
@@ -1160,12 +1175,10 @@ extension BrowserViewController: Themeable {
         switch(themeName) {
         case Theme.NormalMode:
             statusBarOverlay.backgroundColor = BraveUX.ToolbarsBackgroundSolidColor
-            header.blurStyle = .light
-            footerBackground?.blurStyle = .light
+            footer.backgroundColor = BraveUX.ToolbarsBackgroundSolidColor
         case Theme.PrivateMode:
             statusBarOverlay.backgroundColor = BraveUX.DarkToolbarsBackgroundSolidColor
-            header.blurStyle = .dark
-            footerBackground?.blurStyle = .dark
+            footer.backgroundColor = BraveUX.DarkToolbarsBackgroundSolidColor
         default:
             log.debug("Unknown Theme \(themeName)")
         }

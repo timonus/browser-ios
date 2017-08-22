@@ -10,7 +10,7 @@ import XCGLogger
 private let log = Logger.browserLogger
 
 struct TabsButtonUX {
-    static let CornerRadius: CGFloat = 1
+    static let CornerRadius: CGFloat = 2
     static let TitleFont: UIFont = UIConstants.DefaultChromeSmallFontBold
     static let BorderStrokeWidth: CGFloat = 1.5
     static let BorderColor = UIColor.clear
@@ -120,8 +120,8 @@ class TabsButton: UIControl {
         insideButton.snp.remakeConstraints { (make) -> Void in
           // BRAVE mod: getting layout errors with firefox method, temporary hack to bypass the errors
           make.right.equalTo(self).inset(12)
-          make.centerY.equalTo(self).inset(1)
-          make.size.equalTo(20)
+          make.centerY.equalTo(self)
+          make.size.equalTo(22)
         }
     }
 

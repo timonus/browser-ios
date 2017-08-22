@@ -22,7 +22,7 @@ public struct UIConstants {
     static let SnackbarButtonHeight: CGFloat = 48
 
     // Static fonts
-    static let DefaultChromeSize: CGFloat = 14
+    static let DefaultChromeSize: CGFloat = 16
     static let DefaultChromeSmallSize: CGFloat = 11
     static let PasscodeEntryFontSize: CGFloat = 36
     static let DefaultChromeFont: UIFont = UIFont.systemFont(ofSize: DefaultChromeSize, weight: UIFontWeightRegular)
@@ -38,7 +38,7 @@ public struct UIConstants {
     static let SeparatorColor = UIColor(rgb: 0xcccccc)
     static let HighlightBlue = BraveUX.DefaultBlue
     static let DestructiveRed = UIColor(red: 255/255, green: 64/255, blue: 0/255, alpha: 1.0)
-    static let BorderColor = UIColor.black.withAlphaComponent(0.25)
+    static let BorderColor = UIColor.black.withAlphaComponent(0.3)
     static let BackgroundColor = UIColor(red: 0.21, green: 0.23, blue: 0.25, alpha: 1)
 
     // settings

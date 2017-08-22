@@ -63,8 +63,7 @@ class TabCell: UICollectionViewCell {
         
         self.backgroundHolder.backgroundColor = TabTrayControllerUX.CellBackgroundColor
         self.backgroundHolder.layer.cornerRadius = TabTrayControllerUX.CornerRadius
-        self.backgroundHolder.layer.borderColor = UIColor(white: 0.0, alpha: 0.15).cgColor
-        self.backgroundHolder.layer.borderWidth = 0.5
+        self.backgroundHolder.layer.borderWidth = 0
         self.backgroundHolder.layer.masksToBounds = true
 
         self.background.contentMode = UIViewContentMode.scaleAspectFill
@@ -181,7 +180,7 @@ class TabCell: UICollectionViewCell {
         // TODO: Move more of this to cellForItem
         // Reset any close animations.
         backgroundHolder.layer.borderColor = UIColor(white: 0.0, alpha: 0.15).cgColor
-        backgroundHolder.layer.borderWidth = 0.5
+        backgroundHolder.layer.borderWidth = 1
         shadowView.alpha = 1
         shadowView.transform = CGAffineTransform.identity
         shadowView.layer.shadowOpacity = 0
@@ -269,7 +268,7 @@ class TabTrayController: UIViewController {
         let button = UIButton()
         button.setTitle(Strings.Private, for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
-        button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 2)
+        button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 2, weight: UIFontWeightMedium)
         button.contentEdgeInsets = UIEdgeInsetsMake(0, 4 /* left */, 0, 4 /* right */)
         button.layer.cornerRadius = 4.0
         button.addTarget(self, action: #selector(TabTrayController.SELdidTogglePrivateMode), for: .touchUpInside)
@@ -783,8 +782,6 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
         // TODO: Move most view logic here instead of `init` or `prepareForReuse`
         // If the current tab add heightlighting
         if getApp().tabManager.selectedTab == tab {
-            tabCell.backgroundHolder.layer.borderWidth = 1
-            tabCell.backgroundHolder.layer.borderColor = BraveUX.DefaultBlue.cgColor
             tabCell.shadowView.layer.shadowRadius = 5
             tabCell.shadowView.layer.shadowColor = BraveUX.DefaultBlue.cgColor
             tabCell.shadowView.layer.shadowOpacity = 1.0
@@ -792,6 +789,11 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
             tabCell.shadowView.layer.shadowPath = UIBezierPath(roundedRect: tabCell.bounds, cornerRadius: tabCell.backgroundHolder.layer.cornerRadius).cgPath
             tabCell.background.alpha = 1.0
         } else {
+            tabCell.shadowView.layer.shadowRadius = 2
+            tabCell.shadowView.layer.shadowColor = UIColor(white: 0.0, alpha: 0.15).cgColor
+            tabCell.shadowView.layer.shadowOpacity = 1.0
+            tabCell.shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
+            tabCell.shadowView.layer.shadowPath = UIBezierPath(roundedRect: tabCell.bounds, cornerRadius: tabCell.backgroundHolder.layer.cornerRadius).cgPath
             tabCell.background.alpha = 0.7
         }
         
