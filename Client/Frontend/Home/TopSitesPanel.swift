@@ -163,33 +163,15 @@ class TopSitesPanel: UIViewController {
         self.refreshTopSites(self.maxFrecencyLimit)
         
         privateTabMessageContainer.snp.makeConstraints { (make) -> Void in
-            make.centerX.equalTo(self.view)
-            make.centerY.equalTo(self.view)
-            make.leftMargin.equalTo(self.view).offset(40)
-            make.rightMargin.equalTo(self.view).offset(-40)
+            make.centerX.equalTo(collection)
+            make.top.equalTo(self.braveShieldStatsView?.snp.bottom ?? 0).offset(20)
+            make.leftMargin.equalTo(collection).offset(40)
+            make.rightMargin.equalTo(collection).offset(-40)
         }
         
         privateTabGraphic.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(0)
             make.centerX.equalTo(self.privateTabMessageContainer)
-        }
-        
-        privateTabTitleLabel.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(self.privateTabGraphic.snp.bottom).offset(15)
-            make.centerX.equalTo(self.privateTabMessageContainer)
-        }
-        
-        privateTabInfoLabel.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(15)
-            make.left.equalTo(0)
-            make.right.equalTo(0)
-        }
-        
-        privateTabLinkButton.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(15)
-            make.left.equalTo(0)
-            make.right.equalTo(0)
-            make.bottom.equalTo(0)
         }
         
         handleRotation()
@@ -207,11 +189,45 @@ class TopSitesPanel: UIViewController {
             UIView.animate(withDuration: 0.2, animations: {
                 self.privateTabGraphic.alpha = 0
             })
+            privateTabTitleLabel.snp.remakeConstraints { make in
+                make.top.equalTo(0)
+                make.centerX.equalTo(self.privateTabMessageContainer)
+            }
+            
+            privateTabInfoLabel.snp.remakeConstraints { make in
+                make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(10)
+                make.left.equalTo(0)
+                make.right.equalTo(0)
+            }
+            
+            privateTabLinkButton.snp.remakeConstraints { make in
+                make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(10)
+                make.left.equalTo(0)
+                make.right.equalTo(0)
+                make.bottom.equalTo(0)
+            }
         }
         else {
             UIView.animate(withDuration: 0.2, animations: {
                 self.privateTabGraphic.alpha = 1
             })
+            privateTabTitleLabel.snp.remakeConstraints { make in
+                make.top.equalTo(self.privateTabGraphic.snp.bottom).offset(15)
+                make.centerX.equalTo(self.privateTabMessageContainer)
+            }
+            
+            privateTabInfoLabel.snp.remakeConstraints { make in
+                make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(15)
+                make.left.equalTo(0)
+                make.right.equalTo(0)
+            }
+            
+            privateTabLinkButton.snp.remakeConstraints { make in
+                make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(15)
+                make.left.equalTo(0)
+                make.right.equalTo(0)
+                make.bottom.equalTo(0)
+            }
         }
         
         self.view.setNeedsUpdateConstraints()
