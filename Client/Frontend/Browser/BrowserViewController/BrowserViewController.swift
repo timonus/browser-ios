@@ -828,7 +828,6 @@ class BrowserViewController: UIViewController {
             switchBrowsingMode(toPrivate: true)
         }
         
-        //tabManager.addTabAndSelect(request)
         tabManager.addAdjacentTabAndSelect(request)
     }
 

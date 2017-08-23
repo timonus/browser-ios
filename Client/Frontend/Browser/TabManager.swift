@@ -291,6 +291,7 @@ class TabManager : NSObject {
     
     fileprivate func restoreTabsInternal() {
         var tabToSelect: Browser?
+        isRestoring = true
         
         // Do not want to load any tabs if PM is enabled
         assert(!PrivateBrowsing.singleton.isOn, "Tab restoration should never happen in PM")
@@ -344,6 +345,8 @@ class TabManager : NSObject {
                 self.selectTab(tab)
             }
         }
+        
+        isRestoring = false
     }
 
     fileprivate func limitInMemoryTabs() {

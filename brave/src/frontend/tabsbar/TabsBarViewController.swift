@@ -203,10 +203,11 @@ class TabsBarViewController: UIViewController {
         tabs.append(t)
         
         if let index = at, index > -1 && index < tabs.count {
-            // Trottle layout. Reduce re-layout bottleneck on fast tab creation (bootup)
-            if !insertTabScheduled {
-                weak var weakSelf = self
+            // Ignore all of this on bootup
+            if !getApp().tabManager.isRestoring && !insertTabScheduled {
+                // Trottle layout. Reduce re-layout bottleneck on fast tab creation.
                 insertTabScheduled = true
+                weak var weakSelf = self
                 postAsyncToMain(0.2) {
                     weakSelf?.insertTabScheduled = false
                     weakSelf?.isAddTabAnimationRunning = false
