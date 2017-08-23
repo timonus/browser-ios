@@ -76,7 +76,9 @@ class TabWidget : UIView {
 
         close.addTarget(self, action: #selector(clicked), for: .touchUpInside)
         title.addTarget(self, action: #selector(selected), for: .touchUpInside)
-        title.setTitle("", for: .normal)
+        
+        let t = TabMO.getByID(browser.tabID ?? "", context: DataController.shared.mainThreadContext)
+        title.setTitle(t?.title, for: .normal)
         [close, title, separatorLine].forEach { addSubview($0) }
 
         close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)

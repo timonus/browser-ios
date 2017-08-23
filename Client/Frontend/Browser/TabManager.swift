@@ -12,7 +12,7 @@ private let log = Logger.browserLogger
 
 protocol TabManagerDelegate: class {
     func tabManager(_ tabManager: TabManager, didSelectedTabChange selected: Browser?)
-    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?)
+    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?, at: Int?)
     func tabManager(_ tabManager: TabManager, didAddTab tab: Browser)
     func tabManager(_ tabManager: TabManager, didRemoveTab tab: Browser)
     func tabManagerDidRestoreTabs(_ tabManager: TabManager)
@@ -212,7 +212,7 @@ class TabManager : NSObject {
         if let t = self.selectedTab, t.webView == nil {
             t.createWebview()
             for delegate in delegates where t.webView != nil {
-                delegate.value?.tabManager(self, didCreateWebView: t, url: nil)
+                delegate.value?.tabManager(self, didCreateWebView: t, url: nil, at: nil)
             }
         }
 
@@ -245,7 +245,13 @@ class TabManager : NSObject {
     }
 
     @discardableResult func addTabAndSelect(_ request: URLRequest! = nil, configuration: WKWebViewConfiguration! = nil) -> Browser? {
-        guard let tab = addTab(request, configuration: configuration, id: TabMO.freshTab()) else { return nil }
+        guard let tab = addTab(request, configuration: configuration, id: nil) else { return nil }
+        selectTab(tab)
+        return tab
+    }
+    
+    @discardableResult func addAdjacentTabAndSelect(_ request: URLRequest! = nil, configuration: WKWebViewConfiguration! = nil) -> Browser? {
+        guard let tab = addTab(request, configuration: configuration, id: nil, index: getApp().tabManager.currentIndex+1) else { return nil }
         selectTab(tab)
         return tab
     }
@@ -387,6 +393,7 @@ class TabManager : NSObject {
         else {
             tab.tabID = id
         }
+        
         configureTab(tab, request: request, zombie: zombie, index: index)
         return tab
     }
@@ -416,7 +423,7 @@ class TabManager : NSObject {
         tab.createWebview(useDesktopUserAgent)
 
         for delegate in delegates {
-            delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url)
+            delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url, at: lastIndex)
         }
 
         tab.navigationDelegate = navDelegate
