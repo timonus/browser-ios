@@ -253,9 +253,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
         // we extract the information needed to restore the tabs and create a NSURLRequest with the custom session restore URL
         // to trigger the session restore via custom handlers
         if let sessionData = restorationData {
-            #if !BRAVE // no idea why restoring is needed, but it causes the displayed url not to update, which is bad
-                restoring = true
-            #endif
+            restoring = true
             lastTitle = sessionData.title
             if let title = lastTitle {
                 webView.title = title

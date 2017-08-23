@@ -162,6 +162,10 @@ class TabManager : NSObject {
         // Update tab order.
         debugPrint("updated tab index from \(from) to \(to)")
         
+        saveTabOrder()
+    }
+    
+    func saveTabOrder() {
         let context = DataController.shared.mainThreadContext
         for i in 0..<tabs.internalTabList.count {
             let tab = tabs.internalTabList[i]
@@ -336,7 +340,9 @@ class TabManager : NSObject {
         }
         
         if let tab = tabToSelect {
-            selectTab(tab)
+            postAsyncToMain(0.5) {
+                self.selectTab(tab)
+            }
         }
     }
 
@@ -429,10 +435,11 @@ class TabManager : NSObject {
         tab.navigationDelegate = navDelegate
         _ = tab.loadRequest(request ?? defaultNewTabRequest)
         
-        // During launch, this is called for each tab (although only read operations are happening)
-        // Should be no performance impact, since no save will happen without changes having taken place.
-        // But something to be aware of
-        TabMO.preserveTab(tab: tab)
+        // Ignore on restore.
+        if !zombie {
+            TabMO.preserveTab(tab: tab)
+            saveTabOrder()
+        }
     }
 
     // This method is duplicated to hide the flushToDisk option from consumers.
