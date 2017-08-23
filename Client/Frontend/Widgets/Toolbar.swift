@@ -8,6 +8,8 @@ class Toolbar : UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        backgroundColor = UIColor.clear
 
         // Allow the view to redraw itself on rotation changes
         contentMode = UIViewContentMode.redraw
@@ -18,8 +20,8 @@ class Toolbar : UIView {
     }
 
     fileprivate func drawLine(_ context: CGContext, width: CGFloat, start: CGPoint, end: CGPoint) {
-        context.setStrokeColor(UIConstants.BorderColor.cgColor)
-        context.setLineWidth(width * (1 / UIScreen.main.scale) )
+        context.setStrokeColor(UIColor.black.withAlphaComponent(0.15).cgColor)
+        context.setLineWidth(width)
         context.move(to: CGPoint(x: start.x, y: start.y))
         context.addLine(to: CGPoint(x: end.x, y: end.y))
         context.strokePath()
@@ -28,11 +30,11 @@ class Toolbar : UIView {
     override func draw(_ rect: CGRect) {
         if let context = UIGraphicsGetCurrentContext() {
             if drawTopBorder {
-                drawLine(context, width: 4, start: CGPoint(x: 0, y: 0), end: CGPoint(x: frame.width, y: 0))
+                drawLine(context, width: 2, start: CGPoint(x: 0, y: 0), end: CGPoint(x: frame.width, y: 0))
             }
 
             if drawBottomBorder {
-                drawLine(context, width: 4, start: CGPoint(x: 0, y: frame.height), end: CGPoint(x: frame.width, y: frame.height))
+                drawLine(context, width: 2, start: CGPoint(x: 0, y: frame.height), end: CGPoint(x: frame.width, y: frame.height))
             }
 
             if drawSeperators {
@@ -41,7 +43,7 @@ class Toolbar : UIView {
                     if skippedFirst {
                         let frame = view.frame
                         drawLine(context,
-                            width: 0.5,
+                            width: 1,
                             start: CGPoint(x: floor(frame.origin.x), y: 0),
                             end: CGPoint(x: floor(frame.origin.x), y: self.frame.height))
                     } else {
