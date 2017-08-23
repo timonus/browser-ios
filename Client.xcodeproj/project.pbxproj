@@ -2231,6 +2231,15 @@
 			name = data;
 			sourceTree = "<group>";
 		};
+		5C9689BB1F4CF97F003DDB67 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				EB8F566E1DD0FC2800679A78 /* Readability.js */,
+				EBA11E191E2EB84800C964E0 /* adblock-regions.txt */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		5CB4DCFE2FABD0F4904B147F /* PodFiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -3191,6 +3200,7 @@
 				7E05E6D54DEE4A7D2F5C4051 /* Storage */,
 				BC2DCFDD6DB6B358E06E8F09 /* ThirdParty */,
 				EAAD4BF9734BBE91C7A594D3 /* Utils */,
+				5C9689BB1F4CF97F003DDB67 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};

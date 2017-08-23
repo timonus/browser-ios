@@ -58,7 +58,7 @@ class SidePanelBaseViewController : UIViewController {
         shadow.contentMode = .scaleToFill
         shadow.alpha = 0.5
 
-        if !isLeftSidePanel {
+        if isLeftSidePanel {
             shadow.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
 

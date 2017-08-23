@@ -10,7 +10,7 @@ struct BraveUX {
 
     static let MaxTabsInMemory = 9
 
-    static var PanelShadowWidth = 15
+    static var PanelShadowWidth = 11
 
     static let ReaderModeBarHeight = 28
 
