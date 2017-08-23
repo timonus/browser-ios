@@ -828,7 +828,7 @@ class BrowserViewController: UIViewController {
             switchBrowsingMode(toPrivate: true)
         }
         
-        tabManager.addTabAndSelect(request)
+        tabManager.addAdjacentTabAndSelect(request)
     }
 
     func openBlankNewTabAndFocus(isPrivate: Bool = false) {

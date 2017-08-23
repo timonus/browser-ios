@@ -29,6 +29,7 @@ class TabsBarViewController: UIViewController {
     }
 
     fileprivate var isAddTabAnimationRunning = false
+    fileprivate var insertTabScheduled = false
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -184,7 +185,7 @@ class TabsBarViewController: UIViewController {
     }
 
 
-    func addTab(_ browser: Browser) -> TabWidget {
+    func addTab(_ browser: Browser, at: Int?) -> TabWidget {
         let t = TabWidget(browser: browser, parentScrollView: scrollView)
         t.delegate = self
         
@@ -200,6 +201,23 @@ class TabsBarViewController: UIViewController {
         
         t.remakeLayout(tabs.last?.spacerRight != nil ? tabs.last!.spacerRight : self.spacerLeftmost, width: w, scrollView: scrollView)
         tabs.append(t)
+        
+        if let index = at, index > -1 && index < tabs.count {
+            // Ignore all of this on bootup
+            if !getApp().tabManager.isRestoring && !insertTabScheduled {
+                // Trottle layout. Reduce re-layout bottleneck on fast tab creation.
+                insertTabScheduled = true
+                weak var weakSelf = self
+                postAsyncToMain(0.2) {
+                    weakSelf?.insertTabScheduled = false
+                    weakSelf?.isAddTabAnimationRunning = false
+                    weakSelf?.moveTab(t, index: index)
+                    weakSelf?.recalculateTabView()
+                    weakSelf?.updateSeparatorLineBetweenTabs()
+                }
+                return t
+            }
+        }
 
         if self.isVisible {
             UIView.animate(withDuration: 0.2, animations: {
@@ -341,7 +359,7 @@ extension TabsBarViewController: TabManagerDelegate {
         tabs.removeAll()
 
         tabManager.tabs.internalTabList.forEach {
-            let t = addTab($0)
+            let t = addTab($0, at: nil)
             t.setTitle($0.lastTitle)
             if tabManager.selectedTab === $0 {
                 tabWidgetSelected(t)
@@ -360,7 +378,7 @@ extension TabsBarViewController: TabManagerDelegate {
         updateSeparatorLineBetweenTabs()
     }
 
-    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?) {
+    func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?, at: Int?) {
         if let t = tabs.find({ $0.browser === tab }) {
             if let wv = t.browser?.webView {
                 wv.delegatesForPageState.append(BraveWebView.Weak_WebPageStateDelegate(value: t))
@@ -368,7 +386,7 @@ extension TabsBarViewController: TabManagerDelegate {
             return
         }
 
-        let t = addTab(tab)
+        let t = addTab(tab, at: at)
         if let url = url {
             let title = url.baseDomain
             t.setTitle(title)
