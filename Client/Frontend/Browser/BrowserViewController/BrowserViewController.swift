@@ -1175,10 +1175,10 @@ extension BrowserViewController: Themeable {
         switch(themeName) {
         case Theme.NormalMode:
             statusBarOverlay.backgroundColor = BraveUX.ToolbarsBackgroundSolidColor
-            footer.backgroundColor = BraveUX.ToolbarsBackgroundSolidColor
+            footerBackground?.backgroundColor = BraveUX.ToolbarsBackgroundSolidColor
         case Theme.PrivateMode:
             statusBarOverlay.backgroundColor = BraveUX.DarkToolbarsBackgroundSolidColor
-            footer.backgroundColor = BraveUX.DarkToolbarsBackgroundSolidColor
+            footerBackground?.backgroundColor = BraveUX.DarkToolbarsBackgroundSolidColor
         default:
             log.debug("Unknown Theme \(themeName)")
         }
