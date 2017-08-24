@@ -95,7 +95,7 @@ class SnackBar: UIView {
         contentView = UIView()
         buttonsView = Toolbar()
         backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor(white: 1.0, alpha: 0.3)
+        backgroundView.backgroundColor = UIColor(rgb: 0xe8e8e8)
 
         super.init(frame: CGRect.zero)
 
@@ -115,8 +115,8 @@ class SnackBar: UIView {
         contentView = UIView()
         buttonsView = Toolbar()
         backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor(white: 1.0, alpha: 0.3)
-
+        backgroundView.backgroundColor = UIColor(rgb: 0xe8e8e8)
+        
         super.init(frame: frame)
     }
 
