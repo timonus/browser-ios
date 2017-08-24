@@ -78,18 +78,8 @@ class AutocompleteTextField: UITextField, UITextFieldDelegate {
     }
 
     func highlightAll() {
-        if let text = text {
-            if !text.isEmpty {
-                let attributedString = NSMutableAttributedString(string: text)
-                attributedString.addAttribute(NSBackgroundColorAttributeName, value: highlightColor, range: NSMakeRange(0, (text).characters.count))
-                attributedText = attributedString
-
-                enteredText = ""
-                completionActive = true
-            }
-        }
-
-        selectedTextRange = textRange(from: beginningOfDocument, to: beginningOfDocument)
+        // Old behavior was to create a highlight on all text, then set from: to: to beginning of document to create a selection without cursor indicators. This caused two problems. 1. the indicators to allow selection were missing and required additional taps to select substring. 2. force touch on iPhone 6s and greater was not working and would create a two pixel cursor due to hacky set.
+        selectedTextRange = textRange(from: beginningOfDocument, to: endOfDocument)
     }
 
     fileprivate func normalizeString(_ string: String) -> String {
