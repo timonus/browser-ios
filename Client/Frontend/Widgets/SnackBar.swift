@@ -199,7 +199,7 @@ class SnackBar: UIView {
 
         textLabel.snp.remakeConstraints { make in
             make.top.equalTo(contentView)
-            make.width.equalTo(contentView)
+            make.left.equalTo(self.imageView.snp.right)
             make.trailing.equalTo(contentView)
             make.bottom.lessThanOrEqualTo(contentView.snp.bottom)
         }
