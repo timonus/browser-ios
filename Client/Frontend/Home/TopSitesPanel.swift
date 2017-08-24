@@ -164,7 +164,13 @@ class TopSitesPanel: UIViewController {
         
         privateTabMessageContainer.snp.makeConstraints { (make) -> Void in
             make.centerX.equalTo(collection)
-            make.top.equalTo(self.braveShieldStatsView?.snp.bottom ?? 0).offset(20)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                make.centerY.equalTo(self.view)
+            }
+            else {
+                make.top.equalTo(self.braveShieldStatsView?.snp.bottom ?? 0).offset(20)
+            }
+            
             make.leftMargin.equalTo(collection).offset(40)
             make.rightMargin.equalTo(collection).offset(-40)
         }
@@ -172,6 +178,30 @@ class TopSitesPanel: UIViewController {
         privateTabGraphic.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(0)
             make.centerX.equalTo(self.privateTabMessageContainer)
+        }
+        
+        privateTabTitleLabel.snp.remakeConstraints { make in
+            make.top.equalTo(self.privateTabGraphic.snp.bottom).offset(15)
+            make.centerX.equalTo(self.privateTabMessageContainer)
+        }
+        
+        privateTabInfoLabel.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(10)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                make.width.equalTo(400)
+                make.centerX.equalTo(collection)
+            }
+            else {
+                make.left.equalTo(0)
+                make.right.equalTo(0)
+            }
+        }
+        
+        privateTabLinkButton.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(10)
+            make.left.equalTo(0)
+            make.right.equalTo(0)
+            make.bottom.equalTo(0)
         }
         
         handleRotation()
