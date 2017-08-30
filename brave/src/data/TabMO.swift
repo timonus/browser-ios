@@ -41,7 +41,7 @@ class TabMO: NSManagedObject {
         return tab.syncUUID!
     }
 
-    @discardableResult class func add(_ tabInfo: SavedTab, context: NSManagedObjectContext) -> TabMO? {
+    @discardableResult class func add(_ tabInfo: SavedTab, context: NSManagedObjectContext = DataController.shared.mainThreadContext) -> TabMO? {
         let tab: TabMO? = getByID(tabInfo.id, context: context)
         if tab == nil {
             return nil
@@ -73,7 +73,7 @@ class TabMO: NSManagedObject {
         return []
     }
     
-    class func getByID(_ id: String, context: NSManagedObjectContext) -> TabMO? {
+    class func getByID(_ id: String, context: NSManagedObjectContext = DataController.shared.mainThreadContext) -> TabMO? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = TabMO.entity(context)
         fetchRequest.predicate = NSPredicate(format: "syncUUID == %@", id)

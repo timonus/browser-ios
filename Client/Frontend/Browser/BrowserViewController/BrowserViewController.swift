@@ -297,12 +297,12 @@ class BrowserViewController: UIViewController {
 
         log.debug("BVC adding footer and header…")
         footerBackdrop = UIView()
-        footerBackdrop.backgroundColor = UIColor.white
+        footerBackdrop.backgroundColor = BrowserViewControllerUX.BackgroundColor
         view.addSubview(footerBackdrop)
 
         log.debug("BVC setting up webViewContainer…")
         webViewContainerBackdrop = UIView()
-        webViewContainerBackdrop.backgroundColor = UIColor.gray
+        webViewContainerBackdrop.backgroundColor = BrowserViewControllerUX.BackgroundColor
         webViewContainerBackdrop.alpha = 0
         view.addSubview(webViewContainerBackdrop)
 
