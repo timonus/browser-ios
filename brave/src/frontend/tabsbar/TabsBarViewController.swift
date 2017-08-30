@@ -48,27 +48,17 @@ class TabsBarViewController: UIViewController {
 
         if UIDevice.current.userInterfaceIdiom == .pad {
             plusButton.setImage(UIImage(named: "add")!.withRenderingMode(.alwaysTemplate), for: .normal)
-            plusButton.imageEdgeInsets = UIEdgeInsetsMake(6, 6, 6, 10)
+            plusButton.imageEdgeInsets = UIEdgeInsetsMake(6, 10, 6, 10)
             plusButton.tintColor = UIColor.black
             plusButton.contentMode = .scaleAspectFit
             plusButton.addTarget(self, action: #selector(addTabPressed), for: .touchUpInside)
+            plusButton.backgroundColor = UIColor.init(white: 0.0, alpha: 0.1)
             view.addSubview(plusButton)
 
             plusButton.snp.makeConstraints { (make) in
                 make.right.top.bottom.equalTo(view)
                 make.width.equalTo(BraveUX.TabsBarPlusButtonWidth)
             }
-
-            let vertLine = UIView()
-            vertLine.backgroundColor = UIColor.black
-            plusButton.addSubview(vertLine)
-            vertLine.snp.makeConstraints { (make) in
-                make.left.equalTo(plusButton)
-                make.width.equalTo(1)
-                make.height.equalTo(22)
-                make.centerY.equalTo(plusButton.snp.centerY)
-            }
-
         }
 
         getApp().tabManager.addDelegate(self)
@@ -207,13 +197,12 @@ class TabsBarViewController: UIViewController {
             if !getApp().tabManager.isRestoring && !insertTabScheduled {
                 // Trottle layout. Reduce re-layout bottleneck on fast tab creation.
                 insertTabScheduled = true
-                weak var weakSelf = self
-                postAsyncToMain(0.2) {
-                    weakSelf?.insertTabScheduled = false
-                    weakSelf?.isAddTabAnimationRunning = false
-                    weakSelf?.moveTab(t, index: index)
-                    weakSelf?.recalculateTabView()
-                    weakSelf?.updateSeparatorLineBetweenTabs()
+                postAsyncToMain(0.2) { [weak self] in
+                    self?.insertTabScheduled = false
+                    self?.isAddTabAnimationRunning = false
+                    self?.moveTab(t, index: index)
+                    self?.recalculateTabView()
+                    self?.updateSeparatorLineBetweenTabs()
                 }
                 return t
             }
