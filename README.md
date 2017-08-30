@@ -25,7 +25,7 @@ brew install carthage
 
 <strong> 5. Download the source code: </strong>
 ```
-git clone https://github.com/brave/browser.git # this will download git if it isn't currently installed
+git clone https://github.com/brave/browser-ios.git # this will download git if it isn't currently installed
 ```
 <strong> 6. Do the following commands: </strong>
 ```

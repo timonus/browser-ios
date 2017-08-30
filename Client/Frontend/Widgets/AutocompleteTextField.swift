@@ -123,7 +123,7 @@ class AutocompleteTextField: UITextField, UITextFieldDelegate {
         canAutocomplete = !string.isEmpty
 
         if completionActive {
-            if string.isEmpty {
+            if string.isEmpty && range.length > 0 {
                 // Characters are being deleted, so clear the autocompletion, but don't change the text.
                 removeCompletion()
                 return false
