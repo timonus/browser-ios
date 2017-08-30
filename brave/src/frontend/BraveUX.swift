@@ -63,8 +63,8 @@ struct BraveUX {
 
     static let BackForwardDisabledButtonAlpha = CGFloat(0.3)
     static let BackForwardEnabledButtonAlpha = CGFloat(1.0)
-
-    static let TopLevelBackgroundColor = UIColor(white: 0.67, alpha: 1.0)
+    
+    static let TopLevelBackgroundColor = UIColor.white
 
     // LocationBar Coloring
     static let LocationBarTextColor = UIColor.black
