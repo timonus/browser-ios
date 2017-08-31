@@ -553,11 +553,21 @@ class Browser: NSObject, BrowserWebViewDelegate {
         }
 #endif
         guard let screenshot = screenshot else { return }
-
+        
         self.screenshot.image = screenshot
         if revUUID {
             self.screenshotUUID = UUID()
         }
+        
+        // Save screenshot to TabMO
+        let context = DataController.shared.workerContext
+        context.perform { [weak self] in
+            if let id = self?.tabID, let tab = TabMO.getByID(id, context: context) {
+                tab.screenshot = UIImagePNGRepresentation(screenshot)
+                DataController.saveContext(context: context)
+            }
+        }
+        
     }
 
 //    func toggleDesktopSite() {

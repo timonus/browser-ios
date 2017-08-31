@@ -275,18 +275,12 @@ class DebugSettings: Setting, XMLParserDelegate {
         let url = URL(string: "https://raw.githubusercontent.com/brave/qa-resources/master/testlinks.json")!
         let string = try? String(contentsOf: url)
         let urls = JSON(parseJSON: string!)["links"].arrayValue.flatMap { URL(string: $0.stringValue) }
-        let context = DataController.shared.workerContext
-        context.perform {
-            for url in urls {
-                let tabID = TabMO.freshTab()
-                let data = SavedTab(id: tabID, title: url.baseDomain ?? url.absoluteString, url: url.absoluteString, isSelected: false, order: -1, screenshot: nil, history: [url.absoluteString], historyIndex: 0)
-                TabMO.add(data)
-            }
-            DataController.saveContext(context: context)
-            postAsyncToMain {
-                getApp().tabManager.forceRestoreTabs()
-            }
+        
+        for url in urls {
+            let request = URLRequest(url: url)
+            _ = getApp().tabManager.addTab(request)
         }
+        
     }
 }
 
