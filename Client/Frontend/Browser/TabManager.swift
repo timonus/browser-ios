@@ -102,7 +102,6 @@ class TabManager : NSObject {
     fileprivate let defaultNewTabRequest: URLRequest
     fileprivate let navDelegate: TabManagerNavDelegate
     fileprivate(set) var isRestoring = false
-    fileprivate var skipWebviewGeneration = false
 
     // A WKWebViewConfiguration used for normal tabs
     lazy fileprivate var configuration: WKWebViewConfiguration = {
@@ -299,10 +298,6 @@ class TabManager : NSObject {
         }
     }()
     
-    func forceRestoreTabs() {
-        self.restoreTabsInternal()
-    }
-    
     fileprivate func restoreTabsInternal() {
         var tabToSelect: Browser?
         isRestoring = true
@@ -317,8 +312,9 @@ class TabManager : NSObject {
         //  has been related to layout constraints on the tab tray (re-arranging tabs as they are being created)
         //  Since `move` recalculates each pre-existing tab's position. Hence the forced order here.
         let savedTabs = TabMO.getAll()
+        var createWebviews = true
         if savedTabs.count > BraveUX.MaxTabsInMemory {
-            skipWebviewGeneration = true
+            createWebviews = false
         }
         for savedTab in savedTabs {
             if savedTab.url == nil {
@@ -328,7 +324,7 @@ class TabManager : NSObject {
                 continue
             }
             
-            guard let tab = addTab(nil, configuration: nil, zombie: true, id: savedTab.syncUUID) else { return }
+            guard let tab = addTab(nil, configuration: nil, zombie: true, id: savedTab.syncUUID, createWebview: createWebviews) else { return }
             
             tab.setScreenshot(savedTab.screenshotImage)
             if savedTab.isSelected {
@@ -337,7 +333,7 @@ class TabManager : NSObject {
             tab.lastTitle = savedTab.title
             
             // Will be skipped when webview hasn't been generated, prevents loading sessions for evey tab.
-            if !skipWebviewGeneration {
+            if createWebviews {
                 if let w = tab.webView, let history = savedTab.urlHistorySnapshot as? [String], let tabID = savedTab.syncUUID, let url = savedTab.url {
                     let data = SavedTab(id: tabID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
                     tab.restore(w, restorationData: data)
@@ -360,7 +356,7 @@ class TabManager : NSObject {
         }
         
         if let tab = tabToSelect {
-            if skipWebviewGeneration {
+            if !createWebviews {
                 restoreZombieTab(tab)
             }
             
@@ -369,7 +365,6 @@ class TabManager : NSObject {
             }
         }
         
-        skipWebviewGeneration = false
         isRestoring = false
     }
     
@@ -424,7 +419,7 @@ class TabManager : NSObject {
         }
     }
 
-    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int? = nil) -> Browser? {
+    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int? = nil, createWebview: Bool = true) -> Browser? {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return nil
@@ -437,11 +432,11 @@ class TabManager : NSObject {
         
         tab.tabID = id == nil ? TabMO.freshTab() : id
         
-        configureTab(tab, request: request, zombie: zombie, index: index)
+        configureTab(tab, request: request, zombie: zombie, index: index, createWebview: createWebview)
         return tab
     }
 
-    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false, index: Int? = nil) {
+    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false, index: Int? = nil, createWebview: Bool = true) {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return
@@ -449,7 +444,7 @@ class TabManager : NSObject {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         
         // We don't actually create webviews on restore.
-        if !skipWebviewGeneration {
+        if createWebview {
             limitInMemoryTabs()
         }
 
@@ -469,7 +464,7 @@ class TabManager : NSObject {
         // On restore we are casually creating webviews only on active tab. 
         // All others will be created when tab is selected.
         // Since tab bar manager awaits protocol method to create UI we trick into creating.
-        if skipWebviewGeneration {
+        if !createWebview {
             let showingPolicy = TabsBarShowPolicy(rawValue: Int(BraveApp.getPrefs()?.intForKey(kPrefKeyTabsBarShowPolicy) ?? Int32(kPrefKeyTabsBarOnDefaultValue.rawValue))) ?? kPrefKeyTabsBarOnDefaultValue
             if showingPolicy != TabsBarShowPolicy.never {
                 for delegate in delegates {

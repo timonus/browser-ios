@@ -18,22 +18,24 @@ class TabMO: NSManagedObject {
     @NSManaged var isSelected: Bool
     @NSManaged var isClosed: Bool
 
-    var screenshotImage: UIImage?
+    var screenshotImage: UIImage? {
+        get {
+            if let data = screenshot {
+                return UIImage(data: data)
+            }
+            return nil
+        }
+    }
 
     override func awakeFromInsert() {
         super.awakeFromInsert()
-
-        if let data = screenshot {
-            screenshotImage = UIImage(data: data)
-        }
     }
 
     static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entity(forEntityName: "TabMO", in: context)!
     }
     
-    class func freshTab() -> String {
-        let context = DataController.shared.mainThreadContext
+    class func freshTab(_ context: NSManagedObjectContext = DataController.shared.mainThreadContext) -> String {
         let tab = TabMO(entity: TabMO.entity(context), insertInto: context)
         // TODO: replace with logic to create sync uuid then buble up new uuid to browser.
         tab.syncUUID = UUID().uuidString
