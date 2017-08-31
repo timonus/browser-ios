@@ -63,7 +63,13 @@ class TabManager : NSObject {
     class TabsList {
         fileprivate(set) var tabs = [Browser]()
         func append(_ tab: Browser) { tabs.append(tab) }
-        func insert(_ tab: Browser, at: Int) { tabs.insert(tab, at: at) }
+        func insert(_ tab: Browser, at: Int) {
+            var at = at
+            at = max(0, at)
+            at = min(tabs.count, at)
+            tabs.insert(tab, at: at)
+        }
+        
         func move(_ tab: Browser, from: Int, to: Int) { tabs.insert(tabs.remove(at: from), at: to) }
         var internalTabList : [Browser] { return tabs }
 
@@ -144,16 +150,14 @@ class TabManager : NSObject {
         return _selectedTab
     }
     
-    var currentIndex: Int {
+    var currentIndex: Int? {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         
-        var order = 0
-        for t in self.tabs.internalTabList {
-            if t === self.selectedTab { break }
-            order += 1
+        guard let selectedTab = self.selectedTab else {
+            return nil
         }
         
-        return order
+        return self.tabs.internalTabList.index(of: selectedTab)
     }
     
     func move(tab: Browser, from: Int, to: Int) {
@@ -255,7 +259,8 @@ class TabManager : NSObject {
     }
     
     @discardableResult func addAdjacentTabAndSelect(_ request: URLRequest! = nil, configuration: WKWebViewConfiguration! = nil) -> Browser? {
-        guard let tab = addTab(request, configuration: configuration, id: nil, index: getApp().tabManager.currentIndex+1) else { return nil }
+        let nextIndex = getApp().tabManager.currentIndex?.advanced(by: 1)
+        guard let tab = addTab(request, configuration: configuration, id: nil, index: nextIndex) else { return nil }
         selectTab(tab)
         return tab
     }
@@ -325,7 +330,7 @@ class TabManager : NSObject {
                 tab.restore(w, restorationData: data)
             }
             else {
-                debugPrint("failed to load tab \(savedTab.url)")
+                debugPrint("failed to load tab \(String(describing: savedTab.url))")
             }
         }
         if tabToSelect == nil {
@@ -387,7 +392,7 @@ class TabManager : NSObject {
         }
     }
 
-    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int = -1) -> Browser? {
+    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int? = nil) -> Browser? {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return nil
@@ -396,18 +401,13 @@ class TabManager : NSObject {
 
         let isPrivate = PrivateBrowsing.singleton.isOn
         let tab = Browser(configuration: self.configuration, isPrivate: isPrivate)
-        if id == nil {
-            tab.tabID = TabMO.freshTab()
-        }
-        else {
-            tab.tabID = id
-        }
+        tab.tabID = id ?? TabMO.freshTab()
         
         configureTab(tab, request: request, zombie: zombie, index: index)
         return tab
     }
 
-    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false, index: Int = -1) {
+    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false, index: Int? = nil) {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return
@@ -417,12 +417,11 @@ class TabManager : NSObject {
         limitInMemoryTabs()
 
         var lastIndex = index
-        if index == -1 {
+        if let index = index {
+            tabs.insert(tab, at: index)
+        } else {
             tabs.append(tab)
             lastIndex = tabs.internalTabList.count - 1
-        }
-        else {
-            tabs.insert(tab, at: index)
         }
 
         for delegate in delegates {
