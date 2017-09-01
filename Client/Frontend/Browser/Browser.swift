@@ -32,25 +32,6 @@ struct DangerousReturnWKNavigation {
     static let emptyNav = WKNavigation()
 }
 
-class UIImageWithNotify {
-    struct WeakImageView {
-        weak var view : UIImageView?
-        init(_ i: UIImageView?) {
-            self.view = i
-        }
-    }
-    var image: UIImage? {
-        didSet {
-            // notify listeners, and remove dead ones
-            listenerImages = listenerImages.filter {
-                $0.view?.image = image
-                return $0.view != nil
-            }
-        }
-    }
-    var listenerImages = [WeakImageView]()
-}
-
 class Browser: NSObject, BrowserWebViewDelegate {
     fileprivate var _isPrivate: Bool = false
     internal fileprivate(set) var isPrivate: Bool {
@@ -133,7 +114,8 @@ class Browser: NSObject, BrowserWebViewDelegate {
     /// be managed by the web view's navigation delegate.
     var desktopSite: Bool = false
 
-    fileprivate var _screenshot = UIImage()
+    fileprivate var screenshotCallback: ((_ image: UIImage?)->Void)?
+    fileprivate var _screenshot: UIImage?
     var screenshotUUID: UUID?
 
     fileprivate var helperManager: HelperManager? = nil
@@ -166,14 +148,13 @@ class Browser: NSObject, BrowserWebViewDelegate {
 #endif
     
     func screenshot(callback: @escaping (_ image: UIImage?)->Void) {
+        screenshotCallback = callback
         if let url = managedObject?.imageUrl {
             weak var weakSelf = self
             ImageCache.shared.image(url, callback: { (image) in
-                if let i = image {
-                    weakSelf?._screenshot = i
-                    postAsyncToMain {
-                        callback(i)
-                    }
+                weakSelf?._screenshot = image
+                postAsyncToMain {
+                    weakSelf?.screenshotCallback?(image)
                 }
             })
         }
@@ -569,6 +550,8 @@ class Browser: NSObject, BrowserWebViewDelegate {
         guard let screenshot = screenshot else { return }
 
         _screenshot = screenshot
+        self.screenshotCallback?(screenshot)
+        
         if revUUID {
             screenshotUUID = UUID()
         }
