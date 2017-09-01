@@ -460,6 +460,7 @@ class BraveWebView: UIWebView {
             getApp().tabManager.expireSnackbars()
             getApp().browserViewController.screenshotHelper.takeDelayedScreenshot(tab)
             getApp().browserViewController.addOpenInViewIfNeccessary(tab.url)
+            getApp().browserViewController.webViewPreviewImage.isHidden = true
         }
     }
 
