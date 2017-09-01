@@ -124,7 +124,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
     var restoring: Bool = false
     var pendingScreenshot = false
     
-    var tabID: String?
+    var managedObject: TabMO?
 
     /// The last title shown by this tab. Used by the tab tray to show titles for zombie tabs.
     var lastTitle: String?
@@ -133,7 +133,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
     /// be managed by the web view's navigation delegate.
     var desktopSite: Bool = false
 
-    fileprivate(set) var screenshot = UIImageWithNotify()
+    fileprivate(set) var screenshot = UIImage()
     var screenshotUUID: UUID?
 
     fileprivate var helperManager: HelperManager? = nil
@@ -553,27 +553,18 @@ class Browser: NSObject, BrowserWebViewDelegate {
         }
 #endif
         guard let screenshot = screenshot else { return }
-        
-        self.screenshot.image = screenshot
+
+        self.screenshot = screenshot
         if revUUID {
             self.screenshotUUID = UUID()
         }
         
-        // Save screenshot to TabMO
-        let context = DataController.shared.workerContext
-        context.perform { [weak self] in
-            if let id = self?.tabID, let tab = TabMO.getByID(id, context: context) {
-                tab.screenshot = UIImagePNGRepresentation(screenshot)
-                DataController.saveContext(context: context)
-            }
+        if let url = managedObject?.imageUrl {
+            ImageCache.shared.cache(screenshot, url: url, callback: {
+                debugPrint("Cached screenshot.")
+            })
         }
-        
     }
-
-//    func toggleDesktopSite() {
-//        desktopSite = !desktopSite
-//        reload()
-//    }
 
     func queueJavascriptAlertPrompt(_ alert: JSAlertInfo) {
         alertQueue.append(alert)
