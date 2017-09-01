@@ -133,7 +133,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
     /// be managed by the web view's navigation delegate.
     var desktopSite: Bool = false
 
-    fileprivate(set) var screenshot = UIImage()
+    fileprivate(set) var _screenshot = UIImage()
     var screenshotUUID: UUID?
 
     fileprivate var helperManager: HelperManager? = nil
@@ -164,6 +164,20 @@ class Browser: NSObject, BrowserWebViewDelegate {
         return screenshotsForHistory.get(next)
     }
 #endif
+    
+    func screenshot(callback: @escaping (_ image: UIImage?)->Void) {
+        if let url = managedObject?.imageUrl {
+            weak var weakSelf = self
+            ImageCache.shared.image(url, callback: { (image) in
+                if let i = image {
+                    weakSelf?._screenshot = i
+                    postAsyncToMain {
+                        callback(i)
+                    }
+                }
+            })
+        }
+    }
 
     class func toTab(_ browser: Browser) -> RemoteTab? {
         if let displayURL = browser.displayURL {
@@ -554,9 +568,9 @@ class Browser: NSObject, BrowserWebViewDelegate {
 #endif
         guard let screenshot = screenshot else { return }
 
-        self.screenshot = screenshot
+        _screenshot = screenshot
         if revUUID {
-            self.screenshotUUID = UUID()
+            screenshotUUID = UUID()
         }
         
         if let url = managedObject?.imageUrl {
