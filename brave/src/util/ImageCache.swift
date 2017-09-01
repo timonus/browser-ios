@@ -52,64 +52,49 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     static let shared = ImageCache()
     
     fileprivate let ImageFormatFrameDevice = "com.brave.imageFormatFrameDevice"
-    fileprivate let ImageFormatFrameDeviceLandscape = "com.brave.imageFormatFrameDeviceLandscape"
-    fileprivate let ImageFormatFrameDevicePortrait = "com.brave.imageFormatFrameDevicePortrait"
+    fileprivate let ImageFormatFrameDeviceFull = "com.brave.imageFormatFrameDevicePortrait"
     
     fileprivate var bitmapCache: FICImageCache!
     
     override init() {
         super.init()
         
-        let size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        var portrait = CGSize.zero
-        var landscape = CGSize.zero
+        var size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
-        // Realize this logic is a bit strange. Need to get image size for two states. Flips when alternate.
-        if UIApplication.shared.statusBarOrientation == .portrait {
-            portrait = size
-            landscape = CGSize(width: size.height, height: size.width)
-        }
-        else {
-            portrait = CGSize(width: size.height, height: size.width)
-            landscape = size
+        // FIC will clear all images if size changes. Doing this forces always portrait sizing.
+        if UIApplication.shared.statusBarOrientation != .portrait {
+            size = CGSize(width: size.height, height: size.width)
         }
         
-        let imageFormatLandscape = FICImageFormat()
-        imageFormatLandscape.name = ImageFormatFrameDeviceLandscape
-        imageFormatLandscape.family = ImageFormatFrameDevice
-        imageFormatLandscape.style = .style32BitBGRA
-        imageFormatLandscape.imageSize = landscape
-        imageFormatLandscape.maximumCount = 1000
-        imageFormatLandscape.devices = UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
-        imageFormatLandscape.protectionMode = .none
-        
-        let imageFormatPortrait = FICImageFormat()
-        imageFormatPortrait.name = ImageFormatFrameDevicePortrait
-        imageFormatPortrait.family = ImageFormatFrameDevice
-        imageFormatPortrait.style = .style32BitBGRA
-        imageFormatPortrait.imageSize = portrait
-        imageFormatPortrait.maximumCount = 1000
-        imageFormatPortrait.devices = UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
-        imageFormatPortrait.protectionMode = .none
+        let imageFormat = FICImageFormat()
+        imageFormat.name = ImageFormatFrameDeviceFull
+        imageFormat.family = ImageFormatFrameDevice
+        imageFormat.style = .style32BitBGRA
+        imageFormat.imageSize = size
+        imageFormat.maximumCount = 1000
+        imageFormat.devices = UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
+        imageFormat.protectionMode = .none
         
         bitmapCache = FICImageCache(nameSpace: "com.brave.images")
         bitmapCache.delegate = self
-        bitmapCache.setFormats([imageFormatLandscape, imageFormatPortrait])
+        bitmapCache.setFormats([imageFormat])
     }
     
     func cache(_ image: UIImage, url: URL, callback: (()->Void)?) {
         let entity = ImageEntity(url: url)
-        let format = UIApplication.shared.statusBarOrientation == .portrait ? ImageFormatFrameDevicePortrait : ImageFormatFrameDeviceLandscape
-        if !bitmapCache.imageExists(for: entity, withFormatName: format) {
-            bitmapCache.setImage(image, for: entity, withFormatName: format, completionBlock: { (cachedEntity, format, cachedImage) in
-                callback?()
-            })
+        let format = ImageFormatFrameDeviceFull
+        if bitmapCache.imageExists(for: entity, withFormatName: format) {
+            bitmapCache.deleteImage(for: entity, withFormatName: format)
         }
+        bitmapCache.setImage(image, for: entity, withFormatName: format, completionBlock: { (cachedEntity, format, cachedImage) in
+            callback?()
+        })
+        
     }
     
     func image(_ url: URL, callback: @escaping (_ image: UIImage?)->Void) {
         let entity = ImageEntity(url: url)
-        let format = UIApplication.shared.statusBarOrientation == .portrait ? ImageFormatFrameDevicePortrait : ImageFormatFrameDeviceLandscape
+        let format = ImageFormatFrameDeviceFull
         bitmapCache.retrieveImage(for: entity, withFormatName: format) { (cachedEntity, format, cachedImage) in
             callback(cachedImage)
         }

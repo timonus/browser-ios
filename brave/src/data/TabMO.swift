@@ -124,7 +124,7 @@ class TabMO: NSManagedObject {
             currentPage = -forwardList.count
         }
         if let id = tab.managedObject?.syncUUID {
-            let data = SavedTab(id, tab.title ?? tab.lastRequest!.url!.absoluteString, tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), tab.screenshot, urls, Int16(currentPage))
+            let data = SavedTab(id, tab.title ?? tab.lastRequest!.url!.absoluteString, tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
             let context = DataController.shared.workerContext
             context.perform {
                 _ = TabMO.add(data, context: context)

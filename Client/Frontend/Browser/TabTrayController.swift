@@ -776,16 +776,9 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
             tabCell.favicon.image = nil
         }
         
-        if let url = tab.managedObject?.imageUrl {
-            ImageCache.shared.image(url, callback: { (image) in
-                if let i = image {
-                    postAsyncToMain {
-                        tabCell.background.image = i
-                        tabCell.background.setNeedsLayout()
-                    }
-                }
-            })
-        }
+        tab.screenshot(callback: { (image) in
+            tabCell.background.image = image
+        })
 
         // TODO: Move most view logic here instead of `init` or `prepareForReuse`
         // If the current tab add heightlighting
