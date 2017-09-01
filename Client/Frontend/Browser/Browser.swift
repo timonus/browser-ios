@@ -150,7 +150,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
         screenshotCallback = callback
         
         guard let callback = callback else { return }
-        if let id = tabID, let tab = TabMO.getByID(id), let url = tab.imageUrl {
+        if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
             weak var weakSelf = self
             ImageCache.shared.image(url, callback: { (image) in
                 weakSelf?._screenshot = image
