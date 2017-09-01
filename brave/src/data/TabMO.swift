@@ -31,6 +31,15 @@ class TabMO: NSManagedObject {
     override func awakeFromInsert() {
         super.awakeFromInsert()
     }
+    
+    override func prepareForDeletion() {
+        super.prepareForDeletion()
+        
+        // Remove cached image
+        if let url = imageUrl {
+            ImageCache.shared.remove(url)
+        }
+    }
 
     static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entity(forEntityName: "TabMO", in: context)!
