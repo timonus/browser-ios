@@ -133,7 +133,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
     /// be managed by the web view's navigation delegate.
     var desktopSite: Bool = false
 
-    fileprivate(set) var _screenshot = UIImage()
+    fileprivate var _screenshot = UIImage()
     var screenshotUUID: UUID?
 
     fileprivate var helperManager: HelperManager? = nil
