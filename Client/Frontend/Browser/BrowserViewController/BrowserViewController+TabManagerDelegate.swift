@@ -75,7 +75,6 @@ extension BrowserViewController: TabManagerDelegate {
                 weak var weakSelf = self
                 tab.screenshot(callback: { (image) in
                     weakSelf?.webViewPreviewImage.image = image
-                    //weakSelf?.webViewPreviewImage.alpha = 0.9
                     weakSelf?.webViewPreviewImage.isHidden = false
                 })
                 
