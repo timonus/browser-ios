@@ -8,6 +8,7 @@ import SnapKit
 import Storage
 import ReadingList
 import Shared
+import CoreData
 
 struct TabTrayControllerUX {
     static let CornerRadius = BraveUX.TabTrayCellCornerRadius
@@ -560,9 +561,9 @@ class TabTrayController: UIViewController {
         self.collectionView.performBatchUpdates({ _ in
             // TODO: This logic seems kind of finicky
             var tab: Browser?
-            let tabID = TabMO.freshTab()
-            tab = self.tabManager.addTab(request, id: tabID)
-            tab?.tabID = tabID
+            let managedObject = TabMO.freshTab()
+            tab = self.tabManager.addTab(request, managedObject: managedObject)
+            tab?.managedObject = managedObject
             
             if let tab = tab {
                 self.tabManager.selectTab(tab)
@@ -775,9 +776,16 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
             tabCell.favicon.image = nil
         }
         
-        tabCell.background.image = tab.screenshot.image
-        tab.screenshot.listenerImages.removeAll() // TODO maybe UIImageWithNotify should only ever have one listener?
-        tab.screenshot.listenerImages.append(UIImageWithNotify.WeakImageView(tabCell.background))
+        if let url = tab.managedObject?.imageUrl {
+            ImageCache.shared.image(url, callback: { (image) in
+                if let i = image {
+                    postAsyncToMain {
+                        tabCell.background.image = i
+                        tabCell.background.setNeedsLayout()
+                    }
+                }
+            })
+        }
 
         // TODO: Move most view logic here instead of `init` or `prepareForReuse`
         // If the current tab add heightlighting

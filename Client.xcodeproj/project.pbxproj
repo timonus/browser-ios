@@ -229,6 +229,8 @@
 		5C67126F8B355442E99D9EDB /* BrowserViewController+FindInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA9175CB5140E6C4D47DC15 /* BrowserViewController+FindInPage.swift */; };
 		5C6F1B1D1E67433F008B0ADD /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C6F1B1C1E67433F008B0ADD /* CoreImage.framework */; };
 		5C82452C1E68E95600D3CA09 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C82452B1E68E95600D3CA09 /* AVFoundation.framework */; };
+		5C94B8ED1F58A87800DE5FEE /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */; };
+		5C94B8EE1F58B20300DE5FEE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FA16B1A83E17800EE869C /* CoreGraphics.framework */; };
 		5CD7F38E1E3EFBF100A12BB9 /* FaviconMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD7F38D1E3EFBF100A12BB9 /* FaviconMO.swift */; };
 		5CD7F3901E3FB7FA00A12BB9 /* TabMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */; };
 		5CE70E451E022FAB008B307A /* BraveShieldStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE70E441E022FAB008B307A /* BraveShieldStatsView.swift */; };
@@ -1140,6 +1142,7 @@
 		5C44C0DD1E3EE47B00B1FD81 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = History.swift; path = brave/src/data/History.swift; sourceTree = "<group>"; };
 		5C6F1B1C1E67433F008B0ADD /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		5C82452B1E68E95600D3CA09 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = brave/src/util/ImageCache.swift; sourceTree = "<group>"; };
 		5CD164121EDFB7080037ECCC /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ThirdParty/SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		5CD7F38D1E3EFBF100A12BB9 /* FaviconMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FaviconMO.swift; path = brave/src/data/FaviconMO.swift; sourceTree = "<group>"; };
 		5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabMO.swift; path = brave/src/data/TabMO.swift; sourceTree = "<group>"; };
@@ -1582,6 +1585,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C94B8EE1F58B20300DE5FEE /* CoreGraphics.framework in Frameworks */,
 				5D75A1E71F1420F0003FB8C7 /* SQLite.framework in Frameworks */,
 				5C82452C1E68E95600D3CA09 /* AVFoundation.framework in Frameworks */,
 				5C6F1B1D1E67433F008B0ADD /* CoreImage.framework in Frameworks */,
@@ -2229,6 +2233,14 @@
 				5C0293841E70D9AE00CA99D0 /* MigrateData.swift */,
 			);
 			name = data;
+			sourceTree = "<group>";
+		};
+		5C94B8EB1F58A85700DE5FEE /* util */ = {
+			isa = PBXGroup;
+			children = (
+				5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */,
+			);
+			name = util;
 			sourceTree = "<group>";
 		};
 		5C9689BB1F4CF97F003DDB67 /* Recovered References */ = {
@@ -2908,6 +2920,7 @@
 		DD7766D867DDB5BB9D39E6ED /* src */ = {
 			isa = PBXGroup;
 			children = (
+				5C94B8EB1F58A85700DE5FEE /* util */,
 				5C44C0D01E384AB300B1FD81 /* data */,
 				EBDB7D271E14206700D744C7 /* sync */,
 				C75F23E274D805CF47CC56F4 /* adinfo */,
@@ -4000,6 +4013,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Mixpanel.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/libPhoneNumberiOS.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/FastImageCache.framework",
 			);
 			name = "Copy Carthage Dependencies";
 			outputPaths = (
@@ -4388,6 +4402,7 @@
 				00A3303C9E57E842D703EE04 /* BrowserToolbar.swift in Sources */,
 				08A6B9B1A574E15F5AD1DDC2 /* BrowserTrayAnimators.swift in Sources */,
 				58B8BB9CDCB0B95E091EA072 /* BrowserViewController+BrowserDelegate.swift in Sources */,
+				5C94B8ED1F58A87800DE5FEE /* ImageCache.swift in Sources */,
 				1FA81E870F3EAE5C8FB9269C /* BrowserViewController+ContextMenuHelperDelegate.swift in Sources */,
 				5C67126F8B355442E99D9EDB /* BrowserViewController+FindInPage.swift in Sources */,
 				49603E1E5183CDC3BD1C2D09 /* BrowserViewController+KeyCommands.swift in Sources */,
