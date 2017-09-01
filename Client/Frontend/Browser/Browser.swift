@@ -19,7 +19,6 @@ protocol BrowserHelper {
     func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage)
 }
 
-
 protocol BrowserDelegate {
     func browser(_ browser: Browser, didAddSnackbar bar: SnackBar)
     func browser(_ browser: Browser, didRemoveSnackbar bar: SnackBar)
@@ -105,7 +104,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
     var restoring: Bool = false
     var pendingScreenshot = false
     
-    var managedObject: TabMO?
+    var tabID: String?
 
     /// The last title shown by this tab. Used by the tab tray to show titles for zombie tabs.
     var lastTitle: String?
@@ -151,7 +150,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
         screenshotCallback = callback
         
         guard let callback = callback else { return }
-        if let url = managedObject?.imageUrl {
+        if let id = tabID, let tab = TabMO.getByID(id), let url = tab.imageUrl {
             weak var weakSelf = self
             ImageCache.shared.image(url, callback: { (image) in
                 weakSelf?._screenshot = image
@@ -558,7 +557,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
             screenshotUUID = UUID()
         }
         
-        if let url = managedObject?.imageUrl {
+        if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
             ImageCache.shared.cache(screenshot, url: url, callback: {
                 debugPrint("Cached screenshot.")
             })

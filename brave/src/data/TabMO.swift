@@ -85,7 +85,9 @@ class TabMO: NSManagedObject {
         return []
     }
     
-    class func getByID(_ id: String, context: NSManagedObjectContext = DataController.shared.mainThreadContext) -> TabMO? {
+    class func getByID(_ id: String?, context: NSManagedObjectContext = DataController.shared.mainThreadContext) -> TabMO? {
+        guard let id = id else { return nil }
+        
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = TabMO.entity(context)
         fetchRequest.predicate = NSPredicate(format: "syncUUID == %@", id)
@@ -107,7 +109,7 @@ class TabMO: NSManagedObject {
             return
         }
         
-        if tab.isPrivate || tab.lastRequest?.url?.absoluteString == nil || tab.managedObject == nil {
+        if tab.isPrivate || tab.lastRequest?.url?.absoluteString == nil || tab.tabID == nil {
             return
         }
         
@@ -132,7 +134,7 @@ class TabMO: NSManagedObject {
             urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString }
             currentPage = -forwardList.count
         }
-        if let id = tab.managedObject?.syncUUID {
+        if let id = TabMO.getByID(tab.tabID)?.syncUUID {
             let data = SavedTab(id, tab.title ?? tab.lastRequest!.url!.absoluteString, tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
             let context = DataController.shared.workerContext
             context.perform {

@@ -561,9 +561,9 @@ class TabTrayController: UIViewController {
         self.collectionView.performBatchUpdates({ _ in
             // TODO: This logic seems kind of finicky
             var tab: Browser?
-            let managedObject = TabMO.freshTab()
-            tab = self.tabManager.addTab(request, managedObject: managedObject)
-            tab?.managedObject = managedObject
+            let id = TabMO.freshTab().syncUUID
+            tab = self.tabManager.addTab(request, id: id)
+            tab?.tabID = id
             
             if let tab = tab {
                 self.tabManager.selectTab(tab)
