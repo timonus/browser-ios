@@ -147,14 +147,16 @@ class Browser: NSObject, BrowserWebViewDelegate {
     }
 #endif
     
-    func screenshot(callback: @escaping (_ image: UIImage?)->Void) {
+    func screenshot(callback: ((_ image: UIImage?)->Void)?) {
         screenshotCallback = callback
+        
+        guard let callback = callback else { return }
         if let url = managedObject?.imageUrl {
             weak var weakSelf = self
             ImageCache.shared.image(url, callback: { (image) in
                 weakSelf?._screenshot = image
                 postAsyncToMain {
-                    weakSelf?.screenshotCallback?(image)
+                    callback(image)
                 }
             })
         }
