@@ -100,6 +100,14 @@ class ImageCache: NSObject, FICImageCacheDelegate {
         }
     }
     
+    func remove(_ url: URL) {
+        let entity = ImageEntity(url: url)
+        let format = ImageFormatFrameDeviceFull
+        if bitmapCache.imageExists(for: entity, withFormatName: format) {
+            bitmapCache.deleteImage(for: entity, withFormatName: format)
+        }
+    }
+    
     func imageCache(_ imageCache: FICImageCache, errorDidOccurWithMessage errorMessage: String) {
         debugPrint("ImageCache Error: \(errorMessage)")
     }
