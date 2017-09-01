@@ -76,6 +76,7 @@ extension BrowserViewController: TabManagerDelegate {
                 tab.screenshot(callback: { (image) in
                     weakSelf?.webViewPreviewImage.image = image
                     weakSelf?.webViewPreviewImage.isHidden = false
+                    tab.screenshot(callback: nil)
                 })
                 
                 tab.reload()
