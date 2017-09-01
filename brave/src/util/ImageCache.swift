@@ -39,7 +39,7 @@ class ImageEntity: NSObject, FICEntity {
         let drawingBlock: FICEntityImageDrawingBlock = { (context, contextSize) in
             let contextBounds: CGRect = CGRect(x: 0, y: 0, width: contextSize.width, height: contextSize.height)
             context.clear(contextBounds)
-            //context.interpolationQuality = .medium
+            context.interpolationQuality = .medium
             UIGraphicsPushContext(context)
             image.draw(in: contextBounds)
             UIGraphicsPopContext()
@@ -69,7 +69,7 @@ class ImageCache: NSObject, FICImageCacheDelegate {
         let imageFormat = FICImageFormat()
         imageFormat.name = ImageFormatFrameDeviceFull
         imageFormat.family = ImageFormatFrameDevice
-        imageFormat.style = .style32BitBGRA
+        imageFormat.style = .style16BitBGR
         imageFormat.imageSize = size
         imageFormat.maximumCount = 1000
         imageFormat.devices = UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
