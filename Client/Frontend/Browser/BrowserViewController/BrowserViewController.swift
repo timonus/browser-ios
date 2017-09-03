@@ -44,7 +44,6 @@ class BrowserViewController: UIViewController {
 
     var homePanelController: HomePanelViewController?
     var webViewContainer: UIView!
-    var webViewPreviewImage: UIImageView!
     var urlBar: URLBarView!
     var readerModeBar: ReaderModeBarView?
     var readerModeCache: ReaderModeCache
@@ -310,9 +309,6 @@ class BrowserViewController: UIViewController {
         webViewContainer = UIView()
         webViewContainer.addSubview(webViewContainerToolbar)
         view.addSubview(webViewContainer)
-        
-        webViewPreviewImage = UIImageView()
-        webViewContainer.addSubview(webViewPreviewImage)
 
         log.debug("BVC setting up status bar…")
         statusBarOverlay = UIView()
