@@ -72,13 +72,6 @@ extension BrowserViewController: TabManagerDelegate {
             } else {
                 // The web view can go gray if it was zombified due to memory pressure.
                 // When this happens, the URL is nil, so try restoring the page upon selection.
-                weak var weakSelf = self
-                tab.screenshot(callback: { (image) in
-                    weakSelf?.webViewPreviewImage.image = image
-                    weakSelf?.webViewPreviewImage.isHidden = false
-                    tab.screenshot(callback: nil)
-                })
-                
                 tab.reload()
             }
         }
