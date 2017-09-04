@@ -470,35 +470,8 @@ class TabTrayController: UIViewController {
     
     // View we display when there are no private tabs created
     fileprivate func newEmptyPrivateTabsView() -> UIView {
-        let titleLabel = UILabel()
-        titleLabel.textColor = EmptyPrivateTabsViewUX.TitleColor
-        titleLabel.font = EmptyPrivateTabsViewUX.TitleFont
-        titleLabel.textAlignment = NSTextAlignment.center
-        
-        let descriptionLabel = UILabel()
-        descriptionLabel.textColor = EmptyPrivateTabsViewUX.DescriptionColor
-        descriptionLabel.font = EmptyPrivateTabsViewUX.DescriptionFont
-        descriptionLabel.textAlignment = NSTextAlignment.center
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.preferredMaxLayoutWidth = EmptyPrivateTabsViewUX.MaxDescriptionWidth
-        
         let emptyView = UIView()
         emptyView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        
-        titleLabel.text = Strings.Private_Browsing
-        descriptionLabel.text = Strings.Brave_wont_remember_any_of_your_history
-        
-        emptyView.addSubview(titleLabel)
-        emptyView.addSubview(descriptionLabel)
-        
-        titleLabel.snp.makeConstraints { make in
-            make.center.equalTo(emptyView)
-        }
-        
-        descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(EmptyPrivateTabsViewUX.TextMargin)
-            make.centerX.equalTo(emptyView)
-        }
         return emptyView
     }
 
@@ -556,6 +529,10 @@ class TabTrayController: UIViewController {
         }) { finished in
             if fromView != self.emptyPrivateTabsView {
                 fromView.removeFromSuperview()
+            }
+            
+            if self.privateMode {
+                self.openNewTab()
             }
         }
     }
