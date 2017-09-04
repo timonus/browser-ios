@@ -69,7 +69,7 @@ class BrowserViewController: UIViewController {
     var pasteAction: AccessibleAction!
     var copyAddressAction: AccessibleAction!
 
-    weak var tabTrayController: TabTrayController!
+    weak var tabTrayController: TabTrayController?
 
     let profile: Profile
     let tabManager: TabManager

@@ -60,12 +60,12 @@ extension BrowserViewController: URLBarDelegate {
         self.webViewContainerToolbar.isHidden = true
         updateFindInPageVisibility(false)
 
-        let tabTrayController = TabTrayController(tabManager: tabManager, profile: profile, tabTrayDelegate: self)
+        let tabTrayController = self.tabTrayController ?? TabTrayController(tabManager: tabManager, profile: profile, tabTrayDelegate: self)
         
         for t in tabManager.tabs.internalTabList {
             screenshotHelper.takeScreenshot(t)
         }
-
+        
         tabTrayController.modalPresentationStyle = .overCurrentContext
         tabTrayController.modalTransitionStyle = .crossDissolve
         // Allowing the tab tray to handle its own animation
