@@ -40,8 +40,8 @@ extension BrowserViewController: ContextMenuHelperDelegate {
             let openNewTabAction =  UIAlertAction(title: newTabTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) in
                 actionSheetController.view.tag = 0 // BRAVE: clear this to allow navigation
                 self.scrollController.showToolbars(animated: !self.scrollController.toolbarsShowing, completion: { _ in
-                    debugPrint(self.tabManager.currentIndex + 1)
-                    _ = self.tabManager.addTab(NSURLRequest(url: url) as URLRequest, index: self.tabManager.currentIndex + 1)
+                    debugPrint(String(describing: self.tabManager.currentIndex?.advanced(by: 1)))
+                    _ = self.tabManager.addTab(NSURLRequest(url: url) as URLRequest, index: self.tabManager.currentIndex?.advanced(by: 1))
                 })
             }
             actionSheetController.addAction(openNewTabAction)
@@ -80,7 +80,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
             let openImageTitle = Strings.Open_Image_In_Background_Tab
             let openImageAction = UIAlertAction(title: openImageTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) in
                 self.scrollController.showToolbars(animated: !self.scrollController.toolbarsShowing, completion: { _ in
-                    _ = self.tabManager.addTab(URLRequest(url: url), index: self.tabManager.currentIndex + 1)
+                    _ = self.tabManager.addTab(URLRequest(url: url), index: self.tabManager.currentIndex?.advanced(by: 1))
                 })
             }
             actionSheetController.addAction(openImageAction)
