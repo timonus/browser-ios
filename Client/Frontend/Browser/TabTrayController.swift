@@ -269,7 +269,7 @@ class TabTrayController: UIViewController {
         let button = UIButton()
         button.setTitle(Strings.Private, for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
-        button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 2, weight: UIFontWeightMedium)
+        button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 1, weight: UIFontWeightMedium)
         button.contentEdgeInsets = UIEdgeInsetsMake(0, 4 /* left */, 0, 4 /* right */)
         button.layer.cornerRadius = 4.0
         button.addTarget(self, action: #selector(TabTrayController.SELdidTogglePrivateMode), for: .touchUpInside)
@@ -277,6 +277,19 @@ class TabTrayController: UIViewController {
         button.accessibilityHint = PrivateModeStrings.toggleAccessibilityHint
         button.accessibilityIdentifier = "TabTrayController.togglePrivateMode"
 
+        return button
+    }()
+    
+    lazy var doneButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(Strings.Done, for: .normal)
+        button.setTitleColor(UIColor(rgb: 0x666666), for: .normal)
+        button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 1, weight: UIFontWeightRegular)
+        button.contentEdgeInsets = UIEdgeInsetsMake(0, 4 /* left */, 0, 4 /* right */)
+        button.layer.cornerRadius = 4.0
+        button.addTarget(self, action: #selector(TabTrayController.SELdidTapDoneButton), for: .touchUpInside)
+        button.accessibilityIdentifier = "TabTrayController.doneButton"
+        
         return button
     }()
     
@@ -376,7 +389,7 @@ class TabTrayController: UIViewController {
         collectionView.backgroundView = UIView()
         collectionView.backgroundView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TabTrayController.onTappedBackground(_:))))
 
-        viewsToAnimate = [blurBackdropView, collectionView, addTabButton, togglePrivateMode]
+        viewsToAnimate = [blurBackdropView, collectionView, addTabButton, togglePrivateMode, doneButton]
         viewsToAnimate.forEach {
             $0.alpha = 0.0
             view.addSubview($0)
@@ -428,20 +441,26 @@ class TabTrayController: UIViewController {
 
     fileprivate func makeConstraints() {
         
+        doneButton.snp.makeConstraints { make in
+            make.right.equalTo(self.view).offset(-30)
+            make.centerY.equalTo(self.addTabButton.snp.centerY)
+        }
+        
         togglePrivateMode.snp.makeConstraints { make in
-            make.right.equalTo(addTabButton.snp.left).offset(-10)
+            make.left.equalTo(30)
             make.centerY.equalTo(self.addTabButton.snp.centerY)
         }
 
         addTabButton.snp.makeConstraints { make in
-            make.trailing.equalTo(self.view)
-            make.top.equalTo(self.topLayoutGuide.snp.bottom)
+            make.bottom.equalTo(self.view)
+            make.centerX.equalTo(self.view)
             make.size.equalTo(UIConstants.ToolbarHeight)
         }
 
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(addTabButton.snp.bottom)
-            make.left.right.bottom.equalTo(self.view)
+            make.bottom.equalTo(addTabButton.snp.top)
+            make.top.equalTo(20)
+            make.left.right.equalTo(self.view)
         }
         
         blurBackdropView.snp.makeConstraints { (make) in
@@ -484,6 +503,10 @@ class TabTrayController: UIViewController {
     }
 
 // MARK: Selectors
+    
+    func SELdidTapDoneButton() {
+        self.dismiss(animated: true, completion: nil)
+    }
 
     func SELdidClickAddTab() {
         openNewTab()
