@@ -698,7 +698,7 @@ extension TabTrayController: UIScrollViewAccessibilityDelegate {
 
 fileprivate func removeTabUtil(_ tabManager: TabManager, tab: Browser) {
     let isAlwaysPrivate = getApp().profile?.prefs.boolForKey(kPrefKeyPrivateBrowsingAlwaysOn) ?? false
-    let createIfNone =  isAlwaysPrivate ? true : !PrivateBrowsing.singleton.isOn
+    let createIfNone =  true
     tabManager.removeTab(tab, createTabIfNoneLeft: createIfNone)
 }
 
