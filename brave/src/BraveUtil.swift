@@ -7,14 +7,7 @@ import Mixpanel
 var mixpanelInstance: MixpanelInstance?
 
 func telemetry(_ action: String, props: [String: String]?) {
-    #if NO_FABRIC
-        return
-    #else
-        if let mixpanel = mixpanelInstance {
-            mixpanel.track(event: action, properties: props)
-        }
-    #endif
-
+    // All telemetry events are disabled
 }
 
 func debugNoteIfNotMainThread() {
