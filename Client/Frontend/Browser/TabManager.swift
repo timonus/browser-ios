@@ -171,13 +171,14 @@ class TabManager : NSObject {
     
     func saveTabOrder() {
         let context = DataController.shared.workerContext
-        for i in 0..<tabs.internalTabList.count {
-            let tab = tabs.internalTabList[i]
-            guard let managedObject = TabMO.getByID(tab.tabID, context: context) else { print("Error: Tab missing managed object"); continue }
-            managedObject.order = Int16(i)
+        context.perform {
+            for i in 0..<self.tabs.internalTabList.count {
+                let tab = self.tabs.internalTabList[i]
+                guard let managedObject = TabMO.getByID(tab.tabID, context: context) else { print("Error: Tab missing managed object"); continue }
+                managedObject.order = Int16(i)
+            }
+            DataController.saveContext(context: context)
         }
-        
-        DataController.saveContext(context: context)
     }
 
     func tabForWebView(_ webView: UIWebView) -> Browser? {
