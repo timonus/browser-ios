@@ -170,7 +170,7 @@ class TabManager : NSObject {
     }
     
     func saveTabOrder() {
-        let context = DataController.shared.mainThreadContext
+        let context = DataController.shared.workerContext
         for i in 0..<tabs.internalTabList.count {
             let tab = tabs.internalTabList[i]
             guard let managedObject = TabMO.getByID(tab.tabID, context: context) else { print("Error: Tab missing managed object"); continue }

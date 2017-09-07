@@ -12,7 +12,7 @@ class BraveContextMenu {
     fileprivate var timer2_showMenuIfStillPressed = Timer()
 
     static let initialDelayToCancelBuiltinMenu = 0.25 // seconds, must be <0.3 or built-in menu can't be cancelled
-    static let totalDelayToShowContextMenu = 0.5 - initialDelayToCancelBuiltinMenu
+    static let totalDelayToShowContextMenu = 0.35 - initialDelayToCancelBuiltinMenu
 
     fileprivate let fingerMovedTolerance = Float(5.0)
 
