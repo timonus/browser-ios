@@ -201,7 +201,7 @@ class BraveApp {
 
         Domain.loadShieldsIntoMemory {
             guard let shieldState = getApp().tabManager.selectedTab?.braveShieldStateSafeAsync.get() else { return }
-            if let wv = getCurrentWebView(), let url = wv.URL, let dbState = BraveShieldState.perNormalizedDomain[url.normalizedHost!], shieldState.isNotSet() {
+            if let wv = getCurrentWebView(), let url = wv.URL?.normalizedHost, let dbState = BraveShieldState.perNormalizedDomain[url], shieldState.isNotSet() {
                 // on init, the webview's shield state doesn't match the db
                 getApp().tabManager.selectedTab?.braveShieldStateSafeAsync.set(dbState)
                 wv.reloadFromOrigin()
