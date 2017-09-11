@@ -11,7 +11,7 @@ MOZ_PRODUCT_NAME = Brave$(BETA)
 MOZ_PRODUCT_ICON = AppIcon$(BETA)
 
 // App Version
-MOZ_VERSION = 1.4.1
+MOZ_VERSION = 1.4.2
 MOZ_BUILD_ID = $(GENERATED_BUILD_ID)
 ProvisioningStyle = Automatic
 

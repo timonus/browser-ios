@@ -5,6 +5,7 @@
 #endif
 import Shared
 import MessageUI
+import SwiftyJSON
 
 let kPrefKeyNoScriptOn = "noscript_on"
 let kPrefKeyFingerprintProtection = "fingerprintprotection_on"
@@ -14,14 +15,13 @@ class BraveSettingsView : AppSettingsTableViewController {
 
     static var cachedIs3rdPartyPasswordManagerInstalled = false
 
-    var debugToggleItemToTriggerCrashCount = 0
-
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = InsetLabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
         footerView.leftInset = CGFloat(20)
         footerView.rightInset = CGFloat(10)
         footerView.numberOfLines = 0
         footerView.font = UIFont.boldSystemFont(ofSize: 13)
+        
         return footerView
     }
 
@@ -48,15 +48,7 @@ class BraveSettingsView : AppSettingsTableViewController {
         let prefs = profile.prefs
         var generalSettings = [
             SearchSetting(settings: self),
-            BoolSetting(prefs: prefs, prefKey: "saveLogins", defaultValue: true, titleText: Strings.Save_Logins, statusText: nil, settingDidChange:  { value in
-                                // Hidden way to trigger a crash for testing
-                if (self.debugToggleItemToTriggerCrashCount > 4) {
-                    UIAlertView(title: "Trigger a crash for testing", message: "Force a crash?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK").show()
-                    self.debugToggleItemToTriggerCrashCount = 0
-                } else {
-                    self.debugToggleItemToTriggerCrashCount += 1
-                }
-            })
+            BoolSetting(prefs: prefs, prefKey: "saveLogins", defaultValue: true, titleText: Strings.Save_Logins, statusText: nil)
             ,BoolSetting(prefs: prefs, prefKey: "blockPopups", defaultValue: true,
                 titleText: Strings.Block_Popups)
         ]
@@ -148,28 +140,14 @@ class BraveSettingsView : AppSettingsTableViewController {
                 ])
         ]
         
-        // Debug
-        #if DEBUG
-            
-            supportChildren = [DebugSettings()]
+        if kIsDevelomentBuild {
+            supportChildren = [LoadTabsDebugSettings(), CrashDebugSettings()]
             settings += [
                 SettingSection(title: NSAttributedString(string: "DEBUG - BETA ONLY"), children: supportChildren)
             ]
-            
-        #endif
-        
-        return settings
-    }
-}
-
-extension BraveSettingsView : UIAlertViewDelegate {
-    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if buttonIndex == alertView.cancelButtonIndex {
-            return
         }
-        #if !NO_FABRIC
-            Crashlytics.sharedInstance().crash()
-        #endif
+    
+        return settings
     }
 }
 
@@ -360,5 +338,50 @@ class BraveTermsOfUseSetting: Setting {
     }
 }
 
+// MARK: - DEBUG
+
+class LoadTabsDebugSettings: Setting, XMLParserDelegate {
+    
+    override var title: NSAttributedString? {
+        return NSAttributedString(string: "Load All QA Tabs", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+    
+    override func onClick(_ navigationController: UINavigationController?) {
+        
+        navigationController?.dismiss(animated: true) {
+            getApp().braveTopViewController.togglePanel(getApp().braveTopViewController.mainSidePanel)
+        }
+        
+        let url = URL(string: "https://raw.githubusercontent.com/brave/qa-resources/master/testlinks.json")!
+        let string = try? String(contentsOf: url)
+        let urls = JSON(parseJSON: string!)["links"].arrayValue.flatMap { URL(string: $0.stringValue) }
+        
+        for url in urls {
+            let request = URLRequest(url: url)
+            _ = getApp().tabManager.addTab(request)
+        }
+        
+    }
+}
+
+class CrashDebugSettings: Setting, XMLParserDelegate, UIAlertViewDelegate {
+    
+    override var title: NSAttributedString? {
+        return NSAttributedString(string: "CRASH!!", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+    
+    override func onClick(_ navigationController: UINavigationController?) {
+        UIAlertView(title: "Trigger a crash for testing", message: "Force a crash?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK").show()
+    }
+    
+    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if buttonIndex == alertView.cancelButtonIndex {
+            return
+        }
+        #if !NO_FABRIC
+            Crashlytics.sharedInstance().crash()
+        #endif
+    }
+}
 
 

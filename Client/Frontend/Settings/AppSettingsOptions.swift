@@ -4,7 +4,6 @@
 
 import Foundation
 import Shared
-import SwiftyJSON
 
 import SwiftKeychainWrapper
 import LocalAuthentication
@@ -257,30 +256,6 @@ class PrivacyPolicySetting: Setting {
 
     override func onClick(_ navigationController: UINavigationController?) {
         setUpAndPushSettingsContentViewController(navigationController)
-    }
-}
-
-class DebugSettings: Setting, XMLParserDelegate {
-    
-    override var title: NSAttributedString? {
-        return NSAttributedString(string: "Load All QA Tabs", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
-    }
-    
-    override func onClick(_ navigationController: UINavigationController?) {
-        
-        navigationController?.dismiss(animated: true) {
-            getApp().braveTopViewController.togglePanel(getApp().braveTopViewController.mainSidePanel)
-        }
-        
-        let url = URL(string: "https://raw.githubusercontent.com/brave/qa-resources/master/testlinks.json")!
-        let string = try? String(contentsOf: url)
-        let urls = JSON(parseJSON: string!)["links"].arrayValue.flatMap { URL(string: $0.stringValue) }
-        
-        for url in urls {
-            let request = URLRequest(url: url)
-            getApp().tabManager.addTab(request)
-        }
-        
     }
 }
 
