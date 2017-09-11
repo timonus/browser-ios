@@ -295,7 +295,7 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         let tab = getApp().tabManager.tabs.tabs[indexPath.row]
         cell.delegate = self
         cell.browser = tab
-        cell.title.text = tab.lastTitle ?? TabMO.getByID(tab.tabID)?.title ?? ""
+        cell.setTitle(tab.lastTitle ?? TabMO.getByID(tab.tabID)?.title)
         cell.isSelected = (indexPath.row == getApp().tabManager.currentIndex)
         return cell
     }
