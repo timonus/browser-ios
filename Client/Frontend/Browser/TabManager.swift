@@ -407,7 +407,7 @@ class TabManager : NSObject {
 
         let isPrivate = PrivateBrowsing.singleton.isOn
         let tab = Browser(configuration: self.configuration, isPrivate: isPrivate)
-        tab.tabID = id ?? TabMO.freshTab()
+        tab.tabID = id ?? TabMO.freshTab().syncUUID
         
         configureTab(tab, request: request, zombie: zombie, index: index, createWebview: createWebview)
         return tab
