@@ -154,7 +154,7 @@ class TabsBarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(white: 0.0, alpha: 0.1)
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.075)
         
         collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = .horizontal
