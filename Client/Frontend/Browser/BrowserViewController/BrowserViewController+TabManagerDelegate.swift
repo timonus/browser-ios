@@ -93,11 +93,6 @@ extension BrowserViewController: TabManagerDelegate {
 
         if let readerMode = selected?.getHelper(ReaderMode.self) {
             urlBar.updateReaderModeState(readerMode.state)
-            if readerMode.state == .Active {
-                showReaderModeBar(animated: false)
-            } else {
-                hideReaderModeBar(animated: false)
-            }
         } else {
             urlBar.updateReaderModeState(ReaderModeState.Unavailable)
         }

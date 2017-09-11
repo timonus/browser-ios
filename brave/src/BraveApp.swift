@@ -3,6 +3,17 @@
 import Foundation
 import Shared
 import Deferred
+
+var kIsDevelomentBuild: Bool = {
+    var isDev = false
+    
+    #if DEBUG || BETA
+        isDev = true
+    #endif
+    
+    return isDev
+}()
+
 #if !NO_FABRIC
     import Fabric
     import Crashlytics
@@ -76,11 +87,40 @@ class BraveApp {
                     // note: setting this in willFinishLaunching is causing a crash, keep it in didFinish
                     mixpanelInstance = Mixpanel.initialize(token: token)
                     mixpanelInstance?.serverURL = "https://metric-proxy.brave.com"
+                    checkMixpanelGUID()
+                    
+                    // Eventually GCDWebServer `base` could be used with monitoring outgoing posts to /track endpoint
+                    //  this would allow data to be swapped out in realtime without the need for a full Mixpanel fork
                 }
             }
        #endif
         
         UINavigationBar.appearance().tintColor = BraveUX.DefaultBlue
+    }
+    
+    private class func checkMixpanelGUID() {
+        let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)
+        let unit: NSCalendar.Unit = [NSCalendar.Unit.month, NSCalendar.Unit.year]
+        guard let dateComps = calendar?.components(unit, from: Date()), let month = dateComps.month, let year = dateComps.year else {
+            print("Failed to pull date components for GUID rotation")
+            return
+        }
+        
+        // We only rotate on 'odd' months
+        let rotationMonth = Int(round(Double(month) / 2.0) * 2 - 1)
+        
+        // The key for the last reset date
+        let resetDate = "\(rotationMonth)-\(year)"
+        
+        let mixpanelGuidKey = "kMixpanelGuid"
+        let lastResetDate = getApp().profile!.prefs.stringForKey(mixpanelGuidKey)
+        
+        if lastResetDate != resetDate {
+            // We have not rotated for this iteration (do not care _how_ far off it is, just that it is not the same)
+            mixpanelInstance?.distinctId = UUID().uuidString
+            getApp().profile?.prefs.setString(resetDate, forKey: mixpanelGuidKey)
+        }
+        
     }
 
     // Be aware: the Prefs object has not been created yet
@@ -172,7 +212,7 @@ class BraveApp {
 
         Domain.loadShieldsIntoMemory {
             guard let shieldState = getApp().tabManager.selectedTab?.braveShieldStateSafeAsync.get() else { return }
-            if let wv = getCurrentWebView(), let url = wv.URL, let dbState = BraveShieldState.perNormalizedDomain[url.normalizedHost!], shieldState.isNotSet() {
+            if let wv = getCurrentWebView(), let url = wv.URL?.normalizedHost, let dbState = BraveShieldState.perNormalizedDomain[url], shieldState.isNotSet() {
                 // on init, the webview's shield state doesn't match the db
                 getApp().tabManager.selectedTab?.braveShieldStateSafeAsync.set(dbState)
                 wv.reloadFromOrigin()
