@@ -106,8 +106,16 @@ class TabBarCell: UICollectionViewCell {
         postAsyncToMain(0.2) { [weak self] in
             self?.titleUpdateScheduled = false
             if let t = self?.browser?.webView?.title, !t.isEmpty {
-                self?.title.text = t
+                self?.setTitle(t)
             }
+        }
+    }
+    
+    func setTitle(_ title: String?) {
+        if let title = title, title != "localhost" {
+            self.title.text = title
+        } else {
+            self.title.text = ""
         }
     }
 }
@@ -115,7 +123,7 @@ class TabBarCell: UICollectionViewCell {
 extension TabBarCell: WebPageStateDelegate {
     func webView(_ webView: UIWebView, urlChanged: String) {
         if let t = browser?.url?.baseDomain,  title.text?.isEmpty ?? true {
-            title.text = t
+            setTitle(t)
         }
         
         updateTitle_throttled()
