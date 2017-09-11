@@ -288,6 +288,10 @@ class URLBarView: UIView {
 
     func updateReaderModeState(_ state: ReaderModeState) {
         locationView.readerModeState = state
+        
+        // Brave uses custom reader mode toolbar attached to the bottom of URL bar,
+        // after each reader mode change the toolbar needs to be toggled
+        (self as! BraveURLBarView).readerModeToolbar.isHidden = state != .Active
     }
 
     func setAutocompleteSuggestion(_ suggestion: String?) {

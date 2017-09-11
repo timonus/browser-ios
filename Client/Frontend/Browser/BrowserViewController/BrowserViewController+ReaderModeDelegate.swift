@@ -22,25 +22,6 @@ extension BrowserViewController: ReaderModeStyleViewControllerDelegate {
 
 
 extension BrowserViewController {
-    func updateReaderModeBar() {
-//        if let readerModeBar = readerModeBar {
-//            if let tab = self.tabManager.selectedTab where tab.isPrivate {
-//                readerModeBar.applyTheme(Theme.PrivateMode)
-//            } else {
-//                readerModeBar.applyTheme(Theme.NormalMode)
-//            }
-//        }
-    }
-
-    func showReaderModeBar(animated: Bool) {
-        (urlBar as! BraveURLBarView).showReaderModeBar()
-        updateReaderModeBar()
-    }
-
-    func hideReaderModeBar(animated: Bool) {
-        (urlBar as! BraveURLBarView).hideReaderModeBar()
-    }
-
     /// There are two ways we can enable reader mode. In the simplest case we open a URL to our internal reader mode
     /// and be done with it. In the more complicated case, reader mode was already open for this page and we simply
     /// navigated away from it. So we look to the left and right in the BackForwardList to see if a readerized version

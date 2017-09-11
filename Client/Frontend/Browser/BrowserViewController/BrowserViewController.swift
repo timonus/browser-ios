@@ -45,7 +45,6 @@ class BrowserViewController: UIViewController {
     var homePanelController: HomePanelViewController?
     var webViewContainer: UIView!
     var urlBar: URLBarView!
-    var readerModeBar: ReaderModeBarView?
     var readerModeCache: ReaderModeCache
     var statusBarOverlay: UIView!
     fileprivate(set) var toolbar: BraveBrowserBottomToolbar?
@@ -536,10 +535,7 @@ class BrowserViewController: UIViewController {
         // animate and reset transform for browser chrome
         urlBar.updateAlphaForSubviews(1)
 
-        [header,
-            footer,
-            readerModeBar,
-            footerBackdrop].forEach { view in
+        [header, footer, footerBackdrop].forEach { view in
                 view?.transform = CGAffineTransform.identity
         }
     }
@@ -550,12 +546,6 @@ class BrowserViewController: UIViewController {
         topTouchArea.snp.remakeConstraints { make in
             make.top.left.right.equalTo(self.view)
             make.height.equalTo(BrowserViewControllerUX.ShowHeaderTapAreaHeight)
-        }
-
-        readerModeBar?.snp.remakeConstraints { make in
-            make.top.equalTo(self.header.snp.bottom).constraint
-            make.height.equalTo(BraveUX.ReaderModeBarHeight)
-            make.leading.trailing.equalTo(self.view)
         }
 
         footer.snp.remakeConstraints { make in
@@ -663,11 +653,6 @@ class BrowserViewController: UIViewController {
             homePanel.removeFromParentViewController()
             self.webViewContainer.accessibilityElementsHidden = false
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil)
-
-            // Refresh the reading view toolbar since the article record may have changed
-            if let readerMode = self.tabManager.selectedTab?.getHelper(ReaderMode.self), readerMode.state == .Active {
-                self.showReaderModeBar(animated: false)
-            }
         }
     }
 
@@ -731,14 +716,6 @@ class BrowserViewController: UIViewController {
     func updateUIForReaderHomeStateForTab(_ tab: Browser) {
         updateURLBarDisplayURL(tab: tab)
         updateInContentHomePanel(tab.url)
-
-        if let url = tab.url {
-            if ReaderModeUtils.isReaderModeURL(url) {
-                showReaderModeBar(animated: false)
-            } else {
-                hideReaderModeBar(animated: false)
-            }
-        }
     }
 
     fileprivate func isWhitelistedUrl(_ url: URL) -> Bool {
@@ -886,7 +863,6 @@ class BrowserViewController: UIViewController {
                 // We don't know what share action the user has chosen so we simply always
                 // update the toolbar and reader mode bar to reflect the latest status.
                 self.updateURLBarDisplayURL(tab: tab)
-                self.updateReaderModeBar()
             }
         })
 
@@ -1028,7 +1004,6 @@ extension BrowserViewController: ReaderModeDelegate {
     }
 
     func readerMode(_ readerMode: ReaderMode, didDisplayReaderizedContentForBrowser browser: Browser) {
-        self.showReaderModeBar(animated: true)
         browser.showContent(true)
     }
 
