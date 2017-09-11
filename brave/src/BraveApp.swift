@@ -3,6 +3,17 @@
 import Foundation
 import Shared
 import Deferred
+
+var kIsDevelomentBuild: Bool = {
+    var isDev = false
+    
+    #if DEBUG || BETA
+        isDev = true
+    #endif
+    
+    return isDev
+}()
+
 #if !NO_FABRIC
     import Fabric
     import Crashlytics
