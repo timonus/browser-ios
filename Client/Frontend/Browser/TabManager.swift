@@ -340,7 +340,7 @@ class TabManager : NSObject {
         if let tab = tabToSelect {
             restoreTab(tab)
             
-            postAsyncToMain(0.5) {
+            postAsyncToMain {
                 self.selectTab(tab)
             }
         }
