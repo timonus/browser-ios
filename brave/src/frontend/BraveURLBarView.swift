@@ -64,9 +64,16 @@ class BraveURLBarView : URLBarView {
     fileprivate static weak var currentInstance: BraveURLBarView?
     lazy var leftSidePanelButton: ButtonWithUnderlayView = { return ButtonWithUnderlayView() }()
     lazy var braveButton = { return UIButton() }()
+    lazy var readerModeToolbar: ReaderModeBarView = {
+        let toolbar = ReaderModeBarView(frame: CGRect.zero)
+        
+        toolbar.isHidden = true
+        toolbar.delegate = getApp().browserViewController
+        
+        return toolbar
+    }()
 
     let tabsBarController = TabsBarViewController()
-    var readerModeToolbar: ReaderModeBarView?
 
     override func commonInit() {
         BraveURLBarView.currentInstance = self
@@ -93,27 +100,11 @@ class BraveURLBarView : URLBarView {
         addSubview(tabsBarController.view)
         getApp().browserViewController.addChildViewController(tabsBarController)
         tabsBarController.didMove(toParentViewController: getApp().browserViewController)
+        
+        addSubview(readerModeToolbar)
     }
 
-    func showReaderModeBar() {
-        if readerModeToolbar != nil {
-            return
-        }
-        readerModeToolbar = ReaderModeBarView(frame: CGRect.zero)
-        readerModeToolbar!.delegate = getApp().browserViewController
-        addSubview(readerModeToolbar!)
-        self.setNeedsLayout()
-    }
-
-    func hideReaderModeBar() {
-        if let readerModeBar = readerModeToolbar {
-            readerModeBar.removeFromSuperview()
-            readerModeToolbar = nil
-            self.setNeedsLayout()
-        }
-    }
-
-
+    
     override func updateTabsBarShowing() {
         var tabCount = getApp().tabManager.tabs.displayedTabsForCurrentPrivateMode.count
 
@@ -173,7 +164,7 @@ class BraveURLBarView : URLBarView {
         // any callers can do tabsBarController.view.alpha == xx, without knowing that it has a side-effect
         tabsBarController.view.subviews.forEach { $0.alpha = alpha }
 
-        readerModeToolbar?.alpha = alpha
+        readerModeToolbar.alpha = alpha
         leftSidePanelButton.alpha = alpha
         braveButton.alpha = alpha
     }
@@ -225,7 +216,12 @@ class BraveURLBarView : URLBarView {
     override func prepareSearchAnimation() {
         super.prepareSearchAnimation()
         braveButton.isHidden = true
-        readerModeToolbar?.isHidden = true
+        
+        // If view is in reader mode, toolbar needs to be hidden.
+        // Otherwise it stays behind search screen but still responds to user gestures
+        if locationView.readerModeState == .Active {
+            readerModeToolbar.isHidden = true
+        }
     }
 
     override func transitionToSearch(_ didCancel: Bool = false) {
@@ -245,7 +241,11 @@ class BraveURLBarView : URLBarView {
         braveButton.alpha = 0
         braveButton.isHidden = false
         UIView.animate(withDuration: 0.3, animations: { self.braveButton.alpha = 1.0 })
-        readerModeToolbar?.isHidden = false
+        
+        // After leaving search mode we need to check wheter view is in reader mode to show it again
+        if locationView.readerModeState == .Active {
+            readerModeToolbar.isHidden = false
+        }
     }
 
     override func updateConstraints() {
@@ -260,14 +260,12 @@ class BraveURLBarView : URLBarView {
         }
 
         clipsToBounds = false
-        if let readerModeToolbar = readerModeToolbar {
-            bringSubview(toFront: readerModeToolbar)
-            readerModeToolbar.snp.makeConstraints {
-                make in
-                make.left.right.equalTo(self)
-                make.top.equalTo(snp.bottom)
-                make.height.equalTo(24)
-            }
+        bringSubview(toFront: readerModeToolbar)
+        readerModeToolbar.snp.makeConstraints {
+            make in
+            make.left.right.equalTo(self)
+            make.top.equalTo(snp.bottom)
+            make.height.equalTo(BraveUX.ReaderModeBarHeight)
         }
         
         leftSidePanelButton.underlay.snp.makeConstraints {

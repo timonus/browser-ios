@@ -22,7 +22,6 @@ extension BrowserViewController: WKCompatNavigationDelegate {
         if let url = tabManager.tabForWebView(webView)?.url {
             if !ReaderModeUtils.isReaderModeURL(url) {
                 urlBar.updateReaderModeState(ReaderModeState.Unavailable)
-                hideReaderModeBar(animated: false)
             }
 
         }
