@@ -312,27 +312,18 @@ class TabManager : NSObject {
         //  has been related to layout constraints on the tab tray (re-arranging tabs as they are being created)
         //  Since `move` recalculates each pre-existing tab's position. Hence the forced order here.
         let savedTabs = TabMO.getAll()
-        var createWebviews = true
-        if savedTabs.count > BraveUX.MaxTabsInMemory {
-            createWebviews = false
-        }
         for savedTab in savedTabs {
             if savedTab.url == nil {
                 DataController.remove(object: savedTab)
                 continue
             }
             
-            guard let tab = addTab(nil, configuration: nil, zombie: true, id: savedTab.syncUUID, createWebview: createWebviews) else { return }
+            guard let tab = addTab(nil, configuration: nil, zombie: true, id: savedTab.syncUUID, createWebview: false) else { return }
             
             if savedTab.isSelected {
                 tabToSelect = tab
             }
             tab.lastTitle = savedTab.title
-            
-            // Will be skipped when webview hasn't been generated, prevents loading sessions for evey tab.
-            if createWebviews {
-                restoreTab(tab)
-            }
         }
         if tabToSelect == nil {
             tabToSelect = tabs.displayedTabsForCurrentPrivateMode.first
@@ -347,9 +338,7 @@ class TabManager : NSObject {
         }
         
         if let tab = tabToSelect {
-            if !createWebviews {
-                restoreTab(tab)
-            }
+            restoreTab(tab)
             
             postAsyncToMain(0.5) {
                 self.selectTab(tab)
@@ -409,7 +398,7 @@ class TabManager : NSObject {
         }
     }
 
-    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int? = nil, createWebview: Bool = true) -> Browser? {
+    @discardableResult func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int? = nil, createWebview: Bool = true) -> Browser? {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return nil
@@ -431,10 +420,7 @@ class TabManager : NSObject {
         }
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         
-        // We don't actually create webviews on restore.
-        if createWebview {
-            limitInMemoryTabs()
-        }
+        limitInMemoryTabs()
 
         var lastIndex = index
         if let index = index {

@@ -20,12 +20,10 @@ class TabMO: NSManagedObject {
     @NSManaged var isClosed: Bool
     
     var imageUrl: URL? {
-        get {
-            if let objectId = self.syncUUID, let url = URL(string: "https://imagecache.mo/\(objectId).png") {
-                return url
-            }
-            return nil
+        if let objectId = self.syncUUID, let url = URL(string: "https://imagecache.mo/\(objectId).png") {
+            return url
         }
+        return nil
     }
 
     override func awakeFromInsert() {
