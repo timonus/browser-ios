@@ -353,7 +353,7 @@ extension TabsBarViewController: TabManagerDelegate {
     func tabManager(_ tabManager: TabManager, didSelectedTabChange selected: Browser?) {
         assert(Thread.current.isMainThread)
         collectionView.reloadData()
-        collectionView.selectItem(at: IndexPath(row: tabManager.currentIndex ?? 0, section: 0), animated: true, scrollPosition: .left)
+        collectionView.selectItem(at: IndexPath(row: tabManager.currentIndex ?? 0, section: 0), animated: (!getApp().tabManager.isRestoring), scrollPosition: .left)
     }
 
     func tabManager(_ tabManager: TabManager, didCreateWebView tab: Browser, url: URL?, at: Int?) {
