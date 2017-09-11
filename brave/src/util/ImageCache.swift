@@ -122,7 +122,7 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     
     fileprivate func resize(_ image: UIImage, size: CGSize) -> UIImage {
         let ratio = size.width / size.height
-        let height = size.height > image.size.height ? image.size.height : size.height
+        let height = min(size.height, image.size.height)
         let width = height * ratio
         let crop = CGRect(x: 0, y: 0, width: width * image.scale, height: height * image.scale)
         guard let imageRef = image.cgImage?.cropping(to: crop) else { return UIImage() }
