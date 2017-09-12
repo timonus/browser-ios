@@ -150,13 +150,23 @@ class BrowserViewController: UIViewController {
         screenshotHelper = ScreenshotHelper(controller: self)
         tabManager.addDelegate(self)
         tabManager.addNavigationDelegate(self)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(leftSwipeToolbar), name: LeftSwipeToolbarNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(rightSwipeToolbar), name: RightSwipeToolbarNotification, object: nil)
     }
 
     func shouldShowFooterForTraitCollection(_ previousTraitCollection: UITraitCollection) -> Bool {
         return previousTraitCollection.verticalSizeClass != .compact &&
                previousTraitCollection.horizontalSizeClass != .regular
     }
-
+    
+    func leftSwipeToolbar() {
+        getApp().tabManager.selectNextTab()
+    }
+    
+    func rightSwipeToolbar() {
+        getApp().tabManager.selectPreviousTab()
+    }
 
     func toggleSnackBarVisibility(_ show: Bool) {
         if show {

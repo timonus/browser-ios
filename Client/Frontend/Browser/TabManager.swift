@@ -239,6 +239,22 @@ class TabManager : NSObject {
 
         limitInMemoryTabs()
     }
+    
+    func selectPreviousTab() {
+        let tab = tabs.internalTabList[currentIndex ?? 0]
+        guard let currentIndex = tabs.displayedTabsForCurrentPrivateMode.index(where: {$0 === tab}) else { return }
+        if currentIndex > 0 {
+            selectTab(tabs.displayedTabsForCurrentPrivateMode[currentIndex-1])
+        }
+    }
+    
+    func selectNextTab() {
+        let tab = tabs.internalTabList[currentIndex ?? 0]
+        guard let currentIndex = tabs.displayedTabsForCurrentPrivateMode.index(where: {$0 === tab}) else { return }
+        if currentIndex < tabs.displayedTabsForCurrentPrivateMode.count-1 {
+            selectTab(tabs.displayedTabsForCurrentPrivateMode[currentIndex+1])
+        }
+    }
 
     func expireSnackbars() {
         debugNoteIfNotMainThread()

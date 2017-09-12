@@ -1,5 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import Foundation
 import SnapKit
+import UIKit
+
+let LeftSwipeToolbarNotification = Notification.Name("LeftSwipeToolbarNotification")
+let RightSwipeToolbarNotification = Notification.Name("RightSwipeToolbarNotification")
 
 class Toolbar : UIView {
     var drawTopBorder = false
@@ -13,6 +19,9 @@ class Toolbar : UIView {
 
         // Allow the view to redraw itself on rotation changes
         contentMode = UIViewContentMode.redraw
+        
+        let swipes = UIPanGestureRecognizer(target: self, action: #selector(handleSwipes(gesture:)))
+        addGestureRecognizer(swipes)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -25,6 +34,18 @@ class Toolbar : UIView {
         context.move(to: CGPoint(x: start.x, y: start.y))
         context.addLine(to: CGPoint(x: end.x, y: end.y))
         context.strokePath()
+    }
+    
+    func handleSwipes(gesture: UIPanGestureRecognizer) {
+        if gesture.state == .began {
+            let velocity: CGPoint = gesture.velocity(in: self)
+            if velocity.x > 100 {
+                NotificationCenter.default.post(name: RightSwipeToolbarNotification, object: nil)
+            }
+            else if velocity.x < -100 {
+                NotificationCenter.default.post(name: LeftSwipeToolbarNotification, object: nil)
+            }
+        }
     }
 
     override func draw(_ rect: CGRect) {
