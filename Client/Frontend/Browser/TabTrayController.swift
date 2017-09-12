@@ -832,8 +832,19 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
     }
     
     @objc func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let tab = getApp().tabManager.tabs.tabs[sourceIndexPath.row]
-        getApp().tabManager.move(tab: tab, from: sourceIndexPath.row, to: destinationIndexPath.row)
+        guard let tab = tabList.at(sourceIndexPath.row) else { return }
+        
+        // Find original from/to index... we need to target the full list not partial.
+        guard let tabManager = getApp().tabManager else { return }
+        guard let from = tabManager.tabs.tabs.index(where: {$0 === tab}) else { return }
+        
+        let toTab = tabList.at(destinationIndexPath.row)
+        guard let to = tabManager.tabs.tabs.index(where: {$0 === toTab}) else { return }
+        
+        tabManager.move(tab: tab, from: from, to: to)
+        
+        updateData()
+        NotificationCenter.default.post(name: kRearangeTabNotification, object: nil)
     }
 }
 

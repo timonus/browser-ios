@@ -342,10 +342,12 @@ class TabManager : NSObject {
             
             postAsyncToMain {
                 self.selectTab(tab)
+                self.isRestoring = false
             }
         }
-        
-        isRestoring = false
+        else {
+            isRestoring = false
+        }
     }
     
     func restoreTab(_ tab: Browser) {

@@ -111,7 +111,7 @@ struct BraveUX {
     static let BackForwardButtonLeftOffset = CGFloat(10)
 
     static let ProgressBarColor = UIColor(white: 0.0, alpha: 0.08)
-    static let ProgressBarDarkColor = UIColor(white: 1.0, alpha: 0.08)
+    static let ProgressBarDarkColor = UIColor(white: 1.0, alpha: 0.2)
     
     static let TabTrayCellCornerRadius = CGFloat(6.0)
     static let TabTrayCellBackgroundColor = UIColor.white

@@ -189,7 +189,7 @@ class BrowserViewController: UIViewController {
             footerBackground?.addSubview(toolbar!)
             footer.addSubview(footerBackground!)
             
-            footer.layer.shadowOffset = CGSize(width: 0, height: -1)
+            footer.layer.shadowOffset = CGSize(width: 0, height: -0.5)
             footer.layer.shadowColor = UIConstants.BorderColor.cgColor
             footer.layer.shadowRadius = 0
             footer.layer.shadowOpacity = 1.0
