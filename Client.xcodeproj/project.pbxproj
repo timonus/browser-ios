@@ -228,6 +228,7 @@
 		5C44C0DE1E3EE47B00B1FD81 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C44C0DD1E3EE47B00B1FD81 /* History.swift */; };
 		5C67126F8B355442E99D9EDB /* BrowserViewController+FindInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA9175CB5140E6C4D47DC15 /* BrowserViewController+FindInPage.swift */; };
 		5C6F1B1D1E67433F008B0ADD /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C6F1B1C1E67433F008B0ADD /* CoreImage.framework */; };
+		5C78D3E41F69DF5100E0C73B /* PinController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C78D3E31F69DF5100E0C73B /* PinController.swift */; };
 		5C82452C1E68E95600D3CA09 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C82452B1E68E95600D3CA09 /* AVFoundation.framework */; };
 		5C94B8ED1F58A87800DE5FEE /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */; };
 		5C94B8EE1F58B20300DE5FEE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FA16B1A83E17800EE869C /* CoreGraphics.framework */; };
@@ -1141,6 +1142,7 @@
 		5C44C0D91E3EE42D00B1FD81 /* Domain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Domain.swift; path = brave/src/data/Domain.swift; sourceTree = "<group>"; };
 		5C44C0DD1E3EE47B00B1FD81 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = History.swift; path = brave/src/data/History.swift; sourceTree = "<group>"; };
 		5C6F1B1C1E67433F008B0ADD /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		5C78D3E31F69DF5100E0C73B /* PinController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinController.swift; path = brave/src/frontend/PinController.swift; sourceTree = "<group>"; };
 		5C82452B1E68E95600D3CA09 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = brave/src/util/ImageCache.swift; sourceTree = "<group>"; };
 		5CD164121EDFB7080037ECCC /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ThirdParty/SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
@@ -1737,6 +1739,7 @@
 				5C0FCE4B1E5FB32F0016DF0F /* sync */,
 				3A6E86EA8E9535F4C6C7B748 /* tabsbar */,
 				5CE70E441E022FAB008B307A /* BraveShieldStatsView.swift */,
+				5C78D3E31F69DF5100E0C73B /* PinController.swift */,
 			);
 			name = frontend;
 			sourceTree = "<group>";
@@ -4439,6 +4442,7 @@
 				715CCD78C38B066CA39D4E10 /* SessionRestoreHelper.swift in Sources */,
 				5C0FCE641E63EA170016DF0F /* SyncPairWordsViewController.swift in Sources */,
 				5CFC706D1D9D9F30008A7B7A /* BraveTermsViewController.swift in Sources */,
+				5C78D3E41F69DF5100E0C73B /* PinController.swift in Sources */,
 				D84AAF7ADCD719C5A45AFCEE /* SwipeAnimator.swift in Sources */,
 				3D25335ED4A5C9DA042516E9 /* TabManager.swift in Sources */,
 				5C0FCE661E63EB8B0016DF0F /* SyncCameraView.swift in Sources */,

@@ -10,6 +10,7 @@ import SwiftyJSON
 let kPrefKeyNoScriptOn = "noscript_on"
 let kPrefKeyFingerprintProtection = "fingerprintprotection_on"
 let kPrefKeyPrivateBrowsingAlwaysOn = "privateBrowsingAlwaysOn"
+let kPrefKeyBrowserLock = "browserLock"
 
 class BraveSettingsView : AppSettingsTableViewController {
 
@@ -114,6 +115,16 @@ class BraveSettingsView : AppSettingsTableViewController {
                         getApp().browserViewController.switchBrowsingMode(toPrivate: isOn)
                     })]
             ),
+            SettingSection(title: NSAttributedString(string: Strings.Security.uppercased()), children:
+                [BoolSetting(prefs: prefs, prefKey: kPrefKeyBrowserLock, defaultValue: false, titleText: Strings.Browser_Lock, statusText: nil, settingDidChange: { isOn in
+                    if isOn {
+                        let view = PinViewController()
+                        view.delegate = self
+                        self.navigationController?.pushViewController(view, animated: true)
+                    }
+                }),
+                 ChangePinSetting(settings: self)]
+            ),
             SettingSection(title: NSAttributedString(string: Strings.Brave_Shield_Defaults.uppercased()), children: shieldSettingsList)]
 
         
@@ -150,6 +161,16 @@ class BraveSettingsView : AppSettingsTableViewController {
         return settings
     }
 }
+
+extension BraveSettingsView : PinViewControllerDelegate {
+    func pinViewController(_ completed: Bool) {
+        if !completed {
+            profile.prefs.setBool(false, forKey: kPrefKeyBrowserLock)
+            tableView.reloadData()
+        }
+    }
+}
+
 
 class VersionSetting : Setting {
     let settings: SettingsTableViewController

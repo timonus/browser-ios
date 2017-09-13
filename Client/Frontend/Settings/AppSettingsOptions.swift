@@ -259,3 +259,23 @@ class PrivacyPolicySetting: Setting {
     }
 }
 
+class ChangePinSetting: Setting {
+    let profile: Profile
+    
+    override var accessoryType: UITableViewCellAccessoryType { return .disclosureIndicator }
+    
+    override var accessibilityIdentifier: String? { return "ChangePin" }
+    
+    init(settings: SettingsTableViewController) {
+        self.profile = settings.profile
+        
+        let clearTitle = Strings.Change_Pin
+        super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
+    }
+    
+    override func onClick(_ navigationController: UINavigationController?) {
+        let view = PinViewController()
+        navigationController?.pushViewController(view, animated: true)
+    }
+}
+

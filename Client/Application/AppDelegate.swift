@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     // TODO: Having all of these global opens up lots of abuse potential (open via getApp())
     
     var window: UIWindow?
+    var securityWindow: UIWindow?
+    var securityViewController: PinProtectOverlayViewController?
     var browserViewController: BrowserViewController!
     var rootViewController: UINavigationController!
     weak var profile: BrowserProfile?
@@ -230,6 +232,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
 
         BraveApp.didFinishLaunching()
         
+        let appProfile = getProfile(application)
+        requirePinIfNeeded(profile: appProfile)
+        
         return shouldPerformAdditionalDelegateHandling
     }
 
@@ -327,16 +332,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
                 self.launchFromURL(params)
             }
         }
+        
+        let profile = getProfile(application)
+        if profile.prefs.boolForKey(kPrefKeyBrowserLock) == true && securityWindow?.isHidden == false {
+            securityViewController?.auth()
+        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         print("Close database")
         shutdownProfileWhenNotActive()
         BraveGlobalShieldStats.singleton.save()
+        
+        let profile = getProfile(application)
+        requirePinIfNeeded(profile: profile)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
         BraveGlobalShieldStats.singleton.save()
+        
+        let profile = getProfile(application)
+        requirePinIfNeeded(profile: profile)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -345,7 +361,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         // `applicationDidBecomeActive` will get called whenever the Touch ID authentication overlay disappears.
         self.updateAuthenticationInfo()
 
+        
         profile?.reopen()
+        
+        let appProfile = getProfile(application)
+        requirePinIfNeeded(profile: appProfile)
+    }
+    
+    private func requirePinIfNeeded(profile: Profile) {
+        // Check for browserLock settings
+        if profile.prefs.boolForKey(kPrefKeyBrowserLock) == true {
+            if securityWindow != nil  {
+                securityViewController?.start()
+                securityWindow?.isHidden = false
+                return
+            }
+            
+            let vc = PinProtectOverlayViewController()
+            securityViewController = vc
+            debugPrint(UIScreen.main.bounds)
+            
+            let pinOverlay = UIWindow(frame: UIScreen.main.bounds)
+            pinOverlay.backgroundColor = UIColor(white: 0.9, alpha: 0.7)
+            pinOverlay.windowLevel = UIWindowLevelAlert
+            pinOverlay.rootViewController = vc
+            securityWindow = pinOverlay
+            pinOverlay.makeKeyAndVisible()
+            
+            vc.successCallback = {
+                postAsyncToMain {
+                    self.securityWindow?.isHidden = true
+                }
+            }
+        }
     }
 
     fileprivate func updateAuthenticationInfo() {
