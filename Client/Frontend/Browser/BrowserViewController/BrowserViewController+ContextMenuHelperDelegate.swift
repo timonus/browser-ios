@@ -33,6 +33,58 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         var dialogTitle: String?
         actionSheetController.view.tag = BraveWebViewConstants.kContextMenuBlockNavigation
 
+        if let url = elements.image {
+            if dialogTitle == nil {
+                dialogTitle = url.absoluteString
+            }
+            
+            let photoAuthorizeStatus = PHPhotoLibrary.authorizationStatus()
+            let saveImageTitle = Strings.Save_Image
+            let saveImageAction = UIAlertAction(title: saveImageTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
+                if photoAuthorizeStatus == PHAuthorizationStatus.authorized || photoAuthorizeStatus == PHAuthorizationStatus.notDetermined {
+                    self.getImage(url) { UIImageWriteToSavedPhotosAlbum($0, nil, nil, nil) }
+                } else {
+                    let accessDenied = UIAlertController(title: Strings.Brave_would_like_to_access_your_photos, message: Strings.This_allows_you_to_save_the_image_to_your_CameraRoll, preferredStyle: UIAlertControllerStyle.alert)
+                    let dismissAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.default, handler: nil)
+                    accessDenied.addAction(dismissAction)
+                    let settingsAction = UIAlertAction(title: Strings.Open_Settings, style: UIAlertActionStyle.default ) { (action: UIAlertAction!) -> Void in
+                        UIApplication.shared.openURL(NSURL(string: UIApplicationOpenSettingsURLString)! as URL)
+                    }
+                    accessDenied.addAction(settingsAction)
+                    self.present(accessDenied, animated: true, completion: nil)
+                }
+            }
+            actionSheetController.addAction(saveImageAction)
+            
+            let copyImageTitle = Strings.Copy_Image
+            let copyAction = UIAlertAction(title: copyImageTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
+                // put the actual image on the clipboard
+                // do this asynchronously just in case we're in a low bandwidth situation
+                let pasteboard = UIPasteboard.general
+                pasteboard.url = url
+                let changeCount = pasteboard.changeCount
+                let application = UIApplication.shared
+                var taskId: UIBackgroundTaskIdentifier = 0
+                taskId = application.beginBackgroundTask (expirationHandler: { _ in
+                    application.endBackgroundTask(taskId)
+                })
+                
+                Alamofire.request(url)
+                    .validate(statusCode: 200..<300)
+                    .response { response in
+                        // Only set the image onto the pasteboard if the pasteboard hasn't changed since
+                        // fetching the image; otherwise, in low-bandwidth situations,
+                        // we might be overwriting something that the user has subsequently added.
+                        if changeCount == pasteboard.changeCount, let imageData = response.data, response.error == nil {
+                            pasteboard.addImageWithData(imageData, forURL: url)
+                        }
+                        
+                        application.endBackgroundTask(taskId)
+                }
+            }
+            actionSheetController.addAction(copyAction)
+        }
+        
         if let url = elements.link, let currentTab = tabManager.selectedTab {
             dialogTitle = url.absoluteString.regexReplacePattern("^mailto:", with: "")
             let isPrivate = currentTab.isPrivate
@@ -56,7 +108,19 @@ extension BrowserViewController: ContextMenuHelperDelegate {
                 }
                 actionSheetController.addAction(openNewPrivateTabAction)
             }
+        }
 
+        if let url = elements.image {
+            let openImageTitle = Strings.Open_Image_In_Background_Tab
+            let openImageAction = UIAlertAction(title: openImageTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) in
+                self.scrollController.showToolbars(animated: !self.scrollController.toolbarsShowing, completion: { _ in
+                    _ = self.tabManager.addTab(URLRequest(url: url), index: self.tabManager.currentIndex?.advanced(by: 1))
+                })
+            }
+            actionSheetController.addAction(openImageAction)
+        }
+        
+        if let url = elements.link, let currentTab = tabManager.selectedTab {
             let copyTitle = Strings.Copy_Link
             let copyAction = UIAlertAction(title: copyTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
                 let pasteBoard = UIPasteboard.general
@@ -65,71 +129,12 @@ extension BrowserViewController: ContextMenuHelperDelegate {
                 }
             }
             actionSheetController.addAction(copyAction)
-
+            
             let shareTitle = Strings.Share_Link
             let shareAction = UIAlertAction(title: shareTitle, style: UIAlertActionStyle.default) { _ in
                 self.presentActivityViewController(url, tab: currentTab, sourceView: self.view, sourceRect: CGRect(origin: touchPoint, size: touchSize), arrowDirection: .any)
             }
             actionSheetController.addAction(shareAction)
-        }
-
-        if let url = elements.image {
-            if dialogTitle == nil {
-                dialogTitle = url.absoluteString
-            }
-            let openImageTitle = Strings.Open_Image_In_Background_Tab
-            let openImageAction = UIAlertAction(title: openImageTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) in
-                self.scrollController.showToolbars(animated: !self.scrollController.toolbarsShowing, completion: { _ in
-                    _ = self.tabManager.addTab(URLRequest(url: url), index: self.tabManager.currentIndex?.advanced(by: 1))
-                })
-            }
-            actionSheetController.addAction(openImageAction)
-
-            let photoAuthorizeStatus = PHPhotoLibrary.authorizationStatus()
-            let saveImageTitle = Strings.Save_Image
-            let saveImageAction = UIAlertAction(title: saveImageTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
-                if photoAuthorizeStatus == PHAuthorizationStatus.authorized || photoAuthorizeStatus == PHAuthorizationStatus.notDetermined {
-                    self.getImage(url) { UIImageWriteToSavedPhotosAlbum($0, nil, nil, nil) }
-                } else {
-                    let accessDenied = UIAlertController(title: Strings.Brave_would_like_to_access_your_photos, message: Strings.This_allows_you_to_save_the_image_to_your_CameraRoll, preferredStyle: UIAlertControllerStyle.alert)
-                    let dismissAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.default, handler: nil)
-                    accessDenied.addAction(dismissAction)
-                    let settingsAction = UIAlertAction(title: Strings.Open_Settings, style: UIAlertActionStyle.default ) { (action: UIAlertAction!) -> Void in
-                        UIApplication.shared.openURL(NSURL(string: UIApplicationOpenSettingsURLString)! as URL)
-                    }
-                    accessDenied.addAction(settingsAction)
-                    self.present(accessDenied, animated: true, completion: nil)
-                }
-            }
-            actionSheetController.addAction(saveImageAction)
-
-            let copyImageTitle = Strings.Copy_Image
-            let copyAction = UIAlertAction(title: copyImageTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
-                // put the actual image on the clipboard
-                // do this asynchronously just in case we're in a low bandwidth situation
-                let pasteboard = UIPasteboard.general
-                pasteboard.url = url
-                let changeCount = pasteboard.changeCount
-                let application = UIApplication.shared
-                var taskId: UIBackgroundTaskIdentifier = 0
-                taskId = application.beginBackgroundTask (expirationHandler: { _ in
-                    application.endBackgroundTask(taskId)
-                })
-
-                Alamofire.request(url)
-                    .validate(statusCode: 200..<300)
-                    .response { response in
-                        // Only set the image onto the pasteboard if the pasteboard hasn't changed since
-                        // fetching the image; otherwise, in low-bandwidth situations,
-                        // we might be overwriting something that the user has subsequently added.
-                        if changeCount == pasteboard.changeCount, let imageData = response.data, response.error == nil {
-                            pasteboard.addImageWithData(imageData, forURL: url)
-                        }
-
-                        application.endBackgroundTask(taskId)
-                }
-            }
-            actionSheetController.addAction(copyAction)
         }
 
         // If we're showing an arrow popup, set the anchor to the long press location.

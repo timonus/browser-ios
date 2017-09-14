@@ -103,7 +103,7 @@ extension Strings {
     public static let PasswordManager = NSLocalizedString("Password Manager", comment: "Accessibility Label for the browser toolbar Password Manager button")
     public static let Bookmark = NSLocalizedString("Bookmark", comment: "Accessibility Label for the browser toolbar Bookmark button")
     public static let Navigation_Toolbar = NSLocalizedString("Navigation Toolbar", comment: "Accessibility label for the navigation toolbar displayed at the bottom of the screen.")
-    public static let Open_In_Background_Tab = NSLocalizedString("Open In New Tab", comment: "Context menu item for opening a link in a new tab")
+    public static let Open_In_Background_Tab = NSLocalizedString("Open Link In New Tab", comment: "Context menu item for opening a link in a new tab")
     public static let Open_In_New_Private_Tab = NSLocalizedString("Open In New Private Tab", comment: "Context menu option for opening a link in a new private tab")
     public static let Copy_Link = NSLocalizedString("Copy Link", comment: "Context menu item for copying a link URL to the clipboard")
     public static let Share_Link = NSLocalizedString("Share Link", comment: "Context menu item for sharing a link URL")
