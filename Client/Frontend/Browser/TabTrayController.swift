@@ -185,6 +185,7 @@ class TabCell: UICollectionViewCell {
         shadowView.alpha = 1
         shadowView.transform = CGAffineTransform.identity
         shadowView.layer.shadowOpacity = 0
+        background.image = nil
         self.titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
     }
 
