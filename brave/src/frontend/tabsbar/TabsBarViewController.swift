@@ -13,7 +13,7 @@ enum TabsBarShowPolicy : Int {
 
 let kRearangeTabNotification = Notification.Name("kRearangeTabNotification")
 let kPrefKeyTabsBarShowPolicy = "kPrefKeyTabsBarShowPolicy"
-let kPrefKeyTabsBarOnDefaultValue = UIDevice.current.userInterfaceIdiom == .pad ? TabsBarShowPolicy.always : TabsBarShowPolicy.landscapeOnly
+let kPrefKeyTabsBarOnDefaultValue = TabsBarShowPolicy.always
 
 let minTabWidth =  UIDevice.current.userInterfaceIdiom == .pad ? CGFloat(180) : CGFloat(160)
 let tabHeight = TabsBarHeight

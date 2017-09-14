@@ -36,6 +36,7 @@ class Toolbar : UIView {
         context.strokePath()
     }
     
+    var previousX: CGFloat = 0
     func handleSwipes(gesture: UIPanGestureRecognizer) {
         if gesture.state == .began {
             let velocity: CGPoint = gesture.velocity(in: self)
@@ -44,6 +45,19 @@ class Toolbar : UIView {
             }
             else if velocity.x < -100 {
                 NotificationCenter.default.post(name: LeftSwipeToolbarNotification, object: nil)
+            }
+            let point: CGPoint = gesture.translation(in: self)
+            previousX = point.x
+        }
+        else if gesture.state == .changed {
+            let point: CGPoint = gesture.translation(in: self)
+            if point.x > previousX + 50 {
+                NotificationCenter.default.post(name: RightSwipeToolbarNotification, object: nil)
+                previousX = point.x
+            }
+            else if point.x < previousX - 50 {
+                NotificationCenter.default.post(name: LeftSwipeToolbarNotification, object: nil)
+                previousX = point.x
             }
         }
     }

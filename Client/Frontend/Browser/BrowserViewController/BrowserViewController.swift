@@ -160,12 +160,25 @@ class BrowserViewController: UIViewController {
                previousTraitCollection.horizontalSizeClass != .regular
     }
     
+    var swipeScheduled = false
     func leftSwipeToolbar() {
-        getApp().tabManager.selectNextTab()
+        if !swipeScheduled {
+            swipeScheduled = true
+            postAsyncToMain(0.2) {
+                self.swipeScheduled = false
+                getApp().tabManager.selectNextTab()
+            }
+        }
     }
     
     func rightSwipeToolbar() {
-        getApp().tabManager.selectPreviousTab()
+        if !swipeScheduled {
+            swipeScheduled = true
+            postAsyncToMain(0.2) {
+                self.swipeScheduled = false
+                getApp().tabManager.selectPreviousTab()
+            }
+        }
     }
 
     func toggleSnackBarVisibility(_ show: Bool) {
