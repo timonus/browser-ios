@@ -101,7 +101,7 @@ class PrivateBrowsing {
 
         NotificationCenter.default.addObserver(self, selector: #selector(PrivateBrowsing.cookiesChanged(_:)), name: NSNotification.Name.NSHTTPCookieManagerCookiesChanged, object: nil)
 
-        //webkitDirLocker(true)
+        webkitDirLocker(true)
 
         UserDefaults.standard.set(true, forKey: "WebKitPrivateBrowsingEnabled")
         
@@ -123,7 +123,7 @@ class PrivateBrowsing {
         //  if it is overwritten, it will lead to race conditions, and generally a dropped deferment, since the
         //  notification will be executed on _only_ the newest version of this property
         exitDeferred = Deferred<Void>()
-        isOn = false
+        
         UserDefaults.standard.set(false, forKey: "WebKitPrivateBrowsingEnabled")
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(allWebViewsKilled), name: NSNotification.Name(rawValue: kNotificationAllWebViewsDeallocated), object: nil)
@@ -148,6 +148,7 @@ class PrivateBrowsing {
             }
         }
         
+        isOn = false
         NotificationCenter.default.post(name: NotificationPrivacyModeChanged, object: nil)
 
         return exitDeferred

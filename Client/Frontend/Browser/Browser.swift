@@ -149,6 +149,11 @@ class Browser: NSObject, BrowserWebViewDelegate {
     func screenshot(callback: ((_ image: UIImage?)->Void)?) {
         screenshotCallback = callback
         
+        if let screenshot = _screenshot, PrivateBrowsing.singleton.isOn {
+            callback?(screenshot)
+            return
+        }
+        
         guard let callback = callback else { return }
         if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
             weak var weakSelf = self
@@ -558,9 +563,11 @@ class Browser: NSObject, BrowserWebViewDelegate {
         }
         
         if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
-            ImageCache.shared.cache(screenshot, url: url, callback: {
-                debugPrint("Cached screenshot.")
-            })
+            if !PrivateBrowsing.singleton.isOn {
+                ImageCache.shared.cache(screenshot, url: url, callback: {
+                    debugPrint("Cached screenshot.")
+                })
+            }
         }
     }
 
