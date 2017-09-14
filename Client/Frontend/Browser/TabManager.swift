@@ -460,7 +460,7 @@ class TabManager : NSObject {
         _ = tab.loadRequest(request ?? defaultNewTabRequest)
  
         // Ignore on restore.
-        if !zombie {
+        if !zombie && !PrivateBrowsing.singleton.isOn {
             TabMO.preserveTab(tab: tab)
             saveTabOrder()
         }

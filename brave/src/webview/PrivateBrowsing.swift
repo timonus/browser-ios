@@ -101,7 +101,7 @@ class PrivateBrowsing {
 
         NotificationCenter.default.addObserver(self, selector: #selector(PrivateBrowsing.cookiesChanged(_:)), name: NSNotification.Name.NSHTTPCookieManagerCookiesChanged, object: nil)
 
-        webkitDirLocker(true)
+        //webkitDirLocker(true)
 
         UserDefaults.standard.set(true, forKey: "WebKitPrivateBrowsingEnabled")
         
