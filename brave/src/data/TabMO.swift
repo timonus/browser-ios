@@ -4,6 +4,7 @@ import UIKit
 import CoreData
 import Foundation
 import FastImageCache
+import Shared
 
 typealias SavedTab = (id: String, title: String, url: String, isSelected: Bool, order: Int16, screenshot: UIImage?, history: [String], historyIndex: Int16)
 
@@ -47,6 +48,7 @@ class TabMO: NSManagedObject {
         let tab = TabMO(entity: TabMO.entity(context), insertInto: context)
         // TODO: replace with logic to create sync uuid then buble up new uuid to browser.
         tab.syncUUID = UUID().uuidString
+        tab.title = Strings.New_Tab
         DataController.saveContext(context: context)
         return tab
     }
