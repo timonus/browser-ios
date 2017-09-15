@@ -371,8 +371,8 @@ class BraveWebView: UIWebView {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: internalProgressChangedNotification), object: internalWebView)
         NotificationCenter.default.addObserver(self, selector: #selector(BraveWebView.internalProgressNotification(_:)), name: NSNotification.Name(rawValue: internalProgressChangedNotification), object: internalWebView)
 
-        if let url = request.url {
-            internalSetBraveShieldStateForDomain(url.normalizedHost!)
+        if let url = request.url, let host = url.normalizedHost {
+            internalSetBraveShieldStateForDomain(host)
         }
         super.loadRequest(request)
     }
