@@ -130,8 +130,8 @@ class BraveSettingsView : AppSettingsTableViewController {
                     else {
                         // Requires verification to turn off.
                         if let profile = weakSelf?.profile {
-                            profile.prefs.setBool(true, forKey: kPrefKeyBrowserLock)
-                            getApp().requirePinIfNeeded(profile: profile)
+                            getApp().securityViewController?.start()
+                            getApp().securityWindow?.isHidden = false
                             getApp().securityViewController?.successCallback = { (success) in
                                 // if we fail to auth user then we set back to ON
                                 profile.prefs.setBool(!success, forKey: kPrefKeyBrowserLock)
