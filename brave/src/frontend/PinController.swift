@@ -97,7 +97,8 @@ class ConfirmPinViewController: UIViewController {
         let pinViewSize = pinView.frame.size
         pinView.snp.makeConstraints { (make) in
             make.size.equalTo(pinViewSize)
-            make.center.equalTo(self.view.center).offset(0)
+            make.centerX.equalTo(self.view.center).offset(0)
+            make.centerY.equalTo(self.view.center).offset(UIScreen.main.bounds.height < 667 ? 30 : 0)
         }
         
         title = Strings.PinSet
@@ -143,7 +144,8 @@ class PinProtectOverlayViewController: UIViewController {
         let pinViewSize = pinView.frame.size
         pinView.snp.makeConstraints { (make) in
             make.size.equalTo(pinViewSize)
-            make.center.equalTo(self.view.center).offset(0)
+            make.centerX.equalTo(self.view.center).offset(0)
+            make.centerY.equalTo(self.view.center).offset(UIScreen.main.bounds.height < 667 ? 30 : 0)
         }
         
         blur.snp.makeConstraints { (make) in
