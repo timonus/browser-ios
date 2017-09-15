@@ -13,7 +13,7 @@ struct PinUX {
     fileprivate static var ButtonSize: CGSize {
         get {
             if UIScreen.main.bounds.width < 375 {
-                return CGSize(width: 60, height: 60)
+                return CGSize(width: 55, height: 55)
             }
             else {
                 return CGSize(width: 80, height: 80)
@@ -52,7 +52,7 @@ class PinViewController: UIViewController, PinViewControllerDelegate {
         view.addSubview(pinView)
         
         let pinViewSize = pinView.frame.size
-        pinView.snp_makeConstraints { (make) in
+        pinView.snp.makeConstraints { (make) in
             make.size.equalTo(pinViewSize)
             make.center.equalTo(self.view.center).offset(0)
         }
@@ -95,7 +95,7 @@ class ConfirmPinViewController: UIViewController {
         view.addSubview(pinView)
         
         let pinViewSize = pinView.frame.size
-        pinView.snp_makeConstraints { (make) in
+        pinView.snp.makeConstraints { (make) in
             make.size.equalTo(pinViewSize)
             make.center.equalTo(self.view.center).offset(0)
         }
@@ -117,7 +117,7 @@ class PinProtectOverlayViewController: UIViewController {
     var pinView: PinLockView!
     
     var touchCanceled: Bool = false
-    var successCallback: (() -> Void)?
+    var successCallback: ((_ success: Bool) -> Void)?
     
     override func loadView() {
         super.loadView()
@@ -129,12 +129,11 @@ class PinProtectOverlayViewController: UIViewController {
         pinView.codeCallback = { code in
             if let pinLockInfo = KeychainWrapper.pinLockInfo() {
                 if code == pinLockInfo.passcode {
-                    if self.successCallback != nil {
-                        self.successCallback!()
-                    }
+                    self.successCallback?(true)
                     self.pinView.reset()
                 }
                 else {
+                    self.successCallback?(false)
                     self.pinView.tryAgain()
                 }
             }
@@ -142,12 +141,12 @@ class PinProtectOverlayViewController: UIViewController {
         view.addSubview(pinView)
         
         let pinViewSize = pinView.frame.size
-        pinView.snp_makeConstraints { (make) in
+        pinView.snp.makeConstraints { (make) in
             make.size.equalTo(pinViewSize)
             make.center.equalTo(self.view.center).offset(0)
         }
         
-        blur.snp_makeConstraints { (make) in
+        blur.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
         
@@ -185,7 +184,7 @@ class PinProtectOverlayViewController: UIViewController {
                 localizedReason: Strings.PinFingerprintUnlock,
                 reply: { [unowned self] (success, error) -> Void in
                     if success {
-                        self.successCallback?()
+                        self.successCallback?(true)
                     }
                     else {
                         self.touchCanceled = true
@@ -296,7 +295,7 @@ class PinLockView: UIView {
         let button0 = viewWithTag(10)
         let button9 = viewWithTag(9)
         var deleteButtonFrame = deleteButton.frame
-        deleteButtonFrame.center = CGPoint(x: rint((button9!.frame ?? CGRect.zero).midX), y: rint((button0!.frame ?? CGRect.zero).midY))
+        deleteButtonFrame.center = CGPoint(x: rint((button9?.frame ?? CGRect.zero).midX), y: rint((button0?.frame ?? CGRect.zero).midY))
         deleteButton.frame = deleteButtonFrame
     }
     
@@ -493,15 +492,15 @@ class PinButton: UIControl {
 extension KeychainWrapper {
     class func pinLockInfo() -> AuthenticationKeychainInfo? {
         NSKeyedUnarchiver.setClass(AuthenticationKeychainInfo.self, forClassName: "AuthenticationKeychainInfo")
-        return KeychainWrapper.defaultKeychainWrapper.object(forKey: KeychainKeyPinLockInfo) as? AuthenticationKeychainInfo
+        return KeychainWrapper.standard.object(forKey: KeychainKeyPinLockInfo) as? AuthenticationKeychainInfo
     }
     
     class func setPinLockInfo(_ info: AuthenticationKeychainInfo?) {
         NSKeyedArchiver.setClassName("AuthenticationKeychainInfo", for: AuthenticationKeychainInfo.self)
         if let info = info {
-            KeychainWrapper.defaultKeychainWrapper.set(info, forKey: KeychainKeyPinLockInfo)
+            KeychainWrapper.standard.set(info, forKey: KeychainKeyPinLockInfo)
         } else {
-            KeychainWrapper.defaultKeychainWrapper.removeObject(forKey: KeychainKeyPinLockInfo)
+            KeychainWrapper.standard.removeObject(forKey: KeychainKeyPinLockInfo)
         }
     }
 }

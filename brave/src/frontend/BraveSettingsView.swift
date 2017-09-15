@@ -6,6 +6,7 @@
 import Shared
 import MessageUI
 import SwiftyJSON
+import SwiftKeychainWrapper
 
 let kPrefKeyNoScriptOn = "noscript_on"
 let kPrefKeyFingerprintProtection = "fingerprintprotection_on"
@@ -102,6 +103,8 @@ class BraveSettingsView : AppSettingsTableViewController {
             let defaultOn = adblockRegionOption.isDefaultSettingOn
             shieldSettingsList.append(BoolSetting(prefs: prefs, prefKey: AdBlocker.prefKeyUseRegional, defaultValue: defaultOn, titleText: Strings.Use_regional_adblock))
         }
+        
+        weak var weakSelf = self
 
         settings += [
             SettingSection(title: NSAttributedString(string: Strings.General.uppercased()), children: generalSettings),
@@ -118,9 +121,27 @@ class BraveSettingsView : AppSettingsTableViewController {
             SettingSection(title: NSAttributedString(string: Strings.Security.uppercased()), children:
                 [BoolSetting(prefs: prefs, prefKey: kPrefKeyBrowserLock, defaultValue: false, titleText: Strings.Browser_Lock, statusText: nil, settingDidChange: { isOn in
                     if isOn {
-                        let view = PinViewController()
-                        view.delegate = self
-                        self.navigationController?.pushViewController(view, animated: true)
+                        if KeychainWrapper.pinLockInfo() == nil {
+                            let view = PinViewController()
+                            view.delegate = weakSelf
+                            weakSelf?.navigationController?.pushViewController(view, animated: true)
+                        }
+                    }
+                    else {
+                        // Requires verification to turn off.
+                        if let profile = weakSelf?.profile {
+                            profile.prefs.setBool(true, forKey: kPrefKeyBrowserLock)
+                            getApp().requirePinIfNeeded(profile: profile)
+                            getApp().securityViewController?.successCallback = { (success) in
+                                // if we fail to auth user then we set back to ON
+                                profile.prefs.setBool(!success, forKey: kPrefKeyBrowserLock)
+                                postAsyncToMain {
+                                    weakSelf?.tableView.reloadData()
+                                    getApp().securityWindow?.isHidden = true
+                                }
+                            }
+                            getApp().securityViewController?.auth()
+                        }
                     }
                 }),
                  ChangePinSetting(settings: self)]

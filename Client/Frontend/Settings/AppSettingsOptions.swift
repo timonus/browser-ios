@@ -274,6 +274,11 @@ class ChangePinSetting: Setting {
     }
     
     override func onClick(_ navigationController: UINavigationController?) {
+        if profile.prefs.boolForKey(kPrefKeyBrowserLock) == true {
+            getApp().requirePinIfNeeded(profile: profile)
+            getApp().securityViewController?.auth()
+        }
+        
         let view = PinViewController()
         navigationController?.pushViewController(view, animated: true)
     }

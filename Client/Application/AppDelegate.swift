@@ -368,11 +368,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         requirePinIfNeeded(profile: appProfile)
     }
     
-    private func requirePinIfNeeded(profile: Profile) {
+    func requirePinIfNeeded(profile: Profile) {
         // Check for browserLock settings
         if profile.prefs.boolForKey(kPrefKeyBrowserLock) == true {
             if securityWindow != nil  {
                 securityViewController?.start()
+                // This could have been changed elsewhere, not the best approach.
+                securityViewController?.successCallback = { (success) in
+                    postAsyncToMain {
+                        self.securityWindow?.isHidden = true
+                    }
+                }
                 securityWindow?.isHidden = false
                 return
             }
@@ -388,7 +394,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             securityWindow = pinOverlay
             pinOverlay.makeKeyAndVisible()
             
-            vc.successCallback = {
+            vc.successCallback = { (success) in
                 postAsyncToMain {
                     self.securityWindow?.isHidden = true
                 }
