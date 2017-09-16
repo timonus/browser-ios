@@ -10,16 +10,7 @@ import AudioToolbox
 public let KeychainKeyPinLockInfo = "pinLockInfo"
 
 struct PinUX {
-    fileprivate static var ButtonSize: CGSize {
-        get {
-            if UIScreen.main.bounds.width < 375 {
-                return CGSize(width: 55, height: 55)
-            }
-            else {
-                return CGSize(width: 80, height: 80)
-            }
-        }
-    }
+    fileprivate static var ButtonSize: CGSize = CGSize(width: 80, height: 80)
     fileprivate static let DefaultForegroundColor = UIColor(rgb: 0x4a4a4a)
     fileprivate static let DefaultBackgroundColor = UIColor(rgb: 0x4a4a4a).withAlphaComponent(0.1)
     fileprivate static let SelectedBackgroundColor = BraveUX.BraveOrange
@@ -54,7 +45,9 @@ class PinViewController: UIViewController, PinViewControllerDelegate {
         let pinViewSize = pinView.frame.size
         pinView.snp.makeConstraints { (make) in
             make.size.equalTo(pinViewSize)
-            make.center.equalTo(self.view.center).offset(0)
+            make.centerX.equalTo(self.view.center).offset(0)
+            let offset = UIScreen.main.bounds.height < 667 ? 30 : 0
+            make.centerY.equalTo(self.view.center).offset(offset)
         }
         
         title = Strings.PinSet
@@ -98,7 +91,8 @@ class ConfirmPinViewController: UIViewController {
         pinView.snp.makeConstraints { (make) in
             make.size.equalTo(pinViewSize)
             make.centerX.equalTo(self.view.center).offset(0)
-            make.centerY.equalTo(self.view.center).offset(UIScreen.main.bounds.height < 667 ? 30 : 0)
+            let offset = UIScreen.main.bounds.height < 667 ? 30 : 0
+            make.centerY.equalTo(self.view.center).offset(offset)
         }
         
         title = Strings.PinSet
@@ -144,8 +138,7 @@ class PinProtectOverlayViewController: UIViewController {
         let pinViewSize = pinView.frame.size
         pinView.snp.makeConstraints { (make) in
             make.size.equalTo(pinViewSize)
-            make.centerX.equalTo(self.view.center).offset(0)
-            make.centerY.equalTo(self.view.center).offset(UIScreen.main.bounds.height < 667 ? 30 : 0)
+            make.center.equalTo(self.view.center).offset(0)
         }
         
         blur.snp.makeConstraints { (make) in
@@ -254,7 +247,7 @@ class PinLockView: UIView {
     }
     
     override func layoutSubviews() {
-        let spaceX: CGFloat = (350 - PinUX.ButtonSize.width * 3) / 4
+        let spaceX: CGFloat = (min(350, UIScreen.main.bounds.width) - PinUX.ButtonSize.width * 3) / 4
         let spaceY: CGFloat = spaceX
         let w: CGFloat = PinUX.ButtonSize.width
         let h: CGFloat = PinUX.ButtonSize.height
