@@ -400,7 +400,7 @@ class LoadTabsDebugSettings: Setting, XMLParserDelegate {
         
         for url in urls {
             let request = URLRequest(url: url)
-            _ = getApp().tabManager.addTab(request)
+            getApp().tabManager.addTab(request)
         }
         
     }

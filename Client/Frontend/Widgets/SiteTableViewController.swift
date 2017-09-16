@@ -148,9 +148,9 @@ class SiteTableViewController: UIViewController, UITableViewDelegate, UITableVie
         return false
     }
 
-    func getLongPressUrl(forIndexPath indexPath: IndexPath) -> URL? {
+    func getLongPressUrl(forIndexPath indexPath: IndexPath) -> (URL?, [Int]?) {
         print("override in subclass for long press behaviour")
-        return nil
+        return (nil, nil)
     }
 
     @objc func longPressOnCell(_ gesture: UILongPressGestureRecognizer) {
@@ -162,8 +162,11 @@ class SiteTableViewController: UIViewController, UITableViewDelegate, UITableVie
             return
         }
         guard let cell = gesture.view as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        let (url, folder) = getLongPressUrl(forIndexPath: indexPath)
 
-        let tappedElement = ContextMenuHelper.Elements(link: getLongPressUrl(forIndexPath: indexPath), image: nil)
+        let tappedElement = ContextMenuHelper.Elements(link: url, image: nil, folder: folder)
+        
         var p = getApp().window!.convert(cell.center, from:cell.superview!)
         p.x += cell.frame.width * 0.33
         getApp().browserViewController.showContextMenu(tappedElement, touchPoint: p)

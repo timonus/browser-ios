@@ -136,6 +136,23 @@ extension BrowserViewController: ContextMenuHelperDelegate {
             }
             actionSheetController.addAction(shareAction)
         }
+        
+        if let folder = elements.folder, let children = Bookmark.getChildren(forFolderUUID: folder, context: DataController.shared.mainThreadContext) {
+            let openTitle = Strings.Open_All_Bookmarks
+            let copyAction = UIAlertAction(title: openTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
+                postAsyncToMain {
+                    guard let bookmarks = Bookmark.getChildren(forFolderUUID: folder, context: DataController.shared.mainThreadContext) else { return }
+                    for bookmark in bookmarks {
+                        guard let urlString = bookmark.url else { continue }
+                        guard let url = URL(string: urlString) else { continue }
+                        
+                        let request = URLRequest(url: url)
+                        getApp().tabManager.addTab(request)
+                    }
+                }
+            }
+            actionSheetController.addAction(copyAction)
+        }
 
         // If we're showing an arrow popup, set the anchor to the long press location.
         if let popoverPresentationController = actionSheetController.popoverPresentationController {

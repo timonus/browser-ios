@@ -122,7 +122,7 @@ class BraveContextMenu {
             return
         }
 
-        tappedElement = ContextMenuHelper.Elements(link: hit!.url != nil ? URL(string: hit!.url!) : nil, image: hit!.image != nil ? URL(string: hit!.image!) : nil)
+        tappedElement = ContextMenuHelper.Elements(link: hit!.url != nil ? URL(string: hit!.url!) : nil, image: hit!.image != nil ? URL(string: hit!.image!) : nil, folder: nil)
 
         func blockOtherGestures(_ views: [UIView]?) {
             guard let views = views else { return }

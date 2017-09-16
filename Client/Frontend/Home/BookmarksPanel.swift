@@ -415,9 +415,9 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         return cell
     }
 
-    override func getLongPressUrl(forIndexPath indexPath: IndexPath) -> URL? {
-        guard let obj = frc?.object(at: indexPath) as? Bookmark else { return nil }
-        return obj.url != nil ? URL(string: obj.url!) : nil
+    override func getLongPressUrl(forIndexPath indexPath: IndexPath) -> (URL?, [Int]?) {
+        guard let obj = frc?.object(at: indexPath) as? Bookmark else { return (nil, nil) }
+        return (obj.url != nil ? URL(string: obj.url!) : nil, obj.isFolder ? obj.syncUUID : nil)
     }
 
     fileprivate func configureCell(_ cell: UITableViewCell, atIndexPath indexPath: IndexPath) {
