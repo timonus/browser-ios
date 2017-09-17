@@ -129,13 +129,9 @@ class PinProtectOverlayViewController: UIViewController {
                     self.pinView.reset()
                 }
                 else {
-                    if self.attempts == -1 {
-                        self.successCallback?(false)
-                    }
-                    else {
-                        self.attempts += 1
-                        self.pinView.tryAgain()
-                    }
+                    self.successCallback?(false)
+                    self.attempts += 1
+                    self.pinView.tryAgain()
                 }
             }
         }

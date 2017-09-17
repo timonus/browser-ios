@@ -132,7 +132,6 @@ class BraveSettingsView : AppSettingsTableViewController {
                         if let profile = weakSelf?.profile {
                             getApp().securityViewController?.start()
                             getApp().securityWindow?.isHidden = false
-                            getApp().securityViewController?.attempts = -1
                             getApp().securityViewController?.successCallback = { (success) in
                                 // if we fail to auth user then we set back to ON
                                 profile.prefs.setBool(!success, forKey: kPrefKeyBrowserLock)
