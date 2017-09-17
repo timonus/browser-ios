@@ -375,8 +375,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
                 securityViewController?.start()
                 // This could have been changed elsewhere, not the best approach.
                 securityViewController?.successCallback = { (success) in
-                    postAsyncToMain {
-                        self.securityWindow?.isHidden = true
+                    if success {
+                        postAsyncToMain {
+                            self.securityWindow?.isHidden = true
+                        }
                     }
                 }
                 securityWindow?.isHidden = false

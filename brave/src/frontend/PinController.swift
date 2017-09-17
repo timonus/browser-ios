@@ -113,6 +113,7 @@ class PinProtectOverlayViewController: UIViewController {
     
     var touchCanceled: Bool = false
     var successCallback: ((_ success: Bool) -> Void)?
+    var attempts: Int = 0
     
     override func loadView() {
         super.loadView()
@@ -128,8 +129,13 @@ class PinProtectOverlayViewController: UIViewController {
                     self.pinView.reset()
                 }
                 else {
-                    self.successCallback?(false)
-                    self.pinView.tryAgain()
+                    if self.attempts == -1 {
+                        self.successCallback?(false)
+                    }
+                    else {
+                        self.attempts += 1
+                        self.pinView.tryAgain()
+                    }
                 }
             }
         }
