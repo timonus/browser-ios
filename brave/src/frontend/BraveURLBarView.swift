@@ -92,7 +92,6 @@ class BraveURLBarView : URLBarView {
 
         braveButton.addTarget(self, action: #selector(onClickBraveButton) , for: UIControlEvents.touchUpInside)
         braveButton.setImage(UIImage(named: "bravePanelButton"), for: .normal)
-        braveButton.setImage(UIImage(named: "bravePanelButtonOff"), for: .selected)
         braveButton.accessibilityLabel = Strings.Brave_Panel
         braveButton.tintColor = BraveUX.ActionButtonTintColor
 
@@ -461,6 +460,13 @@ class BraveURLBarView : URLBarView {
         }
         
         braveButton.isSelected = selected
+        
+        if shieldsUp {
+            braveButton.setImage(UIImage(named: "bravePanelButton"), for: .normal)
+        }
+        else {
+            braveButton.setImage(UIImage(named: "bravePanelButtonOff"), for: .normal)
+        }
 
         if !animated {
             return
