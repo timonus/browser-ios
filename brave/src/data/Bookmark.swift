@@ -27,11 +27,6 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     @NSManaged var children: Set<Bookmark>?
     
     @NSManaged var domain: Domain?
-
-    // To trigger fetchedResultsController to update, change this value.
-    // For instance, when a favicon is set on a domain, to notify any bookmarks or history items that
-    // are displayed in a table and waiting for a favicon, you can change markDirty, and the favicon will update
-    @NSManaged var markDirty: Int16
     
     var syncParentUUID: [Int]? {
         get { return SyncHelpers.syncUUID(fromString: syncParentDisplayUUID) }

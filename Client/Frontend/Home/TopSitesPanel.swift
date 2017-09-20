@@ -704,8 +704,8 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     }
 
     fileprivate func setDefaultThumbnailBackgroundForCell(_ cell: ThumbnailCell) {
-        cell.imageView.image = UIImage(named: "defaultTopSiteIcon")!
-        cell.imageView.contentMode = UIViewContentMode.center
+        cell.imageView.image = UIImage(named: "defaultFavicon")!
+        //cell.imageView.contentMode = UIViewContentMode.center
     }
     
     fileprivate func setColorBackground(_ image: UIImage, withURL url: URL, forCell cell: ThumbnailCell) {
@@ -721,12 +721,13 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         guard let newImage = image.cgImage else { return }
         context.draw(newImage, in: CGRect(x: 0, y: 0, width: 1, height: 1))
         
-        let red = CGFloat(rgba[0]) / 255.0
-        let green = CGFloat(rgba[1]) / 255.0
-        let blue = CGFloat(rgba[2]) / 255.0
-        let colorFill: UIColor = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+        // Has issues, often sets background to black. experimenting without box for now.
+//        let red = CGFloat(rgba[0]) / 255.0
+//        let green = CGFloat(rgba[1]) / 255.0
+//        let blue = CGFloat(rgba[2]) / 255.0
+//        let colorFill: UIColor = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
         
-        cell.imageView.backgroundColor = colorFill
+        cell.imageView.backgroundColor = UIColor.clear
     }
 
     fileprivate func downloadFaviconsAndUpdateForSite(_ site: Site) {
@@ -741,14 +742,22 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
 
             let indexPathToUpdate = IndexPath(item: indexOfSite, section: 0)
             guard let cell = self.collectionView?.cellForItem(at: indexPathToUpdate) as? ThumbnailCell else { return }
-            cell.imageView.sd_setImage(with: url) { (img, err, type, url) -> Void in
-                guard let img = img else {
-                    self.setDefaultThumbnailBackgroundForCell(cell)
-                    return
+            
+            cell.imageView.image = FaviconFetcher.defaultFavicon
+            ImageCache.shared.image(url, type: .square, callback: { (image) in
+                if image == nil {
+                    cell.imageView.sd_setImage(with: url, completed: { (img, err, type, url) in
+                        if err == nil, let img = img, let url = url {
+                            ImageCache.shared.cache(img, url: url, type: .square, callback: nil)
+                        }
+                    })
                 }
-                cell.image = img
-                self.setColorBackground(img, withURL: url!, forCell: cell)
-            }
+                else {
+                    postAsyncToMain {
+                        cell.imageView.image = image
+                    }
+                }
+            })
         }
     }
 
@@ -782,13 +791,19 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         case .noneFound where Date().timeIntervalSince(icon.date) < FaviconFetcher.ExpirationTime:
             self.setDefaultThumbnailBackgroundForCell(cell)
         default:
-            cell.imageView.sd_setImage(with: icon.url.asURL, completed: { (img, err, type, url) -> Void in
-                if let img = img {
-                    cell.image = img
-                    self.setColorBackground(img, withURL: url!, forCell: cell)
-                } else {
-                    self.setDefaultThumbnailBackgroundForCell(cell)
-                    self.downloadFaviconsAndUpdateForSite(site)
+            self.setDefaultThumbnailBackgroundForCell(cell)
+            ImageCache.shared.image(icon.url.asURL!, type: .square, callback: { (image) in
+                if image == nil {
+                    cell.imageView.sd_setImage(with: icon.url.asURL!, completed: { (img, err, type, url) in
+                        if err == nil, let img = img, let url = url {
+                            ImageCache.shared.cache(img, url: url, type: .square, callback: nil)
+                        }
+                    })
+                }
+                else {
+                    postAsyncToMain {
+                        cell.imageView.image = image
+                    }
                 }
             })
         }
@@ -822,9 +837,19 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
             }
 
         } else {
-            cell.imageView.sd_setImage(with: icon, completed: { img, err, type, key in
-                if img == nil {
-                    self.setDefaultThumbnailBackgroundForCell(cell)
+            self.setDefaultThumbnailBackgroundForCell(cell)
+            ImageCache.shared.image(icon, type: .square, callback: { (image) in
+                if image == nil {
+                    cell.imageView.sd_setImage(with: icon, completed: { (img, err, type, url) in
+                        if err == nil, let img = img, let url = url {
+                            ImageCache.shared.cache(img, url: url, type: .square, callback: nil)
+                        }
+                    })
+                }
+                else {
+                    postAsyncToMain {
+                        cell.imageView.image = image
+                    }
                 }
             })
         }

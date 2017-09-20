@@ -43,11 +43,6 @@ class History: NSManagedObject, WebsitePresentable {
     @NSManaged var syncUUID: UUID?
     @NSManaged var domain: Domain?
     @NSManaged var sectionIdentifier: String?
-
-    // To trigger fetchedResultsController to update, easiest method is change this value
-    // For instance, when a favicon is set on a domain, to notify any bookmarks or history items that
-    // are displayed in a table and waiting for a favicon, you can change markDirty, and the favicon will update
-    @NSManaged var markDirty: Int16
     
     static let Today = getDate(0)
     static let Yesterday = getDate(-1)

@@ -36,7 +36,7 @@ class TabMO: NSManagedObject {
         
         // Remove cached image
         if let url = imageUrl, !PrivateBrowsing.singleton.isOn {
-            ImageCache.shared.remove(url)
+            ImageCache.shared.remove(url, type: .portrait)
         }
     }
 

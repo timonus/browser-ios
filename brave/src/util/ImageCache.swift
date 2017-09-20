@@ -48,11 +48,15 @@ class ImageEntity: NSObject, FICEntity {
     }
 }
 
+enum ImageCacheEntityType: String {
+    case square = "com.brave.imageFormatPortrait"
+    case portrait = "com.brave.imageFormatSquare"
+}
+
 class ImageCache: NSObject, FICImageCacheDelegate {
     static let shared = ImageCache()
     
     fileprivate let ImageFormatFrameDevice = "com.brave.imageFormatFrameDevice"
-    fileprivate let ImageFormatFrameDeviceFull = "com.brave.imageFormatFrameDevicePortrait"
     
     fileprivate var bitmapCache: FICImageCache!
     
@@ -74,11 +78,13 @@ class ImageCache: NSObject, FICImageCacheDelegate {
         }
     }
     
+    fileprivate var squareSize: CGSize = CGSize(width: 80, height: 80)
+    
     override init() {
         super.init()
         
         let imageFormat = FICImageFormat()
-        imageFormat.name = ImageFormatFrameDeviceFull
+        imageFormat.name = ImageCacheEntityType.portrait.rawValue
         imageFormat.family = ImageFormatFrameDevice
         imageFormat.style = .style16BitBGR
         imageFormat.imageSize = portraitSize
@@ -86,35 +92,56 @@ class ImageCache: NSObject, FICImageCacheDelegate {
         imageFormat.devices = UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
         imageFormat.protectionMode = .none
         
+        let imageSquareFormat = FICImageFormat()
+        imageSquareFormat.name = ImageCacheEntityType.square.rawValue
+        imageSquareFormat.family = ImageFormatFrameDevice
+        imageSquareFormat.style = .style32BitBGRA
+        imageSquareFormat.imageSize = squareSize
+        imageSquareFormat.maximumCount = 1000
+        imageSquareFormat.devices = UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
+        imageSquareFormat.protectionMode = .none
+        
         bitmapCache = FICImageCache(nameSpace: "com.brave.images")
         bitmapCache.delegate = self
-        bitmapCache.setFormats([imageFormat])
+        bitmapCache.setFormats([imageFormat, imageSquareFormat])
     }
     
-    func cache(_ image: UIImage, url: URL, callback: (()->Void)?) {
+    func cache(_ image: UIImage, url: URL, type: ImageCacheEntityType, callback: (()->Void)?) {
         let entity = ImageEntity(url: url)
-        let format = ImageFormatFrameDeviceFull
+        let format = type.rawValue
         if bitmapCache.imageExists(for: entity, withFormatName: format) {
             bitmapCache.deleteImage(for: entity, withFormatName: format)
         }
-        let _image = resize(image, size: portraitSize)
+        
+        // Size enforced crop.
+        var _image = UIImage()
+        switch type {
+        case .portrait:
+            _image = resize(image, size: portraitSize)
+        case .square:
+            _image = image
+        }
+        
         bitmapCache.setImage(_image, for: entity, withFormatName: format, completionBlock: { (cachedEntity, format, cachedImage) in
             callback?()
         })
-        
     }
     
-    func image(_ url: URL, callback: @escaping (_ image: UIImage?)->Void) {
+    func image(_ url: URL, type: ImageCacheEntityType, callback: @escaping (_ image: UIImage?)->Void) {
         let entity = ImageEntity(url: url)
-        let format = ImageFormatFrameDeviceFull
+        let format = type.rawValue
+        if !bitmapCache.imageExists(for: entity, withFormatName: format) {
+            callback(nil)
+            return
+        }
         bitmapCache.retrieveImage(for: entity, withFormatName: format) { (cachedEntity, format, cachedImage) in
             callback(cachedImage)
         }
     }
     
-    func remove(_ url: URL) {
+    func remove(_ url: URL, type: ImageCacheEntityType) {
         let entity = ImageEntity(url: url)
-        let format = ImageFormatFrameDeviceFull
+        let format = type.rawValue
         if bitmapCache.imageExists(for: entity, withFormatName: format) {
             bitmapCache.deleteImage(for: entity, withFormatName: format)
         }

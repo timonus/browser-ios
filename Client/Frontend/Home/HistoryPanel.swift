@@ -107,15 +107,23 @@ class HistoryPanel: SiteTableViewController, HomePanel {
         let site = frc!.object(at: indexPath) as! History
         cell.backgroundColor = UIColor.clear
         cell.setLines(site.title, detailText: site.url)
-        cell.imageView!.image = FaviconFetcher.defaultFavicon
-        if let faviconMO = site.domain?.favicon, let url = faviconMO.url {
-            let favicon = Favicon(url: url, type: IconType(rawValue: Int(faviconMO.type)) ?? IconType.guess)
-            postAsyncToBackground {
-                let best = getBestFavicon([favicon])
-                postAsyncToMain {
-                    cell.imageView!.setIcon(best, withPlaceholder: FaviconFetcher.defaultFavicon)
+        cell.imageView?.image = FaviconFetcher.defaultFavicon
+        
+        if let faviconMO = site.domain?.favicon, let urlString = faviconMO.url, let url = URL(string: urlString) {
+            ImageCache.shared.image(url, type: .square, callback: { (image) in
+                if image == nil {
+                    cell.imageView?.sd_setImage(with: url, completed: { (img, err, type, url) in
+                        if err == nil, let img = img, let url = url {
+                            ImageCache.shared.cache(img, url: url, type: .square, callback: nil)
+                        }
+                    })
                 }
-            }
+                else {
+                    postAsyncToMain {
+                        cell.imageView?.image = image
+                    }
+                }
+            })
         }
     }
 

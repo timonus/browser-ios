@@ -419,6 +419,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         guard let obj = frc?.object(at: indexPath) as? Bookmark else { return (nil, nil) }
         return (obj.url != nil ? URL(string: obj.url!) : nil, obj.isFolder ? obj.syncUUID : nil)
     }
+    
+    
 
     fileprivate func configureCell(_ cell: UITableViewCell, atIndexPath indexPath: IndexPath) {
 
@@ -431,39 +433,25 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
                 let lp = UILongPressGestureRecognizer(target: self, action: #selector(longPressOnCell))
                 cell.addGestureRecognizer(lp)
             }
-
-            func restrictImageSize() {
-                if cell.imageView?.image == nil {
-                    return
-                }
-                let itemSize = CGSize(width: 25, height: 25)
-                UIGraphicsBeginImageContextWithOptions(itemSize, false, UIScreen.main.scale)
-                let imageRect = CGRect(x: 0.0, y: 0.0, width: itemSize.width, height: itemSize.height)
-                cell.imageView?.image!.draw(in: imageRect)
-                guard let context = UIGraphicsGetImageFromCurrentImageContext() else { return }
-                cell.imageView?.image! = context
-                UIGraphicsEndImageContext()
-            }
-
-            if let faviconMO = item.domain?.favicon, let url = faviconMO.url {
-                let favicon = Favicon(url: url, type: IconType(rawValue: Int(faviconMO.type)) ?? IconType.guess)
-                postAsyncToBackground {
-                    let best = getBestFavicon([favicon])
-                    postAsyncToMain {
-                        let hasImage = cell.imageView?.image != nil
-                        cell.imageView!.setIcon(best, withPlaceholder: FaviconFetcher.defaultFavicon) {
-                            if !hasImage {
-                                // TODO: why will it not draw the image the first time without this?
-                                self.tableView.reloadRows(at: [indexPath], with: .none)
-                            }
-                        }
-                    }
-                }
+            
+            cell.imageView?.contentMode = .scaleAspectFit
+            
+            if let faviconMO = item.domain?.favicon, let urlString = faviconMO.url, let url = URL(string: urlString) {
+                setCellImage(cell: cell, url: url)
             } else if let image = image {
                 cell.imageView?.image = image
-                restrictImageSize()
-            } else {
-                cell.imageView?.image = UIImage(named: "defaultFavicon")
+            } else if let urlString = item.url, let url = URL(string: urlString) {
+                debugPrint(url)
+                
+                //attempt to resolove domain problem
+                let context = DataController.shared.mainThreadContext
+                if let domain = Domain.getOrCreateForUrl(url, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let url = URL(string: urlString) {
+                    postAsyncToMain {
+                        self.setCellImage(cell: cell, url: url)
+                    }
+                }
+                
+                cell.imageView?.image = FaviconFetcher.defaultFavicon
             }
         }
         
@@ -480,6 +468,24 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
             cell.accessoryType = .disclosureIndicator
         }
+    }
+    
+    fileprivate func setCellImage(cell: UITableViewCell, url: URL) {
+        cell.imageView?.image = FaviconFetcher.defaultFavicon
+        ImageCache.shared.image(url, type: .square, callback: { (image) in
+            if image == nil {
+                cell.imageView?.sd_setImage(with: url, completed: { (img, err, type, url) in
+                    if err == nil, let img = img, let url = url {
+                        ImageCache.shared.cache(img, url: url, type: .square, callback: nil)
+                    }
+                })
+            }
+            else {
+                postAsyncToMain {
+                    cell.imageView?.image = image
+                }
+            }
+        })
     }
 
     func tableView(_ tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {

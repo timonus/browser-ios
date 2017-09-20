@@ -219,6 +219,7 @@
 		5C10E0CF1EEF07F800203C93 /* PageMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C71EEF07F400203C93 /* PageMetadata.swift */; };
 		5C10E0D01EEF07F800203C93 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C81EEF07F400203C93 /* Metadata.swift */; };
 		5C10E0D11EEF07F800203C93 /* ExtensionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */; };
+		5C2CD4481F72FA6C004AAB5D /* TopSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CD4471F72FA6C004AAB5D /* TopSite.swift */; };
 		5C32C7B6034B41A9C822555E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE1D74E40F9E392FFCE9F2F /* main.swift */; };
 		5C404E1B2531DC2E178F80F8 /* ReaderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8C87651157C51F01D4D96F /* ReaderPanel.swift */; };
 		5C44C0CF1E3847A100B1FD81 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C44C0C21E38479200B1FD81 /* CoreData.framework */; };
@@ -1135,6 +1136,8 @@
 		5C10E0C71EEF07F400203C93 /* PageMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageMetadata.swift; path = Storage/PageMetadata.swift; sourceTree = "<group>"; };
 		5C10E0C81EEF07F400203C93 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Metadata.swift; path = Storage/Metadata.swift; sourceTree = "<group>"; };
 		5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionUtils.swift; path = Storage/ExtensionUtils.swift; sourceTree = "<group>"; };
+		5C2CD4471F72FA6C004AAB5D /* TopSite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopSite.swift; path = brave/src/data/TopSite.swift; sourceTree = "<group>"; };
+		5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
 		5C39A9721F0FECF98A48015E /* BraveBrowserViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BraveBrowserViewController.swift; path = ./brave/src/frontend/BraveBrowserViewController.swift; sourceTree = "<group>"; };
 		5C44C0C21E38479200B1FD81 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5C44C0D11E384AE700B1FD81 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataController.swift; path = brave/src/data/DataController.swift; sourceTree = "<group>"; };
@@ -2234,6 +2237,7 @@
 				5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */,
 				5D448B471EA1572A00F1BA98 /* WebsitePresentable.swift */,
 				5C0293841E70D9AE00CA99D0 /* MigrateData.swift */,
+				5C2CD4471F72FA6C004AAB5D /* TopSite.swift */,
 			);
 			name = data;
 			sourceTree = "<group>";
@@ -4409,6 +4413,7 @@
 				1FA81E870F3EAE5C8FB9269C /* BrowserViewController+ContextMenuHelperDelegate.swift in Sources */,
 				5C67126F8B355442E99D9EDB /* BrowserViewController+FindInPage.swift in Sources */,
 				49603E1E5183CDC3BD1C2D09 /* BrowserViewController+KeyCommands.swift in Sources */,
+				5C2CD4481F72FA6C004AAB5D /* TopSite.swift in Sources */,
 				5D27859A1E70D7EF0066EC15 /* JSInjector.swift in Sources */,
 				C1F07A6A18FC4630EA937E6B /* BrowserViewController+ReaderModeDelegate.swift in Sources */,
 				24F13EC5A582B77E0F00EB61 /* BrowserViewController+TabManagerDelegate.swift in Sources */,
@@ -5526,11 +5531,12 @@
 		5D3892531E98108F00F959E6 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */,
 				5D2F10651EC9E8AD00CF0E0D /* Model3.xcdatamodel */,
 				5D3892561E9810B400F959E6 /* Model2.xcdatamodel */,
 				5D3892541E98108F00F959E6 /* Model.xcdatamodel */,
 			);
-			currentVersion = 5D2F10651EC9E8AD00CF0E0D /* Model3.xcdatamodel */;
+			currentVersion = 5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */;
 			name = Model.xcdatamodeld;
 			path = brave/src/data/Model.xcdatamodeld;
 			sourceTree = "<group>";
