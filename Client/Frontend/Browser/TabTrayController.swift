@@ -391,6 +391,7 @@ class TabTrayController: UIViewController {
         collectionView.backgroundView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TabTrayController.onTappedBackground(_:))))
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
+        longPressGesture.minimumPressDuration = 0.2
         collectionView.addGestureRecognizer(longPressGesture)
 
         viewsToAnimate = [blurBackdropView, collectionView, addTabButton, togglePrivateMode, doneButton]

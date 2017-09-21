@@ -176,6 +176,7 @@ class TabsBarViewController: UIViewController {
         view.addSubview(collectionView)
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
+        longPressGesture.minimumPressDuration = 0.1
         collectionView.addGestureRecognizer(longPressGesture)
 
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -219,6 +220,7 @@ class TabsBarViewController: UIViewController {
             tabList.insert($0)
         }
         overflowIndicators()
+        
         collectionView.reloadData()
         
         if let selectedTab = getApp().tabManager.selectedTab {
@@ -332,8 +334,6 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let tab = tabList.at(indexPath.row)
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.isSelected = true
         getApp().tabManager.selectTab(tab)
     }
     
@@ -364,8 +364,6 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         guard let selectedTab = tabList.at(destinationIndexPath.row) else { return }
         tabManager.selectTab(selectedTab)
-        
-        collectionView.selectItem(at: destinationIndexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
 }
 
