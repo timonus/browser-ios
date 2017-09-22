@@ -779,10 +779,12 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
             assert(false)
             return tabCell
         }
-        tabCell.titleLbl.text = tab.displayTitle
+        
+        let title = (tab.displayTitle != "" ? tab.displayTitle : TabMO.getByID(tab.tabID)?.title) ?? ""
+        tabCell.titleLbl.text = title
 
-        if !tab.displayTitle.isEmpty {
-            tabCell.accessibilityLabel = tab.displayTitle
+        if !title.isEmpty {
+            tabCell.accessibilityLabel = title
         } else {
             tabCell.accessibilityLabel = AboutUtils.getAboutComponent(tab.url)
         }

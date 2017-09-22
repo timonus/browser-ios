@@ -140,17 +140,21 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         if let folder = elements.folder, let bookmarks = Bookmark.getChildren(forFolderUUID: folder, context: DataController.shared.mainThreadContext) {
             let openTitle = Strings.Open_All_Bookmarks
             let copyAction = UIAlertAction(title: openTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
-                postAsyncToMain {
+                let context = DataController.shared.workerContext
+                context.perform {
                     for bookmark in bookmarks {
                         guard let urlString = bookmark.url else { continue }
                         guard let url = URL(string: urlString) else { continue }
+                        guard let tabID = TabMO.freshTab().syncUUID else { continue }
+                        let data = SavedTab(id: tabID, title: urlString, url: url.absoluteString, isSelected: false, order: -1, screenshot: nil, history: [url.absoluteString], historyIndex: 0)
+                        TabMO.add(data)
                         
-                        let request = URLRequest(url: url)
-                        let browser = getApp().tabManager.addTab(request, zombie: true, createWebview: true)
-                        if let tab = TabMO.getByID(browser?.tabID) {
-                            tab.title = url.absoluteString
+                        postAsyncToMain {
+                            let request = URLRequest(url: url)
+                            getApp().tabManager.addTab(request, zombie: true, id: tabID, createWebview: false)
                         }
                     }
+                    DataController.saveContext(context: context)
                 }
             }
             actionSheetController.addAction(copyAction)

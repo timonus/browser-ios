@@ -165,6 +165,9 @@ class BrowserViewController: UIViewController {
         if !swipeScheduled {
             swipeScheduled = true
             postAsyncToMain(0.2) {
+                if let browser = getApp().tabManager.selectedTab {
+                    self.screenshotHelper.takeScreenshot(browser)
+                }
                 self.swipeScheduled = false
                 getApp().tabManager.selectNextTab()
             }
@@ -175,6 +178,9 @@ class BrowserViewController: UIViewController {
         if !swipeScheduled {
             swipeScheduled = true
             postAsyncToMain(0.2) {
+                if let browser = getApp().tabManager.selectedTab {
+                    self.screenshotHelper.takeScreenshot(browser)
+                }
                 self.swipeScheduled = false
                 getApp().tabManager.selectPreviousTab()
             }
