@@ -78,7 +78,7 @@ class ImageCache: NSObject, FICImageCacheDelegate {
         }
     }
     
-    fileprivate var squareSize: CGSize = CGSize(width: 80, height: 80)
+    fileprivate var squareSize: CGSize = CGSize(width: 250, height: 250)
     
     override init() {
         super.init()
@@ -97,7 +97,7 @@ class ImageCache: NSObject, FICImageCacheDelegate {
         imageSquareFormat.family = ImageFormatFrameDevice
         imageSquareFormat.style = .style32BitBGRA
         imageSquareFormat.imageSize = squareSize
-        imageSquareFormat.maximumCount = 1000
+        imageSquareFormat.maximumCount = 5000
         imageSquareFormat.devices = UIDevice.current.userInterfaceIdiom == .phone ? .phone : .pad
         imageSquareFormat.protectionMode = .none
         
@@ -139,6 +139,15 @@ class ImageCache: NSObject, FICImageCacheDelegate {
         }
     }
     
+    func hasImage(_ url: URL, type: ImageCacheEntityType) -> Bool {
+        let entity = ImageEntity(url: url)
+        let format = type.rawValue
+        if bitmapCache.imageExists(for: entity, withFormatName: format) {
+            return true
+        }
+        return false
+    }
+    
     func remove(_ url: URL, type: ImageCacheEntityType) {
         let entity = ImageEntity(url: url)
         let format = type.rawValue
@@ -158,5 +167,9 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     
     func imageCache(_ imageCache: FICImageCache, errorDidOccurWithMessage errorMessage: String) {
         debugPrint("FICImageCache Error: \(errorMessage)")
+    }
+    
+    func clear() {
+        bitmapCache.reset()
     }
 }

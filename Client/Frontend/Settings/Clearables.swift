@@ -135,6 +135,9 @@ class CacheClearable: Clearable {
             if let err = err {
                 return result.fill(Maybe<()>(failure: ClearableErrorType(err: err)))
             }
+            
+            // Clear image cache
+            ImageCache.shared.clear()
 
             // Leave the cache off in the error cases above
             BraveApp.setupCacheDefaults()

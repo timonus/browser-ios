@@ -435,23 +435,38 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             }
             
             cell.imageView?.contentMode = .scaleAspectFit
+            cell.imageView?.image = FaviconFetcher.defaultFavicon
             
-            if let faviconMO = item.domain?.favicon, let urlString = faviconMO.url, let url = URL(string: urlString) {
-                setCellImage(cell: cell, url: url)
-            } else if let image = image {
+            if let image = image {
+                // folder or preset icon
                 cell.imageView?.image = image
-            } else if let urlString = item.url, let url = URL(string: urlString) {
-                debugPrint(url)
-                
-                //attempt to resolove domain problem
-                let context = DataController.shared.mainThreadContext
-                if let domain = Domain.getOrCreateForUrl(url, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let url = URL(string: urlString) {
-                    postAsyncToMain {
-                        self.setCellImage(cell: cell, url: url)
+            }
+            else if let faviconMO = item.domain?.favicon, let urlString = faviconMO.url, let url = URL(string: urlString), let bookmarkUrlString = item.url, let bookmarkUrl = URL(string: bookmarkUrlString) {
+                // favicon object associated through domain relationship - set from cache or download
+                setCellImage(cell, iconUrl: url, cacheWithUrl: bookmarkUrl)
+            }
+            else if let urlString = item.url, let bookmarkUrl = URL(string: urlString) {
+                if ImageCache.shared.hasImage(bookmarkUrl, type: .square) {
+                    // no relationship - check cache for icon which may have been stored recently for url.
+                    ImageCache.shared.image(bookmarkUrl, type: .square, callback: { (image) in
+                        postAsyncToMain {
+                            cell.imageView?.image = image
+                        }
+                    })
+                }
+                else {
+                    // no relationship - attempt to resolove domain problem
+                    let context = DataController.shared.mainThreadContext
+                    if let domain = Domain.getOrCreateForUrl(bookmarkUrl, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let url = URL(string: urlString) {
+                        postAsyncToMain {
+                            self.setCellImage(cell, iconUrl: url, cacheWithUrl: bookmarkUrl)
+                        }
+                    }
+                    else {
+                        // last resort - download the icon
+                        downloadFaviconsAndUpdateForUrl(bookmarkUrl, indexPath: indexPath)
                     }
                 }
-                
-                cell.imageView?.image = FaviconFetcher.defaultFavicon
             }
         }
         
@@ -470,20 +485,30 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         }
     }
     
-    fileprivate func setCellImage(cell: UITableViewCell, url: URL) {
-        cell.imageView?.image = FaviconFetcher.defaultFavicon
-        ImageCache.shared.image(url, type: .square, callback: { (image) in
-            if image == nil {
-                cell.imageView?.sd_setImage(with: url, completed: { (img, err, type, url) in
-                    if err == nil, let img = img, let url = url {
-                        ImageCache.shared.cache(img, url: url, type: .square, callback: nil)
-                    }
-                })
-            }
-            else {
+    fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
+        FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = self.tableView.cellForRow(at: indexPath) else { return }
+            self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+        }
+    }
+    
+    fileprivate func setCellImage(_ cell: UITableViewCell, iconUrl: URL, cacheWithUrl: URL) {
+        ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
+            if image != nil {
                 postAsyncToMain {
                     cell.imageView?.image = image
                 }
+            }
+            else {
+                cell.imageView?.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
+                    guard err == nil, let img = img else {
+                        // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
+                        ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
+                        cell.imageView?.image = FaviconFetcher.defaultFavicon
+                        return
+                    }
+                    ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
+                })
             }
         })
     }

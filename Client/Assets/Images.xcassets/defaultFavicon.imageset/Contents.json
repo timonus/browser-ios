@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "favicon.png",
       "scale" : "1x"
     },
     {
