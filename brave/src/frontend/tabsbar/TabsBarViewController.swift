@@ -176,7 +176,7 @@ class TabsBarViewController: UIViewController {
         view.addSubview(collectionView)
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
-        longPressGesture.minimumPressDuration = 0.1
+        longPressGesture.minimumPressDuration = 0.2
         collectionView.addGestureRecognizer(longPressGesture)
 
         if UIDevice.current.userInterfaceIdiom == .pad {
