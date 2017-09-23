@@ -1066,6 +1066,7 @@
 		5B7417C2784852C8AA016A94 /* filename.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = filename.cc; path = ./brave/ThirdParty/leveldb/db/filename.cc; sourceTree = "<group>"; };
 		5B8A3FF8C10C5708D9DAD03D /* BraveUX.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BraveUX.swift; path = ./brave/src/frontend/BraveUX.swift; sourceTree = "<group>"; };
 		5C0293841E70D9AE00CA99D0 /* MigrateData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MigrateData.swift; path = brave/src/data/MigrateData.swift; sourceTree = "<group>"; };
+		5C062FD91F76583900D51BC7 /* Model5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model5.xcdatamodel; sourceTree = "<group>"; };
 		5C0FCE4C1E5FB3810016DF0F /* SyncWelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncWelcomeViewController.swift; path = brave/src/frontend/sync/SyncWelcomeViewController.swift; sourceTree = "<group>"; };
 		5C0FCE521E637B9D0016DF0F /* SyncAddDeviceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncAddDeviceViewController.swift; path = brave/src/frontend/sync/SyncAddDeviceViewController.swift; sourceTree = "<group>"; };
 		5C0FCE5B1E637C160016DF0F /* SyncPairCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncPairCameraViewController.swift; path = brave/src/frontend/sync/SyncPairCameraViewController.swift; sourceTree = "<group>"; };
@@ -5531,12 +5532,13 @@
 		5D3892531E98108F00F959E6 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				5C062FD91F76583900D51BC7 /* Model5.xcdatamodel */,
 				5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */,
 				5D2F10651EC9E8AD00CF0E0D /* Model3.xcdatamodel */,
 				5D3892561E9810B400F959E6 /* Model2.xcdatamodel */,
 				5D3892541E98108F00F959E6 /* Model.xcdatamodel */,
 			);
-			currentVersion = 5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */;
+			currentVersion = 5C062FD91F76583900D51BC7 /* Model5.xcdatamodel */;
 			name = Model.xcdatamodeld;
 			path = brave/src/data/Model.xcdatamodeld;
 			sourceTree = "<group>";

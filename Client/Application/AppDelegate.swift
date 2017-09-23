@@ -175,15 +175,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     func applicationWillTerminate(_ application: UIApplication) {
         log.debug("Application will terminate.")
         
-        // We have only five seconds here, so let's hope this doesn't take too long.
-        shutdownProfileWhenNotActive()
-        BraveGlobalShieldStats.singleton.save()
-
-        // Allow deinitializers to close our database connections.
-        self.profile = nil
-        self.tabManager = nil
-        self.browserViewController = nil
-        self.rootViewController = nil
+        var task: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier()
+        task = UIApplication.shared.beginBackgroundTask(withName: "deactivateQueue", expirationHandler: { () -> Void in
+            UIApplication.shared.endBackgroundTask(task)
+            task = UIBackgroundTaskInvalid
+        })
+        
+        DispatchQueue.global(qos: .background).async {
+            TabMO.clearAllPrivate()
+            
+            self.shutdownProfileWhenNotActive()
+            BraveGlobalShieldStats.singleton.save()
+            
+            // Allow deinitializers to close our database connections.
+            self.profile = nil
+            self.tabManager = nil
+            self.browserViewController = nil
+            self.rootViewController = nil
+            
+            log.debug("Background cleanup completed.")
+            task = UIBackgroundTaskInvalid
+        }
     }
 
     /**

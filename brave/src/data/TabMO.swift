@@ -19,6 +19,7 @@ class TabMO: NSManagedObject {
     @NSManaged var screenshot: Data?
     @NSManaged var isSelected: Bool
     @NSManaged var isClosed: Bool
+    @NSManaged var isPrivate: Bool
     
     var imageUrl: URL? {
         if let objectId = self.syncUUID, let url = URL(string: "https://imagecache.mo/\(objectId).png") {
@@ -49,6 +50,7 @@ class TabMO: NSManagedObject {
         // TODO: replace with logic to create sync uuid then buble up new uuid to browser.
         tab.syncUUID = UUID().uuidString
         tab.title = Strings.New_Tab
+        tab.isPrivate = PrivateBrowsing.singleton.isOn
         DataController.saveContext(context: context)
         return tab
     }
@@ -75,6 +77,7 @@ class TabMO: NSManagedObject {
         let context = DataController.shared.mainThreadContext
         
         fetchRequest.entity = TabMO.entity(context)
+        fetchRequest.predicate = NSPredicate(format: "isPrivate == false OR isPrivate == nil")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
         do {
             return try context.fetch(fetchRequest) as? [TabMO] ?? []
@@ -83,6 +86,24 @@ class TabMO: NSManagedObject {
             print(fetchError)
         }
         return []
+    }
+    
+    class func clearAllPrivate() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        let context = DataController.shared.mainThreadContext
+        
+        fetchRequest.entity = TabMO.entity(context)
+        fetchRequest.predicate = NSPredicate(format: "isPrivate == true")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
+        do {
+            let results = try context.fetch(fetchRequest) as? [TabMO] ?? []
+            for tab in results {
+                DataController.remove(object: tab)
+            }
+        } catch {
+            let fetchError = error as NSError
+            print(fetchError)
+        }
     }
     
     class func getByID(_ id: String?, context: NSManagedObjectContext = DataController.shared.mainThreadContext) -> TabMO? {

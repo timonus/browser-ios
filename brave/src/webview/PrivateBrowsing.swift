@@ -212,6 +212,8 @@ class PrivateBrowsing {
                     ReentrantGuard.inFunc = false
                 }
             }
+            
+            TabMO.clearAllPrivate()
         }
     }
 
