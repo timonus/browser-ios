@@ -597,10 +597,10 @@ class BrowserViewController: UIViewController {
         // Remake constraints even if we're already showing the home controller.
         // The home controller may change sizes if we tap the URL bar while on about:home.
         homePanelController?.view.snp.remakeConstraints { make in
-            make.top.equalTo(self.header.snp.bottom)
+            make.top.equalTo(self.header.snp.bottom).offset(1)
             make.left.right.equalTo(self.view)
             if self.homePanelIsInline {
-                make.bottom.equalTo(self.toolbar?.snp.top ?? self.view.snp.bottom)
+                make.bottom.equalTo(self.toolbar?.snp.top ?? self.view.snp.bottom).offset(-0.5)
             } else {
                 make.bottom.equalTo(self.view.snp.bottom)
             }
@@ -639,17 +639,6 @@ class BrowserViewController: UIViewController {
             view.addSubview(homePanelController!.view)
             homePanelController!.didMove(toParentViewController: self)
         }
-
-        let panelNumber = tabManager.selectedTab?.url?.fragment
-
-        // splitting this out to see if we can get better crash reports when this has a problem
-        var newSelectedButtonIndex = 0
-        if let numberArray = panelNumber?.components(separatedBy: "=") {
-            if let last = numberArray.last, let lastInt = Int(last) {
-                newSelectedButtonIndex = lastInt
-            }
-        }
-        homePanelController?.selectedButtonIndex = newSelectedButtonIndex
 
         // We have to run this animation, even if the view is already showing because there may be a hide animation running
         // and we want to be sure to override its results.
