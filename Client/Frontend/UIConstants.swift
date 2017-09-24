@@ -39,6 +39,7 @@ public struct UIConstants {
     static let HighlightBlue = BraveUX.DefaultBlue
     static let DestructiveRed = UIColor(red: 255/255, green: 64/255, blue: 0/255, alpha: 1.0)
     static let BorderColor = UIColor.black.withAlphaComponent(0.3)
+    static let BorderColorDark = UIColor.black.withAlphaComponent(0.9)
     static let BackgroundColor = UIColor(red: 0.21, green: 0.23, blue: 0.25, alpha: 1)
 
     // settings

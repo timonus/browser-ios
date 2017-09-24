@@ -219,7 +219,6 @@ class BrowserViewController: UIViewController {
             footer.addSubview(footerBackground!)
             
             footer.layer.shadowOffset = CGSize(width: 0, height: -0.5)
-            footer.layer.shadowColor = UIConstants.BorderColor.cgColor
             footer.layer.shadowRadius = 0
             footer.layer.shadowOpacity = 1.0
             footer.layer.masksToBounds = false
@@ -360,7 +359,6 @@ class BrowserViewController: UIViewController {
         view.addSubview(header)
     
         header.layer.shadowOffset = CGSize(width: 0, height: 1)
-        header.layer.shadowColor = UIConstants.BorderColor.cgColor
         header.layer.shadowRadius = 0
         header.layer.shadowOpacity = 1.0
         header.layer.masksToBounds = false
