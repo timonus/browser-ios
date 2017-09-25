@@ -462,30 +462,55 @@ class TabTrayController: UIViewController {
 
     fileprivate func makeConstraints() {
         
-        doneButton.snp.makeConstraints { make in
-            make.right.equalTo(self.view).offset(-30)
-            make.centerY.equalTo(self.addTabButton.snp.centerY)
-        }
-        
-        togglePrivateMode.snp.makeConstraints { make in
-            make.left.equalTo(30)
-            make.centerY.equalTo(self.addTabButton.snp.centerY)
-        }
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            doneButton.snp.makeConstraints { make in
+                make.right.equalTo(self.view).offset(-30)
+                make.centerY.equalTo(self.addTabButton.snp.centerY)
+            }
+            
+            togglePrivateMode.snp.makeConstraints { make in
+                make.left.equalTo(30)
+                make.centerY.equalTo(self.addTabButton.snp.centerY)
+            }
 
-        addTabButton.snp.makeConstraints { make in
-            make.bottom.equalTo(self.view)
-            make.centerX.equalTo(self.view)
-            make.size.equalTo(UIConstants.ToolbarHeight)
-        }
+            addTabButton.snp.makeConstraints { make in
+                make.bottom.equalTo(self.view)
+                make.centerX.equalTo(self.view)
+                make.size.equalTo(UIConstants.ToolbarHeight)
+            }
 
-        collectionView.snp.makeConstraints { make in
-            make.bottom.equalTo(addTabButton.snp.top)
-            make.top.equalTo(20)
-            make.left.right.equalTo(self.view)
+            collectionView.snp.makeConstraints { make in
+                make.bottom.equalTo(addTabButton.snp.top)
+                make.top.equalTo(self.topLayoutGuide.snp.bottom)
+                make.left.right.equalTo(self.view)
+            }
+            
+            blurBackdropView.snp.makeConstraints { (make) in
+                make.edges.equalTo(view)
+            }
         }
-        
-        blurBackdropView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view)
+        else {
+            doneButton.isHidden = true
+            
+            togglePrivateMode.snp.makeConstraints { make in
+                make.right.equalTo(addTabButton.snp.left).offset(-10)
+                make.centerY.equalTo(self.addTabButton.snp.centerY)
+            }
+            
+            addTabButton.snp.makeConstraints { make in
+                make.trailing.equalTo(self.view)
+                make.top.equalTo(self.topLayoutGuide.snp.bottom)
+                make.size.equalTo(UIConstants.ToolbarHeight)
+            }
+            
+            collectionView.snp.makeConstraints { make in
+                make.top.equalTo(addTabButton.snp.bottom)
+                make.left.right.bottom.equalTo(self.view)
+            }
+            
+            blurBackdropView.snp.makeConstraints { (make) in
+                make.edges.equalTo(view)
+            }
         }
     }
     
