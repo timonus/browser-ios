@@ -60,6 +60,25 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
             make.top.equalTo(0)
             make.left.right.bottom.equalTo(self.view)
         }
+        
+        let topLine = UIView()
+        let bottomLine = UIView()
+        
+        topLine.backgroundColor = PrivateBrowsing.singleton.isOn ? UIConstants.BorderColorDark : UIConstants.BorderColor
+        bottomLine.backgroundColor = topLine.backgroundColor
+        
+        view.addSubview(topLine)
+        view.addSubview(bottomLine)
+        
+        topLine.snp.makeConstraints { (make) in
+            make.top.left.right.equalTo(0)
+            make.height.equalTo(1)
+        }
+        
+        bottomLine.snp.makeConstraints { (make) in
+            make.bottom.left.right.equalTo(0)
+            make.height.equalTo(0.5)
+        }
 
         self.panels = HomePanels().enabledPanels
         
