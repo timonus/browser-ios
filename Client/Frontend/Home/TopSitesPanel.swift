@@ -816,13 +816,27 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
 
         cell.accessibilityLabel = cell.textLabel.text
         
-        guard let iconUrl = site.wordmark.url.asURL else {
+        guard let iconUrl = site.wordmark.url.asURL,
+            let host = iconUrl.host else {
                 self.setDefaultThumbnailBackgroundForCell(cell)
                 return
         }
 
-        setDefaultThumbnailBackgroundForCell(cell)
-        setCellImage(cell, iconUrl: iconUrl, cacheWithUrl: iconUrl)
+        if iconUrl.scheme == "asset" {
+            if let image = UIImage(named: host) {
+                // Images from assets folder.
+                UIGraphicsBeginImageContextWithOptions(image.size, false, 0)
+                image.draw(in: CGRect(origin: CGPoint(x: 3, y: 6), size: CGSize(width: image.size.width - 6, height: image.size.height - 6)))
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                cell.imageView.image = scaledImage
+            }
+            
+        }
+        else {
+            setDefaultThumbnailBackgroundForCell(cell)
+            setCellImage(cell, iconUrl: iconUrl, cacheWithUrl: iconUrl)
+        }
     }
 
     fileprivate func setHistorySites(_ historySites: [Site], completion: @escaping ()->()) {
