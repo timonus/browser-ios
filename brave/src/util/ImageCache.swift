@@ -58,7 +58,7 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     
     fileprivate let ImageFormatFrameDevice = "com.brave.imageFormatFrameDevice"
     
-    fileprivate var bitmapCache: FICImageCache!
+    fileprivate var bitmapCache: FICImageCache?
     
     fileprivate var portraitSize: CGSize {
         get {
@@ -83,6 +83,15 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     override init() {
         super.init()
         
+        // Guard from locked filesystem on private browsing.
+        // FIC will crash on init.
+        let fileManager = FileManager.default
+        var paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true) as [String]
+        guard let path = paths.first else { return }
+        if !fileManager.isWritableFile(atPath: path) {
+            return
+        }
+        
         let imageFormat = FICImageFormat()
         imageFormat.name = ImageCacheEntityType.portrait.rawValue
         imageFormat.family = ImageFormatFrameDevice
@@ -102,11 +111,13 @@ class ImageCache: NSObject, FICImageCacheDelegate {
         imageSquareFormat.protectionMode = .none
         
         bitmapCache = FICImageCache(nameSpace: "com.brave.images")
-        bitmapCache.delegate = self
-        bitmapCache.setFormats([imageFormat, imageSquareFormat])
+        bitmapCache?.delegate = self
+        bitmapCache?.setFormats([imageFormat, imageSquareFormat])
     }
     
     func cache(_ image: UIImage, url: URL, type: ImageCacheEntityType, callback: (()->Void)?) {
+        guard let bitmapCache = bitmapCache else { callback?(); return }
+        
         let entity = ImageEntity(url: url)
         let format = type.rawValue
         if bitmapCache.imageExists(for: entity, withFormatName: format) {
@@ -128,6 +139,8 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     }
     
     func image(_ url: URL, type: ImageCacheEntityType, callback: @escaping (_ image: UIImage?)->Void) {
+        guard let bitmapCache = bitmapCache else { callback(nil); return }
+        
         let entity = ImageEntity(url: url)
         let format = type.rawValue
         if !bitmapCache.imageExists(for: entity, withFormatName: format) {
@@ -140,6 +153,8 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     }
     
     func hasImage(_ url: URL, type: ImageCacheEntityType) -> Bool {
+        guard let bitmapCache = bitmapCache else { return false }
+        
         let entity = ImageEntity(url: url)
         let format = type.rawValue
         if bitmapCache.imageExists(for: entity, withFormatName: format) {
@@ -149,6 +164,8 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     }
     
     func remove(_ url: URL, type: ImageCacheEntityType) {
+        guard let bitmapCache = bitmapCache else { return }
+        
         let entity = ImageEntity(url: url)
         let format = type.rawValue
         if bitmapCache.imageExists(for: entity, withFormatName: format) {
@@ -170,6 +187,8 @@ class ImageCache: NSObject, FICImageCacheDelegate {
     }
     
     func clear() {
+        guard let bitmapCache = bitmapCache else { return }
+        
         bitmapCache.reset()
     }
 }
