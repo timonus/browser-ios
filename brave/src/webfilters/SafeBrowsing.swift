@@ -8,7 +8,7 @@ private let _singleton = SafeBrowsing()
 class SafeBrowsing {
     static let prefKey = "braveSafeBrowsing"
     static let prefKeyDefaultValue = true
-    static let dataVersion = "2"
+    static let dataVersion = AdBlocker.dataVersion
 
     lazy var abpFilterLibWrapper: ABPFilterLibWrapper = { return ABPFilterLibWrapper() }()
 
