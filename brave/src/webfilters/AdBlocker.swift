@@ -16,7 +16,7 @@ class AdBlocker {
     static let prefKeyDefaultValue = true
     static let prefKeyUseRegional = "braveAdblockUseRegional"
     static let prefKeyUseRegionalDefaultValue = true
-    static let dataVersion = "2"
+    static let dataVersion = "3"
 
     var isNSPrefEnabled = true
     fileprivate var fifoCacheOfUrlsChecked = FifoDict()
