@@ -65,9 +65,10 @@ class BraveBrowserViewController : BrowserViewController {
     }
 
     func updateBraveShieldButtonState(_ animated: Bool) {
-        guard let s = tabManager.selectedTab?.braveShieldStateSafeAsync.get() else { return }
-        let up = s.isNotSet() || !s.isAllOff()
-        (urlBar as! BraveURLBarView).setBraveButtonState(up, animated: animated)
+        guard let shieldState = tabManager.selectedTab?.braveShieldStateSafeAsync.get() else { return }
+        let shieldsEnabled = shieldState.isNotSet() || !shieldState.isAllOff()
+      
+        (urlBar as! BraveURLBarView).setBraveButtonState(shieldsEnabled: shieldsEnabled, animated: animated)
     }
 
     override func selectedTabChanged(_ selected: Browser) {
