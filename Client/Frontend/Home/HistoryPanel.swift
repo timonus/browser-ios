@@ -107,7 +107,10 @@ class HistoryPanel: SiteTableViewController, HomePanel {
         let site = frc!.object(at: indexPath) as! History
         cell.backgroundColor = UIColor.clear
         cell.setLines(site.title, detailText: site.url)
+        
         cell.imageView?.image = FaviconFetcher.defaultFavicon
+        cell.imageView?.layer.cornerRadius = 6
+        cell.imageView?.layer.masksToBounds = true
         
         if let faviconMO = site.domain?.favicon, let urlString = faviconMO.url, let url = URL(string: urlString) {
             ImageCache.shared.image(url, type: .square, callback: { (image) in

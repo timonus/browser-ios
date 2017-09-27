@@ -436,6 +436,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             
             cell.imageView?.contentMode = .scaleAspectFit
             cell.imageView?.image = FaviconFetcher.defaultFavicon
+            cell.imageView?.layer.cornerRadius = 6
+            cell.imageView?.layer.masksToBounds = true
             
             if let image = image {
                 // folder or preset icon
