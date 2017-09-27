@@ -7,6 +7,7 @@ import WebKit
 import Storage
 import Shared
 import CoreData
+import CoreImage
 import SwiftyJSON
 
 import Crashlytics
@@ -114,7 +115,19 @@ class Browser: NSObject, BrowserWebViewDelegate {
     var desktopSite: Bool = false
 
     fileprivate var screenshotCallback: ((_ image: UIImage?)->Void)?
-    fileprivate var _screenshot: UIImage?
+    fileprivate lazy var _screenshot: UIImage? = {
+        guard let image = UIImage(named: "tab_placeholder"), let beginImage: CIImage = CIImage(image: image) else { return nil }
+        
+        let filter = CIFilter(name: "CIHueAdjust")
+        filter?.setValue(beginImage, forKey: kCIInputImageKey)
+        filter?.setValue(CGFloat(arc4random_uniform(360)), forKey: "inputAngle")
+        
+        guard let outputImage = filter?.outputImage else { return nil }
+        
+        let context = CIContext(options:nil)
+        guard let cgimg = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
+        return UIImage(cgImage: cgimg)
+    }()
     var screenshotUUID: UUID?
 
     fileprivate var helperManager: HelperManager? = nil
@@ -149,8 +162,8 @@ class Browser: NSObject, BrowserWebViewDelegate {
     func screenshot(callback: ((_ image: UIImage?)->Void)?) {
         screenshotCallback = callback
         
-        if let screenshot = _screenshot, PrivateBrowsing.singleton.isOn {
-            callback?(screenshot)
+        if PrivateBrowsing.singleton.isOn {
+            callback?(_screenshot)
             return
         }
         
@@ -158,9 +171,11 @@ class Browser: NSObject, BrowserWebViewDelegate {
         if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
             weak var weakSelf = self
             ImageCache.shared.image(url, type: .portrait, callback: { (image) in
-                weakSelf?._screenshot = image
+                if let image = image {
+                    weakSelf?._screenshot = image
+                }
                 postAsyncToMain {
-                    callback(image)
+                    callback(weakSelf?._screenshot)
                 }
             })
         }
