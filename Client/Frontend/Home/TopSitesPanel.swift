@@ -80,7 +80,7 @@ class TopSitesPanel: UIViewController {
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.notificationReceived(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.notificationReceived(_:)), name: NotificationPrivacyModeChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.handleRotation), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.updateIphoneConstraints), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -102,6 +102,8 @@ class TopSitesPanel: UIViewController {
         
         privateTabTitleLabel = UILabel()
         privateTabTitleLabel.lineBreakMode = .byWordWrapping
+        privateTabTitleLabel.textAlignment = .center
+        privateTabTitleLabel.numberOfLines = 0
         privateTabTitleLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightSemibold)
         privateTabTitleLabel.textColor = UIColor(white: 1, alpha: 0.6)
         privateTabTitleLabel.text = Strings.Private_Tab_Title
@@ -123,6 +125,7 @@ class TopSitesPanel: UIViewController {
         privateTabLinkButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
         privateTabLinkButton.titleLabel?.textColor = UIColor(white: 1, alpha: 0.25)
         privateTabLinkButton.titleLabel?.textAlignment = .center
+        privateTabLinkButton.titleLabel?.lineBreakMode = .byWordWrapping
         privateTabLinkButton.addTarget(self, action: #selector(SEL_privateTabInfo), for: .touchUpInside)
         privateTabMessageContainer.addSubview(privateTabLinkButton)
         
@@ -166,13 +169,14 @@ class TopSitesPanel: UIViewController {
             make.centerX.equalTo(collection)
             if UIDevice.current.userInterfaceIdiom == .pad {
                 make.centerY.equalTo(self.view)
+                make.width.equalTo(400)
             }
             else {
                 make.top.equalTo(self.braveShieldStatsView?.snp.bottom ?? 0).offset(20)
+                make.leftMargin.equalTo(collection).offset(8)
+                make.rightMargin.equalTo(collection).offset(-8)
             }
-            
-            make.leftMargin.equalTo(collection).offset(40)
-            make.rightMargin.equalTo(collection).offset(-40)
+            make.bottom.equalTo(collection)
         }
         
         privateTabGraphic.snp.makeConstraints { (make) -> Void in
@@ -180,84 +184,68 @@ class TopSitesPanel: UIViewController {
             make.centerX.equalTo(self.privateTabMessageContainer)
         }
         
-        privateTabTitleLabel.snp.remakeConstraints { make in
-            make.top.equalTo(self.privateTabGraphic.snp.bottom).offset(15)
-            make.centerX.equalTo(self.privateTabMessageContainer)
-        }
-        
-        privateTabInfoLabel.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(10)
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                make.width.equalTo(400)
-                make.centerX.equalTo(collection)
-            }
-            else {
-                make.left.equalTo(0)
-                make.right.equalTo(0)
-            }
-        }
-        
-        privateTabLinkButton.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(10)
-            make.left.equalTo(0)
-            make.right.equalTo(0)
-            make.bottom.equalTo(0)
-        }
-        
-        handleRotation()
-    }
-    
-    func handleRotation() {
-        
-        let toInterfaceOrientation = UIApplication.shared.statusBarOrientation
-        
         if UIDevice.current.userInterfaceIdiom == .pad {
-            return
-        }
-        
-        if toInterfaceOrientation.isLandscape {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.privateTabGraphic.alpha = 0
-            })
-            privateTabTitleLabel.snp.remakeConstraints { make in
-                make.top.equalTo(0)
+            privateTabTitleLabel.snp.makeConstraints { make in
+                make.top.equalTo(self.privateTabGraphic.snp.bottom).offset(15)
                 make.centerX.equalTo(self.privateTabMessageContainer)
+                make.left.right.equalTo(0)
             }
             
-            privateTabInfoLabel.snp.remakeConstraints { make in
+            privateTabInfoLabel.snp.makeConstraints { (make) -> Void in
                 make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(10)
-                make.left.equalTo(0)
-                make.right.equalTo(0)
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    make.centerX.equalTo(collection)
+                }
+                
+                make.left.equalTo(16)
+                make.right.equalTo(-16)
             }
             
-            privateTabLinkButton.snp.remakeConstraints { make in
+            privateTabLinkButton.snp.makeConstraints { (make) -> Void in
                 make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(10)
                 make.left.equalTo(0)
                 make.right.equalTo(0)
                 make.bottom.equalTo(0)
             }
+        } else {
+            updateIphoneConstraints()
         }
-        else {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.privateTabGraphic.alpha = 1
-            })
-            privateTabTitleLabel.snp.remakeConstraints { make in
-                make.top.equalTo(self.privateTabGraphic.snp.bottom).offset(15)
-                make.centerX.equalTo(self.privateTabMessageContainer)
+    }
+    
+    func updateIphoneConstraints() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return
+        }
+        
+        let isLandscape = UIApplication.shared.statusBarOrientation.isLandscape
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.privateTabGraphic.alpha = isLandscape ? 0 : 1
+        })
+        
+        let offset = isLandscape ? 10 : 15
+        
+        privateTabTitleLabel.snp.remakeConstraints { make in
+            if isLandscape {
+                make.top.equalTo(0)
+            } else {
+                make.top.equalTo(self.privateTabGraphic.snp.bottom).offset(offset)
             }
-            
-            privateTabInfoLabel.snp.remakeConstraints { make in
-                make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(15)
-                make.left.equalTo(0)
-                make.right.equalTo(0)
-            }
-            
-            privateTabLinkButton.snp.remakeConstraints { make in
-                make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(15)
-                make.left.equalTo(0)
-                make.right.equalTo(0)
-                make.bottom.equalTo(0)
-            }
+            make.centerX.equalTo(self.privateTabMessageContainer)
+            make.left.right.equalTo(0)
+        }
+        
+        privateTabInfoLabel.snp.remakeConstraints { make in
+            make.top.equalTo(self.privateTabTitleLabel.snp.bottom).offset(offset)
+            make.left.equalTo(32)
+            make.right.equalTo(-32)
+        }
+        
+        privateTabLinkButton.snp.remakeConstraints { make in
+            make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(offset)
+            make.left.equalTo(32)
+            make.right.equalTo(-32)
+            make.bottom.equalTo(-8)
         }
         
         self.view.setNeedsUpdateConstraints()
