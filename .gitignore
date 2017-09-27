@@ -74,9 +74,12 @@ MozBuildID.xcconfig
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 # Carthage/Checkouts
 
-Carthage/Build
+# Carthage builds _and_ node_modules are now included
+# Adds weight, but since running dependency updates is so infrequent, and can have hidden issues (e.g. random crashes)
+#   the downsides are outweighted by the benefit for now
+# Carthage/Build
+# node_modules/
 
-node_modules/
 ABPFilterParserData.dat
 Client/Configuration
 Client/Info.plist
@@ -89,5 +92,3 @@ Client/Info.plist
 project.xcworkspace/
 *xcuserdata
 /brave/xcconfig/*
-
-brave/yarn.lock
