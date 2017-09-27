@@ -453,28 +453,15 @@ class BraveURLBarView : URLBarView {
         leftSidePanelButton.setStarImageBookmarked(isBookmarked)
     }
 
-    func setBraveButtonState(_ shieldsUp: Bool, animated: Bool) {
-        let selected = !shieldsUp
-        if braveButton.isSelected == selected {
-            return
-        }
+    func setBraveButtonState(shieldsEnabled: Bool, animated: Bool) {
+        let buttonImageName = shieldsEnabled ? "bravePanelButton" : "bravePanelButtonOff"
+        braveButton.setImage(UIImage(named: buttonImageName), for: .normal)
         
-        braveButton.isSelected = selected
-        
-        if shieldsUp {
-            braveButton.setImage(UIImage(named: "bravePanelButton"), for: .normal)
-        }
-        else {
-            braveButton.setImage(UIImage(named: "bravePanelButtonOff"), for: .normal)
-        }
-
-        if !animated {
-            return
-        }
+        guard animated else { return }
 
         let v = InsetLabel(frame: CGRect(x: 0, y: 0, width: locationContainer.frame.width, height: locationContainer.frame.height))
         v.rightInset = CGFloat(40)
-        v.text = braveButton.isSelected ? Strings.Shields_Up : Strings.Shields_Down
+        v.text = shieldsEnabled ? Strings.Shields_Up : Strings.Shields_Down
         if v.text!.endsWith(" Up") || v.text!.endsWith(" Down") {
             // English translation gets bolded text
             if let range = v.text!.range(of: " ", options:NSString.CompareOptions.backwards) {
@@ -483,7 +470,7 @@ class BraveURLBarView : URLBarView {
             }
         }
 
-        v.backgroundColor = braveButton.isSelected ? UIColor(white: 0.6, alpha: 1.0) : BraveUX.BraveButtonMessageInUrlBarColor
+        v.backgroundColor = shieldsEnabled ? UIColor(white: 0.6, alpha: 1.0) : BraveUX.BraveButtonMessageInUrlBarColor
         v.textAlignment = .right
         locationContainer.addSubview(v)
         v.alpha = 0.0
