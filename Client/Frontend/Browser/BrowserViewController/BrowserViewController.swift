@@ -164,7 +164,7 @@ class BrowserViewController: UIViewController {
     func leftSwipeToolbar() {
         if !swipeScheduled {
             swipeScheduled = true
-            postAsyncToMain {
+            postAsyncToMain(0.1) {
                 if let browser = getApp().tabManager.selectedTab {
                     self.screenshotHelper.takeScreenshot(browser)
                 }
@@ -177,7 +177,7 @@ class BrowserViewController: UIViewController {
     func rightSwipeToolbar() {
         if !swipeScheduled {
             swipeScheduled = true
-            postAsyncToMain {
+            postAsyncToMain(0.1) {
                 if let browser = getApp().tabManager.selectedTab {
                     self.screenshotHelper.takeScreenshot(browser)
                 }

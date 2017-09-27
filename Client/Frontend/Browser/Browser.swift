@@ -120,7 +120,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
         
         let filter = CIFilter(name: "CIHueAdjust")
         filter?.setValue(beginImage, forKey: kCIInputImageKey)
-        filter?.setValue(CGFloat(arc4random_uniform(360)), forKey: "inputAngle")
+        filter?.setValue(CGFloat(arc4random_uniform(314)) * 0.01 - 3.14, forKey: "inputAngle")
         
         guard let outputImage = filter?.outputImage else { return nil }
         
