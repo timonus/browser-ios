@@ -107,7 +107,11 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
     
     func tabsButtonHold() {
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        let closeTabAction =  UIAlertAction(title: Strings.Close_Tab, style: UIAlertActionStyle.default) { (action: UIAlertAction) in
+        let closeAllTabsAction =  UIAlertAction(title: Strings.CloseAllTabsTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
+            getApp().tabManager.removeAll(createTabIfNoneLeft: true)
+        }
+        actionSheetController.addAction(closeAllTabsAction)
+        let closeTabAction =  UIAlertAction(title: Strings.CloseTabTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
             if let tab = getApp().tabManager.selectedTab {
                 getApp().tabManager.removeTab(tab, createTabIfNoneLeft: true)
             }
