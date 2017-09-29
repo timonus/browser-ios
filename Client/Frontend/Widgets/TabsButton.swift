@@ -103,6 +103,10 @@ class TabsButton: UIControl {
         addSubview(insideButton)
         isAccessibilityElement = true
         accessibilityTraits |= UIAccessibilityTraitButton
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(tabsButtonHold))
+        longPress.minimumPressDuration = 0.2
+        addGestureRecognizer(longPress)
     }
 
     override func updateConstraints() {
@@ -157,6 +161,30 @@ class TabsButton: UIControl {
       }
 
         return button
+    }
+    
+    func tabsButtonHold() {
+        let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        let closeAllTabsAction =  UIAlertAction(title: Strings.CloseAllTabsTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
+            getApp().tabManager.removeAll(createTabIfNoneLeft: true)
+        }
+        actionSheetController.addAction(closeAllTabsAction)
+        let closeTabAction =  UIAlertAction(title: Strings.CloseTabTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
+            if let tab = getApp().tabManager.selectedTab {
+                getApp().tabManager.removeTab(tab, createTabIfNoneLeft: true)
+            }
+        }
+        actionSheetController.addAction(closeTabAction)
+        let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil)
+        actionSheetController.addAction(cancelAction)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let presenter = actionSheetController.popoverPresentationController {
+                presenter.sourceView = self
+                presenter.sourceRect = self.bounds
+            }
+        }
+        getApp().browserViewController.present(actionSheetController, animated: true, completion: nil)
     }
 }
 
