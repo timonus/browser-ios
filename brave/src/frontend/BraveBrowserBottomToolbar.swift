@@ -36,11 +36,6 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
         tabsButton.addTarget(self, action: #selector(BraveBrowserBottomToolbar.onClickShowTabs), for: UIControlEvents.touchUpInside)
         tabsButton.accessibilityLabel = Strings.Show_Tabs
         tabsButton.accessibilityIdentifier = "Toolbar.ShowTabs"
-        
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(tabsButtonHold))
-        longPress.minimumPressDuration = 0.2
-        tabsButton.addGestureRecognizer(longPress)
-        
         return tabsButton
     }()
 
@@ -103,23 +98,6 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
 
     func leavingTabTrayMode() {
         setAlphaOnAllExceptTabButton(1.0)
-    }
-    
-    func tabsButtonHold() {
-        let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        let closeAllTabsAction =  UIAlertAction(title: Strings.CloseAllTabsTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
-            getApp().tabManager.removeAll(createTabIfNoneLeft: true)
-        }
-        actionSheetController.addAction(closeAllTabsAction)
-        let closeTabAction =  UIAlertAction(title: Strings.CloseTabTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
-            if let tab = getApp().tabManager.selectedTab {
-                getApp().tabManager.removeTab(tab, createTabIfNoneLeft: true)
-            }
-        }
-        actionSheetController.addAction(closeTabAction)
-        let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil)
-        actionSheetController.addAction(cancelAction)
-        getApp().browserViewController.present(actionSheetController, animated: true, completion: nil)
     }
 
     override func updateConstraints() {
