@@ -194,10 +194,6 @@ and here's why...</source>
         <source>Brave keeps you safe as you browse.</source>
         <note>Shown in intro screens</note>
       </trans-unit>
-      <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
-        <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
-        <note>No comment provided by engineer.</note>
-      </trans-unit>
       <trans-unit id="Brave would like to access your Photos">
         <source>Brave would like to access your Photos</source>
         <note>See http://mzl.la/1G7uHo7</note>

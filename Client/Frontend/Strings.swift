@@ -158,7 +158,6 @@ extension Strings {
     public static let Swipe_right_or_left_with_three_fingers_to_close_the_tab = NSLocalizedString("Swipe right or left with three fingers to close the tab.", comment: "Accessibility hint for tab tray's displayed tab.")
     public static let Learn_More = NSLocalizedString("Learn More", comment: "Text button displayed when there are no tabs open while in private mode")
     public static let Private_Browsing = NSLocalizedString("Private Browsing", comment: "")
-    public static let Brave_wont_remember_any_of_your_history = NSLocalizedString("Brave won't remember any of your history or cookies, but new bookmarks will be saved.", comment: "")
     public static let Show_Tabs = NSLocalizedString("Show Tabs", comment: "Accessibility Label for the tabs button in the browser toolbar")
     public static let Address_and_Search = NSLocalizedString("Address and Search", comment: "Accessibility label for address and search field, both words (Address, Search) are therefore nouns.")
     public static let This_folder_isnt_empty = NSLocalizedString("This folder isn't empty.", comment: "Title of the confirmation alert when the user tries to delete_a_folder_that_still_contains_bookmarks_and/or folders.")
