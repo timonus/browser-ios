@@ -118,15 +118,20 @@ class Browser: NSObject, BrowserWebViewDelegate {
     fileprivate lazy var _screenshot: UIImage? = {
         guard let image = UIImage(named: "tab_placeholder"), let beginImage: CIImage = CIImage(image: image) else { return nil }
         
-        let filter = CIFilter(name: "CIHueAdjust")
-        filter?.setValue(beginImage, forKey: kCIInputImageKey)
-        filter?.setValue(CGFloat(arc4random_uniform(314)) * 0.01 - 3.14, forKey: "inputAngle")
-        
-        guard let outputImage = filter?.outputImage else { return nil }
-        
-        let context = CIContext(options:nil)
-        guard let cgimg = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
-        return UIImage(cgImage: cgimg)
+        if arc4random_uniform(3) != 1 {
+            let filter = CIFilter(name: "CIHueAdjust")
+            filter?.setValue(beginImage, forKey: kCIInputImageKey)
+            filter?.setValue(CGFloat(arc4random_uniform(314 / (arc4random_uniform(3) + 1))) * 0.01 - 3.14, forKey: "inputAngle")
+            
+            guard let outputImage = filter?.outputImage else { return nil }
+            
+            let context = CIContext(options:nil)
+            guard let cgimg = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
+            return UIImage(cgImage: cgimg)
+        }
+        else {
+            return image
+        }
     }()
     var screenshotUUID: UUID?
 
