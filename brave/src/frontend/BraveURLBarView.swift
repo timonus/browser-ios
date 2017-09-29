@@ -462,14 +462,6 @@ class BraveURLBarView : URLBarView {
         let v = InsetLabel(frame: CGRect(x: 0, y: 0, width: locationContainer.frame.width, height: locationContainer.frame.height))
         v.rightInset = CGFloat(40)
         v.text = shieldsEnabled ? Strings.Shields_Up : Strings.Shields_Down
-        if v.text!.endsWith(" Up") || v.text!.endsWith(" Down") {
-            // English translation gets bolded text
-            if let range = v.text!.range(of: " ", options:NSString.CompareOptions.backwards) {
-                let closedRange = range.lowerBound...v.text!.index(range.lowerBound, offsetBy: v.text!.characters.count)
-                v.bold(range: closedRange)
-            }
-        }
-
         v.backgroundColor = shieldsEnabled ? UIColor(white: 0.6, alpha: 1.0) : BraveUX.BraveButtonMessageInUrlBarColor
         v.textAlignment = .right
         locationContainer.addSubview(v)

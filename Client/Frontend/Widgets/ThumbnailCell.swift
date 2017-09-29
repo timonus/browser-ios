@@ -162,7 +162,6 @@ class ThumbnailCell: UICollectionViewCell {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = ThumbnailCellUX.CornerRadius
         imageView.layer.borderColor = ThumbnailCellUX.BorderColor.cgColor

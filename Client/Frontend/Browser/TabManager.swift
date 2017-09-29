@@ -170,15 +170,15 @@ class TabManager : NSObject {
     }
     
     func saveTabOrder() {
-        let context = DataController.shared.mainThreadContext
-        for i in 0..<tabs.internalTabList.count {
-            let tab = tabs.internalTabList[i]
-            guard let tabID = tab.tabID else { print("Error: Tab missing ID"); continue }
-            let tabMO = TabMO.getByID(tabID, context: context)
-            tabMO?.order = Int16(i)
+        let context = DataController.shared.workerContext
+        context.perform {
+            for i in 0..<self.tabs.internalTabList.count {
+                let tab = self.tabs.internalTabList[i]
+                guard let managedObject = TabMO.getByID(tab.tabID, context: context) else { print("Error: Tab missing managed object"); continue }
+                managedObject.order = Int16(i)
+            }
+            DataController.saveContext(context: context)
         }
-        
-        DataController.saveContext(context: context)
     }
 
     func tabForWebView(_ webView: UIWebView) -> Browser? {
@@ -219,6 +219,10 @@ class TabManager : NSObject {
 
         if let t = self.selectedTab, t.webView == nil {
             t.createWebview()
+            
+            // Data was never set on internal tab restore, so now it happens when tab is selected.
+            restoreTab(t)
+            
             for delegate in delegates where t.webView != nil {
                 delegate.value?.tabManager(self, didCreateWebView: t, url: nil, at: nil)
             }
@@ -235,6 +239,22 @@ class TabManager : NSObject {
 
         limitInMemoryTabs()
     }
+    
+    func selectPreviousTab() {
+        let tab = tabs.internalTabList[currentIndex ?? 0]
+        guard let currentIndex = tabs.displayedTabsForCurrentPrivateMode.index(where: {$0 === tab}) else { return }
+        if currentIndex > 0 {
+            selectTab(tabs.displayedTabsForCurrentPrivateMode[currentIndex-1])
+        }
+    }
+    
+    func selectNextTab() {
+        let tab = tabs.internalTabList[currentIndex ?? 0]
+        guard let currentIndex = tabs.displayedTabsForCurrentPrivateMode.index(where: {$0 === tab}) else { return }
+        if currentIndex < tabs.displayedTabsForCurrentPrivateMode.count-1 {
+            selectTab(tabs.displayedTabsForCurrentPrivateMode[currentIndex+1])
+        }
+    }
 
     func expireSnackbars() {
         debugNoteIfNotMainThread()
@@ -246,14 +266,14 @@ class TabManager : NSObject {
 
     func addTabForDesktopSite() -> Browser {
         let tab = Browser(configuration: self.configuration, isPrivate: PrivateBrowsing.singleton.isOn)
-        tab.tabID = TabMO.freshTab()
+        tab.tabID = TabMO.freshTab().syncUUID
         configureTab(tab, request: nil, zombie: false, useDesktopUserAgent: true)
         selectTab(tab)
         return tab
     }
 
     @discardableResult func addTabAndSelect(_ request: URLRequest! = nil, configuration: WKWebViewConfiguration! = nil) -> Browser? {
-        guard let tab = addTab(request, configuration: configuration, id: nil) else { return nil }
+        guard let tab = addTab(request, configuration: configuration) else { return nil }
         selectTab(tab)
         return tab
     }
@@ -275,7 +295,7 @@ class TabManager : NSObject {
 
         var tab: Browser!
         for url in urls {
-            tab = self.addTab(URLRequest(url: url), configuration: nil, zombie: zombie, id: TabMO.freshTab())
+            tab = self.addTab(URLRequest(url: url), configuration: nil, zombie: zombie, id: TabMO.freshTab().syncUUID)
         }
 
         // Select the most recent.
@@ -310,28 +330,16 @@ class TabManager : NSObject {
         let savedTabs = TabMO.getAll()
         for savedTab in savedTabs {
             if savedTab.url == nil {
-                if let id = savedTab.syncUUID {
-                    TabMO.removeTab(id)
-                }
+                DataController.remove(object: savedTab)
                 continue
             }
             
-            guard let tab = addTab(nil, configuration: nil, zombie: true, id: savedTab.syncUUID) else { return }
+            guard let tab = addTab(nil, configuration: nil, zombie: true, id: savedTab.syncUUID, createWebview: false) else { return }
             
-            debugPrint(savedTab)
-            
-            tab.setScreenshot(savedTab.screenshotImage)
             if savedTab.isSelected {
                 tabToSelect = tab
             }
             tab.lastTitle = savedTab.title
-            if let w = tab.webView, let history = savedTab.urlHistorySnapshot as? [String], let tabID = savedTab.syncUUID, let url = savedTab.url {
-                let data = SavedTab(id: tabID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
-                tab.restore(w, restorationData: data)
-            }
-            else {
-                debugPrint("failed to load tab \(String(describing: savedTab.url))")
-            }
         }
         if tabToSelect == nil {
             tabToSelect = tabs.displayedTabsForCurrentPrivateMode.first
@@ -346,12 +354,28 @@ class TabManager : NSObject {
         }
         
         if let tab = tabToSelect {
-            postAsyncToMain(0.5) {
+            restoreTab(tab)
+            
+            postAsyncToMain {
                 self.selectTab(tab)
+                self.isRestoring = false
             }
         }
+        else {
+            isRestoring = false
+        }
+    }
+    
+    func restoreTab(_ tab: Browser) {
+        // Tab was created with no active webview or session data. Restore tab data from CD and configure.
+        guard let savedTab = TabMO.getByID(tab.tabID) else { return }
         
-        isRestoring = false
+        if let history = savedTab.urlHistorySnapshot as? [String], let tabUUID = savedTab.syncUUID, let url = savedTab.url {
+            let data = SavedTab(id: tabUUID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
+            if let webView = tab.webView {
+                tab.restore(webView, restorationData: data)
+            }
+        }
     }
 
     fileprivate func limitInMemoryTabs() {
@@ -392,7 +416,7 @@ class TabManager : NSObject {
         }
     }
 
-    func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int? = nil) -> Browser? {
+    @discardableResult func addTab(_ request: URLRequest? = nil, configuration: WKWebViewConfiguration? = nil, zombie: Bool = false, id: String? = nil, index: Int? = nil, createWebview: Bool = true) -> Browser? {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return nil
@@ -401,13 +425,13 @@ class TabManager : NSObject {
 
         let isPrivate = PrivateBrowsing.singleton.isOn
         let tab = Browser(configuration: self.configuration, isPrivate: isPrivate)
-        tab.tabID = id ?? TabMO.freshTab()
+        tab.tabID = id ?? TabMO.freshTab().syncUUID
         
-        configureTab(tab, request: request, zombie: zombie, index: index)
+        configureTab(tab, request: request, zombie: zombie, index: index, createWebview: createWebview)
         return tab
     }
 
-    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false, index: Int? = nil) {
+    func configureTab(_ tab: Browser, request: URLRequest?, zombie: Bool = false, useDesktopUserAgent: Bool = false, index: Int? = nil, createWebview: Bool = true) {
         debugNoteIfNotMainThread()
         if (!Thread.isMainThread) { // No logical reason this should be off-main, don't add a tab.
             return
@@ -428,6 +452,20 @@ class TabManager : NSObject {
             delegate.value?.tabManager(self, didAddTab: tab)
         }
 
+        
+        // On restore we are casually creating webviews only on active tab. 
+        // All others will be created when tab is selected.
+        // Since tab bar manager awaits protocol method to create UI we trick into creating.
+        if !createWebview {
+            let showingPolicy = TabsBarShowPolicy(rawValue: Int(BraveApp.getPrefs()?.intForKey(kPrefKeyTabsBarShowPolicy) ?? Int32(kPrefKeyTabsBarOnDefaultValue.rawValue))) ?? kPrefKeyTabsBarOnDefaultValue
+            if showingPolicy != TabsBarShowPolicy.never {
+                for delegate in delegates {
+                    delegate.value?.tabManager(self, didCreateWebView: tab, url: request?.url, at: lastIndex)
+                }
+            }
+            return
+        }
+        
         tab.createWebview(useDesktopUserAgent)
 
         for delegate in delegates {
@@ -436,9 +474,9 @@ class TabManager : NSObject {
 
         tab.navigationDelegate = navDelegate
         _ = tab.loadRequest(request ?? defaultNewTabRequest)
-        
+ 
         // Ignore on restore.
-        if !zombie {
+        if !zombie && !PrivateBrowsing.singleton.isOn {
             TabMO.preserveTab(tab: tab)
             saveTabOrder()
         }
@@ -470,8 +508,8 @@ class TabManager : NSObject {
         }
         tabs.removeTab(tab)
 
-        if let tabID = tab.tabID {
-            TabMO.removeTab(tabID)
+        if let tab = TabMO.getByID(tab.tabID) {
+            DataController.remove(object: tab)
         }
         
         // There's still some time between this and the webView being destroyed.
@@ -485,7 +523,7 @@ class TabManager : NSObject {
 
         // Make sure we never reach 0 normal tabs
         if tabs.displayedTabsForCurrentPrivateMode.count == 0 && createTabIfNoneLeft {
-            let tab = addTab(id: TabMO.freshTab())
+            let tab = addTab(id: TabMO.freshTab().syncUUID)
             selectTab(tab)
         }
         
@@ -508,12 +546,12 @@ class TabManager : NSObject {
         }
     }
 
-    func removeAll() {
+    func removeAll(createTabIfNoneLeft: Bool = false) {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         let tabs = self.tabs
 
         for tab in tabs.internalTabList {
-            self.removeTab(tab, flushToDisk: false, notify: true, createTabIfNoneLeft: false)
+            self.removeTab(tab, flushToDisk: false, notify: true, createTabIfNoneLeft: createTabIfNoneLeft)
         }
     }
 

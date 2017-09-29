@@ -17,6 +17,7 @@ class ContextMenuHelper: NSObject, BrowserHelper, UIGestureRecognizerDelegate {
     struct Elements {
         let link: URL?
         let image: URL?
+        let folder: [Int]?
     }
 
     /// Clicking an element with VoiceOver fires touchstart, but not touchend, causing the context
@@ -75,7 +76,7 @@ class ContextMenuHelper: NSObject, BrowserHelper, UIGestureRecognizerDelegate {
         }
 
         if linkURL != nil || imageURL != nil {
-            let elements = Elements(link: linkURL, image: imageURL)
+            let elements = Elements(link: linkURL, image: imageURL, folder: nil)
             delegate?.contextMenuHelper(self, didLongPressElements: elements, gestureRecognizer: gestureRecognizer)
         }
     }

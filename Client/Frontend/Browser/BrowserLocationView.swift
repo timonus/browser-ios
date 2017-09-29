@@ -330,6 +330,7 @@ extension BrowserLocationView: Themeable {
         hostFontColor = theme.hostFontColor!
         fullURLFontColor = theme.textColor!
         stopReloadButton.tintColor = theme.textColor!
+        readerModeButton.tintColor = theme.textColor!
         backgroundColor = theme.backgroundColor
     }
 }

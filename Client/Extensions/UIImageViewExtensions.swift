@@ -9,13 +9,23 @@ import WebImage
 public extension UIImageView {
     public func setIcon(_ icon: Favicon?, withPlaceholder placeholder: UIImage, completion: (()->())? = nil) {
         if let icon = icon {
-            let imageURL = URL(string: icon.url)
-            self.sd_setImage(with: imageURL) { (img, err, type, url) -> Void in
-                if err != nil {
-                    self.image = placeholder
-                } 
-                completion?()
-            }
+            guard let imageURL = URL(string: icon.url) else { completion?(); return }
+            //self.image = placeholder
+            ImageCache.shared.image(imageURL, type: .square, callback: { (image) in
+                if image == nil {
+                    self.sd_setImage(with: imageURL, completed: { (img, err, type, url) in
+                        self.image = img
+                        if let img = img {
+                            ImageCache.shared.cache(img, url: imageURL, type: .square, callback: nil)
+                        }
+                        completion?()
+                    })
+                }
+                else {
+                    self.image = image
+                    completion?()
+                }
+            })
         } else {
             self.image = placeholder
             completion?()

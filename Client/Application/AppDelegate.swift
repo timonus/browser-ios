@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     // TODO: Having all of these global opens up lots of abuse potential (open via getApp())
     
     var window: UIWindow?
+    var securityWindow: UIWindow?
+    var securityViewController: PinProtectOverlayViewController?
     var browserViewController: BrowserViewController!
     var rootViewController: UINavigationController!
     weak var profile: BrowserProfile?
@@ -173,15 +175,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     func applicationWillTerminate(_ application: UIApplication) {
         log.debug("Application will terminate.")
         
-        // We have only five seconds here, so let's hope this doesn't take too long.
-        shutdownProfileWhenNotActive()
-        BraveGlobalShieldStats.singleton.save()
-
-        // Allow deinitializers to close our database connections.
-        self.profile = nil
-        self.tabManager = nil
-        self.browserViewController = nil
-        self.rootViewController = nil
+        var task: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier()
+        task = UIApplication.shared.beginBackgroundTask(withName: "deactivateQueue", expirationHandler: { () -> Void in
+            UIApplication.shared.endBackgroundTask(task)
+            task = UIBackgroundTaskInvalid
+        })
+        
+        DispatchQueue.global(qos: .background).async {
+            TabMO.clearAllPrivate()
+            
+            self.shutdownProfileWhenNotActive()
+            BraveGlobalShieldStats.singleton.save()
+            
+            // Allow deinitializers to close our database connections.
+            self.profile = nil
+            self.tabManager = nil
+            self.browserViewController = nil
+            self.rootViewController = nil
+            
+            log.debug("Background cleanup completed.")
+            task = UIBackgroundTaskInvalid
+        }
     }
 
     /**
@@ -229,6 +243,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         log.debug("Done with applicationDidFinishLaunching.")
 
         BraveApp.didFinishLaunching()
+        
+        let appProfile = getProfile(application)
+        requirePinIfNeeded(profile: appProfile)
         
         return shouldPerformAdditionalDelegateHandling
     }
@@ -327,16 +344,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
                 self.launchFromURL(params)
             }
         }
+        
+        let profile = getProfile(application)
+        if profile.prefs.boolForKey(kPrefKeyBrowserLock) == true && securityWindow?.isHidden == false {
+            securityViewController?.auth()
+        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         print("Close database")
         shutdownProfileWhenNotActive()
         BraveGlobalShieldStats.singleton.save()
+        
+        let profile = getProfile(application)
+        requirePinIfNeeded(profile: profile)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
         BraveGlobalShieldStats.singleton.save()
+        
+        let profile = getProfile(application)
+        requirePinIfNeeded(profile: profile)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -345,7 +373,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         // `applicationDidBecomeActive` will get called whenever the Touch ID authentication overlay disappears.
         self.updateAuthenticationInfo()
 
+        
         profile?.reopen()
+        
+        let appProfile = getProfile(application)
+        requirePinIfNeeded(profile: appProfile)
+    }
+    
+    func requirePinIfNeeded(profile: Profile) {
+        // Check for browserLock settings
+        if profile.prefs.boolForKey(kPrefKeyBrowserLock) == true {
+            if securityWindow != nil  {
+                securityViewController?.start()
+                // This could have been changed elsewhere, not the best approach.
+                securityViewController?.successCallback = { (success) in
+                    if success {
+                        postAsyncToMain {
+                            self.securityWindow?.isHidden = true
+                        }
+                    }
+                }
+                securityWindow?.isHidden = false
+                return
+            }
+            
+            let vc = PinProtectOverlayViewController()
+            securityViewController = vc
+            debugPrint(UIScreen.main.bounds)
+            
+            let pinOverlay = UIWindow(frame: UIScreen.main.bounds)
+            pinOverlay.backgroundColor = UIColor(white: 0.9, alpha: 0.7)
+            pinOverlay.windowLevel = UIWindowLevelAlert
+            pinOverlay.rootViewController = vc
+            securityWindow = pinOverlay
+            pinOverlay.makeKeyAndVisible()
+            
+            vc.successCallback = { (success) in
+                postAsyncToMain {
+                    self.securityWindow?.isHidden = true
+                }
+            }
+        }
     }
 
     fileprivate func updateAuthenticationInfo() {

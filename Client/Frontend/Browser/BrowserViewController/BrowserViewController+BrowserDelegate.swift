@@ -239,7 +239,7 @@ extension BrowserViewController: BrowserDelegate {
                 self.view.layoutIfNeeded()
             }, completion: { success in
                 // Really remove the bar
-                self.finishRemovingBar(bar)
+                // self.finishRemovingBar(bar)
                 self.updateSnackBarConstraints()
             }) 
         }

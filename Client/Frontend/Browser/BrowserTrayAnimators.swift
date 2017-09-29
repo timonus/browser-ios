@@ -299,7 +299,9 @@ private func transformToolbarsToFrame(_ toolbars: [UIView?], toRect endRect: CGR
 
 private func createTransitionCellFromBrowser(_ browser: Browser?, withFrame frame: CGRect) -> TabCell {
     let cell = TabCell(frame: frame)
-    cell.background.image = browser?.screenshot.image
+    browser?.screenshot(callback: { (image) in
+        cell.background.image = image
+    })
     cell.titleLbl.text = browser?.displayTitle
 
     if let favIcon = browser?.displayFavicon {

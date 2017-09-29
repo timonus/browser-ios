@@ -68,7 +68,7 @@ class BrowserViewController: UIViewController {
     var pasteAction: AccessibleAction!
     var copyAddressAction: AccessibleAction!
 
-    weak var tabTrayController: TabTrayController!
+    weak var tabTrayController: TabTrayController?
 
     let profile: Profile
     let tabManager: TabManager
@@ -150,13 +150,42 @@ class BrowserViewController: UIViewController {
         screenshotHelper = ScreenshotHelper(controller: self)
         tabManager.addDelegate(self)
         tabManager.addNavigationDelegate(self)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(leftSwipeToolbar), name: LeftSwipeToolbarNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(rightSwipeToolbar), name: RightSwipeToolbarNotification, object: nil)
     }
 
     func shouldShowFooterForTraitCollection(_ previousTraitCollection: UITraitCollection) -> Bool {
         return previousTraitCollection.verticalSizeClass != .compact &&
                previousTraitCollection.horizontalSizeClass != .regular
     }
-
+    
+    var swipeScheduled = false
+    func leftSwipeToolbar() {
+        if !swipeScheduled {
+            swipeScheduled = true
+            postAsyncToMain(0.1) {
+                if let browser = getApp().tabManager.selectedTab {
+                    self.screenshotHelper.takeScreenshot(browser)
+                }
+                self.swipeScheduled = false
+                getApp().tabManager.selectNextTab()
+            }
+        }
+    }
+    
+    func rightSwipeToolbar() {
+        if !swipeScheduled {
+            swipeScheduled = true
+            postAsyncToMain(0.1) {
+                if let browser = getApp().tabManager.selectedTab {
+                    self.screenshotHelper.takeScreenshot(browser)
+                }
+                self.swipeScheduled = false
+                getApp().tabManager.selectPreviousTab()
+            }
+        }
+    }
 
     func toggleSnackBarVisibility(_ show: Bool) {
         if show {
@@ -189,8 +218,7 @@ class BrowserViewController: UIViewController {
             footerBackground?.addSubview(toolbar!)
             footer.addSubview(footerBackground!)
             
-            footer.layer.shadowOffset = CGSize(width: 0, height: -1)
-            footer.layer.shadowColor = UIConstants.BorderColor.cgColor
+            footer.layer.shadowOffset = CGSize(width: 0, height: -0.5)
             footer.layer.shadowRadius = 0
             footer.layer.shadowOpacity = 1.0
             footer.layer.masksToBounds = false
@@ -296,12 +324,12 @@ class BrowserViewController: UIViewController {
 
         log.debug("BVC adding footer and header…")
         footerBackdrop = UIView()
-        footerBackdrop.backgroundColor = UIColor.white
+        footerBackdrop.backgroundColor = BrowserViewControllerUX.BackgroundColor
         view.addSubview(footerBackdrop)
 
         log.debug("BVC setting up webViewContainer…")
         webViewContainerBackdrop = UIView()
-        webViewContainerBackdrop.backgroundColor = UIColor.gray
+        webViewContainerBackdrop.backgroundColor = BrowserViewControllerUX.BackgroundColor
         webViewContainerBackdrop.alpha = 0
         view.addSubview(webViewContainerBackdrop)
 
@@ -331,7 +359,6 @@ class BrowserViewController: UIViewController {
         view.addSubview(header)
     
         header.layer.shadowOffset = CGSize(width: 0, height: 1)
-        header.layer.shadowColor = UIConstants.BorderColor.cgColor
         header.layer.shadowRadius = 0
         header.layer.shadowOpacity = 1.0
         header.layer.masksToBounds = false
@@ -610,17 +637,6 @@ class BrowserViewController: UIViewController {
             view.addSubview(homePanelController!.view)
             homePanelController!.didMove(toParentViewController: self)
         }
-
-        let panelNumber = tabManager.selectedTab?.url?.fragment
-
-        // splitting this out to see if we can get better crash reports when this has a problem
-        var newSelectedButtonIndex = 0
-        if let numberArray = panelNumber?.components(separatedBy: "=") {
-            if let last = numberArray.last, let lastInt = Int(last) {
-                newSelectedButtonIndex = lastInt
-            }
-        }
-        homePanelController?.selectedButtonIndex = newSelectedButtonIndex
 
         // We have to run this animation, even if the view is already showing because there may be a hide animation running
         // and we want to be sure to override its results.

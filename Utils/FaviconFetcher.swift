@@ -180,23 +180,20 @@ open class FaviconFetcher : NSObject, XMLParserDelegate {
 
         var fav = Favicon(url: url, type: icon.type)
         if let url = url.asURL {
-            manager?.downloadImage(with: url,
-                                         options: SDWebImageOptions.lowPriority,
-                                         progress: nil,
-                                         completed: { (img, err, cacheType, success, url) -> Void in
-                                            fav = Favicon(url: url?.absoluteString ?? "",
-                                                type: icon.type)
+            _ = manager?.downloadImage(with: url, options: SDWebImageOptions.lowPriority, progress: nil, completed: { (img, err, cacheType, success, url) -> Void in
+                fav = Favicon(url: url?.absoluteString ?? "",
+                    type: icon.type)
 
-                                            if let img = img, !PrivateBrowsing.singleton.isOn {
-                                                fav.width = Int(img.size.width)
-                                                fav.height = Int(img.size.height)
-                                                FaviconMO.add(fav, forSiteUrl: siteUrl as URL)
-                                            } else {
-                                                fav.width = 0
-                                                fav.height = 0
-                                            }
-                                            
-                                            deferred.fill(Maybe(success: fav))
+                if let img = img, !PrivateBrowsing.singleton.isOn {
+                    fav.width = Int(img.size.width)
+                    fav.height = Int(img.size.height)
+                    FaviconMO.add(fav, forSiteUrl: siteUrl as URL)
+                } else {
+                    fav.width = 0
+                    fav.height = 0
+                }
+                
+                deferred.fill(Maybe(success: fav))
             })
         } else {
             return deferMaybe(FaviconFetcherErrorType(description: "Invalid URL \(url)"))

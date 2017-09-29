@@ -46,15 +46,6 @@ class FaviconMO: NSManagedObject {
                 item!.domain = Domain.getOrCreateForUrl(siteUrl, context: context)
             }
 
-            // Go up the relationship chain, mark objects as dirty that are waiting for favicons to be set
-            (item!.domain?.bookmarks?.allObjects as? [Bookmark])?.forEach {
-                $0.markDirty += 1
-            }
-
-            (item!.domain?.historyItems?.allObjects as? [History])?.forEach {
-                $0.markDirty += 1
-            }
-
             let w = Int16(favicon.width ?? 0)
             let h = Int16(favicon.height ?? 0)
             let t = Int16(favicon.type.rawValue)

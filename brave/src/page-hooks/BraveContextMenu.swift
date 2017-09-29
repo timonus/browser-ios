@@ -12,7 +12,7 @@ class BraveContextMenu {
     fileprivate var timer2_showMenuIfStillPressed = Timer()
 
     static let initialDelayToCancelBuiltinMenu = 0.25 // seconds, must be <0.3 or built-in menu can't be cancelled
-    static let totalDelayToShowContextMenu = 0.85 - initialDelayToCancelBuiltinMenu // 850 is copied from Safari
+    static let totalDelayToShowContextMenu = 0.35 - initialDelayToCancelBuiltinMenu
 
     fileprivate let fingerMovedTolerance = Float(5.0)
 
@@ -122,7 +122,7 @@ class BraveContextMenu {
             return
         }
 
-        tappedElement = ContextMenuHelper.Elements(link: hit!.url != nil ? URL(string: hit!.url!) : nil, image: hit!.image != nil ? URL(string: hit!.image!) : nil)
+        tappedElement = ContextMenuHelper.Elements(link: hit!.url != nil ? URL(string: hit!.url!) : nil, image: hit!.image != nil ? URL(string: hit!.image!) : nil, folder: nil)
 
         func blockOtherGestures(_ views: [UIView]?) {
             guard let views = views else { return }

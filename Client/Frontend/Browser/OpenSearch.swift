@@ -174,8 +174,7 @@ class OpenSearchParser {
         var searchTemplate: String!
         var suggestTemplate: String?
         for urlIndexer in urlIndexers {
-            let type = urlIndexer.element?.attributes["type"]
-            if type == nil {
+            guard let type = urlIndexer.element?.attribute(by: "type")?.text else {
                 print("Url element requires a type attribute", terminator: "\n")
                 return nil
             }
@@ -185,8 +184,7 @@ class OpenSearchParser {
                 continue
             }
 
-            var template = urlIndexer.element?.attributes["template"]
-            if template == nil {
+            guard var template = urlIndexer.element?.attribute(by: "template")?.text else {
                 print("Url element requires a template attribute", terminator: "\n")
                 return nil
             }
@@ -195,22 +193,20 @@ class OpenSearchParser {
                 let paramIndexers = urlIndexer["Param"].all
 
                 if !paramIndexers.isEmpty {
-                    template! += "?"
+                    template += "?"
                     var firstAdded = false
                     for paramIndexer in paramIndexers {
                         if firstAdded {
-                            template! += "&"
+                            template += "&"
                         } else {
                             firstAdded = true
                         }
 
-                        let name = paramIndexer.element?.attributes["name"]
-                        let value = paramIndexer.element?.attributes["value"]
-                        if name == nil || value == nil {
+                        guard let name = paramIndexer.element?.attribute(by: "name")?.text, let value = paramIndexer.element?.attribute(by: "value")?.text else {
                             print("Param element must have name and value attributes", terminator: "\n")
                             return nil
                         }
-                        template! += name! + "=" + value!
+                        template += name + "=" + value
                     }
                 }
             }
@@ -233,8 +229,8 @@ class OpenSearchParser {
 
         // TODO: For now, just use the largest icon.
         for imageIndexer in imageIndexers {
-            let imageWidth = Int(imageIndexer.element?.attributes["width"] ?? "")
-            let imageHeight = Int(imageIndexer.element?.attributes["height"] ?? "")
+            let imageWidth = Int(imageIndexer.element?.attribute(by: "width")?.text ?? "")
+            let imageHeight = Int(imageIndexer.element?.attribute(by: "height")?.text ?? "")
 
             // Only accept square images.
             if imageWidth != imageHeight {
@@ -254,7 +250,7 @@ class OpenSearchParser {
         var uiImage: UIImage?
 
         if let imageElement = largestImageElement,
-               let imageURL = URL(string: imageElement.text!),
+               let imageURL = URL(string: imageElement.text),
                let imageData = try? Data(contentsOf: imageURL),
                let image = UIImage.imageFromDataThreadSafe(imageData) {
             uiImage = image

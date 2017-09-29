@@ -7,6 +7,7 @@ import WebKit
 import Storage
 import Shared
 import CoreData
+import CoreImage
 import SwiftyJSON
 
 import Crashlytics
@@ -19,7 +20,6 @@ protocol BrowserHelper {
     func userContentController(_ userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage)
 }
 
-
 protocol BrowserDelegate {
     func browser(_ browser: Browser, didAddSnackbar bar: SnackBar)
     func browser(_ browser: Browser, didRemoveSnackbar bar: SnackBar)
@@ -30,25 +30,6 @@ protocol BrowserDelegate {
 
 struct DangerousReturnWKNavigation {
     static let emptyNav = WKNavigation()
-}
-
-class UIImageWithNotify {
-    struct WeakImageView {
-        weak var view : UIImageView?
-        init(_ i: UIImageView?) {
-            self.view = i
-        }
-    }
-    var image: UIImage? {
-        didSet {
-            // notify listeners, and remove dead ones
-            listenerImages = listenerImages.filter {
-                $0.view?.image = image
-                return $0.view != nil
-            }
-        }
-    }
-    var listenerImages = [WeakImageView]()
 }
 
 class Browser: NSObject, BrowserWebViewDelegate {
@@ -133,7 +114,25 @@ class Browser: NSObject, BrowserWebViewDelegate {
     /// be managed by the web view's navigation delegate.
     var desktopSite: Bool = false
 
-    fileprivate(set) var screenshot = UIImageWithNotify()
+    fileprivate var screenshotCallback: ((_ image: UIImage?)->Void)?
+    fileprivate lazy var _screenshot: UIImage? = {
+        guard let image = UIImage(named: "tab_placeholder"), let beginImage: CIImage = CIImage(image: image) else { return nil }
+        
+        if arc4random_uniform(3) != 1 {
+            let filter = CIFilter(name: "CIHueAdjust")
+            filter?.setValue(beginImage, forKey: kCIInputImageKey)
+            filter?.setValue(CGFloat(arc4random_uniform(314 / (arc4random_uniform(3) + 1))) * 0.01 - 3.14, forKey: "inputAngle")
+            
+            guard let outputImage = filter?.outputImage else { return nil }
+            
+            let context = CIContext(options:nil)
+            guard let cgimg = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
+            return UIImage(cgImage: cgimg)
+        }
+        else {
+            return image
+        }
+    }()
     var screenshotUUID: UUID?
 
     fileprivate var helperManager: HelperManager? = nil
@@ -164,6 +163,28 @@ class Browser: NSObject, BrowserWebViewDelegate {
         return screenshotsForHistory.get(next)
     }
 #endif
+    
+    func screenshot(callback: ((_ image: UIImage?)->Void)?) {
+        screenshotCallback = callback
+        
+        if PrivateBrowsing.singleton.isOn {
+            callback?(_screenshot)
+            return
+        }
+        
+        guard let callback = callback else { return }
+        if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
+            weak var weakSelf = self
+            ImageCache.shared.image(url, type: .portrait, callback: { (image) in
+                if let image = image {
+                    weakSelf?._screenshot = image
+                }
+                postAsyncToMain {
+                    callback(weakSelf?._screenshot)
+                }
+            })
+        }
+    }
 
     class func toTab(_ browser: Browser) -> RemoteTab? {
         if let displayURL = browser.displayURL {
@@ -554,16 +575,21 @@ class Browser: NSObject, BrowserWebViewDelegate {
 #endif
         guard let screenshot = screenshot else { return }
 
-        self.screenshot.image = screenshot
+        _screenshot = screenshot
+        self.screenshotCallback?(screenshot)
+        
         if revUUID {
-            self.screenshotUUID = UUID()
+            screenshotUUID = UUID()
+        }
+        
+        if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
+            if !PrivateBrowsing.singleton.isOn {
+                ImageCache.shared.cache(screenshot, url: url, type: .portrait, callback: {
+                    debugPrint("Cached screenshot.")
+                })
+            }
         }
     }
-
-//    func toggleDesktopSite() {
-//        desktopSite = !desktopSite
-//        reload()
-//    }
 
     func queueJavascriptAlertPrompt(_ alert: JSAlertInfo) {
         alertQueue.append(alert)

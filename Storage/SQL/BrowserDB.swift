@@ -97,7 +97,6 @@ open class BrowserDB {
         switch self.createOrUpdate(self.schemaTable) {
         case .failure:
             log.error("Failed to create/update the scheme table. Aborting.")
-            fatalError()
         case .closed:
             log.info("Database not created as the SQLiteConnection is closed.")
         case .success:

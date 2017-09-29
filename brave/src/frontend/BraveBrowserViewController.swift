@@ -26,6 +26,17 @@ class BraveBrowserViewController : BrowserViewController {
         urlBar.accessibilityLabel = "BraveUrlBar"
 
         toolbar?.applyTheme(themeName)
+        
+        switch(themeName) {
+        case Theme.NormalMode:
+            footer.layer.shadowColor = UIConstants.BorderColor.cgColor
+            header.layer.shadowColor = UIConstants.BorderColor.cgColor
+        case Theme.PrivateMode:
+            footer.layer.shadowColor = UIConstants.BorderColorDark.cgColor
+            header.layer.shadowColor = UIConstants.BorderColorDark.cgColor
+        default:
+            debugPrint("Unknown Theme \(themeName)")
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -112,7 +123,6 @@ class BraveBrowserViewController : BrowserViewController {
             heightConstraint = make.height.equalTo(self.view.snp.height).constraint
             webViewContainerTopOffset = make.top.equalTo(self.statusBarOverlay.snp.bottom).offset(BraveURLBarView.CurrentHeight).constraint
         }
-
     }
 
     override func updateViewConstraints() {

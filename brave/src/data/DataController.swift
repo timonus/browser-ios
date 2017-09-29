@@ -106,6 +106,11 @@ class DataController: NSObject {
         // Setup contexts
         _ = mainThreadContext
     }
+    
+    static func remove(object: NSManagedObject, context: NSManagedObjectContext = DataController.shared.mainThreadContext) {
+        context.delete(object)
+        DataController.saveContext(context: context)
+    }
 
     static func saveContext(context: NSManagedObjectContext?) {
         guard let context = context else {
