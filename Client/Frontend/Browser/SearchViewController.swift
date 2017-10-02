@@ -738,6 +738,7 @@ fileprivate class SuggestionCell: UITableViewCell {
         }
 
         frame.size.height = height + 2 * SearchViewControllerUX.SuggestionCellVerticalPadding
+        frame.origin.y = 0
         contentView.frame = frame
         container.frame = frame
 
