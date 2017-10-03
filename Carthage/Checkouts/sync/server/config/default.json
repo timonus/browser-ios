@@ -1,0 +1,17 @@
+{
+  "awsAccessKeyId": null,
+  "awsSecretAccessKey": null,
+  "awsRegion": "us-west-2",
+  "awsS3Bucket": null,
+  "apiVersion": "0",
+  "categoryIdBookmarks": "0",
+  "categoryIdHistorySites": "1",
+  "categoryIdPreferences": "2",
+  "clientTimestampOffsetMax": 120,
+  "logLevel": "debug",
+  "port": 4000,
+  "sentryUrl": null,
+  "serverUrl": "http://localhost:4000",
+  "userAgent": null,
+  "userAwsCredentialTtl": 3600
+}
