@@ -75,7 +75,10 @@ class BraveScrollController: NSObject {
     fileprivate var footerFrame: CGRect { return footer?.frame ?? CGRect.zero }
     fileprivate var snackBarsFrame: CGRect { return snackBars?.frame ?? CGRect.zero }
 
-    fileprivate var lastContentOffset: CGFloat = 0
+    struct LastContentOffset {
+        static var x = CGFloat(0)
+        static var y = CGFloat(0)
+    }
     fileprivate var scrollDirection: ScrollDirection = .down
 
     // Brave added
@@ -166,13 +169,19 @@ class BraveScrollController: NSObject {
                 setBottomInset(h)
             }
             else {
-                // Use offset of header and footer bar positions to determine contentInset and scrollIndicatorInsets
-                let top = max(((header?.frame ?? CGRect.zero).maxY - UIApplication.shared.statusBarFrame.maxY), 0)
-                let bottom = BraveApp.isIPhonePortrait() ? min(((UIApplication.shared.keyWindow?.frame ?? CGRect.zero).maxY - (footer?.frame ?? CGRect.zero).minY), 0) : 0
-                let oh = BraveApp.isIPhonePortrait() ? (header?.frame.height ?? 0) + (footer?.frame.height ?? 0) : (footer?.frame.height ?? 0)
-                let h = keyboardIsShowing ? oh : (top + bottom)
-                if !keyboardAppeared && !keyboardIsShowing {
-                    setBottomInset(h)
+                guard let webView = getApp().browserViewController.webViewContainer else { return }
+                guard let toolBarFrame = footer?.frame else { return }
+                let frame = webView.frame
+                let bounds = UIScreen.main.bounds
+                
+                let toolBarPosition = bounds.height - min(toolBarFrame.minY, bounds.height)
+                
+                if frame.maxY > bounds.height - toolBarPosition {
+                    let inset = frame.maxY - bounds.height + toolBarPosition
+                    setBottomInset(inset)
+                }
+                else {
+                    setBottomInset(0)
                 }
             }
         }
@@ -248,21 +257,34 @@ private extension BraveScrollController {
         guard let containerView = scrollView?.superview else { return }
 
         let translation = gesture.translation(in: containerView)
-        let delta = lastContentOffset - translation.y
+        let delta = CGPoint(x: LastContentOffset.x - translation.x, y: LastContentOffset.y - translation.y)
 
-        if delta > 0 && contentOffset.y - scrollViewWillBeginDragPoint >= 1.0 {
+        if abs(delta.x) > abs(delta.y) {
+            // horizontal scrolling shouldn't affect toolbars.
+            return
+        }
+        
+        if delta.y > 0 && contentOffset.y - scrollViewWillBeginDragPoint >= 1.0 {
             scrollDirection = .down
-        } else if delta < 0 && scrollViewWillBeginDragPoint - contentOffset.y >= 1.0 {
+        } else if delta.y < 0 && scrollViewWillBeginDragPoint - contentOffset.y >= 1.0 {
             scrollDirection = .up
         }
-
-        lastContentOffset = translation.y
+        
+        LastContentOffset.x = translation.x
+        LastContentOffset.y = translation.y
+        
+        // avoid showing for slow scroll (up)
+        if scrollDirection == .up && contentOffset.y > 0 {
+            return
+        }
+        
         if isScrollHeightIsLargeEnoughForScrolling() {
-            scrollToolbarsWithDelta(delta)
+            scrollToolbarsWithDelta(delta.y)
         }
 
         if gesture.state == .ended || gesture.state == .cancelled {
-            lastContentOffset = 0
+            LastContentOffset.x = 0
+            LastContentOffset.y = 0
         }
         
         checkHeightOfPageAndAdjustWebViewInsets()
@@ -274,10 +296,6 @@ private extension BraveScrollController {
         }
 
         if (snackBars?.frame.size.height ?? 0) > 0 {
-            return
-        }
-
-        if refreshControl?.isHidden == false {
             return
         }
 
@@ -376,76 +394,17 @@ func blockOtherGestures(_ isBlocked: Bool, views: [UIView]) {
     }
 }
 
-var refreshControl:ODRefreshControl?
-// stop refresh interaction while animating
-var isInRefreshQuietPeriod:Bool = false
-// only allow refresh when scrolling with finger down, not from a momentum scrll
-var isRefreshBlockedDueToMomentumScroll = false
-
 extension BraveScrollController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let webView = browser?.webView else { return }
         if (webViewIsZoomed(webView)) {
             return;
         }
-
-        let position = -webView.convert(webView.frame.origin, from: nil).y
-        if contentOffset.y < 0 && !isInRefreshQuietPeriod && !isRefreshBlockedDueToMomentumScroll && verticalTranslation == 0 && toolbarsShowing {
-            if refreshControl == nil {
-                refreshControl = ODRefreshControl(inScroll: getApp().rootViewController.view)
-            }
-            refreshControl?.backgroundColor = UIColor.clear
-            refreshControl?.tintColor = BraveUX.BraveOrange
-            refreshControl?.isHidden = false
-            refreshControl?.frame = CGRect(x: 0, y: position, width: refreshControl?.frame.size.width ?? 0, height: -contentOffset.y)
-
-            var pullToReloadDistance = CGFloat(-BraveUX.PullToReloadDistance)
-            if BraveApp.isIPhoneLandscape() {
-                // The "spring" is tighter in this case, make the distance shorter
-                pullToReloadDistance *= CGFloat(0.80)
-            }
-
-            if contentOffset.y < pullToReloadDistance && !keyboardIsShowing {
-                isInRefreshQuietPeriod = true
-
-                let currentOffset =  scrollView.contentOffset.y
-                blockOtherGestures(true, views: scrollView.subviews)
-                blockOtherGestures(true, views: [scrollView])
-                scrollView.contentOffset.y = currentOffset
-                refreshControl?.beginRefreshing()
-                browser?.webView?.reloadFromOrigin()
-                UIView.animate(withDuration: 0.5, animations: { refreshControl?.backgroundColor = UIColor.clear })
-                UIView.animate(withDuration: 0.5, delay: 0.2, options: .allowAnimatedContent, animations: {
-                    scrollView.contentOffset.y = 0
-                    refreshControl?.frame = CGRect(x: 0, y: position, width: refreshControl?.frame.size.width ?? 0, height: 0)
-                    }, completion: {
-                        finished in
-                        blockOtherGestures(false, views: scrollView.subviews)
-                        blockOtherGestures(false, views: [scrollView])
-                        isInRefreshQuietPeriod = false
-                        refreshControl?.endRefreshing()
-                        refreshControl?.isHidden = true
-                        refreshControl?.backgroundColor = UIColor.black
-                })
-            }
-        } else if refreshControl?.isHidden == false {
-            refreshControl?.frame = CGRect(x: 0, y: position, width: refreshControl?.frame.size.width ?? 0, height: -contentOffset.y)
-        }
-
-        if contentOffset.y >= 0 && refreshControl?.isHidden == false && !isInRefreshQuietPeriod {
-            refreshControl?.isHidden = true
-        }
     }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if browserIsLoading() {
-            return
-        }
-
-        if (!decelerate) {
-            removeTranslationAndSetLayout()
-        } else {
-            isRefreshBlockedDueToMomentumScroll = true
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if velocity.y < -1.2 {
+            showToolbars(animated: true)
         }
     }
 
@@ -485,7 +444,6 @@ extension BraveScrollController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.removeTranslationAndSetLayout()
-        isRefreshBlockedDueToMomentumScroll = false
     }
     
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {

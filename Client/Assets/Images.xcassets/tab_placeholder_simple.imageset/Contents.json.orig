@@ -4,6 +4,8 @@
       "idiom" : "universal",
       "filename" : "tab-placeholder-simple.png",
       "scale" : "1x"
+<<<<<<< HEAD
+=======
     },
     {
       "idiom" : "universal",
@@ -12,6 +14,7 @@
     {
       "idiom" : "universal",
       "scale" : "3x"
+>>>>>>> origin
     }
   ],
   "info" : {
