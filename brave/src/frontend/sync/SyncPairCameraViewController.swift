@@ -74,7 +74,8 @@ class SyncPairCameraViewController: UIViewController {
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                Sync.shared.initializeSync(seed: bytes, deviceName: self.deviceName)
+                // Block Sync
+                // Sync.shared.initializeSync(seed: bytes, deviceName: self.deviceName)
 
             } else {
                 self.cameraView.cameraOverlayError()
