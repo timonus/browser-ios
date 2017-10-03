@@ -474,7 +474,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         let fontSize: CGFloat = 14.0
         cell.textLabel?.text = item.displayTitle ?? item.url
-        cell.textLabel?.lineBreakMode = .byClipping
+        cell.textLabel?.lineBreakMode = .byTruncatingTail
         
         if !item.isFolder {
             configCell(icon: item.domain?.favicon, longPressForContextMenu: true)
@@ -484,6 +484,9 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             configCell(image: UIImage(named: "bookmarks_folder_hollow"))
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
             cell.accessoryType = .disclosureIndicator
+            if let twoLineCell = cell as? TwoLineTableViewCell {
+                twoLineCell.setRightBadge(nil)
+            }
         }
     }
     
