@@ -30,7 +30,11 @@ class Niceware: JSInjector {
     fileprivate class var webConfig:WKWebViewConfiguration {
         let webCfg = WKWebViewConfiguration()
         webCfg.userContentController = WKUserContentController()
-        webCfg.userContentController.addUserScript(WKUserScript(source: Sync.getScript("niceware"), injectionTime: .atDocumentEnd, forMainFrameOnly: true))
+        
+        if let script = Sync.getScript("niceware") {
+            webCfg.userContentController.addUserScript(WKUserScript(source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true))
+        }
+        
         return webCfg
     }
     
