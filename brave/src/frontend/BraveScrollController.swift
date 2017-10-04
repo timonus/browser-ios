@@ -186,6 +186,26 @@ class BraveScrollController: NSObject {
             }
         }
     }
+    
+    func removeTranslationAndSetLayout() {
+        if verticalTranslation == 0 {
+            return
+        }
+        
+        if verticalTranslation < 0 && headerTopOffset == 0 {
+            headerTopOffset = -BraveURLBarView.CurrentHeight
+            footerBottomOffset = UIConstants.ToolbarHeight
+            urlBar?.updateAlphaForSubviews(0)
+        } else if verticalTranslation > UIConstants.ToolbarHeight / 2.0 && headerTopOffset != 0 {
+            headerTopOffset = 0
+            footerBottomOffset = 0
+            urlBar?.updateAlphaForSubviews(1.0)
+        }
+        
+        verticalTranslation = 0
+        header?.layer.transform = CATransform3DIdentity
+        footer?.layer.transform = CATransform3DIdentity
+    }
 
     func showToolbars(animated: Bool, isShowingDueToBottomTap: Bool = false, completion: ((_ finished: Bool) -> Void)? = nil) {
         checkHeightOfPageAndAdjustWebViewInsets()
@@ -286,8 +306,6 @@ private extension BraveScrollController {
             LastContentOffset.x = 0
             LastContentOffset.y = 0
         }
-        
-        checkHeightOfPageAndAdjustWebViewInsets()
     }
 
     func scrollToolbarsWithDelta(_ delta: CGFloat) {
@@ -323,6 +341,8 @@ private extension BraveScrollController {
             alpha = 1 - alpha
         }
         urlBar?.updateAlphaForSubviews(alpha)
+        
+        checkHeightOfPageAndAdjustWebViewInsets()
     }
 
     func clamp(_ y: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {
@@ -394,38 +414,28 @@ func blockOtherGestures(_ isBlocked: Bool, views: [UIView]) {
     }
 }
 
+var moveToolbarsWithScroll = false
+
 extension BraveScrollController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let webView = browser?.webView else { return }
-        if (webViewIsZoomed(webView)) {
+        if webViewIsZoomed(webView) {
             return;
+        }
+        
+        if moveToolbarsWithScroll {
+            let delta = scrollView.contentOffset.y - scrollViewWillBeginDragPoint
+            scrollToolbarsWithDelta(delta)
         }
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if velocity.y < -1.2 {
-            showToolbars(animated: true)
-        }
-    }
-
-    func removeTranslationAndSetLayout() {
-        if verticalTranslation == 0 {
-            return
-        }
-
-        if verticalTranslation < 0 && headerTopOffset == 0 {
-            headerTopOffset = -BraveURLBarView.CurrentHeight
-            footerBottomOffset = UIConstants.ToolbarHeight
-            urlBar?.updateAlphaForSubviews(0)
-        } else if verticalTranslation > UIConstants.ToolbarHeight / 2.0 && headerTopOffset != 0 {
-            headerTopOffset = 0
-            footerBottomOffset = 0
-            urlBar?.updateAlphaForSubviews(1.0)
-        }
-
-        verticalTranslation = 0
-        header?.layer.transform = CATransform3DIdentity
-        footer?.layer.transform = CATransform3DIdentity
+        // Ignore system bounce beyond content bounds.
+        // Requires enough velocity that we may present/hide the entire header.
+        let top = scrollView.contentOffset.y < 0
+        let bottom = scrollView.contentSize.height - scrollView.contentOffset.y - scrollView.frame.height < 0
+        moveToolbarsWithScroll = (!top && !bottom && abs(velocity.y) > 0.3)
+        scrollViewWillBeginDragPoint = scrollView.contentOffset.y
     }
 
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
@@ -439,15 +449,18 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.scrollViewWillBeginDragPoint = scrollView.contentOffset.y
+        moveToolbarsWithScroll = false
+        scrollViewWillBeginDragPoint = scrollView.contentOffset.y
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.removeTranslationAndSetLayout()
+        //self.removeTranslationAndSetLayout()
+        moveToolbarsWithScroll = false
     }
     
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        showToolbars(animated: true)
+        moveToolbarsWithScroll = false
+        scrollViewWillBeginDragPoint = scrollView.contentOffset.y
         return true
     }
 }

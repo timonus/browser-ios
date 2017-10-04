@@ -26,6 +26,7 @@ class TabBarCell: UICollectionViewCell {
     let title = UILabel()
     let close = UIButton()
     let separatorLine = UIView()
+    let separatorLineRight = UIView()
     var browser: Browser? {
         didSet {
             if let wv = self.browser?.webView {
@@ -42,26 +43,35 @@ class TabBarCell: UICollectionViewCell {
         
         close.addTarget(self, action: #selector(closeTab), for: .touchUpInside)
         
-        [close, title, separatorLine].forEach { contentView.addSubview($0) }
+        [close, title, separatorLine, separatorLineRight].forEach { contentView.addSubview($0) }
         
         title.textAlignment = .center
         title.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
-            make.left.equalTo(close.snp.right)
-            make.right.equalTo(self).inset(labelInsetFromRight)
+            make.left.equalTo(self).inset(16)
+            make.right.equalTo(close.snp.left)
         })
         
         close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)
         close.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
-            make.left.equalTo(self).inset(4)
-            make.width.equalTo(24)
+            make.right.equalTo(self).inset(5)
+            make.width.equalTo(16)
         })
         close.tintColor = UIColor.black
         
         separatorLine.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         separatorLine.snp.makeConstraints { (make) in
             make.left.equalTo(self)
+            make.width.equalTo(1)
+            make.height.equalTo(self)
+            make.centerY.equalTo(self.snp.centerY)
+        }
+        
+        separatorLineRight.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+        separatorLineRight.isHidden = true
+        separatorLineRight.snp.makeConstraints { (make) in
+            make.right.equalTo(self)
             make.width.equalTo(1)
             make.height.equalTo(self)
             make.centerY.equalTo(self.snp.centerY)
@@ -329,6 +339,7 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.browser = tab
         cell.setTitle(tab.displayTitle != "" ? tab.displayTitle : TabMO.getByID(tab.tabID)?.title)
         cell.isSelected = (indexPath.row == getApp().tabManager.currentIndex)
+        cell.separatorLineRight.isHidden = (indexPath.row != tabList.count() - 1)
         return cell
     }
     
