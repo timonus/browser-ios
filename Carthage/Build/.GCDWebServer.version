@@ -2,7 +2,7 @@
   "commitish" : "3.3.2",
   "iOS" : [
     {
-      "hash" : "701232ca4c7a8abb24ee53bb76d9ed70f7894a12fdb21c4accec0778b5788bcc",
+      "hash" : "fa4c20042cd84be9c83dc33f98c44fd2a59679f99e64f837170c5b39b61dd45c",
       "name" : "GCDWebServers"
     }
   ]

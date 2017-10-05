@@ -2,7 +2,7 @@
   "commitish" : "6022d6beb249cbbe7d84f8dda28e513f2e8a2e99",
   "iOS" : [
     {
-      "hash" : "599d937f00a1b4b4f00e243efb62a8c5a52183a7d98eb5702eda5e4138c3da81",
+      "hash" : "a42d964ca554ef07433e2254c86e7b57053cb68dcda5a8bc5d20062de5b00368",
       "name" : "Mixpanel"
     }
   ]
