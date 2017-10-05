@@ -304,7 +304,9 @@ private extension BraveScrollController {
         }
         
         if isScrollHeightIsLargeEnoughForScrolling() {
-            scrollToolbarsWithDelta(delta.y)
+            UIView.animate(withDuration: 0.1, animations: {
+                self.scrollToolbarsWithDelta(delta.y)
+            })
         }
     }
 
