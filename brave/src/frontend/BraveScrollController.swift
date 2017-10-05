@@ -284,14 +284,19 @@ private extension BraveScrollController {
             return
         }
         
-        if delta.y > 0 && contentOffset.y - scrollViewWillBeginDragPoint >= 1.0 {
+        if delta.y > 0 || contentOffset.y - scrollViewWillBeginDragPoint >= 1.0 {
             scrollDirection = .down
-        } else if delta.y < 0 && scrollViewWillBeginDragPoint - contentOffset.y >= 1.0 {
+        } else if delta.y < 0 || scrollViewWillBeginDragPoint - contentOffset.y >= 1.0 {
             scrollDirection = .up
         }
         
         LastContentOffset.x = translation.x
         LastContentOffset.y = translation.y
+        
+        if gesture.state == .ended || gesture.state == .cancelled {
+            LastContentOffset.x = 0
+            LastContentOffset.y = 0
+        }
         
         // avoid showing for slow scroll (up)
         if scrollDirection == .up && contentOffset.y > 0 {
@@ -300,11 +305,6 @@ private extension BraveScrollController {
         
         if isScrollHeightIsLargeEnoughForScrolling() {
             scrollToolbarsWithDelta(delta.y)
-        }
-
-        if gesture.state == .ended || gesture.state == .cancelled {
-            LastContentOffset.x = 0
-            LastContentOffset.y = 0
         }
     }
 
@@ -425,7 +425,9 @@ extension BraveScrollController: UIScrollViewDelegate {
         
         if moveToolbarsWithScroll {
             let delta = scrollView.contentOffset.y - scrollViewWillBeginDragPoint
-            scrollToolbarsWithDelta(delta)
+            UIView.animate(withDuration: 0.1, animations: {
+                self.scrollToolbarsWithDelta(delta)
+            })
         }
     }
     
@@ -454,12 +456,11 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        //self.removeTranslationAndSetLayout()
         moveToolbarsWithScroll = false
     }
     
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        moveToolbarsWithScroll = false
+        moveToolbarsWithScroll = true
         scrollViewWillBeginDragPoint = scrollView.contentOffset.y
         return true
     }
