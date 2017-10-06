@@ -4014,6 +4014,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/libPhoneNumberiOS.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/FastImageCache.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/pop.framework",
 			);
 			name = "Copy Carthage Dependencies";
 			outputPaths = (

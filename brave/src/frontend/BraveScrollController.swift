@@ -2,6 +2,7 @@
 
 import UIKit
 import SnapKit
+import pop
 
 private let ToolbarBaseAnimationDuration: CGFloat = 0.2
 
@@ -304,9 +305,7 @@ private extension BraveScrollController {
         }
         
         if isScrollHeightIsLargeEnoughForScrolling() {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.scrollToolbarsWithDelta(delta.y)
-            })
+            scrollToolbarsWithDelta(delta.y)
         }
     }
 
@@ -328,15 +327,34 @@ private extension BraveScrollController {
             // this stops parallax effect where the scrolling rate is doubled while hiding/showing toolbars
             scrollView?.contentOffset = CGPoint(x: contentOffset.x, y: contentOffset.y - delta)
         }
-
-        header?.layer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(translationX: 0, y: verticalTranslation))
+        
+        if let header = header, let animation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationY) {
+            header.layer.pop_removeAnimation(forKey: "headerTranslation")
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.toValue = verticalTranslation
+            animation.duration = 0.028
+            header.layer.pop_add(animation, forKey: "headerTranslation")
+        }
 
         let footerTranslation = verticalTranslation > UIConstants.ToolbarHeight ? -UIConstants.ToolbarHeight : -verticalTranslation
-        footer?.layer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(translationX: 0, y: footerTranslation))
+        
+        if let footer = footer, let animation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationY) {
+            footer.layer.pop_removeAnimation(forKey: "footerTranslation")
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.toValue = footerTranslation
+            animation.duration = 0.028
+            footer.layer.pop_add(animation, forKey: "footerTranslation")
+        }
 
         let webViewVertTranslation = toolbarsShowing ? verticalTranslation : verticalTranslation - BraveURLBarView.CurrentHeight
-        let webView = getApp().browserViewController.webViewContainer
-        webView?.layer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(translationX: 0, y: webViewVertTranslation))
+        
+        if let webView = getApp().browserViewController.webViewContainer, let animation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationY) {
+            webView.layer.pop_removeAnimation(forKey: "webViewTranslation")
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.toValue = webViewVertTranslation
+            animation.duration = 0.028
+            webView.layer.pop_add(animation, forKey: "webViewTranslation")
+        }
 
         var alpha = 1 - abs(verticalTranslation / UIConstants.ToolbarHeight)
         if (!toolbarsShowing) {
@@ -344,7 +362,7 @@ private extension BraveScrollController {
         }
         urlBar?.updateAlphaForSubviews(alpha)
         
-        checkHeightOfPageAndAdjustWebViewInsets()
+       // checkHeightOfPageAndAdjustWebViewInsets()
     }
 
     func clamp(_ y: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {
@@ -427,9 +445,7 @@ extension BraveScrollController: UIScrollViewDelegate {
         
         if moveToolbarsWithScroll {
             let delta = scrollView.contentOffset.y - scrollViewWillBeginDragPoint
-            UIView.animate(withDuration: 0.1, animations: {
-                self.scrollToolbarsWithDelta(delta)
-            })
+            scrollToolbarsWithDelta(delta)
         }
     }
     
@@ -438,7 +454,7 @@ extension BraveScrollController: UIScrollViewDelegate {
         // Requires enough velocity that we may present/hide the entire header.
         let top = scrollView.contentOffset.y < 0
         let bottom = scrollView.contentSize.height - scrollView.contentOffset.y - scrollView.frame.height < 0
-        moveToolbarsWithScroll = (!top && !bottom && abs(velocity.y) > 0.3)
+        moveToolbarsWithScroll = (!top && !bottom && abs(velocity.y) > 0.1)
         scrollViewWillBeginDragPoint = scrollView.contentOffset.y
     }
 
@@ -462,8 +478,6 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        moveToolbarsWithScroll = true
-        scrollViewWillBeginDragPoint = scrollView.contentOffset.y
         return true
     }
 }
