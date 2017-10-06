@@ -49,6 +49,7 @@ class TabCell: UICollectionViewCell {
     let favicon: UIImageView = UIImageView()
     let titleWrapperBackground = UIView()
     let closeButton: UIButton
+    let placeholderFavicon: UIImageView = UIImageView()
 
     var titleWrapper: UIView = UIView()
     var animator: SwipeAnimator!
@@ -109,6 +110,10 @@ class TabCell: UICollectionViewCell {
         backgroundHolder.addSubview(self.titleWrapper)
         contentView.addSubview(shadowView)
         
+        self.placeholderFavicon.layer.cornerRadius = 8.0
+        self.placeholderFavicon.layer.masksToBounds = true
+        contentView.addSubview(self.placeholderFavicon)
+        
         setupConstraints()
 
         self.accessibilityCustomActions = [
@@ -134,6 +139,11 @@ class TabCell: UICollectionViewCell {
 
         background.snp.remakeConstraints { make in
             make.edges.equalTo(background.superview!)
+        }
+        
+        placeholderFavicon.snp.remakeConstraints { make in
+            make.size.equalTo(CGSize(width: 60, height: 60))
+            make.center.equalTo(placeholderFavicon.superview!)
         }
 
         favicon.snp.remakeConstraints { make in
@@ -163,6 +173,7 @@ class TabCell: UICollectionViewCell {
             make.centerY.equalTo(titleWrapper)
             make.right.equalTo(closeButton.superview!)
         }
+        
     }
     
     override func layoutSubviews() {
@@ -827,6 +838,36 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
         tab.screenshot(callback: { (image) in
             tabCell.background.image = image
         })
+        
+        if tab.isScreenshotSet == false, let tabMO = TabMO.getByID(tab.tabID), let urlString = tabMO.url, let url = URL(string: urlString) {
+            if ImageCache.shared.hasImage(url, type: .square) {
+                // no relationship - check cache for icon which may have been stored recently for url.
+                ImageCache.shared.image(url, type: .square, callback: { (image) in
+                    postAsyncToMain {
+                        tabCell.placeholderFavicon.image = image
+                        tabCell.placeholderFavicon.isHidden = false
+                    }
+                })
+            }
+            else {
+                // no relationship - attempt to resolove domain problem
+                let context = DataController.shared.mainThreadContext
+                if let domain = Domain.getOrCreateForUrl(url, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let faviconurl = URL(string: urlString) {
+                    postAsyncToMain {
+                        self.setCellImage(tabCell, iconUrl: faviconurl, cacheWithUrl: url)
+                    }
+                }
+                else {
+                    // last resort - download the icon
+                    downloadFaviconsAndUpdateForUrl(url, collectionView: collectionView, indexPath: indexPath)
+                }
+            }
+            
+            tabCell.placeholderFavicon.isHidden = false
+        }
+        else {
+            tabCell.placeholderFavicon.isHidden = true
+        }
 
         // TODO: Move most view logic here instead of `init` or `prepareForReuse`
         // If the current tab add heightlighting
@@ -851,6 +892,53 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
         
         return tabCell
     }
+    
+    fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, collectionView: UICollectionView, indexPath: IndexPath) {
+        FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = collectionView.cellForItem(at: indexPath) as? TabCell else { return }
+            self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+        }
+    }
+    
+    fileprivate func setCellImage(_ cell: TabCell, iconUrl: URL, cacheWithUrl: URL) {
+        ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
+            if image != nil {
+                postAsyncToMain {
+                    cell.placeholderFavicon.image = image
+                    cell.placeholderFavicon.isHidden = false
+                }
+            }
+            else {
+                cell.placeholderFavicon.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
+                    guard err == nil, let img = img else {
+                        // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
+                        ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
+                        cell.placeholderFavicon.image = FaviconFetcher.defaultFavicon
+                        return
+                    }
+                    ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
+                })
+            }
+        })
+    }
+    
+//    fileprivate func getImageColor(image: UIImage) -> UIColor? {
+//        let rgba = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: 4)
+//        let colorSpace = CGColorSpaceCreateDeviceRGB()
+//        let info = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+//        let context: CGContext = CGContext(data: rgba, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: colorSpace, bitmapInfo: info.rawValue)!
+//        
+//        guard let newImage = image.cgImage else { return nil }
+//        context.draw(newImage, in: CGRect(x: 0, y: 0, width: 1, height: 1))
+//        
+//        // Has issues, often sets background to black. experimenting without box for now.
+//        let red = CGFloat(rgba[0]) / 255.0
+//        let green = CGFloat(rgba[1]) / 255.0
+//        let blue = CGFloat(rgba[2]) / 255.0
+//        let colorFill: UIColor = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+//        
+//        return colorFill
+//    }
 
     @objc func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tabList.count()
