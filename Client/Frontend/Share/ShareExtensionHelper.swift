@@ -95,8 +95,8 @@ extension ShareExtensionHelper: UIActivityItemSource {
     }
     
     func activityViewController(_ activityViewController: UIActivityViewController, dataTypeIdentifierForActivityType activityType: UIActivityType?) -> String {
-        // Because of our UTI declaration, this UTI now satisfies both the 1Password Extension and the usual NSURL for Share extensions.
-        return "org.appextension.fill-browser-action"
+        // Temporary solution for bug: https://github.com/agilebits/onepassword-app-extension/issues/385
+        return "public.url"
     }
 }
 
