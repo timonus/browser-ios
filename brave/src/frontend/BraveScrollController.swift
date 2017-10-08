@@ -326,15 +326,10 @@ private extension BraveScrollController {
             clamp(verticalTranslation - delta, min: 0, max: BraveURLBarView.CurrentHeight)
 
         verticalTranslation = updatedOffset
-
-        if (fabs(updatedOffset) > 0 && fabs(updatedOffset) < BraveURLBarView.CurrentHeight) {
-            // this stops parallax effect where the scrolling rate is doubled while hiding/showing toolbars
-            scrollView?.contentOffset = CGPoint(x: contentOffset.x, y: contentOffset.y - delta)
-        }
         
         if let header = header, let animation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationY) {
             header.layer.pop_removeAnimation(forKey: "headerTranslation")
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
             animation.toValue = verticalTranslation
             animation.duration = 0.028
             header.layer.pop_add(animation, forKey: "headerTranslation")
@@ -344,7 +339,7 @@ private extension BraveScrollController {
         
         if let footer = footer, let animation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationY) {
             footer.layer.pop_removeAnimation(forKey: "footerTranslation")
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
             animation.toValue = footerTranslation
             animation.duration = 0.028
             footer.layer.pop_add(animation, forKey: "footerTranslation")
@@ -354,7 +349,7 @@ private extension BraveScrollController {
         
         if let webView = getApp().browserViewController.webViewContainer, let animation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationY) {
             webView.layer.pop_removeAnimation(forKey: "webViewTranslation")
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
             animation.toValue = webViewVertTranslation
             animation.duration = 0.028
             webView.layer.pop_add(animation, forKey: "webViewTranslation")
@@ -366,7 +361,14 @@ private extension BraveScrollController {
         }
         urlBar?.updateAlphaForSubviews(alpha)
         
-       checkHeightOfPageAndAdjustWebViewInsets()
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            checkHeightOfPageAndAdjustWebViewInsets()
+        }
+        
+        if (fabs(updatedOffset) > 0 && fabs(updatedOffset) < BraveURLBarView.CurrentHeight) {
+            // this stops parallax effect where the scrolling rate is doubled while hiding/showing toolbars
+            scrollView?.contentOffset = CGPoint(x: contentOffset.x, y: contentOffset.y - delta)
+        }
     }
 
     func clamp(_ y: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {
