@@ -280,12 +280,13 @@ class BraveWebView: UIWebView {
         delegate = self
         scalesPageToFit = true
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
         allowsInlineMediaPlayback = true
         isOpaque = false
         backgroundColor = UIColor.white
 
-        let rate = UIScrollViewDecelerationRateFast + (UIScrollViewDecelerationRateNormal - UIScrollViewDecelerationRateFast) * 0.5;
-            scrollView.setValue(NSValue(cgSize: CGSize(width: rate, height: rate)), forKey: "_decelerationFactor")
+//        let rate = UIScrollViewDecelerationRateFast + (UIScrollViewDecelerationRateNormal - UIScrollViewDecelerationRateFast) * 0.5;
+//            scrollView.setValue(NSValue(cgSize: CGSize(width: rate, height: rate)), forKey: "_decelerationFactor")
 
         NotificationCenter.default.addObserver(self, selector: #selector(firstLayoutPerformed), name: NSNotification.Name(rawValue: swizzledFirstLayoutNotification), object: nil)
     }

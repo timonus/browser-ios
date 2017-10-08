@@ -310,6 +310,10 @@ private extension BraveScrollController {
     }
 
     func scrollToolbarsWithDelta(_ delta: CGFloat) {
+        if keyboardIsShowing {
+            return
+        }
+        
         if scrollViewHeight >= contentSize.height {
             return
         }
@@ -362,7 +366,7 @@ private extension BraveScrollController {
         }
         urlBar?.updateAlphaForSubviews(alpha)
         
-       // checkHeightOfPageAndAdjustWebViewInsets()
+       checkHeightOfPageAndAdjustWebViewInsets()
     }
 
     func clamp(_ y: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {

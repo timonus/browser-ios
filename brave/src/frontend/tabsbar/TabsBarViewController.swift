@@ -181,7 +181,7 @@ class TabsBarViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsSelection = true
-        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+        collectionView.decelerationRate = UIScrollViewDecelerationRateNormal
         collectionView.register(TabBarCell.self, forCellWithReuseIdentifier: "TabCell")
         view.addSubview(collectionView)
         

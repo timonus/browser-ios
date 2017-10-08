@@ -1,0 +1,46 @@
+{
+    "name": "throughout",
+    "version": "0.0.0",
+    "description": "apply a through stream to the output side of another through stream",
+    "main": "index.js",
+    "dependencies": {
+        "through": "~2.3.4",
+        "duplexer": "~0.0.2"
+    },
+    "devDependencies": {
+        "tap": "~0.4.3",
+        "tape": "~1.0.2",
+        "concat-stream": "~0.1.1"
+    },
+    "scripts": {
+        "test": "tap test/*.js"
+    },
+    "testling" : {
+        "files" : "test/*.js",
+        "browsers" : [
+            "ie/6..latest",
+            "chrome/20..latest",
+            "firefox/10..latest",
+            "safari/latest",
+            "opera/11.0..latest",
+            "iphone/6", "ipad/6"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/substack/throughout.git"
+    },
+    "homepage": "https://github.com/substack/throughout",
+    "keywords": [
+        "through",
+        "stream",
+        "filter",
+        "resume"
+    ],
+    "author": {
+        "name": "James Halliday",
+        "email": "mail@substack.net",
+        "url": "http://substack.net"
+    },
+    "license": "MIT"
+}
