@@ -112,7 +112,7 @@ class TabCell: UICollectionViewCell {
         
         self.placeholderFavicon.layer.cornerRadius = 8.0
         self.placeholderFavicon.layer.masksToBounds = true
-        contentView.addSubview(self.placeholderFavicon)
+        backgroundHolder.addSubview(self.placeholderFavicon)
         
         setupConstraints()
 
@@ -197,6 +197,7 @@ class TabCell: UICollectionViewCell {
         shadowView.transform = CGAffineTransform.identity
         shadowView.layer.shadowOpacity = 0
         background.image = nil
+        placeholderFavicon.isHidden = true
         self.titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
     }
 
