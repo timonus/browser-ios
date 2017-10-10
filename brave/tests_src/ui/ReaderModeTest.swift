@@ -8,9 +8,15 @@ class ReaderModeTest : XCTestCase {
         UITestUtils.restart()
         let app = XCUIApplication()
         UITestUtils.loadSite(app, "www.google.com/intl/en/about")
+        sleep(2)
 
         app.buttons["Reader View"].tap()
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0)).withOffset(CGVector(dx: 100, dy: 75)).tap()
+        sleep(1)
+        
+        // FIXME: Couldn't find a way to get reader button element, using ugly coordinates way
+        // On iPads, you can't tap on the whole reader view, you need to tap near the reader mode label
+        let coordinateX = UITestUtils.isIpad ? 450 : 100
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0)).withOffset(CGVector(dx: coordinateX, dy: 95)).tap()
 
         app.buttons["Serif"].tap()
         app.buttons["Sans-serif"].tap()
@@ -19,6 +25,7 @@ class ReaderModeTest : XCTestCase {
         app.buttons["Light"].tap()
         app.buttons["Dark"].tap()
         app.buttons["Sepia"].tap()
-
+        
+        // Nothing to assert here, just checking if every command passes
     }
 }

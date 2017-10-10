@@ -318,5 +318,16 @@ extension Bookmark {
         }
         return false
     }
+    
+    /** Removes all bookmarks. Used to reset state for bookmark UITests */
+    class func removeAll() {
+        let context = DataController.shared.workerContext
+        
+        self.getAllBookmarks(context: context).forEach {
+            $0.remove(save: false)
+        }
+        
+        DataController.saveContext(context: context)
+    }
 }
 

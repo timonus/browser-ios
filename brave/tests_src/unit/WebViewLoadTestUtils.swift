@@ -40,17 +40,17 @@ class WebViewLoadTestUtils {
 
     static func loadSite(_ testCase: XCTestCase, site:String, webview:BraveWebView) ->Bool {
         let url = URL(string: "http://" + site)
-        testCase.expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
-        webview.loadRequest(URLRequest(URL: url!))
+        testCase.expectation(forNotification: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
+        webview.loadRequest(URLRequest(url: url!))
         var isOk = true
-        testCase.waitForExpectations(timeout: 15) { (error:NSError?) -> Void in
+        testCase.waitForExpectations(timeout: 15) { error in
             if let _ = error {
                 isOk = false
             }
-        } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+        }
 
         webview.stopLoading()
-        testCase.expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
+        testCase.expectation(forNotification: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
         webview.loadHTMLString("<html><head></head><body></body></html>", baseURL: nil)
         testCase.waitForExpectations(timeout: 2, handler: nil)
 

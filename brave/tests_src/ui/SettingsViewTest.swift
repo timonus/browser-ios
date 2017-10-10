@@ -9,7 +9,8 @@ class SettingsViewTest : XCTestCase {
         UITestUtils.restart()
         let app = XCUIApplication()
         app.buttons["Bookmarks and History Panel"].tap()
-        app.otherElements.buttons["Settings"].tap()
+        app.scrollViews.otherElements.buttons["Settings"].tap()
+        
         let table = app.tables["AppSettingsTableViewController.tableView"]
         return table
     }
@@ -19,7 +20,7 @@ class SettingsViewTest : XCTestCase {
         let app = XCUIApplication()
         table.swipeUp()
         table.staticTexts["Report a bug"].tap()
-        sleep(1)
+        sleep(3)
         app.textFields["url"].tap()
         
         let addressTextField = app.textFields["address"]
@@ -33,8 +34,9 @@ class SettingsViewTest : XCTestCase {
         let app = XCUIApplication()
         table.swipeUp()
         table.staticTexts["Privacy Policy"].tap()
-        sleep(1)
-        let search = NSPredicate(format: "label contains %@", "Brave Privacy Policy") // case sensitive
+        // Privacy policy is on Brave's website, need to wait until it loads
+        sleep(5)
+        let search = NSPredicate(format: "label contains %@", "Our Privacy Policy") // case sensitive
         let found = app.staticTexts.element(matching: search)
         XCTAssertTrue(found.exists)
     }
@@ -44,7 +46,8 @@ class SettingsViewTest : XCTestCase {
         let app = XCUIApplication()
         table.swipeUp()
         table.staticTexts["Terms of Use"].tap()
-        sleep(1)
+        // Terms of use are on Brave's website, need to wait until it loads
+        sleep(5)
         let search = NSPredicate(format: "label contains[c] %@", "Please read these terms of use") // case insensitive
         let found = app.staticTexts.element(matching: search)
         XCTAssertTrue(found.exists)

@@ -9,26 +9,40 @@ class WebViewTest: XCTestCase {
         UITestUtils.restart()
         let app = XCUIApplication()
         UITestUtils.loadSite(app, "nordølum.no")
+        sleep(1)
         let urlTextField = app.textFields["url"]
         let value = urlTextField.value as? String
-        XCTAssert(value != nil && value!.contains("nordoelum.no"))
+        XCTAssert(value != nil && value!.contains("northernviking.net"))
     }
 
     func testLongPress() {
         UITestUtils.restart()
         let app = XCUIApplication()
-        UITestUtils.loadSite(app, "www.google.com")
+        UITestUtils.loadSite(app, "www.google.ca")
+
+        let tabButton = UITestUtils.tabButton(app)
+        let tabCount = Int(tabButton.value as! String)!
 
         app.staticTexts["IMAGES"].press(forDuration: 1.5);
-        app.sheets.element(boundBy: 0).buttons["Open In New Tab"].tap()
-        app.buttons["2"].tap()
-        app.collectionViews.children(matching: .cell).matching(identifier: "Google").element(boundBy: 1).tap()
+        
+        app.sheets.element(boundBy: 0).buttons["Open Link In New Tab"].tap()
+        tabButton.tap()
+        
+        if UITestUtils.isIpad {
+            app.collectionViews.children(matching: .cell).matching(identifier: "Google Images").element(boundBy: 0).tap()
+        } else {
+            app.collectionViews.children(matching: .cell).matching(identifier: "Google").element(boundBy: 1).tap()
+        }
+        
+        let newTabCount = Int(tabButton.value as! String)!
+        
+        XCTAssert(newTabCount == tabCount + 1)
     }
 
     func testLongPressAndCopyUrl() {
         UITestUtils.restart()
         let app = XCUIApplication()
-        UITestUtils.loadSite(app, "www.google.com")
+        UITestUtils.loadSite(app, "www.google.ca")
 
         app.staticTexts["IMAGES"].press(forDuration: 1.5);
 
@@ -41,13 +55,15 @@ class WebViewTest: XCTestCase {
     func testShowDesktopSite() {
         UITestUtils.restart()
         let app = XCUIApplication()
-        UITestUtils.loadSite(app, "www.whatsmyua.com")
+        UITestUtils.loadSite(app, "www.useragents.com")
 
-        var search = NSPredicate(format: "label contains[c] %@", "CPU iPhone")
+        let label = UITestUtils.isIpad ? "iPad" : "CPU iPhone"
+        
+        var search = NSPredicate(format: "label contains[c] %@", label)
         var found = app.staticTexts.element(matching: search)
         XCTAssert(found.exists, "didn't find UA for iPhone")
-
-        app.buttons["BrowserToolbar.shareButton"].tap()
+        
+        UITestUtils.shareButton(app).tap()
         app.collectionViews.collectionViews.buttons["Open Desktop Site tab"].tap()
 
         sleep(1)

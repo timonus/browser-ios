@@ -26,32 +26,32 @@ class FingerprintProtectionTest: XCTestCase {
 
         let url = URL(string: "https://panopticlick.eff.org/results")
         let webview = BraveApp.getCurrentWebView()
-        webview!.loadRequest(URLRequest(URL: url!))
+        webview!.loadRequest(URLRequest(url: url!))
 
 
-        expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
+        expectation(forNotification: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
 
-        waitForExpectations(timeout: 15) { (error:NSError?) -> Void in
+        waitForExpectations(timeout: 15) { error in
             if let _ = error {
             }
-        } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+        }
 
         var expect = expectation(description: "wait")
         postAsyncToMain(8) { expect.fulfill()}
-        waitForExpectations(timeout: 10) { (error:NSError?) -> Void in } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+        waitForExpectations(timeout: 10) { error in }
 
-        webview!.stringByEvaluatingJavaScriptFromString("document.getElementById('showFingerprintLink2').click();")
+        webview!.stringByEvaluatingJavaScript(from: "document.getElementById('showFingerprintLink2').click();")
         expect = expectation(description: "wait")
         postAsyncToMain(3) { expect.fulfill() }
-        waitForExpectations(timeout: 5) { (error:NSError?) -> Void in } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+        waitForExpectations(timeout: 5) { error in }
 
 
-        let innerHtml = webview!.stringByEvaluatingJavaScriptFromString("document.body.innerHTML")
+        let innerHtml = webview!.stringByEvaluatingJavaScript(from: "document.body.innerHTML")
         XCTAssert(innerHtml != nil)
         XCTAssert(innerHtml!.contains("891f3debe00dbd3d1f0457a70d2f5213"))
 
-        let match = webview!.stringByEvaluatingJavaScriptFromString("/webgl fingerprint.*(\\n.+)*undetermined/gim.exec(document.body.innerHTML)[0]")
+        let match = webview!.stringByEvaluatingJavaScript(from: "/webgl fingerprint.*(\\n.+)*undetermined/gim.exec(document.body.innerHTML)[0]")
 
-        XCTAssert(match != nil && match?.characters.count > 50 && match?.characters.count < 300)
+        XCTAssert(match != nil && match!.characters.count > 50 && (match!.characters.count) < 300)
     }
 }

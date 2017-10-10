@@ -12,13 +12,16 @@ class IntroScreenTest: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
-
+    
+    // Intro screen is removed for now
+    /*
     func testFirstRunIntroScreen() {
         UITestUtils.restart(["BRAVE-TEST-CLEAR-PREFS"])
         let app = XCUIApplication()
         app.buttons["Start Browsing"].tap()
         //app.buttons["Accept & Continue"].tap()
     }
+     */
 
 //    func testOptInDialogWithoutIntroScreen() {
 //        UITestUtils.restart(["BRAVE-TEST-NO-SHOW-INTRO", "BRAVE-TEST-SHOW-OPT-IN"])

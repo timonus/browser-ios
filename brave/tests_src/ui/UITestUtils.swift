@@ -48,4 +48,18 @@ class UITestUtils {
             test.waitForExpectations(timeout: 3, handler: nil)
         }
     }
+    
+    /* On iPhone portrait tabs btn is on toolbar, on the rest it's on url bar, hence the different names for some buttons */
+    
+    static func tabButton(_ app: XCUIApplication) -> XCUIElement {
+        let tabsbuttonName = UITestUtils.isIpad ? "URLBarView.tabsButton" : "Toolbar.ShowTabs"
+        return app.buttons[tabsbuttonName]
+    }
+    
+    static func shareButton(_ app: XCUIApplication) -> XCUIElement {
+        let shareButtonName = UITestUtils.isIpad ? "Share" : "BrowserToolbar.shareButton"
+        return app.buttons[shareButtonName]
+    }
+    
+    static let isIpad = UIDevice.current.userInterfaceIdiom == .pad
 }
