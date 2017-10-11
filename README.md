@@ -14,7 +14,16 @@ Either ensure your app supports [opening urls in a share menu](https://github.co
 
 <strong> 2. Install the latest LTS version of [Node.js](https://nodejs.org/en/download/) </strong>
 
-<strong> 3. Download the source code: </strong>
+<strong> 3. Install Homebrew: </strong>
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+<strong> 4. Install Carthage: </strong>
+```
+brew install carthage
+```
+
+<strong> 5. Download the source code: </strong>
 ```
 git clone https://github.com/brave/browser-ios.git # this will download git if it isn't currently installed
 ```
