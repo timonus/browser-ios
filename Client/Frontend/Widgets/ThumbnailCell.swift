@@ -66,7 +66,7 @@ struct ThumbnailCellUX {
 
     static let LabelInsets = UIEdgeInsetsMake(0, 3, 2, 3)
     static let PlaceholderImage = UIImage(named: "defaultTopSiteIcon")
-    static let CornerRadius: CGFloat = 4
+    static let CornerRadius: CGFloat = 8
 
     // Make the remove button look 20x20 in size but have the clickable area be 44x44
     static let RemoveButtonSize: CGFloat = 44
@@ -182,7 +182,7 @@ class ThumbnailCell: UICollectionViewCell {
     lazy var removeButton: UIButton = {
         let removeButton = UIButton()
         removeButton.isExclusiveTouch = true
-        let removeButtonImage = UIImage(named: "TileCloseButton")
+        let removeButtonImage = UIImage(named: "remove_tile")
         removeButton.setImage(removeButtonImage, for: .normal)
         removeButton.addTarget(self, action: #selector(ThumbnailCell.SELdidRemove), for: UIControlEvents.touchUpInside)
         removeButton.accessibilityLabel = Strings.Remove_page
