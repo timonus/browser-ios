@@ -27,14 +27,6 @@ brew install carthage
 ```
 git clone https://github.com/brave/browser-ios.git # this will download git if it isn't currently installed
 ```
-<strong> 6. Do the following commands: </strong>
-```
-cd browser-ios
-
-./checkout.sh # builds carthage dependencies
-(cd brave && ./setup.sh your.fake.appid) # put in a fake unique app id if you want to build to device
-open Client.xcodeproj
-```
 
 #### Note: building your own ad-hoc builds is supported [see user device build](brave/docs/USER-DEPLOYING.md)
 You will need a Apple developer account to run on your device.
