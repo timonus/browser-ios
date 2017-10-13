@@ -12,6 +12,7 @@ let kPrefKeyNoScriptOn = "noscript_on"
 let kPrefKeyFingerprintProtection = "fingerprintprotection_on"
 let kPrefKeyPrivateBrowsingAlwaysOn = "privateBrowsingAlwaysOn"
 let kPrefKeyBrowserLock = "browserLock"
+let kPrefKeySetBrowserLock = "setBrowserLockPin"
 
 class BraveSettingsView : AppSettingsTableViewController {
 
@@ -121,7 +122,7 @@ class BraveSettingsView : AppSettingsTableViewController {
             SettingSection(title: NSAttributedString(string: Strings.Security.uppercased()), children:
                 [BoolSetting(prefs: prefs, prefKey: kPrefKeyBrowserLock, defaultValue: false, titleText: Strings.Browser_Lock, statusText: nil, settingDidChange: { isOn in
                     if isOn {
-                        if KeychainWrapper.pinLockInfo() == nil {
+                        if KeychainWrapper.pinLockInfo() == nil || !(prefs.boolForKey(kPrefKeySetBrowserLock) ?? false) {
                             let view = PinViewController()
                             view.delegate = weakSelf
                             weakSelf?.navigationController?.pushViewController(view, animated: true)
@@ -188,6 +189,10 @@ extension BraveSettingsView : PinViewControllerDelegate {
         if !completed {
             profile.prefs.setBool(false, forKey: kPrefKeyBrowserLock)
             tableView.reloadData()
+        }
+        else {
+            // Corrects issue where fresh install should ignore keychain.
+            self.profile?.prefs.setBool(true, forKey: kPrefKeySetBrowserLock)
         }
     }
 }
