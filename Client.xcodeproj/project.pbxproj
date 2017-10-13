@@ -53,6 +53,7 @@
 		1AD5A92B8D7E128A09DCB480 /* AboutHomeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC754FCC79857891055187B /* AboutHomeHandler.swift */; };
 		1BB69837CDB9BA1A8ED56628 /* OpenSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF54F179B81FB069863662 /* OpenSearch.swift */; };
 		1C1BD844C67E5F9C40F06A40 /* ReaderModeStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D95C23337865036C98FDB /* ReaderModeStyleViewController.swift */; };
+		1CB8D9E01F82F46A000BEE18 /* BraveBrowserToolbarButtonActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB8D9CB1F82F469000BEE18 /* BraveBrowserToolbarButtonActions.swift */; };
 		1D0EC87F3C7005732156DB55 /* dbformat.h in Headers */ = {isa = PBXBuildFile; fileRef = 78C221FEB531A8D07123FBA6 /* dbformat.h */; };
 		1F2948B4093DD581ADBB7FA4 /* PrivateBrowsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0A684D27A3A8B902FBBCBA /* PrivateBrowsing.swift */; };
 		1FA81E870F3EAE5C8FB9269C /* BrowserViewController+ContextMenuHelperDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D105CD957A7B38E9F1BAE848 /* BrowserViewController+ContextMenuHelperDelegate.swift */; };
@@ -937,6 +938,7 @@
 		1B0A4457AFC855E3DCE6B038 /* BrowserPrompts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BrowserPrompts.swift; path = ./Client/Frontend/Browser/BrowserPrompts.swift; sourceTree = "<group>"; };
 		1B1A17F5F0EE66790543A151 /* format.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = format.h; path = ./brave/ThirdParty/leveldb/table/format.h; sourceTree = "<group>"; };
 		1B76A990D16A2AE724D9324E /* port_posix.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = port_posix.cc; path = ./brave/ThirdParty/leveldb/port/port_posix.cc; sourceTree = "<group>"; };
+		1CB8D9CB1F82F469000BEE18 /* BraveBrowserToolbarButtonActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BraveBrowserToolbarButtonActions.swift; path = brave/src/frontend/BraveBrowserToolbarButtonActions.swift; sourceTree = "<group>"; };
 		1D91C891407BB96DEA87E046 /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = ./ThirdParty/Result/Result.swift; sourceTree = "<group>"; };
 		1E58C3281FDE6485E48B42D3 /* ReadingListFetchSpec.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReadingListFetchSpec.swift; path = ./ReadingList/ReadingListFetchSpec.swift; sourceTree = "<group>"; };
 		1E8A4C274A1DE42346F4DADA /* AppSettingsOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppSettingsOptions.swift; path = ./Client/Frontend/Settings/AppSettingsOptions.swift; sourceTree = "<group>"; };
@@ -1721,6 +1723,7 @@
 			isa = PBXGroup;
 			children = (
 				3DEE61BC5B8E404D11F5547F /* BraveBrowserBottomToolbar.swift */,
+				1CB8D9CB1F82F469000BEE18 /* BraveBrowserToolbarButtonActions.swift */,
 				5C39A9721F0FECF98A48015E /* BraveBrowserViewController.swift */,
 				105A3ED2E6BEFE42CDC7E572 /* BraveMainWindow.swift */,
 				43D1777F9AA8762221511A28 /* BraveScrollController.swift */,
@@ -4419,6 +4422,7 @@
 				A90DB45DF991E67B7130B8BB /* ContextMenuHelper.swift in Sources */,
 				DD024D7E481298ACAB9EF286 /* ErrorPageHelper.swift in Sources */,
 				5C0293851E70D9AE00CA99D0 /* MigrateData.swift in Sources */,
+				1CB8D9E01F82F46A000BEE18 /* BraveBrowserToolbarButtonActions.swift in Sources */,
 				EB00A3081E1BF4CC00680DB8 /* hashFn.cpp in Sources */,
 				91B903FBE39F640B651928D0 /* FaviconManager.swift in Sources */,
 				EBDB7D471E14231900D744C7 /* Sync.swift in Sources */,

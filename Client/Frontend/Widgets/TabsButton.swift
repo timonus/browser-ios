@@ -168,22 +168,37 @@ class TabsButton: UIControl {
         let closeAllTabsAction =  UIAlertAction(title: Strings.CloseAllTabsTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
             getApp().tabManager.removeAll(createTabIfNoneLeft: true)
         }
-        actionSheetController.addAction(closeAllTabsAction)
+        
         let closeTabAction =  UIAlertAction(title: Strings.CloseTabTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
             if let tab = getApp().tabManager.selectedTab {
                 getApp().tabManager.removeTab(tab, createTabIfNoneLeft: true)
             }
         }
-        actionSheetController.addAction(closeTabAction)
+        
         let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil)
         actionSheetController.addAction(cancelAction)
         
         if UIDevice.current.userInterfaceIdiom == .pad {
+            if !PrivateBrowsing.singleton.isOn {
+                let newPrivateTabAction = UIAlertAction(title: Strings.NewPrivateTabTitle,
+                                                        style: .default,
+                                                        handler: respondToNewPrivateTab(action:))
+                actionSheetController.addAction(newPrivateTabAction)
+            }
+            
+            let newTabAction = UIAlertAction(title: Strings.NewTabTitle,
+                                             style: .default,
+                                             handler: respondToNewTab(action:))
+            actionSheetController.addAction(newTabAction)
+            
             if let presenter = actionSheetController.popoverPresentationController {
                 presenter.sourceView = self
                 presenter.sourceRect = self.bounds
             }
         }
+        actionSheetController.addAction(closeAllTabsAction)
+        actionSheetController.addAction(closeTabAction)
+        
         getApp().browserViewController.present(actionSheetController, animated: true, completion: nil)
     }
 }
@@ -242,3 +257,6 @@ extension TabsButton {
         }
     }
 }
+
+// MARK: - BraveBrowserToolbarButtonActions Conformance
+extension TabsButton: BraveBrowserToolbarButtonActions {}

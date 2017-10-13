@@ -69,6 +69,11 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
                 $0.setImage(img.alpha(BraveUX.BackForwardDisabledButtonAlpha), for: .disabled)
             }
         }
+        
+        let longPress = UILongPressGestureRecognizer(target: self,
+                                                     action: #selector(longPressForPrivateTab(gestureRecognizer:)))
+        longPress.minimumPressDuration = 0.2
+        addTabButton.addGestureRecognizer(longPress)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -85,6 +90,33 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
         tabsCount = count
         URLBarView.updateTabCount(instance.tabsButton,
                                   clonedTabsButton: &instance.clonedTabsButton, count: count, animated: animated)
+    }
+    
+    func longPressForPrivateTab(gestureRecognizer: UILongPressGestureRecognizer) {
+        let alertController = UIAlertController(title: nil,
+                                                message: nil,
+                                                preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: Strings.Cancel,
+                                         style: .cancel,
+                                         handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if !PrivateBrowsing.singleton.isOn {
+            let newPrivateTabAction = UIAlertAction(title: Strings.NewPrivateTabTitle,
+                                                    style: .default,
+                                                    handler: respondToNewPrivateTab(action:))
+            alertController.addAction(newPrivateTabAction)
+        }
+        
+        
+        
+        let newTabAction = UIAlertAction(title: Strings.NewTabTitle,
+                                         style: .default,
+                                         handler: respondToNewTab(action:))
+        alertController.addAction(newTabAction)
+        
+        getApp().browserViewController.present(alertController, animated: true, completion: nil)
     }
 
     func setAlphaOnAllExceptTabButton(_ alpha: CGFloat) {
@@ -154,3 +186,6 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
         }
     }
 }
+
+// MARK: - Long Press Gesture Recognizer Handlers for Adding Tabs
+extension BraveBrowserBottomToolbar: BraveBrowserToolbarButtonActions {}
