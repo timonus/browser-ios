@@ -116,6 +116,8 @@ class TabBarCell: UICollectionViewCell {
             self?.titleUpdateScheduled = false
             if let t = self?.browser?.webView?.title, !t.isEmpty {
                 self?.setTitle(t)
+            } else if let url = self?.browser?.webView?.URL, url.baseDomain == "localhost", url.absoluteString.contains("about/home/#panel=0") {
+                self?.setTitle("New Tab")
             }
         }
     }
