@@ -688,7 +688,7 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         // If there aren't enough data items to fill the grid, look for items in suggested sites.
         // + 1 for new topsite button.
         if let layout = collectionView.collectionViewLayout as? TopSitesLayout {
-            return min(count(), layout.thumbnailCount) + 1
+            return min(count(), layout.thumbnailCount)// + 1
         }
         
         return 0
@@ -913,7 +913,8 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     @objc func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Display new Topsite button
         if indexPath.row == self.sites.count {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ThumbnailIdentifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewTopIdentifier, for: indexPath)
+            return cell
         }
         else {
             // Cells for the top site thumbnails.
