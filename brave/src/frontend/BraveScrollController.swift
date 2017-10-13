@@ -72,6 +72,7 @@ class BraveScrollController: NSObject {
     fileprivate var scrollViewHeight: CGFloat { return scrollView?.frame.height ?? 0 }
     fileprivate var topScrollHeight: CGFloat { return header?.frame.height ?? 0 }
     fileprivate var bottomScrollHeight: CGFloat { return urlBar?.frame.height ?? 0 }
+    fileprivate var footerHeight: CGFloat { return footer?.frame.height ?? 0 }
     fileprivate var snackBarsFrame: CGRect { return snackBars?.frame ?? CGRect.zero }
     
     fileprivate var lastContentOffset: CGFloat = 0
@@ -218,7 +219,7 @@ private extension BraveScrollController {
         }
         
         updatedOffset = footerBottomOffset + delta
-        footerBottomOffset = clamp(updatedOffset, min: 0, max: bottomScrollHeight)
+        footerBottomOffset = clamp(updatedOffset, min: 0, max: footerHeight)
         
         let alpha = 1 - abs(headerTopOffset / topScrollHeight)
         urlBar?.updateAlphaForSubviews(alpha)
