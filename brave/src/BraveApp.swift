@@ -172,17 +172,10 @@ class BraveApp {
         if args.contains("BRAVE-TEST-SHOW-OPT-IN") {
             BraveApp.getPrefs()!.removeObjectForKey(BraveUX.PrefKeyOptInDialogWasSeen)
         }
+        
+        // Be careful, running it in production will result in destroying all bookmarks
         if args.contains("BRAVE-DELETE-BOOKMARKS") {
-            succeed().upon { _ in
-                // TODO: Fix
-                // Check if this is still required. Do not think so, if not, remove
-                getApp().profile!.bookmarks.modelFactory >>== {
-                    $0
-//                    $0.clearBookmarks().uponQueue(DispatchQueue.main) { res in
-                        // test case should just sleep or wait for bm count to be zero
-//                    }
-                }
-            }
+            Bookmark.removeAll()
         }
         if args.contains("BRAVE-UI-TEST") || AppConstants.IsRunningTest {
             // Maybe we will need a specific flag to keep tabs for restoration testing
@@ -251,7 +244,7 @@ class BraveApp {
     }
 
     class func getPrefs() -> Prefs? {
-        return getApp().profile?.prefs
+        return isRunningTests ? MockProfilePrefs() : getApp().profile?.prefs
     }
 
     static func showErrorAlert(title: String,  error: String) {

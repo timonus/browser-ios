@@ -8,15 +8,15 @@ import Shared
 class HttpsEverywhereTest: XCTestCase {
     func testHTTPSE() {
         if !HttpsEverywhere.singleton.httpseDb.isLoaded() {
-            expectationForNotification(HttpsEverywhere.kNotificationDataLoaded, object: nil, handler:nil)
+            expectation(forNotification: HttpsEverywhere.kNotificationDataLoaded, object: nil, handler:nil)
             HttpsEverywhere.singleton.networkFileLoader.loadData()
             var isOk = true
-            waitForExpectations(timeout: 20) { (error:NSError?) -> Void in
+            waitForExpectations(timeout: 20) { error in
                 if let _ = error {
                     isOk = false
                     XCTAssert(false, "load data failed")
                 }
-            } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+            }
 
             if !isOk {
                 return
@@ -39,7 +39,7 @@ class HttpsEverywhereTest: XCTestCase {
 
         // test suffix maintained
         let url = HttpsEverywhere.singleton.tryRedirectingUrl(URL(string: "http://www.googleadservices.com/pagead/aclk?sa=L&ai=CD0d/")!)
-        XCTAssert(url != nil && url!.absoluteString!.hasSuffix("?sa=L&ai=CD0d/"))
+        XCTAssert(url != nil && url!.absoluteString.hasSuffix("?sa=L&ai=CD0d/"))
     }
 
   /* 

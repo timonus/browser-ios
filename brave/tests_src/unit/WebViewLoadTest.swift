@@ -11,9 +11,19 @@ var groupA = ["businessinsider.com", "kotaku.com", "cnn.com"]
 var groupB = ["imore.com", "nytimes.com"]
 
 class WebViewLoadTest: XCTestCase {
+    
+    override func setUp() {
+        super.setUp()
+        // Without small wait tests ran separately fail as they are not truly separated atm.
+        let expect = expectation(description: "setUp() wait")
+        postAsyncToMain(3) { expect.fulfill() }
+        waitForExpectations(timeout: 4) { error in }
+    }
+    
+  
 
     func testOpenUrlUsingBraveSchema() {
-        expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
+        expectation(forNotification: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
         let site = "google.ca"
         let ok = UIApplication.shared.openURL(
             URL(string: "brave://open-url?url=https%253A%252F%252F" + site)!)
@@ -25,27 +35,27 @@ class WebViewLoadTest: XCTestCase {
         let url = URL(string: "http://example.com")
 
         let webview1 = BraveApp.getCurrentWebView()!
-        expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
-        webview1.loadRequest(URLRequest(URL: url!))
+        expectation(forNotification: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
+        webview1.loadRequest(URLRequest(url: url!))
 
-        waitForExpectations(timeout: 5) { (error:NSError?) -> Void in
+        waitForExpectations(timeout: 5) { error in
             if let _ = error {}
-        } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+        }
 
-        expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
-        getApp().tabManager.addTabAndSelect(URLRequest(URL: URL(string: "http://google.ca")!), configuration: WKWebViewConfiguration())
-        waitForExpectations(timeout: 5) { (error:NSError?) -> Void in
+        expectation(forNotification: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
+        getApp().tabManager.addTabAndSelect(URLRequest(url: URL(string: "http://google.ca")!), configuration: WKWebViewConfiguration())
+        waitForExpectations(timeout: 5) { error in
             if let _ = error {}
-        } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+        }
         let webview2 = BraveApp.getCurrentWebView()!
         assert(webview1 !== webview2)
 
         for i in ["alert(' ')", "prompt(' ')", "confirm(' ')"] {
             expectation(forNotification: "JavaScriptPopupBlockedHiddenWebView", object: nil, handler:nil)
-            webview1.stringByEvaluatingJavaScriptFromString(i)
-            waitForExpectations(timeout: 5) { (error:NSError?) -> Void in
+            webview1.stringByEvaluatingJavaScript(from: i)
+            waitForExpectations(timeout: 5) { error in
                 if let _ = error {}
-            } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+            }
         }
     }
 
@@ -55,19 +65,19 @@ class WebViewLoadTest: XCTestCase {
         let url = URL(string: "http://example.com")
 
         let webview = BraveApp.getCurrentWebView()
-        expectationForNotification(BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
-        webview!.loadRequest(URLRequest(URL: url!))
+        expectation(forNotification: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed, object: nil, handler:nil)
+        webview!.loadRequest(URLRequest(url: url!))
 
-        waitForExpectations(timeout: 15) { (error:NSError?) -> Void in
+        waitForExpectations(timeout: 15) { error in
             if let _ = error {
             }
-        } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+        }
 
         let expect = expectation(description: "wait")
 
         postAsyncToMain(1) {
-            webview?.stringByEvaluatingJavaScriptFromString(
-                "var timer = 0;" +
+            webview?.stringByEvaluatingJavaScript(
+                from: "var timer = 0;" +
                 "function f() {location = 'https://facebook.com'};" +
                 "timer = setInterval('f()', 10);" +
                 "setTimeout(function () { clearInterval(timer) }, 5000);")
@@ -79,9 +89,9 @@ class WebViewLoadTest: XCTestCase {
             expect.fulfill()
         }
 
-        waitForExpectations(timeout: 10) { (error:NSError?) -> Void in } as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler as! XCWaitCompletionHandler
+        waitForExpectations(timeout: 10) { error in }
 
-        XCTAssert(webview!.URL!.absoluteString!.contains("facebook"))
+        XCTAssert(webview!.URL!.absoluteString.contains("facebook"))
     }
 
     func testTrackingProtection() {
@@ -102,7 +112,7 @@ class WebViewLoadTest: XCTestCase {
         for url in urls {
             let req = NSMutableURLRequest(url: URL(string: "http://" + url)!)
             req.mainDocumentURL = URL(string: "http://www.example.com")
-            let b = TrackingProtection.singleton.shouldBlock(req)
+            let b = TrackingProtection.singleton.shouldBlock(req as URLRequest)
             XCTAssert(b, "TrackingProtection failed: \(url)")
         }
     }
@@ -117,7 +127,7 @@ class WebViewLoadTest: XCTestCase {
         for url in urls {
             let req = NSMutableURLRequest(url: URL(string: "http://" + url)!)
             req.mainDocumentURL = URL(string: "http://www.example.com")
-            let b = AdBlocker.singleton.shouldBlock(req)
+            let b = AdBlocker.singleton.shouldBlock(req as URLRequest)
             XCTAssert(b)
         }
     }

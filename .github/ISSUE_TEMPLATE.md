@@ -1,35 +1,49 @@
-- Did you search for similar issues before submitting this one?
+<!--
+Have you searched for similar issues? We have received a lot of feedback and bug reports that we have closed as duplicates.
+Before submitting this issue, please visit our wiki for common ones: https://github.com/brave/browser-laptop/wiki
+By using search engines along with GitHub search function, you would be able to find duplicates more efficiently.
 
-- Description:
+For more, check out our community site: https://community.brave.com/
+-->
 
-- Device (iPhone5, iPhone6s plus, iPad 3, ?):
+### Description:
+<!--
+[Description of the issue]
+-->
 
-- Brave Version:
+### Steps to Reproduce
+<!--
+Please add a series of steps to reproduce the problem. See https://stackoverflow.com/help/mcve for in depth information on how to create a minimal, complete, and verifiable example.
+-->
 
-- Steps to reproduce:
-    1.
-    2.
-    3.
+  1.
+  2.
+  3.
 
-- Actual Behavior
+**Actual result:**
+<!--
+Add screenshots if needed
+-->
 
-- Expected Behavior
+**Expected result:**
 
-- Is this an issue with Beta build?
+**Reproduces how often:** [What percentage of the time does it reproduce?]
 
-- Is this an issue in the currently released version?
+### Brave Version:
 
-- Can this issue be consistently reproduced?
+### Device (iPhone5, iPhone6s plus, iPad 3, ?):
 
-- Extra QA steps:
-    1. 
-    2. 
-    3.
+### Is this an issue in the currently released version?
 
-- Website problems only: 
-- did you check with Brave Shields down? 
+### Is this an issue with Beta build?
+
+### Website problems only: 
+- did you check with Brave Shields down?
+
 - did you check in Puffin/Dolphin/iCab/Firefox (UIWebView-based browsers)? 
 
-- Screenshot if needed:
 
-- Any related issues:
+### Additional Information
+<!--
+Any additional information, related issues, extra QA steps, configuration or data that might be necessary to reproduce the issue.
+-->

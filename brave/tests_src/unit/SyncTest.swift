@@ -6,7 +6,9 @@ import XCTest
 import Shared
 
 class SyncTest: XCTestCase {
+    // Sync is removed for now
     
+    /*
     override func setUp() {
         // Clear CD
     }
@@ -57,5 +59,5 @@ class SyncTest: XCTestCase {
         // TODO: Somehow need to check the fetched results
 
     }
-
+ */
 }
