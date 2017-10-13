@@ -44,7 +44,7 @@ struct BraveUX {
 
     static let PrefKeyIsToolbarHidingEnabled = "PrefKeyIsToolbarHidingEnabled"
 
-    static let BackgroundColorForBookmarksHistoryAndTopSites = UIColor(white: 242/255.0, alpha: 1.0)
+    static let BackgroundColorForBookmarksHistoryAndTopSites = UIColor(white: 1.0, alpha: 1.0)
     
     static let BackgroundColorForTopSitesPrivate = UIColor(white: 42 / 255.0, alpha: 1.0)
     
