@@ -50,7 +50,7 @@ extension BrowserViewController: TabManagerDelegate {
             }
             ReaderModeHandlers.readerModeCache = readerModeCache
 
-            scrollController.browser = selected
+            scrollController.tab = selected
 
             webView.accessibilityLabel = Strings.Web_content
             webView.accessibilityIdentifier = "contentView"

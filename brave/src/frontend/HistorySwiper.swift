@@ -124,7 +124,6 @@ class HistorySwiper : NSObject {
                         NotificationCenter.default.addObserver(self, selector: #selector(HistorySwiper.updateDetected), name: NSNotification.Name(rawValue: BraveWebViewConstants.kNotificationPageInteractive), object: webview)
                         NotificationCenter.default.addObserver(self, selector: #selector(HistorySwiper.updateDetected), name: NSNotification.Name(rawValue: BraveWebViewConstants.kNotificationWebViewLoadCompleteOrFailed), object: webview)
                     } else {
-                        getApp().browserViewController.scrollController.edgeSwipingActive = false
 #if IMAGE_SWIPE_ON
                         if let v = self.imageView {
                            v.removeFromSuperview()
@@ -135,7 +134,6 @@ class HistorySwiper : NSObject {
                     }
             })
         } else {
-            getApp().browserViewController.scrollController.edgeSwipingActive = true
             let tx = recognizer == goBackSwipe ? p.x : p.x - screenWidth()
             webViewContainer.transform = CGAffineTransform(translationX: tx, y: self.webViewContainer.transform.ty)
 #if IMAGE_SWIPE_ON
@@ -153,8 +151,7 @@ class HistorySwiper : NSObject {
 
     func restoreWebview() {
         NotificationCenter.default.removeObserver(self)
-        if webViewContainer.alpha < 1 && getApp().browserViewController.scrollController.edgeSwipingActive {
-            getApp().browserViewController.scrollController.edgeSwipingActive = false
+        if webViewContainer.alpha < 1 {
             postAsyncToMain(0.4) { // after a render detected, allow ample time for drawing to complete
                 UIView.animate(withDuration: 0.2, animations: {
                     self.webViewContainer.alpha = 1.0
