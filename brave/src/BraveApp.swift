@@ -265,7 +265,7 @@ class BraveApp {
     static func is3rdPartyPasswordManagerInstalled(_ refreshLookup: Bool) -> Deferred<Bool> {
         let deferred = Deferred<Bool>()
         if refreshLookup || isPasswordManagerInstalled == nil {
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+            postAsyncToMain {
                 isPasswordManagerInstalled = OnePasswordExtension.shared().isAppExtensionAvailable()
                 deferred.fill(isPasswordManagerInstalled!)
             }

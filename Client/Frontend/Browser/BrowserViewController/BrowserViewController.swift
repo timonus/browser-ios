@@ -711,8 +711,15 @@ class BrowserViewController: UIViewController {
 
         _ = tab.loadRequest(URLRequest(url: url))
         
-        // TODO: Need to preserve tab on submit, difficult because history data dictates load index - on submit url isn't loaded webivew into history stack.
-//        TabMO.preserveTab(tab: tab)
+        let context = DataController.shared.workerContext
+        if let id = tab.tabID, let ci = tabManager.currentIndex {
+            let data = SavedTab(id: id, title: (tab.displayTitle != "" ? tab.displayTitle : url.absoluteString), url: url.absoluteString, isSelected: true, order: Int16(ci), screenshot: nil, history: [url.absoluteString], historyIndex: 0)
+            context.perform {
+                TabMO.add(data, context: context)
+                DataController.saveContext(context: context)
+                debugPrint("tab url saved \(url.absoluteString)")
+            }
+        }
     }
 
     func addBookmark(_ url: URL?, title: String?, parentFolder: Bookmark? = nil) {
