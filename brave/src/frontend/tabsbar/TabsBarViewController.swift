@@ -27,6 +27,7 @@ class TabBarCell: UICollectionViewCell {
     let close = UIButton()
     let separatorLine = UIView()
     let separatorLineRight = UIView()
+    var currentIndex: Int = -1
     weak var browser: Browser? {
         didSet {
             if let wv = self.browser?.webView {
@@ -92,7 +93,8 @@ class TabBarCell: UICollectionViewCell {
                 close.isHidden = false
                 backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.DarkToolbarsBackgroundSolidColor : BraveUX.ToolbarsBackgroundSolidColor
             }
-            else {
+            else if currentIndex != getApp().tabManager.currentIndex {
+                // prevent swipe and release outside- deselects cell.
                 title.font = UIFont.systemFont(ofSize: 12)
                 title.textColor = PrivateBrowsing.singleton.isOn ? UIColor(white: 1.0, alpha: 0.4) : UIColor(white: 0.0, alpha: 0.4)
                 close.isHidden = true
@@ -340,6 +342,7 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.delegate = self
         cell.browser = tab
         cell.setTitle(tab.displayTitle != "" ? tab.displayTitle : TabMO.getByID(tab.tabID)?.title)
+        cell.currentIndex = indexPath.row
         cell.isSelected = (indexPath.row == getApp().tabManager.currentIndex)
         cell.separatorLineRight.isHidden = (indexPath.row != tabList.count() - 1)
         return cell
