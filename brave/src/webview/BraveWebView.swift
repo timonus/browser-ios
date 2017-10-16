@@ -677,18 +677,6 @@ extension BraveWebView: UIWebViewDelegate {
             } else {
                 tab.removeHelper(FingerprintingProtection.self)
             }
-            
-            // Persist tab state before url is fully loaded.
-            // Corrects issue #1231
-            if url.absoluteString != blankTargetUrl {
-                if let data = TabMO.savedTabData(tab: tab, urlOverride: url.absoluteString) {
-                    let context = DataController.shared.workerContext
-                    context.perform {
-                        TabMO.add(data, context: context)
-                        DataController.saveContext(context: context)
-                    }
-                }
-            }
         }
 
         if url.absoluteString == blankTargetUrl {

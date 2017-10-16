@@ -710,14 +710,6 @@ class BrowserViewController: UIViewController {
         urlBar.leaveSearchMode()
 
         _ = tab.loadRequest(URLRequest(url: url))
-        
-        if let data = TabMO.savedTabData(tab: tab) {
-            let context = DataController.shared.workerContext
-            context.perform {
-                TabMO.add(data, context: context)
-                DataController.saveContext(context: context)
-            }
-        }
     }
 
     func addBookmark(_ url: URL?, title: String?, parentFolder: Bookmark? = nil) {

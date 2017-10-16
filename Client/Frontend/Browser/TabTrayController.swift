@@ -828,25 +828,22 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
 
         tabCell.isAccessibilityElement = true
         tabCell.accessibilityHint = Strings.Swipe_right_or_left_with_three_fingers_to_close_the_tab
-
-        if let favIcon = tab.displayFavicon {
-            tabCell.favicon.sd_setImage(with: URL(string: favIcon.url)!)
-            tabCell.favicon.backgroundColor = BraveUX.TabTrayCellBackgroundColor
-        } else {
-            tabCell.favicon.image = nil
-        }
+        tabCell.favicon.backgroundColor = BraveUX.TabTrayCellBackgroundColor
         
         tab.screenshot(callback: { (image) in
             tabCell.background.image = image
         })
         
-        if tab.isScreenshotSet == false, let tabMO = TabMO.getByID(tab.tabID), let urlString = tabMO.url, let url = URL(string: urlString) {
+        tabCell.placeholderFavicon.isHidden = tab.isScreenshotSet
+        
+        if let tabMO = TabMO.getByID(tab.tabID), let urlString = tabMO.url, let url = URL(string: urlString) {
+            weak var weakSelf = self
             if ImageCache.shared.hasImage(url, type: .square) {
                 // no relationship - check cache for icon which may have been stored recently for url.
                 ImageCache.shared.image(url, type: .square, callback: { (image) in
                     postAsyncToMain {
+                        tabCell.favicon.image = image
                         tabCell.placeholderFavicon.image = image
-                        tabCell.placeholderFavicon.isHidden = false
                     }
                 })
             }
@@ -855,7 +852,7 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
                 let context = DataController.shared.mainThreadContext
                 if let domain = Domain.getOrCreateForUrl(url, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let faviconurl = URL(string: urlString) {
                     postAsyncToMain {
-                        self.setCellImage(tabCell, iconUrl: faviconurl, cacheWithUrl: url)
+                        weakSelf?.setCellImage(tabCell, iconUrl: faviconurl, cacheWithUrl: url)
                     }
                 }
                 else {
@@ -863,11 +860,6 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
                     downloadFaviconsAndUpdateForUrl(url, collectionView: collectionView, indexPath: indexPath)
                 }
             }
-            
-            tabCell.placeholderFavicon.isHidden = false
-        }
-        else {
-            tabCell.placeholderFavicon.isHidden = true
         }
 
         // TODO: Move most view logic here instead of `init` or `prepareForReuse`
@@ -906,19 +898,22 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
             if image != nil {
                 postAsyncToMain {
                     cell.placeholderFavicon.image = image
-                    cell.placeholderFavicon.isHidden = false
+                    cell.favicon.image = image
                 }
             }
             else {
-                cell.placeholderFavicon.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
-                    guard err == nil, let img = img else {
-                        // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
-                        ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
-                        cell.placeholderFavicon.image = FaviconFetcher.defaultFavicon
-                        return
-                    }
-                    ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
-                })
+                postAsyncToMain {
+                    cell.placeholderFavicon.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
+                        guard err == nil, let img = img else {
+                            // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
+                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
+                            cell.placeholderFavicon.image = FaviconFetcher.defaultFavicon
+                            return
+                        }
+                        ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
+                        cell.favicon.image = img
+                    })
+                }
             }
         })
     }

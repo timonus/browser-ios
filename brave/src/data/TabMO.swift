@@ -139,7 +139,7 @@ class TabMO: NSManagedObject {
         guard let tabManager = getApp().tabManager, let webView = tab.webView, let order = tabManager.indexOfWebView(webView) else { return nil }
         
         // Ignore session restore data.
-        if let url = tab.lastRequest?.url?.absoluteString, url.contains("localhost") {
+        if let url = tab.url?.absoluteString, url.contains("localhost") {
             return nil
         }
         
@@ -151,9 +151,13 @@ class TabMO: NSManagedObject {
             let forwardList = tab.webView?.backForwardList.forwardList ?? []
             urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString }
             currentPage = -forwardList.count
+            
+            if let urlOverride = urlOverride {
+                urls.append(urlOverride)
+            }
         }
         if let id = TabMO.getByID(tab.tabID, context: context)?.syncUUID {
-            let urlTitle = tab.title ?? tab.lastRequest?.url?.absoluteString ?? urlOverride ?? ""
+            let urlTitle = tab.displayTitle != "" ? tab.displayTitle : urlOverride ?? ""
             let data = SavedTab(id, urlTitle, urlOverride ?? tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
             return data
         }
