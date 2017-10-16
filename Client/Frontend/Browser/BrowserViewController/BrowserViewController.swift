@@ -711,13 +711,11 @@ class BrowserViewController: UIViewController {
 
         _ = tab.loadRequest(URLRequest(url: url))
         
-        let context = DataController.shared.workerContext
-        if let id = tab.tabID, let ci = tabManager.currentIndex {
-            let data = SavedTab(id: id, title: (tab.displayTitle != "" ? tab.displayTitle : url.absoluteString), url: url.absoluteString, isSelected: true, order: Int16(ci), screenshot: nil, history: [url.absoluteString], historyIndex: 0)
+        if let data = TabMO.savedTabData(tab: tab) {
+            let context = DataController.shared.workerContext
             context.perform {
                 TabMO.add(data, context: context)
                 DataController.saveContext(context: context)
-                debugPrint("tab url saved \(url.absoluteString)")
             }
         }
     }

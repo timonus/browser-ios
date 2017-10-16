@@ -132,7 +132,7 @@ class BrowserToolbar: Toolbar, BrowserToolbarProtocol {
     static let Themes: [String: Theme] = {
         var themes = [String: Theme]()
         var theme = Theme()
-        theme.buttonTintColor = UIConstants.PrivateModeActionButtonTintColor
+        theme.buttonTintColor = BraveUX.ActionButtonPrivateTintColor
         themes[Theme.PrivateMode] = theme
 
         theme = Theme()

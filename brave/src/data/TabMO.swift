@@ -126,24 +126,21 @@ class TabMO: NSManagedObject {
     }
     
     class func preserveTab(tab: Browser) {
-        guard let tabManager = getApp().tabManager else {
-            return
+        if let data = savedTabData(tab: tab) {
+            let context = DataController.shared.workerContext
+            context.perform {
+                _ = TabMO.add(data, context: context)
+                DataController.saveContext(context: context)
+            }
         }
-        
-        if tab.isPrivate || tab.lastRequest?.url?.absoluteString == nil || tab.tabID == nil {
-            return
-        }
+    }
+    
+    class func savedTabData(tab: Browser, context: NSManagedObjectContext = DataController.shared.mainThreadContext, urlOverride: String? = nil) -> SavedTab? {
+        guard let tabManager = getApp().tabManager, let webView = tab.webView, let order = tabManager.indexOfWebView(webView) else { return nil }
         
         // Ignore session restore data.
         if let url = tab.lastRequest?.url?.absoluteString, url.contains("localhost") {
-            debugPrint(url)
-            return
-        }
-        
-        var order = 0
-        for t in tabManager.tabs.internalTabList {
-            if t === tab { break }
-            order += 1
+            return nil
         }
         
         var urls = [String]()
@@ -155,14 +152,13 @@ class TabMO: NSManagedObject {
             urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString }
             currentPage = -forwardList.count
         }
-        if let id = TabMO.getByID(tab.tabID)?.syncUUID {
-            let data = SavedTab(id, tab.title ?? tab.lastRequest!.url!.absoluteString, tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
-            let context = DataController.shared.workerContext
-            context.perform {
-                _ = TabMO.add(data, context: context)
-                DataController.saveContext(context: context)
-            }
+        if let id = TabMO.getByID(tab.tabID, context: context)?.syncUUID {
+            let urlTitle = tab.title ?? tab.lastRequest?.url?.absoluteString ?? urlOverride ?? ""
+            let data = SavedTab(id, urlTitle, urlOverride ?? tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
+            return data
         }
+        
+        return nil
     }
 }
 

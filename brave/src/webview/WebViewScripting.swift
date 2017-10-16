@@ -27,7 +27,6 @@ class LegacyUserContentController
     func addUserScript(_ script:WKUserScript) {
         var mainFrameOnly = true
         if !script.isForMainFrameOnly {
-            print("Inject to subframes")
             // Only contextMenu injection to subframes for now,
             // whitelist this explicitly, don't just inject scripts willy-nilly into frames without
             // careful consideration. For instance, there are security implications with password management in frames
@@ -62,7 +61,6 @@ class LegacyUserContentController
             // no _blank
             webView.blankTargetLinkDetectionOn = false
         }
-        print("has blank targets \(webView.blankTargetLinkDetectionOn)")
 
         let js = LegacyJSContext()
         js.windowOpenOverride(webView, context:nil)

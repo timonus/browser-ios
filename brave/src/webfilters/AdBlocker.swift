@@ -76,7 +76,6 @@ class AdBlocker {
     }
 
     func startLoading() {
-        print(networkLoaders)
         networkLoaders.forEach { $0.1.loadData() }
     }
 

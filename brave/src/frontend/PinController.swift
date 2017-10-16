@@ -313,7 +313,6 @@ class PinLockView: UIView {
         if pin.characters.count < 4 {
             let value = sender.tag == 10 ? 0 : sender.tag
             pin = pin + "\(value)"
-            debugPrint(pin)
         }
         
         pinIndicatorView.index(pin.characters.count)
@@ -327,7 +326,6 @@ class PinLockView: UIView {
         if pin.characters.count > 0 {
             pin = pin.substring(to: pin.characters.index(pin.endIndex, offsetBy: -1))
             pinIndicatorView.index(pin.characters.count)
-            debugPrint(pin)
         }
     }
     

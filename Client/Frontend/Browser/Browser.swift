@@ -371,11 +371,20 @@ class Browser: NSObject, BrowserWebViewDelegate {
 
     var displayTitle: String {
         if let title = webView?.title, !title.isEmpty {
-            return title
+            return title.range(of: "localhost") == nil ? title : ""
+        }
+        else if let url = webView?.URL, url.baseDomain == "localhost", url.absoluteString.contains("about/home/#panel=0") {
+            return Strings.New_Tab
         }
 
         guard let lastTitle = lastTitle, !lastTitle.isEmpty else {
-            return displayURL?.absoluteString ??  ""
+            if let title = displayURL?.absoluteString {
+                return title
+            }
+            else if let tab = TabMO.getByID(tabID) {
+                return tab.title ?? tab.url ?? ""
+            }
+            return ""
         }
 
         return lastTitle
@@ -573,6 +582,8 @@ class Browser: NSObject, BrowserWebViewDelegate {
         guard let screenshot = screenshot else { return }
 
         _screenshot = screenshot
+        isScreenshotSet = true
+        
         self.screenshotCallback?(screenshot)
         
         if revUUID {

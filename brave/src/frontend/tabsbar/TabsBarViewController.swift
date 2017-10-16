@@ -116,33 +116,14 @@ class TabBarCell: UICollectionViewCell {
         titleUpdateScheduled = true
         postAsyncToMain(0.2) { [weak self] in
             self?.titleUpdateScheduled = false
-            if let t = self?.browser?.webView?.title, !t.isEmpty {
-                self?.setTitle(t)
-            } else if let url = self?.browser?.webView?.URL, url.baseDomain == "localhost", url.absoluteString.contains("about/home/#panel=0") {
-                self?.setTitle("New Tab")
-            }
-        }
-    }
-    
-    func setTitle(_ title: String?) {
-        if let title = title, title != "localhost" {
-            self.title.text = title
-        }
-        else if let t = browser?.url?.absoluteString, t.range(of: "localhost") == nil {
-            self.title.text = t
-        }
-        else {
-            self.title.text = ""
+            self?.title.text = self?.browser?.displayTitle
         }
     }
 }
 
 extension TabBarCell: WebPageStateDelegate {
     func webView(_ webView: UIWebView, urlChanged: String) {
-        if let t = browser?.url?.baseDomain,  title.text?.isEmpty ?? true {
-            setTitle(t)
-        }
-        
+        title.text = browser?.displayTitle
         updateTitle_throttled()
     }
     
@@ -341,7 +322,7 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let tab = tabList.at(indexPath.row) else { return cell }
         cell.delegate = self
         cell.browser = tab
-        cell.setTitle(tab.displayTitle != "" ? tab.displayTitle : TabMO.getByID(tab.tabID)?.title)
+        cell.title.text = tab.displayTitle
         cell.currentIndex = indexPath.row
         cell.isSelected = (indexPath.row == getApp().tabManager.currentIndex)
         cell.separatorLineRight.isHidden = (indexPath.row != tabList.count() - 1)

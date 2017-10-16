@@ -817,7 +817,7 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
             return tabCell
         }
         
-        let title = (tab.displayTitle != "" ? tab.displayTitle : TabMO.getByID(tab.tabID)?.title) ?? ""
+        let title = tab.displayTitle
         tabCell.titleLbl.text = title
 
         if !title.isEmpty {

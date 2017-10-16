@@ -100,6 +100,7 @@ struct BraveUX {
     static let CancelTextColor = LocationBarTextColor
     // The toolbar button color (for the Normal state). Using default highlight color ATM
     static let ActionButtonTintColor = UIColor.black
+    static let ActionButtonPrivateTintColor = UIColor.white
     
     // The toolbar button color when (for the Selected state).
     static let ActionButtonSelectedTintColor = BraveUX.DefaultBlue

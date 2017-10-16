@@ -399,7 +399,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             
             let vc = PinProtectOverlayViewController()
             securityViewController = vc
-            debugPrint(UIScreen.main.bounds)
             
             let pinOverlay = UIWindow(frame: UIScreen.main.bounds)
             pinOverlay.backgroundColor = UIColor(white: 0.9, alpha: 0.7)
