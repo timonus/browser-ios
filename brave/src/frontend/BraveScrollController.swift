@@ -350,10 +350,12 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollDirection == .up {
-            showToolbars(animated: true)
-        } else if scrollDirection == .down {
-            hideToolbars(animated: true)
+        if (!tabIsLoading() && !isBouncingAtBottom()) && checkScrollHeightIsLargeEnoughForScrolling() {
+            if scrollDirection == .up {
+                showToolbars(animated: true)
+            } else if scrollDirection == .down {
+                hideToolbars(animated: true)
+            }
         }
         showOrHideWebViewContainerToolbar()
     }
