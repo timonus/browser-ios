@@ -358,7 +358,7 @@ class BrowserViewController: UIViewController {
         header = BlurWrapper(view: urlBar)
         view.addSubview(header)
     
-        header.layer.shadowOffset = CGSize(width: 0, height: 1)
+        header.layer.shadowOffset = CGSize(width: 0, height: 0.5)
         header.layer.shadowRadius = 0
         header.layer.shadowOpacity = 1.0
         header.layer.masksToBounds = false

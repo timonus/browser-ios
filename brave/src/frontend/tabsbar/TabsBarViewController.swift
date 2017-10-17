@@ -64,7 +64,7 @@ class TabBarCell: UICollectionViewCell {
         separatorLine.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         separatorLine.snp.makeConstraints { (make) in
             make.left.equalTo(self)
-            make.width.equalTo(1)
+            make.width.equalTo(0.5)
             make.height.equalTo(self)
             make.centerY.equalTo(self.snp.centerY)
         }
@@ -73,7 +73,7 @@ class TabBarCell: UICollectionViewCell {
         separatorLineRight.isHidden = true
         separatorLineRight.snp.makeConstraints { (make) in
             make.right.equalTo(self)
-            make.width.equalTo(1)
+            make.width.equalTo(0.5)
             make.height.equalTo(self)
             make.centerY.equalTo(self.snp.centerY)
         }

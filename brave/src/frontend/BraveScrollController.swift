@@ -292,7 +292,7 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if fabsf(Float(velocity.y)) < 1.0 && checkScrollHeightIsLargeEnoughForScrolling() {
+        if fabsf(Float(velocity.y)) < 0.7 && checkScrollHeightIsLargeEnoughForScrolling() {
             previousScrollOffset = scrollView.contentOffset.y
             adjustWithScroll = true
         }
