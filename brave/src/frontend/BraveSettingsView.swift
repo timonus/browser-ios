@@ -1,8 +1,5 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#if !NO_FABRIC
-    import Crashlytics
-#endif
 import Shared
 import MessageUI
 import SwiftyJSON
@@ -425,9 +422,6 @@ class CrashDebugSettings: Setting, XMLParserDelegate, UIAlertViewDelegate {
         if buttonIndex == alertView.cancelButtonIndex {
             return
         }
-        #if !NO_FABRIC
-            Crashlytics.sharedInstance().crash()
-        #endif
     }
 }
 

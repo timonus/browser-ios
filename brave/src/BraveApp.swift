@@ -15,8 +15,6 @@ var kIsDevelomentBuild: Bool = {
 }()
 
 #if !NO_FABRIC
-    import Fabric
-    import Crashlytics
     import Mixpanel
 #endif
 
@@ -81,8 +79,6 @@ class BraveApp {
         #if !NO_FABRIC
             let telemetryOn = getApp().profile!.prefs.intForKey(BraveUX.PrefKeyUserAllowsTelemetry) ?? 1 == 1
             if telemetryOn {
-                Fabric.with([Crashlytics.self])
-
                 if let dict = Bundle.main.infoDictionary, let token = dict["MIXPANEL_TOKEN"] as? String {
                     // note: setting this in willFinishLaunching is causing a crash, keep it in didFinish
                     mixpanelInstance = Mixpanel.initialize(token: token)
