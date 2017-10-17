@@ -887,9 +887,10 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
     }
     
     fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, collectionView: UICollectionView, indexPath: IndexPath) {
+        weak var weakSelf = self
         FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
             guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = collectionView.cellForItem(at: indexPath) as? TabCell else { return }
-            self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+            weakSelf?.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
         }
     }
     

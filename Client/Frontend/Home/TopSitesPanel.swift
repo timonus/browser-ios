@@ -722,8 +722,9 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     }
     
     fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
+        weak var weakSelf = self
         FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
-            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = self.collectionView?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = weakSelf?.collectionView?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
             self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
         }
     }
@@ -738,7 +739,7 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
             else {
                 postAsyncToMain {
                     cell.imageView.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
-                        guard err == nil, let img = img else {
+                        guard let img = img else {
                             // avoid recheck to find an icon when none can be found, hack skips FaviconFetch
                             ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
                             cell.imageView.image = FaviconFetcher.defaultFavicon

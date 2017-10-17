@@ -491,8 +491,9 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
     
     fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
+        weak var weakSelf = self
         FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
-            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = self.tableView.cellForRow(at: indexPath) else { return }
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = weakSelf?.tableView.cellForRow(at: indexPath) else { return }
             self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
         }
     }

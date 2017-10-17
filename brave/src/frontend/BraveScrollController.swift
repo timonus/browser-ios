@@ -44,6 +44,8 @@ class BraveScrollController: NSObject {
     fileprivate var isZoomedOut: Bool = false
     fileprivate var lastZoomedScale: CGFloat = 0
     fileprivate var isUserZoom: Bool = false
+    fileprivate var adjustWithScroll: Bool = false
+    fileprivate var previousScrollOffset: CGFloat = 0
     
     fileprivate var headerTopOffset: CGFloat = 0 {
         didSet {
@@ -150,7 +152,6 @@ class BraveScrollController: NSObject {
     fileprivate func roundNum(_ num: CGFloat) -> CGFloat {
         return round(100 * num) / 100
     }
-    
 }
 
 private extension BraveScrollController {
@@ -281,12 +282,44 @@ extension BraveScrollController: UIScrollViewDelegate {
             return
         }
         
-        if (decelerate || (toolbarState == .animating && !decelerate)) && checkScrollHeightIsLargeEnoughForScrolling() {
+        if toolbarState == .animating && !decelerate && checkScrollHeightIsLargeEnoughForScrolling() {
             if scrollDirection == .up {
                 showToolbars(animated: true)
             } else if scrollDirection == .down {
                 hideToolbars(animated: true)
             }
+        }
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if fabsf(Float(velocity.y)) < 1.0 && checkScrollHeightIsLargeEnoughForScrolling() {
+            previousScrollOffset = scrollView.contentOffset.y
+            adjustWithScroll = true
+        }
+        else if checkScrollHeightIsLargeEnoughForScrolling() {
+            // scrolling too fast, keeps animation smooth.
+            if scrollDirection == .up {
+                showToolbars(animated: true)
+            } else if scrollDirection == .down {
+                hideToolbars(animated: true)
+            }
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        adjustWithScroll = false
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        if tabIsLoading() || isBouncingAtBottom() || offset <= 0  {
+            return
+        }
+        
+        if adjustWithScroll {
+            let delta = scrollView.contentOffset.y - previousScrollOffset
+            scrollWithDelta(delta)
+            previousScrollOffset = scrollView.contentOffset.y
         }
     }
     
@@ -317,6 +350,11 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollDirection == .up {
+            showToolbars(animated: true)
+        } else if scrollDirection == .down {
+            hideToolbars(animated: true)
+        }
         showOrHideWebViewContainerToolbar()
     }
     

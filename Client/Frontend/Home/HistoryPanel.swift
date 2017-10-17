@@ -117,7 +117,7 @@ class HistoryPanel: SiteTableViewController, HomePanel {
                 if image == nil {
                     postAsyncToMain {
                         cell.imageView?.sd_setImage(with: url, completed: { (img, err, type, url) in
-                            if err == nil, let img = img, let url = url {
+                            if let img = img, let url = url {
                                 ImageCache.shared.cache(img, url: url, type: .square, callback: nil)
                             }
                         })
