@@ -213,6 +213,17 @@ private extension BraveScrollController {
             return
         }
         
+        // Apply auto-scroll animation if we're moving too quickly
+        let threshold = CGFloat(6.0)
+        if fabs(delta) > threshold {
+            if scrollDirection == .up {
+                showToolbars(animated: true)
+            } else if scrollDirection == .down {
+                hideToolbars(animated: true)
+            }
+            return
+        }
+        
         var updatedOffset = headerTopOffset - delta
         headerTopOffset = clamp(updatedOffset, min: -topScrollHeight, max: 0)
         if isHeaderDisplayedForGivenOffset(updatedOffset) {
@@ -292,6 +303,7 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        // Check if we should keep animation moving with scroll speed.
         if fabsf(Float(velocity.y)) < 0.7 && checkScrollHeightIsLargeEnoughForScrolling() {
             previousScrollOffset = scrollView.contentOffset.y
             adjustWithScroll = true
