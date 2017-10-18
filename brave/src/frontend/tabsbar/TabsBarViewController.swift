@@ -93,7 +93,7 @@ class TabBarCell: UICollectionViewCell {
                 close.isHidden = false
                 backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.DarkToolbarsBackgroundSolidColor : BraveUX.ToolbarsBackgroundSolidColor
             }
-            else if currentIndex != getApp().tabManager.currentIndex {
+            else if currentIndex != getApp().tabManager.currentDisplayedIndex {
                 // prevent swipe and release outside- deselects cell.
                 title.font = UIFont.systemFont(ofSize: 12)
                 title.textColor = PrivateBrowsing.singleton.isOn ? UIColor(white: 1.0, alpha: 0.4) : UIColor(white: 0.0, alpha: 0.4)
@@ -324,7 +324,7 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.browser = tab
         cell.title.text = tab.displayTitle
         cell.currentIndex = indexPath.row
-        cell.isSelected = (indexPath.row == getApp().tabManager.currentIndex)
+        cell.isSelected = (indexPath.row == getApp().tabManager.currentDisplayedIndex)
         cell.separatorLineRight.isHidden = (indexPath.row != tabList.count() - 1)
         return cell
     }

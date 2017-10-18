@@ -157,6 +157,15 @@ class TabManager : NSObject {
             return nil
         }
         
+        return tabs.internalTabList.index(of: selectedTab)
+    }
+    
+    var currentDisplayedIndex: Int? {
+        objc_sync_enter(self); defer { objc_sync_exit(self) }
+        
+        guard let selectedTab = self.selectedTab else {
+            return nil
+        }
         
         return tabs.displayedTabsForCurrentPrivateMode.index(of: selectedTab)
     }
@@ -256,7 +265,7 @@ class TabManager : NSObject {
     }
     
     func selectPreviousTab() {
-        let tab = tabs.internalTabList[currentIndex ?? 0]
+        let tab = tabs.internalTabList[currentDisplayedIndex ?? 0]
         guard let currentIndex = tabs.displayedTabsForCurrentPrivateMode.index(where: {$0 === tab}) else { return }
         if currentIndex > 0 {
             selectTab(tabs.displayedTabsForCurrentPrivateMode[currentIndex-1])
@@ -264,7 +273,7 @@ class TabManager : NSObject {
     }
     
     func selectNextTab() {
-        let tab = tabs.internalTabList[currentIndex ?? 0]
+        let tab = tabs.internalTabList[currentDisplayedIndex ?? 0]
         guard let currentIndex = tabs.displayedTabsForCurrentPrivateMode.index(where: {$0 === tab}) else { return }
         if currentIndex < tabs.displayedTabsForCurrentPrivateMode.count-1 {
             selectTab(tabs.displayedTabsForCurrentPrivateMode[currentIndex+1])
