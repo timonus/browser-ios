@@ -48,9 +48,9 @@ struct BraveUX {
     
     static let BackgroundColorForTopSitesPrivate = UIColor(white: 42 / 255.0, alpha: 1.0)
     
-    static let BackgroundColorForSideToolbars = UIColor(white: 248 / 255.0, alpha: 1.0)
+    static let BackgroundColorForSideToolbars = UIColor(white: 242/255.0, alpha: 1.0)
     
-    static let ColorForSidebarLineSeparators = UIColor(white: 224 / 255.0, alpha: 1.0)
+    static let ColorForSidebarLineSeparators = UIColor(white: 0.0, alpha: 0.15)
 
     static let DefaultBlue = UIColor(red: 92/255.0, green: 185/255.0, blue: 247/255.0, alpha: 1.0)
     

@@ -137,7 +137,7 @@ class MainSidePanelViewController : SidePanelBaseViewController {
             make in
             make.top.equalTo(containerView).offset(spaceForStatusBar())
             make.left.right.equalTo(containerView)
-            make.height.equalTo(44.0)
+            make.height.equalTo(44.0 + 0.5)
         }
 
         func common(_ make: ConstraintMaker) {
@@ -156,7 +156,7 @@ class MainSidePanelViewController : SidePanelBaseViewController {
             make in
             make.bottom.equalTo(self.topButtonsView)
             make.width.equalTo(self.topButtonsView)
-            make.height.equalTo(1.0)
+            make.height.equalTo(0.5)
         }
 
         historyButton.snp.remakeConstraints {
