@@ -10,7 +10,6 @@ import CoreData
 import CoreImage
 import SwiftyJSON
 
-import Crashlytics
 import XCGLogger
 
 private let log = Logger.browserLogger
@@ -257,7 +256,6 @@ class Browser: NSObject, BrowserWebViewDelegate {
     
     fileprivate func notifyDelegateNewWebview() {
         guard let webview = self.webView else {
-            Answers.logCustomEvent(withName: "WebView nil when attempting to notify delegate", customAttributes: nil)
             return
         }
         // Setup answers
