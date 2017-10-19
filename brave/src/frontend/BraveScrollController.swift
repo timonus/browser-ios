@@ -47,6 +47,16 @@ class BraveScrollController: NSObject {
     fileprivate var adjustWithScroll: Bool = false
     fileprivate var previousScrollOffset: CGFloat = 0
     
+    fileprivate var isTransitionIncomplete: Bool! {
+        get {
+            if headerTopOffset == -topScrollHeight || headerTopOffset == 0 {
+                return false
+            }
+            
+            return true
+        }
+    }
+    
     fileprivate var headerTopOffset: CGFloat = 0 {
         didSet {
             headerTopConstraint?.update(offset: headerTopOffset)
@@ -362,7 +372,7 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (!tabIsLoading() && !isBouncingAtBottom()) && checkScrollHeightIsLargeEnoughForScrolling() {
+        if isTransitionIncomplete && (!tabIsLoading() && !isBouncingAtBottom()) && checkScrollHeightIsLargeEnoughForScrolling() {
             if scrollDirection == .up {
                 showToolbars(animated: true)
             } else if scrollDirection == .down {

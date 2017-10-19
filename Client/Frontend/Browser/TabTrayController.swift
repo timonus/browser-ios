@@ -60,64 +60,64 @@ class TabCell: UICollectionViewCell {
     var margin = CGFloat(0)
 
     override init(frame: CGRect) {
-        self.shadowView.layer.cornerRadius = TabTrayControllerUX.CornerRadius
-        self.shadowView.layer.masksToBounds = false
+        shadowView.layer.cornerRadius = TabTrayControllerUX.CornerRadius
+        shadowView.layer.masksToBounds = false
         
-        self.backgroundHolder.backgroundColor = TabTrayControllerUX.CellBackgroundColor
-        self.backgroundHolder.layer.cornerRadius = TabTrayControllerUX.CornerRadius
-        self.backgroundHolder.layer.borderWidth = 0
-        self.backgroundHolder.layer.masksToBounds = true
+        backgroundHolder.backgroundColor = TabTrayControllerUX.CellBackgroundColor
+        backgroundHolder.layer.cornerRadius = TabTrayControllerUX.CornerRadius
+        backgroundHolder.layer.borderWidth = 0
+        backgroundHolder.layer.masksToBounds = true
 
-        self.background.contentMode = UIViewContentMode.scaleAspectFill
-        self.background.isUserInteractionEnabled = false
-        self.background.layer.masksToBounds = true
-        self.background.alignLeft = true
-        self.background.alignTop = true
+        background.contentMode = UIViewContentMode.scaleAspectFill
+        background.isUserInteractionEnabled = false
+        background.layer.masksToBounds = true
+        background.alignLeft = true
+        background.alignTop = true
 
-        self.favicon.layer.cornerRadius = 2.0
-        self.favicon.layer.masksToBounds = true
+        favicon.layer.cornerRadius = 2.0
+        favicon.layer.masksToBounds = true
 
-        self.titleLbl = UILabel()
-        self.titleLbl.backgroundColor = .clear
-        self.titleLbl.textAlignment = NSTextAlignment.left
-        self.titleLbl.isUserInteractionEnabled = false
-        self.titleLbl.numberOfLines = 1
-        self.titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
+        titleLbl = UILabel()
+        titleLbl.backgroundColor = .clear
+        titleLbl.textAlignment = NSTextAlignment.left
+        titleLbl.isUserInteractionEnabled = false
+        titleLbl.numberOfLines = 1
+        titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
 
-        self.closeButton = UIButton()
-        self.closeButton.setImage(UIImage(named: "stop"), for: .normal)
-        self.closeButton.tintColor = .black
+        closeButton = UIButton()
+        closeButton.setImage(UIImage(named: "stop"), for: .normal)
+        closeButton.tintColor = .black
         
-        self.titleWrapperBackground.backgroundColor = UIColor.white
+        titleWrapperBackground.backgroundColor = UIColor.white
 
-        self.titleWrapper.backgroundColor = .clear
+        titleWrapper.backgroundColor = .clear
         
-        self.titleWrapper.addSubview(self.titleWrapperBackground)
-        self.titleWrapper.addSubview(self.closeButton)
-        self.titleWrapper.addSubview(self.titleLbl)
-        self.titleWrapper.addSubview(self.favicon)
+        titleWrapper.addSubview(titleWrapperBackground)
+        titleWrapper.addSubview(closeButton)
+        titleWrapper.addSubview(titleLbl)
+        titleWrapper.addSubview(favicon)
 
         super.init(frame: frame)
 
-        self.closeButton.addTarget(self, action: #selector(TabCell.SELclose), for: UIControlEvents.touchUpInside)
-        self.contentView.clipsToBounds = false
-        self.clipsToBounds = false
+        closeButton.addTarget(self, action: #selector(TabCell.SELclose), for: UIControlEvents.touchUpInside)
+        contentView.clipsToBounds = false
+        clipsToBounds = false
         
-        self.animator = SwipeAnimator(animatingView: self.shadowView, container: self)
+        animator = SwipeAnimator(animatingView: shadowView, container: self)
 
         shadowView.addSubview(backgroundHolder)
-        backgroundHolder.addSubview(self.background)
-        backgroundHolder.addSubview(self.titleWrapper)
+        backgroundHolder.addSubview(background)
+        backgroundHolder.addSubview(titleWrapper)
         contentView.addSubview(shadowView)
         
-        self.placeholderFavicon.layer.cornerRadius = 8.0
-        self.placeholderFavicon.layer.masksToBounds = true
-        backgroundHolder.addSubview(self.placeholderFavicon)
+        placeholderFavicon.layer.cornerRadius = 8.0
+        placeholderFavicon.layer.masksToBounds = true
+        backgroundHolder.addSubview(placeholderFavicon)
         
         setupConstraints()
 
         self.accessibilityCustomActions = [
-            UIAccessibilityCustomAction(name: Strings.Close, target: self.animator, selector: #selector(SELclose))
+            UIAccessibilityCustomAction(name: Strings.Close, target: animator, selector: #selector(SELclose))
         ]
     }
 
@@ -198,7 +198,9 @@ class TabCell: UICollectionViewCell {
         shadowView.layer.shadowOpacity = 0
         background.image = nil
         placeholderFavicon.isHidden = true
-        self.titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
+        placeholderFavicon.image = nil
+        favicon.image = nil
+        titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
     }
 
     override func accessibilityScroll(_ direction: UIAccessibilityScrollDirection) -> Bool {

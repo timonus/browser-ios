@@ -382,12 +382,16 @@ and here's why...</source>
         <source>Edit</source>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Enter New Pin">
-        <source>Enter New Pin</source>
+      <trans-unit id="Enable">
+        <source>Enable</source>
+        <note>Browser Lock feature callout enable action.</note>
+      </trans-unit>
+      <trans-unit id="Enter New PIN">
+        <source>Enter New PIN</source>
         <note>Browser Lock New Pin</note>
       </trans-unit>
-      <trans-unit id="Enter Pin to Unlock Brave">
-        <source>Enter Pin to Unlock Brave</source>
+      <trans-unit id="Enter PIN to Unlock Brave">
+        <source>Enter PIN to Unlock Brave</source>
         <note>Unlock Brave with Browser Lock Pin</note>
       </trans-unit>
       <trans-unit id="Enter Search Mode">
@@ -613,6 +617,10 @@ Upgrades</source>
         <source>No tabs</source>
         <note>Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray</note>
       </trans-unit>
+      <trans-unit id="Not Now">
+        <source>Not Now</source>
+        <note>Browser Lock feature callout not now action.</note>
+      </trans-unit>
       <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
         <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
         <note>shields overview footer message</note>
@@ -673,6 +681,10 @@ Upgrades</source>
         <source>Open in…</source>
         <note>String indicating that the file can be opened in another application on the device</note>
       </trans-unit>
+      <trans-unit id="PIN">
+        <source>PIN</source>
+        <note>Setting to change browser lock pin</note>
+      </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
         <note>Sync pair device settings section title</note>
@@ -696,10 +708,6 @@ Upgrades</source>
       <trans-unit id="Paste &amp; Go">
         <source>Paste &amp; Go</source>
         <note>Paste the URL into the location bar and visit</note>
-      </trans-unit>
-      <trans-unit id="Pin">
-        <source>Pin</source>
-        <note>Setting to change browser lock pin</note>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
@@ -733,6 +741,10 @@ Upgrades</source>
         <source>Private Mode</source>
         <note>Accessibility label for toggling on/off private mode</note>
       </trans-unit>
+      <trans-unit id="Private means private.">
+        <source>Private means private.</source>
+        <note>Browser Lock feature callout title.</note>
+      </trans-unit>
       <trans-unit id="Private mode icon">
         <source>Private mode icon</source>
         <note>Private mode icon next to location string</note>
@@ -745,8 +757,8 @@ Upgrades</source>
         <source>Quick-search Engines</source>
         <note>Title for quick-search engines settings section.</note>
       </trans-unit>
-      <trans-unit id="Re-Enter New Pin">
-        <source>Re-Enter New Pin</source>
+      <trans-unit id="Re-Enter New PIN">
+        <source>Re-Enter New PIN</source>
         <note>Browser Lock Re-Enter New Pin</note>
       </trans-unit>
       <trans-unit id="Reader Mode Settings">
@@ -893,8 +905,8 @@ Upgrades</source>
         <source>Serif</source>
         <note>Font type setting in the reading view settings</note>
       </trans-unit>
-      <trans-unit id="Set Pin">
-        <source>Set Pin</source>
+      <trans-unit id="Set PIN">
+        <source>Set PIN</source>
         <note>Browser Lock Set Pin</note>
       </trans-unit>
       <trans-unit id="Settings">
@@ -1165,6 +1177,10 @@ Blocked</source>
       <trans-unit id="When Leaving Private Browsing">
         <source>When Leaving Private Browsing</source>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
+      </trans-unit>
+      <trans-unit id="With Browser Lock, you can now require a PIN when Brave is opened.">
+        <source>With Browser Lock, you can now require a PIN when Brave is opened.</source>
+        <note>Browser Lock feature callout message.</note>
       </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>

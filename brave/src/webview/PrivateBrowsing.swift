@@ -80,6 +80,8 @@ class PrivateBrowsing {
         if isOn {
             return
         }
+        
+        getApp().browserViewController.presentBrowserLockCallout()
 
         isOn = true
 

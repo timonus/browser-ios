@@ -9,7 +9,6 @@ import Shared
 import CoreData
 import SnapKit
 import XCGLogger
-import Shared
 
 import ReadingList
 import MobileCoreServices
@@ -541,6 +540,40 @@ class BrowserViewController: UIViewController {
         }
 
         showQueuedAlertIfAvailable()
+    }
+    
+    func presentBrowserLockCallout() {
+        if profile.prefs.boolForKey(kPrefKeySetBrowserLock) == true && profile.prefs.boolForKey(kPrefKeyPopupForBrowserLock) == true {
+            return
+        }
+        
+        weak var weakSelf = self
+        let popup = AlertPopupView(image: UIImage(named: "browser_lock_popup"), title: Strings.Browser_lock_callout_title, message: Strings.Browser_lock_callout_message)
+        popup.addButton(title: Strings.Browser_lock_callout_not_now) { () -> PopupViewDismissType in
+            weakSelf?.profile.prefs.setBool(true, forKey: kPrefKeyPopupForBrowserLock)
+            return .flyDown
+        }
+        popup.addDefaultButton(title: Strings.Browser_lock_callout_enable) { () -> PopupViewDismissType in
+            if getApp().profile == nil {
+                return .flyUp
+            }
+            
+            weakSelf?.profile.prefs.setBool(true, forKey: kPrefKeyPopupForBrowserLock)
+            
+            let settingsTableViewController = BraveSettingsView(style: .grouped)
+            settingsTableViewController.profile = getApp().profile
+            
+            let controller = SettingsNavigationController(rootViewController: settingsTableViewController)
+            controller.modalPresentationStyle = UIModalPresentationStyle.formSheet
+            weakSelf?.present(controller, animated: true, completion: {
+                let view = PinViewController()
+                view.delegate = settingsTableViewController
+                controller.pushViewController(view, animated: true)
+            })
+            
+            return .flyUp
+        }
+        popup.showWithType(showType: .normal)
     }
 
     fileprivate func shouldShowWhatsNewTab() -> Bool {

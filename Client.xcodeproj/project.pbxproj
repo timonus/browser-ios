@@ -220,6 +220,8 @@
 		5C10E0CF1EEF07F800203C93 /* PageMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C71EEF07F400203C93 /* PageMetadata.swift */; };
 		5C10E0D01EEF07F800203C93 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C81EEF07F400203C93 /* Metadata.swift */; };
 		5C10E0D11EEF07F800203C93 /* ExtensionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */; };
+		5C1A9E851F97D6060071495E /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1A9E841F97D6060071495E /* PopupView.swift */; };
+		5C1A9E9B1F97E2F80071495E /* AlertPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1A9E9A1F97E2F80071495E /* AlertPopupView.swift */; };
 		5C2CD4481F72FA6C004AAB5D /* TopSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CD4471F72FA6C004AAB5D /* TopSite.swift */; };
 		5C32C7B6034B41A9C822555E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE1D74E40F9E392FFCE9F2F /* main.swift */; };
 		5C404E1B2531DC2E178F80F8 /* ReaderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8C87651157C51F01D4D96F /* ReaderPanel.swift */; };
@@ -1137,6 +1139,8 @@
 		5C10E0C71EEF07F400203C93 /* PageMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageMetadata.swift; path = Storage/PageMetadata.swift; sourceTree = "<group>"; };
 		5C10E0C81EEF07F400203C93 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Metadata.swift; path = Storage/Metadata.swift; sourceTree = "<group>"; };
 		5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionUtils.swift; path = Storage/ExtensionUtils.swift; sourceTree = "<group>"; };
+		5C1A9E841F97D6060071495E /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PopupView.swift; path = brave/src/frontend/popups/PopupView.swift; sourceTree = "<group>"; };
+		5C1A9E9A1F97E2F80071495E /* AlertPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPopupView.swift; sourceTree = "<group>"; };
 		5C2CD4471F72FA6C004AAB5D /* TopSite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopSite.swift; path = brave/src/data/TopSite.swift; sourceTree = "<group>"; };
 		5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
 		5C39A9721F0FECF98A48015E /* BraveBrowserViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BraveBrowserViewController.swift; path = ./brave/src/frontend/BraveBrowserViewController.swift; sourceTree = "<group>"; };
@@ -1736,6 +1740,7 @@
 				C33D93B9B0CD0D4AD9E461AE /* ODRefreshControl.h */,
 				153CFCBEC63A613A0699D370 /* ODRefreshControl.m */,
 				6928610E288C47F9546A63E4 /* PicklistSetting.swift */,
+				5C1A9E671F97CB520071495E /* popups */,
 				2C3C78F7F3FB6427BD51A1E8 /* sidepanels */,
 				430FDA25DAA3C35191998991 /* SwizzlingToHideSharePicker.h */,
 				84C51F13ADC0C2BC71D40BEF /* SwizzlingToHideSharePicker.m */,
@@ -2222,6 +2227,15 @@
 				5C10DF941EE9BF4F00203C93 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5C1A9E671F97CB520071495E /* popups */ = {
+			isa = PBXGroup;
+			children = (
+				5C1A9E841F97D6060071495E /* PopupView.swift */,
+				5C1A9E9A1F97E2F80071495E /* AlertPopupView.swift */,
+			);
+			name = popups;
 			sourceTree = "<group>";
 		};
 		5C44C0D01E384AB300B1FD81 /* data */ = {
@@ -4293,6 +4307,7 @@
 				5FBB6E142EFF5F6E989ABD49 /* block_builder.cc in Sources */,
 				1204E92DCEECF3540EA648CF /* filter_block.cc in Sources */,
 				5D71B69B1E6885E00073621F /* Niceware.swift in Sources */,
+				5C1A9E851F97D6060071495E /* PopupView.swift in Sources */,
 				40DD8F2FF8733625CF906534 /* format.cc in Sources */,
 				5CE70E451E022FAB008B307A /* BraveShieldStatsView.swift in Sources */,
 				5D2F109E1ECA40DC00CF0E0D /* SyncRecord.swift in Sources */,
@@ -4410,6 +4425,7 @@
 				1FA81E870F3EAE5C8FB9269C /* BrowserViewController+ContextMenuHelperDelegate.swift in Sources */,
 				5C67126F8B355442E99D9EDB /* BrowserViewController+FindInPage.swift in Sources */,
 				49603E1E5183CDC3BD1C2D09 /* BrowserViewController+KeyCommands.swift in Sources */,
+				5C1A9E9B1F97E2F80071495E /* AlertPopupView.swift in Sources */,
 				5C2CD4481F72FA6C004AAB5D /* TopSite.swift in Sources */,
 				5D27859A1E70D7EF0066EC15 /* JSInjector.swift in Sources */,
 				C1F07A6A18FC4630EA937E6B /* BrowserViewController+ReaderModeDelegate.swift in Sources */,
