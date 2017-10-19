@@ -81,8 +81,10 @@ class PrivateBrowsing {
             return
         }
         
-        getApp().browserViewController.presentBrowserLockCallout()
-
+        postAsyncToMain(1.3) {
+            getApp().browserViewController.presentBrowserLockCallout()
+        }
+        
         isOn = true
 
         getApp().tabManager.enterPrivateBrowsingMode(self)
