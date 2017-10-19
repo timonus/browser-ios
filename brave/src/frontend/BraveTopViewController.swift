@@ -179,6 +179,7 @@ class BraveTopViewController : UIViewController {
                 make.left.equalTo(mainSidePanel.view.snp.right)
             }
             clickDetectionView.layoutIfNeeded()
+            view.layoutSubviews()
 
             UIView.animate(withDuration: 0.25, animations: {
                 self.clickDetectionView.alpha = 1
