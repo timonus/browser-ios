@@ -298,6 +298,9 @@ class BrowserViewController: UIViewController {
         }, completion: { _ in
             self.webViewContainerBackdrop.alpha = 0
         })
+        
+        // Re-show toolbar which might have been hidden during scrolling (prior to app moving into the background)
+        scrollController.showToolbars(animated: false)
     }
 
     deinit {
@@ -775,6 +778,8 @@ class BrowserViewController: UIViewController {
     func updateUIForReaderHomeStateForTab(_ tab: Browser) {
         updateURLBarDisplayURL(tab: tab)
         updateInContentHomePanel(tab.url)
+        
+        scrollController.showToolbars(animated: false)
     }
 
     fileprivate func isWhitelistedUrl(_ url: URL) -> Bool {

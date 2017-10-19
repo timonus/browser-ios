@@ -109,7 +109,7 @@ class BraveBrowserViewController : BrowserViewController {
     }
 
     override func SELtappedTopArea() {
-     //   scrollController.showToolbars(animated: true)
+        scrollController.showToolbars(animated: true)
     }
 
     override func updateViewConstraints() {

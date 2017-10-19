@@ -49,7 +49,7 @@ class BraveScrollController: NSObject {
     
     fileprivate var isTransitionIncomplete: Bool! {
         get {
-            if headerTopOffset == -topScrollHeight || headerTopOffset == 0 {
+            if headerTopOffset == -topScrollHeight || !toolbarsShowing {
                 return false
             }
             
@@ -176,6 +176,9 @@ private extension BraveScrollController {
     
     @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
         if tabIsLoading() {
+            if !toolbarsShowing {
+                showToolbars(animated: true)
+            }
             return
         }
         
@@ -313,6 +316,10 @@ extension BraveScrollController: UIScrollViewDelegate {
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if tabIsLoading() || isBouncingAtBottom() {
+            return
+        }
+        
         // Check if we should keep animation moving with scroll speed.
         if fabsf(Float(velocity.y)) < 0.7 && checkScrollHeightIsLargeEnoughForScrolling() {
             previousScrollOffset = scrollView.contentOffset.y
