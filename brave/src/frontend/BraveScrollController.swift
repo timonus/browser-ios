@@ -227,7 +227,7 @@ private extension BraveScrollController {
         }
         
         // Apply auto-scroll animation if we're moving too quickly
-        let threshold = CGFloat(6.0)
+        let threshold = CGFloat(13.0)
         if fabs(delta) > threshold {
             if scrollDirection == .up {
                 showToolbars(animated: true)
@@ -321,7 +321,7 @@ extension BraveScrollController: UIScrollViewDelegate {
         }
         
         // Check if we should keep animation moving with scroll speed.
-        if fabsf(Float(velocity.y)) < 0.7 && checkScrollHeightIsLargeEnoughForScrolling() {
+        if fabsf(Float(velocity.y)) < 0.8 && checkScrollHeightIsLargeEnoughForScrolling() {
             previousScrollOffset = scrollView.contentOffset.y
             adjustWithScroll = true
         }
