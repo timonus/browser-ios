@@ -227,7 +227,7 @@ private extension BraveScrollController {
         }
         
         // Apply auto-scroll animation if we're moving too quickly
-        let threshold = CGFloat(13.0)
+        let threshold = CGFloat(18.0)
         if fabs(delta) > threshold {
             if scrollDirection == .up {
                 showToolbars(animated: true)
