@@ -67,7 +67,7 @@ extension BrowserViewController: WebPageStateDelegate {
         if tab === tabManager.selectedTab {
             toolbar?.updateReloadStatus(isLoading)
             urlBar.updateReloadStatus(isLoading)
-            scrollController.showToolbars(animated: true)
+//            scrollController.showToolbars(animated: true)
         }
 
     }
