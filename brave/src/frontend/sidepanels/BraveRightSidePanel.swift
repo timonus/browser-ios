@@ -367,7 +367,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                 stat.font = UIFont.boldSystemFont(ofSize: 28)
                 stat.adjustsFontSizeToFitWidth = true
                 stat.textColor = statColors[i]
-                stat.textAlignment = .right
+                stat.textAlignment = .center
 
                 stat.snp.makeConstraints {
                     make in
@@ -383,11 +383,11 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                         make.bottom.equalTo(stat.superview!)
                     }
 
-                    make.width.equalTo(40)
+                    make.width.equalTo(50)
                 }
 
                 label.snp.makeConstraints({ (make) in
-                    make.left.equalTo(stat.snp.right).offset(6 + 14)
+                    make.left.equalTo(stat.snp.right).offset(8)
                     make.centerY.equalTo(stat)
                     make.right.equalTo(label.superview!.snp.right)
                 })

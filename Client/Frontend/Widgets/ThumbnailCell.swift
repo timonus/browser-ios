@@ -247,6 +247,8 @@ class ThumbnailCell: UICollectionViewCell {
         super.prepareForReuse()
         backgroundImage.image = nil
         removeButton.isHidden = true
+        showBorder(false)
+        backgroundColor = UIColor.clear
         textLabel.font = DynamicFontHelper.defaultHelper.DefaultSmallFont
         textLabel.textColor = PrivateBrowsing.singleton.isOn ? UIColor(rgb: 0xDBDBDB) : UIColor(rgb: 0x2D2D2D)
     }

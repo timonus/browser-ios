@@ -357,7 +357,7 @@ extension Strings {
     public static let Shields_Overview_Footer = NSLocalizedString("Note: Some sites may require scripts to work properly so this shield is turned off by default.", comment: "shields overview footer message")
     public static let Use_regional_adblock = NSLocalizedString("Use regional adblock", comment: "Setting to allow user in non-english locale to use adblock rules specifc to their language")
     public static let Browser_lock_callout_title = NSLocalizedString("Private means private.", comment: "Browser Lock feature callout title.")
-    public static let Browser_lock_callout_message = NSLocalizedString("With Browser Lock, you can now require a PIN when Brave is opened.", comment: "Browser Lock feature callout message.")
+    public static let Browser_lock_callout_message = NSLocalizedString("With Browser Lock, you will need to enter a PIN in order to access Brave.", comment: "Browser Lock feature callout message.")
     public static let Browser_lock_callout_not_now = NSLocalizedString("Not Now", comment: "Browser Lock feature callout not now action.")
     public static let Browser_lock_callout_enable = NSLocalizedString("Enable", comment: "Browser Lock feature callout enable action.")
 }

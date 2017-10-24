@@ -546,7 +546,7 @@ class BrowserViewController: UIViewController {
     }
     
     func presentBrowserLockCallout() {
-        if profile.prefs.boolForKey(kPrefKeySetBrowserLock) == true && profile.prefs.boolForKey(kPrefKeyPopupForBrowserLock) == true {
+        if profile.prefs.boolForKey(kPrefKeySetBrowserLock) == true || profile.prefs.boolForKey(kPrefKeyPopupForBrowserLock) == true {
             return
         }
         

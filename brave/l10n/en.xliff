@@ -1178,8 +1178,8 @@ Blocked</source>
         <source>When Leaving Private Browsing</source>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
       </trans-unit>
-      <trans-unit id="With Browser Lock, you can now require a PIN when Brave is opened.">
-        <source>With Browser Lock, you can now require a PIN when Brave is opened.</source>
+      <trans-unit id="With Browser Lock, you will need to enter a PIN in order to access Brave.">
+        <source>With Browser Lock, you will need to enter a PIN in order to access Brave.</source>
         <note>Browser Lock feature callout message.</note>
       </trans-unit>
       <trans-unit id="Yes">

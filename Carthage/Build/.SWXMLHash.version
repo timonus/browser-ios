@@ -2,7 +2,7 @@
   "commitish" : "4.2.3",
   "iOS" : [
     {
-      "hash" : "7763380f519725e5951051050edcc390aaed866acf5a69e0b9ba69c5e3b96483",
+      "hash" : "53088a35df6f10763fe01fc99954042ca94a02ea98a0b197014810821346ec5c",
       "name" : "SWXMLHash"
     }
   ]
