@@ -8,7 +8,4 @@ endif
 if BUILD_VWEBP
   man_MANS += vwebp.1
 endif
-if BUILD_WEBPINFO
-  man_MANS += webpinfo.1
-endif
 EXTRA_DIST = $(man_MANS)

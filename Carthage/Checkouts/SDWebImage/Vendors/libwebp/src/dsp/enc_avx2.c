@@ -9,7 +9,7 @@
 //
 // AVX2 version of speed-critical encoding functions.
 
-#include "src/dsp/dsp.h"
+#include "./dsp.h"
 
 #if defined(WEBP_USE_AVX2)
 
@@ -18,4 +18,7 @@
 //------------------------------------------------------------------------------
 // Entry point
 
-WEBP_DSP_INIT_STUB(VP8EncDspInitAVX2)
+extern void VP8EncDspInitAVX2(void);
+
+void VP8EncDspInitAVX2(void) {
+}

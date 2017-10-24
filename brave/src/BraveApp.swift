@@ -232,6 +232,9 @@ class BraveApp {
     }
 
     @objc func willEnterForeground(_ : Notification) {
+        postAsyncToMain(10) {
+            BraveApp.updateDauStat()
+        }
     }
 
     class func shouldHandleOpenURL(_ components: URLComponents) -> Bool {
@@ -276,26 +279,20 @@ class BraveApp {
 extension BraveApp {
 
     static func updateDauStat() {
-        
-        let today = Date()
-        let components = (Calendar.current as NSCalendar).components([.day, .month , .year], from: today)
-        let year =  components.year
-        let month = components.month
-        let day = components.day
-        let prefStamp = [day, month, year]
 
-        guard let dauPrefs = getApp().profile?.prefs else { return }
+        guard let prefs = getApp().profile?.prefs else { return }
         let prefName = "dau_stat"
-        let dauStat = dauPrefs.arrayForKey(prefName)?.map { $0 as? Int }
-        
-        // A bit hacky, basically making arrays [Int], rather than [Int?]? / [Int?], and then comparing
-        let firstLaunch = (dauStat ?? []).flatMap{$0} != prefStamp.flatMap{$0}
+        let dauStat = prefs.arrayForKey(prefName)
 
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        var statsQuery = "https://laptop-updates.brave.com/1/usage/ios?platform=ios"
-            + "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
+        var statsQuery = "https://laptop-updates.brave.com/1/usage/ios?platform=ios" + "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
             + "&version=\(appVersion)"
-            + "&first=\(firstLaunch)"
+            + "&first=\(dauStat != nil)"
+
+        let today = Date()
+        let components = (Calendar.current as NSCalendar).components([.month , .year], from: today)
+        let year =  components.year
+        let month = components.month
 
         if let stat = dauStat as? [Int], stat.count == 3 {
             let dSecs = Int(today.timeIntervalSince1970) - stat[0]
@@ -306,10 +303,14 @@ extension BraveApp {
             let daily = dSecs >= SECONDS_IN_A_DAY
             let weekly = dSecs >= SECONDS_IN_A_WEEK
             let monthly = month != _month || year != _year
-            if (daily || weekly || monthly) {
-                statsQuery += "&daily=\(daily)&weekly=\(weekly)&monthly=\(monthly)"
+            if (!daily && !weekly && !monthly) {
+               return
             }
+            statsQuery += "&daily=\(daily)&weekly=\(weekly)&monthly=\(monthly)"
         }
+
+        let secsMonthYear = [Int(today.timeIntervalSince1970), month, year]
+        prefs.setObject(secsMonthYear, forKey: prefName)
 
         guard let url = URL(string: statsQuery) else {
             if !BraveUX.IsRelease {
@@ -319,12 +320,7 @@ extension BraveApp {
         }
         let task = URLSession.shared.dataTask(with: url) {
             (_, _, error) in
-            if let e = error {
-                NSLog("status update error: \(e)")
-            } else {
-                dauPrefs.setObject(prefStamp, forKey: prefName)
-            }
-            
+            if let e = error { NSLog("status update error: \(e)") }
         }
         task.resume()
     }

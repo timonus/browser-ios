@@ -11,8 +11,8 @@
 //
 // Author: somnath@google.com (Somnath Banerjee)
 
-#include "src/dsp/dsp.h"
-#include "src/dsp/yuv.h"
+#include "./dsp.h"
+#include "./yuv.h"
 
 #include <assert.h>
 
@@ -63,17 +63,17 @@ static void FUNC_NAME(const uint8_t* top_y, const uint8_t* bottom_y,           \
       const uint32_t uv0 = (diag_12 + tl_uv) >> 1;                             \
       const uint32_t uv1 = (diag_03 + t_uv) >> 1;                              \
       FUNC(top_y[2 * x - 1], uv0 & 0xff, (uv0 >> 16),                          \
-           top_dst + (2 * x - 1) * (XSTEP));                                   \
+           top_dst + (2 * x - 1) * XSTEP);                                     \
       FUNC(top_y[2 * x - 0], uv1 & 0xff, (uv1 >> 16),                          \
-           top_dst + (2 * x - 0) * (XSTEP));                                   \
+           top_dst + (2 * x - 0) * XSTEP);                                     \
     }                                                                          \
     if (bottom_y != NULL) {                                                    \
       const uint32_t uv0 = (diag_03 + l_uv) >> 1;                              \
       const uint32_t uv1 = (diag_12 + uv) >> 1;                                \
       FUNC(bottom_y[2 * x - 1], uv0 & 0xff, (uv0 >> 16),                       \
-           bottom_dst + (2 * x - 1) * (XSTEP));                                \
+           bottom_dst + (2 * x - 1) * XSTEP);                                  \
       FUNC(bottom_y[2 * x + 0], uv1 & 0xff, (uv1 >> 16),                       \
-           bottom_dst + (2 * x + 0) * (XSTEP));                                \
+           bottom_dst + (2 * x + 0) * XSTEP);                                  \
     }                                                                          \
     tl_uv = t_uv;                                                              \
     l_uv = uv;                                                                 \
@@ -82,24 +82,24 @@ static void FUNC_NAME(const uint8_t* top_y, const uint8_t* bottom_y,           \
     {                                                                          \
       const uint32_t uv0 = (3 * tl_uv + l_uv + 0x00020002u) >> 2;              \
       FUNC(top_y[len - 1], uv0 & 0xff, (uv0 >> 16),                            \
-           top_dst + (len - 1) * (XSTEP));                                     \
+           top_dst + (len - 1) * XSTEP);                                       \
     }                                                                          \
     if (bottom_y != NULL) {                                                    \
       const uint32_t uv0 = (3 * l_uv + tl_uv + 0x00020002u) >> 2;              \
       FUNC(bottom_y[len - 1], uv0 & 0xff, (uv0 >> 16),                         \
-           bottom_dst + (len - 1) * (XSTEP));                                  \
+           bottom_dst + (len - 1) * XSTEP);                                    \
     }                                                                          \
   }                                                                            \
 }
 
 // All variants implemented.
-UPSAMPLE_FUNC(UpsampleRgbLinePair_C,  VP8YuvToRgb,  3)
-UPSAMPLE_FUNC(UpsampleBgrLinePair_C,  VP8YuvToBgr,  3)
-UPSAMPLE_FUNC(UpsampleRgbaLinePair_C, VP8YuvToRgba, 4)
-UPSAMPLE_FUNC(UpsampleBgraLinePair_C, VP8YuvToBgra, 4)
-UPSAMPLE_FUNC(UpsampleArgbLinePair_C, VP8YuvToArgb, 4)
-UPSAMPLE_FUNC(UpsampleRgba4444LinePair_C, VP8YuvToRgba4444, 2)
-UPSAMPLE_FUNC(UpsampleRgb565LinePair_C,  VP8YuvToRgb565,  2)
+UPSAMPLE_FUNC(UpsampleRgbLinePair,  VP8YuvToRgb,  3)
+UPSAMPLE_FUNC(UpsampleBgrLinePair,  VP8YuvToBgr,  3)
+UPSAMPLE_FUNC(UpsampleRgbaLinePair, VP8YuvToRgba, 4)
+UPSAMPLE_FUNC(UpsampleBgraLinePair, VP8YuvToBgra, 4)
+UPSAMPLE_FUNC(UpsampleArgbLinePair, VP8YuvToArgb, 4)
+UPSAMPLE_FUNC(UpsampleRgba4444LinePair, VP8YuvToRgba4444, 2)
+UPSAMPLE_FUNC(UpsampleRgb565LinePair,  VP8YuvToRgb565,  2)
 
 #undef LOAD_UV
 #undef UPSAMPLE_FUNC
@@ -141,6 +141,7 @@ DUAL_SAMPLE_FUNC(DualLineSamplerARGB, VP8YuvToArgb)
 
 WebPUpsampleLinePairFunc WebPGetLinePairConverter(int alpha_is_last) {
   WebPInitUpsamplers();
+  VP8YUVInit();
 #ifdef FANCY_UPSAMPLING
   return WebPUpsamplers[alpha_is_last ? MODE_BGRA : MODE_ARGB];
 #else
@@ -152,88 +153,60 @@ WebPUpsampleLinePairFunc WebPGetLinePairConverter(int alpha_is_last) {
 // YUV444 converter
 
 #define YUV444_FUNC(FUNC_NAME, FUNC, XSTEP)                                    \
-extern void FUNC_NAME(const uint8_t* y, const uint8_t* u, const uint8_t* v,    \
-                      uint8_t* dst, int len);                                  \
-void FUNC_NAME(const uint8_t* y, const uint8_t* u, const uint8_t* v,           \
-               uint8_t* dst, int len) {                                        \
+static void FUNC_NAME(const uint8_t* y, const uint8_t* u, const uint8_t* v,    \
+                      uint8_t* dst, int len) {                                 \
   int i;                                                                       \
-  for (i = 0; i < len; ++i) FUNC(y[i], u[i], v[i], &dst[i * (XSTEP)]);         \
+  for (i = 0; i < len; ++i) FUNC(y[i], u[i], v[i], &dst[i * XSTEP]);           \
 }
 
-YUV444_FUNC(WebPYuv444ToRgb_C,      VP8YuvToRgb,  3)
-YUV444_FUNC(WebPYuv444ToBgr_C,      VP8YuvToBgr,  3)
-YUV444_FUNC(WebPYuv444ToRgba_C,     VP8YuvToRgba, 4)
-YUV444_FUNC(WebPYuv444ToBgra_C,     VP8YuvToBgra, 4)
-YUV444_FUNC(WebPYuv444ToArgb_C,     VP8YuvToArgb, 4)
-YUV444_FUNC(WebPYuv444ToRgba4444_C, VP8YuvToRgba4444, 2)
-YUV444_FUNC(WebPYuv444ToRgb565_C,   VP8YuvToRgb565, 2)
+YUV444_FUNC(Yuv444ToRgb,      VP8YuvToRgb,  3)
+YUV444_FUNC(Yuv444ToBgr,      VP8YuvToBgr,  3)
+YUV444_FUNC(Yuv444ToRgba,     VP8YuvToRgba, 4)
+YUV444_FUNC(Yuv444ToBgra,     VP8YuvToBgra, 4)
+YUV444_FUNC(Yuv444ToArgb,     VP8YuvToArgb, 4)
+YUV444_FUNC(Yuv444ToRgba4444, VP8YuvToRgba4444, 2)
+YUV444_FUNC(Yuv444ToRgb565,   VP8YuvToRgb565, 2)
 
 #undef YUV444_FUNC
 
-WebPYUV444Converter WebPYUV444Converters[MODE_LAST];
-
-extern void WebPInitYUV444ConvertersMIPSdspR2(void);
-extern void WebPInitYUV444ConvertersSSE2(void);
-
-static volatile VP8CPUInfo upsampling_last_cpuinfo_used1 =
-    (VP8CPUInfo)&upsampling_last_cpuinfo_used1;
-
-WEBP_TSAN_IGNORE_FUNCTION void WebPInitYUV444Converters(void) {
-  if (upsampling_last_cpuinfo_used1 == VP8GetCPUInfo) return;
-
-  WebPYUV444Converters[MODE_RGB]       = WebPYuv444ToRgb_C;
-  WebPYUV444Converters[MODE_RGBA]      = WebPYuv444ToRgba_C;
-  WebPYUV444Converters[MODE_BGR]       = WebPYuv444ToBgr_C;
-  WebPYUV444Converters[MODE_BGRA]      = WebPYuv444ToBgra_C;
-  WebPYUV444Converters[MODE_ARGB]      = WebPYuv444ToArgb_C;
-  WebPYUV444Converters[MODE_RGBA_4444] = WebPYuv444ToRgba4444_C;
-  WebPYUV444Converters[MODE_RGB_565]   = WebPYuv444ToRgb565_C;
-  WebPYUV444Converters[MODE_rgbA]      = WebPYuv444ToRgba_C;
-  WebPYUV444Converters[MODE_bgrA]      = WebPYuv444ToBgra_C;
-  WebPYUV444Converters[MODE_Argb]      = WebPYuv444ToArgb_C;
-  WebPYUV444Converters[MODE_rgbA_4444] = WebPYuv444ToRgba4444_C;
-
-  if (VP8GetCPUInfo != NULL) {
-#if defined(WEBP_USE_SSE2)
-    if (VP8GetCPUInfo(kSSE2)) {
-      WebPInitYUV444ConvertersSSE2();
-    }
-#endif
-#if defined(WEBP_USE_MIPS_DSP_R2)
-    if (VP8GetCPUInfo(kMIPSdspR2)) {
-      WebPInitYUV444ConvertersMIPSdspR2();
-    }
-#endif
-  }
-  upsampling_last_cpuinfo_used1 = VP8GetCPUInfo;
-}
+const WebPYUV444Converter WebPYUV444Converters[MODE_LAST] = {
+  Yuv444ToRgb,       // MODE_RGB
+  Yuv444ToRgba,      // MODE_RGBA
+  Yuv444ToBgr,       // MODE_BGR
+  Yuv444ToBgra,      // MODE_BGRA
+  Yuv444ToArgb,      // MODE_ARGB
+  Yuv444ToRgba4444,  // MODE_RGBA_4444
+  Yuv444ToRgb565,    // MODE_RGB_565
+  Yuv444ToRgba,      // MODE_rgbA
+  Yuv444ToBgra,      // MODE_bgrA
+  Yuv444ToArgb,      // MODE_Argb
+  Yuv444ToRgba4444   // MODE_rgbA_4444
+};
 
 //------------------------------------------------------------------------------
 // Main calls
 
 extern void WebPInitUpsamplersSSE2(void);
 extern void WebPInitUpsamplersNEON(void);
-extern void WebPInitUpsamplersMIPSdspR2(void);
-extern void WebPInitUpsamplersMSA(void);
 
 static volatile VP8CPUInfo upsampling_last_cpuinfo_used2 =
     (VP8CPUInfo)&upsampling_last_cpuinfo_used2;
 
-WEBP_TSAN_IGNORE_FUNCTION void WebPInitUpsamplers(void) {
+void WebPInitUpsamplers(void) {
   if (upsampling_last_cpuinfo_used2 == VP8GetCPUInfo) return;
 
 #ifdef FANCY_UPSAMPLING
-  WebPUpsamplers[MODE_RGB]       = UpsampleRgbLinePair_C;
-  WebPUpsamplers[MODE_RGBA]      = UpsampleRgbaLinePair_C;
-  WebPUpsamplers[MODE_BGR]       = UpsampleBgrLinePair_C;
-  WebPUpsamplers[MODE_BGRA]      = UpsampleBgraLinePair_C;
-  WebPUpsamplers[MODE_ARGB]      = UpsampleArgbLinePair_C;
-  WebPUpsamplers[MODE_RGBA_4444] = UpsampleRgba4444LinePair_C;
-  WebPUpsamplers[MODE_RGB_565]   = UpsampleRgb565LinePair_C;
-  WebPUpsamplers[MODE_rgbA]      = UpsampleRgbaLinePair_C;
-  WebPUpsamplers[MODE_bgrA]      = UpsampleBgraLinePair_C;
-  WebPUpsamplers[MODE_Argb]      = UpsampleArgbLinePair_C;
-  WebPUpsamplers[MODE_rgbA_4444] = UpsampleRgba4444LinePair_C;
+  WebPUpsamplers[MODE_RGB]       = UpsampleRgbLinePair;
+  WebPUpsamplers[MODE_RGBA]      = UpsampleRgbaLinePair;
+  WebPUpsamplers[MODE_BGR]       = UpsampleBgrLinePair;
+  WebPUpsamplers[MODE_BGRA]      = UpsampleBgraLinePair;
+  WebPUpsamplers[MODE_ARGB]      = UpsampleArgbLinePair;
+  WebPUpsamplers[MODE_RGBA_4444] = UpsampleRgba4444LinePair;
+  WebPUpsamplers[MODE_RGB_565]   = UpsampleRgb565LinePair;
+  WebPUpsamplers[MODE_rgbA]      = UpsampleRgbaLinePair;
+  WebPUpsamplers[MODE_bgrA]      = UpsampleBgraLinePair;
+  WebPUpsamplers[MODE_Argb]      = UpsampleArgbLinePair;
+  WebPUpsamplers[MODE_rgbA_4444] = UpsampleRgba4444LinePair;
 
   // If defined, use CPUInfo() to overwrite some pointers with faster versions.
   if (VP8GetCPUInfo != NULL) {
@@ -245,16 +218,6 @@ WEBP_TSAN_IGNORE_FUNCTION void WebPInitUpsamplers(void) {
 #if defined(WEBP_USE_NEON)
     if (VP8GetCPUInfo(kNEON)) {
       WebPInitUpsamplersNEON();
-    }
-#endif
-#if defined(WEBP_USE_MIPS_DSP_R2)
-    if (VP8GetCPUInfo(kMIPSdspR2)) {
-      WebPInitUpsamplersMIPSdspR2();
-    }
-#endif
-#if defined(WEBP_USE_MSA)
-    if (VP8GetCPUInfo(kMSA)) {
-      WebPInitUpsamplersMSA();
     }
 #endif
   }

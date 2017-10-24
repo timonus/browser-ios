@@ -31,13 +31,12 @@ typedef struct WebPData WebPData;
 
 // VP8X Feature Flags.
 typedef enum WebPFeatureFlags {
+  FRAGMENTS_FLAG  = 0x00000001,
   ANIMATION_FLAG  = 0x00000002,
   XMP_FLAG        = 0x00000004,
   EXIF_FLAG       = 0x00000008,
   ALPHA_FLAG      = 0x00000010,
-  ICCP_FLAG       = 0x00000020,
-
-  ALL_VALID_FLAGS = 0x0000003e
+  ICCP_FLAG       = 0x00000020
 } WebPFeatureFlags;
 
 // Dispose method (animation only). Indicates how the area used by the current
