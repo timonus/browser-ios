@@ -1,7 +1,7 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -12,7 +12,7 @@
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -96,6 +96,11 @@ Blocked</source>
         <source>Always show</source>
         <target>Всегда показывать</target>
         <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="Amazon">
+        <source>Amazon</source>
+        <target>Amazon</target>
+        <note>Tile title for Amazon</note>
       </trans-unit>
       <trans-unit id="Are you sure you want to clear all of your data? This will also close all open tabs.">
         <source>Are you sure you want to clear all of your data? This will also close all open tabs.</source>
@@ -238,11 +243,6 @@ and here's why...</source>
         <target>С Brave вас в безопасности во время веб-серфинга.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
-      <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
-        <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
-        <target>Brave не будет запоминать историю и cookie, но новые закладки будут сохраняться.</target>
-        <note>No comment provided by engineer.</note>
-      </trans-unit>
       <trans-unit id="Brave would like to access your Photos">
         <source>Brave would like to access your Photos</source>
         <target>Brave нужен доступ к вашим фотографиям</target>
@@ -257,6 +257,11 @@ and here's why...</source>
         <source>Browse with us and your privacy is protected, with nothing further to install, learn or configure.</source>
         <target>Посещайте сайты с нами и ваша конфиденциальность будет защищена без каких-либо дополнительных усилий по установке, изучению или настройке.</target>
         <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Browser Lock">
+        <source>Browser Lock</source>
+        <target>Блокировка браузера</target>
+        <note>Setting to enable browser pin locking</note>
       </trans-unit>
       <trans-unit id="Browsing History">
         <source>Browsing History</source>
@@ -317,6 +322,11 @@ and here's why...</source>
         <source>Close</source>
         <target>Закрыть</target>
         <note>Accessibility label for action denoting closing a tab in tab list (tray)</note>
+      </trans-unit>
+      <trans-unit id="Close All Tabs">
+        <source>Close All Tabs</source>
+        <target>Закрыть все вкладки</target>
+        <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Close Private Tabs">
         <source>Close Private Tabs</source>
@@ -443,6 +453,16 @@ and here's why...</source>
         <target>Редактировать</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
+      <trans-unit id="Enter New Pin">
+        <source>Enter New Pin</source>
+        <target>Введите новый PIN-код</target>
+        <note>Browser Lock New Pin</note>
+      </trans-unit>
+      <trans-unit id="Enter Pin to Unlock Brave">
+        <source>Enter Pin to Unlock Brave</source>
+        <target>Введите PIN-код для разблокировки Brave</target>
+        <note>Unlock Brave with Browser Lock Pin</note>
+      </trans-unit>
       <trans-unit id="Enter Search Mode">
         <source>Enter Search Mode</source>
         <target>Войти в режим поиска</target>
@@ -474,6 +494,11 @@ Saved</source>
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
         <target>Несмотря на то, что сайты, которые вы посещаете на приватных вкладках не сохраняются локально, они не делают вас анонимными или невидимыми для вашего интернет-провайдера, вашего работодателя или самих посещаемых вами сайтов.</target>
         <note>Private tab details</note>
+      </trans-unit>
+      <trans-unit id="Facebook">
+        <source>Facebook</source>
+        <target>Facebook</target>
+        <note>Tile title for Facebook</note>
       </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
@@ -702,7 +727,7 @@ Upgrades</source>
       <trans-unit id="New Tab">
         <source>New Tab</source>
         <target>Новая вкладка</target>
-        <note>No comment provided by engineer.</note>
+        <note>New Tab title</note>
       </trans-unit>
       <trans-unit id="Next in-page result">
         <source>Next in-page result</source>
@@ -754,6 +779,11 @@ Upgrades</source>
         <target>Открыть и заполнить</target>
         <note>Open and Fill website text selection menu item</note>
       </trans-unit>
+      <trans-unit id="Open All Bookmarks">
+        <source>Open All Bookmarks</source>
+        <target>Открыть все закладки</target>
+        <note>Context menu item for opening all folder bookmarks</note>
+      </trans-unit>
       <trans-unit id="Open Desktop Site tab">
         <source>Open Desktop Site tab</source>
         <target>Открыть полную версию сайта</target>
@@ -769,9 +799,9 @@ Upgrades</source>
         <target>Открыть в новой приватной вкладке</target>
         <note>Context menu option for opening a link in a new private tab</note>
       </trans-unit>
-      <trans-unit id="Open In New Tab">
-        <source>Open In New Tab</source>
-        <target>Открыть в новой вкладке</target>
+      <trans-unit id="Open Link In New Tab">
+        <source>Open Link In New Tab</source>
+        <target>Открыть ссылку в новой вкладке</target>
         <note>Context menu item for opening a link in a new tab</note>
       </trans-unit>
       <trans-unit id="Open Settings">
@@ -823,6 +853,11 @@ Upgrades</source>
         <source>Paste &amp; Go</source>
         <target>Вставить и перейти</target>
         <note>Paste the URL into the location bar and visit</note>
+      </trans-unit>
+      <trans-unit id="Pin">
+        <source>Pin</source>
+        <target>PIN-код</target>
+        <note>Setting to change browser lock pin</note>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
@@ -878,6 +913,11 @@ Upgrades</source>
         <source>Quick-search Engines</source>
         <target>Модули быстрого поиска</target>
         <note>Title for quick-search engines settings section.</note>
+      </trans-unit>
+      <trans-unit id="Re-Enter New Pin">
+        <source>Re-Enter New Pin</source>
+        <target>Повторно введите новый PIN-код</target>
+        <note>Browser Lock Re-Enter New Pin</note>
       </trans-unit>
       <trans-unit id="Reader Mode Settings">
         <source>Reader Mode Settings</source>
@@ -1029,6 +1069,11 @@ Upgrades</source>
         <target>Безопасное соединение</target>
         <note>Accessibility label for the lock icon, which is only present if the connection is secure</note>
       </trans-unit>
+      <trans-unit id="Security">
+        <source>Security</source>
+        <target>Безопасность</target>
+        <note>Settings security section title</note>
+      </trans-unit>
       <trans-unit id="Select All">
         <source>Select All</source>
         <target>Выделить все</target>
@@ -1053,6 +1098,11 @@ Upgrades</source>
         <source>Serif</source>
         <target>Serif</target>
         <note>Font type setting in the reading view settings</note>
+      </trans-unit>
+      <trans-unit id="Set Pin">
+        <source>Set Pin</source>
+        <target>Задать PIN-код</target>
+        <note>Browser Lock Set Pin</note>
       </trans-unit>
       <trans-unit id="Settings">
         <source>Settings</source>
@@ -1179,6 +1229,11 @@ Upgrades</source>
         <target>Синхронизация с устройством</target>
         <note>Sync to existing device</note>
       </trans-unit>
+      <trans-unit id="Tab">
+        <source>Tab</source>
+        <target>Вкладка</target>
+        <note>Accessibility label for a Tab.</note>
+      </trans-unit>
       <trans-unit id="Tab %@ of %@">
         <source>Tab %1$@ of %2$@</source>
         <target>Вкладка %1$@ из %2$@</target>
@@ -1281,6 +1336,11 @@ Blocked</source>
         <target>Включает/Выключает приватный режим</target>
         <note>Accessiblity hint for toggling on/off private mode</note>
       </trans-unit>
+      <trans-unit id="Twitter">
+        <source>Twitter</source>
+        <target>Twitter</target>
+        <note>Tile title for Twitter</note>
+      </trans-unit>
       <trans-unit id="URL">
         <source>URL</source>
         <target>URL</target>
@@ -1330,6 +1390,11 @@ Blocked</source>
         <source>Use regional adblock</source>
         <target>Использовать синтаксис adblock на вашем языке</target>
         <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
+      </trans-unit>
+      <trans-unit id="Use your fingerprint to unlock Brave.">
+        <source>Use your fingerprint to unlock Brave.</source>
+        <target>Использовать отпечаток пальца для разблокировки Brave.</target>
+        <note>Unlock Brave with fingerprint.</note>
       </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
@@ -1381,6 +1446,11 @@ Blocked</source>
         <target>При выходе из приватного просмотра</target>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
       </trans-unit>
+      <trans-unit id="Wikipedia">
+        <source>Wikipedia</source>
+        <target>Wikipedia</target>
+        <note>Tile title for Wikipedia</note>
+      </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>
         <target>Да</target>
@@ -1395,6 +1465,11 @@ Blocked</source>
         <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
         <target>Можно выбрать отображение всплывающего окна для выбора диспетчера паролей или открыть его автоматически.</target>
         <note>Footer message on picker for 3rd party password manager setting</note>
+      </trans-unit>
+      <trans-unit id="YouTube">
+        <source>YouTube</source>
+        <target>YouTube</target>
+        <note>Tile title for YouTube</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
         <source>Your connection is not private</source>
@@ -1476,11 +1551,73 @@ Blocked</source>
         <target>веб-сайт</target>
         <note>Title for website row in Login Detail View</note>
       </trans-unit>
+      <trans-unit id="yesterday">
+        <source>yesterday</source>
+        <target>вчера</target>
+        <note>Relative date for yesterday.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="brave/Shared.strings" source-language="en" target-language="ru">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="%@ on %@">
+        <source>%1$@ on %2$@</source>
+        <target>%1$@ на %2$@</target>
+        <note>A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/BookmarkPanel.strings" source-language="en" target-language="ru">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="Desktop Bookmarks">
+        <source>Desktop Bookmarks</source>
+        <target>Закладки компьютера</target>
+        <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/Storage.strings" source-language="en" target-language="ru">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="Bookmarks Menu">
+        <source>Bookmarks Menu</source>
+        <target>Меню закладок</target>
+        <note>The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Bookmarks Toolbar">
+        <source>Bookmarks Toolbar</source>
+        <target>Панель закладок</target>
+        <note>The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Mobile Bookmarks">
+        <source>Mobile Bookmarks</source>
+        <target>Закладки мобильного</target>
+        <note>The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Unsorted Bookmarks">
+        <source>Unsorted Bookmarks</source>
+        <target>Несортированные закладки</target>
+        <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Untitled">
+        <source>Untitled</source>
+        <target>Без названия</target>
+        <note>The default name for bookmark folders without titles.
+   The default name for bookmark nodes without titles.</note>
+      </trans-unit>
     </body>
   </file>
   <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -1491,7 +1628,7 @@ Blocked</source>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">

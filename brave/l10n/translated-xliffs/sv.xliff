@@ -1,7 +1,7 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="sv">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -12,7 +12,7 @@
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="sv">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -96,6 +96,11 @@ annonser</target>
         <source>Always show</source>
         <target>Visa alltid</target>
         <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="Amazon">
+        <source>Amazon</source>
+        <target>Amazon</target>
+        <note>Tile title for Amazon</note>
       </trans-unit>
       <trans-unit id="Are you sure you want to clear all of your data? This will also close all open tabs.">
         <source>Are you sure you want to clear all of your data? This will also close all open tabs.</source>
@@ -238,11 +243,6 @@ och här är varför...</target>
         <target>Brave håller dig trygg när du surfar.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
-      <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
-        <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
-        <target>Brave kommer inte ihåg din historik eller din cookies, men nya bokmärken kommer att sparas.</target>
-        <note>No comment provided by engineer.</note>
-      </trans-unit>
       <trans-unit id="Brave would like to access your Photos">
         <source>Brave would like to access your Photos</source>
         <target>Brave vill ha tillgång till dina foton</target>
@@ -257,6 +257,11 @@ och här är varför...</target>
         <source>Browse with us and your privacy is protected, with nothing further to install, learn or configure.</source>
         <target>Surfa med oss och din integritet kommer vara skyddad utan att behöva installera, lära sig eller konfigurera något.</target>
         <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Browser Lock">
+        <source>Browser Lock</source>
+        <target>Kodlås för webbläsare</target>
+        <note>Setting to enable browser pin locking</note>
       </trans-unit>
       <trans-unit id="Browsing History">
         <source>Browsing History</source>
@@ -317,6 +322,11 @@ och här är varför...</target>
         <source>Close</source>
         <target>Stäng</target>
         <note>Accessibility label for action denoting closing a tab in tab list (tray)</note>
+      </trans-unit>
+      <trans-unit id="Close All Tabs">
+        <source>Close All Tabs</source>
+        <target>Stäng alla flikar</target>
+        <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Close Private Tabs">
         <source>Close Private Tabs</source>
@@ -443,6 +453,16 @@ och här är varför...</target>
         <target>Ändra</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
+      <trans-unit id="Enter New Pin">
+        <source>Enter New Pin</source>
+        <target>Ange ny kod</target>
+        <note>Browser Lock New Pin</note>
+      </trans-unit>
+      <trans-unit id="Enter Pin to Unlock Brave">
+        <source>Enter Pin to Unlock Brave</source>
+        <target>Ange kod för att låsa upp Brave</target>
+        <note>Unlock Brave with Browser Lock Pin</note>
+      </trans-unit>
       <trans-unit id="Enter Search Mode">
         <source>Enter Search Mode</source>
         <target>Ange sökläge</target>
@@ -473,6 +493,11 @@ Saved</source>
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
         <target>Även om webbplatser som du besöker i privata flikar inte sparas lokalt, gör de dig inte anonym eller osynlig för din Internetleverantör, din arbetsgivare eller de webbplatser du besöker.</target>
         <note>Private tab details</note>
+      </trans-unit>
+      <trans-unit id="Facebook">
+        <source>Facebook</source>
+        <target>Facebook</target>
+        <note>Tile title for Facebook</note>
       </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
@@ -700,7 +725,7 @@ uppgraderingar</target>
       <trans-unit id="New Tab">
         <source>New Tab</source>
         <target>Ny flik</target>
-        <note>No comment provided by engineer.</note>
+        <note>New Tab title</note>
       </trans-unit>
       <trans-unit id="Next in-page result">
         <source>Next in-page result</source>
@@ -752,6 +777,11 @@ uppgraderingar</target>
         <target>Open &amp; Fill</target>
         <note>Open and Fill website text selection menu item</note>
       </trans-unit>
+      <trans-unit id="Open All Bookmarks">
+        <source>Open All Bookmarks</source>
+        <target>Öppna alla bokmärken</target>
+        <note>Context menu item for opening all folder bookmarks</note>
+      </trans-unit>
       <trans-unit id="Open Desktop Site tab">
         <source>Open Desktop Site tab</source>
         <target>Begär datorwebbplats</target>
@@ -767,9 +797,9 @@ uppgraderingar</target>
         <target>Öppna i ny privat flik </target>
         <note>Context menu option for opening a link in a new private tab</note>
       </trans-unit>
-      <trans-unit id="Open In New Tab">
-        <source>Open In New Tab</source>
-        <target>Öppna i ny flik</target>
+      <trans-unit id="Open Link In New Tab">
+        <source>Open Link In New Tab</source>
+        <target>Öppna länk i ny flik</target>
         <note>Context menu item for opening a link in a new tab</note>
       </trans-unit>
       <trans-unit id="Open Settings">
@@ -821,6 +851,11 @@ uppgraderingar</target>
         <source>Paste &amp; Go</source>
         <target>Klistra in och surfa</target>
         <note>Paste the URL into the location bar and visit</note>
+      </trans-unit>
+      <trans-unit id="Pin">
+        <source>Pin</source>
+        <target>Kod</target>
+        <note>Setting to change browser lock pin</note>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
@@ -876,6 +911,11 @@ uppgraderingar</target>
         <source>Quick-search Engines</source>
         <target>Snabbsökmotorer</target>
         <note>Title for quick-search engines settings section.</note>
+      </trans-unit>
+      <trans-unit id="Re-Enter New Pin">
+        <source>Re-Enter New Pin</source>
+        <target>Ange kod igen</target>
+        <note>Browser Lock Re-Enter New Pin</note>
       </trans-unit>
       <trans-unit id="Reader Mode Settings">
         <source>Reader Mode Settings</source>
@@ -1027,6 +1067,11 @@ uppgraderingar</target>
         <target>Säker anslutning</target>
         <note>Accessibility label for the lock icon, which is only present if the connection is secure</note>
       </trans-unit>
+      <trans-unit id="Security">
+        <source>Security</source>
+        <target>Säkerhet</target>
+        <note>Settings security section title</note>
+      </trans-unit>
       <trans-unit id="Select All">
         <source>Select All</source>
         <target>Välj alla</target>
@@ -1051,6 +1096,11 @@ uppgraderingar</target>
         <source>Serif</source>
         <target>Serif</target>
         <note>Font type setting in the reading view settings</note>
+      </trans-unit>
+      <trans-unit id="Set Pin">
+        <source>Set Pin</source>
+        <target>Ange kod</target>
+        <note>Browser Lock Set Pin</note>
       </trans-unit>
       <trans-unit id="Settings">
         <source>Settings</source>
@@ -1177,6 +1227,11 @@ uppgraderingar</target>
         <target>Synkronisera till enhet</target>
         <note>Sync to existing device</note>
       </trans-unit>
+      <trans-unit id="Tab">
+        <source>Tab</source>
+        <target>Flik</target>
+        <note>Accessibility label for a Tab.</note>
+      </trans-unit>
       <trans-unit id="Tab %@ of %@">
         <source>Tab %1$@ of %2$@</source>
         <target>Flik %1$@ av %2$@</target>
@@ -1279,6 +1334,11 @@ spårare</target>
         <target>Sätter på och av Privat läge</target>
         <note>Accessiblity hint for toggling on/off private mode</note>
       </trans-unit>
+      <trans-unit id="Twitter">
+        <source>Twitter</source>
+        <target>Twitter</target>
+        <note>Tile title for Twitter</note>
+      </trans-unit>
       <trans-unit id="URL">
         <source>URL</source>
         <target>URL</target>
@@ -1301,7 +1361,7 @@ spårare</target>
       </trans-unit>
       <trans-unit id="Untitled">
         <source>Untitled</source>
-        <target>Utan titel</target>
+        <target>Namnlös</target>
         <note>The default name for bookmark item without titles.</note>
       </trans-unit>
       <trans-unit id="Up">
@@ -1328,6 +1388,11 @@ spårare</target>
         <source>Use regional adblock</source>
         <target>Använd regional annonsblockering</target>
         <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
+      </trans-unit>
+      <trans-unit id="Use your fingerprint to unlock Brave.">
+        <source>Use your fingerprint to unlock Brave.</source>
+        <target>Använd ditt fingeravtryck för att låsa upp Brave</target>
+        <note>Unlock Brave with fingerprint.</note>
       </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
@@ -1379,6 +1444,11 @@ spårare</target>
         <target>När du lämnar privat surfning</target>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
       </trans-unit>
+      <trans-unit id="Wikipedia">
+        <source>Wikipedia</source>
+        <target>Wikipedia</target>
+        <note>Tile title for Wikipedia</note>
+      </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>
         <target>Ja</target>
@@ -1386,13 +1456,18 @@ spårare</target>
       </trans-unit>
       <trans-unit id="Yesterday">
         <source>Yesterday</source>
-        <target>I går</target>
+        <target>Igår</target>
         <note>History tableview section header</note>
       </trans-unit>
       <trans-unit id="You can choose to show a popup to pick your password manager, or have the selected one open automatically.">
         <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
         <target>Du kan välja att visa ett popup för att välja din lösenordshanterare, eller att ha den valda är öppna automatiskt.</target>
         <note>Footer message on picker for 3rd party password manager setting</note>
+      </trans-unit>
+      <trans-unit id="YouTube">
+        <source>YouTube</source>
+        <target>Youtube</target>
+        <note>Tile title for YouTube</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
         <source>Your connection is not private</source>
@@ -1474,11 +1549,73 @@ spårare</target>
         <target>hemsida</target>
         <note>Title for website row in Login Detail View</note>
       </trans-unit>
+      <trans-unit id="yesterday">
+        <source>yesterday</source>
+        <target>Igår</target>
+        <note>Relative date for yesterday.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="brave/Shared.strings" source-language="en" target-language="sv">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="%@ on %@">
+        <source>%1$@ on %2$@</source>
+        <target>%1$@ på %2$@</target>
+        <note>A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/BookmarkPanel.strings" source-language="en" target-language="sv">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="Desktop Bookmarks">
+        <source>Desktop Bookmarks</source>
+        <target>Desktop bokmärken</target>
+        <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/Storage.strings" source-language="en" target-language="sv">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="Bookmarks Menu">
+        <source>Bookmarks Menu</source>
+        <target>Bokmärkesmeny</target>
+        <note>The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Bookmarks Toolbar">
+        <source>Bookmarks Toolbar</source>
+        <target>Bokmärkesfältet</target>
+        <note>The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Mobile Bookmarks">
+        <source>Mobile Bookmarks</source>
+        <target>Mobila bokmärken</target>
+        <note>The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Unsorted Bookmarks">
+        <source>Unsorted Bookmarks</source>
+        <target>Osorterade bokmärken</target>
+        <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Untitled">
+        <source>Untitled</source>
+        <target>Namnlös</target>
+        <note>The default name for bookmark folders without titles.
+   The default name for bookmark nodes without titles.</note>
+      </trans-unit>
     </body>
   </file>
   <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="sv">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -1489,7 +1626,7 @@ spårare</target>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="sv">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">

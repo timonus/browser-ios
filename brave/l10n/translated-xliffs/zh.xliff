@@ -1,7 +1,7 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="zh">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -12,7 +12,7 @@
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="zh">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -94,6 +94,10 @@ Blocked</source>
         <source>Always show</source>
         <target>总是显示</target>
         <note>tabs bar show/hide option</note>
+      </trans-unit>
+      <trans-unit id="Amazon">
+        <source>Amazon</source>
+        <note>Tile title for Amazon</note>
       </trans-unit>
       <trans-unit id="Are you sure you want to clear all of your data? This will also close all open tabs.">
         <source>Are you sure you want to clear all of your data? This will also close all open tabs.</source>
@@ -236,11 +240,6 @@ and here's why...</source>
         <target>Brave让你的浏览体验更安全</target>
         <note>Shown in intro screens</note>
       </trans-unit>
-      <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
-        <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
-        <target>Brave不会保存您的任何历史或cookies，但新的书签会被保存</target>
-        <note>No comment provided by engineer.</note>
-      </trans-unit>
       <trans-unit id="Brave would like to access your Photos">
         <source>Brave would like to access your Photos</source>
         <target>Brave想拥有您手机的访问权</target>
@@ -255,6 +254,10 @@ and here's why...</source>
         <source>Browse with us and your privacy is protected, with nothing further to install, learn or configure.</source>
         <target>无需其他的安装，学习和配置，Brave浏览器会保护您的隐私，</target>
         <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Browser Lock">
+        <source>Browser Lock</source>
+        <note>Setting to enable browser pin locking</note>
       </trans-unit>
       <trans-unit id="Browsing History">
         <source>Browsing History</source>
@@ -315,6 +318,10 @@ and here's why...</source>
         <source>Close</source>
         <target>关闭</target>
         <note>Accessibility label for action denoting closing a tab in tab list (tray)</note>
+      </trans-unit>
+      <trans-unit id="Close All Tabs">
+        <source>Close All Tabs</source>
+        <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Close Private Tabs">
         <source>Close Private Tabs</source>
@@ -441,6 +448,14 @@ and here's why...</source>
         <target>编辑</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
+      <trans-unit id="Enter New Pin">
+        <source>Enter New Pin</source>
+        <note>Browser Lock New Pin</note>
+      </trans-unit>
+      <trans-unit id="Enter Pin to Unlock Brave">
+        <source>Enter Pin to Unlock Brave</source>
+        <note>Unlock Brave with Browser Lock Pin</note>
+      </trans-unit>
       <trans-unit id="Enter Search Mode">
         <source>Enter Search Mode</source>
         <target>进入搜索模式</target>
@@ -470,6 +485,10 @@ Saved</source>
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
         <target>虽然在“私人”标签中访问的网站不会在本地保存，但不会让您对您的 ISP、雇主或访问的网站匿名或不可见。</target>
         <note>Private tab details</note>
+      </trans-unit>
+      <trans-unit id="Facebook">
+        <source>Facebook</source>
+        <note>Tile title for Facebook</note>
       </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
@@ -696,7 +715,7 @@ Upgrades</source>
       <trans-unit id="New Tab">
         <source>New Tab</source>
         <target>新的标签页</target>
-        <note>No comment provided by engineer.</note>
+        <note>New Tab title</note>
       </trans-unit>
       <trans-unit id="Next in-page result">
         <source>Next in-page result</source>
@@ -748,6 +767,10 @@ Upgrades</source>
         <target>打开并填充</target>
         <note>Open and Fill website text selection menu item</note>
       </trans-unit>
+      <trans-unit id="Open All Bookmarks">
+        <source>Open All Bookmarks</source>
+        <note>Context menu item for opening all folder bookmarks</note>
+      </trans-unit>
       <trans-unit id="Open Desktop Site tab">
         <source>Open Desktop Site tab</source>
         <target>打开桌面站点选项卡</target>
@@ -763,9 +786,8 @@ Upgrades</source>
         <target>打开新的私人标签</target>
         <note>Context menu option for opening a link in a new private tab</note>
       </trans-unit>
-      <trans-unit id="Open In New Tab">
-        <source>Open In New Tab</source>
-        <target>在新的标签页打开</target>
+      <trans-unit id="Open Link In New Tab">
+        <source>Open Link In New Tab</source>
         <note>Context menu item for opening a link in a new tab</note>
       </trans-unit>
       <trans-unit id="Open Settings">
@@ -817,6 +839,10 @@ Upgrades</source>
         <source>Paste &amp; Go</source>
         <target>粘贴并继续</target>
         <note>Paste the URL into the location bar and visit</note>
+      </trans-unit>
+      <trans-unit id="Pin">
+        <source>Pin</source>
+        <note>Setting to change browser lock pin</note>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
@@ -872,6 +898,10 @@ Upgrades</source>
         <source>Quick-search Engines</source>
         <target>快速搜索引擎</target>
         <note>Title for quick-search engines settings section.</note>
+      </trans-unit>
+      <trans-unit id="Re-Enter New Pin">
+        <source>Re-Enter New Pin</source>
+        <note>Browser Lock Re-Enter New Pin</note>
       </trans-unit>
       <trans-unit id="Reader Mode Settings">
         <source>Reader Mode Settings</source>
@@ -1022,6 +1052,10 @@ Upgrades</source>
         <target>安全连接</target>
         <note>Accessibility label for the lock icon, which is only present if the connection is secure</note>
       </trans-unit>
+      <trans-unit id="Security">
+        <source>Security</source>
+        <note>Settings security section title</note>
+      </trans-unit>
       <trans-unit id="Select All">
         <source>Select All</source>
         <target>全选</target>
@@ -1046,6 +1080,10 @@ Upgrades</source>
         <source>Serif</source>
         <target>衬线体</target>
         <note>Font type setting in the reading view settings</note>
+      </trans-unit>
+      <trans-unit id="Set Pin">
+        <source>Set Pin</source>
+        <note>Browser Lock Set Pin</note>
       </trans-unit>
       <trans-unit id="Settings">
         <source>Settings</source>
@@ -1171,6 +1209,10 @@ Upgrades</source>
         <target>同步到设备</target>
         <note>Sync to existing device</note>
       </trans-unit>
+      <trans-unit id="Tab">
+        <source>Tab</source>
+        <note>Accessibility label for a Tab.</note>
+      </trans-unit>
       <trans-unit id="Tab %@ of %@">
         <source>Tab %1$@ of %2$@</source>
         <target>标签页%1$@ of %2$@</target>
@@ -1270,6 +1312,10 @@ Blocked</source>
         <target>开启/关闭隐私模式</target>
         <note>Accessiblity hint for toggling on/off private mode</note>
       </trans-unit>
+      <trans-unit id="Twitter">
+        <source>Twitter</source>
+        <note>Tile title for Twitter</note>
+      </trans-unit>
       <trans-unit id="URL">
         <source>URL</source>
         <target>URL</target>
@@ -1319,6 +1365,10 @@ Blocked</source>
         <source>Use regional adblock</source>
         <target>使用地区广告拦截</target>
         <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
+      </trans-unit>
+      <trans-unit id="Use your fingerprint to unlock Brave.">
+        <source>Use your fingerprint to unlock Brave.</source>
+        <note>Unlock Brave with fingerprint.</note>
       </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
@@ -1370,6 +1420,10 @@ Blocked</source>
         <target>当离开隐私浏览时</target>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
       </trans-unit>
+      <trans-unit id="Wikipedia">
+        <source>Wikipedia</source>
+        <note>Tile title for Wikipedia</note>
+      </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>
         <target>是</target>
@@ -1384,6 +1438,10 @@ Blocked</source>
         <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
         <target>您可以选择显示弹出窗口来选择密码管理器，或者让所选管理器自动打开。</target>
         <note>Footer message on picker for 3rd party password manager setting</note>
+      </trans-unit>
+      <trans-unit id="YouTube">
+        <source>YouTube</source>
+        <note>Tile title for YouTube</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
         <source>Your connection is not private</source>
@@ -1461,11 +1519,65 @@ Blocked</source>
         <target>网站</target>
         <note>Title for website row in Login Detail View</note>
       </trans-unit>
+      <trans-unit id="yesterday">
+        <source>yesterday</source>
+        <note>Relative date for yesterday.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="brave/Shared.strings" source-language="en" target-language="zh">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="%@ on %@">
+        <source>%1$@ on %2$@</source>
+        <note>A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/BookmarkPanel.strings" source-language="en" target-language="zh">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="Desktop Bookmarks">
+        <source>Desktop Bookmarks</source>
+        <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/Storage.strings" source-language="en" target-language="zh">
+    <header>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+    </header>
+    <body>
+      <trans-unit id="Bookmarks Menu">
+        <source>Bookmarks Menu</source>
+        <note>The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Bookmarks Toolbar">
+        <source>Bookmarks Toolbar</source>
+        <note>The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Mobile Bookmarks">
+        <source>Mobile Bookmarks</source>
+        <note>The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Unsorted Bookmarks">
+        <source>Unsorted Bookmarks</source>
+        <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Untitled">
+        <source>Untitled</source>
+        <note>The default name for bookmark folders without titles.
+   The default name for bookmark nodes without titles.</note>
+      </trans-unit>
     </body>
   </file>
   <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="zh">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -1476,7 +1588,7 @@ Blocked</source>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="zh">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">
