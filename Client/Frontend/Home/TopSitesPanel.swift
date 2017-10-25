@@ -853,7 +853,8 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
             blocked = Domain.blockedTopSites(context)
             postAsyncToMain {
                 for domain in blocked {
-                    self.suggestedSites = self.suggestedSites.filter { self.extractDomainURL($0.url) != self.extractDomainURL(domain.url!) }
+                    guard let extractUrl = domain.url else { continue }
+                    self.suggestedSites = self.suggestedSites.filter { self.extractDomainURL($0.url) != self.extractDomainURL(extractUrl) }
                 }
 
                 self.sites = self.sites.map { site in

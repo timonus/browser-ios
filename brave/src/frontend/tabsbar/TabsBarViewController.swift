@@ -59,7 +59,7 @@ class TabBarCell: UICollectionViewCell {
             make.right.equalTo(self).inset(5)
             make.width.equalTo(16)
         })
-        close.tintColor = UIColor.black
+        close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
         
         separatorLine.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         separatorLine.snp.makeConstraints { (make) in
@@ -91,6 +91,7 @@ class TabBarCell: UICollectionViewCell {
                 title.font = UIFont.systemFont(ofSize: 12, weight: UIFontWeightSemibold)
                 title.textColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
                 close.isHidden = false
+                close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
                 backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.DarkToolbarsBackgroundSolidColor : BraveUX.ToolbarsBackgroundSolidColor
             }
             else if currentIndex != getApp().tabManager.currentDisplayedIndex {

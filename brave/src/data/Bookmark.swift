@@ -275,12 +275,12 @@ extension Bookmark {
         return nil
     }
     
-    static func getChildren(forFolderUUID syncUUID: [Int]?, context: NSManagedObjectContext) -> [Bookmark]? {
+    static func getChildren(forFolderUUID syncUUID: [Int]?, ignoreFolders: Bool = false, context: NSManagedObjectContext) -> [Bookmark]? {
         guard let searchableUUID = SyncHelpers.syncDisplay(fromUUID: syncUUID) else {
             return nil
         }
         
-        return get(predicate: NSPredicate(format: "syncParentDisplayUUID == %@", searchableUUID), context: context)
+        return get(predicate: NSPredicate(format: "syncParentDisplayUUID == %@ and isFolder == %@", searchableUUID, ignoreFolders ? "true" : "false"), context: context)
     }
     
     static func get(parentSyncUUID parentUUID: [Int]?, context: NSManagedObjectContext?) -> Bookmark? {

@@ -131,7 +131,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
             actionSheetController.addAction(shareAction)
         }
         
-        if let folder = elements.folder, let bookmarks = Bookmark.getChildren(forFolderUUID: folder, context: DataController.shared.mainThreadContext) {
+        if let folder = elements.folder, let bookmarks = Bookmark.getChildren(forFolderUUID: folder, ignoreFolders: true, context: DataController.shared.mainThreadContext) {
             let openTitle = String(format: Strings.Open_All_Bookmarks, bookmarks.count)
             let copyAction = UIAlertAction(title: openTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
                 let context = DataController.shared.workerContext
