@@ -72,7 +72,10 @@ class URLProtocol: Foundation.URLProtocol {
             return shieldResult
         }
 
-        shieldResult.setStateFromPerPageShield(webViewShield)
+        DispatchQueue.main.async {
+            shieldResult.setStateFromPerPageShield(webViewShield)
+        }
+        
         return shieldResult
     }
 

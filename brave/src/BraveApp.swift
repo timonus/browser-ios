@@ -322,7 +322,10 @@ extension BraveApp {
             if let e = error {
                 NSLog("status update error: \(e)")
             } else {
-                dauPrefs.setObject(prefStamp, forKey: prefName)
+                
+                DispatchQueue.main.async {
+                    dauPrefs.setObject(prefStamp, forKey: prefName)
+                }
             }
             
         }
