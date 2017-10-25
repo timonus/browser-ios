@@ -339,6 +339,13 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
             return CGSize(width: view.frame.width, height: view.frame.height)
         }
         
+        let newTabButtonWidth = CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? BraveUX.TabsBarPlusButtonWidth : 0)
+        let tabsAndButtonWidth = CGFloat(tabList.count()) * minTabWidth
+        if tabsAndButtonWidth < collectionView.frame.width - newTabButtonWidth {
+            let maxWidth = (collectionView.frame.width - newTabButtonWidth) / CGFloat(tabList.count())
+            return CGSize(width: maxWidth, height: view.frame.height)
+        }
+        
         return CGSize(width: minTabWidth, height: view.frame.height)
     }
     

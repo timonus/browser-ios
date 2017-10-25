@@ -326,6 +326,7 @@ extension BraveScrollController: UIScrollViewDelegate {
             adjustWithScroll = true
         }
         else if checkScrollHeightIsLargeEnoughForScrolling() {
+            adjustWithScroll = false
             // scrolling too fast, keeps animation smooth.
             if scrollDirection == .up {
                 showToolbars(animated: true)
