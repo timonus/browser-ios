@@ -24,6 +24,7 @@
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
+		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
 		0B742CCF1B32493E00EE9264 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B742CCC1B32491400EE9264 /* libsqlcipher.a */; };
 		0B8E0FF41A932BD500161DC3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8E0FF31A932BD500161DC3 /* ImageIO.framework */; };
 		0C4C783F1C0ACF9ABB3C741A /* ReadingListSQLStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2C6937D1EBDCCAEC20B669 /* ReadingListSQLStorage.swift */; };
@@ -384,7 +385,6 @@
 		A69BFC90988CE401E0A5A0E7 /* FindInPageActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878D427F83867906A0A1F13 /* FindInPageActivity.swift */; };
 		A6A180ED09280A17C5C11B72 /* dumpfile.cc in Sources */ = {isa = PBXBuildFile; fileRef = A88DB45B196E00624A7B7B90 /* dumpfile.cc */; };
 		A6A642351469BCFC02F2BB1E /* RemoteTabsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7B921B5225CE976413AE24 /* RemoteTabsTable.swift */; };
-		A6E598067FE0B003D66CEBF9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71D20A6CE1238138D7BE1DA1 /* LaunchScreen.xib */; };
 		A713235167A69FC297287CA2 /* ReadingListClientRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144D8E467E687B3871C8836 /* ReadingListClientRecord.swift */; };
 		A90DB45DF991E67B7130B8BB /* ContextMenuHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123F09362D0AC9517D38B999 /* ContextMenuHelper.swift */; };
 		AA40B83421102E20C372F1B0 /* status.h in Headers */ = {isa = PBXBuildFile; fileRef = F1D3A5A73426CF7D28DAB96E /* status.h */; };
@@ -891,6 +891,7 @@
 		08373AAA053C26FAD1A95023 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = ./Storage/Info.plist; sourceTree = "<group>"; };
 		0994D8CB826BBAE3C446B125 /* Crasher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Crasher.h; path = ./Client/Application/Crasher.h; sourceTree = "<group>"; };
 		09B26BBAC8D68EFA2A333975 /* CharisSILR.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = CharisSILR.ttf; path = ./Client/Assets/Fonts/CharisSILR.ttf; sourceTree = "<group>"; };
+		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B5DA2C8E2A696FCBB8FC07F /* CompletionOps.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompletionOps.swift; path = ./Storage/CompletionOps.swift; sourceTree = "<group>"; };
 		0B742CC61B32491400EE9264 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ThirdParty/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
 		0B8E0FF31A932BD500161DC3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -1217,7 +1218,6 @@
 		6EAABA8CA7B7C5801509E9D0 /* repair.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = repair.cc; path = ./brave/ThirdParty/leveldb/db/repair.cc; sourceTree = "<group>"; };
 		6F8856E29DAA2D9EAC4F9A85 /* BraveUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BraveUtil.swift; path = ./brave/src/BraveUtil.swift; sourceTree = "<group>"; };
 		70ACC2E069D0CB11B0D2A266 /* BookmarksModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = BookmarksModel.swift; path = ./Storage/Bookmarks/BookmarksModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		71D20A6CE1238138D7BE1DA1 /* LaunchScreen.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = ./Client/Application/LaunchScreen.xib; sourceTree = "<group>"; };
 		71E0A7D9250B837EB95AF8E5 /* LoginTableViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LoginTableViewCell.swift; path = ./Client/Frontend/Widgets/LoginTableViewCell.swift; sourceTree = "<group>"; };
 		720790A29D8DD7451D408244 /* Reader.css */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.css; name = Reader.css; path = ./Client/Frontend/Reader/Reader.css; sourceTree = "<group>"; };
 		72A6830742B56C1897034B17 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ./ThirdParty/Box/LICENSE; sourceTree = "<group>"; };
@@ -2473,12 +2473,12 @@
 				016FF6C150629D4A91A838B8 /* Crasher.m */,
 				A6AC60F738711305C6585EC4 /* CrashReporter.swift */,
 				8BE39E512689513A2A395390 /* DebugSettingsBundleOptions.swift */,
-				71D20A6CE1238138D7BE1DA1 /* LaunchScreen.xib */,
 				DCE1D74E40F9E392FFCE9F2F /* main.swift */,
 				4AEB01189011D65668503900 /* QuickActions.swift */,
 				81DEE363CFF8F0AC6439E04D /* Settings.bundle */,
 				EEACFD6CCE9B72D21CB2ADAD /* TestAppDelegate.swift */,
 				D91B6AED2ADFB9D742820133 /* WebServer.swift */,
+				0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -3968,7 +3968,6 @@
 				4C8CFF069B42CD78C72CC4F4 /* HideEmptyImages.js in Resources */,
 				DDF18B7D90D1BF9E6072344C /* PageUnload.js in Resources */,
 				4305183B54F23C211BD5112A /* SafeBrowsingError.html in Resources */,
-				A6E598067FE0B003D66CEBF9 /* LaunchScreen.xib in Resources */,
 				15172EAC2FF91D5014CAA0CB /* Licenses.html in Resources */,
 				4134197C39A4456007BCF42B /* CertError.css in Resources */,
 				E37145E30F71657D57F6747C /* CertError.html in Resources */,
@@ -3993,6 +3992,7 @@
 				59F67C0B4DAA5B488E2C83EF /* SpotlightHelper.js in Resources */,
 				EB8F56981DD13DF300679A78 /* CharisSILBI.ttf in Resources */,
 				8F8FEAE7F3F5794866B0163C /* topdomains.txt in Resources */,
+				0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */,
 				A017135F85E8E813D1E8DF11 /* WindowCloseHelper.js in Resources */,
 				C68CDF76C7FC1770D6427F76 /* Home.xcassets in Resources */,
 				3E0F37CB279D8276AD55303D /* Intro.xcassets in Resources */,
