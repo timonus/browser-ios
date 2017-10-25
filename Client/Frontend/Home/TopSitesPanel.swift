@@ -695,41 +695,19 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     }
 
     fileprivate func setDefaultThumbnailBackgroundForCell(_ cell: ThumbnailCell) {
-        cell.imageView.image = UIImage(named: "defaultFavicon")!
-        //cell.imageView.contentMode = UIViewContentMode.center
-    }
-    
-    fileprivate func setColorBackground(_ image: UIImage, withURL url: URL, forCell cell: ThumbnailCell) {
-        // TODO:
-        // Currently just calculate the background image color everytime.
-        // This will be refactored when the switch to coredata happens (then the image color can be stored)
-        
-        let rgba = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: 4)
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let info = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
-        let context: CGContext = CGContext(data: rgba, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: colorSpace, bitmapInfo: info.rawValue)!
-
-        guard let newImage = image.cgImage else { return }
-        context.draw(newImage, in: CGRect(x: 0, y: 0, width: 1, height: 1))
-        
-        // Has issues, often sets background to black. experimenting without box for now.
-//        let red = CGFloat(rgba[0]) / 255.0
-//        let green = CGFloat(rgba[1]) / 255.0
-//        let blue = CGFloat(rgba[2]) / 255.0
-//        let colorFill: UIColor = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
-        
-        cell.imageView.backgroundColor = UIColor.clear
+        cell.imageView.image = FaviconFetcher.defaultFavicon
     }
     
     fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
         weak var weakSelf = self
         FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
             guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = weakSelf?.collectionView?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
-            self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+            weakSelf?.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
         }
     }
     
     fileprivate func setCellImage(_ cell: ThumbnailCell, iconUrl: URL, cacheWithUrl: URL) {
+        weak var weakSelf = self
         ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
             if image != nil {
                 postAsyncToMain {
@@ -742,7 +720,7 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
                         guard let img = img else {
                             // avoid recheck to find an icon when none can be found, hack skips FaviconFetch
                             ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
-                            cell.imageView.image = FaviconFetcher.defaultFavicon
+                            weakSelf?.setDefaultThumbnailBackgroundForCell(cell)
                             return
                         }
                         ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
@@ -774,8 +752,6 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         guard let topsiteUrl = URL(string: domainURL) else { return }
         
         guard let icon = site.icon else {
-            setDefaultThumbnailBackgroundForCell(cell)
-            
             if ImageCache.shared.hasImage(topsiteUrl, type: .square) {
                 ImageCache.shared.image(topsiteUrl, type: .square, callback: { (image) in
                     postAsyncToMain {
@@ -794,7 +770,6 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         case .noneFound where Date().timeIntervalSince(icon.date) < FaviconFetcher.ExpirationTime:
             setDefaultThumbnailBackgroundForCell(cell)
         default:
-            setDefaultThumbnailBackgroundForCell(cell)
             if let iconUrl = URL(string: icon.url) {
                 setCellImage(cell, iconUrl: iconUrl, cacheWithUrl: topsiteUrl)
             }
