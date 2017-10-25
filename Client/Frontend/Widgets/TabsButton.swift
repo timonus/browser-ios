@@ -166,7 +166,7 @@ class TabsButton: UIControl {
     func tabsButtonHold() {
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         let closeAllTabsAction =  UIAlertAction(title: Strings.CloseAllTabsTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
-            getApp().tabManager.removeAll(createTabIfNoneLeft: true)
+            getApp().tabManager.removeAll(createTabIfNoneLeft: true, restricted: true)
         }
         
         let closeTabAction =  UIAlertAction(title: Strings.CloseTabTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in

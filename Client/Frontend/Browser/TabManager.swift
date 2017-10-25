@@ -568,11 +568,12 @@ class TabManager : NSObject {
         }
     }
 
-    func removeAll(createTabIfNoneLeft: Bool = false) {
+    func removeAll(createTabIfNoneLeft: Bool = false, restricted: Bool = false) {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         let tabs = self.tabs
 
-        for tab in tabs.internalTabList {
+        let tabsToRemove = restricted ? tabs.displayedTabsForCurrentPrivateMode : tabs.internalTabList
+        for tab in tabsToRemove {
             self.removeTab(tab, flushToDisk: false, notify: true, createTabIfNoneLeft: createTabIfNoneLeft)
         }
     }
