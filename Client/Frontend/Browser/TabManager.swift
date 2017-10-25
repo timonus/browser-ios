@@ -424,16 +424,20 @@ class TabManager : NSObject {
             if browser.webView == nil {
                 continue
             }
-            if let t = browser.lastExecutedTime, t < oldestTime {
+            
+            // Finding the oldest - non-active tab. Unlikely, but if selecting link and choosing "open in new tab"
+            //  can be blocked from releasing oldest tab if user is sitting on it.
+            if let t = browser.lastExecutedTime, t < oldestTime, browser != selectedTab {
                 oldestTime = t
                 oldestBrowser = browser
             }
         }
+        
         if let browser = oldestBrowser {
             if selectedTab != browser {
                 browser.deleteWebView(false)
             } else {
-                print("limitInMemoryTabs: tab to delete is selected!")
+                print("Should never happen -- limitInMemoryTabs: tab to delete is selected!")
             }
         }
     }
