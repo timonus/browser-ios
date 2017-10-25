@@ -53,7 +53,8 @@ class TrackingProtection {
             return false
         }
 
-        let whitelist = ["connect.facebook.net", "connect.facebook.com", "staticxx.facebook.com", "www.facebook.com", "scontent.xx.fbcdn.net", "pbs.twimg.com", "scontent-sjc2-1.xx.fbcdn.net", "platform.twitter.com", "syndication.twitter.com"]
+        let whitelist = ["connect.facebook.net", "connect.facebook.com", "staticxx.facebook.com", "www.facebook.com", "scontent.xx.fbcdn.net", "pbs.twimg.com", "scontent-sjc2-1.xx.fbcdn.net", "platform.twitter.com", "syndication.twitter.com", "cdn.syndication.twimg.com"]
+
         if whitelist.contains(host) {
             return false
         }
