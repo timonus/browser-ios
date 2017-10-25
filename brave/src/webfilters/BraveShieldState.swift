@@ -190,11 +190,21 @@ open class BraveGlobalShieldStats {
         })
         
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async { () -> Void in
-            self.prefs.set(self.adblock, forKey: Shield.Adblock.rawValue)
-            self.prefs.set(self.trackingProtection, forKey: Shield.TrackingProtection.rawValue)
-            self.prefs.set(self.httpse, forKey: Shield.HTTPSE.rawValue)
-            self.prefs.set(self.safeBrowsing, forKey: Shield.SafeBrowsing.rawValue)
-            self.prefs.set(self.fpProtection, forKey: Shield.FpProtection.rawValue)
+            if self.adblock > 0 {
+                self.prefs.set(self.adblock, forKey: Shield.Adblock.rawValue)
+            }
+            if self.trackingProtection > 0 {
+                self.prefs.set(self.trackingProtection, forKey: Shield.TrackingProtection.rawValue)
+            }
+            if self.httpse > 0 {
+                self.prefs.set(self.httpse, forKey: Shield.HTTPSE.rawValue)
+            }
+            if self.safeBrowsing > 0 {
+                self.prefs.set(self.safeBrowsing, forKey: Shield.SafeBrowsing.rawValue)
+            }
+            if self.fpProtection > 0 {
+                self.prefs.set(self.fpProtection, forKey: Shield.FpProtection.rawValue)
+            }
             self.prefs.synchronize()
 
             if let task = self.bgSaveTask {
