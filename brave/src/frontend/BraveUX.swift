@@ -54,7 +54,7 @@ struct BraveUX {
 
     static let DefaultBlue = UIColor(red: 92/255.0, green: 185/255.0, blue: 247/255.0, alpha: 1.0)
     
-    static let PopupDialogColorLight = UIColor(white: 242/255.0, alpha: 1.0)
+    static let PopupDialogColorLight = UIColor(white: 1.0, alpha: 1.0)
     
     // debug settings
     //  static var IsToolbarHidingOff = false

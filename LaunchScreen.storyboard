@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -76,14 +76,14 @@
                                                                 </constraints>
                                                             </imageView>
                                                             <view contentMode="scaleToFill" horizontalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="M4v-zp-pGM">
-                                                                <rect key="frame" x="9" y="0.0" width="274" height="36"/>
+                                                                <rect key="frame" x="9" y="0.0" width="264" height="36"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" priority="900" constant="34" id="R0h-ee-CtP"/>
                                                                 </constraints>
                                                             </view>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_screen_rounded_rect_right" translatesAutoresizingMaskIntoConstraints="NO" id="GkM-QY-xgq">
-                                                                <rect key="frame" x="282" y="0.0" width="0.0" height="36"/>
+                                                                <rect key="frame" x="272" y="0.0" width="10" height="36"/>
                                                             </imageView>
                                                         </subviews>
                                                     </stackView>
@@ -157,7 +157,7 @@
                                                 <rect key="frame" x="225" y="0.0" width="75" height="20"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sharedata_uncheck" translatesAutoresizingMaskIntoConstraints="NO" id="K0f-GJ-dnc" userLabel="Tabs button">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabs_container" translatesAutoresizingMaskIntoConstraints="NO" id="K0f-GJ-dnc" userLabel="Tabs button">
                                                 <rect key="frame" x="300" y="0.0" width="75" height="20"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </imageView>
@@ -198,7 +198,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CId-3a-eZ5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="87" y="-9"/>
+            <point key="canvasLocation" x="85.599999999999994" y="-9.4452773613193415"/>
         </scene>
     </scenes>
     <resources>
@@ -212,5 +212,6 @@
         <image name="listpanel_notbookmarked_star" width="31" height="19"/>
         <image name="send" width="20" height="22"/>
         <image name="sharedata_uncheck" width="24" height="24"/>
+        <image name="tabs_container" width="22" height="22"/>
     </resources>
 </document>
