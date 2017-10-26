@@ -2,7 +2,7 @@
   "commitish" : "Version_4.0.0",
   "iOS" : [
     {
-      "hash" : "0b0875348528a6c383d1b9be16f3e1d38cb04b8176a1989bc226463d49215c5e",
+      "hash" : "cad0255793b6bf78b64fc919a1c2ae1175fac5b047395ce4273ab2b1907d5824",
       "name" : "XCGLogger"
     }
   ]

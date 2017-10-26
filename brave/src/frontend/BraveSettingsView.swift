@@ -124,6 +124,7 @@ class BraveSettingsView : AppSettingsTableViewController {
                 [BoolSetting(prefs: prefs, prefKey: kPrefKeyBrowserLock, defaultValue: false, titleText: Strings.Browser_Lock, statusText: nil, settingDidChange: { isOn in
                     if isOn {
                         if KeychainWrapper.pinLockInfo() == nil || !(prefs.boolForKey(kPrefKeySetBrowserLock) ?? false) {
+                            prefs.setBool(false, forKey: kPrefKeyBrowserLock)
                             let view = PinViewController()
                             view.delegate = weakSelf
                             weakSelf?.navigationController?.pushViewController(view, animated: true)
