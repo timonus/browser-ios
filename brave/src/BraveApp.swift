@@ -31,6 +31,7 @@ let kDesktopUserAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_12) AppleW
 
 #if !TEST
     func getApp() -> AppDelegate {
+        assertIsMainThread("App Delegate must be accessed on main thread")
         return UIApplication.shared.delegate as! AppDelegate
     }
 #endif
