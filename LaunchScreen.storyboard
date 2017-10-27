@@ -27,101 +27,9 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c96-7N-xkj" userLabel="Url bar view">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="u90-x0-Uc1" userLabel="Url bar stack view">
-                                                <rect key="frame" x="6" y="4" width="358" height="36"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ORg-Py-weU" userLabel="Left side buttons">
-                                                        <rect key="frame" x="0.0" y="0.0" width="32" height="36"/>
-                                                        <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="YKd-T6-xkV" userLabel="Back button">
-                                                                <rect key="frame" x="-6" y="0.0" width="22" height="36"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="22" id="fo5-Yi-PHD"/>
-                                                                </constraints>
-                                                                <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
-                                                            </imageView>
-                                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" image="forward" translatesAutoresizingMaskIntoConstraints="NO" id="zNX-Fs-Ebt" userLabel="Forward button">
-                                                                <rect key="frame" x="-6" y="0.0" width="22" height="36"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="22" id="58D-xg-3yC"/>
-                                                                </constraints>
-                                                                <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
-                                                            </imageView>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="300" horizontalCompressionResistancePriority="800" spacing="-30" translatesAutoresizingMaskIntoConstraints="NO" id="TWY-FJ-FzU" userLabel="Left panel stack view">
-                                                                <rect key="frame" x="0.0" y="0.0" width="32" height="36"/>
-                                                                <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" image="listpanel" translatesAutoresizingMaskIntoConstraints="NO" id="9H1-Rb-CF3" userLabel="hamburger image">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="31" height="36"/>
-                                                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    </imageView>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" image="listpanel_notbookmarked_star" translatesAutoresizingMaskIntoConstraints="NO" id="ubN-q8-07E" userLabel="star image">
-                                                                        <rect key="frame" x="1" y="0.0" width="31" height="36"/>
-                                                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    </imageView>
-                                                                </subviews>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="32" id="Xfb-cW-7V4"/>
-                                                                </constraints>
-                                                            </stackView>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="300" spacing="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gqs-pO-DZJ" userLabel="Location stack view">
-                                                        <rect key="frame" x="43" y="0.0" width="282" height="36"/>
-                                                        <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_screen_rounded_rect_left" translatesAutoresizingMaskIntoConstraints="NO" id="Vfd-97-vk2">
-                                                                <rect key="frame" x="0.0" y="0.0" width="10" height="36"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="10" id="WAS-4U-FAx"/>
-                                                                </constraints>
-                                                            </imageView>
-                                                            <view contentMode="scaleToFill" horizontalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="M4v-zp-pGM">
-                                                                <rect key="frame" x="9" y="0.0" width="264" height="36"/>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" priority="900" constant="34" id="R0h-ee-CtP"/>
-                                                                </constraints>
-                                                            </view>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_screen_rounded_rect_right" translatesAutoresizingMaskIntoConstraints="NO" id="GkM-QY-xgq">
-                                                                <rect key="frame" x="272" y="0.0" width="10" height="36"/>
-                                                            </imageView>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xCD-EU-jbq" userLabel="Right side buttons">
-                                                        <rect key="frame" x="336" y="0.0" width="22" height="36"/>
-                                                        <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" image="braveLogoLarge" translatesAutoresizingMaskIntoConstraints="NO" id="B3o-E5-DdD" userLabel="Brave button">
-                                                                <rect key="frame" x="0.0" y="0.0" width="22" height="36"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="22" id="SaW-ok-oUD"/>
-                                                                </constraints>
-                                                            </imageView>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" image="send" translatesAutoresizingMaskIntoConstraints="NO" id="H8m-GJ-nid" userLabel="Share button">
-                                                                <rect key="frame" x="-342" y="0.0" width="22" height="36"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="22" id="mwP-ZZ-Elw"/>
-                                                                </constraints>
-                                                                <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
-                                                            </imageView>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" image="sharedata_uncheck" translatesAutoresizingMaskIntoConstraints="NO" id="lfa-b2-2LB" userLabel="Tabs button">
-                                                                <rect key="frame" x="-342" y="0.0" width="22" height="36"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="22" id="U09-r4-eTC"/>
-                                                                </constraints>
-                                                                <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
-                                                            </imageView>
-                                                        </subviews>
-                                                    </stackView>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
                                         <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
-                                            <constraint firstItem="u90-x0-Uc1" firstAttribute="leading" secondItem="c96-7N-xkj" secondAttribute="leading" constant="6" id="AQc-eF-v69"/>
-                                            <constraint firstItem="u90-x0-Uc1" firstAttribute="top" secondItem="c96-7N-xkj" secondAttribute="top" constant="4" id="Jqk-1f-G0i"/>
                                             <constraint firstAttribute="height" constant="44" id="VFT-Kw-fgi"/>
-                                            <constraint firstAttribute="bottom" secondItem="u90-x0-Uc1" secondAttribute="bottom" constant="4" id="pI4-hF-oZU"/>
-                                            <constraint firstAttribute="trailing" secondItem="u90-x0-Uc1" secondAttribute="trailing" constant="11" id="u9S-qJ-ZF6"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="h4z-VN-KGP" userLabel="Main content">
@@ -137,39 +45,8 @@
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mAV-n9-zkD" userLabel="Toolbar">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="qNm-77-MOG" userLabel="Toolbar buttons stack view">
-                                        <rect key="frame" x="0.0" y="12" width="375" height="20"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="aad-nM-Rdc" userLabel="Back button">
-                                                <rect key="frame" x="0.0" y="0.0" width="75" height="20"/>
-                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="forward" translatesAutoresizingMaskIntoConstraints="NO" id="Sfx-dS-ceU" userLabel="Forward button">
-                                                <rect key="frame" x="75" y="0.0" width="75" height="20"/>
-                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="send" translatesAutoresizingMaskIntoConstraints="NO" id="bxF-js-dVX" userLabel="Share button">
-                                                <rect key="frame" x="150" y="0.0" width="75" height="20"/>
-                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add" translatesAutoresizingMaskIntoConstraints="NO" id="QJ1-Dk-pkH" userLabel="New button">
-                                                <rect key="frame" x="225" y="0.0" width="75" height="20"/>
-                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabs_container" translatesAutoresizingMaskIntoConstraints="NO" id="K0f-GJ-dnc" userLabel="Tabs button">
-                                                <rect key="frame" x="300" y="0.0" width="75" height="20"/>
-                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </imageView>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
                                 <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstItem="qNm-77-MOG" firstAttribute="top" secondItem="mAV-n9-zkD" secondAttribute="top" constant="12" id="AkI-XT-mwq"/>
-                                    <constraint firstItem="qNm-77-MOG" firstAttribute="leading" secondItem="mAV-n9-zkD" secondAttribute="leading" id="BRg-ZG-bvm"/>
-                                    <constraint firstAttribute="trailing" secondItem="qNm-77-MOG" secondAttribute="trailing" id="EEL-NB-ZBG"/>
-                                    <constraint firstAttribute="bottom" secondItem="qNm-77-MOG" secondAttribute="bottom" constant="12" id="bVI-cx-faC"/>
                                     <constraint firstAttribute="height" constant="44" id="mtT-fp-Q3O"/>
                                 </constraints>
                                 <variation key="heightClass=regular-widthClass=compact" hidden="NO"/>
@@ -201,17 +78,4 @@
             <point key="canvasLocation" x="85.599999999999994" y="-9.4452773613193415"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="add" width="18" height="19"/>
-        <image name="back" width="10" height="18"/>
-        <image name="braveLogoLarge" width="53" height="62"/>
-        <image name="forward" width="10" height="18"/>
-        <image name="launch_screen_rounded_rect_left" width="10" height="34"/>
-        <image name="launch_screen_rounded_rect_right" width="10" height="34"/>
-        <image name="listpanel" width="31" height="19"/>
-        <image name="listpanel_notbookmarked_star" width="31" height="19"/>
-        <image name="send" width="20" height="22"/>
-        <image name="sharedata_uncheck" width="24" height="24"/>
-        <image name="tabs_container" width="22" height="22"/>
-    </resources>
 </document>
