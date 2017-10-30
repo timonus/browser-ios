@@ -104,19 +104,11 @@ open class BrowserProfile: Profile {
      * subsequently — and asynchronously — expects the profile to stick around:
      * see Bug 1218833. Be sure to only perform synchronous actions here.
      */
-    init(localName: String, app: UIApplication?, clear: Bool = false) {
+    init(localName: String, app: UIApplication?) {
         log.debug("Initing profile \(localName) on thread \(Thread.current).")
         self.name = localName
         self.files = ProfileFileAccessor(localName: localName)
         self.app = app
-
-        if clear {
-            do {
-                try FileManager.default.removeItem(atPath: self.files.rootPath as String)
-            } catch {
-                log.info("Cannot clear profile: \(error)")
-            }
-        }
 
         let baseBundleIdentifier = AppInfo.baseBundleIdentifier
         if !baseBundleIdentifier.isEmpty {
