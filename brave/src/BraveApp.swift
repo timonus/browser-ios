@@ -241,8 +241,8 @@ class BraveApp {
         return handled
     }
 
-    class func getPrefs() -> Prefs? {
-        return isRunningTests ? MockProfilePrefs() : getApp().profile?.prefs
+    class func getPrefs() -> NSUserDefaultsPrefs? {
+        return getApp().profile?.prefs
     }
 
     static func showErrorAlert(title: String,  error: String) {

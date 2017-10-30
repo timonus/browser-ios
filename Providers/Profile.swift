@@ -68,7 +68,7 @@ enum SentTabAction: String {
 protocol Profile: class {
     var bookmarks: BookmarksModelFactorySource & ShareToDestination & SyncableBookmarks & LocalItemSource & MirrorItemSource { get }
     // var favicons: Favicons { get }
-    var prefs: Prefs { get }
+    var prefs: NSUserDefaultsPrefs { get }
     var queue: TabQueue { get }
     var searchEngines: SearchEngines { get }
     var files: FileAccessor { get }
@@ -260,11 +260,11 @@ open class BrowserProfile: Profile {
         return SearchEngines(prefs: self.prefs)
     }()
 
-    func makePrefs() -> Prefs {
+    func makePrefs() -> NSUserDefaultsPrefs {
         return NSUserDefaultsPrefs(prefix: self.localName())
     }
 
-    lazy var prefs: Prefs = {
+    lazy var prefs: NSUserDefaultsPrefs = {
         return self.makePrefs()
     }()
 

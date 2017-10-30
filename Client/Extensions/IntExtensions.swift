@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Int {
+extension Int32 {
     var abbreviation: String {
         let numFormatter = NumberFormatter()
         

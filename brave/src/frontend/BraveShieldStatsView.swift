@@ -6,7 +6,7 @@ import Foundation
 import Shared
 
 class BraveShieldStatsView: UIView {
-    fileprivate let millisecondsPerItem = 50
+    fileprivate let millisecondsPerItem: Int32 = 50
     fileprivate let line = UIView()
     
     lazy var adsStatView: StatView = {

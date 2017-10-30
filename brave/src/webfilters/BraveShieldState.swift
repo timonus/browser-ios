@@ -126,33 +126,33 @@ open class BraveGlobalShieldStats {
     static let singleton = BraveGlobalShieldStats()
     static let DidUpdateNotification = "BraveGlobalShieldStatsDidUpdate"
     
-    fileprivate let prefs = UserDefaults.standard
+    fileprivate let prefs = BraveApp.getPrefs()
     
-    var adblock: Int = 0 {
+    var adblock: Int32 = 0 {
         didSet {
             NotificationCenter.default.post(name: Notification.Name(rawValue: BraveGlobalShieldStats.DidUpdateNotification), object: nil)
         }
     }
 
-    var trackingProtection: Int = 0 {
+    var trackingProtection: Int32 = 0 {
         didSet {
             NotificationCenter.default.post(name: Notification.Name(rawValue: BraveGlobalShieldStats.DidUpdateNotification), object: nil)
         }
     }
 
-    var httpse: Int = 0 {
+    var httpse: Int32 = 0 {
         didSet {
             NotificationCenter.default.post(name: Notification.Name(rawValue: BraveGlobalShieldStats.DidUpdateNotification), object: nil)
         }
     }
     
-    var safeBrowsing: Int = 0 {
+    var safeBrowsing: Int32 = 0 {
         didSet {
             NotificationCenter.default.post(name: Notification.Name(rawValue: BraveGlobalShieldStats.DidUpdateNotification), object: nil)
         }
     }
     
-    var fpProtection: Int = 0 {
+    var fpProtection: Int32 = 0 {
         didSet {
             NotificationCenter.default.post(name: Notification.Name(rawValue: BraveGlobalShieldStats.DidUpdateNotification), object: nil)
         }
@@ -168,11 +168,11 @@ open class BraveGlobalShieldStats {
     }
     
     fileprivate init() {
-        adblock += prefs.integer(forKey: Shield.Adblock.rawValue)
-        trackingProtection += prefs.integer(forKey: Shield.TrackingProtection.rawValue)
-        httpse += prefs.integer(forKey: Shield.HTTPSE.rawValue)
-        safeBrowsing += prefs.integer(forKey: Shield.SafeBrowsing.rawValue)
-        fpProtection += prefs.integer(forKey: Shield.FpProtection.rawValue)
+        adblock += prefs?.intForKey(Shield.Adblock.rawValue) ?? 0
+        trackingProtection += prefs?.intForKey(Shield.TrackingProtection.rawValue) ?? 0
+        httpse += prefs?.intForKey(Shield.HTTPSE.rawValue) ?? 0
+        safeBrowsing += prefs?.intForKey(Shield.SafeBrowsing.rawValue) ?? 0
+        fpProtection += prefs?.intForKey(Shield.FpProtection.rawValue) ?? 0
     }
 
     var bgSaveTask: UIBackgroundTaskIdentifier?
@@ -190,22 +190,12 @@ open class BraveGlobalShieldStats {
         })
         
         DispatchQueue.main.async {
-            if self.adblock > 0 {
-                self.prefs.set(self.adblock, forKey: Shield.Adblock.rawValue)
-            }
-            if self.trackingProtection > 0 {
-                self.prefs.set(self.trackingProtection, forKey: Shield.TrackingProtection.rawValue)
-            }
-            if self.httpse > 0 {
-                self.prefs.set(self.httpse, forKey: Shield.HTTPSE.rawValue)
-            }
-            if self.safeBrowsing > 0 {
-                self.prefs.set(self.safeBrowsing, forKey: Shield.SafeBrowsing.rawValue)
-            }
-            if self.fpProtection > 0 {
-                self.prefs.set(self.fpProtection, forKey: Shield.FpProtection.rawValue)
-            }
-            self.prefs.synchronize()
+            self.prefs?.setInt(self.adblock, forKey: Shield.Adblock.rawValue)
+            self.prefs?.setInt(self.trackingProtection, forKey: Shield.TrackingProtection.rawValue)
+            self.prefs?.setInt(self.httpse, forKey: Shield.HTTPSE.rawValue)
+            self.prefs?.setInt(self.safeBrowsing, forKey: Shield.SafeBrowsing.rawValue)
+            self.prefs?.setInt(self.fpProtection, forKey: Shield.FpProtection.rawValue)
+            self.prefs?.userDefaults.synchronize()
 
             if let task = self.bgSaveTask {
                 UIApplication.shared.endBackgroundTask(task)
