@@ -189,7 +189,7 @@ open class BraveGlobalShieldStats {
             self.bgSaveTask = UIBackgroundTaskInvalid
         })
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async { () -> Void in
+        DispatchQueue.main.async {
             if self.adblock > 0 {
                 self.prefs.set(self.adblock, forKey: Shield.Adblock.rawValue)
             }
