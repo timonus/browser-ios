@@ -165,7 +165,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         return UIAlertAction(title: newTabTitle, style: UIAlertActionStyle.default) {
             [weak alertController] (action: UIAlertAction) in
             alertController?.view.tag = 0 // BRAVE: clear this to allow navigation
-            debugPrint(String(describing: self.tabManager.currentIndex?.advanced(by: 1)))
+            if self.tabManager.tabCount == 1 { getApp().browserViewController.scrollController.showToolbars(animated: true)}
             _ = self.tabManager.addTab(NSURLRequest(url: url) as URLRequest, index: self.tabManager.currentIndex?.advanced(by: 1))
         }
     }
@@ -181,7 +181,9 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         let openImageTitle = Strings.Open_Image_In_Background_Tab
         return UIAlertAction(title: openImageTitle, style: UIAlertActionStyle.default) {
             (action: UIAlertAction) in
-            _ = self.tabManager.addTab(URLRequest(url: url), index: self.tabManager.currentIndex?.advanced(by: 1))
+            if self.tabManager.tabCount == 1 { getApp().browserViewController.scrollController.showToolbars(animated: true)}
+            _ = self.tabManager.addTab(URLRequest(url: url), index:
+                self.tabManager.currentIndex?.advanced(by: 1))
         }
     }
     
