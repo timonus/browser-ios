@@ -628,6 +628,9 @@ Brave розроблений для швидкості та ефективнос
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Поділитись";
 
+/* Context menu item for sharing a image */
+"Share Image" = "Поділитися зображенням";
+
 /* Context menu item for sharing a link URL */
 "Share Link" = "Поділитись посиланням";
 

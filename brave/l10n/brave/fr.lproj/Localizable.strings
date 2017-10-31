@@ -617,6 +617,9 @@ de la création d'empreinte numérique";
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Partager";
 
+/* Context menu item for sharing a image */
+"Share Image" = "Partager l'image";
+
 /* Context menu item for sharing a link URL */
 "Share Link" = "Partager le lien";
 

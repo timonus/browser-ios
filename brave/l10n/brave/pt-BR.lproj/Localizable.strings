@@ -617,6 +617,9 @@ Identificação";
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Compartilhar";
 
+/* Context menu item for sharing a image */
+"Share Image" = "Compartilhar Imagem";
+
 /* Context menu item for sharing a link URL */
 "Share Link" = "Compartilhar Link";
 

@@ -503,6 +503,9 @@
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Share";
 
+/* Context menu item for sharing a image */
+"Share Image" = "Share Image";
+
 /* Context menu item for sharing a link URL */
 "Share Link" = "Share Link";
 

@@ -110,6 +110,7 @@ extension Strings {
     public static let Open_In_New_Private_Tab = NSLocalizedString("Open In New Private Tab", comment: "Context menu option for opening a link in a new private tab")
     public static let Copy_Link = NSLocalizedString("Copy Link", comment: "Context menu item for copying a link URL to the clipboard")
     public static let Open_All_Bookmarks = NSLocalizedString("Open All (%i)", comment: "Context menu item for opening all folder bookmarks")
+    public static let Share_Image = NSLocalizedString("Share Image", comment: "Context menu item for sharing an image")
     public static let Share_Link = NSLocalizedString("Share Link", comment: "Context menu item for sharing a link URL")
     public static let Save_Image = NSLocalizedString("Save Image", comment: "Context menu item for saving an image")
     public static let Open_Image_In_Background_Tab = NSLocalizedString("Open Image In New Tab", comment: "Context menu for opening image in new tab")

@@ -617,6 +617,9 @@ Brave专为更快的速度，更高的效率而设计";
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "分享";
 
+/* Context menu item for sharing a image */
+"Share Image" = "分享图像";
+
 /* Context menu item for sharing a link URL */
 "Share Link" = "分享链接";
 

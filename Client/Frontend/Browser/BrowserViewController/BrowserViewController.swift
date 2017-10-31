@@ -912,24 +912,47 @@ class BrowserViewController: UIViewController {
         activities.append(requestDesktopSiteActivity)
 
         helper = ShareExtensionHelper(url: url, tab: tab, activities: activities)
-        let controller = helper.createActivityViewController({ [unowned self] completed in
-            // After dismissing, check to see if there were any prompts we queued up
-            self.showQueuedAlertIfAvailable()
+        let controller = helper.createActivityViewController() {
+            [weak self] completed in
+            self?.handleActivityViewDismiss(with: completed, using: tab)
+        }
 
-            // Usually the popover delegate would handle nil'ing out the references we have to it
-            // on the BVC when displaying as a popover but the delegate method doesn't seem to be
-            // invoked on iOS 10. See Bug 1297768 for additional details.
-            self.displayedPopoverController = nil
-            self.updateDisplayedPopoverProperties = nil
-            self.helper = nil
+        presentActivityViewController(controller: controller,
+                                      tab: tab,
+                                      sourceView: sourceView,
+                                      sourceRect: sourceRect,
+                                      arrowDirection: arrowDirection)
+    }
 
-            if completed {
-                // We don't know what share action the user has chosen so we simply always
-                // update the toolbar and reader mode bar to reflect the latest status.
-                self.updateURLBarDisplayURL(tab: tab)
+    private func handleActivityViewDismiss(with success: Bool, using tab: Browser) {
+        // After dismissing, check to see if there were any prompts we queued up
+        showQueuedAlertIfAvailable()
+        
+        // Usually the popover delegate would handle nil'ing out the references we have to it
+        // on the BVC when displaying as a popover but the delegate method doesn't seem to be
+        // invoked on iOS 10. See Bug 1297768 for additional details.
+        displayedPopoverController = nil
+        updateDisplayedPopoverProperties = nil
+        helper = nil
+        
+        if success {
+            // We don't know what share action the user has chosen so we simply always
+            // update the toolbar and reader mode bar to reflect the latest status.
+            updateURLBarDisplayURL(tab: tab)
+        }
+    }
+    
+    func presentActivityViewController(controller: UIActivityViewController,
+                                       tab: Browser,
+                                       sourceView: UIView?,
+                                       sourceRect: CGRect,
+                                       arrowDirection: UIPopoverArrowDirection) {
+        if controller.completionWithItemsHandler == nil {
+            controller.completionWithItemsHandler = {
+                [weak self] _, completed, _, _ in
+                self?.handleActivityViewDismiss(with: completed, using: tab)
             }
-        })
-
+        }
         let setupPopover = { [unowned self] in
             if let popoverPresentationController = controller.popoverPresentationController {
                 popoverPresentationController.sourceView = sourceView
@@ -938,17 +961,17 @@ class BrowserViewController: UIViewController {
                 popoverPresentationController.delegate = self
             }
         }
-
+        
         setupPopover()
-
+        
         if controller.popoverPresentationController != nil {
             displayedPopoverController = controller
             updateDisplayedPopoverProperties = setupPopover
         }
-
+        
         self.present(controller, animated: true, completion: nil)
     }
-
+    
     func updateFindInPageVisibility(_ visible: Bool) {
         if visible {
             if findInPageBar == nil {
