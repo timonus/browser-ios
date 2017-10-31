@@ -917,6 +917,10 @@ Upgrades</source>
         <source>Share</source>
         <note>Accessibility Label for the browser toolbar Share button</note>
       </trans-unit>
+      <trans-unit id="Share Image">
+        <source>Share Image</source>
+        <note>Context menu option for sharing an image</note>
+      </trans-unit>
       <trans-unit id="Share Link">
         <source>Share Link</source>
         <note>Context menu item for sharing a link URL</note>
@@ -1367,6 +1371,9 @@ Blocked</source>
       </trans-unit>
       <trans-unit id="NSLocationWhenInUseUsageDescription">
         <source>Websites you visit may request your location.</source>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryAddUsageDescription">
+        <source>This app requires access to the photo library.</source>
       </trans-unit>
       <trans-unit id="NSPhotoLibraryUsageDescription">
         <source>This app requires access to the photo library.</source>
