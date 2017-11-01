@@ -85,43 +85,29 @@ class HistorySwiper : NSObject {
     var imageView: UIImageView?
 #endif
 
-    fileprivate func handleSwipe(_ recognizer: UIPanGestureRecognizer) {
+    fileprivate func handleSwipe(_ recognizer: UIGestureRecognizer) {
         if getApp().browserViewController.homePanelController != nil {
             return
         }
-        if getApp().braveTopViewController.leftPanelShowing() || getApp().braveTopViewController.rightPanelShowing() {
+        if getApp().braveTopViewController.leftPanelShowing() || getApp().braveTopViewController.leftPanelShowing() {
             return
         }
 
         guard let tab = getApp().browserViewController.tabManager.selectedTab, let webview = tab.webView else { return }
-        
-        let swipePosition = recognizer.location(in: recognizer.view)
-        
-        /* Swipe should trigger website navigation in two cases
-         - when gesture distance passes half of the screen, doesn't matter how fast the swipe is
-         - when gesture is fast enough, swipe position and distance doesn't matter then */
-        let halfOfTheScreen = screenWidth() / 2.0
-        let swipePassedHalfScreen = recognizer == goBackSwipe ?
-            swipePosition.x > halfOfTheScreen : swipePosition.x < halfOfTheScreen
-        
-        let swipeVelocity = recognizer.velocity(in: recognizer.view).x
-        // Forward gesture(right to left) velocity is negative, need to check swipe type
-        let fastSwipe = goBackSwipe ?
-            swipeVelocity > BraveUX.fastSwipeVelocity : swipeVelocity < -BraveUX.fastSwipeVelocity
-        
-        let correctSwipe = swipePassedHalfScreen || fastSwipe
-        
+        let p = recognizer.location(in: recognizer.view)
+        let shouldReturnToZero = recognizer == goBackSwipe ? p.x < screenWidth() / 2.0 : p.x > screenWidth() / 2.0
+
         if recognizer.state == .ended || recognizer.state == .cancelled || recognizer.state == .failed {
             UIView.animate(withDuration: 0.25, animations: {
-                if correctSwipe {
+                if shouldReturnToZero {
+                    self.webViewContainer.transform = CGAffineTransform(translationX: 0, y: self.webViewContainer.transform.ty)
+                } else {
                     let x = recognizer == self.goBackSwipe ? self.screenWidth() : -self.screenWidth()
                     self.webViewContainer.transform = CGAffineTransform(translationX: x, y: self.webViewContainer.transform.ty)
                     self.webViewContainer.alpha = 0
-                } else {
-                    self.webViewContainer.transform = CGAffineTransform(translationX: 0, y: self.webViewContainer.transform.ty)
                 }
-                }, completion: { _ in
-                    if correctSwipe {
+                }, completion: { (Bool) -> Void in
+                    if !shouldReturnToZero {
                         if recognizer == self.goBackSwipe {
                            tab.goBack()
                         } else {
@@ -148,8 +134,7 @@ class HistorySwiper : NSObject {
                     }
             })
         } else {
-            getApp().browserViewController.scrollController.edgeSwipingActive = true
-            let tx = recognizer == goBackSwipe ? swipePosition.x : swipePosition.x - screenWidth()
+            let tx = recognizer == goBackSwipe ? p.x : p.x - screenWidth()
             webViewContainer.transform = CGAffineTransform(translationX: tx, y: self.webViewContainer.transform.ty)
 #if IMAGE_SWIPE_ON
             let image = recognizer.edges == .Left ? tab.screenshotForBackHistory() : tab.screenshotForForwardHistory()
