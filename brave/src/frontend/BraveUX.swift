@@ -118,4 +118,8 @@ struct BraveUX {
     
     static let TabTrayCellCornerRadius = CGFloat(6.0)
     static let TabTrayCellBackgroundColor = UIColor.white
+    
+    /** Determines how fast the swipe needs to be to trigger navigation action(go back/go forward).
+     To determine its value, see `UIPanGestureRecognizer.velocity()` */
+    static let fastSwipeVelocity: CGFloat = 300
 }
