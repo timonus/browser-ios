@@ -68,6 +68,10 @@ class BraveTopViewController : UIViewController {
         mainSidePanel.browserViewController = browserViewController
     }
 
+    override func prefersHomeIndicatorAutoHidden() -> Bool {
+        return !browserViewController.scrollController.toolbarsShowing
+    }
+    
     @objc func dismissAllSidePanels() {
         if leftPanelShowing() {
             mainSidePanel.willHide()

@@ -87,7 +87,13 @@ class SidePanelBaseViewController : UIViewController {
     }
 
     func spaceForStatusBar() -> Double {
-        let spacer = BraveApp.isIPhoneLandscape() ? 0.0 : 20.0
+        var spacer = BraveApp.isIPhoneLandscape() ? 0.0 : 20.0
+        
+        if #available(iOS 11.0, *), !BraveApp.isIPhoneLandscape() {
+            let topInset = Double(getApp().window!.safeAreaInsets.top)
+            spacer = (topInset > 0) ? topInset : 20
+        }
+        
         return spacer
     }
 

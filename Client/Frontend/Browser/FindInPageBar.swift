@@ -99,7 +99,12 @@ class FindInPageBar: UIView {
         addSubview(topBorder)
 
         searchText.snp.makeConstraints { make in
-            make.leading.top.bottom.equalTo(self).inset(UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0))
+            make.top.bottom.equalTo(self).inset(UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0))
+            if #available(iOS 11.0, *) {
+                make.left.equalTo(self.safeAreaLayoutGuide.snp.left).inset(8)
+            } else {
+                make.left.equalTo(self).inset(8)
+            }
         }
 
         matchCountView.snp.makeConstraints { make in
@@ -122,7 +127,12 @@ class FindInPageBar: UIView {
         closeButton.snp.makeConstraints { make in
             make.leading.equalTo(nextButton.snp.trailing)
             make.size.equalTo(self.snp.height)
-            make.trailing.centerY.equalTo(self)
+            make.centerY.equalTo(self)
+            if #available(iOS 11.0, *) {
+                make.right.equalTo(self.safeAreaLayoutGuide.snp.right)
+            } else {
+                make.right.equalTo(self)
+            }
         }
 
         topBorder.snp.makeConstraints { make in

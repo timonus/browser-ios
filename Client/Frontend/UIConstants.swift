@@ -17,6 +17,13 @@ public struct UIConstants {
     static let PrivateModeReaderModeBackgroundColor = UIColor(red: 89 / 255, green: 89 / 255, blue: 89 / 255, alpha: 1)
 
     static let ToolbarHeight: CGFloat = 44
+    static let BottomToolbarHeight: CGFloat = {
+        if BraveApp.isIPhoneX() {
+            return 44 + 34 // 34 is the bottom inset on the iPhone X
+        }
+        
+        return 44
+    }()
     static let DefaultRowHeight: CGFloat = 58
     static let DefaultPadding: CGFloat = 12
     static let SnackbarButtonHeight: CGFloat = 48

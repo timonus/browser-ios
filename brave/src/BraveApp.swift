@@ -72,6 +72,18 @@ class BraveApp {
         return UIDevice.current.userInterfaceIdiom == .phone &&
             UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation)
     }
+    
+    class func isIPhoneX() -> Bool {
+        if #available(iOS 11.0, *) {
+            if isIPhonePortrait() && getApp().window!.safeAreaInsets.top > 0 {
+                return true
+            } else if isIPhoneLandscape() && (getApp().window!.safeAreaInsets.left > 0 || getApp().window!.safeAreaInsets.right > 0) {
+                return true
+            }
+        }
+        
+        return false
+    }
 
     class func setupCacheDefaults() {
         URLCache.shared.memoryCapacity = 6 * 1024 * 1024; // 6 MB

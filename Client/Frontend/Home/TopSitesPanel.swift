@@ -91,6 +91,8 @@ class TopSitesPanel: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
+        
         let statsHeight: CGFloat = 150.0
         let statsBottomMargin: CGFloat = 25.0
         
@@ -142,7 +144,11 @@ class TopSitesPanel: UIViewController {
         collection.contentInset = UIEdgeInsetsMake(statsHeight, 0, 0, 0)
         view.addSubview(collection)
         collection.snp.makeConstraints { make -> Void in
-            make.edges.equalTo(self.view)
+            if #available(iOS 11.0, *) {
+                make.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
+            } else {
+                make.edges.equalTo(self.view)
+            }
         }
         self.collection = collection
         

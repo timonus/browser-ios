@@ -216,6 +216,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        self.view.backgroundColor = BraveUX.BackgroundColorForSideToolbars
+        
         tableView.allowsSelectionDuringEditing = true
         
         let navBar = self.navigationController?.navigationBar
@@ -226,6 +228,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         let width = self.view.bounds.size.width
         let toolbarHeight = CGFloat(44)
+        
         editBookmarksToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: width, height: toolbarHeight))
         createEditBookmarksToolbar()
         editBookmarksToolbar.barTintColor = BraveUX.BackgroundColorForSideToolbars
@@ -237,7 +240,11 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             make.height.equalTo(toolbarHeight)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
-            make.bottom.equalTo(self.view)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(self.view).inset(getApp().window!.safeAreaInsets.bottom)
+            } else {
+                make.bottom.equalTo(self.view)
+            }
         }
         
         tableView.snp.makeConstraints { make in

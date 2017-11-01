@@ -478,17 +478,29 @@ class TabTrayController: UIViewController {
         
         if UIDevice.current.userInterfaceIdiom == .phone {
             doneButton.snp.makeConstraints { make in
-                make.right.equalTo(self.view).offset(-30)
+                if #available(iOS 11.0, *) {
+                    make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(-30)
+                } else {
+                    make.right.equalTo(self.view).offset(-30)
+                }
                 make.centerY.equalTo(self.addTabButton.snp.centerY)
             }
             
             togglePrivateMode.snp.makeConstraints { make in
-                make.left.equalTo(30)
+                if #available(iOS 11.0, *) {
+                    make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left).offset(30)
+                } else {
+                    make.left.equalTo(30)
+                }
                 make.centerY.equalTo(self.addTabButton.snp.centerY)
             }
 
             addTabButton.snp.makeConstraints { make in
-                make.bottom.equalTo(self.view)
+                if #available(iOS 11.0, *) {
+                    make.bottom.equalTo(self.view).inset(getApp().window?.safeAreaInsets.bottom ?? 0)
+                } else {
+                    make.bottom.equalTo(self.view)
+                }
                 make.centerX.equalTo(self.view)
                 make.size.equalTo(UIConstants.ToolbarHeight)
             }
@@ -496,7 +508,12 @@ class TabTrayController: UIViewController {
             collectionView.snp.makeConstraints { make in
                 make.bottom.equalTo(addTabButton.snp.top)
                 make.top.equalTo(self.topLayoutGuide.snp.bottom)
-                make.left.right.equalTo(self.view)
+                if #available(iOS 11.0, *) {
+                    make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
+                    make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
+                } else {
+                    make.left.right.equalTo(self.view)
+                }
             }
             
             blurBackdropView.snp.makeConstraints { (make) in
