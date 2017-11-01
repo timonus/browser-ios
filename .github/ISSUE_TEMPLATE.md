@@ -1,49 +1,37 @@
-<!--
-Have you searched for similar issues? We have received a lot of feedback and bug reports that we have closed as duplicates.
-Before submitting this issue, please visit our wiki for common ones: https://github.com/brave/browser-laptop/wiki
-By using search engines along with GitHub search function, you would be able to find duplicates more efficiently.
-
-For more, check out our community site: https://community.brave.com/
--->
+<!-- Have you searched for similar issues on the repository?
+Before submitting this issue, please visit our wiki for common ones: https://github.com/brave/browser-ios/wiki
+For more, check out our community site: https://community.brave.com/ -->
 
 ### Description:
-<!--
-[Description of the issue]
--->
+<!--[Provide comprehensive description of the issue] -->
 
 ### Steps to Reproduce
-<!--
-Please add a series of steps to reproduce the problem. See https://stackoverflow.com/help/mcve for in depth information on how to create a minimal, complete, and verifiable example.
--->
+<!-- Please add a series of steps to reproduce the problem -->
 
   1.
   2.
   3.
 
 **Actual result:**
-<!--
-Add screenshots if needed
--->
+<!-- Add screenshots if needed -->
 
 **Expected result:**
 
-**Reproduces how often:** [What percentage of the time does it reproduce?]
+**Reproduces how often:** [Easily reproduced/Intermittent issue]
 
-### Brave Version:
+**Brave Version:**
+<!-- Provide full details Eg: v1.4.2(17.09.08.16) -->
 
-### Device (iPhone5, iPhone6s plus, iPad 3, ?):
+**Device details:**
+<!-- Model type and iOS version Eg: iPhone 6s+ (iOS 10.3.3)-->
 
-### Is this an issue in the currently released version?
-
-### Is this an issue with Beta build?
-
-### Website problems only: 
+**Website problems only:**
 - did you check with Brave Shields down?
 
-- did you check in Puffin/Dolphin/iCab/Firefox (UIWebView-based browsers)? 
+- did you check in Puffin/Dolphin (UIWebView-based browsers)? 
+
+- did you check in Safari/Firefox (WkWebView-based browsers)? 
 
 
 ### Additional Information
-<!--
-Any additional information, related issues, extra QA steps, configuration or data that might be necessary to reproduce the issue.
--->
+<!-- Any additional information, related issues, extra QA steps, configuration or data that might be necessary to reproduce the issue. -->
