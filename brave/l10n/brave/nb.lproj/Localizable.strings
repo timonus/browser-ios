@@ -41,10 +41,10 @@
 /* email subject */
 /* Shown in intro screens */
 /* Shown in intro screens */
-/* No comment provided by engineer. */
 /* See http://mzl.la/1G7uHo7 */
 /* Accessibility label for brightness adjustment slider in Reader Mode display settings */
 /* Shown in intro screens */
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 /* Settings item for clearing the cache */
 /* Alert Call Button */
@@ -57,6 +57,7 @@
 /* Button in settings that clears private data for the selected items. Also used as section title in settings panel */
 /* No comment provided by engineer. */
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 /* No comment provided by engineer. */
 /* No comment provided by engineer. */
@@ -82,6 +83,9 @@
 /* Button to not save the user's password */
 /* brave shield on/off toggle off state */
 /* No comment provided by engineer. */
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 /* Sync enter code words */
 /* Enter sync code words below */
@@ -132,17 +136,19 @@
 /* tabs bar show/hide option */
 /* Title for new folder popup */
 /* No comment provided by engineer. */
-/* No comment provided by engineer. */
+/* New Tab title */
 /* Accessibility label for next result button in Find in Page Toolbar. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 /* Title displayed when no logins are found after searching */
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 /* OK button */
 /* Toggled OFF accessibility value */
 /* Settings item for clearing website data */
 /* Toggled ON accessibility value */
 /* Open and Fill website text selection menu item */
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 /* Context menu for opening image in new tab */
 /* Context menu option for opening a link in a new private tab */
@@ -151,6 +157,7 @@
 /* See http://mzl.la/1LXbDOL */
 /* Shown in error pages for files that can't be shown and need to be downloaded. */
 /* String indicating that the file can be opened in another application on the device */
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 /* Accessibility label for the Home panel's top toolbar containing list of the home panels (top sites, bookmarsk, history, remote tabs, reading list). */
 /* Accessibility Label for the browser toolbar Password Manager button */
@@ -165,9 +172,11 @@
 /* No comment provided by engineer. */
 /* Setting to keep app in private mode */
 /* Accessibility label for toggling on/off private mode */
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 /* QR Code section title */
 /* Title for quick-search engines settings section. */
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 /* Accessibility label for the Reader View button */
 /* Panel accessibility label */
@@ -198,14 +207,18 @@
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 /* Accessibility hint describing the action performed when a search suggestion is clicked */
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
+/* Settings security section title */
 /* Title for selecting all logins */
 /* No comment provided by engineer. */
 /* option in settings screen */
 /* Sepia theme setting in Reading View settings */
 /* Font type setting in the reading view settings */
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 /* Accessibility Label for the browser toolbar Share button */
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 /* message shown briefly in URL bar */
 /* Button to show the bookmarks list */
@@ -219,7 +232,6 @@
 /* tabs bar show/hide option */
 /* Password Manager show picker option */
 /* shields overview message */
-/* Brave panel topmost title */
 /* No comment provided by engineer. */
 /* Accessibility Label for the browser toolbar Stop button */
 /* Support section title */
@@ -228,6 +240,7 @@
 /* Sync settings welcome */
 /* Sync device settings section title */
 /* Sync to existing device */
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 /* Accessibility label for the Tabs. */
 /* Message spoken by VoiceOver saying the range of tabs that are currently visible in Tabs Tray, along with the total number of tabs. E.g. \"Tabs 8 to 10 of 15\" says tabs 8, 9 and 10 are visible, out of 15 tabs total. */
@@ -258,6 +271,7 @@
 /* Prompt for updating a login. The first parameter is the username for which the password will be updated for. The second parameter is the hostname of the site. */
 /* Prompt for updating a password with no username. The parameter is the hostname of the site. */
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 /* Sync to existing device description */
 /* Version number of Brave shown in settings */
@@ -268,6 +282,7 @@
 /* The title for the empty Top Sites state */
 /* See http://mzl.la/1LXbDOL */
 /* Will be displayed in Settings under 'Close Private Tabs' */
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 /* History tableview section header */
 /* Footer message on picker for 3rd party password manager setting */
@@ -287,3 +302,13 @@
 /* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
 /* Title for username row in Login Detail View */
 /* Title for website row in Login Detail View */
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */

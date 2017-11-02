@@ -1,18 +1,44 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
-        <source>Open in Brave</source>
-        <target>Открыть в Brave</target>
+        <source>CFBundleDisplayName</source>
+        <target>CFBundleDisplayName</target>
       </trans-unit>
-      </body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+        <target>$(PRODUCT_NAME)</target>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="ReadingList/Info.plist" source-language="en" target-language="ru">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+        <target>$(PRODUCT_NAME)</target>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="brave/Info.plist" source-language="en" target-language="ru">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+        <target>$(PRODUCT_NAME)</target>
+      </trans-unit>
+    </body>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -96,11 +122,6 @@ Blocked</source>
         <source>Always show</source>
         <target>Всегда показывать</target>
         <note>tabs bar show/hide option</note>
-      </trans-unit>
-      <trans-unit id="Amazon">
-        <source>Amazon</source>
-        <target>Amazon</target>
-        <note>Tile title for Amazon</note>
       </trans-unit>
       <trans-unit id="Are you sure you want to clear all of your data? This will also close all open tabs.">
         <source>Are you sure you want to clear all of your data? This will also close all open tabs.</source>
@@ -453,14 +474,19 @@ and here's why...</source>
         <target>Редактировать</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Enter New Pin">
-        <source>Enter New Pin</source>
+      <trans-unit id="Enable">
+        <source>Enable</source>
+        <target>Включить</target>
+        <note>Browser Lock feature callout enable action.</note>
+      </trans-unit>
+      <trans-unit id="Enter New PIN">
+        <source>Enter New PIN</source>
         <target>Введите новый PIN-код</target>
         <note>Browser Lock New Pin</note>
       </trans-unit>
-      <trans-unit id="Enter Pin to Unlock Brave">
-        <source>Enter Pin to Unlock Brave</source>
-        <target>Введите PIN-код для разблокировки Brave</target>
+      <trans-unit id="Enter PIN to Unlock Brave">
+        <source>Enter PIN to Unlock Brave</source>
+        <target>Для разблокировки Brave введите PIN-код</target>
         <note>Unlock Brave with Browser Lock Pin</note>
       </trans-unit>
       <trans-unit id="Enter Search Mode">
@@ -494,11 +520,6 @@ Saved</source>
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
         <target>Несмотря на то, что сайты, которые вы посещаете на приватных вкладках не сохраняются локально, они не делают вас анонимными или невидимыми для вашего интернет-провайдера, вашего работодателя или самих посещаемых вами сайтов.</target>
         <note>Private tab details</note>
-      </trans-unit>
-      <trans-unit id="Facebook">
-        <source>Facebook</source>
-        <target>Facebook</target>
-        <note>Tile title for Facebook</note>
       </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
@@ -749,6 +770,11 @@ Upgrades</source>
         <target>Нет вкладок</target>
         <note>Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray</note>
       </trans-unit>
+      <trans-unit id="Not Now">
+        <source>Not Now</source>
+        <target>Не сейчас</target>
+        <note>Browser Lock feature callout not now action.</note>
+      </trans-unit>
       <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
         <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
         <target>Примечание: некоторые сайты могут работать некорректно, поэтому этот щит по умолчанию отключен.</target>
@@ -779,9 +805,9 @@ Upgrades</source>
         <target>Открыть и заполнить</target>
         <note>Open and Fill website text selection menu item</note>
       </trans-unit>
-      <trans-unit id="Open All Bookmarks">
-        <source>Open All Bookmarks</source>
-        <target>Открыть все закладки</target>
+      <trans-unit id="Open All (%i)">
+        <source>Open All (%i)</source>
+        <target>Открыть все (%i)</target>
         <note>Context menu item for opening all folder bookmarks</note>
       </trans-unit>
       <trans-unit id="Open Desktop Site tab">
@@ -824,6 +850,11 @@ Upgrades</source>
         <target>Открыть в...</target>
         <note>String indicating that the file can be opened in another application on the device</note>
       </trans-unit>
+      <trans-unit id="PIN">
+        <source>PIN</source>
+        <target>PIN-код</target>
+        <note>Setting to change browser lock pin</note>
+      </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
         <target>Пара</target>
@@ -853,11 +884,6 @@ Upgrades</source>
         <source>Paste &amp; Go</source>
         <target>Вставить и перейти</target>
         <note>Paste the URL into the location bar and visit</note>
-      </trans-unit>
-      <trans-unit id="Pin">
-        <source>Pin</source>
-        <target>PIN-код</target>
-        <note>Setting to change browser lock pin</note>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
@@ -899,6 +925,11 @@ Upgrades</source>
         <target>Приватный режим</target>
         <note>Accessibility label for toggling on/off private mode</note>
       </trans-unit>
+      <trans-unit id="Private means private.">
+        <source>Private means private.</source>
+        <target>Приватное значит приватное.</target>
+        <note>Browser Lock feature callout title.</note>
+      </trans-unit>
       <trans-unit id="Private mode icon">
         <source>Private mode icon</source>
         <target>Значок приватного режима</target>
@@ -914,8 +945,8 @@ Upgrades</source>
         <target>Модули быстрого поиска</target>
         <note>Title for quick-search engines settings section.</note>
       </trans-unit>
-      <trans-unit id="Re-Enter New Pin">
-        <source>Re-Enter New Pin</source>
+      <trans-unit id="Re-Enter New PIN">
+        <source>Re-Enter New PIN</source>
         <target>Повторно введите новый PIN-код</target>
         <note>Browser Lock Re-Enter New Pin</note>
       </trans-unit>
@@ -1049,9 +1080,9 @@ Upgrades</source>
         <target>Найти на странице</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Search or enter address">
-        <source>Search or enter address</source>
-        <target>Поиск или ввод адреса</target>
+      <trans-unit id="Search or enter website">
+        <source>Search or enter website</source>
+        <target>Поиск или ввод адреса веб-сайта</target>
         <note>The text shown in the URL bar on about:home</note>
       </trans-unit>
       <trans-unit id="Search suggestions from %@">
@@ -1099,9 +1130,9 @@ Upgrades</source>
         <target>Serif</target>
         <note>Font type setting in the reading view settings</note>
       </trans-unit>
-      <trans-unit id="Set Pin">
-        <source>Set Pin</source>
-        <target>Задать PIN-код</target>
+      <trans-unit id="Set PIN">
+        <source>Set PIN</source>
+        <target>Установить PIN-код</target>
         <note>Browser Lock Set Pin</note>
       </trans-unit>
       <trans-unit id="Settings">
@@ -1114,10 +1145,20 @@ Upgrades</source>
         <target>Поделиться</target>
         <note>Accessibility Label for the browser toolbar Share button</note>
       </trans-unit>
+      <trans-unit id="Share Image">
+        <source>Share Image</source>
+        <target>Поделиться изображением</target>
+        <note>Context menu option for sharing an image</note>
+      </trans-unit>
       <trans-unit id="Share Link">
         <source>Share Link</source>
         <target>Поделиться ссылкой</target>
         <note>Context menu item for sharing a link URL</note>
+      </trans-unit>
+      <trans-unit id="Shields">
+        <source>Shields</source>
+        <target>Щиты</target>
+        <note>Brave panel topmost title</note>
       </trans-unit>
       <trans-unit id="Shields Down">
         <source>Shields Down</source>
@@ -1183,11 +1224,6 @@ Upgrades</source>
         <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
         <target>Щиты сайта позволяют контролировать, когда реклама и трекеры блокируются для каждого посещаемого сайта. Если вы предпочитаете видеть рекламу на определенном сайте, вы можете включить ее здесь.</target>
         <note>shields overview message</note>
-      </trans-unit>
-      <trans-unit id="Site shield settings">
-        <source>Site shield settings</source>
-        <target>Настройки щита сайта</target>
-        <note>Brave panel topmost title</note>
       </trans-unit>
       <trans-unit id="Start Browsing">
         <source>Start Browsing</source>
@@ -1336,11 +1372,6 @@ Blocked</source>
         <target>Включает/Выключает приватный режим</target>
         <note>Accessiblity hint for toggling on/off private mode</note>
       </trans-unit>
-      <trans-unit id="Twitter">
-        <source>Twitter</source>
-        <target>Twitter</target>
-        <note>Tile title for Twitter</note>
-      </trans-unit>
       <trans-unit id="URL">
         <source>URL</source>
         <target>URL</target>
@@ -1446,10 +1477,10 @@ Blocked</source>
         <target>При выходе из приватного просмотра</target>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
       </trans-unit>
-      <trans-unit id="Wikipedia">
-        <source>Wikipedia</source>
-        <target>Wikipedia</target>
-        <note>Tile title for Wikipedia</note>
+      <trans-unit id="With Browser Lock, you will need to enter a PIN in order to access Brave.">
+        <source>With Browser Lock, you will need to enter a PIN in order to access Brave.</source>
+        <target>При использовании блокировки браузера вам нужно будет ввести PIN-код, чтобы получить доступ к Brave.</target>
+        <note>Browser Lock feature callout message.</note>
       </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>
@@ -1465,11 +1496,6 @@ Blocked</source>
         <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
         <target>Можно выбрать отображение всплывающего окна для выбора диспетчера паролей или открыть его автоматически.</target>
         <note>Footer message on picker for 3rd party password manager setting</note>
-      </trans-unit>
-      <trans-unit id="YouTube">
-        <source>YouTube</source>
-        <target>YouTube</target>
-        <note>Tile title for YouTube</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
         <source>Your connection is not private</source>
@@ -1560,7 +1586,7 @@ Blocked</source>
   </file>
   <file datatype="plaintext" original="brave/Shared.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="%@ on %@">
@@ -1572,7 +1598,7 @@ Blocked</source>
   </file>
   <file datatype="plaintext" original="Storage/BookmarkPanel.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="Desktop Bookmarks">
@@ -1582,9 +1608,52 @@ Blocked</source>
       </trans-unit>
     </body>
   </file>
+  <file datatype="plaintext" original="Storage/Info.plist" source-language="en" target-language="ru">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+        <target>$(PRODUCT_NAME)</target>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/Localizable.strings" source-language="en" target-language="ru">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="Amazon">
+        <source>Amazon</source>
+        <target>Amazon</target>
+        <note>Tile title for Amazon</note>
+      </trans-unit>
+      <trans-unit id="Facebook">
+        <source>Facebook</source>
+        <target>Facebook</target>
+        <note>Tile title for Facebook</note>
+      </trans-unit>
+      <trans-unit id="Twitter">
+        <source>Twitter</source>
+        <target>Twitter</target>
+        <note>Tile title for Twitter</note>
+      </trans-unit>
+      <trans-unit id="Wikipedia">
+        <source>Wikipedia</source>
+        <target>Wikipedia</target>
+        <note>Tile title for Wikipedia</note>
+      </trans-unit>
+      <trans-unit id="YouTube">
+        <source>YouTube</source>
+        <target>YouTube</target>
+        <note>Tile title for YouTube</note>
+      </trans-unit>
+    </body>
+  </file>
   <file datatype="plaintext" original="Storage/Storage.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="Bookmarks Menu">
@@ -1617,18 +1686,38 @@ Blocked</source>
   </file>
   <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
-        <source>Open in Brave</source>
-        <target>Открыть в Brave</target>
+        <source>$(MOZ_BUNDLE_DISPLAY_NAME)</source>
+        <target>$(MOZ_BUNDLE_DISPLAY_NAME)</target>
       </trans-unit>
-      </body>
+      <trans-unit id="CFBundleName">
+        <source>$(MOZ_PRODUCT_NAME)</source>
+        <target>$(MOZ_PRODUCT_NAME)</target>
+      </trans-unit>
+      <trans-unit id="NSCameraUsageDescription">
+        <source>Scan barcode for Brave sync.</source>
+        <target>Сканировать штрих-код для Brave sync.</target>
+      </trans-unit>
+      <trans-unit id="NSLocationWhenInUseUsageDescription">
+        <source>Websites you visit may request your location.</source>
+        <target>Посещаемые веб-сайты могут запросить Ваше местонахождение.</target>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryAddUsageDescription">
+        <source>This app requires access to the photo library.</source>
+        <target>Это приложение требует доступ к медиатеке.</target>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryUsageDescription">
+        <source>This app requires access to the photo library.</source>
+        <target>Это приложение требует доступ к медиатеке.</target>
+      </trans-unit>
+    </body>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="ru">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">
@@ -1653,4 +1742,51 @@ Blocked</source>
       </trans-unit>
     </body>
   </file>
-  </xliff>
+  <file datatype="plaintext" original="brave/OnePasswordExtension.strings" source-language="en" target-language="ru">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="1Password Extension was cancelled by the user">
+        <source>1Password Extension was cancelled by the user</source>
+        <target>Расширение 1Password было отменено пользователем</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="App Extension API is not available in this version of iOS">
+        <source>App Extension API is not available in this version of iOS</source>
+        <target>API расширения приложения не доступно в этой версии iOS</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to contact the 1Password Extension">
+        <source>Failed to contact the 1Password Extension</source>
+        <target>Не удалось подключиться к расширению 1Password</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to execute script that collects web page information">
+        <source>Failed to execute script that collects web page information</source>
+        <target>Не удалось выполнить сценарий, собирающий сведения о веб-страницах</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to fill web page because script could not be evaluated">
+        <source>Failed to fill web page because script could not be evaluated</source>
+        <target>Не удалось заполнить веб-страницу, поскольку не удалось вычислить сценарий</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to fill web page because script is missing">
+        <source>Failed to fill web page because script is missing</source>
+        <target>Не удалось заполнить веб-страницу, поскольку отсутствует сценарий</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to obtain URL String from web view. The web view must be loaded completely when calling the 1Password Extension">
+        <source>Failed to obtain URL String from web view. The web view must be loaded completely when calling the 1Password Extension</source>
+        <target>Не удалось получить URL-адрес из веб-представления. Веб-представление должно быть полностью загружено при вызове расширения 1Password</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to parse information returned by 1Password Extension">
+        <source>Failed to parse information returned by 1Password Extension</source>
+        <target>Не удалось проанализировать информацию, выданную расширением 1Password</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

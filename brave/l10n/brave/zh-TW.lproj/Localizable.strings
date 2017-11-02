@@ -1,5 +1,3 @@
-"CFBundleDisplayName" = "以 Brave 開啟";
-
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "%@ 搜尋";
 
@@ -130,9 +128,6 @@ Brave 專為提高速度及效率而設計。";
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "Brave 維護您的瀏覽安全。";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave 不會儲存您的瀏覽記錄或 Cookie，但會儲存新的書籤。";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Brave 希望存取您的 Photos";
 
@@ -142,6 +137,7 @@ Brave 專為提高速度及效率而設計。";
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "使用我們的瀏覽器可以保護您的隱私，而且不需額外安裝程式、費心學習或設定。";
 
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 "Browsing History" = "瀏覽記錄";
 
@@ -178,6 +174,7 @@ Brave 專為提高速度及效率而設計。";
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "關閉";
 
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 "Close Private Tabs" = "關閉隱私分頁";
 
@@ -253,6 +250,9 @@ Brave 專為提高速度及效率而設計。";
 /* No comment provided by engineer. */
 "Edit" = "編輯";
 
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "進入搜尋模式";
 
@@ -400,7 +400,7 @@ Brave 專為提高速度及效率而設計。";
 /* No comment provided by engineer. */
 "New Private Tab" = "新增隱私分頁";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "新增分頁";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -415,6 +415,7 @@ Brave 專為提高速度及效率而設計。";
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "沒有分頁";
 
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "請注意：部分網站可能需要指令碼才能正確運作，所以此防護設定預設為關閉。";
 
@@ -433,6 +434,7 @@ Brave 專為提高速度及效率而設計。";
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "開啟並填寫";
 
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 "Open Desktop Site tab" = "開啟桌面版網站分頁";
 
@@ -443,8 +445,6 @@ Brave 專為提高速度及效率而設計。";
 "Open In New Private Tab" = "以新的隱私分頁開啟";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "在新分頁中開啟";
-
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "開啟設定";
 
@@ -457,6 +457,7 @@ Brave 專為提高速度及效率而設計。";
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "以…開啟";
 
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 "Pair" = "配對";
 
@@ -499,6 +500,7 @@ Brave 專為提高速度及效率而設計。";
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "隱私模式";
 
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 "Private mode icon" = "隱私模式圖示";
 
@@ -508,6 +510,7 @@ Brave 專為提高速度及效率而設計。";
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "快速搜尋引擎";
 
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "閱讀模式設定";
 
@@ -585,8 +588,6 @@ Brave 專為提高速度及效率而設計。";
 "Search in page" = "在頁面中搜尋";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "搜尋或輸入網址";
-
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "%@ 提供的搜尋建議";
 
@@ -596,6 +597,7 @@ Brave 專為提高速度及效率而設計。";
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "安全連線";
 
+/* Settings security section title */
 /* Title for selecting all logins */
 "Select All" = "全選";
 
@@ -611,18 +613,18 @@ Brave 專為提高速度及效率而設計。";
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 "Settings" = "設定";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "分享";
 
-/* Context menu item for sharing a image */
-"Share Image" = "分享圖像";
-
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
 "Share Link" = "分享連結";
 
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 "Shields Down" = "Shields 已關閉";
 
@@ -660,9 +662,6 @@ Brave 專為提高速度及效率而設計。";
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "「網站防護」可控制您在造訪每個網站時，是否直接封鎖網站上的廣告與追踪器。若您希望在特定網站上顯示廣告，可以在這裡啟用廣告。";
 
-/* Brave panel topmost title */
-"Site shield settings" = "網站防護設定";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "開始瀏覽";
 
@@ -687,6 +686,7 @@ Brave 專為提高速度及效率而設計。";
 /* Sync to existing device */
 "Sync to device" = "同步至裝置";
 
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "分頁 %1$@，共 %2$@ 個";
 
@@ -773,6 +773,7 @@ Brave 專為提高速度及效率而設計。";
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "使用區域性廣告封鎖程式";
 
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "使用第二部裝置依序瀏覽「Brave 設定 > 同步」。透過第二部裝置擷取 QR 碼 (如上方所示)，若無法使用相機，請輸入文字代碼。";
 
@@ -803,6 +804,7 @@ Brave 專為提高速度及效率而設計。";
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "離開隱私瀏覽時";
 
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "是";
 
@@ -852,3 +854,13 @@ Brave 專為提高速度及效率而設計。";
 /* Title for website row in Login Detail View */
 "website" = "網站";
 
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */

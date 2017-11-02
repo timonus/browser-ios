@@ -1,18 +1,44 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="id-ID">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
-        <source>Open in Brave</source>
-        <target>Buka di Brave</target>
+        <source>CFBundleDisplayName</source>
+        <target>CFBundleDisplayName</target>
       </trans-unit>
-      </body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+        <target>$(PRODUCT_NAME)</target>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="ReadingList/Info.plist" source-language="en" target-language="id-ID">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+        <target>$(PRODUCT_NAME)</target>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="brave/Info.plist" source-language="en" target-language="id-ID">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+        <target>$(PRODUCT_NAME)</target>
+      </trans-unit>
+    </body>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="id-ID">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -96,11 +122,6 @@ Diblokir</target>
         <source>Always show</source>
         <target>Selalu tampilkan</target>
         <note>tabs bar show/hide option</note>
-      </trans-unit>
-      <trans-unit id="Amazon">
-        <source>Amazon</source>
-        <target>Amazon</target>
-        <note>Tile title for Amazon</note>
       </trans-unit>
       <trans-unit id="Are you sure you want to clear all of your data? This will also close all open tabs.">
         <source>Are you sure you want to clear all of your data? This will also close all open tabs.</source>
@@ -453,13 +474,18 @@ dan berikut alasannya...</target>
         <target>Edit</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Enter New Pin">
-        <source>Enter New Pin</source>
+      <trans-unit id="Enable">
+        <source>Enable</source>
+        <target>Aktifkan</target>
+        <note>Browser Lock feature callout enable action.</note>
+      </trans-unit>
+      <trans-unit id="Enter New PIN">
+        <source>Enter New PIN</source>
         <target>Masukkan PIN Baru</target>
         <note>Browser Lock New Pin</note>
       </trans-unit>
-      <trans-unit id="Enter Pin to Unlock Brave">
-        <source>Enter Pin to Unlock Brave</source>
+      <trans-unit id="Enter PIN to Unlock Brave">
+        <source>Enter PIN to Unlock Brave</source>
         <target>Masukkan PIN untuk Membuka Brave</target>
         <note>Unlock Brave with Browser Lock Pin</note>
       </trans-unit>
@@ -494,11 +520,6 @@ Dihemat</target>
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
         <target>Meskipun situs yang Anda kunjungi di tab pribadi tidak disimpan secara lokal, mereka tidak membuat Anda anonim atau tidak terlihat oleh ISP Anda, bos Anda, atau pada situs yang Anda kunjungi.</target>
         <note>Private tab details</note>
-      </trans-unit>
-      <trans-unit id="Facebook">
-        <source>Facebook</source>
-        <target>Facebook</target>
-        <note>Tile title for Facebook</note>
       </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
@@ -749,6 +770,11 @@ HTTPS</target>
         <target>Tidak ada tab</target>
         <note>Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray</note>
       </trans-unit>
+      <trans-unit id="Not Now">
+        <source>Not Now</source>
+        <target>Tidak Sekarang</target>
+        <note>Browser Lock feature callout not now action.</note>
+      </trans-unit>
       <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
         <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
         <target>Catatan: Beberapa situs mungkin memerlukan skrip untuk bekerja dengan baik sehingga perisai ini dimatikan secara bawaan.</target>
@@ -779,9 +805,9 @@ HTTPS</target>
         <target>Buka &amp; Isi</target>
         <note>Open and Fill website text selection menu item</note>
       </trans-unit>
-      <trans-unit id="Open All Bookmarks">
-        <source>Open All Bookmarks</source>
-        <target>Buka Semua Markah</target>
+      <trans-unit id="Open All (%i)">
+        <source>Open All (%i)</source>
+        <target>Buka Semuanya (%i)</target>
         <note>Context menu item for opening all folder bookmarks</note>
       </trans-unit>
       <trans-unit id="Open Desktop Site tab">
@@ -824,6 +850,11 @@ HTTPS</target>
         <target>Buka di...</target>
         <note>String indicating that the file can be opened in another application on the device</note>
       </trans-unit>
+      <trans-unit id="PIN">
+        <source>PIN</source>
+        <target>PIN</target>
+        <note>Setting to change browser lock pin</note>
+      </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
         <target>Pasangan</target>
@@ -853,11 +884,6 @@ HTTPS</target>
         <source>Paste &amp; Go</source>
         <target>Tempel &amp; Buka</target>
         <note>Paste the URL into the location bar and visit</note>
-      </trans-unit>
-      <trans-unit id="Pin">
-        <source>Pin</source>
-        <target>PIN</target>
-        <note>Setting to change browser lock pin</note>
       </trans-unit>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
@@ -899,6 +925,11 @@ HTTPS</target>
         <target>Mode Pribadi</target>
         <note>Accessibility label for toggling on/off private mode</note>
       </trans-unit>
+      <trans-unit id="Private means private.">
+        <source>Private means private.</source>
+        <target>Pribadi artinya pribadi.</target>
+        <note>Browser Lock feature callout title.</note>
+      </trans-unit>
       <trans-unit id="Private mode icon">
         <source>Private mode icon</source>
         <target>Ikon mode pribadi</target>
@@ -914,8 +945,8 @@ HTTPS</target>
         <target>Mesin Pencarian Cepat</target>
         <note>Title for quick-search engines settings section.</note>
       </trans-unit>
-      <trans-unit id="Re-Enter New Pin">
-        <source>Re-Enter New Pin</source>
+      <trans-unit id="Re-Enter New PIN">
+        <source>Re-Enter New PIN</source>
         <target>Masukkan Kembali PIN Baru</target>
         <note>Browser Lock Re-Enter New Pin</note>
       </trans-unit>
@@ -1049,9 +1080,9 @@ HTTPS</target>
         <target>Cari di laman</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Search or enter address">
-        <source>Search or enter address</source>
-        <target>Cari atau masukkan alamat</target>
+      <trans-unit id="Search or enter website">
+        <source>Search or enter website</source>
+        <target>Cari atau masukkan situs</target>
         <note>The text shown in the URL bar on about:home</note>
       </trans-unit>
       <trans-unit id="Search suggestions from %@">
@@ -1099,8 +1130,8 @@ HTTPS</target>
         <target>Serif</target>
         <note>Font type setting in the reading view settings</note>
       </trans-unit>
-      <trans-unit id="Set Pin">
-        <source>Set Pin</source>
+      <trans-unit id="Set PIN">
+        <source>Set PIN</source>
         <target>Atur PIN</target>
         <note>Browser Lock Set Pin</note>
       </trans-unit>
@@ -1114,10 +1145,20 @@ HTTPS</target>
         <target>Bagikan</target>
         <note>Accessibility Label for the browser toolbar Share button</note>
       </trans-unit>
+      <trans-unit id="Share Image">
+        <source>Share Image</source>
+        <target>Bagikan Gambar</target>
+        <note>Context menu option for sharing an image</note>
+      </trans-unit>
       <trans-unit id="Share Link">
         <source>Share Link</source>
         <target>Bagikan Tautan</target>
         <note>Context menu item for sharing a link URL</note>
+      </trans-unit>
+      <trans-unit id="Shields">
+        <source>Shields</source>
+        <target>Perisai</target>
+        <note>Brave panel topmost title</note>
       </trans-unit>
       <trans-unit id="Shields Down">
         <source>Shields Down</source>
@@ -1183,11 +1224,6 @@ HTTPS</target>
         <source>Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here.</source>
         <target>Perisai Situs memungkinkan Anda untuk mengontrol kapan iklan dan pelacak diblokir untuk tiap situs yang Anda kunjungi. Jika Anda lebih memilih untuk melihat iklan pada situs tertentu, Anda dapat mengaktifkannya di sini.</target>
         <note>shields overview message</note>
-      </trans-unit>
-      <trans-unit id="Site shield settings">
-        <source>Site shield settings</source>
-        <target>Pengaturan perisai situs</target>
-        <note>Brave panel topmost title</note>
       </trans-unit>
       <trans-unit id="Start Browsing">
         <source>Start Browsing</source>
@@ -1336,11 +1372,6 @@ Diblokir</target>
         <target>Aktifkan atau nonaktifkan mode pribadi</target>
         <note>Accessiblity hint for toggling on/off private mode</note>
       </trans-unit>
-      <trans-unit id="Twitter">
-        <source>Twitter</source>
-        <target>Twitter</target>
-        <note>Tile title for Twitter</note>
-      </trans-unit>
       <trans-unit id="URL">
         <source>URL</source>
         <target>URL</target>
@@ -1446,10 +1477,10 @@ Diblokir</target>
         <target>Bila Meninggalkan Mode Penjelajahan Pribadi</target>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
       </trans-unit>
-      <trans-unit id="Wikipedia">
-        <source>Wikipedia</source>
-        <target>Wikipedia</target>
-        <note>Tile title for Wikipedia</note>
+      <trans-unit id="With Browser Lock, you will need to enter a PIN in order to access Brave.">
+        <source>With Browser Lock, you will need to enter a PIN in order to access Brave.</source>
+        <target>Dengan Kunci Peramban, Anda harus memasukkan PIN agar bisa mengakses Brave.</target>
+        <note>Browser Lock feature callout message.</note>
       </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>
@@ -1465,11 +1496,6 @@ Diblokir</target>
         <source>You can choose to show a popup to pick your password manager, or have the selected one open automatically.</source>
         <target>Anda dapat memilih untuk menampilkan popup atau memilih pengelola sandi Anda, atau membuka otomatis salah satu pilihan.</target>
         <note>Footer message on picker for 3rd party password manager setting</note>
-      </trans-unit>
-      <trans-unit id="YouTube">
-        <source>YouTube</source>
-        <target>YouTube</target>
-        <note>Tile title for YouTube</note>
       </trans-unit>
       <trans-unit id="Your connection is not private">
         <source>Your connection is not private</source>
@@ -1560,7 +1586,7 @@ Diblokir</target>
   </file>
   <file datatype="plaintext" original="brave/Shared.strings" source-language="en" target-language="id-ID">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="%@ on %@">
@@ -1572,7 +1598,7 @@ Diblokir</target>
   </file>
   <file datatype="plaintext" original="Storage/BookmarkPanel.strings" source-language="en" target-language="id-ID">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="Desktop Bookmarks">
@@ -1582,9 +1608,52 @@ Diblokir</target>
       </trans-unit>
     </body>
   </file>
+  <file datatype="plaintext" original="Storage/Info.plist" source-language="en" target-language="id-ID">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+        <target>$(PRODUCT_NAME)</target>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/Localizable.strings" source-language="en" target-language="id-ID">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="Amazon">
+        <source>Amazon</source>
+        <target>Amazon</target>
+        <note>Tile title for Amazon</note>
+      </trans-unit>
+      <trans-unit id="Facebook">
+        <source>Facebook</source>
+        <target>Facebook</target>
+        <note>Tile title for Facebook</note>
+      </trans-unit>
+      <trans-unit id="Twitter">
+        <source>Twitter</source>
+        <target>Twitter</target>
+        <note>Tile title for Twitter</note>
+      </trans-unit>
+      <trans-unit id="Wikipedia">
+        <source>Wikipedia</source>
+        <target>Wikipedia</target>
+        <note>Tile title for Wikipedia</note>
+      </trans-unit>
+      <trans-unit id="YouTube">
+        <source>YouTube</source>
+        <target>YouTube</target>
+        <note>Tile title for YouTube</note>
+      </trans-unit>
+    </body>
+  </file>
   <file datatype="plaintext" original="Storage/Storage.strings" source-language="en" target-language="id-ID">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="Bookmarks Menu">
@@ -1617,18 +1686,38 @@ Diblokir</target>
   </file>
   <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="id-ID">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
-        <source>Open in Brave</source>
-        <target>Buka di Brave</target>
+        <source>$(MOZ_BUNDLE_DISPLAY_NAME)</source>
+        <target>$(MOZ_BUNDLE_DISPLAY_NAME)</target>
       </trans-unit>
-      </body>
+      <trans-unit id="CFBundleName">
+        <source>$(MOZ_PRODUCT_NAME)</source>
+        <target>$(MOZ_PRODUCT_NAME)</target>
+      </trans-unit>
+      <trans-unit id="NSCameraUsageDescription">
+        <source>Scan barcode for Brave sync.</source>
+        <target>Pindai kode bar untuk Brave Sync.</target>
+      </trans-unit>
+      <trans-unit id="NSLocationWhenInUseUsageDescription">
+        <source>Websites you visit may request your location.</source>
+        <target>Situs yang Anda kunjungi mungkin meminta lokasi Anda.</target>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryAddUsageDescription">
+        <source>This app requires access to the photo library.</source>
+        <target>Aplikasi ini membutuhkan akses ke pustaka foto.</target>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryUsageDescription">
+        <source>This app requires access to the photo library.</source>
+        <target>Aplikasi ini membutuhkan akses ke pustaka foto.</target>
+      </trans-unit>
+    </body>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="id-ID">
     <header>
-      <tool build-num="8E3004b" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.3.3"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">
@@ -1653,4 +1742,49 @@ Diblokir</target>
       </trans-unit>
     </body>
   </file>
-  </xliff>
+  <file datatype="plaintext" original="brave/OnePasswordExtension.strings" source-language="en" target-language="id-ID">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="1Password Extension was cancelled by the user">
+        <source>1Password Extension was cancelled by the user</source>
+        <target>Ekstensi 1Password dibatalkan oleh pengguna</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="App Extension API is not available in this version of iOS">
+        <source>App Extension API is not available in this version of iOS</source>
+        <target>API Aplikasi Ekstensi tidak tersedia di iOS versi ini</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to contact the 1Password Extension">
+        <source>Failed to contact the 1Password Extension</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to execute script that collects web page information">
+        <source>Failed to execute script that collects web page information</source>
+        <target>Gagal untuk mejalankan skrip yang mengumpulkan informasi laman web</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to fill web page because script could not be evaluated">
+        <source>Failed to fill web page because script could not be evaluated</source>
+        <target>Gagal mengisi laman web karena skrip tidak dapat dievaluasi</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to fill web page because script is missing">
+        <source>Failed to fill web page because script is missing</source>
+        <target>Gagal mengisi laman web karena skrip hilang</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to obtain URL String from web view. The web view must be loaded completely when calling the 1Password Extension">
+        <source>Failed to obtain URL String from web view. The web view must be loaded completely when calling the 1Password Extension</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to parse information returned by 1Password Extension">
+        <source>Failed to parse information returned by 1Password Extension</source>
+        <target>Gagal mengurai informasi yang dikembalikan oleh Ekstensi 1Password</target>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -656,26 +656,6 @@ Sidik Jari";
 /* Relative date for date older than a minute. */
 /* Accessibility label for unread article in reading list. It's a past participle - functions as an adjective. */
 /* Relative date for yesterday. */
-/* Description text displayed when there are no open tabs while in private mode */
-/* Setting for closing private tabs */
-/* Text button displayed when there are no tabs open while in private mode */
-/* Toggled OFF accessibility value */
-"Off" = "Mati";
-
-/* Toggled ON accessibility value */
-"On" = "Nyala";
-
-/* Context menu option for opening a link in a new private tab */
-"Open In New Private Tab" = "Buka di Tab Pribadi Baru";
-
-/* Title displayed for when there are no open tabs while in private mode */
-"Private Browsing" = "Penjelajahan Pribadi";
-
-/* Accessibility label for toggling on/off private mode */
-"Private Mode" = "Mode Pribadi";
-
-/* Accessiblity hint for toggling on/off private mode */
-/* Will be displayed in Settings under 'Close Private Tabs' */
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "No" = "Tidak";
@@ -691,3 +671,4 @@ Sidik Jari";
 
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "Ya";
+

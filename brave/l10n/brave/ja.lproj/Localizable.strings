@@ -1,5 +1,3 @@
-"CFBundleDisplayName" = "Braveで開く";
-
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "%@検索";
 
@@ -130,9 +128,6 @@ Braveでスピードと効率をアップ。";
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "Braveを使えば、安心してウェブの閲覧ができます。";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Braveには履歴もクッキーも記録されませんが、新しいブックマークはしっかり保存されます。";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Braveに写真へのアクセス許可が必要です";
 
@@ -142,6 +137,7 @@ Braveでスピードと効率をアップ。";
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Braveなら、閲覧中のプライバシーが保護されます。インストールや構成など新しいことは一切不要です。";
 
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 "Browsing History" = "履歴";
 
@@ -178,6 +174,7 @@ Braveでスピードと効率をアップ。";
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "閉じる";
 
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 "Close Private Tabs" = "プライベートタブを閉じる";
 
@@ -253,6 +250,9 @@ Braveでスピードと効率をアップ。";
 /* No comment provided by engineer. */
 "Edit" = "編集";
 
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "検索モードの開始";
 
@@ -400,7 +400,7 @@ Braveでスピードと効率をアップ。";
 /* No comment provided by engineer. */
 "New Private Tab" = "新しいプライベートタブ";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "新しいタブ";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -415,6 +415,7 @@ Braveでスピードと効率をアップ。";
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "タブがありません";
 
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "注意: 多くのサイトではスクリプトが適切な動作に必要なため、スクリプトはデフォルトで許可しています。";
 
@@ -433,6 +434,7 @@ Braveでスピードと効率をアップ。";
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "開いて入力";
 
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 "Open Desktop Site tab" = "デスクトップサイトタブを開く";
 
@@ -443,8 +445,6 @@ Braveでスピードと効率をアップ。";
 "Open In New Private Tab" = "新しいプライベートタブで開く";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "新しいタブで開く";
-
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "設定を開く";
 
@@ -457,6 +457,7 @@ Braveでスピードと効率をアップ。";
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "次を使用して開く…";
 
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 "Pair" = "ペア";
 
@@ -499,6 +500,7 @@ Braveでスピードと効率をアップ。";
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "プライベートモード";
 
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 "Private mode icon" = "プライベートモード アイコン";
 
@@ -508,6 +510,7 @@ Braveでスピードと効率をアップ。";
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "クイックサーチ エンジン";
 
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "リーダーモードの設定";
 
@@ -585,8 +588,6 @@ Braveでスピードと効率をアップ。";
 "Search in page" = "ページ内を検索";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "検索またはアドレスを入力";
-
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "%@の予測結果";
 
@@ -596,6 +597,7 @@ Braveでスピードと効率をアップ。";
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "安全な接続";
 
+/* Settings security section title */
 /* Title for selecting all logins */
 "Select All" = "すべて選択";
 
@@ -611,18 +613,18 @@ Braveでスピードと効率をアップ。";
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 "Settings" = "設定";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "共有";
 
-/* Context menu item for sharing a image */
-"Share Image" = "イメージを共有";
-
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
 "Share Link" = "リンクを共有";
 
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 "Shields Down" = "保護機能オフ";
 
@@ -660,9 +662,6 @@ Braveでスピードと効率をアップ。";
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "サイトの保護設定から、訪問したサイトで広告とトラッカーをブロックするタイミングをコントロールすることができます。特定のサイトで広告を表示させたい場合、ここで設定することができます。";
 
-/* Brave panel topmost title */
-"Site shield settings" = "サイト別の保護設定";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "閲覧開始";
 
@@ -687,6 +686,7 @@ Braveでスピードと効率をアップ。";
 /* Sync to existing device */
 "Sync to device" = "デバイスに同期";
 
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "タブ %2$@の%1$@";
 
@@ -773,6 +773,7 @@ Braveでスピードと効率をアップ。";
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "地域別広告ブロックを使用";
 
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "2台目のデバイスを使って「Brave設定」>「同期」を選択します。2台目のデバイスでQRコード（上）を取り込むか、カメラが使えない場合はコードワードを入力します。";
 
@@ -803,6 +804,7 @@ Braveでスピードと効率をアップ。";
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "プライベートブラウズの終了時";
 
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "はい";
 
@@ -852,3 +854,13 @@ Braveでスピードと効率をアップ。";
 /* Title for website row in Login Detail View */
 "website" = "ウェブサイト";
 
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */

@@ -1,5 +1,3 @@
-"CFBundleDisplayName" = "在Brave里打开";
-
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "%@搜索";
 
@@ -130,9 +128,6 @@ Brave专为更快的速度，更高的效率而设计";
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "Brave让你的浏览体验更安全";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave不会保存您的任何历史或cookies，但新的书签会被保存";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Brave想拥有您手机的访问权";
 
@@ -142,6 +137,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "无需其他的安装，学习和配置，Brave浏览器会保护您的隐私，";
 
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 "Browsing History" = "浏览历史";
 
@@ -178,6 +174,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "关闭";
 
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 "Close Private Tabs" = "关闭私人标签页";
 
@@ -253,6 +250,9 @@ Brave专为更快的速度，更高的效率而设计";
 /* No comment provided by engineer. */
 "Edit" = "编辑";
 
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "进入搜索模式";
 
@@ -400,7 +400,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* No comment provided by engineer. */
 "New Private Tab" = "新私人标签页";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "新的标签页";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -415,6 +415,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "没有标签页";
 
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "注意：某些网站可能要求脚本正确工作，所以默认情况下会关闭此屏蔽。";
 
@@ -433,6 +434,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "打开并填充";
 
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 "Open Desktop Site tab" = "打开桌面站点选项卡";
 
@@ -443,8 +445,6 @@ Brave专为更快的速度，更高的效率而设计";
 "Open In New Private Tab" = "打开新的私人标签";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "在新的标签页打开";
-
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "打开设置";
 
@@ -457,6 +457,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "其他方式打开...";
 
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 "Pair" = "配对";
 
@@ -499,6 +500,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "隐私模式";
 
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 "Private mode icon" = "隐私状态图标";
 
@@ -508,6 +510,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "快速搜索引擎";
 
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "读者模式设置";
 
@@ -585,8 +588,6 @@ Brave专为更快的速度，更高的效率而设计";
 "Search in page" = "在页面中搜索";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "搜索或输入地址";
-
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "从%@上搜索建议";
 
@@ -596,6 +597,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "安全连接";
 
+/* Settings security section title */
 /* Title for selecting all logins */
 "Select All" = "全选";
 
@@ -611,18 +613,18 @@ Brave专为更快的速度，更高的效率而设计";
 /* Font type setting in the reading view settings */
 "Serif" = "衬线体";
 
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 "Settings" = "设置";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "分享";
 
-/* Context menu item for sharing a image */
-"Share Image" = "分享图像";
-
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
 "Share Link" = "分享链接";
 
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 "Shields Down" = "屏蔽关闭";
 
@@ -660,9 +662,6 @@ Brave专为更快的速度，更高的效率而设计";
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "利用网站屏幕，您在访问每个网站时可以控制是否拦截广告和跟踪程序。如果您希望查看某个特定网站的广告，则可以在此处启用这些广告。";
 
-/* Brave panel topmost title */
-"Site shield settings" = "网站保护设置";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "开始浏览";
 
@@ -687,6 +686,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Sync to existing device */
 "Sync to device" = "同步到设备";
 
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "标签页%1$@ of %2$@";
 
@@ -773,6 +773,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "使用地区广告拦截";
 
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "使用第二个设备导航到“Brave 设置”>“同步”。使用第二个设备获取二维码（如上），如果没有摄像头，也可以输入密语。";
 
@@ -803,6 +804,7 @@ Brave专为更快的速度，更高的效率而设计";
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "当离开隐私浏览时";
 
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "是";
 
@@ -852,3 +854,13 @@ Brave专为更快的速度，更高的效率而设计";
 /* Title for website row in Login Detail View */
 "website" = "网站";
 
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */

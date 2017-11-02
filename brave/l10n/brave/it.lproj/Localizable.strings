@@ -1,5 +1,3 @@
-"CFBundleDisplayName" = "Apri in Brave";
-
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "Ricerca %@";
 
@@ -130,9 +128,6 @@ ed ecco perché...";
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "Brave ti protegge durante la navigazione.";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave non ricorderà le tue cronologie né i cookie, ma verranno salvati i nuovi segnalibri.";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Brave vorrebbe accedere alle tue Foto";
 
@@ -142,6 +137,7 @@ ed ecco perché...";
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Naviga con noi e la tua privacy sarà protetta, senza installare, imparare o configurare altro.";
 
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 "Browsing History" = "Cronologia di navigazione";
 
@@ -178,6 +174,7 @@ ed ecco perché...";
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "Chiudi";
 
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 "Close Private Tabs" = "Chiudi le schede private";
 
@@ -253,6 +250,9 @@ ed ecco perché...";
 /* No comment provided by engineer. */
 "Edit" = "Modifica";
 
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "Inserisci modalità di ricerca";
 
@@ -400,7 +400,7 @@ creazione impronta digitale";
 /* No comment provided by engineer. */
 "New Private Tab" = "Nuova scheda privata";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "Nuova scheda";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -415,6 +415,7 @@ creazione impronta digitale";
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "Nessuna scheda";
 
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Nota: alcuni siti potrebbero richiedere script per lavorare correttamente in modo che questa protezione venga disattivata per impostazione predefinita.";
 
@@ -433,6 +434,7 @@ creazione impronta digitale";
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "Apri e completa";
 
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 "Open Desktop Site tab" = "Apri scheda Sito desktop";
 
@@ -443,8 +445,6 @@ creazione impronta digitale";
 "Open In New Private Tab" = "Apri in Nuova scheda privata";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "Apri in una nuova scheda";
-
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "Apri impostazioni";
 
@@ -457,6 +457,7 @@ creazione impronta digitale";
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "Apri in...";
 
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 "Pair" = "Associa";
 
@@ -499,6 +500,7 @@ creazione impronta digitale";
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "Modalità privata";
 
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 "Private mode icon" = "Icona modalità privata";
 
@@ -508,6 +510,7 @@ creazione impronta digitale";
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "Motori di ricerca rapida";
 
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "Impostazioni modalità lettore";
 
@@ -585,8 +588,6 @@ creazione impronta digitale";
 "Search in page" = "Cerca nella pagina";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "Cerca o inserisci indirizzo";
-
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "Cerca suggerimenti da %@";
 
@@ -596,6 +597,7 @@ creazione impronta digitale";
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "Connessione sicura";
 
+/* Settings security section title */
 /* Title for selecting all logins */
 "Select All" = "Seleziona tutto";
 
@@ -611,18 +613,18 @@ creazione impronta digitale";
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 "Settings" = "Impostazioni";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Condividi";
 
-/* Context menu item for sharing a image */
-"Share Image" = "Condividi immagine";
-
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
 "Share Link" = "Condividi link";
 
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 "Shields Down" = "Scudo disattivato";
 
@@ -660,9 +662,6 @@ creazione impronta digitale";
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Site Shields ti consente di controllare quando gli annunci pubblicitari e i tracker sono bloccati per ciascun sito che visiti. Se preferisci visualizzare gli annunci su un sito specifico, puoi abilitarli qui.";
 
-/* Brave panel topmost title */
-"Site shield settings" = "Impostazioni scudo del sito";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "Inizia a navigare";
 
@@ -687,6 +686,7 @@ creazione impronta digitale";
 /* Sync to existing device */
 "Sync to device" = "Sincronizza sul dispositivo";
 
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "Scheda %1$@ di %2$@";
 
@@ -773,6 +773,7 @@ creazione impronta digitale";
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "Usa un adblock regionale";
 
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "Usando un secondo dispositivo vai nelle Impostazioni Brave > Sincronizzazione. Acquisisci il Codice QR (sopra) con il secondo dispositivo, oppure inserisci le parole in codice se non è disponibile nessuna fotocamera.";
 
@@ -803,6 +804,7 @@ creazione impronta digitale";
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "All'abbandono della navigazione privata";
 
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "Sì";
 
@@ -852,3 +854,13 @@ creazione impronta digitale";
 /* Title for website row in Login Detail View */
 "website" = "sito web";
 
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */

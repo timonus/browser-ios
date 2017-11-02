@@ -1,4 +1,14 @@
-"CFBundleDisplayName" = "Открыть в Brave";
+"CFBundleDisplayName" = "$(MOZ_BUNDLE_DISPLAY_NAME)";
+
+"CFBundleName" = "$(MOZ_PRODUCT_NAME)";
+
+"NSCameraUsageDescription" = "Сканировать штрих-код для Brave sync.";
+
+"NSLocationWhenInUseUsageDescription" = "Посещаемые веб-сайты могут запросить Ваше местонахождение.";
+
+"NSPhotoLibraryAddUsageDescription" = "Это приложение требует доступ к медиатеке.";
+
+"NSPhotoLibraryUsageDescription" = "Это приложение требует доступ к медиатеке.";
 
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "%@ поиск";
@@ -133,9 +143,6 @@ Brave создан для скорости и эффективности.";
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "С Brave вас в безопасности во время веб-серфинга.";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave не будет запоминать историю и cookie, но новые закладки будут сохраняться.";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Brave нужен доступ к вашим фотографиям";
 
@@ -144,6 +151,9 @@ Brave создан для скорости и эффективности.";
 
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Посещайте сайты с нами и ваша конфиденциальность будет защищена без каких-либо дополнительных усилий по установке, изучению или настройке.";
+
+/* Setting to enable browser pin locking */
+"Browser Lock" = "Блокировка браузера";
 
 /* Settings item for clearing browsing history */
 "Browsing History" = "Журнал браузера";
@@ -180,6 +190,9 @@ Brave создан для скорости и эффективности.";
 
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "Закрыть";
+
+/* No comment provided by engineer. */
+"Close All Tabs" = "Закрыть все вкладки";
 
 /* Setting for closing private tabs */
 "Close Private Tabs" = "Закрыть приватные вкладки";
@@ -255,6 +268,15 @@ Brave создан для скорости и эффективности.";
 
 /* No comment provided by engineer. */
 "Edit" = "Редактировать";
+
+/* Browser Lock feature callout enable action. */
+"Enable" = "Включить";
+
+/* Browser Lock New Pin */
+"Enter New PIN" = "Введите новый PIN-код";
+
+/* Unlock Brave with Browser Lock Pin */
+"Enter PIN to Unlock Brave" = "Для разблокировки Brave введите PIN-код";
 
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "Войти в режим поиска";
@@ -409,7 +431,7 @@ Brave создан для скорости и эффективности.";
 /* No comment provided by engineer. */
 "New Private Tab" = "Новая приватная вкладка";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "Новая вкладка";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -423,6 +445,9 @@ Brave создан для скорости и эффективности.";
 
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "Нет вкладок";
+
+/* Browser Lock feature callout not now action. */
+"Not Now" = "Не сейчас";
 
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Примечание: некоторые сайты могут работать некорректно, поэтому этот щит по умолчанию отключен.";
@@ -442,6 +467,9 @@ Brave создан для скорости и эффективности.";
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "Открыть и заполнить";
 
+/* Context menu item for opening all folder bookmarks */
+"Open All (%i)" = "Открыть все (%i)";
+
 /* Share action title */
 "Open Desktop Site tab" = "Открыть полную версию сайта";
 
@@ -452,7 +480,7 @@ Brave создан для скорости и эффективности.";
 "Open In New Private Tab" = "Открыть в новой приватной вкладке";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "Открыть в новой вкладке";
+"Open Link In New Tab" = "Открыть ссылку в новой вкладке";
 
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "Открыть настройки";
@@ -465,6 +493,9 @@ Brave создан для скорости и эффективности.";
 
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "Открыть в...";
+
+/* Setting to change browser lock pin */
+"PIN" = "PIN-код";
 
 /* Sync pair device settings section title */
 "Pair" = "Пара";
@@ -508,6 +539,9 @@ Brave создан для скорости и эффективности.";
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "Приватный режим";
 
+/* Browser Lock feature callout title. */
+"Private means private." = "Приватное значит приватное.";
+
 /* Private mode icon next to location string */
 "Private mode icon" = "Значок приватного режима";
 
@@ -516,6 +550,9 @@ Brave создан для скорости и эффективности.";
 
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "Модули быстрого поиска";
+
+/* Browser Lock Re-Enter New Pin */
+"Re-Enter New PIN" = "Повторно введите новый PIN-код";
 
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "Настройки режима чтения";
@@ -596,7 +633,7 @@ Brave создан для скорости и эффективности.";
 "Search in page" = "Найти на странице";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "Поиск или ввод адреса";
+"Search or enter website" = "Поиск или ввод адреса веб-сайта";
 
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "Поисковые предложения от %@";
@@ -606,6 +643,9 @@ Brave создан для скорости и эффективности.";
 
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "Безопасное соединение";
+
+/* Settings security section title */
+"Security" = "Безопасность";
 
 /* Title for selecting all logins */
 "Select All" = "Выделить все";
@@ -622,17 +662,23 @@ Brave создан для скорости и эффективности.";
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
+/* Browser Lock Set Pin */
+"Set PIN" = "Установить PIN-код";
+
 /* No comment provided by engineer. */
 "Settings" = "Настройки";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Поделиться";
 
-/* Context menu item for sharing a image */
-"Share Image" = "Поделиться";
+/* Context menu option for sharing an image */
+"Share Image" = "Поделиться изображением";
 
 /* Context menu item for sharing a link URL */
 "Share Link" = "Поделиться ссылкой";
+
+/* Brave panel topmost title */
+"Shields" = "Щиты";
 
 /* message shown briefly in URL bar */
 "Shields Down" = "Выключить щиты";
@@ -673,9 +719,6 @@ Brave создан для скорости и эффективности.";
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Щиты сайта позволяют контролировать, когда реклама и трекеры блокируются для каждого посещаемого сайта. Если вы предпочитаете видеть рекламу на определенном сайте, вы можете включить ее здесь.";
 
-/* Brave panel topmost title */
-"Site shield settings" = "Настройки щита сайта";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "Начать просмотр";
 
@@ -699,6 +742,9 @@ Brave создан для скорости и эффективности.";
 
 /* Sync to existing device */
 "Sync to device" = "Синхронизация с устройством";
+
+/* Accessibility label for a Tab. */
+"Tab" = "Вкладка";
 
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "Вкладка %1$@ из %2$@";
@@ -791,6 +837,9 @@ Brave создан для скорости и эффективности.";
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "Использовать синтаксис adblock на вашем языке";
 
+/* Unlock Brave with fingerprint. */
+"Use your fingerprint to unlock Brave." = "Использовать отпечаток пальца для разблокировки Brave.";
+
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "Используя второе устройство, перейдите в Настройки > Синхронизация. Сосканируйте QR-код (см. выше) или введите кодовые слова, если камера недоступна.";
 
@@ -820,6 +869,9 @@ Brave создан для скорости и эффективности.";
 
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "При выходе из приватного просмотра";
+
+/* Browser Lock feature callout message. */
+"With Browser Lock, you will need to enter a PIN in order to access Brave." = "При использовании блокировки браузера вам нужно будет ввести PIN-код, чтобы получить доступ к Brave.";
 
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "Да";
@@ -877,4 +929,34 @@ Brave создан для скорости и эффективности.";
 
 /* Title for website row in Login Detail View */
 "website" = "веб-сайт";
+
+/* Relative date for yesterday. */
+"yesterday" = "вчера";
+
+/* 1Password Extension Error Message */
+"1Password Extension was cancelled by the user" = "Расширение 1Password было отменено пользователем";
+
+/* 1Password Extension Error Message */
+"App Extension API is not available in this version of iOS" = "API расширения приложения не доступно в этой версии iOS";
+
+/* 1Password Extension Error Message */
+"Failed to contact the 1Password Extension" = "Не удалось подключиться к расширению 1Password";
+
+/* 1Password Extension Error Message */
+"Failed to execute script that collects web page information" = "Не удалось выполнить сценарий, собирающий сведения о веб-страницах";
+
+/* 1Password Extension Error Message */
+"Failed to fill web page because script could not be evaluated" = "Не удалось заполнить веб-страницу, поскольку не удалось вычислить сценарий";
+
+/* 1Password Extension Error Message */
+"Failed to fill web page because script is missing" = "Не удалось заполнить веб-страницу, поскольку отсутствует сценарий";
+
+/* 1Password Extension Error Message */
+"Failed to obtain URL String from web view. The web view must be loaded completely when calling the 1Password Extension" = "Не удалось получить URL-адрес из веб-представления. Веб-представление должно быть полностью загружено при вызове расширения 1Password";
+
+/* 1Password Extension Error Message */
+"Failed to parse information returned by 1Password Extension" = "Не удалось проанализировать информацию, выданную расширением 1Password";
+
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */
+"%@ on %@" = "%1$@ на %2$@";
 

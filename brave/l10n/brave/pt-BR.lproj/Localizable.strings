@@ -1,5 +1,3 @@
-"CFBundleDisplayName" = "Abrir no Brave";
-
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "Busca do %@";
 
@@ -130,9 +128,6 @@ saiba por que...";
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "O Brave lhe oferece segurança enquanto você navega.";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "O Brave não se lembra de seu histórico ou cookies, mas novos marcadores serão salvos.";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "O Brave gostaria de acessar suas Fotos";
 
@@ -142,6 +137,7 @@ saiba por que...";
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Navegue conosco e sua privacidade será protegida, com nada mais a instalar, aprender ou configurar.";
 
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 "Browsing History" = "Histórico de Navegação";
 
@@ -178,6 +174,7 @@ saiba por que...";
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "Fechar";
 
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 "Close Private Tabs" = "Fechar Abas Privadas";
 
@@ -253,6 +250,9 @@ saiba por que...";
 /* No comment provided by engineer. */
 "Edit" = "Editar";
 
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "Digitar Modo de Busca";
 
@@ -400,7 +400,7 @@ Identificação";
 /* No comment provided by engineer. */
 "New Private Tab" = "Nova Aba Privada";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "Nova Aba";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -415,6 +415,7 @@ Identificação";
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "Nenhuma aba";
 
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Nota: alguns sites podem exigir scripts para funcionar corretamente, por isso esta proteção é desativada por padrão.";
 
@@ -433,6 +434,7 @@ Identificação";
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "Abrir e Preencher";
 
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 "Open Desktop Site tab" = "Aba Abrir Site Desktop";
 
@@ -443,8 +445,6 @@ Identificação";
 "Open In New Private Tab" = "Abrir em Nova Aba Privada";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "Abrir em Nova Aba";
-
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "Abrir Configurações";
 
@@ -457,6 +457,7 @@ Identificação";
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "Abrir no...";
 
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 "Pair" = "Parear";
 
@@ -499,6 +500,7 @@ Identificação";
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "Modo Privado";
 
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 "Private mode icon" = "Ícone do modo Privado";
 
@@ -508,6 +510,7 @@ Identificação";
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "Mecanismo de busca rápida";
 
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "Configurações do Modo Leitura";
 
@@ -585,8 +588,6 @@ Identificação";
 "Search in page" = "Buscar na página";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "Buscar ou digitar endereço";
-
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "Sugestões de busca de %@";
 
@@ -596,6 +597,7 @@ Identificação";
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "Conexão segura";
 
+/* Settings security section title */
 /* Title for selecting all logins */
 "Select All" = "Selecionar Tudo";
 
@@ -611,18 +613,18 @@ Identificação";
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 "Settings" = "Configurações";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Compartilhar";
 
-/* Context menu item for sharing a image */
-"Share Image" = "Compartilhar Imagem";
-
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
 "Share Link" = "Compartilhar Link";
 
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 "Shields Down" = "Proteção Desligada";
 
@@ -660,9 +662,6 @@ Identificação";
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Proteções do Site permitem controlar quando anúncios e rastreadores são bloqueados para cada site que você visita. Se você preferir ver os anúncios de um site específico, é possível habilitá-los aqui.";
 
-/* Brave panel topmost title */
-"Site shield settings" = "Configurações de proteção do site";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "Comece a Navegar";
 
@@ -687,6 +686,7 @@ Identificação";
 /* Sync to existing device */
 "Sync to device" = "Sincronizar no dispositivo";
 
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "Aba %1$@ de %2$@";
 
@@ -773,6 +773,7 @@ Identificação";
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "Usar adblock regional";
 
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "Usando um segundo dispositivo. Acesse Configurações do Brave > Sincronização. Capture o Código QR (acima) com o segundo dispositivo ou digite as palavras secretas caso não haja uma câmera disponível.";
 
@@ -803,6 +804,7 @@ Identificação";
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "Quando Sair da Navegação Privada";
 
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "Sim";
 
@@ -852,3 +854,13 @@ Identificação";
 /* Title for website row in Login Detail View */
 "website" = "site";
 
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */
