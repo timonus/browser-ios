@@ -27,7 +27,11 @@ class TabBarCell: UICollectionViewCell {
     let close = UIButton()
     let separatorLine = UIView()
     let separatorLineRight = UIView()
-    var currentIndex: Int = -1
+    var currentIndex: Int = -1 {
+        didSet {
+            isSelected = currentIndex == getApp().tabManager.currentDisplayedIndex
+        }
+    }
     weak var browser: Browser? {
         didSet {
             if let wv = self.browser?.webView {
@@ -205,7 +209,9 @@ class TabsBarViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        collectionView.reloadData()
+        postAsyncToMain(0.1) {
+            self.collectionView.reloadData()
+        }
     }
     
     deinit {
@@ -331,8 +337,8 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.browser = tab
         cell.title.text = tab.displayTitle
         cell.currentIndex = indexPath.row
-        cell.isSelected = (indexPath.row == getApp().tabManager.currentDisplayedIndex)
         cell.separatorLineRight.isHidden = (indexPath.row != tabList.count() - 1)
+        debugPrint("index: \(getApp().tabManager.currentDisplayedIndex ?? -1)")
         return cell
     }
     
