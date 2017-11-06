@@ -121,17 +121,17 @@ class BraveTopViewController : UIViewController {
         return rightSidePanel.view.frame.width == CGFloat(BraveUX.WidthOfSlideOut)
     }
 
-    override var prefersStatusBarHidden : Bool {
-        if UIDevice.current.userInterfaceIdiom != .phone {
-            return super.prefersStatusBarHidden
-        }
-
-        if BraveApp.isIPhoneLandscape() {
-            return true
-        }
-
-        return leftPanelShowing() || rightPanelShowing()
-    }
+//    override var prefersStatusBarHidden : Bool {
+//        if UIDevice.current.userInterfaceIdiom != .phone {
+//            return super.prefersStatusBarHidden
+//        }
+//
+//        if BraveApp.isIPhoneLandscape() {
+//            return true
+//        }
+//
+//        return leftPanelShowing() || rightPanelShowing()
+//    }
 
     func onClickLeftSlideOut(_ notification: Notification) {
         leftSidePanelButtonAndUnderlay = notification.object as? ButtonWithUnderlayView
