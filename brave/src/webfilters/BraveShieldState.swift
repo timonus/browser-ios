@@ -168,6 +168,16 @@ open class BraveGlobalShieldStats {
     }
     
     fileprivate init() {
+        let userDefaults = UserDefaults.standard
+        if (prefs?.intForKey(Shield.Adblock.rawValue) ?? 0) == 0 {
+            prefs?.setInt(Int32(userDefaults.integer(forKey: Shield.Adblock.rawValue)), forKey: Shield.Adblock.rawValue)
+            prefs?.setInt(Int32(userDefaults.integer(forKey: Shield.TrackingProtection.rawValue)), forKey: Shield.TrackingProtection.rawValue)
+            prefs?.setInt(Int32(userDefaults.integer(forKey: Shield.HTTPSE.rawValue)), forKey: Shield.HTTPSE.rawValue)
+            prefs?.setInt(Int32(userDefaults.integer(forKey: Shield.SafeBrowsing.rawValue)), forKey: Shield.SafeBrowsing.rawValue)
+            prefs?.setInt(Int32(userDefaults.integer(forKey: Shield.FpProtection.rawValue)), forKey: Shield.FpProtection.rawValue)
+            prefs?.userDefaults.synchronize()
+        }
+        
         adblock += prefs?.intForKey(Shield.Adblock.rawValue) ?? 0
         trackingProtection += prefs?.intForKey(Shield.TrackingProtection.rawValue) ?? 0
         httpse += prefs?.intForKey(Shield.HTTPSE.rawValue) ?? 0
