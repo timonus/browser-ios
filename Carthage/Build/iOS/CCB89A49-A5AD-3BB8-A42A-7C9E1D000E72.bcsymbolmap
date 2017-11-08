@@ -1,0 +1,429 @@
+BCSymbolMap Version: 2.0
+-[FICImageTable tableFilePath]
+-[FICImageTable metadataFilePath]
+-[FICImageTable directoryPath]
++[FICImageTable pageSize]
+___25+[FICImageTable pageSize]_block_invoke
++[FICImageTable directoryPath]
+___30+[FICImageTable directoryPath]_block_invoke
+-[FICImageTable initWithFormat:imageCache:]
+-[FICImageTable dealloc]
+-[FICImageTable _cachedChunkAtIndex:]
+-[FICImageTable _setChunk:index:]
+-[FICImageTable _chunkAtIndex:]
+-[FICImageTable setEntryForEntityUUID:sourceImageUUID:imageDrawingBlock:]
+-[FICImageTable newImageForEntityUUID:sourceImageUUID:preheatData:]
+__FICReleaseImageData
+___67-[FICImageTable newImageForEntityUUID:sourceImageUUID:preheatData:]_block_invoke
+___copy_helper_block_
+___destroy_helper_block_
+-[FICImageTable removeInUseForEntityUUID:]
+-[FICImageTable deleteEntryForEntityUUID:]
+-[FICImageTable entryExistsForEntityUUID:sourceImageUUID:]
+-[FICImageTable _maximumCount]
+-[FICImageTable _setEntryCount:]
+-[FICImageTable canAccessEntryData]
+-[FICImageTable _entryDataAtIndex:]
+___35-[FICImageTable _entryDataAtIndex:]_block_invoke
+___copy_helper_block_.229
+___destroy_helper_block_.230
+-[FICImageTable _entryWasDeallocatedFromChunk:]
+-[FICImageTable _nextEntryIndex]
+-[FICImageTable oldestEvictableEntityUUID]
+-[FICImageTable _indexOfEntryForEntityUUID:]
+-[FICImageTable _entryDataForEntityUUID:]
+-[FICImageTable _entryWasAccessedWithEntityUUID:]
+-[FICImageTable _numberForEntryAtIndex:]
+-[FICImageTable saveMetadata]
+___29-[FICImageTable saveMetadata]_block_invoke
+___29-[FICImageTable saveMetadata]_block_invoke_2
+___copy_helper_block_.271
+___destroy_helper_block_.272
+-[FICImageTable _loadMetadata]
+-[FICImageTable reset]
+-[FICImageTable imageFormat]
+-[FICImageTable imageCache]
+-[FICImageTable setImageCache:]
+-[FICImageTable .cxx_destruct]
+_OBJC_IVAR_$_FICImageTable._imageFormat
+_pageSize.__pageSize
+_pageSize.onceToken
+___block_descriptor_tmp
+___block_literal_global
+_directoryPath.__directoryPath
+_directoryPath.onceToken
+___block_descriptor_tmp.39
+___block_literal_global.40
+_OBJC_IVAR_$_FICImageTable._lock
+_OBJC_IVAR_$_FICImageTable._indexNumbers
+_OBJC_IVAR_$_FICImageTable._imageFormatDictionary
+_OBJC_IVAR_$_FICImageTable._screenScale
+_OBJC_IVAR_$_FICImageTable._imageRowLength
+_OBJC_IVAR_$_FICImageTable._imageLength
+_OBJC_IVAR_$_FICImageTable._chunkDictionary
+_OBJC_IVAR_$_FICImageTable._chunkSet
+_OBJC_IVAR_$_FICImageTable._indexMap
+_OBJC_IVAR_$_FICImageTable._occupiedIndexes
+_OBJC_IVAR_$_FICImageTable._MRUEntries
+_OBJC_IVAR_$_FICImageTable._inUseEntries
+_OBJC_IVAR_$_FICImageTable._sourceImageMap
+_OBJC_IVAR_$_FICImageTable._filePath
+_OBJC_IVAR_$_FICImageTable._fileDataProtectionMode
+_OBJC_IVAR_$_FICImageTable._fileDescriptor
+_OBJC_IVAR_$_FICImageTable._entryLength
+_OBJC_IVAR_$_FICImageTable._entriesPerChunk
+_OBJC_IVAR_$_FICImageTable._chunkLength
+_OBJC_IVAR_$_FICImageTable._fileLength
+_OBJC_IVAR_$_FICImageTable._entryCount
+_OBJC_IVAR_$_FICImageTable._chunkCount
+___block_descriptor_tmp.183
+_OBJC_IVAR_$_FICImageTable._canAccessData
+___block_descriptor_tmp.231
+_OBJC_IVAR_$_FICImageTable._metadataVersion
+_saveMetadata.__metadataQueue
+_saveMetadata.onceToken
+___block_descriptor_tmp.260
+___block_literal_global.261
+___block_descriptor_tmp.273
+_OBJC_IVAR_$_FICImageTable._imageCache
+Apple LLVM version 9.0.0 (clang-900.0.37)
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageTable.m
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageTable.h
+__destroy_helper_block_
+__copy_helper_block_
+__29-[FICImageTable saveMetadata]_block_invoke_2
+__29-[FICImageTable saveMetadata]_block_invoke
+_dispatch_once
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/usr/include/dispatch/once.h
+NSMakeRange
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
+__35-[FICImageTable _entryDataAtIndex:]_block_invoke
+__67-[FICImageTable newImageForEntityUUID:sourceImageUUID:preheatData:]_block_invoke
+_FICReleaseImageData
+__30+[FICImageTable directoryPath]_block_invoke
+__25+[FICImageTable pageSize]_block_invoke
+-[FICImageTableChunk initWithFileDescriptor:index:length:]
+-[FICImageTableChunk dealloc]
+-[FICImageTableChunk bytes]
+-[FICImageTableChunk fileOffset]
+-[FICImageTableChunk length]
+-[FICImageTableChunk index]
+_OBJC_IVAR_$_FICImageTableChunk._index
+_OBJC_IVAR_$_FICImageTableChunk._length
+_OBJC_IVAR_$_FICImageTableChunk._fileOffset
+_OBJC_IVAR_$_FICImageTableChunk._bytes
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageTableChunk.m
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageTableChunk.h
+-[FICImageCache setDelegate:]
++[FICImageCache sharedImageCache]
+___33+[FICImageCache sharedImageCache]_block_invoke
++[FICImageCache dispatchQueue]
+___30+[FICImageCache dispatchQueue]_block_invoke
+-[FICImageCache init]
+-[FICImageCache initWithNameSpace:]
+-[FICImageCache setFormats:]
+-[FICImageCache formatWithName:]
+-[FICImageCache formatsWithFamily:]
+-[FICImageCache retrieveImageForEntity:withFormatName:completionBlock:]
+-[FICImageCache asynchronouslyRetrieveImageForEntity:withFormatName:completionBlock:]
+-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]
+___90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke
+___90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke_2
+___copy_helper_block_.103
+___destroy_helper_block_.104
+___copy_helper_block_.106
+___destroy_helper_block_.107
+___90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke.109
+___90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke_2.110
+___copy_helper_block_.111
+___destroy_helper_block_.112
+___copy_helper_block_.114
+___destroy_helper_block_.115
+___90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke.127
+___copy_helper_block_.128
+___destroy_helper_block_.129
+-[FICImageCache _imageDidLoad:forURL:]
+___38-[FICImageCache _imageDidLoad:forURL:]_block_invoke
+___copy_helper_block_.138
+___destroy_helper_block_.139
+-[FICImageCache setImage:forEntity:withFormatName:completionBlock:]
+-[FICImageCache _processImage:forEntity:completionBlocksDictionary:]
+-[FICImageCache _processImage:forEntity:imageTable:completionBlocks:]
+___69-[FICImageCache _processImage:forEntity:imageTable:completionBlocks:]_block_invoke
+___69-[FICImageCache _processImage:forEntity:imageTable:completionBlocks:]_block_invoke_2
+___copy_helper_block_.165
+___destroy_helper_block_.166
+___copy_helper_block_.168
+___destroy_helper_block_.169
+-[FICImageCache formatsToProcessForCompletionBlocks:entity:]
+___60-[FICImageCache formatsToProcessForCompletionBlocks:entity:]_block_invoke
+___copy_helper_block_.177
+___destroy_helper_block_.178
+-[FICImageCache imageExistsForEntity:withFormatName:]
+-[FICImageCache deleteImageForEntity:withFormatName:]
+-[FICImageCache cancelImageRetrievalForEntity:withFormatName:]
+-[FICImageCache reset]
+___22-[FICImageCache reset]_block_invoke
+___copy_helper_block_.187
+___destroy_helper_block_.188
+-[FICImageCache _logMessage:]
+-[FICImageCache delegate]
+-[FICImageCache nameSpace]
+-[FICImageCache .cxx_destruct]
+_OBJC_IVAR_$_FICImageCache._delegate
+_OBJC_IVAR_$_FICImageCache._delegateImplementsWantsSourceImageForEntityWithFormatNameCompletionBlock
+_OBJC_IVAR_$_FICImageCache._delegateImplementsShouldProcessAllFormatsInFamilyForEntity
+_OBJC_IVAR_$_FICImageCache._delegateImplementsErrorDidOccurWithMessage
+_OBJC_IVAR_$_FICImageCache._delegateImplementsCancelImageLoadingForEntityWithFormatName
+_sharedImageCache.onceToken
+_sharedImageCache.__imageCache
+_dispatchQueue.__imageCacheDispatchQueue
+_dispatchQueue.onceToken
+___block_descriptor_tmp.21
+_OBJC_IVAR_$_FICImageCache._formats
+_OBJC_IVAR_$_FICImageCache._imageTables
+_OBJC_IVAR_$_FICImageCache._requests
+_OBJC_IVAR_$_FICImageCache._nameSpace
+___block_descriptor_tmp.105
+___block_descriptor_tmp.108
+___block_descriptor_tmp.113
+___block_descriptor_tmp.116
+___block_descriptor_tmp.131
+___block_descriptor_tmp.140
+___block_descriptor_tmp.167
+___block_descriptor_tmp.170
+___block_descriptor_tmp.180
+___block_descriptor_tmp.189
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageCache.m
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageCache.h
+__22-[FICImageCache reset]_block_invoke
+__60-[FICImageCache formatsToProcessForCompletionBlocks:entity:]_block_invoke
+__69-[FICImageCache _processImage:forEntity:imageTable:completionBlocks:]_block_invoke_2
+__69-[FICImageCache _processImage:forEntity:imageTable:completionBlocks:]_block_invoke
+__38-[FICImageCache _imageDidLoad:forURL:]_block_invoke
+__90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke.127
+__90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke_2.110
+__90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke.109
+__90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke_2
+__90-[FICImageCache _retrieveImageForEntity:withFormatName:loadSynchronously:completionBlock:]_block_invoke
+_FICAddCompletionBlockForEntity
+__30+[FICImageCache dispatchQueue]_block_invoke
+__33+[FICImageCache sharedImageCache]_block_invoke
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICUtilities.m
+FICUUIDBytesFromMD5HashOfString
+FICUUIDBytesWithString
+FICStringWithUUIDBytes
+FICByteAlignForCoreAnimation
+FICByteAlign
+-[FICImageTableEntry imageLength]
+-[FICImageTableEntry entityUUIDBytes]
+-[FICImageTableEntry setEntityUUIDBytes:]
+-[FICImageTableEntry sourceImageUUIDBytes]
+-[FICImageTableEntry setSourceImageUUIDBytes:]
+-[FICImageTableEntry initWithImageTableChunk:bytes:length:]
+-[FICImageTableEntry executeBlockOnDealloc:]
+-[FICImageTableEntry dealloc]
++[FICImageTableEntry metadataVersion]
+-[FICImageTableEntry _metadata]
+-[FICImageTableEntry flush]
+-[FICImageTableEntry preheat]
+-[FICImageTableEntry bytes]
+-[FICImageTableEntry length]
+-[FICImageTableEntry imageTableChunk]
+-[FICImageTableEntry index]
+-[FICImageTableEntry setIndex:]
+-[FICImageTableEntry imageCache]
+-[FICImageTableEntry setImageCache:]
+-[FICImageTableEntry .cxx_destruct]
+_OBJC_IVAR_$_FICImageTableEntry._length
+_OBJC_IVAR_$_FICImageTableEntry._imageTableChunk
+_OBJC_IVAR_$_FICImageTableEntry._bytes
+_OBJC_IVAR_$_FICImageTableEntry._deallocBlocks
+_OBJC_IVAR_$_FICImageTableEntry._index
+_OBJC_IVAR_$_FICImageTableEntry.imageCache
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageTableEntry.m
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageTableEntry.h
+-[FICImageFormat setImageSize:]
+-[FICImageFormat bitmapInfo]
+-[FICImageFormat bytesPerPixel]
+-[FICImageFormat bitsPerComponent]
+-[FICImageFormat isGrayscale]
+-[FICImageFormat protectionModeString]
++[FICImageFormat formatWithName:family:imageSize:style:maximumCount:devices:protectionMode:]
+-[FICImageFormat dictionaryRepresentation]
+-[FICImageFormat copyWithZone:]
+-[FICImageFormat name]
+-[FICImageFormat setName:]
+-[FICImageFormat family]
+-[FICImageFormat setFamily:]
+-[FICImageFormat imageSize]
+-[FICImageFormat pixelSize]
+-[FICImageFormat style]
+-[FICImageFormat setStyle:]
+-[FICImageFormat maximumCount]
+-[FICImageFormat setMaximumCount:]
+-[FICImageFormat devices]
+-[FICImageFormat setDevices:]
+-[FICImageFormat protectionMode]
+-[FICImageFormat setProtectionMode:]
+-[FICImageFormat .cxx_destruct]
+_OBJC_IVAR_$_FICImageFormat._imageSize
+_OBJC_IVAR_$_FICImageFormat._pixelSize
+_OBJC_IVAR_$_FICImageFormat._style
+_OBJC_IVAR_$_FICImageFormat._protectionMode
+_OBJC_IVAR_$_FICImageFormat._name
+_OBJC_IVAR_$_FICImageFormat._family
+_OBJC_IVAR_$_FICImageFormat._maximumCount
+_OBJC_IVAR_$_FICImageFormat._devices
+l_OBJC_PROTOCOL_$_NSCopying
+l_OBJC_LABEL_PROTOCOL_$_NSCopying
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageFormat.m
+/Users/jamesmudgett/dev/1.5/browser-ios/Carthage/Checkouts/FastImageCache/FastImageCache/FastImageCache/FastImageCache/FICImageFormat.h
+__CGSizeEqualToSize
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGGeometry.h
+/Users/jamesmudgett/Library/Caches/org.carthage.CarthageKit/DerivedData/9.0_9A235/FastImageCache/2615d275abe6195f4a90a7b46593768b74b3b273/Build/Intermediates.noindex/FastImageCache.build/Release-iphoneos/FastImageCache.build/DerivedSources/FastImageCache_vers.c
+__ZL15__ARCLite__loadv
+__ZL58__arclite_NSMutableDictionary__setObject_forKeyedSubscriptP19NSMutableDictionaryP13objc_selectorP11objc_objectS4_
+__ZL22add_image_hook_swiftV1PK11mach_headerl
+__ZL42__arclite_NSUndoManagerProxy_isKindOfClassP11objc_objectP13objc_selectorP10objc_class
+__ZL13replaceMethodP10objc_classP13objc_selectorPFP11objc_objectS4_S2_zEPS6_
+__ZL30__arclite_NSManagedObject_initP11objc_objectP13objc_selector
+__ZL41__arclite_NSManagedObject_allocWithEntityP11objc_objectP13objc_selectorS0_
+__ZL36__arclite_NSManagedObject_allocBatchP11objc_objectP13objc_selectorPS0_S0_j
+__ZL37__arclite_NSKKMS_fastIndexForKnownKeyP11objc_objectP13objc_selectorS0_
+__ZL28__arclite_NSKKMS_indexForKeyP11objc_objectP13objc_selectorS0_
+__ZL29__arclite_NSKKsD_objectForKeyP11objc_objectP13objc_selectorS0_
+__ZL35__arclite_NSKKsD_removeObjectForKeyP11objc_objectP13objc_selectorS0_
+__ZL33__arclite_NSKKsD_setObject_forKeyP11objc_objectP13objc_selectorS0_S0_
+__ZL41__arclite_NSKKsD_addEntriesFromDictionaryP11objc_objectP13objc_selectorP12NSDictionary
+__ZL28__arclite_objc_readClassPairP10objc_classPK15objc_image_info
+__ZL32__arclite_objc_allocateClassPairP10objc_classPKcm
+__ZL32__arclite_object_getIndexedIvarsP11objc_object
+__ZL23__arclite_objc_getClassPKc
+__ZL27__arclite_objc_getMetaClassPKc
+__ZL31__arclite_objc_getRequiredClassPKc
+__ZL26__arclite_objc_lookUpClassPKc
+__ZL26__arclite_objc_getProtocolPKc
+__ZL23__arclite_class_getNameP10objc_class
+__ZL26__arclite_protocol_getNameP8Protocol
+__ZL37__arclite_objc_copyClassNamesForImagePKcPj
+__ZL17transcribeMethodsP10objc_classP15glue_class_ro_t
+__ZL19transcribeProtocolsP10objc_classP15glue_class_ro_t
+__ZL20transcribePropertiesP10objc_classP15glue_class_ro_t
+__ZL14initialize_impP11objc_objectP13objc_selector
+__ZL18allocateMaybeSwiftP18glue_swift_class_tm
+__ZL22copySwiftV1MangledNamePKcb
+__ZL13demangledNamePKcb
+__ZL16scanMangledFieldRPKcS0_S1_Ri
+__ZL30arclite_uninitialized_functionv
+__ZL12cxxConstructP11objc_object
+__ZL20fixStringForCoreDataP11objc_object
+_OBJC_METACLASS_$___ARCLite__
+__ZL24OBJC_CLASS_$___ARCLite__
+__ZL31OBJC_METACLASS_RO_$___ARCLite__
+__non_lazy_classes
+__ZL27OBJC_CLASS_RO_$___ARCLite__
+__ZL11_class_name
+__ZL32OBJC_$_CLASS_METHODS___ARCLite__
+__ZL17_load_method_name
+__ZL17_load_method_type
+l_OBJC_PROTOCOL_$___ARCLiteKeyedSubscripting__
+l_OBJC_LABEL_PROTOCOL_$___ARCLiteKeyedSubscripting__
+l_OBJC_PROTOCOL_REFERENCE_$___ARCLiteKeyedSubscripting__
+__ZL30NSUndoManagerProxy_targetClass
+__ZL29original_NSManagedObject_init
+__ZL40original_NSManagedObject_allocWithEntity
+__ZL35original_NSManagedObject_allocBatch
+__ZL25NSMutableDictionary_class
+__ZL22NSConstantString_class
+__ZL14NSString_class
+__ZL36original_NSKKMS_fastIndexForKnownKey
+__ZL27original_NSKKMS_indexForKey
+__ZL28original_NSKKsD_objectForKey
+__ZL34original_NSKKsD_removeObjectForKey
+__ZL32original_NSKKsD_setObject_forKey
+__ZL40original_NSKKsD_addEntriesFromDictionary
+__ZZL22add_image_hook_swiftV1PK11mach_headerlE7patches
+__ZGVZL22add_image_hook_swiftV1PK11mach_headerlE7patches
+__ZL31original_objc_allocateClassPair
+__ZL31original_object_getIndexedIvars
+__ZL22original_objc_getClass
+__ZL26original_objc_getMetaClass
+__ZL30original_objc_getRequiredClass
+__ZL25original_objc_lookUpClass
+__ZL25original_objc_getProtocol
+__ZL22original_class_getName
+__ZL25original_protocol_getName
+__ZL36original_objc_copyClassNamesForImage
+__ZL12demangleLock
+__ZL9Demangled
+Apple LLVM version 9.0.0 (clang-900.0.35)
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -arch arm64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=c++11 -Wno-trigraphs -fno-exceptions -fno-rtti -fno-sanitize=vptr -mpascal-strings -Os -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wno-undeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -D NDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.Internal.sdk -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -miphoneos-version-min=4.3 -g -fno-threadsafe-statics -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -fembed-bitcode=all -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-generated-files.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-own-target-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-all-target-headers.hmap -iquote /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/arclite_iphoneos-project-headers.hmap -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts/include -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources/arm64 -I /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/DerivedSources -F/Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/Symbols/BuiltProducts -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.Internal.sdk/System/Library/PrivateFrameworks -Wall -Wextra -Wno-gcc-compat -Wno-error=incomplete-umbrella -Wno-error=incomplete-umbrella -MMD -MT dependencies -MF /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.d --serialize-diagnostics /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.dia -c /Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-66/source/arclite.mm -o /Library/Caches/com.apple.xbs/Binaries/arclite_iOS/install/TempContent/Objects/arclite.build/arclite_iOS.build/Objects-normal/arm64/arclite.o -mlinker-version=302.3
+/Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-66/source/arclite.mm
+/Library/Caches/com.apple.xbs/Sources/arclite_iOS/arclite-66
+fixStringForCoreData
+cxxConstruct
+arclite_uninitialized_function
+scanMangledField
+isdigit
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.Internal.sdk/usr/include/ctype.h
+__isctype
+demangledName
+copySwiftV1DemangledName
+copySwiftV1MangledName
+allocateMaybeSwift
+word_align
+isSwift
+initialize_imp
+transcribeProperties
+property_list_nth
+transcribeProtocols
+transcribeMethods
+data
+method_list_nth
+__arclite_objc_copyClassNamesForImage
+__arclite_protocol_getName
+__arclite_class_getName
+__arclite_objc_getProtocol
+__arclite_objc_lookUpClass
+__arclite_objc_getRequiredClass
+__arclite_objc_getMetaClass
+__arclite_objc_getClass
+__arclite_object_getIndexedIvars
+__arclite_objc_allocateClassPair
+metaclass
+__arclite_objc_readClassPair
+transcribeIvars
+ivar_list_nth
+max
+alignment
+ro
+fastFlags
+__arclite_NSKKsD_addEntriesFromDictionary
+__arclite_NSKKsD_setObject_forKey
+__arclite_NSKKsD_removeObjectForKey
+__arclite_NSKKsD_objectForKey
+__arclite_NSKKMS_indexForKey
+__arclite_NSKKMS_fastIndexForKnownKey
+__arclite_NSManagedObject_allocBatch
+__arclite_NSManagedObject_allocWithEntity
+__arclite_NSManagedObject_init
+replaceMethod
+__arclite_NSUndoManagerProxy_isKindOfClass
+add_image_hook_swiftV1
+patch_lazy_pointers
+patch_t<const char **(const char *, unsigned int *)>
+patch_t<const char *(Protocol *)>
+patch_t<const char *(Class)>
+patch_t<Protocol *(const char *)>
+patch_t<Class (const char *)>
+patch_t<void *(id)>
+patch_t<Class (Class, const char *, unsigned long)>
+patch_t<Class (Class, const objc_image_info *)>
+__arclite_NSMutableDictionary__setObject_forKeyedSubscript
+__ARCLite__load
+install_swiftV1
+install_dict_nil_value
+addOrReplaceMethod
+keyedGetter

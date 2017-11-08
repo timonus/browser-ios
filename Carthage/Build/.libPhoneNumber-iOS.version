@@ -1,0 +1,9 @@
+{
+  "commitish" : "0.9.2",
+  "iOS" : [
+    {
+      "hash" : "40d12a6ca3f5d22664c0beb473f1d57523470325d95267cf8ec8bcf06760dd8a",
+      "name" : "libPhoneNumberiOS"
+    }
+  ]
+}

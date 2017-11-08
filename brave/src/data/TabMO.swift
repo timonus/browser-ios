@@ -126,43 +126,74 @@ class TabMO: NSManagedObject {
     }
     
     class func preserveTab(tab: Browser) {
-        guard let tabManager = getApp().tabManager else {
-            return
-        }
-        
-        if tab.isPrivate || tab.lastRequest?.url?.absoluteString == nil || tab.tabID == nil {
-            return
-        }
-        
-        // Ignore session restore data.
-        if let url = tab.lastRequest?.url?.absoluteString, url.contains("localhost") {
-            debugPrint(url)
-            return
-        }
-        
-        var order = 0
-        for t in tabManager.tabs.internalTabList {
-            if t === tab { break }
-            order += 1
-        }
-        
-        var urls = [String]()
-        var currentPage = 0
-        if let currentItem = tab.webView?.backForwardList.currentItem {
-            // Freshly created web views won't have any history entries at all.
-            let backList = tab.webView?.backForwardList.backList ?? []
-            let forwardList = tab.webView?.backForwardList.forwardList ?? []
-            urls += (backList + [currentItem] + forwardList).map { $0.URL.absoluteString }
-            currentPage = -forwardList.count
-        }
-        if let id = TabMO.getByID(tab.tabID)?.syncUUID {
-            let data = SavedTab(id, tab.title ?? tab.lastRequest!.url!.absoluteString, tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
+        if let data = savedTabData(tab: tab) {
             let context = DataController.shared.workerContext
             context.perform {
                 _ = TabMO.add(data, context: context)
                 DataController.saveContext(context: context)
             }
         }
+    }
+    
+    class func savedTabData(tab: Browser, context: NSManagedObjectContext = DataController.shared.mainThreadContext, urlOverride: String? = nil) -> SavedTab? {
+        guard let tabManager = getApp().tabManager, let webView = tab.webView, let order = tabManager.indexOfWebView(webView) else { return nil }
+        
+        // Ignore session restore data.
+        if let url = tab.url?.absoluteString, url.contains("localhost") {
+            return nil
+        }
+        
+        var urls = [String]()
+        var currentPage = 0
+        
+        tab.webView?.backForwardList.update()
+        
+        if let currentItem = tab.webView?.backForwardList.currentItem {
+            // Freshly created web views won't have any history entries at all.
+            let backList = tab.webView?.backForwardList.backList ?? []
+            let forwardList = tab.webView?.backForwardList.forwardList ?? []
+            var backListMap = backList.map { $0.URL.absoluteString }
+            let forwardListMap = forwardList.map { $0.URL.absoluteString }
+            var currentItemString = currentItem.URL.absoluteString
+            
+            debugPrint("backList: \(backListMap)")
+            debugPrint("forwardList: \(forwardListMap)")
+            debugPrint("currentItem: \(currentItemString)")
+            
+            /* Completely ignore forward history when passing urlOverride. When a webpage
+               hasn't fully loaded we attempt to preserve the current state of the webview.
+               urls that are currently loading aren't visible in history or forward history.
+               Our work around here is to append the currently requested URL to the end of the
+               navigation stack, and ignore forward history (as it would be replaced on full load).
+               There should be a very narrow edgecase where user who navigates back has no active
+               cache for the back url and close the browser while page is still being loaded-
+               resulting in lost forward history. */
+            
+            if let urlOverride = urlOverride, backListMap.count == 0 || forwardListMap.count == 0 {
+                // Navigating back or forward, lets ignore current.
+                if currentItemString == urlOverride {
+                    currentItemString = ""
+                }
+                if backListMap.index(of: urlOverride) == backListMap.count - 1 {
+                    backListMap.removeLast()
+                }
+                urls = backListMap + [currentItemString] + [urlOverride]
+            }
+            else {
+                // Business as usual.
+                urls = backListMap + [currentItemString] + forwardListMap
+                currentPage = -forwardList.count
+            }
+            
+            debugPrint("---stack: \(urls)")
+        }
+        if let id = TabMO.getByID(tab.tabID, context: context)?.syncUUID {
+            let urlTitle = tab.displayTitle != "" ? tab.displayTitle : urlOverride ?? ""
+            let data = SavedTab(id, urlTitle, urlOverride ?? tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
+            return data
+        }
+        
+        return nil
     }
 }
 

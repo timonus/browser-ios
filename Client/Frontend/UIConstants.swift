@@ -12,11 +12,18 @@ public struct UIConstants {
     static let PrivateModePurple = UIColor(red: 207 / 255, green: 104 / 255, blue: 255 / 255, alpha: 1)
     static let PrivateModeLocationBackgroundColor = UIColor(red: 31 / 255, green: 31 / 255, blue: 31 / 255, alpha: 1)
     static let PrivateModeLocationBorderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
-    static let PrivateModeActionButtonTintColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.8)
+    static let PrivateModeActionButtonTintColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1.0)
     static let PrivateModeTextHighlightColor = UIColor(white: 0.5, alpha: 1)
     static let PrivateModeReaderModeBackgroundColor = UIColor(red: 89 / 255, green: 89 / 255, blue: 89 / 255, alpha: 1)
 
     static let ToolbarHeight: CGFloat = 44
+    static let BottomToolbarHeight: CGFloat = {
+        if BraveApp.isIPhoneX() {
+            return 44 + 34 // 34 is the bottom inset on the iPhone X
+        }
+        
+        return 44
+    }()
     static let DefaultRowHeight: CGFloat = 58
     static let DefaultPadding: CGFloat = 12
     static let SnackbarButtonHeight: CGFloat = 48

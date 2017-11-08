@@ -68,7 +68,7 @@ enum SentTabAction: String {
 protocol Profile: class {
     var bookmarks: BookmarksModelFactorySource & ShareToDestination & SyncableBookmarks & LocalItemSource & MirrorItemSource { get }
     // var favicons: Favicons { get }
-    var prefs: Prefs { get }
+    var prefs: NSUserDefaultsPrefs { get }
     var queue: TabQueue { get }
     var searchEngines: SearchEngines { get }
     var files: FileAccessor { get }
@@ -104,19 +104,11 @@ open class BrowserProfile: Profile {
      * subsequently — and asynchronously — expects the profile to stick around:
      * see Bug 1218833. Be sure to only perform synchronous actions here.
      */
-    init(localName: String, app: UIApplication?, clear: Bool = false) {
+    init(localName: String, app: UIApplication?) {
         log.debug("Initing profile \(localName) on thread \(Thread.current).")
         self.name = localName
         self.files = ProfileFileAccessor(localName: localName)
         self.app = app
-
-        if clear {
-            do {
-                try FileManager.default.removeItem(atPath: self.files.rootPath as String)
-            } catch {
-                log.info("Cannot clear profile: \(error)")
-            }
-        }
 
         let baseBundleIdentifier = AppInfo.baseBundleIdentifier
         if !baseBundleIdentifier.isEmpty {
@@ -268,11 +260,11 @@ open class BrowserProfile: Profile {
         return SearchEngines(prefs: self.prefs)
     }()
 
-    func makePrefs() -> Prefs {
+    func makePrefs() -> NSUserDefaultsPrefs {
         return NSUserDefaultsPrefs(prefix: self.localName())
     }
 
-    lazy var prefs: Prefs = {
+    lazy var prefs: NSUserDefaultsPrefs = {
         return self.makePrefs()
     }()
 

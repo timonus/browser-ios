@@ -86,7 +86,6 @@ class BraveBrowserViewController : BrowserViewController {
         historySwiper.setup(self.view, webViewContainer: self.webViewContainer)
         for swipe in [historySwiper.goBackSwipe, historySwiper.goForwardSwipe] {
             selected.webView?.scrollView.panGestureRecognizer.require(toFail: swipe)
-            scrollController.panGesture.require(toFail: swipe)
         }
 
         if let webView = selected.webView {
@@ -110,19 +109,7 @@ class BraveBrowserViewController : BrowserViewController {
     }
 
     override func SELtappedTopArea() {
-     //   scrollController.showToolbars(animated: true)
-    }
-
-    var heightConstraint: Constraint?
-    override func setupConstraints() {
-        super.setupConstraints()
-
-        // TODO: Should be moved to parent class, but requires property moving too
-        webViewContainer.snp.remakeConstraints { make in
-            make.left.right.equalTo(self.view)
-            heightConstraint = make.height.equalTo(self.view.snp.height).constraint
-            webViewContainerTopOffset = make.top.equalTo(self.statusBarOverlay.snp.bottom).offset(BraveURLBarView.CurrentHeight).constraint
-        }
+        scrollController.showToolbars(animated: true)
     }
 
     override func updateViewConstraints() {
@@ -133,19 +120,9 @@ class BraveBrowserViewController : BrowserViewController {
             make.edges.equalTo(self.footerBackground!)
         }
     }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        webViewContainerTopOffset?.update(offset: BraveURLBarView.CurrentHeight)
-        heightConstraint?.update(offset: -BraveApp.statusBarHeight())
-    }
     
     override func updateToolbarStateForTraitCollection(_ newCollection: UITraitCollection) {
         super.updateToolbarStateForTraitCollection(newCollection)
-
-        heightConstraint?.update(offset: -BraveApp.statusBarHeight())
-
         postAsyncToMain(0) {
             self.urlBar.updateTabsBarShowing()
         }

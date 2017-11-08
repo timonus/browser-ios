@@ -12,6 +12,7 @@ import Deferred
 private let log = Logger.browserLogger
 
 private let ThumbnailIdentifier = "Thumbnail"
+private let NewTopIdentifier = "NewTop"
 
 extension CGSize {
     public func widthLargerOrEqualThanHalfIPad() -> Bool {
@@ -90,6 +91,8 @@ class TopSitesPanel: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
+        
         let statsHeight: CGFloat = 150.0
         let statsBottomMargin: CGFloat = 25.0
         
@@ -134,13 +137,18 @@ class TopSitesPanel: UIViewController {
         collection.delegate = self
         collection.dataSource = PrivateBrowsing.singleton.isOn ? nil : dataSource
         collection.register(ThumbnailCell.self, forCellWithReuseIdentifier: ThumbnailIdentifier)
+        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: NewTopIdentifier)
         collection.keyboardDismissMode = .onDrag
         collection.accessibilityIdentifier = "Top Sites View"
         // Entire site panel, including the stats view insets
         collection.contentInset = UIEdgeInsetsMake(statsHeight, 0, 0, 0)
         view.addSubview(collection)
         collection.snp.makeConstraints { make -> Void in
-            make.edges.equalTo(self.view)
+            if #available(iOS 11.0, *) {
+                make.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
+            } else {
+                make.edges.equalTo(self.view)
+            }
         }
         self.collection = collection
         
@@ -684,48 +692,28 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
 
     @objc func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // If there aren't enough data items to fill the grid, look for items in suggested sites.
+        // + 1 for new topsite button.
         if let layout = collectionView.collectionViewLayout as? TopSitesLayout {
-            return min(count(), layout.thumbnailCount)
+            return min(count(), layout.thumbnailCount)// + 1
         }
-
+        
         return 0
     }
 
     fileprivate func setDefaultThumbnailBackgroundForCell(_ cell: ThumbnailCell) {
-        cell.imageView.image = UIImage(named: "defaultFavicon")!
-        //cell.imageView.contentMode = UIViewContentMode.center
-    }
-    
-    fileprivate func setColorBackground(_ image: UIImage, withURL url: URL, forCell cell: ThumbnailCell) {
-        // TODO:
-        // Currently just calculate the background image color everytime.
-        // This will be refactored when the switch to coredata happens (then the image color can be stored)
-        
-        let rgba = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: 4)
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let info = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
-        let context: CGContext = CGContext(data: rgba, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: colorSpace, bitmapInfo: info.rawValue)!
-
-        guard let newImage = image.cgImage else { return }
-        context.draw(newImage, in: CGRect(x: 0, y: 0, width: 1, height: 1))
-        
-        // Has issues, often sets background to black. experimenting without box for now.
-//        let red = CGFloat(rgba[0]) / 255.0
-//        let green = CGFloat(rgba[1]) / 255.0
-//        let blue = CGFloat(rgba[2]) / 255.0
-//        let colorFill: UIColor = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
-        
-        cell.imageView.backgroundColor = UIColor.clear
+        cell.imageView.image = FaviconFetcher.defaultFavicon
     }
     
     fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
+        weak var weakSelf = self
         FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
-            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = self.collectionView?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
-            self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = weakSelf?.collectionView?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
+            weakSelf?.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
         }
     }
     
     fileprivate func setCellImage(_ cell: ThumbnailCell, iconUrl: URL, cacheWithUrl: URL) {
+        weak var weakSelf = self
         ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
             if image != nil {
                 postAsyncToMain {
@@ -733,15 +721,17 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
                 }
             }
             else {
-                cell.imageView.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
-                    guard err == nil, let img = img else {
-                        // avoid recheck to find an icon when none can be found, hack skips FaviconFetch
-                        ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
-                        cell.imageView.image = FaviconFetcher.defaultFavicon
-                        return
-                    }
-                    ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
-                })
+                postAsyncToMain {
+                    cell.imageView.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
+                        guard let img = img else {
+                            // avoid recheck to find an icon when none can be found, hack skips FaviconFetch
+                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
+                            weakSelf?.setDefaultThumbnailBackgroundForCell(cell)
+                            return
+                        }
+                        ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
+                    })
+                }
             }
         })
     }
@@ -768,8 +758,6 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         guard let topsiteUrl = URL(string: domainURL) else { return }
         
         guard let icon = site.icon else {
-            setDefaultThumbnailBackgroundForCell(cell)
-            
             if ImageCache.shared.hasImage(topsiteUrl, type: .square) {
                 ImageCache.shared.image(topsiteUrl, type: .square, callback: { (image) in
                     postAsyncToMain {
@@ -788,7 +776,6 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         case .noneFound where Date().timeIntervalSince(icon.date) < FaviconFetcher.ExpirationTime:
             setDefaultThumbnailBackgroundForCell(cell)
         default:
-            setDefaultThumbnailBackgroundForCell(cell)
             if let iconUrl = URL(string: icon.url) {
                 setCellImage(cell, iconUrl: iconUrl, cacheWithUrl: topsiteUrl)
             }
@@ -872,7 +859,8 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
             blocked = Domain.blockedTopSites(context)
             postAsyncToMain {
                 for domain in blocked {
-                    self.suggestedSites = self.suggestedSites.filter { self.extractDomainURL($0.url) != self.extractDomainURL(domain.url!) }
+                    guard let extractUrl = domain.url else { continue }
+                    self.suggestedSites = self.suggestedSites.filter { self.extractDomainURL($0.url) != self.extractDomainURL(extractUrl) }
                 }
 
                 self.sites = self.sites.map { site in
@@ -908,20 +896,26 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     }
 
     @objc func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        // Cells for the top site thumbnails.
-        let site = self[indexPath.item]!
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ThumbnailIdentifier, for: indexPath) as! ThumbnailCell
-        
-        // TODO: Can be refactored, currently used primarily for title differences
-        if let site = site as? SuggestedSite {
-            configureCell(cell, atIndexPath: indexPath, forSuggestedSite: site)
-        } else {
-            configureCell(cell, atIndexPath: indexPath, forSite: site, isEditing: editingThumbnails)
+        // Display new Topsite button
+        if indexPath.row == self.sites.count {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewTopIdentifier, for: indexPath)
+            return cell
         }
+        else {
+            // Cells for the top site thumbnails.
+            let site = self[indexPath.item]!
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ThumbnailIdentifier, for: indexPath) as! ThumbnailCell
+            
+            // TODO: Can be refactored, currently used primarily for title differences
+            if let site = site as? SuggestedSite {
+                configureCell(cell, atIndexPath: indexPath, forSuggestedSite: site)
+            } else {
+                configureCell(cell, atIndexPath: indexPath, forSite: site, isEditing: editingThumbnails)
+            }
 
-        cell.updateLayoutForCollectionViewSize(collectionView.bounds.size, traitCollection: collectionView.traitCollection, forSuggestedSite: false)
-        return cell
+            cell.updateLayoutForCollectionViewSize(collectionView.bounds.size, traitCollection: collectionView.traitCollection, forSuggestedSite: false)
+            return cell
+        }
     }
 }
 

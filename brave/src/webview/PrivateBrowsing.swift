@@ -1,7 +1,5 @@
 import Shared
 import Deferred
-import Crashlytics
-import Shared
 
 private let _singleton = PrivateBrowsing()
 
@@ -81,7 +79,11 @@ class PrivateBrowsing {
         if isOn {
             return
         }
-
+        
+        postAsyncToMain(1.3) {
+            getApp().browserViewController.presentBrowserLockCallout()
+        }
+        
         isOn = true
 
         getApp().tabManager.enterPrivateBrowsingMode(self)
@@ -137,9 +139,6 @@ class PrivateBrowsing {
 
             postAsyncToMain(2) {
                 if !self.exitDeferred.isFilled {
-                    #if !NO_FABRIC
-                        Answers.logCustomEvent(withName: "PrivateBrowsing exit failed", customAttributes: nil)
-                    #endif
                     #if DEBUG
                         BraveApp.showErrorAlert(title: "PrivateBrowsing", error: "exit failed")
                     #endif

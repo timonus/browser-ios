@@ -67,7 +67,6 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
                 // Center last.
                 x = (bounds.width - w) / 2
             }
-            // debugPrint("w \(w) x \(x) y\(y)")
             
             let field = fields[i]
             var fieldFrame = field.frame

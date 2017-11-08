@@ -72,7 +72,7 @@ class HomePanelViewController: UIViewController, UITextFieldDelegate, HomePanelD
         
         topLine.snp.makeConstraints { (make) in
             make.top.left.right.equalTo(0)
-            make.height.equalTo(1)
+            make.height.equalTo(0.5)
         }
         
         bottomLine.snp.makeConstraints { (make) in

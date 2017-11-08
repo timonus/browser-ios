@@ -1,5 +1,3 @@
-"CFBundleDisplayName" = "Brave에서 열기";
-
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "%@ 검색";
 
@@ -130,9 +128,6 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "Brave 브라우저는 여러분이 브라우징하는 동안 안전을 유지합니다.";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave 브라우저에는 방문기록 또는 쿠키는 저장되지 않지만 새 북마크는 저장됩니다.";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Brave 브라우저가 내 사진에 액세스하려고 합니다.";
 
@@ -142,6 +137,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Brave 브라우저로 여러분의 개인 정보를 보호하고 있습니다. 그 어떤 학습과 설정, 추가 설치를 요구하지 않습니다.";
 
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 "Browsing History" = "브라우징 히스토리";
 
@@ -178,6 +174,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "닫기";
 
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 "Close Private Tabs" = "비공개 탭 닫기";
 
@@ -253,6 +250,9 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* No comment provided by engineer. */
 "Edit" = "편집";
 
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "검색 모드 시작";
 
@@ -400,7 +400,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* No comment provided by engineer. */
 "New Private Tab" = "새 비공개 탭";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "새 탭";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -415,6 +415,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "탭 없음";
 
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "참고: 일부 사이트에서는 이 차단을 기본적으로 비활성화하기 위해 스크립트가 정상 작동하도록 요구할 수 있습니다.";
 
@@ -433,6 +434,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "열기 & 채우기";
 
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 "Open Desktop Site tab" = "데스크탑 사이트 탭 열기";
 
@@ -443,8 +445,6 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 "Open In New Private Tab" = "새 비공개 탭으로 열기";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "새 탭에서 열기";
-
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "설정 열기";
 
@@ -457,6 +457,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "열기...";
 
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 "Pair" = "페어링";
 
@@ -499,6 +500,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "비공개 모드";
 
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 "Private mode icon" = "비공개 모드 아이콘";
 
@@ -508,6 +510,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "빠른 검색 엔진";
 
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "읽기 전용 모드 설정";
 
@@ -585,8 +588,6 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 "Search in page" = "페이지에서 검색";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "검색하거나 주소를 입력";
-
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "%@의 추천 검색어";
 
@@ -596,6 +597,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "보안 연결";
 
+/* Settings security section title */
 /* Title for selecting all logins */
 "Select All" = "모두 선택";
 
@@ -611,15 +613,18 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 "Settings" = "설정";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "공유";
 
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
 "Share Link" = "링크 공유";
 
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 "Shields Down" = "차단 비활성화";
 
@@ -657,9 +662,6 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "사이트 Shields를 사용하면 방문하는 사이트별로 광고와 트래커를 차단할지 관리할 수 있습니다. 특정 사이트에서 광고를 표시하려면, 해당 사이트에서 활성화합니다.";
 
-/* Brave panel topmost title */
-"Site shield settings" = "사이트 shield 설정";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "브라우징 시작";
 
@@ -684,6 +686,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Sync to existing device */
 "Sync to device" = "기기에 동기화";
 
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "탭 %1$@/%2$@";
 
@@ -770,6 +773,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "지역 Adblock 사용";
 
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "보조 기기를 사용하여 Brave 설정 > 동기화로 이동합니다. 보조 기기로 QR 코드(위 참조)를 캡처하거나, 카메라를 사용할 수 없는 경우 코드 단어를 입력합니다.";
 
@@ -800,6 +804,7 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "비공개 브라우징에서 나가는 경우";
 
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "네";
 
@@ -849,3 +854,13 @@ Brave 브라우저는 속도와 능률을 위해 디자인 되었습니다.";
 /* Title for website row in Login Detail View */
 "website" = "웹사이트";
 
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */

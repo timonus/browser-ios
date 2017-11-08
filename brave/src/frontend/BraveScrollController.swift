@@ -1,4 +1,6 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import UIKit
 import SnapKit
@@ -9,304 +11,249 @@ class BraveScrollController: NSObject {
     enum ScrollDirection {
         case up
         case down
-        case none  // Brave added
     }
-
-    weak var browser: Browser? {
+    
+    enum ToolbarState {
+        case collapsed
+        case visible
+        case animating
+    }
+    
+    weak var tab: Browser? {
         willSet {
             self.scrollView?.delegate = nil
             self.scrollView?.removeGestureRecognizer(panGesture)
-            BraveApp.getCurrentWebView()?.removeGestureRecognizer(tapShowBottomBar)
         }
-
+        
         didSet {
-            BraveApp.getCurrentWebView()?.addGestureRecognizer(tapShowBottomBar)
             self.scrollView?.addGestureRecognizer(panGesture)
             scrollView?.delegate = self
         }
     }
-
-    lazy var tapShowBottomBar: UITapGestureRecognizer = {
-        let t = UITapGestureRecognizer(target: self, action: #selector(onTapShowBottomBar))
-        t.delegate = self
-        return t
-    }()
-
+    
     weak var header: UIView?
     weak var footer: UIView?
     weak var urlBar: URLBarView?
     weak var snackBars: UIView?
-
-    var keyboardIsShowing = false
-    var verticalTranslation = CGFloat(0)
-
+    weak var webViewContainerToolbar: UIView?
+    
     var footerBottomConstraint: Constraint?
     var headerTopConstraint: Constraint?
     var toolbarsShowing: Bool { return headerTopOffset == 0 }
-
-    var edgeSwipingActive = false
-
+    
+    fileprivate var isZoomedOut: Bool = false
+    fileprivate var lastZoomedScale: CGFloat = 0
+    fileprivate var isUserZoom: Bool = false
+    fileprivate var adjustWithScroll: Bool = false
+    fileprivate var previousScrollOffset: CGFloat = 0
+    
+    fileprivate var isTransitionIncomplete: Bool! {
+        get {
+            if headerTopOffset == -topScrollHeight || !toolbarsShowing {
+                return false
+            }
+            
+            return true
+        }
+    }
+    
     fileprivate var headerTopOffset: CGFloat = 0 {
         didSet {
             headerTopConstraint?.update(offset: headerTopOffset)
             header?.superview?.setNeedsLayout()
         }
     }
-
+    
     fileprivate var footerBottomOffset: CGFloat = 0 {
         didSet {
             footerBottomConstraint?.update(offset: footerBottomOffset)
             footer?.superview?.setNeedsLayout()
         }
     }
-
-    lazy var panGesture: UIPanGestureRecognizer = {
+    
+    fileprivate lazy var panGesture: UIPanGestureRecognizer = {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(BraveScrollController.handlePan(_:)))
         panGesture.maximumNumberOfTouches = 1
         panGesture.delegate = self
         return panGesture
     }()
-
-    fileprivate var scrollView: UIScrollView? { return browser?.webView?.scrollView }
+    
+    fileprivate var scrollView: UIScrollView? { return tab?.webView?.scrollView }
     fileprivate var contentOffset: CGPoint { return scrollView?.contentOffset ?? CGPoint.zero }
     fileprivate var contentSize: CGSize { return scrollView?.contentSize ?? CGSize.zero }
     fileprivate var scrollViewHeight: CGFloat { return scrollView?.frame.height ?? 0 }
-    fileprivate var headerFrame: CGRect { return header?.frame ?? CGRect.zero }
-    fileprivate var footerFrame: CGRect { return footer?.frame ?? CGRect.zero }
+    fileprivate var topScrollHeight: CGFloat { return header?.frame.height ?? 0 }
+    fileprivate var bottomScrollHeight: CGFloat { return urlBar?.frame.height ?? 0 }
+    fileprivate var footerHeight: CGFloat { return footer?.frame.height ?? 0 }
     fileprivate var snackBarsFrame: CGRect { return snackBars?.frame ?? CGRect.zero }
-
+    
     fileprivate var lastContentOffset: CGFloat = 0
     fileprivate var scrollDirection: ScrollDirection = .down
-
-    // Brave added
-    // What I am seeing on older devices is when scroll direction is changed quickly, and the toolbar show/hides,
-    // the first or second pan gesture after that will report the wrong direction (the gesture handling seems bugging during janky scrolling)
-    // This added check is a secondary validator of the scroll direction
-    fileprivate var scrollViewWillBeginDragPoint: CGFloat = 0
-
-    func setBottomInset(_ bottom: CGFloat) {
-        scrollView?.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
-        scrollView?.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottom, 0)
-    }
-
+    fileprivate var toolbarState: ToolbarState = .visible
+    
     override init() {
         super.init()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(BraveScrollController.pageUnload), name: NSNotification.Name(rawValue: kNotificationPageUnload), object: nil)
-
-        NotificationCenter.default.addObserver(self, selector:#selector(BraveScrollController.keyboardWillAppear(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector:#selector(BraveScrollController.keyboardDidAppear(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector:#selector(BraveScrollController.keyboardWillDisappear(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
-    func keyboardWillAppear(_ notification: Notification){
-        keyboardIsShowing = true
-    }
-    
-    func keyboardDidAppear(_ notification: Notification){
-        checkHeightOfPageAndAdjustWebViewInsets(keyboardAppeared: true)
-    }
-
-    func keyboardWillDisappear(_ notification: Notification){
-        keyboardIsShowing = false
-
-        postAsyncToMain(0.2) {
-            // Hiding/showing toolbars during kb show affects layout updating, reset the toolbar state
-            self.verticalTranslation = 0
-            self.header?.layer.transform = CATransform3DIdentity
-            self.footer?.layer.transform = CATransform3DIdentity
-            if self.headerTopOffset < 0 {
-                self.headerTopOffset = -BraveURLBarView.CurrentHeight
-                self.footerBottomOffset = UIConstants.ToolbarHeight
-            } else {
-                self.headerTopOffset = 0
-                self.footerBottomOffset = 0
-                self.urlBar?.updateAlphaForSubviews(1.0)
-            }
-        }
-    }
-
-    func pageUnload() {
-        postAsyncToMain(0.1) {
-            self.showToolbars(animated: true)
-        }
-    }
-
-    // Struct used to prevent inset adjustment based on runtime scenarios
-    struct RuntimeInsetChecks {
-        // If inset adjustment code is already being executed
-        static var isRunningCheck = false
-        
-        // Whether webview is currently being zoomed
-        // Should not update on zooming (e.g. issue #717)
-        static var isZoomingCheck = false
-    }
-    
-    // This causes issue #216 if contentInset changed during a load
-    func checkHeightOfPageAndAdjustWebViewInsets(keyboardAppeared: Bool = false) {
-
-        if RuntimeInsetChecks.isZoomingCheck {
-            return
-        }
-
-        if self.browser?.webView?.isLoading ?? false {
-            if RuntimeInsetChecks.isRunningCheck {
-                return
-            }
-            RuntimeInsetChecks.isRunningCheck = true
-            postAsyncToMain(0.2) {
-                RuntimeInsetChecks.isRunningCheck = false
-                self.checkHeightOfPageAndAdjustWebViewInsets(keyboardAppeared: keyboardAppeared)
-            }
-        } else {
-            RuntimeInsetChecks.isRunningCheck = false
-
-            if !isScrollHeightIsLargeEnoughForScrolling() && !keyboardIsShowing {
-                let h = BraveApp.isIPhonePortrait() ? UIConstants.ToolbarHeight + BraveURLBarView.CurrentHeight : BraveURLBarView.CurrentHeight
-                setBottomInset(h)
-            }
-            else {
-                // Use offset of header and footer bar positions to determine contentInset and scrollIndicatorInsets
-                let top = max(((header?.frame ?? CGRect.zero).maxY - UIApplication.shared.statusBarFrame.maxY), 0)
-                let bottom = BraveApp.isIPhonePortrait() ? min(((UIApplication.shared.keyWindow?.frame ?? CGRect.zero).maxY - (footer?.frame ?? CGRect.zero).minY), 0) : 0
-                let oh = BraveApp.isIPhonePortrait() ? (header?.frame.height ?? 0) + (footer?.frame.height ?? 0) : (footer?.frame.height ?? 0)
-                let h = keyboardIsShowing ? oh : (top + bottom)
-                if !keyboardAppeared && !keyboardIsShowing {
-                    setBottomInset(h)
-                }
-            }
-        }
-    }
-
-    func showToolbars(animated: Bool, isShowingDueToBottomTap: Bool = false, completion: ((_ finished: Bool) -> Void)? = nil) {
-        checkHeightOfPageAndAdjustWebViewInsets()
-
-        if verticalTranslation == 0 && headerTopOffset == 0 {
+    func showToolbars(animated: Bool, completion: ((_ finished: Bool) -> Void)? = nil) {
+        if toolbarState == .visible {
             completion?(true)
             return
         }
-
-        removeTranslationAndSetLayout()
-
-        let durationRatio = abs(headerTopOffset / headerFrame.height)
+        toolbarState = .visible
+        let durationRatio = abs(headerTopOffset / topScrollHeight)
         let actualDuration = TimeInterval(ToolbarBaseAnimationDuration * durationRatio)
         self.animateToolbarsWithOffsets(
-            animated: animated,
+            animated,
             duration: actualDuration,
             headerOffset: 0,
             footerOffset: 0,
             alpha: 1,
-            isShowingDueToBottomTap: isShowingDueToBottomTap,
             completion: completion)
     }
-
-    var entrantGuard = false
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if entrantGuard {
+    
+    func hideToolbars(animated: Bool, completion: ((_ finished: Bool) -> Void)? = nil) {
+        if toolbarState == .collapsed {
+            completion?(true)
             return
         }
-        entrantGuard = true
-        defer {
-            entrantGuard = false
-        }
-        
-        if (keyPath ?? "") == "contentSize" { // && browser?.webView?.scrollView === object {
-            browser?.webView?.contentSizeChangeDetected()
-            //Slight delay allows the keyboardDidAppear to be called first and adjust textfield positioning.
-            postAsyncToMain(0.2) {
-                self.checkHeightOfPageAndAdjustWebViewInsets()
-            }
-            if !isScrollHeightIsLargeEnoughForScrolling() && !toolbarsShowing {
+        toolbarState = .collapsed
+        let durationRatio = abs((topScrollHeight + headerTopOffset) / topScrollHeight)
+        let actualDuration = TimeInterval(ToolbarBaseAnimationDuration * durationRatio)
+        self.animateToolbarsWithOffsets(
+            animated,
+            duration: actualDuration,
+            headerOffset: -topScrollHeight,
+            footerOffset: bottomScrollHeight,
+            alpha: 0,
+            completion: completion)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentSize" {
+            if !checkScrollHeightIsLargeEnoughForScrolling() && !toolbarsShowing {
                 showToolbars(animated: true, completion: nil)
             }
         }
     }
-
-    //// bottom tap //////
-    func onTapShowBottomBar(_ gesture: UITapGestureRecognizer) {
-        if toolbarsShowing || !BraveApp.isIPhonePortrait() {
+    
+    func updateMinimumZoom() {
+        guard let scrollView = scrollView else {
             return
         }
-
-        guard let height = gesture.view?.frame.height else { return }
-        if gesture.location(in: gesture.view).y > height - UIConstants.ToolbarHeight {
-            showToolbars(animated: true, isShowingDueToBottomTap: true)
+        self.isZoomedOut = roundNum(scrollView.zoomScale) == roundNum(scrollView.minimumZoomScale)
+        self.lastZoomedScale = self.isZoomedOut ? 0 : scrollView.zoomScale
+    }
+    
+    func setMinimumZoom() {
+        guard let scrollView = scrollView else {
+            return
         }
+        if self.isZoomedOut && roundNum(scrollView.zoomScale) != roundNum(scrollView.minimumZoomScale) {
+            scrollView.zoomScale = scrollView.minimumZoomScale
+        }
+    }
+    
+    func resetZoomState() {
+        self.isZoomedOut = false
+        self.lastZoomedScale = 0
+    }
+    
+    fileprivate func roundNum(_ num: CGFloat) -> CGFloat {
+        return round(100 * num) / 100
     }
 }
 
 private extension BraveScrollController {
-    func browserIsLoading() -> Bool {
-        return browser?.loading ?? true
+    func tabIsLoading() -> Bool {
+        return tab?.loading ?? true
     }
-
+    
+    func isBouncingAtBottom() -> Bool {
+        guard let scrollView = scrollView else { return false }
+        return scrollView.contentOffset.y > (scrollView.contentSize.height - scrollView.frame.size.height) && scrollView.contentSize.height > scrollView.frame.size.height
+    }
+    
     @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
-        if browserIsLoading() || edgeSwipingActive {
+        if tabIsLoading() {
+            if !toolbarsShowing {
+                showToolbars(animated: true)
+            }
             return
         }
-
-        guard let containerView = scrollView?.superview else { return }
-
-        let translation = gesture.translation(in: containerView)
-        let delta = lastContentOffset - translation.y
-
-        if delta > 0 && contentOffset.y - scrollViewWillBeginDragPoint >= 1.0 {
-            scrollDirection = .down
-        } else if delta < 0 && scrollViewWillBeginDragPoint - contentOffset.y >= 1.0 {
-            scrollDirection = .up
-        }
-
-        lastContentOffset = translation.y
-        if isScrollHeightIsLargeEnoughForScrolling() {
-            scrollToolbarsWithDelta(delta)
-        }
-
-        if gesture.state == .ended || gesture.state == .cancelled {
-            lastContentOffset = 0
-        }
         
-        checkHeightOfPageAndAdjustWebViewInsets()
+        if let containerView = scrollView?.superview {
+            let translation = gesture.translation(in: containerView)
+            let delta = lastContentOffset - translation.y
+            
+            if delta > 0 {
+                scrollDirection = .down
+            } else if delta < 0 {
+                scrollDirection = .up
+            }
+            
+            lastContentOffset = translation.y
+            if checkRubberbandingForDelta(delta) && checkScrollHeightIsLargeEnoughForScrolling() {
+                if (toolbarState != .collapsed || contentOffset.y <= 0) && contentOffset.y + scrollViewHeight < contentSize.height {
+                    scrollWithDelta(delta)
+                }
+                
+                if headerTopOffset == -topScrollHeight && footerBottomOffset == footerHeight { // Need to check both heights since on iPhone X footer may be taller
+                    toolbarState = .collapsed
+                } else if headerTopOffset == 0 {
+                    toolbarState = .visible
+                } else {
+                    toolbarState = .animating
+                }
+            }
+            
+            if gesture.state == .ended || gesture.state == .cancelled {
+                lastContentOffset = 0
+            }
+            
+            showOrHideWebViewContainerToolbar()
+        }
     }
-
-    func scrollToolbarsWithDelta(_ delta: CGFloat) {
+    
+    func checkRubberbandingForDelta(_ delta: CGFloat) -> Bool {
+        return !((delta < 0 && contentOffset.y + scrollViewHeight > contentSize.height &&
+            scrollViewHeight < contentSize.height) ||
+            contentOffset.y < delta)
+    }
+    
+    func scrollWithDelta(_ delta: CGFloat) {
         if scrollViewHeight >= contentSize.height {
             return
         }
-
-        if (snackBars?.frame.size.height ?? 0) > 0 {
+        
+        // Apply auto-scroll animation if we're moving too quickly
+        let threshold = CGFloat(18.0)
+        if fabs(delta) > threshold {
+            if scrollDirection == .up {
+                showToolbars(animated: true)
+            } else if scrollDirection == .down {
+                hideToolbars(animated: true)
+            }
             return
         }
-
-        if refreshControl?.isHidden == false {
-            return
-        }
-
-        let updatedOffset = toolbarsShowing ? clamp(verticalTranslation - delta, min: -BraveURLBarView.CurrentHeight, max: 0) :
-            clamp(verticalTranslation - delta, min: 0, max: BraveURLBarView.CurrentHeight)
-
-        verticalTranslation = updatedOffset
-
-        if (fabs(updatedOffset) > 0 && fabs(updatedOffset) < BraveURLBarView.CurrentHeight) {
-            // this stops parallax effect where the scrolling rate is doubled while hiding/showing toolbars
+        
+        var updatedOffset = headerTopOffset - delta
+        headerTopOffset = clamp(updatedOffset, min: -topScrollHeight, max: 0)
+        if isHeaderDisplayedForGivenOffset(updatedOffset) {
             scrollView?.contentOffset = CGPoint(x: contentOffset.x, y: contentOffset.y - delta)
         }
-
-        header?.layer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(translationX: 0, y: verticalTranslation))
-
-        let footerTranslation = verticalTranslation > UIConstants.ToolbarHeight ? -UIConstants.ToolbarHeight : -verticalTranslation
-        footer?.layer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(translationX: 0, y: footerTranslation))
-
-        let webViewVertTranslation = toolbarsShowing ? verticalTranslation : verticalTranslation - BraveURLBarView.CurrentHeight
-        let webView = getApp().browserViewController.webViewContainer
-        webView?.layer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(translationX: 0, y: webViewVertTranslation))
-
-        var alpha = 1 - abs(verticalTranslation / UIConstants.ToolbarHeight)
-        if (!toolbarsShowing) {
-            alpha = 1 - alpha
-        }
+        
+        updatedOffset = footerBottomOffset + delta
+        footerBottomOffset = clamp(updatedOffset, min: 0, max: footerHeight)
+        
+        let alpha = 1 - abs(headerTopOffset / topScrollHeight)
         urlBar?.updateAlphaForSubviews(alpha)
     }
-
+    
+    func isHeaderDisplayedForGivenOffset(_ offset: CGFloat) -> Bool {
+        return offset > -topScrollHeight && offset < 0
+    }
+    
     func clamp(_ y: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {
         if y >= max {
             return max
@@ -315,47 +262,34 @@ private extension BraveScrollController {
         }
         return y
     }
-
-    // Currently only has handling for the show toolbars case.
-    func animateToolbarsWithOffsets(animated: Bool, duration: TimeInterval, headerOffset: CGFloat,
-                                                     footerOffset: CGFloat, alpha: CGFloat, isShowingDueToBottomTap: Bool, completion: ((_ finished: Bool) -> Void)?) {
-
+    
+    func animateToolbarsWithOffsets(_ animated: Bool, duration: TimeInterval, headerOffset: CGFloat, footerOffset: CGFloat, alpha: CGFloat, completion: ((_ finished: Bool) -> Void)?) {
+        
         let animation: () -> Void = {
             self.headerTopOffset = headerOffset
             self.footerBottomOffset = footerOffset
             self.urlBar?.updateAlphaForSubviews(alpha)
-            self.header?.layoutIfNeeded()
-            self.footer?.layoutIfNeeded()
-
-            // TODO this code is only being used to show toolbars, so right now hard-code for that case, obviously if/when hide is added, update the code to support that
-            let webView = getApp().browserViewController.webViewContainer
-            webView?.layer.transform = CATransform3DIdentity
-
-            if isShowingDueToBottomTap { // scroll up to show page under the bottom toolbar
-                self.scrollView?.contentOffset.y += 2 * BraveURLBarView.CurrentHeight
-            } else if self.contentOffset.y > BraveURLBarView.CurrentHeight {
-                // keep the web view in the same scroll position by scrolling up the toolbar height 
-                self.scrollView?.contentOffset.y += BraveURLBarView.CurrentHeight
-            }
+            self.header?.superview?.layoutIfNeeded()
         }
-
-        // Reset the scroll direction now that it is handled
-        scrollDirection = .none
-
-        let completionWrapper: (Bool) -> Void = { finished in
-            completion?(finished)
-        }
-
+        
         if animated {
-            UIView.animate(withDuration: 0.350, delay:0.0, options: .allowUserInteraction, animations: animation, completion: completionWrapper)
+            UIView.animate(withDuration: duration, delay: 0, options: .allowUserInteraction, animations: animation, completion: completion)
         } else {
             animation()
             completion?(true)
         }
     }
-
-    func isScrollHeightIsLargeEnoughForScrolling() -> Bool {
-        return (UIScreen.main.bounds.size.height + 2 * UIConstants.ToolbarHeight) < scrollView?.contentSize.height ?? 0
+    
+    func checkScrollHeightIsLargeEnoughForScrolling() -> Bool {
+        return (UIScreen.main.bounds.size.height + UIConstants.ToolbarHeight + UIConstants.BottomToolbarHeight) < scrollView?.contentSize.height ?? 0
+    }
+    
+    func showOrHideWebViewContainerToolbar() {
+        if contentOffset.y >= webViewContainerToolbar?.frame.height ?? 0 {
+            webViewContainerToolbar?.isHidden = true
+        } else {
+            webViewContainerToolbar?.isHidden = false
+        }
     }
 }
 
@@ -366,130 +300,100 @@ extension BraveScrollController: UIGestureRecognizerDelegate {
     }
 }
 
-func blockOtherGestures(_ isBlocked: Bool, views: [UIView]) {
-    for view in views {
-        if let gestures = view.gestureRecognizers as [UIGestureRecognizer]! {
-            for gesture in gestures {
-                gesture.isEnabled = !isBlocked
-            }
-        }
-    }
-}
-
-var refreshControl:ODRefreshControl?
-// stop refresh interaction while animating
-var isInRefreshQuietPeriod:Bool = false
-// only allow refresh when scrolling with finger down, not from a momentum scrll
-var isRefreshBlockedDueToMomentumScroll = false
-
 extension BraveScrollController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let webView = browser?.webView else { return }
-        if (webViewIsZoomed(webView)) {
-            return;
-        }
-
-        let position = -webView.convert(webView.frame.origin, from: nil).y
-        if contentOffset.y < 0 && !isInRefreshQuietPeriod && !isRefreshBlockedDueToMomentumScroll && verticalTranslation == 0 && toolbarsShowing {
-            if refreshControl == nil {
-                refreshControl = ODRefreshControl(inScroll: getApp().rootViewController.view)
-            }
-            refreshControl?.backgroundColor = UIColor.clear
-            refreshControl?.tintColor = BraveUX.BraveOrange
-            refreshControl?.isHidden = false
-            refreshControl?.frame = CGRect(x: 0, y: position, width: refreshControl?.frame.size.width ?? 0, height: -contentOffset.y)
-
-            var pullToReloadDistance = CGFloat(-BraveUX.PullToReloadDistance)
-            if BraveApp.isIPhoneLandscape() {
-                // The "spring" is tighter in this case, make the distance shorter
-                pullToReloadDistance *= CGFloat(0.80)
-            }
-
-            if contentOffset.y < pullToReloadDistance && !keyboardIsShowing {
-                isInRefreshQuietPeriod = true
-
-                let currentOffset =  scrollView.contentOffset.y
-                blockOtherGestures(true, views: scrollView.subviews)
-                blockOtherGestures(true, views: [scrollView])
-                scrollView.contentOffset.y = currentOffset
-                refreshControl?.beginRefreshing()
-                browser?.webView?.reloadFromOrigin()
-                UIView.animate(withDuration: 0.5, animations: { refreshControl?.backgroundColor = UIColor.clear })
-                UIView.animate(withDuration: 0.5, delay: 0.2, options: .allowAnimatedContent, animations: {
-                    scrollView.contentOffset.y = 0
-                    refreshControl?.frame = CGRect(x: 0, y: position, width: refreshControl?.frame.size.width ?? 0, height: 0)
-                    }, completion: {
-                        finished in
-                        blockOtherGestures(false, views: scrollView.subviews)
-                        blockOtherGestures(false, views: [scrollView])
-                        isInRefreshQuietPeriod = false
-                        refreshControl?.endRefreshing()
-                        refreshControl?.isHidden = true
-                        refreshControl?.backgroundColor = UIColor.black
-                })
-            }
-        } else if refreshControl?.isHidden == false {
-            refreshControl?.frame = CGRect(x: 0, y: position, width: refreshControl?.frame.size.width ?? 0, height: -contentOffset.y)
-        }
-
-        if contentOffset.y >= 0 && refreshControl?.isHidden == false && !isInRefreshQuietPeriod {
-            refreshControl?.isHidden = true
-        }
-    }
-
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if browserIsLoading() {
+        if tabIsLoading() || isBouncingAtBottom() {
             return
         }
-
-        if (!decelerate) {
-            removeTranslationAndSetLayout()
-        } else {
-            isRefreshBlockedDueToMomentumScroll = true
+        
+        if toolbarState == .animating && !decelerate && checkScrollHeightIsLargeEnoughForScrolling() {
+            if scrollDirection == .up {
+                showToolbars(animated: true)
+            } else if scrollDirection == .down {
+                hideToolbars(animated: true)
+            }
         }
-    }
-
-    func removeTranslationAndSetLayout() {
-        if verticalTranslation == 0 {
-            return
-        }
-
-        if verticalTranslation < 0 && headerTopOffset == 0 {
-            headerTopOffset = -BraveURLBarView.CurrentHeight
-            footerBottomOffset = UIConstants.ToolbarHeight
-            urlBar?.updateAlphaForSubviews(0)
-        } else if verticalTranslation > UIConstants.ToolbarHeight / 2.0 && headerTopOffset != 0 {
-            headerTopOffset = 0
-            footerBottomOffset = 0
-            urlBar?.updateAlphaForSubviews(1.0)
-        }
-
-        verticalTranslation = 0
-        header?.layer.transform = CATransform3DIdentity
-        footer?.layer.transform = CATransform3DIdentity
-    }
-
-    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
-        // freeze
-        RuntimeInsetChecks.isZoomingCheck = true
     }
     
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        // unfreeze
-        RuntimeInsetChecks.isZoomingCheck = false
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if tabIsLoading() || isBouncingAtBottom() {
+            return
+        }
+        
+        // Check if we should keep animation moving with scroll speed.
+        if fabsf(Float(velocity.y)) < 0.8 && checkScrollHeightIsLargeEnoughForScrolling() {
+            previousScrollOffset = scrollView.contentOffset.y
+            adjustWithScroll = true
+        }
+        else if checkScrollHeightIsLargeEnoughForScrolling() {
+            adjustWithScroll = false
+            // scrolling too fast, keeps animation smooth.
+            if scrollDirection == .up {
+                showToolbars(animated: true)
+            } else if scrollDirection == .down {
+                hideToolbars(animated: true)
+            }
+        }
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.scrollViewWillBeginDragPoint = scrollView.contentOffset.y
+        adjustWithScroll = false
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        if tabIsLoading() || isBouncingAtBottom() || offset <= 0  {
+            return
+        }
+        
+        if adjustWithScroll {
+            let delta = scrollView.contentOffset.y - previousScrollOffset
+            scrollWithDelta(delta)
+            previousScrollOffset = scrollView.contentOffset.y
+        }
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        // Only mess with the zoom level if the user did not initate the zoom via a zoom gesture
+        if self.isUserZoom {
+            return
+        }
+        
+        //scrollViewDidZoom will be called multiple times when a rotation happens.
+        // In that case ALWAYS reset to the minimum zoom level if the previous state was zoomed out (isZoomedOut=true)
+        if isZoomedOut {
+            scrollView.zoomScale = scrollView.minimumZoomScale
+        } else if roundNum(scrollView.zoomScale) > roundNum(self.lastZoomedScale) && self.lastZoomedScale != 0 {
+            //When we have manually zoomed in we want to preserve that scale.
+            //But sometimes when we rotate a larger zoomScale is appled. In that case apply the lastZoomedScale
+            scrollView.zoomScale = self.lastZoomedScale
+        }
+    }
+    
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        self.isUserZoom = true
+    }
+    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        self.isUserZoom = false
+        showOrHideWebViewContainerToolbar()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.removeTranslationAndSetLayout()
-        isRefreshBlockedDueToMomentumScroll = false
+        if isTransitionIncomplete && (!tabIsLoading() && !isBouncingAtBottom()) && checkScrollHeightIsLargeEnoughForScrolling() {
+            if scrollDirection == .up {
+                showToolbars(animated: true)
+            } else if scrollDirection == .down {
+                hideToolbars(animated: true)
+            }
+        }
+        showOrHideWebViewContainerToolbar()
     }
     
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
         showToolbars(animated: true)
+        webViewContainerToolbar?.isHidden = false
         return true
     }
 }
+

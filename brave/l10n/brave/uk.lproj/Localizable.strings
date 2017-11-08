@@ -1,5 +1,3 @@
-"CFBundleDisplayName" = "Відкрити в Brave";
-
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "%@ пошук";
 
@@ -133,9 +131,6 @@ Brave розроблений для швидкості та ефективнос
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "Brave зберігає вашу безпеку під час перегляду.";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave не буде запам'ятовувати вашу історію або куки, але нові закладки будуть збережені.";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Brave потрібен доступ до ваших фотографій";
 
@@ -145,6 +140,7 @@ Brave розроблений для швидкості та ефективнос
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Переглядайте Інтернет з нами і ваша приватність буде захищена, без додаткових встановлень, вивчення чи налаштування.";
 
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 "Browsing History" = "Історія переглядів";
 
@@ -181,6 +177,7 @@ Brave розроблений для швидкості та ефективнос
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "Закрити";
 
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 "Close Private Tabs" = "Закрити приватні вкладки";
 
@@ -256,6 +253,9 @@ Brave розроблений для швидкості та ефективнос
 /* No comment provided by engineer. */
 "Edit" = "Змінити";
 
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "Увійти в режим пошуку";
 
@@ -409,7 +409,7 @@ Brave розроблений для швидкості та ефективнос
 /* No comment provided by engineer. */
 "New Private Tab" = "Нова приватна вкладка";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "Нова вкладка";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -424,6 +424,7 @@ Brave розроблений для швидкості та ефективнос
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "Немає вкладок";
 
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Примітка: Деякі сайти потребують скрипти для роботи, тому цей щит типово вимкнений.";
 
@@ -442,6 +443,7 @@ Brave розроблений для швидкості та ефективнос
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "Відкрити та заповнити";
 
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 "Open Desktop Site tab" = "Відкрити вкладку з повною версією сайту";
 
@@ -452,8 +454,6 @@ Brave розроблений для швидкості та ефективнос
 "Open In New Private Tab" = "Відкрити в новій приватній вкладці";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "Відкрити в новій вкладці";
-
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "Відкрити налаштування";
 
@@ -466,6 +466,7 @@ Brave розроблений для швидкості та ефективнос
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "Відкрити в…";
 
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 "Pair" = "З'єднати";
 
@@ -508,6 +509,7 @@ Brave розроблений для швидкості та ефективнос
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "Приватний режим";
 
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 "Private mode icon" = "Піктограма приватного режиму";
 
@@ -517,6 +519,7 @@ Brave розроблений для швидкості та ефективнос
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "Швидкі засоби пошуку";
 
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "Налаштування режиму читання";
 
@@ -596,8 +599,6 @@ Brave розроблений для швидкості та ефективнос
 "Search in page" = "Пошук на сторінці";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "Пошуковий запит чи адреса";
-
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "Пошукові пропозиції з %@";
 
@@ -607,6 +608,7 @@ Brave розроблений для швидкості та ефективнос
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "Захищене з'єднання";
 
+/* Settings security section title */
 /* Title for selecting all logins */
 "Select All" = "Вибрати все";
 
@@ -622,15 +624,18 @@ Brave розроблений для швидкості та ефективнос
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 "Settings" = "Налаштування";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Поділитись";
 
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
 "Share Link" = "Поділитись посиланням";
 
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 "Shields Down" = "Вимк щити";
 
@@ -670,9 +675,6 @@ Brave розроблений для швидкості та ефективнос
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Щити сайту дозволяють вам керувати блокуванням реклами й елементів стеження для кожного відвідуваного сайту. Якщо ви бажаєте бачити рекламу на певному сайті, ви можете увімкнути це тут.";
 
-/* Brave panel topmost title */
-"Site shield settings" = "Налаштування щитів сторінки";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "Почати перегляд";
 
@@ -697,6 +699,7 @@ Brave розроблений для швидкості та ефективнос
 /* Sync to existing device */
 "Sync to device" = "Синхронізація до пристрою";
 
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "Вкладка %1$@ з %2$@";
 
@@ -788,6 +791,7 @@ Brave розроблений для швидкості та ефективнос
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "Блокування регіональної реклами";
 
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "На іншому пристрої перейдіть в Налаштування Brave > Синхронізація. Зіскануйте QR-код (вгорі) за допомогою другого пристрою, або якщо камера недоступна,  введіть кодові слова.";
 
@@ -818,6 +822,7 @@ Brave розроблений для швидкості та ефективнос
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "При виході з приватного перегляду";
 
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "Так";
 
@@ -875,3 +880,13 @@ Brave розроблений для швидкості та ефективнос
 /* Title for website row in Login Detail View */
 "website" = "веб-сайт";
 
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */

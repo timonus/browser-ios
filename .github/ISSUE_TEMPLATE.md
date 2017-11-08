@@ -1,35 +1,37 @@
-- Did you search for similar issues before submitting this one?
+<!-- Have you searched for similar issues on the repository?
+Before submitting this issue, please visit our wiki for common ones: https://github.com/brave/browser-ios/wiki
+For more, check out our community site: https://community.brave.com/ -->
 
-- Description:
+### Description:
+<!--[Provide comprehensive description of the issue] -->
 
-- Device (iPhone5, iPhone6s plus, iPad 3, ?):
+### Steps to Reproduce
+<!-- Please add a series of steps to reproduce the problem -->
 
-- Brave Version:
+  1.
+  2.
+  3.
 
-- Steps to reproduce:
-    1.
-    2.
-    3.
+**Actual result:**
+<!-- Add screenshots if needed -->
 
-- Actual Behavior
+**Expected result:**
 
-- Expected Behavior
+**Reproduces how often:** [Easily reproduced/Intermittent issue]
 
-- Is this an issue with Beta build?
+**Brave Version:**
+<!-- Provide full details Eg: v1.4.2(17.09.08.16) -->
 
-- Is this an issue in the currently released version?
+**Device details:**
+<!-- Model type and iOS version Eg: iPhone 6s+ (iOS 10.3.3)-->
 
-- Can this issue be consistently reproduced?
+**Website problems only:**
+- did you check with Brave Shields down?
 
-- Extra QA steps:
-    1. 
-    2. 
-    3.
+- did you check in Puffin/Dolphin (UIWebView-based browsers)? 
 
-- Website problems only: 
-- did you check with Brave Shields down? 
-- did you check in Puffin/Dolphin/iCab/Firefox (UIWebView-based browsers)? 
+- did you check in Safari/Firefox (WkWebView-based browsers)? 
 
-- Screenshot if needed:
 
-- Any related issues:
+### Additional Information
+<!-- Any additional information, related issues, extra QA steps, configuration or data that might be necessary to reproduce the issue. -->

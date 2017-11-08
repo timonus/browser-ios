@@ -49,6 +49,7 @@ class TabCell: UICollectionViewCell {
     let favicon: UIImageView = UIImageView()
     let titleWrapperBackground = UIView()
     let closeButton: UIButton
+    let placeholderFavicon: UIImageView = UIImageView()
 
     var titleWrapper: UIView = UIView()
     var animator: SwipeAnimator!
@@ -59,60 +60,64 @@ class TabCell: UICollectionViewCell {
     var margin = CGFloat(0)
 
     override init(frame: CGRect) {
-        self.shadowView.layer.cornerRadius = TabTrayControllerUX.CornerRadius
-        self.shadowView.layer.masksToBounds = false
+        shadowView.layer.cornerRadius = TabTrayControllerUX.CornerRadius
+        shadowView.layer.masksToBounds = false
         
-        self.backgroundHolder.backgroundColor = TabTrayControllerUX.CellBackgroundColor
-        self.backgroundHolder.layer.cornerRadius = TabTrayControllerUX.CornerRadius
-        self.backgroundHolder.layer.borderWidth = 0
-        self.backgroundHolder.layer.masksToBounds = true
+        backgroundHolder.backgroundColor = TabTrayControllerUX.CellBackgroundColor
+        backgroundHolder.layer.cornerRadius = TabTrayControllerUX.CornerRadius
+        backgroundHolder.layer.borderWidth = 0
+        backgroundHolder.layer.masksToBounds = true
 
-        self.background.contentMode = UIViewContentMode.scaleAspectFill
-        self.background.isUserInteractionEnabled = false
-        self.background.layer.masksToBounds = true
-        self.background.alignLeft = true
-        self.background.alignTop = true
+        background.contentMode = UIViewContentMode.scaleAspectFill
+        background.isUserInteractionEnabled = false
+        background.layer.masksToBounds = true
+        background.alignLeft = true
+        background.alignTop = true
 
-        self.favicon.layer.cornerRadius = 2.0
-        self.favicon.layer.masksToBounds = true
+        favicon.layer.cornerRadius = 2.0
+        favicon.layer.masksToBounds = true
 
-        self.titleLbl = UILabel()
-        self.titleLbl.backgroundColor = .clear
-        self.titleLbl.textAlignment = NSTextAlignment.left
-        self.titleLbl.isUserInteractionEnabled = false
-        self.titleLbl.numberOfLines = 1
-        self.titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
+        titleLbl = UILabel()
+        titleLbl.backgroundColor = .clear
+        titleLbl.textAlignment = NSTextAlignment.left
+        titleLbl.isUserInteractionEnabled = false
+        titleLbl.numberOfLines = 1
+        titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
 
-        self.closeButton = UIButton()
-        self.closeButton.setImage(UIImage(named: "stop"), for: .normal)
-        self.closeButton.tintColor = .black
+        closeButton = UIButton()
+        closeButton.setImage(UIImage(named: "stop"), for: .normal)
+        closeButton.tintColor = .black
         
-        self.titleWrapperBackground.backgroundColor = UIColor.white
+        titleWrapperBackground.backgroundColor = UIColor.white
 
-        self.titleWrapper.backgroundColor = .clear
+        titleWrapper.backgroundColor = .clear
         
-        self.titleWrapper.addSubview(self.titleWrapperBackground)
-        self.titleWrapper.addSubview(self.closeButton)
-        self.titleWrapper.addSubview(self.titleLbl)
-        self.titleWrapper.addSubview(self.favicon)
+        titleWrapper.addSubview(titleWrapperBackground)
+        titleWrapper.addSubview(closeButton)
+        titleWrapper.addSubview(titleLbl)
+        titleWrapper.addSubview(favicon)
 
         super.init(frame: frame)
 
-        self.closeButton.addTarget(self, action: #selector(TabCell.SELclose), for: UIControlEvents.touchUpInside)
-        self.contentView.clipsToBounds = false
-        self.clipsToBounds = false
+        closeButton.addTarget(self, action: #selector(TabCell.SELclose), for: UIControlEvents.touchUpInside)
+        contentView.clipsToBounds = false
+        clipsToBounds = false
         
-        self.animator = SwipeAnimator(animatingView: self.shadowView, container: self)
+        animator = SwipeAnimator(animatingView: shadowView, container: self)
 
         shadowView.addSubview(backgroundHolder)
-        backgroundHolder.addSubview(self.background)
-        backgroundHolder.addSubview(self.titleWrapper)
+        backgroundHolder.addSubview(background)
+        backgroundHolder.addSubview(titleWrapper)
         contentView.addSubview(shadowView)
+        
+        placeholderFavicon.layer.cornerRadius = 8.0
+        placeholderFavicon.layer.masksToBounds = true
+        backgroundHolder.addSubview(placeholderFavicon)
         
         setupConstraints()
 
         self.accessibilityCustomActions = [
-            UIAccessibilityCustomAction(name: Strings.Close, target: self.animator, selector: #selector(SELclose))
+            UIAccessibilityCustomAction(name: Strings.Close, target: animator, selector: #selector(SELclose))
         ]
     }
 
@@ -134,6 +139,11 @@ class TabCell: UICollectionViewCell {
 
         background.snp.remakeConstraints { make in
             make.edges.equalTo(background.superview!)
+        }
+        
+        placeholderFavicon.snp.remakeConstraints { make in
+            make.size.equalTo(CGSize(width: 60, height: 60))
+            make.center.equalTo(placeholderFavicon.superview!)
         }
 
         favicon.snp.remakeConstraints { make in
@@ -163,6 +173,7 @@ class TabCell: UICollectionViewCell {
             make.centerY.equalTo(titleWrapper)
             make.right.equalTo(closeButton.superview!)
         }
+        
     }
     
     override func layoutSubviews() {
@@ -186,7 +197,10 @@ class TabCell: UICollectionViewCell {
         shadowView.transform = CGAffineTransform.identity
         shadowView.layer.shadowOpacity = 0
         background.image = nil
-        self.titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
+        placeholderFavicon.isHidden = true
+        placeholderFavicon.image = nil
+        favicon.image = nil
+        titleLbl.font = DynamicFontHelper.defaultHelper.DefaultSmallFontBold
     }
 
     override func accessibilityScroll(_ direction: UIAccessibilityScrollDirection) -> Bool {
@@ -464,17 +478,29 @@ class TabTrayController: UIViewController {
         
         if UIDevice.current.userInterfaceIdiom == .phone {
             doneButton.snp.makeConstraints { make in
-                make.right.equalTo(self.view).offset(-30)
+                if #available(iOS 11.0, *) {
+                    make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(-30)
+                } else {
+                    make.right.equalTo(self.view).offset(-30)
+                }
                 make.centerY.equalTo(self.addTabButton.snp.centerY)
             }
             
             togglePrivateMode.snp.makeConstraints { make in
-                make.left.equalTo(30)
+                if #available(iOS 11.0, *) {
+                    make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left).offset(30)
+                } else {
+                    make.left.equalTo(30)
+                }
                 make.centerY.equalTo(self.addTabButton.snp.centerY)
             }
 
             addTabButton.snp.makeConstraints { make in
-                make.bottom.equalTo(self.view)
+                if #available(iOS 11.0, *) {
+                    make.bottom.equalTo(self.view).inset(getApp().window?.safeAreaInsets.bottom ?? 0)
+                } else {
+                    make.bottom.equalTo(self.view)
+                }
                 make.centerX.equalTo(self.view)
                 make.size.equalTo(UIConstants.ToolbarHeight)
             }
@@ -482,7 +508,12 @@ class TabTrayController: UIViewController {
             collectionView.snp.makeConstraints { make in
                 make.bottom.equalTo(addTabButton.snp.top)
                 make.top.equalTo(self.topLayoutGuide.snp.bottom)
-                make.left.right.equalTo(self.view)
+                if #available(iOS 11.0, *) {
+                    make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
+                    make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
+                } else {
+                    make.left.right.equalTo(self.view)
+                }
             }
             
             blurBackdropView.snp.makeConstraints { (make) in
@@ -805,7 +836,7 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
             return tabCell
         }
         
-        let title = (tab.displayTitle != "" ? tab.displayTitle : TabMO.getByID(tab.tabID)?.title) ?? ""
+        let title = tab.displayTitle
         tabCell.titleLbl.text = title
 
         if !title.isEmpty {
@@ -816,17 +847,39 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
 
         tabCell.isAccessibilityElement = true
         tabCell.accessibilityHint = Strings.Swipe_right_or_left_with_three_fingers_to_close_the_tab
-
-        if let favIcon = tab.displayFavicon {
-            tabCell.favicon.sd_setImage(with: URL(string: favIcon.url)!)
-            tabCell.favicon.backgroundColor = BraveUX.TabTrayCellBackgroundColor
-        } else {
-            tabCell.favicon.image = nil
-        }
+        tabCell.favicon.backgroundColor = BraveUX.TabTrayCellBackgroundColor
         
         tab.screenshot(callback: { (image) in
             tabCell.background.image = image
         })
+        
+        tabCell.placeholderFavicon.isHidden = tab.isScreenshotSet
+        
+        if let tabMO = TabMO.getByID(tab.tabID), let urlString = tabMO.url, let url = URL(string: urlString) {
+            weak var weakSelf = self
+            if ImageCache.shared.hasImage(url, type: .square) {
+                // no relationship - check cache for icon which may have been stored recently for url.
+                ImageCache.shared.image(url, type: .square, callback: { (image) in
+                    postAsyncToMain {
+                        tabCell.favicon.image = image
+                        tabCell.placeholderFavicon.image = image
+                    }
+                })
+            }
+            else {
+                // no relationship - attempt to resolove domain problem
+                let context = DataController.shared.mainThreadContext
+                if let domain = Domain.getOrCreateForUrl(url, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let faviconurl = URL(string: urlString) {
+                    postAsyncToMain {
+                        weakSelf?.setCellImage(tabCell, iconUrl: faviconurl, cacheWithUrl: url)
+                    }
+                }
+                else {
+                    // last resort - download the icon
+                    downloadFaviconsAndUpdateForUrl(url, collectionView: collectionView, indexPath: indexPath)
+                }
+            }
+        }
 
         // TODO: Move most view logic here instead of `init` or `prepareForReuse`
         // If the current tab add heightlighting
@@ -851,6 +904,57 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
         
         return tabCell
     }
+    
+    fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, collectionView: UICollectionView, indexPath: IndexPath) {
+        weak var weakSelf = self
+        FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = collectionView.cellForItem(at: indexPath) as? TabCell else { return }
+            weakSelf?.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+        }
+    }
+    
+    fileprivate func setCellImage(_ cell: TabCell, iconUrl: URL, cacheWithUrl: URL) {
+        ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
+            if image != nil {
+                postAsyncToMain {
+                    cell.placeholderFavicon.image = image
+                    cell.favicon.image = image
+                }
+            }
+            else {
+                postAsyncToMain {
+                    cell.placeholderFavicon.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
+                        guard err == nil, let img = img else {
+                            // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
+                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
+                            cell.placeholderFavicon.image = FaviconFetcher.defaultFavicon
+                            return
+                        }
+                        ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
+                        cell.favicon.image = img
+                    })
+                }
+            }
+        })
+    }
+    
+//    fileprivate func getImageColor(image: UIImage) -> UIColor? {
+//        let rgba = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: 4)
+//        let colorSpace = CGColorSpaceCreateDeviceRGB()
+//        let info = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+//        let context: CGContext = CGContext(data: rgba, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: colorSpace, bitmapInfo: info.rawValue)!
+//        
+//        guard let newImage = image.cgImage else { return nil }
+//        context.draw(newImage, in: CGRect(x: 0, y: 0, width: 1, height: 1))
+//        
+//        // Has issues, often sets background to black. experimenting without box for now.
+//        let red = CGFloat(rgba[0]) / 255.0
+//        let green = CGFloat(rgba[1]) / 255.0
+//        let blue = CGFloat(rgba[2]) / 255.0
+//        let colorFill: UIColor = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+//        
+//        return colorFill
+//    }
 
     @objc func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tabList.count()

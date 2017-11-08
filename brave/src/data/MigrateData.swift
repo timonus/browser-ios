@@ -65,7 +65,7 @@ class MigrateData: NSObject {
     fileprivate func hasOldDb() -> Bool {
         let file = ((try! files.getAndEnsureDirectory()) as NSString).appendingPathComponent("browser.db")
         let status = sqlite3_open_v2(file.cString(using: String.Encoding.utf8)!, &db, SQLITE_OPEN_READONLY, nil)
-        if status != SQLITE_OK {
+        if status != SQLITE_OK || status == 0 {
             debugPrint("Error: Opening Database with Flags")
             return false
         }
@@ -90,8 +90,6 @@ class MigrateData: NSObject {
                 }
             }
             DataController.saveContext(context: DataController.shared.workerContext)
-        } else {
-            debugPrint("SELECT statement could not be prepared")
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
@@ -113,8 +111,6 @@ class MigrateData: NSObject {
                 
                 History.add(title, url: URL(string: url)!)
             }
-        } else {
-            debugPrint("SELECT statement could not be prepared")
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
@@ -139,8 +135,6 @@ class MigrateData: NSObject {
                     domainFaviconHash[faviconId] = domain
                 }
             }
-        } else {
-            debugPrint("SELECT statement could not be prepared")
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
@@ -174,8 +168,6 @@ class MigrateData: NSObject {
                     }
                 }
             }
-        } else {
-            debugPrint("SELECT statement could not be prepared")
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
@@ -198,8 +190,6 @@ class MigrateData: NSObject {
                 let idx = sqlite3_column_int(results, 1)
                 bookmarkOrderHash[child] = Int16(idx)
             }
-        } else {
-            debugPrint("SELECT statement could not be prepared")
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
@@ -240,9 +230,6 @@ class MigrateData: NSObject {
                     relationshipHash[guid] = bk
                 }
             }
-        } else {
-            let errmsg = String(cString: sqlite3_errmsg(db))
-            debugPrint("SELECT statement could not be prepared \(errmsg)")
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {
@@ -276,8 +263,6 @@ class MigrateData: NSObject {
                 order = order + 1
             }
             DataController.saveContext(context: context)
-        } else {
-            debugPrint("SELECT statement could not be prepared")
         }
         
         if sqlite3_finalize(results) != SQLITE_OK {

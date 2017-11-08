@@ -229,9 +229,9 @@ class IntroViewController: UIViewController, UIScrollViewDelegate {
         scrollView.contentSize = CGSize(width: slideContainer.frame.width, height: slideContainer.frame.height)
     }
 
-    override var prefersStatusBarHidden : Bool {
-        return true
-    }
+//    override var prefersStatusBarHidden : Bool {
+//        return true
+//    }
 
     override var shouldAutorotate : Bool {
         return false

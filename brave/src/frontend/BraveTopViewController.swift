@@ -68,6 +68,10 @@ class BraveTopViewController : UIViewController {
         mainSidePanel.browserViewController = browserViewController
     }
 
+    override func prefersHomeIndicatorAutoHidden() -> Bool {
+        return !browserViewController.scrollController.toolbarsShowing
+    }
+    
     @objc func dismissAllSidePanels() {
         if leftPanelShowing() {
             mainSidePanel.willHide()
@@ -117,17 +121,17 @@ class BraveTopViewController : UIViewController {
         return rightSidePanel.view.frame.width == CGFloat(BraveUX.WidthOfSlideOut)
     }
 
-    override var prefersStatusBarHidden : Bool {
-        if UIDevice.current.userInterfaceIdiom != .phone {
-            return super.prefersStatusBarHidden
-        }
-
-        if BraveApp.isIPhoneLandscape() {
-            return true
-        }
-
-        return leftPanelShowing() || rightPanelShowing()
-    }
+//    override var prefersStatusBarHidden : Bool {
+//        if UIDevice.current.userInterfaceIdiom != .phone {
+//            return super.prefersStatusBarHidden
+//        }
+//
+//        if BraveApp.isIPhoneLandscape() {
+//            return true
+//        }
+//
+//        return leftPanelShowing() || rightPanelShowing()
+//    }
 
     func onClickLeftSlideOut(_ notification: Notification) {
         leftSidePanelButtonAndUnderlay = notification.object as? ButtonWithUnderlayView
@@ -179,6 +183,7 @@ class BraveTopViewController : UIViewController {
                 make.left.equalTo(mainSidePanel.view.snp.right)
             }
             clickDetectionView.layoutIfNeeded()
+            view.layoutSubviews()
 
             UIView.animate(withDuration: 0.25, animations: {
                 self.clickDetectionView.alpha = 1
@@ -204,7 +209,6 @@ extension BraveTopViewController : HomePanelDelegate {
     func homePanelDidRequestToSignIn(_ homePanel: HomePanel) {}
     func homePanelDidRequestToCreateAccount(_ homePanel: HomePanel) {}
     func homePanel(_ homePanel: HomePanel, didSelectURL url: URL) {
-        print("selected \(url)")
         browserViewController.urlBar.leaveSearchMode()
         browserViewController.tabManager.selectedTab?.loadRequest(URLRequest(url: url))
         togglePanel(mainSidePanel)

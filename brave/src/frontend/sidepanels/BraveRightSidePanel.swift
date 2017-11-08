@@ -47,7 +47,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     let ui_edgeInset = CGFloat(20)
     let ui_sectionTitleHeight = CGFloat(26)
     let ui_sectionTitleFontSize = CGFloat(15)
-    let ui_siteNameSectionHeight = CGFloat(84)
+    let ui_siteNameSectionHeight = CGFloat(40)
     let ui_togglesContainerRowHeight = CGFloat(46)
 
     lazy var views_toggles: [UISwitch] = {
@@ -117,7 +117,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
 
         divider.snp.makeConstraints { make in
             make.right.bottom.left.equalTo(divider.superview!)
-            make.height.equalTo(1.0)
+            make.height.equalTo(0.5)
         }
         
         return divider
@@ -197,10 +197,10 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         
         let headerColor = BraveUX.BackgroundColorForSideToolbars
         headerContainer.backgroundColor = headerColor
-        shieldsOverviewContainer.backgroundColor = headerColor
-        siteNameContainer.backgroundColor = headerColor
 
         let containerBackgroundColor = UIColor.clear
+        shieldsOverviewContainer.backgroundColor = containerBackgroundColor
+        siteNameContainer.backgroundColor = containerBackgroundColor
         containerView.backgroundColor = containerBackgroundColor
         statsSectionTitle.backgroundColor = containerBackgroundColor
         statsContainer.backgroundColor = containerBackgroundColor
@@ -212,19 +212,27 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
 
         func setupHeaderSection() {
             let heading = UILabel()
-            
             headerContainer.addSubview(heading)
-            newDivider(headerContainer)
+            headerContainer.addSubview(shieldToggle)
             
             heading.text = Strings.Site_shield_settings
             heading.textColor = UIColor.black
-            heading.font = UIFont.boldSystemFont(ofSize: 18)
+            heading.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightMedium)
             
             heading.snp.makeConstraints { (make) in
                 make.right.equalTo(heading.superview!)
                 make.bottom.equalTo(heading.superview!).inset(12)
                 make.left.equalTo(heading.superview!).offset(ui_edgeInset)
             }
+            
+            shieldToggle.snp.makeConstraints {
+                make in
+                make.right.equalTo(headerContainer.superview!).inset(ui_edgeInset)
+                make.centerY.equalTo(heading.snp.centerY)
+            }
+            shieldToggle.onTintColor = BraveUX.BraveOrange
+            shieldToggle.tintColor = BraveUX.SwitchTintColor
+            shieldToggle.addTarget(self, action: #selector(switchToggled(_:)), for: .valueChanged)
         }
         setupHeaderSection()
 
@@ -261,50 +269,19 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         setupShieldsOverviewSection()
         
         func setupSiteNameSection() {
-            siteName.font = UIFont.boldSystemFont(ofSize: 22)
+            siteName.font = UIFont.systemFont(ofSize: 21, weight: UIFontWeightMedium)
             siteName.lineBreakMode = NSLineBreakMode.byTruncatingMiddle
             siteName.minimumScaleFactor = 0.75
 
-            let down = UILabel()
-            down.text = Strings.Down
-            let up = UILabel()
-            up.text = Strings.Up
-
-            [siteName, up, down, shieldToggle].forEach { siteNameContainer.addSubview($0) }
+            [siteName].forEach { siteNameContainer.addSubview($0) }
 
             siteName.snp.makeConstraints {
                 make in
                 make.left.equalTo(siteName.superview!).inset(ui_edgeInset)
                 make.right.equalTo(siteName.superview!).inset(ui_edgeInset)
-                make.bottom.equalTo(shieldToggle.snp.top).inset(-8)
+                make.top.equalTo(headerContainer.snp.bottom).offset(12)
             }
             siteName.adjustsFontSizeToFitWidth = true
-
-            [down, up].forEach {
-                $0.font = UIFont.boldSystemFont(ofSize: 14)
-                setGrayTextColor($0)
-            }
-
-            down.snp.makeConstraints {
-                make in
-                make.left.equalTo(down.superview!).inset(ui_edgeInset + 2)
-                make.centerY.equalTo(shieldToggle)
-            }
-
-            up.snp.makeConstraints {
-                make in
-                make.left.equalTo(shieldToggle.snp.right).offset(10)
-                make.centerY.equalTo(shieldToggle)
-            }
-
-            shieldToggle.snp.makeConstraints {
-                make in
-                make.left.equalTo(down.snp.right).offset(8)
-                make.bottom.equalTo(shieldToggle.superview!.snp.bottomMargin)
-            }
-            shieldToggle.onTintColor = BraveUX.BraveOrange
-            shieldToggle.tintColor = BraveUX.SwitchTintColor
-            shieldToggle.addTarget(self, action: #selector(switchToggled(_:)), for: .valueChanged)
         }
         setupSiteNameSection()
 
@@ -390,7 +367,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                 stat.font = UIFont.boldSystemFont(ofSize: 28)
                 stat.adjustsFontSizeToFitWidth = true
                 stat.textColor = statColors[i]
-                stat.textAlignment = .right
+                stat.textAlignment = .center
 
                 stat.snp.makeConstraints {
                     make in
@@ -406,11 +383,11 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
                         make.bottom.equalTo(stat.superview!)
                     }
 
-                    make.width.equalTo(40)
+                    make.width.equalTo(50)
                 }
 
                 label.snp.makeConstraints({ (make) in
-                    make.left.equalTo(stat.snp.right).offset(6 + 14)
+                    make.left.equalTo(stat.snp.right).offset(8)
                     make.centerY.equalTo(stat)
                     make.right.equalTo(label.superview!.snp.right)
                 })
@@ -511,14 +488,14 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         
         var siteNameHeight = ui_siteNameSectionHeight
         if isShowingShieldOverview() {
-            siteNameHeight -= 30
+            siteNameHeight = 0
             shieldsOverviewContainerHeightConstraint?.deactivate()
         } else {
             shieldsOverviewContainerHeightConstraint?.activate()
         }
         
         siteNameContainer.snp.updateConstraints { $0.height.equalTo(siteNameHeight) }
-        headerContainer.snp.updateConstraints { $0.height.equalTo(44 + CGFloat(spaceForStatusBar())) }
+        headerContainer.snp.updateConstraints { $0.height.equalTo(44 + CGFloat(spaceForStatusBar() + 0.5)) }
         
         setupContainerViewSize()
     }

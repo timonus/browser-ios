@@ -31,6 +31,7 @@ let kDesktopUserAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_12) AppleW
 
 #if !TEST
     func getApp() -> AppDelegate {
+//        assertIsMainThread("App Delegate must be accessed on main thread")
         return UIApplication.shared.delegate as! AppDelegate
     }
 #endif
@@ -70,6 +71,18 @@ class BraveApp {
     class func isIPhonePortrait() -> Bool {
         return UIDevice.current.userInterfaceIdiom == .phone &&
             UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation)
+    }
+    
+    class func isIPhoneX() -> Bool {
+        if #available(iOS 11.0, *) {
+            if isIPhonePortrait() && getApp().window!.safeAreaInsets.top > 0 {
+                return true
+            } else if isIPhoneLandscape() && (getApp().window!.safeAreaInsets.left > 0 || getApp().window!.safeAreaInsets.right > 0) {
+                return true
+            }
+        }
+        
+        return false
     }
 
     class func setupCacheDefaults() {
@@ -172,17 +185,10 @@ class BraveApp {
         if args.contains("BRAVE-TEST-SHOW-OPT-IN") {
             BraveApp.getPrefs()!.removeObjectForKey(BraveUX.PrefKeyOptInDialogWasSeen)
         }
+        
+        // Be careful, running it in production will result in destroying all bookmarks
         if args.contains("BRAVE-DELETE-BOOKMARKS") {
-            succeed().upon { _ in
-                // TODO: Fix
-                // Check if this is still required. Do not think so, if not, remove
-                getApp().profile!.bookmarks.modelFactory >>== {
-                    $0
-//                    $0.clearBookmarks().uponQueue(DispatchQueue.main) { res in
-                        // test case should just sleep or wait for bm count to be zero
-//                    }
-                }
-            }
+            Bookmark.removeAll()
         }
         if args.contains("BRAVE-UI-TEST") || AppConstants.IsRunningTest {
             // Maybe we will need a specific flag to keep tabs for restoration testing
@@ -239,9 +245,6 @@ class BraveApp {
     }
 
     @objc func willEnterForeground(_ : Notification) {
-        postAsyncToMain(10) {
-            BraveApp.updateDauStat()
-        }
     }
 
     class func shouldHandleOpenURL(_ components: URLComponents) -> Bool {
@@ -250,7 +253,7 @@ class BraveApp {
         return handled
     }
 
-    class func getPrefs() -> Prefs? {
+    class func getPrefs() -> NSUserDefaultsPrefs? {
         return getApp().profile?.prefs
     }
 
@@ -272,7 +275,7 @@ class BraveApp {
     static func is3rdPartyPasswordManagerInstalled(_ refreshLookup: Bool) -> Deferred<Bool> {
         let deferred = Deferred<Bool>()
         if refreshLookup || isPasswordManagerInstalled == nil {
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+            postAsyncToMain {
                 isPasswordManagerInstalled = OnePasswordExtension.shared().isAppExtensionAvailable()
                 deferred.fill(isPasswordManagerInstalled!)
             }
@@ -286,20 +289,26 @@ class BraveApp {
 extension BraveApp {
 
     static func updateDauStat() {
-
-        guard let prefs = getApp().profile?.prefs else { return }
-        let prefName = "dau_stat"
-        let dauStat = prefs.arrayForKey(prefName)
-
-        let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        var statsQuery = "https://laptop-updates.brave.com/1/usage/ios?platform=ios" + "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
-            + "&version=\(appVersion)"
-            + "&first=\(dauStat != nil)"
-
+        
         let today = Date()
-        let components = (Calendar.current as NSCalendar).components([.month , .year], from: today)
+        let components = (Calendar.current as NSCalendar).components([.day, .month , .year], from: today)
         let year =  components.year
         let month = components.month
+        let day = components.day
+        let prefStamp = [day, month, year]
+
+        guard let dauPrefs = getApp().profile?.prefs else { return }
+        let prefName = "dau_stat"
+        let dauStat = dauPrefs.arrayForKey(prefName)?.map { $0 as? Int }
+        
+        // A bit hacky, basically making arrays [Int], rather than [Int?]? / [Int?], and then comparing
+        let firstLaunch = (dauStat ?? []).flatMap{$0} != prefStamp.flatMap{$0}
+
+        let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        var statsQuery = "https://laptop-updates.brave.com/1/usage/ios?platform=ios"
+            + "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
+            + "&version=\(appVersion)"
+            + "&first=\(firstLaunch)"
 
         if let stat = dauStat as? [Int], stat.count == 3 {
             let dSecs = Int(today.timeIntervalSince1970) - stat[0]
@@ -310,14 +319,10 @@ extension BraveApp {
             let daily = dSecs >= SECONDS_IN_A_DAY
             let weekly = dSecs >= SECONDS_IN_A_WEEK
             let monthly = month != _month || year != _year
-            if (!daily && !weekly && !monthly) {
-               return
+            if (daily || weekly || monthly) {
+                statsQuery += "&daily=\(daily)&weekly=\(weekly)&monthly=\(monthly)"
             }
-            statsQuery += "&daily=\(daily)&weekly=\(weekly)&monthly=\(monthly)"
         }
-
-        let secsMonthYear = [Int(today.timeIntervalSince1970), month, year]
-        prefs.setObject(secsMonthYear, forKey: prefName)
 
         guard let url = URL(string: statsQuery) else {
             if !BraveUX.IsRelease {
@@ -327,7 +332,15 @@ extension BraveApp {
         }
         let task = URLSession.shared.dataTask(with: url) {
             (_, _, error) in
-            if let e = error { NSLog("status update error: \(e)") }
+            if let e = error {
+                NSLog("status update error: \(e)")
+            } else {
+                
+//                DispatchQueue.main.async {
+                    dauPrefs.setObject(prefStamp, forKey: prefName)
+//                }
+            }
+            
         }
         task.resume()
     }

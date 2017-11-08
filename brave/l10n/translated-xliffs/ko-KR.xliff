@@ -1,18 +1,40 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file datatype="plaintext" original="BraveShareTo/BraveShareToInfo.plist" source-language="en" target-language="ko-KR">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
-        <source>Open in Brave</source>
-        <target>Brave에서 열기</target>
+        <source>CFBundleDisplayName</source>
       </trans-unit>
-      </body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="ReadingList/Info.plist" source-language="en" target-language="ko-KR">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="brave/Info.plist" source-language="en" target-language="ko-KR">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+      </trans-unit>
+    </body>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="ko-KR">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -236,11 +258,6 @@ and here's why...</source>
         <target>Brave 브라우저는 여러분이 브라우징하는 동안 안전을 유지합니다.</target>
         <note>Shown in intro screens</note>
       </trans-unit>
-      <trans-unit id="Brave won't remember any of your history or cookies, but new bookmarks will be saved.">
-        <source>Brave won't remember any of your history or cookies, but new bookmarks will be saved.</source>
-        <target>Brave 브라우저에는 방문기록 또는 쿠키는 저장되지 않지만 새 북마크는 저장됩니다.</target>
-        <note>No comment provided by engineer.</note>
-      </trans-unit>
       <trans-unit id="Brave would like to access your Photos">
         <source>Brave would like to access your Photos</source>
         <target>Brave 브라우저가 내 사진에 액세스하려고 합니다.</target>
@@ -255,6 +272,10 @@ and here's why...</source>
         <source>Browse with us and your privacy is protected, with nothing further to install, learn or configure.</source>
         <target>Brave 브라우저로 여러분의 개인 정보를 보호하고 있습니다. 그 어떤 학습과 설정, 추가 설치를 요구하지 않습니다.</target>
         <note>Shown in intro screens</note>
+      </trans-unit>
+      <trans-unit id="Browser Lock">
+        <source>Browser Lock</source>
+        <note>Setting to enable browser pin locking</note>
       </trans-unit>
       <trans-unit id="Browsing History">
         <source>Browsing History</source>
@@ -315,6 +336,10 @@ and here's why...</source>
         <source>Close</source>
         <target>닫기</target>
         <note>Accessibility label for action denoting closing a tab in tab list (tray)</note>
+      </trans-unit>
+      <trans-unit id="Close All Tabs">
+        <source>Close All Tabs</source>
+        <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Close Private Tabs">
         <source>Close Private Tabs</source>
@@ -440,6 +465,18 @@ and here's why...</source>
         <source>Edit</source>
         <target>편집</target>
         <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Enable">
+        <source>Enable</source>
+        <note>Browser Lock feature callout enable action.</note>
+      </trans-unit>
+      <trans-unit id="Enter New PIN">
+        <source>Enter New PIN</source>
+        <note>Browser Lock New Pin</note>
+      </trans-unit>
+      <trans-unit id="Enter PIN to Unlock Brave">
+        <source>Enter PIN to Unlock Brave</source>
+        <note>Unlock Brave with Browser Lock Pin</note>
       </trans-unit>
       <trans-unit id="Enter Search Mode">
         <source>Enter Search Mode</source>
@@ -696,7 +733,7 @@ Upgrades</source>
       <trans-unit id="New Tab">
         <source>New Tab</source>
         <target>새 탭</target>
-        <note>No comment provided by engineer.</note>
+        <note>New Tab title</note>
       </trans-unit>
       <trans-unit id="Next in-page result">
         <source>Next in-page result</source>
@@ -717,6 +754,10 @@ Upgrades</source>
         <source>No tabs</source>
         <target>탭 없음</target>
         <note>Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray</note>
+      </trans-unit>
+      <trans-unit id="Not Now">
+        <source>Not Now</source>
+        <note>Browser Lock feature callout not now action.</note>
       </trans-unit>
       <trans-unit id="Note: Some sites may require scripts to work properly so this shield is turned off by default.">
         <source>Note: Some sites may require scripts to work properly so this shield is turned off by default.</source>
@@ -748,6 +789,10 @@ Upgrades</source>
         <target>열기 &amp; 채우기</target>
         <note>Open and Fill website text selection menu item</note>
       </trans-unit>
+      <trans-unit id="Open All (%i)">
+        <source>Open All (%i)</source>
+        <note>Context menu item for opening all folder bookmarks</note>
+      </trans-unit>
       <trans-unit id="Open Desktop Site tab">
         <source>Open Desktop Site tab</source>
         <target>데스크탑 사이트 탭 열기</target>
@@ -763,9 +808,8 @@ Upgrades</source>
         <target>새 비공개 탭으로 열기</target>
         <note>Context menu option for opening a link in a new private tab</note>
       </trans-unit>
-      <trans-unit id="Open In New Tab">
-        <source>Open In New Tab</source>
-        <target>새 탭에서 열기</target>
+      <trans-unit id="Open Link In New Tab">
+        <source>Open Link In New Tab</source>
         <note>Context menu item for opening a link in a new tab</note>
       </trans-unit>
       <trans-unit id="Open Settings">
@@ -787,6 +831,10 @@ Upgrades</source>
         <source>Open in…</source>
         <target>열기...</target>
         <note>String indicating that the file can be opened in another application on the device</note>
+      </trans-unit>
+      <trans-unit id="PIN">
+        <source>PIN</source>
+        <note>Setting to change browser lock pin</note>
       </trans-unit>
       <trans-unit id="Pair">
         <source>Pair</source>
@@ -858,6 +906,10 @@ Upgrades</source>
         <target>비공개 모드</target>
         <note>Accessibility label for toggling on/off private mode</note>
       </trans-unit>
+      <trans-unit id="Private means private.">
+        <source>Private means private.</source>
+        <note>Browser Lock feature callout title.</note>
+      </trans-unit>
       <trans-unit id="Private mode icon">
         <source>Private mode icon</source>
         <target>비공개 모드 아이콘</target>
@@ -872,6 +924,10 @@ Upgrades</source>
         <source>Quick-search Engines</source>
         <target>빠른 검색 엔진</target>
         <note>Title for quick-search engines settings section.</note>
+      </trans-unit>
+      <trans-unit id="Re-Enter New PIN">
+        <source>Re-Enter New PIN</source>
+        <note>Browser Lock Re-Enter New Pin</note>
       </trans-unit>
       <trans-unit id="Reader Mode Settings">
         <source>Reader Mode Settings</source>
@@ -1002,9 +1058,8 @@ Upgrades</source>
         <target>페이지에서 검색</target>
         <note>No comment provided by engineer.</note>
       </trans-unit>
-      <trans-unit id="Search or enter address">
-        <source>Search or enter address</source>
-        <target>검색하거나 주소를 입력</target>
+      <trans-unit id="Search or enter website">
+        <source>Search or enter website</source>
         <note>The text shown in the URL bar on about:home</note>
       </trans-unit>
       <trans-unit id="Search suggestions from %@">
@@ -1021,6 +1076,10 @@ Upgrades</source>
         <source>Secure connection</source>
         <target>보안 연결</target>
         <note>Accessibility label for the lock icon, which is only present if the connection is secure</note>
+      </trans-unit>
+      <trans-unit id="Security">
+        <source>Security</source>
+        <note>Settings security section title</note>
       </trans-unit>
       <trans-unit id="Select All">
         <source>Select All</source>
@@ -1047,6 +1106,10 @@ Upgrades</source>
         <target>Serif</target>
         <note>Font type setting in the reading view settings</note>
       </trans-unit>
+      <trans-unit id="Set PIN">
+        <source>Set PIN</source>
+        <note>Browser Lock Set Pin</note>
+      </trans-unit>
       <trans-unit id="Settings">
         <source>Settings</source>
         <target>설정</target>
@@ -1057,10 +1120,18 @@ Upgrades</source>
         <target>공유</target>
         <note>Accessibility Label for the browser toolbar Share button</note>
       </trans-unit>
+      <trans-unit id="Share Image">
+        <source>Share Image</source>
+        <note>Context menu option for sharing an image</note>
+      </trans-unit>
       <trans-unit id="Share Link">
         <source>Share Link</source>
         <target>링크 공유</target>
         <note>Context menu item for sharing a link URL</note>
+      </trans-unit>
+      <trans-unit id="Shields">
+        <source>Shields</source>
+        <note>Brave panel topmost title</note>
       </trans-unit>
       <trans-unit id="Shields Down">
         <source>Shields Down</source>
@@ -1126,11 +1197,6 @@ Upgrades</source>
         <target>사이트 Shields를 사용하면 방문하는 사이트별로 광고와 트래커를 차단할지 관리할 수 있습니다. 특정 사이트에서 광고를 표시하려면, 해당 사이트에서 활성화합니다.</target>
         <note>shields overview message</note>
       </trans-unit>
-      <trans-unit id="Site shield settings">
-        <source>Site shield settings</source>
-        <target>사이트 shield 설정</target>
-        <note>Brave panel topmost title</note>
-      </trans-unit>
       <trans-unit id="Start Browsing">
         <source>Start Browsing</source>
         <target>브라우징 시작</target>
@@ -1170,6 +1236,10 @@ Upgrades</source>
         <source>Sync to device</source>
         <target>기기에 동기화</target>
         <note>Sync to existing device</note>
+      </trans-unit>
+      <trans-unit id="Tab">
+        <source>Tab</source>
+        <note>Accessibility label for a Tab.</note>
       </trans-unit>
       <trans-unit id="Tab %@ of %@">
         <source>Tab %1$@ of %2$@</source>
@@ -1320,6 +1390,10 @@ Blocked</source>
         <target>지역 Adblock 사용</target>
         <note>Setting to allow user in non-english locale to use adblock rules specifc to their language</note>
       </trans-unit>
+      <trans-unit id="Use your fingerprint to unlock Brave.">
+        <source>Use your fingerprint to unlock Brave.</source>
+        <note>Unlock Brave with fingerprint.</note>
+      </trans-unit>
       <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
         <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
         <target>보조 기기를 사용하여 Brave 설정 &gt; 동기화로 이동합니다. 보조 기기로 QR 코드(위 참조)를 캡처하거나, 카메라를 사용할 수 없는 경우 코드 단어를 입력합니다.</target>
@@ -1369,6 +1443,10 @@ Blocked</source>
         <source>When Leaving Private Browsing</source>
         <target>비공개 브라우징에서 나가는 경우</target>
         <note>Will be displayed in Settings under 'Close Private Tabs'</note>
+      </trans-unit>
+      <trans-unit id="With Browser Lock, you will need to enter a PIN in order to access Brave.">
+        <source>With Browser Lock, you will need to enter a PIN in order to access Brave.</source>
+        <note>Browser Lock feature callout message.</note>
       </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>
@@ -1461,22 +1539,127 @@ Blocked</source>
         <target>웹사이트</target>
         <note>Title for website row in Login Detail View</note>
       </trans-unit>
+      <trans-unit id="yesterday">
+        <source>yesterday</source>
+        <note>Relative date for yesterday.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="brave/Shared.strings" source-language="en" target-language="ko-KR">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="%@ on %@">
+        <source>%1$@ on %2$@</source>
+        <note>A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/BookmarkPanel.strings" source-language="en" target-language="ko-KR">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="Desktop Bookmarks">
+        <source>Desktop Bookmarks</source>
+        <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/Info.plist" source-language="en" target-language="ko-KR">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/Localizable.strings" source-language="en" target-language="ko-KR">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="Amazon">
+        <source>Amazon</source>
+        <note>Tile title for Amazon</note>
+      </trans-unit>
+      <trans-unit id="Facebook">
+        <source>Facebook</source>
+        <note>Tile title for Facebook</note>
+      </trans-unit>
+      <trans-unit id="Twitter">
+        <source>Twitter</source>
+        <note>Tile title for Twitter</note>
+      </trans-unit>
+      <trans-unit id="Wikipedia">
+        <source>Wikipedia</source>
+        <note>Tile title for Wikipedia</note>
+      </trans-unit>
+      <trans-unit id="YouTube">
+        <source>YouTube</source>
+        <note>Tile title for YouTube</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file datatype="plaintext" original="Storage/Storage.strings" source-language="en" target-language="ko-KR">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="Bookmarks Menu">
+        <source>Bookmarks Menu</source>
+        <note>The name of the folder that contains desktop bookmarks in the menu. This should match bookmarks.folder.menu.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Bookmarks Toolbar">
+        <source>Bookmarks Toolbar</source>
+        <note>The name of the folder that contains desktop bookmarks in the toolbar. This should match bookmarks.folder.toolbar.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Mobile Bookmarks">
+        <source>Mobile Bookmarks</source>
+        <note>The title of the folder that contains mobile bookmarks. This should match bookmarks.folder.mobile.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Unsorted Bookmarks">
+        <source>Unsorted Bookmarks</source>
+        <note>The name of the folder that contains unsorted desktop bookmarks. This should match bookmarks.folder.unfiled.label on Android.</note>
+      </trans-unit>
+      <trans-unit id="Untitled">
+        <source>Untitled</source>
+        <note>The default name for bookmark folders without titles.
+   The default name for bookmark nodes without titles.</note>
+      </trans-unit>
     </body>
   </file>
   <file datatype="plaintext" original="brave/BraveInfo.plist" source-language="en" target-language="ko-KR">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
-        <source>Open in Brave</source>
-        <target>Brave에서 열기</target>
+        <source>$(MOZ_BUNDLE_DISPLAY_NAME)</source>
       </trans-unit>
-      </body>
+      <trans-unit id="CFBundleName">
+        <source>$(MOZ_PRODUCT_NAME)</source>
+      </trans-unit>
+      <trans-unit id="NSCameraUsageDescription">
+        <source>Scan barcode for Brave sync.</source>
+      </trans-unit>
+      <trans-unit id="NSLocationWhenInUseUsageDescription">
+        <source>Websites you visit may request your location.</source>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryAddUsageDescription">
+        <source>This app requires access to the photo library.</source>
+      </trans-unit>
+      <trans-unit id="NSPhotoLibraryUsageDescription">
+        <source>This app requires access to the photo library.</source>
+      </trans-unit>
+    </body>
   </file>
   <file datatype="plaintext" original="brave/Localizable.strings" source-language="en" target-language="ko-KR">
     <header>
-      <tool build-num="8C1002" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="8.2.1"/>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">
@@ -1501,4 +1684,43 @@ Blocked</source>
       </trans-unit>
     </body>
   </file>
-  </xliff>
+  <file datatype="plaintext" original="brave/OnePasswordExtension.strings" source-language="en" target-language="ko-KR">
+    <header>
+      <tool build-num="9A235" tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0"/>
+    </header>
+    <body>
+      <trans-unit id="1Password Extension was cancelled by the user">
+        <source>1Password Extension was cancelled by the user</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="App Extension API is not available in this version of iOS">
+        <source>App Extension API is not available in this version of iOS</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to contact the 1Password Extension">
+        <source>Failed to contact the 1Password Extension</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to execute script that collects web page information">
+        <source>Failed to execute script that collects web page information</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to fill web page because script could not be evaluated">
+        <source>Failed to fill web page because script could not be evaluated</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to fill web page because script is missing">
+        <source>Failed to fill web page because script is missing</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to obtain URL String from web view. The web view must be loaded completely when calling the 1Password Extension">
+        <source>Failed to obtain URL String from web view. The web view must be loaded completely when calling the 1Password Extension</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+      <trans-unit id="Failed to parse information returned by 1Password Extension">
+        <source>Failed to parse information returned by 1Password Extension</source>
+        <note>1Password Extension Error Message</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

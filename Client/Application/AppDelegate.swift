@@ -6,9 +6,6 @@ import Shared
 import Storage
 import AVFoundation
 import XCGLogger
-#if !BRAVE
-import Breakpad
-#endif
 import MessageUI
 import WebImage
 import SwiftKeychainWrapper
@@ -27,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     
     // TODO: Having all of these global opens up lots of abuse potential (open via getApp())
     
+    
+    private var launchTimer: Timer?
+    
     var window: UIWindow?
     var securityWindow: UIWindow?
     var securityViewController: PinProtectOverlayViewController?
@@ -44,9 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     var openInBraveParams: LaunchParams? = nil
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-#if BRAVE
+
         BraveApp.willFinishLaunching_begin()
-#endif
+
         // Hold references to willFinishLaunching parameters for delayed app launch
         self.application = application
         self.launchOptions = launchOptions
@@ -66,8 +66,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         }
     }
 
+    // Swift Selectors hate class method on extensions, this just wraps the behavior
+    // Also, must be public
+    func updateDauStatWrapper() {
+        BraveApp.updateDauStat()
+    }
+    
     fileprivate func startApplication(_ application: UIApplication,  withLaunchOptions launchOptions: [AnyHashable: Any]?) -> Bool {
         log.debug("Setting UA…")
+        
+        // Ping server for stats
+        
+        // Sets up X second timer to represent an active user
+        self.launchTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateDauStatWrapper), userInfo: nil, repeats: false)
 
         setUserAgents()
 
@@ -136,11 +147,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             }
         })
 
-#if !BRAVE
-        activeCrashReporter = BreakpadCrashReporter(breakpadInstance: BreakpadController.sharedInstance())
-        configureActiveCrashReporter(profile.prefs.boolForKey("crashreports.send.always"))
-#endif
-
         log.debug("Adding observers…")
         NotificationCenter.default.addObserver(forName: NSNotification.Name.FSReadingListAddReadingListItem, object: nil, queue: nil) { (notification) -> Void in
             if let userInfo = notification.userInfo, let url = userInfo["URL"] as? URL {
@@ -166,9 +172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         
         log.debug("Done with setting up the application.")
 
-#if BRAVE
         BraveApp.willFinishLaunching_end()
-#endif
         return true
     }
 
@@ -254,14 +258,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
         }
-#if BRAVE
-            if !BraveApp.shouldHandleOpenURL(components) { return false }
-#else
-            if components.scheme != "firefox" && components.scheme != "firefox-x-callback" {
-                return false
-            }
-#endif
-       
+
+        if !BraveApp.shouldHandleOpenURL(components) { return false }
 
         var url: String?
         var isPrivate: Bool = false
@@ -363,6 +361,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     func applicationWillResignActive(_ application: UIApplication) {
         BraveGlobalShieldStats.singleton.save()
         
+        self.launchTimer?.invalidate()
+        self.launchTimer = nil
+        
         let profile = getProfile(application)
         requirePinIfNeeded(profile: profile)
     }
@@ -399,7 +400,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             
             let vc = PinProtectOverlayViewController()
             securityViewController = vc
-            debugPrint(UIScreen.main.bounds)
             
             let pinOverlay = UIWindow(frame: UIScreen.main.bounds)
             pinOverlay.backgroundColor = UIColor(white: 0.9, alpha: 0.7)

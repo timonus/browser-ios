@@ -157,7 +157,17 @@ class TabManager : NSObject {
             return nil
         }
         
-        return self.tabs.internalTabList.index(of: selectedTab)
+        return tabs.internalTabList.index(of: selectedTab)
+    }
+    
+    var currentDisplayedIndex: Int? {
+        objc_sync_enter(self); defer { objc_sync_exit(self) }
+        
+        guard let selectedTab = self.selectedTab else {
+            return nil
+        }
+        
+        return tabs.displayedTabsForCurrentPrivateMode.index(of: selectedTab)
     }
     
     func move(tab: Browser, from: Int, to: Int) {
@@ -190,6 +200,20 @@ class TabManager : NSObject {
             }
         }
 
+        return nil
+    }
+    
+    func indexOfWebView(_ webView: UIWebView) -> UInt? {
+        objc_sync_enter(self); defer { objc_sync_exit(self) }
+        
+        var count = UInt(0)
+        for tab in tabs.internalTabList {
+            if tab.webView === webView {
+                return count
+            }
+            count = count + 1
+        }
+        
         return nil
     }
 
@@ -241,7 +265,7 @@ class TabManager : NSObject {
     }
     
     func selectPreviousTab() {
-        let tab = tabs.internalTabList[currentIndex ?? 0]
+        let tab = tabs.displayedTabsForCurrentPrivateMode[currentDisplayedIndex ?? 0]
         guard let currentIndex = tabs.displayedTabsForCurrentPrivateMode.index(where: {$0 === tab}) else { return }
         if currentIndex > 0 {
             selectTab(tabs.displayedTabsForCurrentPrivateMode[currentIndex-1])
@@ -249,7 +273,7 @@ class TabManager : NSObject {
     }
     
     func selectNextTab() {
-        let tab = tabs.internalTabList[currentIndex ?? 0]
+        let tab = tabs.displayedTabsForCurrentPrivateMode[currentDisplayedIndex ?? 0]
         guard let currentIndex = tabs.displayedTabsForCurrentPrivateMode.index(where: {$0 === tab}) else { return }
         if currentIndex < tabs.displayedTabsForCurrentPrivateMode.count-1 {
             selectTab(tabs.displayedTabsForCurrentPrivateMode[currentIndex+1])
@@ -394,24 +418,26 @@ class TabManager : NSObject {
             return
         }
 
-        print("webviews \(webviews)")
-
         var oldestTime: Timestamp = Date.now()
         var oldestBrowser: Browser? = nil
         for browser in tabs.internalTabList {
             if browser.webView == nil {
                 continue
             }
-            if let t = browser.lastExecutedTime, t < oldestTime {
+            
+            // Finding the oldest - non-active tab. Unlikely, but if selecting link and choosing "open in new tab"
+            //  can be blocked from releasing oldest tab if user is sitting on it.
+            if let t = browser.lastExecutedTime, t < oldestTime, browser != selectedTab {
                 oldestTime = t
                 oldestBrowser = browser
             }
         }
+        
         if let browser = oldestBrowser {
             if selectedTab != browser {
                 browser.deleteWebView(false)
             } else {
-                print("limitInMemoryTabs: tab to delete is selected!")
+                print("Should never happen -- limitInMemoryTabs: tab to delete is selected!")
             }
         }
     }
@@ -546,11 +572,12 @@ class TabManager : NSObject {
         }
     }
 
-    func removeAll(createTabIfNoneLeft: Bool = false) {
+    func removeAll(createTabIfNoneLeft: Bool = false, restricted: Bool = false) {
         objc_sync_enter(self); defer { objc_sync_exit(self) }
         let tabs = self.tabs
 
-        for tab in tabs.internalTabList {
+        let tabsToRemove = restricted ? tabs.displayedTabsForCurrentPrivateMode : tabs.internalTabList
+        for tab in tabsToRemove {
             self.removeTab(tab, flushToDisk: false, notify: true, createTabIfNoneLeft: createTabIfNoneLeft)
         }
     }

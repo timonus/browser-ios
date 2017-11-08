@@ -1,5 +1,3 @@
-"CFBundleDisplayName" = "Buka dalam Brave";
-
 /* Label for search engine buttons. The argument corresponds to the name of the search engine. */
 "%@ search" = "Carian %@";
 
@@ -130,9 +128,6 @@ dan ini sebabnya...";
 /* Shown in intro screens */
 "Brave keeps you safe as you browse." = "Brave memastikan anda selamat sambil anda menyemak lalu.";
 
-/* No comment provided by engineer. */
-"Brave won't remember any of your history or cookies, but new bookmarks will be saved." = "Brave tidak akan ingat sebarang sejarah atau kuki anda, tetapi penanda buku baharu akan disimpan.";
-
 /* See http://mzl.la/1G7uHo7 */
 "Brave would like to access your Photos" = "Brave ingin mengakses Foto anda";
 
@@ -142,6 +137,7 @@ dan ini sebabnya...";
 /* Shown in intro screens */
 "Browse with us and your privacy is protected, with nothing further to install, learn or configure." = "Semak lalu dengan kami dan privasi anda dilindungi, tanpa memerlukan yang lain untuk dipasang, dipelajari atau dikonfigurasi";
 
+/* Setting to enable browser pin locking */
 /* Settings item for clearing browsing history */
 "Browsing History" = "Sejarah Semakan Lalu";
 
@@ -178,6 +174,7 @@ dan ini sebabnya...";
 /* Accessibility label for action denoting closing a tab in tab list (tray) */
 "Close" = "Tutup";
 
+/* No comment provided by engineer. */
 /* Setting for closing private tabs */
 "Close Private Tabs" = "Tutup Tab Peribadi";
 
@@ -253,6 +250,9 @@ dan ini sebabnya...";
 /* No comment provided by engineer. */
 "Edit" = "Edit";
 
+/* Browser Lock feature callout enable action. */
+/* Browser Lock New Pin */
+/* Unlock Brave with Browser Lock Pin */
 /* Accessibility label for entering search mode for logins */
 "Enter Search Mode" = "Masuk Mod Carian";
 
@@ -400,7 +400,7 @@ Pencapjarian";
 /* No comment provided by engineer. */
 "New Private Tab" = "Tab Peribadi Baharu";
 
-/* No comment provided by engineer. */
+/* New Tab title */
 "New Tab" = "Tab Baharu";
 
 /* Accessibility label for next result button in Find in Page Toolbar. */
@@ -415,6 +415,7 @@ Pencapjarian";
 /* Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray */
 "No tabs" = "Tiada tab";
 
+/* Browser Lock feature callout not now action. */
 /* shields overview footer message */
 "Note: Some sites may require scripts to work properly so this shield is turned off by default." = "Nota: Sesetengah tapak mungkin memerlukan skrip untuk berfungsi dengan betul supaya perisai ini dimatikan secara lalai.";
 
@@ -433,6 +434,7 @@ Pencapjarian";
 /* Open and Fill website text selection menu item */
 "Open & Fill" = "Buka & Isi";
 
+/* Context menu item for opening all folder bookmarks */
 /* Share action title */
 "Open Desktop Site tab" = "Buka tab Tapak Desktop";
 
@@ -443,8 +445,6 @@ Pencapjarian";
 "Open In New Private Tab" = "Buka Dalam Tab Peribadi Baharu";
 
 /* Context menu item for opening a link in a new tab */
-"Open In New Tab" = "Buka dalam Tab Baharu";
-
 /* See http://mzl.la/1G7uHo7 */
 "Open Settings" = "Buka Tetapan";
 
@@ -457,6 +457,7 @@ Pencapjarian";
 /* String indicating that the file can be opened in another application on the device */
 "Open in…" = "Buka dalam...";
 
+/* Setting to change browser lock pin */
 /* Sync pair device settings section title */
 "Pair" = "Pasangkan";
 
@@ -499,6 +500,7 @@ Pencapjarian";
 /* Accessibility label for toggling on/off private mode */
 "Private Mode" = "Mod Peribadi";
 
+/* Browser Lock feature callout title. */
 /* Private mode icon next to location string */
 "Private mode icon" = "Ikon mod peribadi";
 
@@ -508,6 +510,7 @@ Pencapjarian";
 /* Title for quick-search engines settings section. */
 "Quick-search Engines" = "Enjin carian pantas";
 
+/* Browser Lock Re-Enter New Pin */
 /* Name for display settings button in reader mode. Display in the meaning of presentation, not monitor. */
 "Reader Mode Settings" = "Tetapan Mod Pembaca";
 
@@ -585,8 +588,6 @@ Pencapjarian";
 "Search in page" = "Cari dalam halaman";
 
 /* The text shown in the URL bar on about:home */
-"Search or enter address" = "Cari atau masukkan alamat";
-
 /* Accessibility label for image of default search engine displayed left to the actual search suggestions from the engine. The parameter substituted for \"%@\" is the name of the search engine. E.g.: Search suggestions from Google */
 "Search suggestions from %@" = "Cadangan carian daripada %@";
 
@@ -596,6 +597,7 @@ Pencapjarian";
 /* Accessibility label for the lock icon, which is only present if the connection is secure */
 "Secure connection" = "Sambungan selamat";
 
+/* Settings security section title */
 /* Title for selecting all logins */
 "Select All" = "Pilih Semua";
 
@@ -611,15 +613,18 @@ Pencapjarian";
 /* Font type setting in the reading view settings */
 "Serif" = "Serif";
 
+/* Browser Lock Set Pin */
 /* No comment provided by engineer. */
 "Settings" = "Tetapan";
 
 /* Accessibility Label for the browser toolbar Share button */
 "Share" = "Kongsi";
 
+/* Context menu option for sharing an image */
 /* Context menu item for sharing a link URL */
 "Share Link" = "Kongsi Pautan";
 
+/* Brave panel topmost title */
 /* message shown briefly in URL bar */
 "Shields Down" = "Perisai Dimatikan";
 
@@ -657,9 +662,6 @@ Pencapjarian";
 /* shields overview message */
 "Site Shields allow you to control when ads and trackers are blocked for each site that you visit. If you prefer to see ads on a specific site, you can enable them here." = "Perisai Tapak membenarkan anda mengawal bila iklan dan penjejak disekat untuk setiap tapak yang anda lawati. Jika anda suka melihat iklan di sesuatu tapak khusus, anda boleh mendayakannya di sini.";
 
-/* Brave panel topmost title */
-"Site shield settings" = "Tetapan perisai tapak";
-
 /* No comment provided by engineer. */
 "Start Browsing" = "Mula Menyemak Lalu";
 
@@ -684,6 +686,7 @@ Pencapjarian";
 /* Sync to existing device */
 "Sync to device" = "Segerakkan kepada peranti";
 
+/* Accessibility label for a Tab. */
 /* Message spoken by VoiceOver saying the position of the single currently visible tab in Tabs Tray, along with the total number of tabs. E.g. \"Tab 2 of 5\" says that tab 2 is visible (and is the only visible tab), out of 5 tabs total. */
 "Tab %@ of %@" = "Tab %1$@ daripada %2$@";
 
@@ -770,6 +773,7 @@ Pencapjarian";
 /* Setting to allow user in non-english locale to use adblock rules specifc to their language */
 "Use regional adblock" = "Gunakan penyekat iklan serantau";
 
+/* Unlock Brave with fingerprint. */
 /* Sync add device description */
 "Using a second device navigate to Brave Settings > Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available." = "Dengan menggunakan peranti kedua, navigasi ke Tetapan Brave > Segerak. Tangkap Kod QR (di atas) menggunakan peranti kedua, atau masukkan perkataan kod jika tiada kamera tersedia.";
 
@@ -800,6 +804,7 @@ Pencapjarian";
 /* Will be displayed in Settings under 'Close Private Tabs' */
 "When Leaving Private Browsing" = "Semasa Meninggalkan Semakan Lalu Peribadi";
 
+/* Browser Lock feature callout message. */
 /* For search suggestions prompt. This string should be short so it fits nicely on the prompt row. */
 "Yes" = "Ya";
 
@@ -849,3 +854,13 @@ Pencapjarian";
 /* Title for website row in Login Detail View */
 "website" = "laman web";
 
+/* Relative date for yesterday. */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* 1Password Extension Error Message */
+/* A brief descriptive name for this app on this device, used for Send Tab and Synced Tabs. The first argument is the app name. The second argument is the device name. */

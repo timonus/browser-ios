@@ -6,6 +6,8 @@ import Mixpanel
 
 var mixpanelInstance: MixpanelInstance?
 
+let isRunningTests = ProcessInfo().environment["XCInjectBundleInto"] != nil
+
 func telemetry(_ action: String, props: [String: String]?) {
     // All telemetry events are disabled
 }

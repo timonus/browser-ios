@@ -6,7 +6,7 @@ import Foundation
 import Shared
 
 class BraveShieldStatsView: UIView {
-    fileprivate let millisecondsPerItem = 50
+    fileprivate let millisecondsPerItem: Int32 = 50
     fileprivate let line = UIView()
     
     lazy var adsStatView: StatView = {
@@ -46,7 +46,7 @@ class BraveShieldStatsView: UIView {
         super.init(frame: frame)
         
         addSubview(line)
-        line.backgroundColor = UIColor(white: 0.0, alpha: 0.2)
+        line.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         line.snp.makeConstraints { (make) -> Void in
             make.bottom.equalTo(0).offset(-0.5)
             make.height.equalTo(0.5)

@@ -64,7 +64,7 @@ class TwoLineTableViewCell: UITableViewCell {
         } else {
             self.accessoryView = nil
         }
-        twoLineHelper.hasRightBadge = badge != nil
+        twoLineHelper.hasRightBadge = badge != nil || accessoryType == .disclosureIndicator
     }
 
     func setLines(_ text: String?, detailText: String?) {

@@ -8,7 +8,7 @@ import Shared
 open class NSUserDefaultsPrefs: Prefs {
     
     fileprivate let prefixWithDot: String
-    fileprivate let userDefaults: UserDefaults
+    let userDefaults: UserDefaults
     
     open func getBranchPrefix() -> String {
         return self.prefixWithDot

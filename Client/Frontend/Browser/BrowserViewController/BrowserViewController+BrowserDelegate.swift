@@ -42,6 +42,16 @@ extension BrowserViewController: WebPageStateDelegate {
                 updateUIForReaderHomeStateForTab(tab)
             }
         }
+        
+        if !urlChanged.contains("localhost") {
+            if let data = TabMO.savedTabData(tab: tab, urlOverride: urlChanged) {
+                let context = DataController.shared.workerContext
+                context.perform {
+                    TabMO.add(data, context: context)
+                    DataController.saveContext(context: context)
+                }
+            }
+        }
     }
 
     func webView(_ webView: UIWebView, progressChanged: Float) {
@@ -57,6 +67,7 @@ extension BrowserViewController: WebPageStateDelegate {
         if tab === tabManager.selectedTab {
             toolbar?.updateReloadStatus(isLoading)
             urlBar.updateReloadStatus(isLoading)
+//            scrollController.showToolbars(animated: true)
         }
 
     }

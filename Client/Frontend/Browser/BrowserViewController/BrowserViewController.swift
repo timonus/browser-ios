@@ -9,7 +9,6 @@ import Shared
 import CoreData
 import SnapKit
 import XCGLogger
-import Shared
 
 import ReadingList
 import MobileCoreServices
@@ -299,6 +298,9 @@ class BrowserViewController: UIViewController {
         }, completion: { _ in
             self.webViewContainerBackdrop.alpha = 0
         })
+        
+        // Re-show toolbar which might have been hidden during scrolling (prior to app moving into the background)
+        scrollController.showToolbars(animated: false)
     }
 
     deinit {
@@ -358,7 +360,7 @@ class BrowserViewController: UIViewController {
         header = BlurWrapper(view: urlBar)
         view.addSubview(header)
     
-        header.layer.shadowOffset = CGSize(width: 0, height: 1)
+        header.layer.shadowOffset = CGSize(width: 0, height: 0.5)
         header.layer.shadowRadius = 0
         header.layer.shadowOpacity = 1.0
         header.layer.masksToBounds = false
@@ -412,6 +414,7 @@ class BrowserViewController: UIViewController {
 
     var headerHeightConstraint: Constraint?
     var webViewContainerTopOffset: Constraint?
+    var webViewHeightConstraint: Constraint?
 
     func setupConstraints() {
         
@@ -541,6 +544,40 @@ class BrowserViewController: UIViewController {
 
         showQueuedAlertIfAvailable()
     }
+    
+    func presentBrowserLockCallout() {
+        if profile.prefs.boolForKey(kPrefKeySetBrowserLock) == true || profile.prefs.boolForKey(kPrefKeyPopupForBrowserLock) == true {
+            return
+        }
+        
+        weak var weakSelf = self
+        let popup = AlertPopupView(image: UIImage(named: "browser_lock_popup"), title: Strings.Browser_lock_callout_title, message: Strings.Browser_lock_callout_message)
+        popup.addButton(title: Strings.Browser_lock_callout_not_now) { () -> PopupViewDismissType in
+            weakSelf?.profile.prefs.setBool(true, forKey: kPrefKeyPopupForBrowserLock)
+            return .flyDown
+        }
+        popup.addDefaultButton(title: Strings.Browser_lock_callout_enable) { () -> PopupViewDismissType in
+            if getApp().profile == nil {
+                return .flyUp
+            }
+            
+            weakSelf?.profile.prefs.setBool(true, forKey: kPrefKeyPopupForBrowserLock)
+            
+            let settingsTableViewController = BraveSettingsView(style: .grouped)
+            settingsTableViewController.profile = getApp().profile
+            
+            let controller = SettingsNavigationController(rootViewController: settingsTableViewController)
+            controller.modalPresentationStyle = UIModalPresentationStyle.formSheet
+            weakSelf?.present(controller, animated: true, completion: {
+                let view = PinViewController()
+                view.delegate = settingsTableViewController
+                controller.pushViewController(view, animated: true)
+            })
+            
+            return .flyUp
+        }
+        popup.showWithType(showType: .normal)
+    }
 
     fileprivate func shouldShowWhatsNewTab() -> Bool {
         guard let latestMajorAppVersion = profile.prefs.stringForKey(LatestAppVersionProfileKey)?.components(separatedBy: ".").first else {
@@ -574,7 +611,7 @@ class BrowserViewController: UIViewController {
             make.top.left.right.equalTo(self.view)
             make.height.equalTo(BrowserViewControllerUX.ShowHeaderTapAreaHeight)
         }
-
+        
         footer.snp.remakeConstraints { make in
             scrollController.footerBottomConstraint = make.bottom.equalTo(self.view.snp.bottom).constraint
             make.top.equalTo(self.snackBars.snp.top)
@@ -587,10 +624,27 @@ class BrowserViewController: UIViewController {
 
         updateSnackBarConstraints()
         footerBackground?.snp.remakeConstraints { make in
-            make.bottom.left.right.equalTo(self.footer)
-            make.height.equalTo(UIConstants.ToolbarHeight)
+            make.left.right.equalTo(self.footer)
+            make.height.equalTo(UIConstants.ToolbarHeight) // Set this to toolbar height. Use BottomToolbarHeight for hiding footer
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(self.footer).inset(self.view.safeAreaInsets.bottom)
+            } else {
+                make.bottom.equalTo(self.footer)
+            }
         }
         urlBar.setNeedsUpdateConstraints()
+        
+        webViewContainer.snp.remakeConstraints { make in
+            make.left.right.equalTo(self.view)
+            make.top.equalTo(self.header.snp.bottom)
+            
+            let findInPageHeight = (findInPageBar == nil) ? 0 : UIConstants.ToolbarHeight
+            if let toolbar = self.toolbar {
+                make.bottom.equalTo(toolbar.snp.top).offset(-findInPageHeight)
+            } else {
+                make.bottom.equalTo(self.view).offset(-findInPageHeight)
+            }
+        }
 
         // Remake constraints even if we're already showing the home controller.
         // The home controller may change sizes if we tap the URL bar while on about:home.
@@ -697,9 +751,6 @@ class BrowserViewController: UIViewController {
         urlBar.leaveSearchMode()
 
         _ = tab.loadRequest(URLRequest(url: url))
-        
-        // TODO: Need to preserve tab on submit, difficult because history data dictates load index - on submit url isn't loaded webivew into history stack.
-//        TabMO.preserveTab(tab: tab)
     }
 
     func addBookmark(_ url: URL?, title: String?, parentFolder: Bookmark? = nil) {
@@ -732,6 +783,8 @@ class BrowserViewController: UIViewController {
     func updateUIForReaderHomeStateForTab(_ tab: Browser) {
         updateURLBarDisplayURL(tab: tab)
         updateInContentHomePanel(tab.url)
+        
+        scrollController.showToolbars(animated: false)
     }
 
     fileprivate func isWhitelistedUrl(_ url: URL) -> Bool {
@@ -864,24 +917,47 @@ class BrowserViewController: UIViewController {
         activities.append(requestDesktopSiteActivity)
 
         helper = ShareExtensionHelper(url: url, tab: tab, activities: activities)
-        let controller = helper.createActivityViewController({ [unowned self] completed in
-            // After dismissing, check to see if there were any prompts we queued up
-            self.showQueuedAlertIfAvailable()
+        let controller = helper.createActivityViewController() {
+            [weak self] completed in
+            self?.handleActivityViewDismiss(with: completed, using: tab)
+        }
 
-            // Usually the popover delegate would handle nil'ing out the references we have to it
-            // on the BVC when displaying as a popover but the delegate method doesn't seem to be
-            // invoked on iOS 10. See Bug 1297768 for additional details.
-            self.displayedPopoverController = nil
-            self.updateDisplayedPopoverProperties = nil
-            self.helper = nil
+        presentActivityViewController(controller: controller,
+                                      tab: tab,
+                                      sourceView: sourceView,
+                                      sourceRect: sourceRect,
+                                      arrowDirection: arrowDirection)
+    }
 
-            if completed {
-                // We don't know what share action the user has chosen so we simply always
-                // update the toolbar and reader mode bar to reflect the latest status.
-                self.updateURLBarDisplayURL(tab: tab)
+    private func handleActivityViewDismiss(with success: Bool, using tab: Browser) {
+        // After dismissing, check to see if there were any prompts we queued up
+        showQueuedAlertIfAvailable()
+        
+        // Usually the popover delegate would handle nil'ing out the references we have to it
+        // on the BVC when displaying as a popover but the delegate method doesn't seem to be
+        // invoked on iOS 10. See Bug 1297768 for additional details.
+        displayedPopoverController = nil
+        updateDisplayedPopoverProperties = nil
+        helper = nil
+        
+        if success {
+            // We don't know what share action the user has chosen so we simply always
+            // update the toolbar and reader mode bar to reflect the latest status.
+            updateURLBarDisplayURL(tab: tab)
+        }
+    }
+    
+    func presentActivityViewController(controller: UIActivityViewController,
+                                       tab: Browser,
+                                       sourceView: UIView?,
+                                       sourceRect: CGRect,
+                                       arrowDirection: UIPopoverArrowDirection) {
+        if controller.completionWithItemsHandler == nil {
+            controller.completionWithItemsHandler = {
+                [weak self] _, completed, _, _ in
+                self?.handleActivityViewDismiss(with: completed, using: tab)
             }
-        })
-
+        }
         let setupPopover = { [unowned self] in
             if let popoverPresentationController = controller.popoverPresentationController {
                 popoverPresentationController.sourceView = sourceView
@@ -890,17 +966,17 @@ class BrowserViewController: UIViewController {
                 popoverPresentationController.delegate = self
             }
         }
-
+        
         setupPopover()
-
+        
         if controller.popoverPresentationController != nil {
             displayedPopoverController = controller
             updateDisplayedPopoverProperties = setupPopover
         }
-
+        
         self.present(controller, animated: true, completion: nil)
     }
-
+    
     func updateFindInPageVisibility(_ visible: Bool) {
         if visible {
             if findInPageBar == nil {
@@ -1167,9 +1243,11 @@ extension BrowserViewController: Themeable {
         case Theme.NormalMode:
             statusBarOverlay.backgroundColor = BraveUX.ToolbarsBackgroundSolidColor
             footerBackground?.backgroundColor = BraveUX.ToolbarsBackgroundSolidColor
+            footer?.backgroundColor = BraveUX.ToolbarsBackgroundSolidColor
         case Theme.PrivateMode:
             statusBarOverlay.backgroundColor = BraveUX.DarkToolbarsBackgroundSolidColor
             footerBackground?.backgroundColor = BraveUX.DarkToolbarsBackgroundSolidColor
+            footer?.backgroundColor = BraveUX.DarkToolbarsBackgroundSolidColor
         default:
             log.debug("Unknown Theme \(themeName)")
         }

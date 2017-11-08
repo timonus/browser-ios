@@ -112,7 +112,9 @@ class Sync: JSInjector {
 
         // ios-sync must be called before bundle, since it auto-runs
         ["fetch", "ios-sync", "bundle"].forEach() {
-            userController.addUserScript(WKUserScript(source: Sync.getScript($0), injectionTime: .atDocumentEnd, forMainFrameOnly: true))
+            if let script = Sync.getScript($0) {
+                userController.addUserScript(WKUserScript(source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true))
+            }
         }
 
         webCfg.userContentController = userController
@@ -183,11 +185,14 @@ class Sync: JSInjector {
         self.webView.loadHTMLString("<body>TEST</body>", baseURL: nil)
     }
 
-    class func getScript(_ name:String) -> String {
+    class func getScript(_ name:String) -> String? {
         // TODO: Add unwrapping warnings
         // TODO: Place in helper location
-        let filePath = Bundle.main.path(forResource: name, ofType:"js")
-        return try! String(contentsOfFile: filePath!, encoding: String.Encoding.utf8)
+        guard let filePath = Bundle.main.path(forResource: name, ofType:"js") else {
+            return nil
+        }
+        
+        return try? String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
     }
 
     fileprivate func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {

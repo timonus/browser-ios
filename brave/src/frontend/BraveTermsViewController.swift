@@ -130,9 +130,9 @@ class BraveTermsViewController: UIViewController {
         view.backgroundColor = UIColor(red: 63/255.0, green: 63/255.0, blue: 63/255.0, alpha: 1.0)
     }
 
-    override var prefersStatusBarHidden : Bool {
-        return true
-    }
+//    override var prefersStatusBarHidden : Bool {
+//        return true
+//    }
     
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         

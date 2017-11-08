@@ -73,6 +73,7 @@ class URLProtocol: Foundation.URLProtocol {
         }
 
         shieldResult.setStateFromPerPageShield(webViewShield)
+        
         return shieldResult
     }
 

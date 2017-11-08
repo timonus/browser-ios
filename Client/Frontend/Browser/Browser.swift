@@ -10,7 +10,6 @@ import CoreData
 import CoreImage
 import SwiftyJSON
 
-import Crashlytics
 import XCGLogger
 
 private let log = Logger.browserLogger
@@ -115,25 +114,9 @@ class Browser: NSObject, BrowserWebViewDelegate {
     var desktopSite: Bool = false
 
     fileprivate var screenshotCallback: ((_ image: UIImage?)->Void)?
-    fileprivate lazy var _screenshot: UIImage? = {
-        guard let image = UIImage(named: "tab_placeholder"), let beginImage: CIImage = CIImage(image: image) else { return nil }
-        
-        if arc4random_uniform(3) != 1 {
-            let filter = CIFilter(name: "CIHueAdjust")
-            filter?.setValue(beginImage, forKey: kCIInputImageKey)
-            filter?.setValue(CGFloat(arc4random_uniform(314 / (arc4random_uniform(3) + 1))) * 0.01 - 3.14, forKey: "inputAngle")
-            
-            guard let outputImage = filter?.outputImage else { return nil }
-            
-            let context = CIContext(options:nil)
-            guard let cgimg = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
-            return UIImage(cgImage: cgimg)
-        }
-        else {
-            return image
-        }
-    }()
+    fileprivate var _screenshot: UIImage? = nil
     var screenshotUUID: UUID?
+    var isScreenshotSet = false
 
     fileprivate var helperManager: HelperManager? = nil
     fileprivate var configuration: WKWebViewConfiguration? = nil
@@ -178,7 +161,20 @@ class Browser: NSObject, BrowserWebViewDelegate {
             ImageCache.shared.image(url, type: .portrait, callback: { (image) in
                 if let image = image {
                     weakSelf?._screenshot = image
+                    weakSelf?.isScreenshotSet = true
                 }
+//                else if weakSelf?._screenshot == nil {
+//                    guard let image = UIImage(named: "tab_placeholder"), let beginImage: CIImage = CIImage(image: image) else { return }
+//                    let filter = CIFilter(name: "CIHueAdjust")
+//                    filter?.setValue(beginImage, forKey: kCIInputImageKey)
+//                    filter?.setValue(CGFloat(arc4random_uniform(314 / (arc4random_uniform(3) + 1))) * 0.01 - 3.14, forKey: "inputAngle")
+//
+//                    guard let outputImage = filter?.outputImage else { return }
+//
+//                    let context = CIContext(options:nil)
+//                    guard let cgimg = context.createCGImage(outputImage, from: outputImage.extent) else { return }
+//                    weakSelf?._screenshot = UIImage(cgImage: cgimg)
+//                }
                 postAsyncToMain {
                     callback(weakSelf?._screenshot)
                 }
@@ -260,7 +256,6 @@ class Browser: NSObject, BrowserWebViewDelegate {
     
     fileprivate func notifyDelegateNewWebview() {
         guard let webview = self.webView else {
-            Answers.logCustomEvent(withName: "WebView nil when attempting to notify delegate", customAttributes: nil)
             return
         }
         // Setup answers
@@ -374,11 +369,20 @@ class Browser: NSObject, BrowserWebViewDelegate {
 
     var displayTitle: String {
         if let title = webView?.title, !title.isEmpty {
-            return title
+            return title.range(of: "localhost") == nil ? title : ""
+        }
+        else if let url = webView?.URL, url.baseDomain == "localhost", url.absoluteString.contains("about/home/#panel=0") {
+            return Strings.New_Tab
         }
 
         guard let lastTitle = lastTitle, !lastTitle.isEmpty else {
-            return displayURL?.absoluteString ??  ""
+            if let title = displayURL?.absoluteString {
+                return title
+            }
+            else if let tab = TabMO.getByID(tabID) {
+                return tab.title ?? tab.url ?? ""
+            }
+            return ""
         }
 
         return lastTitle
@@ -576,6 +580,8 @@ class Browser: NSObject, BrowserWebViewDelegate {
         guard let screenshot = screenshot else { return }
 
         _screenshot = screenshot
+        isScreenshotSet = true
+        
         self.screenshotCallback?(screenshot)
         
         if revUUID {

@@ -26,7 +26,13 @@ class TabBarCell: UICollectionViewCell {
     let title = UILabel()
     let close = UIButton()
     let separatorLine = UIView()
-    var browser: Browser? {
+    let separatorLineRight = UIView()
+    var currentIndex: Int = -1 {
+        didSet {
+            isSelected = currentIndex == getApp().tabManager.currentDisplayedIndex
+        }
+    }
+    weak var browser: Browser? {
         didSet {
             if let wv = self.browser?.webView {
                 wv.delegatesForPageState.append(BraveWebView.Weak_WebPageStateDelegate(value: self))
@@ -42,27 +48,36 @@ class TabBarCell: UICollectionViewCell {
         
         close.addTarget(self, action: #selector(closeTab), for: .touchUpInside)
         
-        [close, title, separatorLine].forEach { contentView.addSubview($0) }
+        [close, title, separatorLine, separatorLineRight].forEach { contentView.addSubview($0) }
         
         title.textAlignment = .center
         title.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
-            make.left.equalTo(close.snp.right)
-            make.right.equalTo(self).inset(labelInsetFromRight)
+            make.left.equalTo(self).inset(16)
+            make.right.equalTo(close.snp.left)
         })
         
         close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)
         close.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
-            make.left.equalTo(self).inset(4)
-            make.width.equalTo(24)
+            make.right.equalTo(self).inset(5)
+            make.width.equalTo(16)
         })
-        close.tintColor = UIColor.black
+        close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
         
         separatorLine.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         separatorLine.snp.makeConstraints { (make) in
             make.left.equalTo(self)
-            make.width.equalTo(1)
+            make.width.equalTo(0.5)
+            make.height.equalTo(self)
+            make.centerY.equalTo(self.snp.centerY)
+        }
+        
+        separatorLineRight.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+        separatorLineRight.isHidden = true
+        separatorLineRight.snp.makeConstraints { (make) in
+            make.right.equalTo(self)
+            make.width.equalTo(0.5)
             make.height.equalTo(self)
             make.centerY.equalTo(self.snp.centerY)
         }
@@ -80,9 +95,11 @@ class TabBarCell: UICollectionViewCell {
                 title.font = UIFont.systemFont(ofSize: 12, weight: UIFontWeightSemibold)
                 title.textColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
                 close.isHidden = false
+                close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
                 backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.DarkToolbarsBackgroundSolidColor : BraveUX.ToolbarsBackgroundSolidColor
             }
-            else {
+            else if currentIndex != getApp().tabManager.currentDisplayedIndex {
+                // prevent swipe and release outside- deselects cell.
                 title.font = UIFont.systemFont(ofSize: 12)
                 title.textColor = PrivateBrowsing.singleton.isOn ? UIColor(white: 1.0, alpha: 0.4) : UIColor(white: 0.0, alpha: 0.4)
                 close.isHidden = true
@@ -104,31 +121,14 @@ class TabBarCell: UICollectionViewCell {
         titleUpdateScheduled = true
         postAsyncToMain(0.2) { [weak self] in
             self?.titleUpdateScheduled = false
-            if let t = self?.browser?.webView?.title, !t.isEmpty {
-                self?.setTitle(t)
-            }
-        }
-    }
-    
-    func setTitle(_ title: String?) {
-        if let title = title, title != "localhost" {
-            self.title.text = title
-        }
-        else if let t = browser?.url?.absoluteString, t.range(of: "localhost") == nil {
-            self.title.text = t
-        }
-        else {
-            self.title.text = ""
+            self?.title.text = self?.browser?.displayTitle
         }
     }
 }
 
 extension TabBarCell: WebPageStateDelegate {
     func webView(_ webView: UIWebView, urlChanged: String) {
-        if let t = browser?.url?.baseDomain,  title.text?.isEmpty ?? true {
-            setTitle(t)
-        }
-        
+        title.text = browser?.displayTitle
         updateTitle_throttled()
     }
     
@@ -171,7 +171,7 @@ class TabsBarViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsSelection = true
-        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+        collectionView.decelerationRate = UIScrollViewDecelerationRateNormal
         collectionView.register(TabBarCell.self, forCellWithReuseIdentifier: "TabCell")
         view.addSubview(collectionView)
         
@@ -204,6 +204,14 @@ class TabsBarViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateData), name: kRearangeTabNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         updateData()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        postAsyncToMain(0.1) {
+            self.collectionView.reloadData()
+        }
     }
     
     deinit {
@@ -327,8 +335,10 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let tab = tabList.at(indexPath.row) else { return cell }
         cell.delegate = self
         cell.browser = tab
-        cell.setTitle(tab.displayTitle != "" ? tab.displayTitle : TabMO.getByID(tab.tabID)?.title)
-        cell.isSelected = (indexPath.row == getApp().tabManager.currentIndex)
+        cell.title.text = tab.displayTitle
+        cell.currentIndex = indexPath.row
+        cell.separatorLineRight.isHidden = (indexPath.row != tabList.count() - 1)
+        debugPrint("index: \(getApp().tabManager.currentDisplayedIndex ?? -1)")
         return cell
     }
     
@@ -340,6 +350,13 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if tabList.count() == 1 {
             return CGSize(width: view.frame.width, height: view.frame.height)
+        }
+        
+        let newTabButtonWidth = CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? BraveUX.TabsBarPlusButtonWidth : 0)
+        let tabsAndButtonWidth = CGFloat(tabList.count()) * minTabWidth
+        if tabsAndButtonWidth < collectionView.frame.width - newTabButtonWidth {
+            let maxWidth = (collectionView.frame.width - newTabButtonWidth) / CGFloat(tabList.count())
+            return CGSize(width: maxWidth, height: view.frame.height)
         }
         
         return CGSize(width: minTabWidth, height: view.frame.height)

@@ -216,6 +216,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        self.view.backgroundColor = BraveUX.BackgroundColorForSideToolbars
+        
         tableView.allowsSelectionDuringEditing = true
         
         let navBar = self.navigationController?.navigationBar
@@ -226,6 +228,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         let width = self.view.bounds.size.width
         let toolbarHeight = CGFloat(44)
+        
         editBookmarksToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: width, height: toolbarHeight))
         createEditBookmarksToolbar()
         editBookmarksToolbar.barTintColor = BraveUX.BackgroundColorForSideToolbars
@@ -237,7 +240,11 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             make.height.equalTo(toolbarHeight)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
-            make.bottom.equalTo(self.view)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(self.view).inset(getApp().window!.safeAreaInsets.bottom)
+            } else {
+                make.bottom.equalTo(self.view)
+            }
         }
         
         tableView.snp.makeConstraints { make in
@@ -474,7 +481,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         let fontSize: CGFloat = 14.0
         cell.textLabel?.text = item.displayTitle ?? item.url
-        cell.textLabel?.lineBreakMode = .byClipping
+        cell.textLabel?.lineBreakMode = .byTruncatingTail
         
         if !item.isFolder {
             configCell(icon: item.domain?.favicon, longPressForContextMenu: true)
@@ -484,12 +491,16 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             configCell(image: UIImage(named: "bookmarks_folder_hollow"))
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
             cell.accessoryType = .disclosureIndicator
+            if let twoLineCell = cell as? TwoLineTableViewCell {
+                twoLineCell.setRightBadge(nil)
+            }
         }
     }
     
     fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
+        weak var weakSelf = self
         FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
-            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = self.tableView.cellForRow(at: indexPath) else { return }
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = weakSelf?.tableView.cellForRow(at: indexPath) else { return }
             self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
         }
     }
@@ -502,15 +513,17 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
                 }
             }
             else {
-                cell.imageView?.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
-                    guard err == nil, let img = img else {
-                        // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
-                        ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
-                        cell.imageView?.image = FaviconFetcher.defaultFavicon
-                        return
-                    }
-                    ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
-                })
+                postAsyncToMain {
+                    cell.imageView?.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
+                        guard let img = img else {
+                            // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
+                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
+                            cell.imageView?.image = FaviconFetcher.defaultFavicon
+                            return
+                        }
+                        ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
+                    })
+                }
             }
         })
     }
@@ -558,7 +571,6 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
                 self.showEditBookmarkController(tableView, indexPath: indexPath)
             }
             else {
-                print("Selected folder")
                 let nextController = BookmarksPanel(folder: bookmark)
                 nextController.homePanelDelegate = self.homePanelDelegate
                 

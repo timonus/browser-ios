@@ -41,10 +41,10 @@
     <string>itms-books</string>
 		<string>org-appextension-feature-password-management</string>
 	</array>
-	
+
 		<key>MIXPANEL_TOKEN</key>
 		<string>MIXPANEL_TOKEN_REMOVED</string>
-	
+
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -69,7 +69,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Websites you visit may request your location.</string>
 	<key>NSCameraUsageDescription</key>
-        <string>Scan barcode for Brave sync.</string>	
+        <string>Scan barcode for Brave sync.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
     <string>$(CUSTOM_BUNDLE_ID).browsing</string>
@@ -142,8 +142,9 @@
 			<string></string>
 		</dict>
 	</array>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires access to the photo library.</string>
-
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>This app requires access to the photo library.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app requires access to the photo library.</string>
 </dict>
 </plist>
