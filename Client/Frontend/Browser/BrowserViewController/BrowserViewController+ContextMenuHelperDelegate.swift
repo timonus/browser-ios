@@ -221,7 +221,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
                     
                     postAsyncToMain {
                         let request = URLRequest(url: url)
-                        getApp().tabManager.addTab(request, zombie: true, id: tabID, createWebview: false)
+                        getApp().tabManager.addTab(request, zombie: true, id: tabID, createWebview: (bookmarks.count == 1))
                     }
                 }
                 DataController.saveContext(context: context)
