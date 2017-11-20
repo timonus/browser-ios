@@ -293,11 +293,12 @@ extension BraveApp {
         guard let prefs = getApp().profile?.prefs else { return }
         let prefName = "dau_stat"
         let dauStat = prefs.arrayForKey(prefName)
+        let firstLaunchEver = dauStat != nil
 
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         var statsQuery = "https://laptop-updates.brave.com/1/usage/ios?platform=ios" + "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
             + "&version=\(appVersion)"
-            + "&first=\(dauStat != nil)"
+            + "&first=\(firstLaunchEver)"
 
         let today = Date()
         let components = (Calendar.current as NSCalendar).components([.month , .year], from: today)
