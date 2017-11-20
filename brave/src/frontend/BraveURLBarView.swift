@@ -174,7 +174,6 @@ class BraveURLBarView : URLBarView {
     }
 
     @objc func onClickBraveButton() {
-        telemetry("Show Brave Panel", props: nil)
         NotificationCenter.default.post(name: Notification.Name(rawValue: kNotificationBraveButtonClicked), object: braveButton)
     }
 
