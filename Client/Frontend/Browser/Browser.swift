@@ -258,6 +258,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
         guard let webview = self.webView else {
             return
         }
+        // Setup answers
         browserDelegate?.browser(self, didCreateWebView: webview)
     }
     // // // // // //
