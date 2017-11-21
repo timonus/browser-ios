@@ -96,7 +96,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         self.present(actionSheetController, animated: true, completion: nil)
     }
 
-    private func createShareImageAction(from url: URL, tab: Browser, origin: CGPoint, size: CGSize) -> UIAlertAction {
+    private func createShareImageAction(from url: URL, tab: Browser?, origin: CGPoint, size: CGSize) -> UIAlertAction {
         return UIAlertAction(title: Strings.Share_Image, style: UIAlertActionStyle.default) {
             [weak self] action in
             guard let browserController = self else { return }
@@ -198,8 +198,15 @@ extension BrowserViewController: ContextMenuHelperDelegate {
     }
     
     private func createShareLinkAction(from url: URL, tab: Browser, origin: CGPoint, size: CGSize) -> UIAlertAction {
+        var tab: Browser? = tab
         let shareTitle = Strings.Share_Link
         return UIAlertAction(title: shareTitle, style: UIAlertActionStyle.default) { _ in
+            if url != tab?.url {
+                // If user selects to share url from long-press (not current page), no tab data should be appended to the share action
+                // (e.g. tab url, tab title)
+                tab = nil
+            }
+            
             self.presentActivityViewController(url, tab: tab, sourceView: self.view, sourceRect: CGRect(origin: origin, size: size), arrowDirection: .any)
         }
     }
