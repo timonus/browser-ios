@@ -293,7 +293,7 @@ extension BraveApp {
         guard let prefs = getApp().profile?.prefs else { return }
         let prefName = "dau_stat"
         let dauStat = prefs.arrayForKey(prefName)
-        let firstLaunchEver = dauStat != nil
+        let firstLaunchEver = dauStat == nil
 
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         var statsQuery = "https://laptop-updates.brave.com/1/usage/ios?platform=ios" + "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
