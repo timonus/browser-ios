@@ -10,6 +10,9 @@ struct DAU {
     public static let preferencesKey = "dau_stat"
     public static let weekOfInstallationKeyPrefKey = "week_of_installation"
     
+    /// Default installation date for legacy woi version.
+    public static let defaultWoiDate = "2016-01-04"
+    
     let prefs: Prefs
     
     private let baseUrl = "https://laptop-updates.brave.com/1/usage/ios?platform=ios"
@@ -54,25 +57,33 @@ struct DAU {
         let dauStats = prefs.arrayForKey(DAU.preferencesKey)
         let isFirstLaunch = dauStats == nil
         
-        let mondayOfCurrentWeek = todayComponents.weeksMonday
+        var params
+            = channelParam
+            + versionParam
         
-        var params = "&\(channelParam)"
-            + "&\(versionParam)"
-            + "&\(firstLaunchParam(isFirstLaunch))"
-            + "&\(weekOfInstallationParam(value: mondayOfCurrentWeek, firstLaunch: isFirstLaunch))"
+        func setInstallWeek(installWeek: String) {
+            prefs.setString(installWeek, forKey: DAU.weekOfInstallationKeyPrefKey)
+        }
         
         // Setting preferences
         if isFirstLaunch {
-            prefs.setString(mondayOfCurrentWeek, forKey: DAU.weekOfInstallationKeyPrefKey)
-        } else {
-            // If not first launch, ping to the server is only sent after enough time passed
-            if let dauStatParams = dauStatParams(dauStats) {
-                params += dauStatParams
-            } else {
-                log.debug("dau, no changes detected, no server ping")
-                return nil
-            }
+            setInstallWeek(installWeek: todayComponents.weeksMonday)
+        } else if prefs.stringForKey(DAU.weekOfInstallationKeyPrefKey) == nil {
+            // User is upgrading (app already installed), but we have never set a weekInstallKey
+            setInstallWeek(installWeek: DAU.defaultWoiDate)
         }
+        
+        // If not first launch, ping to the server is only sent after enough time passed
+        guard let dauStatParams = dauStatParams(dauStats, firstLaunch: isFirstLaunch) else {
+            log.debug("dau, no changes detected, no server ping")
+            return nil
+        }
+        
+        params
+            += dauStatParams
+            + firstLaunchParam(isFirstLaunch)
+            // Must be after setting up the preferences
+            + weekOfInstallationParam
         
         let secsMonthYear = [Int(today.timeIntervalSince1970), todayComponents.month, todayComponents.year]
         prefs.setObject(secsMonthYear, forKey: DAU.preferencesKey)
@@ -81,35 +92,39 @@ struct DAU {
     }
     
     var channelParam: String {
-        return "channel=\(BraveUX.IsRelease ? "stable" : "beta")"
+        return "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
     }
     
     // TODO: Add leading `.0` to so app version is always in format x.x.x.
     // See issue #1337 for more info.
     var versionParam: String {
-        return "version=\(AppInfo.appVersion)"
+        return "&version=\(AppInfo.appVersion)"
     }
     
     func firstLaunchParam(_ isFirst: Bool) -> String {
-        return "first=\(isFirst)"
+        return "&first=\(isFirst)"
     }
     
     /** All first app installs are normalized to first day of the week.
      Eg. user installs app on wednesday 2017-22-11, his install date is recorded as of 2017-20-11(Monday) */
-    func weekOfInstallationParam(value: String, firstLaunch: Bool) -> String {
-        if firstLaunch {
-            return "woi=\(value)"
-        } else if let woi = prefs.stringForKey(DAU.weekOfInstallationKeyPrefKey) {
-            return "woi=\(woi)"
-        } else {
-            // TODO: Set some arbitrary date, yet to be decided
-            let woiOldDate = "2000-01-01"
-            return "woi=\(woiOldDate)"
+    var weekOfInstallationParam: String {
+        guard let woi = prefs.stringForKey(DAU.weekOfInstallationKeyPrefKey) else {
+            log.error("woi, is nil")
+            return ""
         }
+        return "&woi=\(woi)"
     }
     
     /// Returns nil if no dau changes detected.
-    func dauStatParams(_ dauStat: [Any]?) -> String? {
+    func dauStatParams(_ dauStat: [Any]?, firstLaunch isFirstLaunch: Bool) -> String? {
+        func dauParams(_ daily: Bool, _ weekly: Bool, _ monthly: Bool) -> String {
+            return "&daily=\(daily)&weekly=\(weekly)&monthly=\(monthly)"
+        }
+        
+        if isFirstLaunch {
+            return dauParams(true, true, true)
+        }
+        
         let month = todayComponents.month
         let year = todayComponents.year
         
@@ -128,6 +143,8 @@ struct DAU {
         let _year = stat[2]
         let SECONDS_IN_A_DAY = 86400
         let SECONDS_IN_A_WEEK = 7 * 86400
+        
+        // On first launch, the user is all three of these
         let daily = dSecs >= SECONDS_IN_A_DAY
         let weekly = dSecs >= SECONDS_IN_A_WEEK
         let monthly = month != _month || year != _year
@@ -137,7 +154,7 @@ struct DAU {
             return nil
         }
         
-        return "&daily=\(daily)&weekly=\(weekly)&monthly=\(monthly)"
+        return dauParams(daily, weekly, monthly)
     }
 }
 

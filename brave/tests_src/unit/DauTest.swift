@@ -30,7 +30,8 @@ class DauTest: XCTestCase {
         XCTAssertNotNil(prefs.arrayForKey(DAU.preferencesKey))
         XCTAssertNotNil(prefs.stringForKey(DAU.weekOfInstallationKeyPrefKey))
         
-        XCTAssertEqual(params!, "&channel=beta&version=\(AppInfo.appVersion)&first=true&woi=2017-11-20")
+        XCTAssertEqual(params!,
+                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=true&monthly=true&first=true&woi=2017-11-20")
     }
     
     func testNotFirstLaunchSkipDau() {
@@ -74,25 +75,39 @@ class DauTest: XCTestCase {
         let dailyParams = dauSecondLaunch.paramsAndPrefsSetup()
         XCTAssertNotNil(dailyParams)
         XCTAssertEqual(dailyParams!,
-                       "&channel=beta&version=\(AppInfo.appVersion)&first=false&woi=\(woiPrefs)&daily=true&weekly=false&monthly=false")
+                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=false&monthly=false&first=false&woi=\(woiPrefs)")
         
         // Weekly check
         let weeklyFutureDate = dateFrom(string: "2017-11-30")
         let weeklyParams = DAU(prefs: prefs, date: weeklyFutureDate).paramsAndPrefsSetup()
         XCTAssertNotNil(weeklyParams)
         XCTAssertEqual(weeklyParams!,
-                       "&channel=beta&version=\(AppInfo.appVersion)&first=false&woi=\(woiPrefs)&daily=true&weekly=true&monthly=false")
+                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=true&monthly=false&first=false&woi=\(woiPrefs)")
         
         // Monthly check
         let monthlyFutureDate = dateFrom(string: "2017-12-20")
         let monthlyParams = DAU(prefs: prefs, date: monthlyFutureDate).paramsAndPrefsSetup()
         XCTAssertNotNil(monthlyParams)
         XCTAssertEqual(monthlyParams!,
-                       "&channel=beta&version=\(AppInfo.appVersion)&first=false&woi=\(woiPrefs)&daily=true&weekly=true&monthly=true")
+                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=true&monthly=true&first=false&woi=\(woiPrefs)")
     }
     
     func testArbitraryWoiDate() {
-        // TODO: Logic regarding this is yet to be decided
+        let date = dateFrom(string: "2017-11-22")
+        
+        prefs.setObject([10, 10, 10], forKey: DAU.preferencesKey)
+        
+        let dau = DAU(prefs: prefs, date: date)
+        
+        XCTAssertNil(prefs.stringForKey(DAU.weekOfInstallationKeyPrefKey))
+        
+        let params = dau.paramsAndPrefsSetup()
+        let defaultDate = DAU.defaultWoiDate
+        
+        XCTAssertEqual(params!,
+                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=true&monthly=true&first=false&woi=\(defaultDate)")
+        
+        XCTAssertNotNil(prefs.stringForKey(DAU.weekOfInstallationKeyPrefKey))
     }
     
     func testMondayOfWeek() {
