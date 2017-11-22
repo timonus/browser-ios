@@ -69,7 +69,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     // Swift Selectors hate class method on extensions, this just wraps the behavior
     // Also, must be public
     func updateDauStatWrapper() {
-        BraveApp.updateDauStat()
+        guard let prefs = profile?.prefs else {
+            log.warning("Couldn't find profile, unable to send dau stats!")
+            return
+        }
+        
+        let dau = DAU(prefs: prefs)
+        dau.sendPingToServer()
     }
     
     fileprivate func startApplication(_ application: UIApplication,  withLaunchOptions launchOptions: [AnyHashable: Any]?) -> Bool {
