@@ -298,7 +298,7 @@ class TabTrayController: UIViewController {
     lazy var doneButton: UIButton = {
         let button = UIButton()
         button.setTitle(Strings.Done, for: .normal)
-        button.setTitleColor(UIColor(rgb: 0x666666), for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: button.titleLabel!.font.pointSize + 1, weight: UIFontWeightRegular)
         button.contentEdgeInsets = UIEdgeInsetsMake(0, 4 /* left */, 0, 4 /* right */)
         button.layer.cornerRadius = 4.0
