@@ -430,6 +430,7 @@ class TabTrayController: UIViewController {
         // privateMode setter to setup final visuals
         let selectedTabIsPrivate = tabManager.selectedTab?.isPrivate ?? false
         privateMode = PrivateBrowsing.singleton.isOn || selectedTabIsPrivate
+        doneButton.setTitleColor(privateMode ? UIColor.white : UIColor.black, for: .normal)
 
         NotificationCenter.default.addObserver(self, selector: #selector(TabTrayController.SELappWillResignActiveNotification), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(TabTrayController.SELappDidBecomeActiveNotification), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
@@ -574,6 +575,9 @@ class TabTrayController: UIViewController {
         }
 
         privateMode = !privateMode
+        
+        doneButton.setTitleColor(privateMode ? UIColor.white : UIColor.black, for: .normal)
+        
         if privateMode {
             PrivateBrowsing.singleton.enter()
         } else {
