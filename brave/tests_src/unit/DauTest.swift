@@ -31,7 +31,7 @@ class DauTest: XCTestCase {
         XCTAssertNotNil(prefs.stringForKey(DAU.weekOfInstallationKeyPrefKey))
         
         XCTAssertEqual(params!,
-                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=true&monthly=true&first=true&woi=2017-11-20")
+                       "&channel=beta&version=\(appVersion)&daily=true&weekly=true&monthly=true&first=true&woi=2017-11-20")
     }
     
     func testNotFirstLaunchSkipDau() {
@@ -75,21 +75,21 @@ class DauTest: XCTestCase {
         let dailyParams = dauSecondLaunch.paramsAndPrefsSetup()
         XCTAssertNotNil(dailyParams)
         XCTAssertEqual(dailyParams!,
-                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=false&monthly=false&first=false&woi=\(woiPrefs)")
+                       "&channel=beta&version=\(appVersion)&daily=true&weekly=false&monthly=false&first=false&woi=\(woiPrefs)")
         
         // Weekly check
         let weeklyFutureDate = dateFrom(string: "2017-11-30")
         let weeklyParams = DAU(prefs: prefs, date: weeklyFutureDate).paramsAndPrefsSetup()
         XCTAssertNotNil(weeklyParams)
         XCTAssertEqual(weeklyParams!,
-                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=true&monthly=false&first=false&woi=\(woiPrefs)")
+                       "&channel=beta&version=\(appVersion)&daily=true&weekly=true&monthly=false&first=false&woi=\(woiPrefs)")
         
         // Monthly check
         let monthlyFutureDate = dateFrom(string: "2017-12-20")
         let monthlyParams = DAU(prefs: prefs, date: monthlyFutureDate).paramsAndPrefsSetup()
         XCTAssertNotNil(monthlyParams)
         XCTAssertEqual(monthlyParams!,
-                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=true&monthly=true&first=false&woi=\(woiPrefs)")
+                       "&channel=beta&version=\(appVersion)&daily=true&weekly=true&monthly=true&first=false&woi=\(woiPrefs)")
     }
     
     func testArbitraryWoiDate() {
@@ -105,7 +105,7 @@ class DauTest: XCTestCase {
         let defaultDate = DAU.defaultWoiDate
         
         XCTAssertEqual(params!,
-                       "&channel=beta&version=\(AppInfo.appVersion)&daily=true&weekly=true&monthly=true&first=false&woi=\(defaultDate)")
+                       "&channel=beta&version=\(appVersion)&daily=true&weekly=true&monthly=true&first=false&woi=\(defaultDate)")
         
         XCTAssertNotNil(prefs.stringForKey(DAU.weekOfInstallationKeyPrefKey))
     }
@@ -133,6 +133,17 @@ class DauTest: XCTestCase {
         XCTAssertEqual(sunday.weeksMonday, "2017-11-27")
     }
     
+    func testAppend0ToAppVersion() {
+        XCTAssertFalse(DAU.shouldAppend0ToAppVersion("1.5.2"))
+        XCTAssertFalse(DAU.shouldAppend0ToAppVersion("1.52.2"))
+        XCTAssertFalse(DAU.shouldAppend0ToAppVersion("11.5.23"))
+        XCTAssertFalse(DAU.shouldAppend0ToAppVersion("11.55.23"))
+        
+        XCTAssertTrue(DAU.shouldAppend0ToAppVersion("1.5"))
+        XCTAssertTrue(DAU.shouldAppend0ToAppVersion("11.5"))
+        XCTAssertTrue(DAU.shouldAppend0ToAppVersion("1.10"))
+    }
+    
     private func componentsOfDate(_ dateString: String) -> DateComponents {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -147,5 +158,9 @@ class DauTest: XCTestCase {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
         return dateFormatter.date(from: string)!
+    }
+    
+    private var appVersion: String {
+        return DAU.shouldAppend0ToAppVersion(AppInfo.appVersion) ? AppInfo.appVersion + ".0" : AppInfo.appVersion
     }
 }
