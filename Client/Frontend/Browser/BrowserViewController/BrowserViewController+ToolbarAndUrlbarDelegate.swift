@@ -235,7 +235,6 @@ extension BrowserViewController: BrowserToolbarDelegate {
     }
 
     func browserToolbarDidPressShare(_ browserToolbar: BrowserToolbarProtocol, button: UIButton) {
-        telemetry("Share Button Pressed", props: ["bottomToolbar": "\(browserToolbar as? BraveBrowserBottomToolbar != nil)"])
         if let tab = tabManager.selectedTab, let url = tab.displayURL {
             let sourceView = self.navigationToolbar.shareButton
             presentActivityViewController(url, tab: tab, sourceView: sourceView.superview, sourceRect: sourceView.frame, arrowDirection: .up)

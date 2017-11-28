@@ -4,7 +4,7 @@ struct BraveUX {
     static let IsRelease = Bundle.main.bundleIdentifier == "com.brave.ios.browser"
 
     static let BraveCommunityURL = URL(string: "https://community.brave.com/")!
-    static let BravePrivacyURL = URL(string: "https://www.brave.com/privacy_ios")!
+    static let BravePrivacyURL = URL(string: "https://brave.com/privacy/")!
     static let PrefKeyOptInDialogWasSeen = "OptInDialogWasSeen"
     static let PrefKeyUserAllowsTelemetry = "userallowstelemetry"
 

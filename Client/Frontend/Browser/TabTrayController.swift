@@ -575,10 +575,8 @@ class TabTrayController: UIViewController {
 
         privateMode = !privateMode
         if privateMode {
-            telemetry("Entering Private Mode", props: nil)
             PrivateBrowsing.singleton.enter()
         } else {
-            telemetry("Leaving Private Mode", props: nil)
             view.isUserInteractionEnabled = false
             let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
             activityView.center = view.center

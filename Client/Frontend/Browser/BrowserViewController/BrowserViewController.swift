@@ -899,7 +899,7 @@ class BrowserViewController: UIViewController {
 
     var helper:ShareExtensionHelper!
     
-    func presentActivityViewController(_ url: URL, tab: Browser, sourceView: UIView?, sourceRect: CGRect, arrowDirection: UIPopoverArrowDirection) {
+    func presentActivityViewController(_ url: URL, tab: Browser?, sourceView: UIView?, sourceRect: CGRect, arrowDirection: UIPopoverArrowDirection) {
         var activities = [UIActivity]()
         
         let findInPageActivity = FindInPageActivity() { [unowned self] in
@@ -929,7 +929,7 @@ class BrowserViewController: UIViewController {
                                       arrowDirection: arrowDirection)
     }
 
-    private func handleActivityViewDismiss(with success: Bool, using tab: Browser) {
+    private func handleActivityViewDismiss(with success: Bool, using tab: Browser?) {
         // After dismissing, check to see if there were any prompts we queued up
         showQueuedAlertIfAvailable()
         
@@ -948,7 +948,7 @@ class BrowserViewController: UIViewController {
     }
     
     func presentActivityViewController(controller: UIActivityViewController,
-                                       tab: Browser,
+                                       tab: Browser?,
                                        sourceView: UIView?,
                                        sourceRect: CGRect,
                                        arrowDirection: UIPopoverArrowDirection) {
