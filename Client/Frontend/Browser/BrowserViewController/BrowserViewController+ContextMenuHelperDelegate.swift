@@ -165,7 +165,8 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         return UIAlertAction(title: newTabTitle, style: UIAlertActionStyle.default) {
             [weak alertController] (action: UIAlertAction) in
             alertController?.view.tag = 0 // BRAVE: clear this to allow navigation
-            if self.tabManager.tabCount == 1 { getApp().browserViewController.scrollController.showToolbars(animated: true)}
+            
+            getApp().browserViewController.scrollController.showToolbars(animated: true)
             _ = self.tabManager.addTab(NSURLRequest(url: url) as URLRequest, index: self.tabManager.currentIndex?.advanced(by: 1))
         }
     }
