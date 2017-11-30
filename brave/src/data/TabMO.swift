@@ -7,6 +7,7 @@ import FastImageCache
 import Shared
 
 typealias SavedTab = (id: String, title: String, url: String, isSelected: Bool, order: Int16, screenshot: UIImage?, history: [String], historyIndex: Int16)
+private let log = Logger.browserLogger
 
 class TabMO: NSManagedObject {
     
@@ -156,9 +157,9 @@ class TabMO: NSManagedObject {
             let forwardListMap = forwardList.map { $0.URL.absoluteString }
             var currentItemString = currentItem.URL.absoluteString
             
-            debugPrint("backList: \(backListMap)")
-            debugPrint("forwardList: \(forwardListMap)")
-            debugPrint("currentItem: \(currentItemString)")
+            log.debug("backList: \(backListMap)")
+            log.debug("forwardList: \(forwardListMap)")
+            log.debug("currentItem: \(currentItemString)")
             
             /* Completely ignore forward history when passing urlOverride. When a webpage
                hasn't fully loaded we attempt to preserve the current state of the webview.
@@ -185,11 +186,17 @@ class TabMO: NSManagedObject {
                 currentPage = -forwardList.count
             }
             
-            debugPrint("---stack: \(urls)")
+            log.debug("---stack: \(urls)")
         }
         if let id = TabMO.getByID(tab.tabID, context: context)?.syncUUID {
-            let urlTitle = tab.displayTitle != "" ? tab.displayTitle : urlOverride ?? ""
-            let data = SavedTab(id, urlTitle, urlOverride ?? tab.lastRequest!.url!.absoluteString, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
+            let title = tab.displayTitle != "" ? tab.displayTitle : urlOverride ?? ""
+            if urlOverride == nil && tab.url == nil {
+                log.warning("Missing tab url, using empty string as a fallback. Should not happen.")
+            }
+            
+            let url = tab.url?.absoluteString ?? ""
+            
+            let data = SavedTab(id, title, urlOverride ?? url, tabManager.selectedTab === tab, Int16(order), nil, urls, Int16(currentPage))
             return data
         }
         
