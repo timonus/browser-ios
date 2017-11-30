@@ -21,6 +21,7 @@
 		08A6B9B1A574E15F5AD1DDC2 /* BrowserTrayAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F371D05B609063A51549E8 /* BrowserTrayAnimators.swift */; };
 		08BC96A6EFBA13BBE99C9A0F /* BraveUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8856E29DAA2D9EAC4F9A85 /* BraveUtil.swift */; };
 		0A14A8BA1997EFDD9BF4F08A /* Favicons.js in Resources */ = {isa = PBXBuildFile; fileRef = 9C0FE62111208C1C3C2CF16A /* Favicons.js */; };
+		0A159C931FD017DB005A79BF /* DeviceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A159C921FD017DB005A79BF /* DeviceDetector.swift */; };
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
@@ -893,6 +894,7 @@
 		08373AAA053C26FAD1A95023 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = ./Storage/Info.plist; sourceTree = "<group>"; };
 		0994D8CB826BBAE3C446B125 /* Crasher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Crasher.h; path = ./Client/Application/Crasher.h; sourceTree = "<group>"; };
 		09B26BBAC8D68EFA2A333975 /* CharisSILR.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = CharisSILR.ttf; path = ./Client/Assets/Fonts/CharisSILR.ttf; sourceTree = "<group>"; };
+		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
 		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -2272,6 +2274,7 @@
 			isa = PBXGroup;
 			children = (
 				5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */,
+				0A159C921FD017DB005A79BF /* DeviceDetector.swift */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -4442,7 +4445,6 @@
 				1FA81E870F3EAE5C8FB9269C /* BrowserViewController+ContextMenuHelperDelegate.swift in Sources */,
 				5C67126F8B355442E99D9EDB /* BrowserViewController+FindInPage.swift in Sources */,
 				49603E1E5183CDC3BD1C2D09 /* BrowserViewController+KeyCommands.swift in Sources */,
-				5C1A9E9B1F97E2F80071495E /* AlertPopupView.swift in Sources */,
 				5C2CD4481F72FA6C004AAB5D /* TopSite.swift in Sources */,
 				5D27859A1E70D7EF0066EC15 /* JSInjector.swift in Sources */,
 				C1F07A6A18FC4630EA937E6B /* BrowserViewController+ReaderModeDelegate.swift in Sources */,
@@ -4459,6 +4461,7 @@
 				EB00A3081E1BF4CC00680DB8 /* hashFn.cpp in Sources */,
 				91B903FBE39F640B651928D0 /* FaviconManager.swift in Sources */,
 				EBDB7D471E14231900D744C7 /* Sync.swift in Sources */,
+				0A159C931FD017DB005A79BF /* DeviceDetector.swift in Sources */,
 				B12303762D2ADF302DF8F575 /* FindInPageBar.swift in Sources */,
 				57A89B3DB802440164DBCA3E /* FindInPageHelper.swift in Sources */,
 				BAE512B7D2251A8207EBA7D4 /* LoginsHelper.swift in Sources */,
