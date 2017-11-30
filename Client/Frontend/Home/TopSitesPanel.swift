@@ -276,6 +276,10 @@ class TopSitesPanel: UIViewController {
             collection?.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
             privateTabMessageContainer.isHidden = !PrivateBrowsing.singleton.isOn
             braveShieldStatsView?.timeStatView.color = PrivateBrowsing.singleton.isOn ? .white : .black
+            // Handling edge case when app starts in private only browsing mode and is switched back to normal mode.
+            if collection?.dataSource == nil && !PrivateBrowsing.singleton.isOn {
+                collection?.dataSource = dataSource
+            }
             collection?.reloadData()
             break
         default:
