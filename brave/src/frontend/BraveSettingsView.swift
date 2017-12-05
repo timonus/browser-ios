@@ -204,16 +204,35 @@ extension BraveSettingsView : PinViewControllerDelegate {
 
 class VersionSetting : Setting {
     let settings: SettingsTableViewController
+    private let appVersion: String
+    private let buildNumber: String
 
     init(settings: SettingsTableViewController) {
         self.settings = settings
+        appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
+        buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
         super.init(title: nil)
     }
 
     override var title: NSAttributedString? {
-        let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         return NSAttributedString(string: String(format: Strings.Version_template, appVersion, buildNumber), attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+    
+    override func onClick(_ navigationController: UINavigationController?) {
+        let device = UIDevice.current
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let version = String(format: Strings.Version_template, appVersion, buildNumber)
+        let iOSVersion = "\(device.systemName) \(UIDevice.current.systemVersion)"
+        
+        let deviceModel = String(format: Strings.Device_template, device.modelName, iOSVersion)
+        let copyDebugInfoAction = UIAlertAction(title: Strings.Copy_app_info_to_clipboard, style: .default) { _ in
+            UIPasteboard.general.strings = [version, deviceModel]
+        }
+        
+        actionSheet.addAction(copyDebugInfoAction)
+        actionSheet.addAction(UIAlertAction(title: Strings.Cancel, style: .cancel, handler: nil))
+        navigationController?.present(actionSheet, animated: true, completion: nil)
     }
 
     override func onConfigureCell(_ cell: UITableViewCell) {
@@ -434,5 +453,3 @@ class CrashDebugSettings: Setting, XMLParserDelegate, UIAlertViewDelegate {
         #endif
     }
 }
-
-

@@ -25,6 +25,7 @@
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
+		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
 		0A8053961FC59D82008D6822 /* DAU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053951FC59D82008D6822 /* DAU.swift */; };
 		0A8053981FC59D93008D6822 /* DauTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053971FC59D93008D6822 /* DauTest.swift */; };
 		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
@@ -894,6 +895,7 @@
 		08373AAA053C26FAD1A95023 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = ./Storage/Info.plist; sourceTree = "<group>"; };
 		0994D8CB826BBAE3C446B125 /* Crasher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Crasher.h; path = ./Client/Application/Crasher.h; sourceTree = "<group>"; };
 		09B26BBAC8D68EFA2A333975 /* CharisSILR.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = CharisSILR.ttf; path = ./Client/Assets/Fonts/CharisSILR.ttf; sourceTree = "<group>"; };
+		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
 		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
@@ -2274,6 +2276,7 @@
 			isa = PBXGroup;
 			children = (
 				5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */,
+				0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */,
 				0A159C921FD017DB005A79BF /* DeviceDetector.swift */,
 			);
 			name = util;
@@ -4419,6 +4422,7 @@
 				968634F419DEA85A0922394A /* WebViewScripting.swift in Sources */,
 				5C0FCE5C1E637C160016DF0F /* SyncPairCameraViewController.swift in Sources */,
 				CCAC3364419AA9AB527A29B9 /* TPParser.cpp in Sources */,
+				0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */,
 				D50043B62400690CFBBB5859 /* AdjustIntegration.swift in Sources */,
 				5E6571D452F3C000461D2481 /* AppDelegate.swift in Sources */,
 				19503FBC8FFDBFB991DC9387 /* CrashReporter.swift in Sources */,

@@ -322,6 +322,8 @@ extension Strings {
     public static let Opt_in_to_telemetry = NSLocalizedString("Send crash reports and metrics", comment: "option in settings screen")
     public static let About = NSLocalizedString("About", comment: "About settings section title")
     public static let Version_template = NSLocalizedString("Version %@ (%@)", comment: "Version number of Brave shown in settings")
+    public static let Device_template = NSLocalizedString("Device %@ (%@)", comment: "Current device model and iOS version copied to clipboard.")
+    public static let Copy_app_info_to_clipboard = NSLocalizedString("Copy app info to clipboard.", comment: "Copy app info to clipboard action sheet action.")
     public static let Password_manager_button_settings_footer = NSLocalizedString("You can choose to show a popup to pick your password manager, or have the selected one open automatically.", comment: "Footer message on picker for 3rd party password manager setting")
     public static let Password_manager_button = NSLocalizedString("Password Manager Button", comment: "Setting for behaviour of password manager button")
     public static let Block_3rd_party_cookies = NSLocalizedString("Block 3rd party cookies", comment: "cookie settings option")
