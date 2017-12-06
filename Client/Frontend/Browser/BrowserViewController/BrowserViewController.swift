@@ -99,6 +99,9 @@ class BrowserViewController: UIViewController {
     }
 
     static var instanceAsserter = 0 // Brave: it is easy to get confused as to which fx classes are effectively singletons
+    
+    /// Flag to check if keyboard was triggered by find in page action.
+    fileprivate var showKeyboardFromFindInPage = false
 
     init(profile: Profile, tabManager: TabManager) {
         self.profile = profile
@@ -1000,6 +1003,9 @@ class BrowserViewController: UIViewController {
                 findInPageBar.layoutIfNeeded()
             }
 
+            // Workaround for #1297.
+            // We need to set this flag so `keyboardWillShow` notication won't show password manager button when not needed
+            showKeyboardFromFindInPage = true
             self.findInPageBar?.becomeFirstResponder()
         } else if let findInPageBar = self.findInPageBar {
             findInPageBar.endEditing(true)
@@ -1162,8 +1168,15 @@ extension BrowserViewController: KeyboardHelperDelegate {
             if !urlBar.pwdMgrButton.isHidden || loginsHelper.getKeyboardAccessory() != nil {
                 return
             }
-
-                loginsHelper.passwordManagerButtonSetup({ (shouldShow) in
+            
+            // Workaround for #1297. We don't want to check for password manager when find in page action is tapped.
+            // Both use keyboard notification so there is no easy way to distinguish between the two.
+            if showKeyboardFromFindInPage {
+                showKeyboardFromFindInPage = false
+                return
+            }
+            
+            loginsHelper.passwordManagerButtonSetup({ (shouldShow) in
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     self.urlBar.pwdMgrButton.isHidden = !shouldShow
                     
