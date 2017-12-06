@@ -83,7 +83,7 @@ class BraveScrollController: NSObject {
     fileprivate var contentSize: CGSize { return scrollView?.contentSize ?? CGSize.zero }
     fileprivate var scrollViewHeight: CGFloat { return scrollView?.frame.height ?? 0 }
     fileprivate var topScrollHeight: CGFloat { return header?.frame.height ?? 0 }
-    fileprivate var bottomScrollHeight: CGFloat { return urlBar?.frame.height ?? 0 }
+    fileprivate var bottomScrollHeight: CGFloat { return footer?.frame.height ?? 0 }
     fileprivate var footerHeight: CGFloat { return footer?.frame.height ?? 0 }
     fileprivate var snackBarsFrame: CGRect { return snackBars?.frame ?? CGRect.zero }
     

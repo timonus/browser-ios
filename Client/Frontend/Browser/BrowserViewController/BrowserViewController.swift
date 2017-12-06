@@ -459,6 +459,13 @@ class BrowserViewController: UIViewController {
         super.viewDidLayoutSubviews()
         log.debug("BVC done.")
     }
+    
+    override func viewSafeAreaInsetsDidChange() {
+        if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+            let keyboardHeight = keyboardState?.intersectionHeightForView(self.view) ?? 0
+            adjustFindInPageBar(safeArea: keyboardHeight == 0)
+        }
+    }
 
     func loadQueuedTabs() {
         log.debug("Loading queued tabs in the background.")
@@ -630,7 +637,7 @@ class BrowserViewController: UIViewController {
             make.left.right.equalTo(self.footer)
             make.height.equalTo(UIConstants.ToolbarHeight) // Set this to toolbar height. Use BottomToolbarHeight for hiding footer
             if #available(iOS 11.0, *) {
-                make.bottom.equalTo(self.footer).inset(self.view.safeAreaInsets.bottom)
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
             } else {
                 make.bottom.equalTo(self.footer)
             }
@@ -638,7 +645,12 @@ class BrowserViewController: UIViewController {
         urlBar.setNeedsUpdateConstraints()
         
         webViewContainer.snp.remakeConstraints { make in
-            make.left.right.equalTo(self.view)
+            if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+                make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
+                make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
+            } else {
+                make.left.right.equalTo(self.view)
+            }
             make.top.equalTo(self.header.snp.bottom)
             
             let findInPageHeight = (findInPageBar == nil) ? 0 : UIConstants.ToolbarHeight
@@ -1016,6 +1028,20 @@ class BrowserViewController: UIViewController {
             updateViewConstraints()
         }
     }
+    
+    /// There is only one case when search bar needs additional bottom inset:
+    /// iPhoneX horizontal with keyboard hidden.
+    fileprivate func adjustFindInPageBar(safeArea: Bool) {
+        if #available(iOS 11, *), DeviceDetector.iPhoneX, let bar = findInPageBar {
+            bar.snp.updateConstraints { make in
+                if safeArea && BraveApp.isIPhoneLandscape() {
+                    make.bottom.equalTo(findInPageContainer).inset(self.view.safeAreaInsets.bottom)
+                } else {
+                    make.bottom.equalTo(findInPageContainer)
+                }
+            }
+        }
+    }
 
     override var canBecomeFirstResponder : Bool {
         return true
@@ -1161,7 +1187,7 @@ extension BrowserViewController: KeyboardHelperDelegate {
             self.snackBars.layoutIfNeeded()
         }
 
-
+        adjustFindInPageBar(safeArea: false)
 
         if let loginsHelper = tabManager.selectedTab?.getHelper(LoginsHelper) {
             // keyboardWillShowWithState is called during a hide (brilliant), and because PW button setup is async make sure to exit here if already showing the button, or the show code will be called after kb hide
@@ -1195,6 +1221,8 @@ extension BrowserViewController: KeyboardHelperDelegate {
     func keyboardHelper(_ keyboardHelper: KeyboardHelper, keyboardWillHideWithState state: KeyboardState) {
         keyboardState = nil
         updateViewConstraints()
+        
+        adjustFindInPageBar(safeArea: true)
 
         UIView.animate(withDuration: state.animationDuration) {
             UIView.setAnimationCurve(state.animationCurve)

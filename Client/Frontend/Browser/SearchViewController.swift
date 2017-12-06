@@ -68,10 +68,23 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
     // scrollable container; searchEngineScrollViewContent contains the actual set of search engine buttons.
     fileprivate let searchEngineScrollView = ButtonScrollView()
     fileprivate let searchEngineScrollViewContent = UIView()
+    fileprivate let searchEngineBackgroundView = UIView()
 
     fileprivate lazy var bookmarkedBadge: UIImage = {
         return UIImage(named: "bookmarked_passive")!
     }()
+    
+    lazy var searchButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "quickSearch"), for: .normal)
+        button.imageView?.contentMode = UIViewContentMode.center
+        button.layer.backgroundColor = SearchViewControllerUX.EngineButtonBackgroundColor
+        button.addTarget(self, action: #selector(SearchViewController.SELdidClickSearchButton), for: UIControlEvents.touchUpInside)
+        button.accessibilityLabel = Strings.Search_Settings
+        
+        return button
+    }()
+    
 
     // Cell for the suggestion flow layout. Since heightForHeaderInSection is called *before*
     // cellForRowAtIndexPath, we create the cell to find its height before it's added to the table.
@@ -98,10 +111,11 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
 
         KeyboardHelper.defaultHelper.addDelegate(self)
 
-        searchEngineScrollView.layer.backgroundColor = UIConstants.TableViewHeaderBackgroundColor.cgColor
+        searchEngineBackgroundView.backgroundColor = UIConstants.TableViewHeaderBackgroundColor
 
         searchEngineScrollView.decelerationRate = UIScrollViewDecelerationRateFast
-        view.addSubview(searchEngineScrollView)
+        view.addSubview(searchEngineBackgroundView)
+        searchEngineBackgroundView.addSubview(searchEngineScrollView)
 
         searchEngineScrollViewContent.layer.backgroundColor = UIColor.clear.cgColor
         searchEngineScrollView.addSubview(searchEngineScrollViewContent)
@@ -109,18 +123,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         layoutTable()
         layoutSearchEngineScrollView()
 
-        searchEngineScrollViewContent.snp.makeConstraints { make in
-            make.center.equalTo(self.searchEngineScrollView).priorityLow()
-            //left-align the engines on iphones, center on ipad
-            if(UIScreen.main.traitCollection.horizontalSizeClass == .compact) {
-                make.left.equalTo(self.searchEngineScrollView).priorityHigh()
-            } else {
-                make.left.greaterThanOrEqualTo(self.searchEngineScrollView).priorityHigh()
-            }
-            make.right.lessThanOrEqualTo(self.searchEngineScrollView).priorityHigh()
-            make.top.equalTo(self.searchEngineScrollView)
-            make.bottom.equalTo(self.searchEngineScrollView)
-        }
+        makeSearchEngineScrollViewContent()
 
         blur.snp.makeConstraints { make in
             make.edges.equalTo(self.view)
@@ -129,6 +132,21 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         suggestionCell.delegate = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(SearchViewController.SELDynamicFontChanged(_:)), name: NotificationDynamicFontChanged, object: nil)
+    }
+    
+    private func makeSearchEngineScrollViewContent() {
+        searchEngineScrollViewContent.snp.makeConstraints { make in
+            make.center.equalTo(self.searchEngineScrollView).priority(250)
+            //left-align the engines on iphones, center on ipad
+            if(UIScreen.main.traitCollection.horizontalSizeClass == .compact) {
+                make.left.equalTo(self.searchEngineScrollView).priority(1000)
+            } else {
+                make.left.greaterThanOrEqualTo(self.searchEngineScrollView).priority(1000)
+            }
+            make.right.lessThanOrEqualTo(self.searchEngineScrollView).priority(1000)
+            make.top.equalTo(self.searchEngineScrollView)
+            make.bottom.equalTo(self.searchEngineScrollView)
+        }
     }
 
     deinit {
@@ -150,8 +168,34 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
     fileprivate func layoutSearchEngineScrollView() {
         let keyboardHeight = KeyboardHelper.defaultHelper.currentState?.intersectionHeightForView(self.view) ?? 0
         searchEngineScrollView.snp.remakeConstraints { make in
+            
+            if #available(iOS 11, *), DeviceDetector.iPhoneX {
+                make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
+                make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
+                
+                // Adjusting for safe area only if keyboard is hidden
+                let safeAreaBottom = keyboardHeight == 0 ? self.view.safeAreaInsets.bottom : 0
+                make.bottom.equalTo(self.view).offset(-keyboardHeight - safeAreaBottom)
+            } else {
+                make.left.right.equalTo(self.view)
+                make.bottom.equalTo(self.view).offset(-keyboardHeight)
+            }
+        }
+        
+        searchEngineBackgroundView.snp.remakeConstraints { make in
+            make.top.equalTo(searchEngineScrollView.snp.top)
             make.left.right.equalTo(self.view)
             make.bottom.equalTo(self.view).offset(-keyboardHeight)
+        }
+        
+        searchEngineScrollView.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
+    override func viewSafeAreaInsetsDidChange() {
+        if #available(iOS 11, *), DeviceDetector.iPhoneX {
+            searchButton.snp.updateConstraints { make in
+                make.left.equalTo(self.view.safeAreaInsets).offset(searchButtonLeftOffset)
+            }
         }
     }
 
@@ -292,7 +336,14 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         }
 
         prompt.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(self.view)
+            make.top.equalTo(self.view)
+            if #available(iOS 11, *), DeviceDetector.iPhoneX {
+                make.leading.equalTo(self.view.safeAreaLayoutGuide.snp.leading)
+                make.trailing.equalTo(self.view.safeAreaLayoutGuide.snp.trailing)
+            } else {
+                make.leading.equalTo(self.view)
+                make.trailing.equalTo(self.view)
+            }
         }
 
         layoutTable()
@@ -312,22 +363,29 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
     fileprivate func layoutTable() {
         tableView.snp.remakeConstraints { make in
             make.top.equalTo(self.suggestionPrompt?.snp.bottom ?? self.view.snp.top)
-            make.leading.trailing.equalTo(self.view)
+            
+            if #available(iOS 11, *) {
+                make.leading.equalTo(self.view.safeAreaLayoutGuide.snp.leading)
+                make.trailing.equalTo(self.view.safeAreaLayoutGuide.snp.trailing)
+            } else {
+                make.leading.trailing.equalTo(self.view)
+            }
             make.bottom.equalTo(self.searchEngineScrollView.snp.top)
+        }
+    }
+    
+    /// Returns custom offset on ipX horizontal to get search button nicely aligned.
+    var searchButtonLeftOffset: CGFloat {
+        if #available(iOS 11, *), DeviceDetector.iPhoneX, BraveApp.isIPhoneLandscape() {
+            return 8
+        } else {
+            return SearchViewControllerUX.PromptInsets.left
         }
     }
 
     fileprivate func reloadSearchEngines() {
         searchEngineScrollViewContent.subviews.forEach { $0.removeFromSuperview() }
         var leftEdge = searchEngineScrollViewContent.snp.left
-
-        //search settings icon
-        let searchButton = UIButton()
-        searchButton.setImage(UIImage(named: "quickSearch"), for: .normal)
-        searchButton.imageView?.contentMode = UIViewContentMode.center
-        searchButton.layer.backgroundColor = SearchViewControllerUX.EngineButtonBackgroundColor
-        searchButton.addTarget(self, action: #selector(SearchViewController.SELdidClickSearchButton), for: UIControlEvents.touchUpInside)
-        searchButton.accessibilityLabel = Strings.Search_Settings
 
         searchButton.imageView?.snp.makeConstraints { make in
             make.width.height.equalTo(SearchViewControllerUX.SearchImageWidth)
@@ -339,7 +397,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
             make.width.equalTo(SearchViewControllerUX.SearchImageWidth)
             make.height.equalTo(SearchViewControllerUX.SearchImageHeight)
             //offset the left edge to align with search results
-            make.left.equalTo(leftEdge).offset(SearchViewControllerUX.PromptInsets.left)
+            make.left.equalTo(leftEdge).offset(searchButtonLeftOffset)
             make.top.equalTo(self.searchEngineScrollViewContent)
             make.bottom.equalTo(self.searchEngineScrollViewContent)
         }

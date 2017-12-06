@@ -45,6 +45,13 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
     let statScriptsBlocked = UILabel()
 
     let ui_edgeInset = CGFloat(20)
+    var ui_rightEdgeInset: CGFloat {
+        if #available(iOS 11, *), DeviceDetector.iPhoneX, BraveApp.isIPhoneLandscape() {
+            return self.view.safeAreaInsets.right
+        } else {
+            return 20
+        }
+    }
     let ui_sectionTitleHeight = CGFloat(26)
     let ui_sectionTitleFontSize = CGFloat(15)
     let ui_siteNameSectionHeight = CGFloat(40)
@@ -79,6 +86,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         var height: CGFloat = 0.0
         containerView.subviews.forEach { height += $0.bounds.size.height }
         viewAsScrollView().contentSize = CGSize(width: containerView.frame.width, height: height)
+        viewAsScrollView().setContentOffset(CGPoint.zero, animated: false)
     }
 
     @objc func pageChanged() {
@@ -122,6 +130,24 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         
         return divider
     }
+    
+    override func viewSafeAreaInsetsDidChange() {
+        if !view.isHidden {
+            updateConstraintsForPanelSections()
+            updateHorizontalConstraintsForIphoneX()
+        }
+    }
+    
+    override func setupConstraints() {
+        super.setupConstraints()
+        updateHorizontalConstraintsForIphoneX()
+    }
+    
+    private func updateHorizontalConstraintsForIphoneX() {
+        shieldToggle.snp.updateConstraints { make in
+            make.right.equalTo(headerContainer.superview!).inset(ui_rightEdgeInset)
+        }
+    }
 
     override func setupUIElements() {
         super.setupUIElements()
@@ -164,7 +190,12 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         sections.forEach { containerView.addSubview($0) }
         sections.enumerated().forEach { i, section in
             section.snp.makeConstraints({ (make) in
-                make.left.right.equalTo(section.superview!)
+                make.left.equalTo(section.superview!)
+                if #available(iOS 11, *), section !== headerContainer {
+                    make.right.equalTo(section.superview!.safeAreaLayoutGuide.snp.right)
+                } else {
+                    make.right.equalTo(section.superview!)
+                }
 
                 if i == 0 {
                     make.top.equalTo(section.superview!)
@@ -227,7 +258,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             
             shieldToggle.snp.makeConstraints {
                 make in
-                make.right.equalTo(headerContainer.superview!).inset(ui_edgeInset)
+                make.right.equalTo(headerContainer.superview!).inset(ui_rightEdgeInset)
                 make.centerY.equalTo(heading.snp.centerY)
             }
             shieldToggle.onTintColor = BraveUX.BraveOrange
