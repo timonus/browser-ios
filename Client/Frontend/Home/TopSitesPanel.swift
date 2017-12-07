@@ -220,6 +220,19 @@ class TopSitesPanel: UIViewController {
         }
     }
     
+    override func viewSafeAreaInsetsDidChange() {
+        // Not sure why but when a side panel is opened and you transition from portait to landscape
+        // top site cells are misaligned, this is a workaroud for this edge case. Happens only on iPhoneX.
+        if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+            collection?.snp.remakeConstraints { make -> Void in
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+                make.leading.equalTo(self.view.safeAreaLayoutGuide.snp.leading)
+                make.trailing.equalTo(self.view.safeAreaLayoutGuide.snp.trailing).offset(self.view.safeAreaInsets.right)
+            }
+        }
+    }
+    
     func updateIphoneConstraints() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return
