@@ -1,5 +1,6 @@
 import Shared
 import Deferred
+import Shared
 
 private let _singleton = PrivateBrowsing()
 
