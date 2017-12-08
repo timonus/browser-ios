@@ -857,28 +857,33 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
         
         tabCell.placeholderFavicon.isHidden = tab.isScreenshotSet
         
-        if let tabMO = TabMO.getByID(tab.tabID), let urlString = tabMO.url, let url = URL(string: urlString) {
-            weak var weakSelf = self
-            if ImageCache.shared.hasImage(url, type: .square) {
-                // no relationship - check cache for icon which may have been stored recently for url.
-                ImageCache.shared.image(url, type: .square, callback: { (image) in
-                    postAsyncToMain {
-                        tabCell.favicon.image = image
-                        tabCell.placeholderFavicon.image = image
-                    }
-                })
-            }
-            else {
-                // no relationship - attempt to resolove domain problem
-                let context = DataController.shared.mainThreadContext
-                if let domain = Domain.getOrCreateForUrl(url, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let faviconurl = URL(string: urlString) {
-                    postAsyncToMain {
-                        weakSelf?.setCellImage(tabCell, iconUrl: faviconurl, cacheWithUrl: url)
-                    }
+        if tab.isHomePanel {
+            tabCell.favicon.isHidden = true
+        } else {
+            // Fetching favicon
+            if let tabMO = TabMO.getByID(tab.tabID), let urlString = tabMO.url, let url = URL(string: urlString) {
+                weak var weakSelf = self
+                if ImageCache.shared.hasImage(url, type: .square) {
+                    // no relationship - check cache for icon which may have been stored recently for url.
+                    ImageCache.shared.image(url, type: .square, callback: { (image) in
+                        postAsyncToMain {
+                            tabCell.favicon.image = image
+                            tabCell.placeholderFavicon.image = image
+                        }
+                    })
                 }
                 else {
-                    // last resort - download the icon
-                    downloadFaviconsAndUpdateForUrl(url, collectionView: collectionView, indexPath: indexPath)
+                    // no relationship - attempt to resolove domain problem
+                    let context = DataController.shared.mainThreadContext
+                    if let domain = Domain.getOrCreateForUrl(url, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let faviconurl = URL(string: urlString) {
+                        postAsyncToMain {
+                            weakSelf?.setCellImage(tabCell, iconUrl: faviconurl, cacheWithUrl: url)
+                        }
+                    }
+                    else {
+                        // last resort - download the icon
+                        downloadFaviconsAndUpdateForUrl(url, collectionView: collectionView, indexPath: indexPath)
+                    }
                 }
             }
         }
