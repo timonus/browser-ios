@@ -60,10 +60,13 @@ class TabBarCell: UICollectionViewCell {
         close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)
         close.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
-            make.right.equalTo(self).inset(5)
-            make.width.equalTo(16)
+            make.right.equalTo(self).inset(2)
+            make.width.equalTo(30)
         })
         close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
+
+        // Close button is a bit wider to increase tap area, this aligns 'X' image closer to the right.
+        close.imageEdgeInsets.left = 6
         
         separatorLine.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         separatorLine.snp.makeConstraints { (make) in
