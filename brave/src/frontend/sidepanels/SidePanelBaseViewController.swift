@@ -32,11 +32,20 @@ class SidePanelBaseViewController : UIViewController {
         containerView.frame = CGRect(x: 0, y: 0, width: CGFloat(BraveUX.WidthOfSlideOut), height: self.view.frame.height)
         viewAsScrollView().contentSize = CGSize(width: containerView.frame.width, height: containerView.frame.height)
     }
+    
+    private func updateViewFrame() {
+        if !view.isHidden {
+            self.view.snp.updateConstraints { make in
+                make.width.equalTo(BraveUX.WidthOfSlideOut)
+            }
+        }
+    }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate(alongsideTransition: {
             _ in
             self.setupContainerViewSize()
+            self.updateViewFrame()
             }, completion: nil)
 
         super.viewWillTransition(to: size, with: coordinator)
