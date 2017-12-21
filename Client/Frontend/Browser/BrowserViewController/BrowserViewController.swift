@@ -458,6 +458,13 @@ class BrowserViewController: UIViewController {
         log.debug("BVC viewDidLayoutSubviews…")
         super.viewDidLayoutSubviews()
         log.debug("BVC done.")
+
+        // Updating footer contraints in viewSafeAreaInsetsDidChange, doesn't work when view is loaded so we do it here.
+        if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+            footerBackground?.snp.updateConstraints { make in
+                make.bottom.equalTo(self.footer).inset(self.view.safeAreaInsets.bottom)
+            }
+        }
     }
     
     override func viewSafeAreaInsetsDidChange() {
@@ -636,11 +643,7 @@ class BrowserViewController: UIViewController {
         footerBackground?.snp.remakeConstraints { make in
             make.left.right.equalTo(self.footer)
             make.height.equalTo(UIConstants.ToolbarHeight) // Set this to toolbar height. Use BottomToolbarHeight for hiding footer
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-            } else {
-                make.bottom.equalTo(self.footer)
-            }
+            make.bottom.equalTo(self.footer)
         }
         urlBar.setNeedsUpdateConstraints()
         
