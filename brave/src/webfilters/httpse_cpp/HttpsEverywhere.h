@@ -10,7 +10,9 @@ private:
     leveldb::DB* db = nullptr;
     RecentlyUsedCache<std::string> recentlyUsedCache;
     std::string applyRedirectRule(std::string originalUrl, const std::string &rule);
-
+    // re2 library doesn't use '$' sign for arguments but '\' sign, we need to correct https rules for that.
+    std::string correcttoRuleToRE2Engine(const std::string& to);
+    
 public:
     ~HTTPSEverywhere() { close(); }
     bool initHTTPSE(const std::string &pathToDb);
@@ -19,3 +21,4 @@ public:
     // Returns https url on success, empty string if no redirect
     std::string getHTTPSURL(const std::string &urlHost, const std::string &urlPath);
 };
+

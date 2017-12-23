@@ -20,6 +20,56 @@
 		0857095CBFE00F31F190C638 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ABC3CB4B07DD065A185B /* BrowserViewController.swift */; };
 		08A6B9B1A574E15F5AD1DDC2 /* BrowserTrayAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F371D05B609063A51549E8 /* BrowserTrayAnimators.swift */; };
 		08BC96A6EFBA13BBE99C9A0F /* BraveUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8856E29DAA2D9EAC4F9A85 /* BraveUtil.swift */; };
+		0A03FF991FCDF0C400DF32C9 /* mix.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF3F1FCDF0C300DF32C9 /* mix.h */; };
+		0A03FF9A1FCDF0C400DF32C9 /* sparse_array.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF401FCDF0C300DF32C9 /* sparse_array.h */; };
+		0A03FF9B1FCDF0C400DF32C9 /* flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF411FCDF0C300DF32C9 /* flags.h */; };
+		0A03FF9C1FCDF0C400DF32C9 /* rune.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF421FCDF0C300DF32C9 /* rune.cc */; };
+		0A03FF9D1FCDF0C400DF32C9 /* utf.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF431FCDF0C300DF32C9 /* utf.h */; };
+		0A03FF9F1FCDF0C400DF32C9 /* pcre.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF451FCDF0C300DF32C9 /* pcre.cc */; };
+		0A03FFA01FCDF0C400DF32C9 /* logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF461FCDF0C300DF32C9 /* logging.h */; };
+		0A03FFA21FCDF0C400DF32C9 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF481FCDF0C300DF32C9 /* util.h */; };
+		0A03FFA31FCDF0C400DF32C9 /* pcre.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF491FCDF0C300DF32C9 /* pcre.h */; };
+		0A03FFA41FCDF0C400DF32C9 /* strutil.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF4A1FCDF0C300DF32C9 /* strutil.cc */; };
+		0A03FFA51FCDF0C400DF32C9 /* sparse_set.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF4B1FCDF0C300DF32C9 /* sparse_set.h */; };
+		0A03FFA61FCDF0C400DF32C9 /* mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF4C1FCDF0C300DF32C9 /* mutex.h */; };
+		0A03FFA81FCDF0C400DF32C9 /* strutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF4E1FCDF0C300DF32C9 /* strutil.h */; };
+		0A03FFAA1FCDF0C400DF32C9 /* stringpiece.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF511FCDF0C300DF32C9 /* stringpiece.h */; };
+		0A03FFAB1FCDF0C400DF32C9 /* set.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF521FCDF0C300DF32C9 /* set.cc */; };
+		0A03FFAC1FCDF0C400DF32C9 /* make_unicode_casefold.py in Resources */ = {isa = PBXBuildFile; fileRef = 0A03FF531FCDF0C300DF32C9 /* make_unicode_casefold.py */; };
+		0A03FFAD1FCDF0C400DF32C9 /* parse.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF541FCDF0C300DF32C9 /* parse.cc */; };
+		0A03FFAE1FCDF0C400DF32C9 /* re2_fuzzer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF561FCDF0C300DF32C9 /* re2_fuzzer.cc */; };
+		0A03FFAF1FCDF0C400DF32C9 /* nfa.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF571FCDF0C300DF32C9 /* nfa.cc */; };
+		0A03FFB01FCDF0C400DF32C9 /* prog.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF581FCDF0C300DF32C9 /* prog.h */; };
+		0A03FFB11FCDF0C400DF32C9 /* unicode_groups.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF591FCDF0C300DF32C9 /* unicode_groups.cc */; };
+		0A03FFB21FCDF0C400DF32C9 /* unicode_casefold.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF5A1FCDF0C300DF32C9 /* unicode_casefold.cc */; };
+		0A03FFB31FCDF0C400DF32C9 /* unicode.py in Resources */ = {isa = PBXBuildFile; fileRef = 0A03FF5B1FCDF0C300DF32C9 /* unicode.py */; };
+		0A03FFB41FCDF0C400DF32C9 /* regexp.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF5C1FCDF0C300DF32C9 /* regexp.cc */; };
+		0A03FFB51FCDF0C400DF32C9 /* onepass.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF5D1FCDF0C300DF32C9 /* onepass.cc */; };
+		0A03FFB61FCDF0C400DF32C9 /* perl_groups.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF5E1FCDF0C300DF32C9 /* perl_groups.cc */; };
+		0A03FFB71FCDF0C400DF32C9 /* prefilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF5F1FCDF0C300DF32C9 /* prefilter.h */; };
+		0A03FFB81FCDF0C400DF32C9 /* mimics_pcre.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF601FCDF0C300DF32C9 /* mimics_pcre.cc */; };
+		0A03FFB91FCDF0C400DF32C9 /* walker-inl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF611FCDF0C300DF32C9 /* walker-inl.h */; };
+		0A03FFBA1FCDF0C400DF32C9 /* prefilter_tree.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF621FCDF0C300DF32C9 /* prefilter_tree.h */; };
+		0A03FFBB1FCDF0C400DF32C9 /* filtered_re2.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF631FCDF0C300DF32C9 /* filtered_re2.h */; };
+		0A03FFBC1FCDF0C400DF32C9 /* dfa.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF641FCDF0C300DF32C9 /* dfa.cc */; };
+		0A03FFBD1FCDF0C400DF32C9 /* compile.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF651FCDF0C300DF32C9 /* compile.cc */; };
+		0A03FFDE1FCDF0C400DF32C9 /* re2.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF871FCDF0C300DF32C9 /* re2.cc */; };
+		0A03FFDF1FCDF0C400DF32C9 /* filtered_re2.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF881FCDF0C300DF32C9 /* filtered_re2.cc */; };
+		0A03FFE01FCDF0C400DF32C9 /* tostring.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF891FCDF0C300DF32C9 /* tostring.cc */; };
+		0A03FFE11FCDF0C400DF32C9 /* unicode_casefold.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF8A1FCDF0C300DF32C9 /* unicode_casefold.h */; };
+		0A03FFE21FCDF0C400DF32C9 /* unicode_groups.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF8B1FCDF0C300DF32C9 /* unicode_groups.h */; };
+		0A03FFE31FCDF0C400DF32C9 /* prefilter.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF8C1FCDF0C300DF32C9 /* prefilter.cc */; };
+		0A03FFE41FCDF0C400DF32C9 /* simplify.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF8D1FCDF0C300DF32C9 /* simplify.cc */; };
+		0A03FFE51FCDF0C400DF32C9 /* prefilter_tree.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF8E1FCDF0C300DF32C9 /* prefilter_tree.cc */; };
+		0A03FFE61FCDF0C400DF32C9 /* bitstate.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF8F1FCDF0C300DF32C9 /* bitstate.cc */; };
+		0A03FFE71FCDF0C400DF32C9 /* make_unicode_groups.py in Resources */ = {isa = PBXBuildFile; fileRef = 0A03FF901FCDF0C300DF32C9 /* make_unicode_groups.py */; };
+		0A03FFE81FCDF0C400DF32C9 /* make_perl_groups.pl in Resources */ = {isa = PBXBuildFile; fileRef = 0A03FF911FCDF0C300DF32C9 /* make_perl_groups.pl */; };
+		0A03FFE91FCDF0C400DF32C9 /* regexp.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF921FCDF0C300DF32C9 /* regexp.h */; };
+		0A03FFEA1FCDF0C400DF32C9 /* bitmap256.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF931FCDF0C300DF32C9 /* bitmap256.h */; };
+		0A03FFEB1FCDF0C400DF32C9 /* re2.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF941FCDF0C300DF32C9 /* re2.h */; };
+		0A03FFEC1FCDF0C400DF32C9 /* set.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF951FCDF0C300DF32C9 /* set.h */; };
+		0A03FFED1FCDF0C400DF32C9 /* stringpiece.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */; };
+		0A03FFEE1FCDF0C400DF32C9 /* prog.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF971FCDF0C300DF32C9 /* prog.cc */; };
 		0A14A8BA1997EFDD9BF4F08A /* Favicons.js in Resources */ = {isa = PBXBuildFile; fileRef = 9C0FE62111208C1C3C2CF16A /* Favicons.js */; };
 		0A159C931FD017DB005A79BF /* DeviceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A159C921FD017DB005A79BF /* DeviceDetector.swift */; };
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
@@ -895,6 +945,56 @@
 		08373AAA053C26FAD1A95023 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = ./Storage/Info.plist; sourceTree = "<group>"; };
 		0994D8CB826BBAE3C446B125 /* Crasher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Crasher.h; path = ./Client/Application/Crasher.h; sourceTree = "<group>"; };
 		09B26BBAC8D68EFA2A333975 /* CharisSILR.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = CharisSILR.ttf; path = ./Client/Assets/Fonts/CharisSILR.ttf; sourceTree = "<group>"; };
+		0A03FF3F1FCDF0C300DF32C9 /* mix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mix.h; sourceTree = "<group>"; };
+		0A03FF401FCDF0C300DF32C9 /* sparse_array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sparse_array.h; sourceTree = "<group>"; };
+		0A03FF411FCDF0C300DF32C9 /* flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flags.h; sourceTree = "<group>"; };
+		0A03FF421FCDF0C300DF32C9 /* rune.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rune.cc; sourceTree = "<group>"; };
+		0A03FF431FCDF0C300DF32C9 /* utf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf.h; sourceTree = "<group>"; };
+		0A03FF451FCDF0C300DF32C9 /* pcre.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcre.cc; sourceTree = "<group>"; };
+		0A03FF461FCDF0C300DF32C9 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
+		0A03FF481FCDF0C300DF32C9 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		0A03FF491FCDF0C300DF32C9 /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
+		0A03FF4A1FCDF0C300DF32C9 /* strutil.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = strutil.cc; sourceTree = "<group>"; };
+		0A03FF4B1FCDF0C300DF32C9 /* sparse_set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sparse_set.h; sourceTree = "<group>"; };
+		0A03FF4C1FCDF0C300DF32C9 /* mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mutex.h; sourceTree = "<group>"; };
+		0A03FF4E1FCDF0C300DF32C9 /* strutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strutil.h; sourceTree = "<group>"; };
+		0A03FF511FCDF0C300DF32C9 /* stringpiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringpiece.h; sourceTree = "<group>"; };
+		0A03FF521FCDF0C300DF32C9 /* set.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = set.cc; sourceTree = "<group>"; };
+		0A03FF531FCDF0C300DF32C9 /* make_unicode_casefold.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = make_unicode_casefold.py; sourceTree = "<group>"; };
+		0A03FF541FCDF0C300DF32C9 /* parse.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parse.cc; sourceTree = "<group>"; };
+		0A03FF561FCDF0C300DF32C9 /* re2_fuzzer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = re2_fuzzer.cc; sourceTree = "<group>"; };
+		0A03FF571FCDF0C300DF32C9 /* nfa.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nfa.cc; sourceTree = "<group>"; };
+		0A03FF581FCDF0C300DF32C9 /* prog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prog.h; sourceTree = "<group>"; };
+		0A03FF591FCDF0C300DF32C9 /* unicode_groups.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unicode_groups.cc; sourceTree = "<group>"; };
+		0A03FF5A1FCDF0C300DF32C9 /* unicode_casefold.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unicode_casefold.cc; sourceTree = "<group>"; };
+		0A03FF5B1FCDF0C300DF32C9 /* unicode.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = unicode.py; sourceTree = "<group>"; };
+		0A03FF5C1FCDF0C300DF32C9 /* regexp.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = regexp.cc; sourceTree = "<group>"; };
+		0A03FF5D1FCDF0C300DF32C9 /* onepass.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = onepass.cc; sourceTree = "<group>"; };
+		0A03FF5E1FCDF0C300DF32C9 /* perl_groups.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = perl_groups.cc; sourceTree = "<group>"; };
+		0A03FF5F1FCDF0C300DF32C9 /* prefilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefilter.h; sourceTree = "<group>"; };
+		0A03FF601FCDF0C300DF32C9 /* mimics_pcre.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mimics_pcre.cc; sourceTree = "<group>"; };
+		0A03FF611FCDF0C300DF32C9 /* walker-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "walker-inl.h"; sourceTree = "<group>"; };
+		0A03FF621FCDF0C300DF32C9 /* prefilter_tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefilter_tree.h; sourceTree = "<group>"; };
+		0A03FF631FCDF0C300DF32C9 /* filtered_re2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filtered_re2.h; sourceTree = "<group>"; };
+		0A03FF641FCDF0C300DF32C9 /* dfa.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dfa.cc; sourceTree = "<group>"; };
+		0A03FF651FCDF0C300DF32C9 /* compile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compile.cc; sourceTree = "<group>"; };
+		0A03FF871FCDF0C300DF32C9 /* re2.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = re2.cc; sourceTree = "<group>"; };
+		0A03FF881FCDF0C300DF32C9 /* filtered_re2.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = filtered_re2.cc; sourceTree = "<group>"; };
+		0A03FF891FCDF0C300DF32C9 /* tostring.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tostring.cc; sourceTree = "<group>"; };
+		0A03FF8A1FCDF0C300DF32C9 /* unicode_casefold.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unicode_casefold.h; sourceTree = "<group>"; };
+		0A03FF8B1FCDF0C300DF32C9 /* unicode_groups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unicode_groups.h; sourceTree = "<group>"; };
+		0A03FF8C1FCDF0C300DF32C9 /* prefilter.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prefilter.cc; sourceTree = "<group>"; };
+		0A03FF8D1FCDF0C300DF32C9 /* simplify.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simplify.cc; sourceTree = "<group>"; };
+		0A03FF8E1FCDF0C300DF32C9 /* prefilter_tree.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prefilter_tree.cc; sourceTree = "<group>"; };
+		0A03FF8F1FCDF0C300DF32C9 /* bitstate.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bitstate.cc; sourceTree = "<group>"; };
+		0A03FF901FCDF0C300DF32C9 /* make_unicode_groups.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = make_unicode_groups.py; sourceTree = "<group>"; };
+		0A03FF911FCDF0C300DF32C9 /* make_perl_groups.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = make_perl_groups.pl; sourceTree = "<group>"; };
+		0A03FF921FCDF0C300DF32C9 /* regexp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = regexp.h; sourceTree = "<group>"; };
+		0A03FF931FCDF0C300DF32C9 /* bitmap256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bitmap256.h; sourceTree = "<group>"; };
+		0A03FF941FCDF0C300DF32C9 /* re2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = re2.h; sourceTree = "<group>"; };
+		0A03FF951FCDF0C300DF32C9 /* set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = set.h; sourceTree = "<group>"; };
+		0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stringpiece.cc; sourceTree = "<group>"; };
+		0A03FF971FCDF0C300DF32C9 /* prog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prog.cc; sourceTree = "<group>"; };
 		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
 		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
@@ -1729,6 +1829,88 @@
 				1D91C891407BB96DEA87E046 /* Result.swift */,
 			);
 			name = Result;
+			sourceTree = "<group>";
+		};
+		0A03FF281FCDF03F00DF32C9 /* re2 */ = {
+			isa = PBXGroup;
+			children = (
+				0A03FF501FCDF0C300DF32C9 /* re2 */,
+				0A03FF3D1FCDF0C300DF32C9 /* re2util */,
+			);
+			name = re2;
+			path = brave/ThirdParty/re2;
+			sourceTree = "<group>";
+		};
+		0A03FF3D1FCDF0C300DF32C9 /* re2util */ = {
+			isa = PBXGroup;
+			children = (
+				0A03FF3F1FCDF0C300DF32C9 /* mix.h */,
+				0A03FF401FCDF0C300DF32C9 /* sparse_array.h */,
+				0A03FF411FCDF0C300DF32C9 /* flags.h */,
+				0A03FF421FCDF0C300DF32C9 /* rune.cc */,
+				0A03FF431FCDF0C300DF32C9 /* utf.h */,
+				0A03FF451FCDF0C300DF32C9 /* pcre.cc */,
+				0A03FF461FCDF0C300DF32C9 /* logging.h */,
+				0A03FF481FCDF0C300DF32C9 /* util.h */,
+				0A03FF491FCDF0C300DF32C9 /* pcre.h */,
+				0A03FF4A1FCDF0C300DF32C9 /* strutil.cc */,
+				0A03FF4B1FCDF0C300DF32C9 /* sparse_set.h */,
+				0A03FF4C1FCDF0C300DF32C9 /* mutex.h */,
+				0A03FF4E1FCDF0C300DF32C9 /* strutil.h */,
+			);
+			path = re2util;
+			sourceTree = "<group>";
+		};
+		0A03FF501FCDF0C300DF32C9 /* re2 */ = {
+			isa = PBXGroup;
+			children = (
+				0A03FF511FCDF0C300DF32C9 /* stringpiece.h */,
+				0A03FF521FCDF0C300DF32C9 /* set.cc */,
+				0A03FF531FCDF0C300DF32C9 /* make_unicode_casefold.py */,
+				0A03FF541FCDF0C300DF32C9 /* parse.cc */,
+				0A03FF551FCDF0C300DF32C9 /* fuzzing */,
+				0A03FF571FCDF0C300DF32C9 /* nfa.cc */,
+				0A03FF581FCDF0C300DF32C9 /* prog.h */,
+				0A03FF591FCDF0C300DF32C9 /* unicode_groups.cc */,
+				0A03FF5A1FCDF0C300DF32C9 /* unicode_casefold.cc */,
+				0A03FF5B1FCDF0C300DF32C9 /* unicode.py */,
+				0A03FF5C1FCDF0C300DF32C9 /* regexp.cc */,
+				0A03FF5D1FCDF0C300DF32C9 /* onepass.cc */,
+				0A03FF5E1FCDF0C300DF32C9 /* perl_groups.cc */,
+				0A03FF5F1FCDF0C300DF32C9 /* prefilter.h */,
+				0A03FF601FCDF0C300DF32C9 /* mimics_pcre.cc */,
+				0A03FF611FCDF0C300DF32C9 /* walker-inl.h */,
+				0A03FF621FCDF0C300DF32C9 /* prefilter_tree.h */,
+				0A03FF631FCDF0C300DF32C9 /* filtered_re2.h */,
+				0A03FF641FCDF0C300DF32C9 /* dfa.cc */,
+				0A03FF651FCDF0C300DF32C9 /* compile.cc */,
+				0A03FF871FCDF0C300DF32C9 /* re2.cc */,
+				0A03FF881FCDF0C300DF32C9 /* filtered_re2.cc */,
+				0A03FF891FCDF0C300DF32C9 /* tostring.cc */,
+				0A03FF8A1FCDF0C300DF32C9 /* unicode_casefold.h */,
+				0A03FF8B1FCDF0C300DF32C9 /* unicode_groups.h */,
+				0A03FF8C1FCDF0C300DF32C9 /* prefilter.cc */,
+				0A03FF8D1FCDF0C300DF32C9 /* simplify.cc */,
+				0A03FF8E1FCDF0C300DF32C9 /* prefilter_tree.cc */,
+				0A03FF8F1FCDF0C300DF32C9 /* bitstate.cc */,
+				0A03FF901FCDF0C300DF32C9 /* make_unicode_groups.py */,
+				0A03FF911FCDF0C300DF32C9 /* make_perl_groups.pl */,
+				0A03FF921FCDF0C300DF32C9 /* regexp.h */,
+				0A03FF931FCDF0C300DF32C9 /* bitmap256.h */,
+				0A03FF941FCDF0C300DF32C9 /* re2.h */,
+				0A03FF951FCDF0C300DF32C9 /* set.h */,
+				0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */,
+				0A03FF971FCDF0C300DF32C9 /* prog.cc */,
+			);
+			path = re2;
+			sourceTree = "<group>";
+		};
+		0A03FF551FCDF0C300DF32C9 /* fuzzing */ = {
+			isa = PBXGroup;
+			children = (
+				0A03FF561FCDF0C300DF32C9 /* re2_fuzzer.cc */,
+			);
+			path = fuzzing;
 			sourceTree = "<group>";
 		};
 		0A8053801FC59D6F008D6822 /* analytics */ = {
@@ -2696,6 +2878,7 @@
 		AEC7CC1649CB3DF5D490AFD2 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				0A03FF281FCDF03F00DF32C9 /* re2 */,
 				F1D471871D777C7C007B443D /* OnePassword */,
 				BB67FBA7FC78E3187AF22B8B /* leveldb */,
 				8FD32DFF23D2E6882260066D /* NSData+GZIP.h */,
@@ -3336,6 +3519,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A03FFA61FCDF0C400DF32C9 /* mutex.h in Headers */,
 				7DCF86CC78079576F5FB84A1 /* builder.h in Headers */,
 				DC38BD50524F4F229F489766 /* db_impl.h in Headers */,
 				4FEB5747628DB091D4F1B625 /* db_iter.h in Headers */,
@@ -3357,6 +3541,7 @@
 				8B13A0FD936AEA06A5289912 /* c.h in Headers */,
 				906F2B9E09174887AE1FFC89 /* cache.h in Headers */,
 				8506C76D1093AD7697558E9B /* comparator.h in Headers */,
+				0A03FFA31FCDF0C400DF32C9 /* pcre.h in Headers */,
 				6EC6CB01DD3A8517F6FA1A48 /* db.h in Headers */,
 				75A7E6E19944EF9F68E743D1 /* dumpfile.h in Headers */,
 				9434B7BDDB6ADA2AA738386D /* env.h in Headers */,
@@ -3369,7 +3554,9 @@
 				6C48B9C720C5A85FB806A0AB /* table_builder.h in Headers */,
 				6F93106386DBBAE77AC6600D /* write_batch.h in Headers */,
 				49B0DDB0C82A7C833ED598C0 /* atomic_pointer.h in Headers */,
+				0A03FFA51FCDF0C400DF32C9 /* sparse_set.h in Headers */,
 				99A8ED133A5230AFA8C7BEA2 /* port.h in Headers */,
+				0A03FFA81FCDF0C400DF32C9 /* strutil.h in Headers */,
 				F6E88652464919F38A8A93DA /* port_example.h in Headers */,
 				EB00A6881E1C071000680DB8 /* ad_block_client.h in Headers */,
 				E04B515A88DAC58FCCF4E991 /* port_posix.h in Headers */,
@@ -3378,40 +3565,58 @@
 				56439B27AA657730554FE84A /* block_builder.h in Headers */,
 				F90CAD0FC189B7DC71007DA7 /* filter_block.h in Headers */,
 				9A3CF331365EA997C962DCF5 /* format.h in Headers */,
+				0A03FFE91FCDF0C400DF32C9 /* regexp.h in Headers */,
+				0A03FF9D1FCDF0C400DF32C9 /* utf.h in Headers */,
 				8C3AB1D6EF08514FD714B10A /* iterator_wrapper.h in Headers */,
 				EB0090841E1BF23D00680DB8 /* base.h in Headers */,
+				0A03FFAA1FCDF0C400DF32C9 /* stringpiece.h in Headers */,
 				07A2E57EFF8E47EB72D8FEE3 /* merger.h in Headers */,
 				678B238DB54F5D618481FEBE /* two_level_iterator.h in Headers */,
+				0A03FFE11FCDF0C400DF32C9 /* unicode_casefold.h in Headers */,
 				0A5B1B5CA22425374E4B314C /* arena.h in Headers */,
 				2FB8E866E0695CDCE39D4AD3 /* coding.h in Headers */,
 				EE651A235D2355ECC0865F46 /* crc32c.h in Headers */,
 				8DBAF4A0231278A32A7B53E7 /* hash.h in Headers */,
+				0A03FFA01FCDF0C400DF32C9 /* logging.h in Headers */,
+				0A03FF9A1FCDF0C400DF32C9 /* sparse_array.h in Headers */,
 				817E102C969EE4EA83036999 /* histogram.h in Headers */,
 				29AC3A5CDE2EEC83A5C0A735 /* logging.h in Headers */,
 				4394E453CB0F71D1814F5ADD /* mutexlock.h in Headers */,
 				DD5E172A2A502EBEEAB77E61 /* posix_logger.h in Headers */,
 				2693462AAD80728B82279A60 /* random.h in Headers */,
+				0A03FF9B1FCDF0C400DF32C9 /* flags.h in Headers */,
 				E39C2782941C47224F91EAF6 /* testharness.h in Headers */,
+				0A03FFEB1FCDF0C400DF32C9 /* re2.h in Headers */,
 				EB009BB11E1BF44200680DB8 /* HashSet.h in Headers */,
 				EF875F2BA5E1EB136ADE64CA /* testutil.h in Headers */,
 				BF983D0715644F1AB0F23E68 /* NSData+GZIP.h in Headers */,
 				C6FF450832F5A645F9E9ECF9 /* NSFileManager+Tar.h in Headers */,
 				ECFAE4736B3C8EE254C6E149 /* ODRefreshControl.h in Headers */,
+				0A03FFEA1FCDF0C400DF32C9 /* bitmap256.h in Headers */,
 				F1D4718E1D777C7C007B443D /* OnePasswordExtension.h in Headers */,
+				0A03FFBA1FCDF0C400DF32C9 /* prefilter_tree.h in Headers */,
 				EB009BAF1E1BF44200680DB8 /* HashItem.h in Headers */,
 				E8A10AA61C5538355063C087 /* SwizzlingToHideSharePicker.h in Headers */,
 				61464FBEE20CE5E041C799A2 /* ABPFilterLibWrapper.h in Headers */,
 				B18C45C6E899AE3490F9B440 /* HttpsEverywhere.h in Headers */,
+				0A03FF991FCDF0C400DF32C9 /* mix.h in Headers */,
 				EB00A3091E1BF4CC00680DB8 /* hashFn.h in Headers */,
+				0A03FFEC1FCDF0C400DF32C9 /* set.h in Headers */,
+				0A03FFE21FCDF0C400DF32C9 /* unicode_groups.h in Headers */,
 				EB00A68A1E1C071000680DB8 /* cosmetic_filter.h in Headers */,
+				0A03FFB91FCDF0C400DF32C9 /* walker-inl.h in Headers */,
+				0A03FFB01FCDF0C400DF32C9 /* prog.h in Headers */,
 				96C1D7CEFCE19E5B2EC3D373 /* HttpsEverywhereObjC.h in Headers */,
 				129F75A2C001AFAD31782003 /* JsonCpp.h in Headers */,
 				F237A2C22591D2085E22F775 /* RecentlyUsedCache.h in Headers */,
 				405935E0D61BE696766F34A4 /* TrackingProtectionCpp.h in Headers */,
 				91B616C06F625A75262F47D9 /* LegacyJSContext.h in Headers */,
 				0003A89A0675A5DA1F9B0752 /* WebViewDocScale.h in Headers */,
+				0A03FFBB1FCDF0C400DF32C9 /* filtered_re2.h in Headers */,
+				0A03FFA21FCDF0C400DF32C9 /* util.h in Headers */,
 				49EC58027D98E205CF632DCF /* FirstPartyHost.h in Headers */,
 				7FB94B0D2DE4CE146F113E90 /* TPParser.h in Headers */,
+				0A03FFB71FCDF0C400DF32C9 /* prefilter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3990,10 +4195,13 @@
 				4305183B54F23C211BD5112A /* SafeBrowsingError.html in Resources */,
 				15172EAC2FF91D5014CAA0CB /* Licenses.html in Resources */,
 				4134197C39A4456007BCF42B /* CertError.css in Resources */,
+				0A03FFB31FCDF0C400DF32C9 /* unicode.py in Resources */,
 				E37145E30F71657D57F6747C /* CertError.html in Resources */,
 				EB8F56A31DD13DF300679A78 /* FiraSans-UltraLight.ttf in Resources */,
+				0A03FFAC1FCDF0C400DF32C9 /* make_unicode_casefold.py in Resources */,
 				0A14A8BA1997EFDD9BF4F08A /* Favicons.js in Resources */,
 				59D6B30954B53C907F022CA7 /* FindInPage.js in Resources */,
+				0A03FFE71FCDF0C400DF32C9 /* make_unicode_groups.py in Resources */,
 				FE87AE69E75D3BCA0217302B /* Images.xcassets in Resources */,
 				9EC9707BF7ABD93FBB0FFDB9 /* LoginsHelper.js in Resources */,
 				4D68B2825D2CAD5FB6098D21 /* NetError.css in Resources */,
@@ -4003,6 +4211,7 @@
 				13657B6789F5024F64E16739 /* PrintHelper.js in Resources */,
 				9238CC0C5284146DC56706EF /* default.txt in Resources */,
 				EB8F56A11DD13DF300679A78 /* FiraSans-Regular.ttf in Resources */,
+				0A03FFE81FCDF0C400DF32C9 /* make_perl_groups.pl in Resources */,
 				F77753583610CDE305C0EE17 /* list.txt in Resources */,
 				51738B96F3E3C02A37A32C90 /* SearchPlugins in Resources */,
 				EB8F56A01DD13DF300679A78 /* FiraSans-Medium.ttf in Resources */,
@@ -4310,6 +4519,7 @@
 				DF0324E386DF0AAF40CEE51A /* db_iter.cc in Sources */,
 				E89DEAF4A642EA060CAC3883 /* dbformat.cc in Sources */,
 				5D2AE6FA1E83F3EC00BC274C /* SyncSite.swift in Sources */,
+				0A03FFB51FCDF0C400DF32C9 /* onepass.cc in Sources */,
 				A6A180ED09280A17C5C11B72 /* dumpfile.cc in Sources */,
 				252BFD86BA8B20F6B485D561 /* filename.cc in Sources */,
 				7823B137D3AA2D991BC8DC5C /* log_reader.cc in Sources */,
@@ -4328,20 +4538,24 @@
 				5FBB6E142EFF5F6E989ABD49 /* block_builder.cc in Sources */,
 				1204E92DCEECF3540EA648CF /* filter_block.cc in Sources */,
 				5D71B69B1E6885E00073621F /* Niceware.swift in Sources */,
+				0A03FFEE1FCDF0C400DF32C9 /* prog.cc in Sources */,
 				5C1A9E851F97D6060071495E /* PopupView.swift in Sources */,
 				40DD8F2FF8733625CF906534 /* format.cc in Sources */,
 				5CE70E451E022FAB008B307A /* BraveShieldStatsView.swift in Sources */,
 				5D2F109E1ECA40DC00CF0E0D /* SyncRecord.swift in Sources */,
 				5F88581725B7AAA78F91A4D4 /* iterator.cc in Sources */,
 				3FE012C35D0AD5E2B5BB4767 /* merger.cc in Sources */,
+				0A03FFB81FCDF0C400DF32C9 /* mimics_pcre.cc in Sources */,
 				5D11B1931F01A5F8007B1DF4 /* UIViewExtensions.swift in Sources */,
 				479A31771C308868296EA8C3 /* table.cc in Sources */,
+				0A03FFA41FCDF0C400DF32C9 /* strutil.cc in Sources */,
 				D930735487A274E11203B106 /* table_builder.cc in Sources */,
 				9E08BE0D0C19A5DA7BA7BB52 /* two_level_iterator.cc in Sources */,
 				25EC5AB01633FAA4720D56C3 /* arena.cc in Sources */,
 				0A8053961FC59D82008D6822 /* DAU.swift in Sources */,
 				5C44C0DE1E3EE47B00B1FD81 /* History.swift in Sources */,
 				9936A9499C3DD474BF33C5A7 /* bloom.cc in Sources */,
+				0A03FFDE1FCDF0C400DF32C9 /* re2.cc in Sources */,
 				66D96438D7A6745AE7673C3E /* cache.cc in Sources */,
 				015649F978DE96490BACE063 /* coding.cc in Sources */,
 				C3E7CE0AE0365AD6A7CB7D49 /* comparator.cc in Sources */,
@@ -4364,6 +4578,7 @@
 				23699E7ECA45D2C23FFEB992 /* NSData+GZIP.m in Sources */,
 				736EF030429F5288A4EDE179 /* NSFileManager+Tar.m in Sources */,
 				676AF6C41649B4E23DA21306 /* BraveApp.swift in Sources */,
+				0A03FFAD1FCDF0C400DF32C9 /* parse.cc in Sources */,
 				08BC96A6EFBA13BBE99C9A0F /* BraveUtil.swift in Sources */,
 				CF1FD6B869DAC754B459302B /* BraveBrowserBottomToolbar.swift in Sources */,
 				B559CDC0AF8A6D35DE545B6A /* BraveBrowserViewController.swift in Sources */,
@@ -4371,6 +4586,7 @@
 				184619D873835F18B9731D1E /* BraveScrollController.swift in Sources */,
 				8999244A8E5D55AF862B8167 /* BraveSettingsView.swift in Sources */,
 				42BB62D8A935B31499CE77E3 /* BraveTopViewController.swift in Sources */,
+				0A03FFE51FCDF0C400DF32C9 /* prefilter_tree.cc in Sources */,
 				5C0FCE4D1E5FB3810016DF0F /* SyncWelcomeViewController.swift in Sources */,
 				6287F57212354177AA5D5F28 /* BraveURLBarView.swift in Sources */,
 				F1D4718F1D777C7C007B443D /* OnePasswordExtension.m in Sources */,
@@ -4382,6 +4598,7 @@
 				E9396A65893407CA10034653 /* BraveRightSidePanel.swift in Sources */,
 				41C8C73403C41EA2B3504989 /* MainSidePanelViewController.swift in Sources */,
 				84A180A158F0E79DEC227E41 /* SidePanelBaseViewController.swift in Sources */,
+				0A03FFE41FCDF0C400DF32C9 /* simplify.cc in Sources */,
 				C2527F8A70ACEA55C5BACA7F /* SwizzlingToHideSharePicker.m in Sources */,
 				A06E13ADC55EEF9339F0C366 /* TabsBarViewController.swift in Sources */,
 				038D1223149F0BDE7750CA80 /* TabWidget.swift in Sources */,
@@ -4391,6 +4608,7 @@
 				31CAC008CE6B2D73DBFC9A5E /* ElementAtPoint.swift in Sources */,
 				5CD7F38E1E3EFBF100A12BB9 /* FaviconMO.swift in Sources */,
 				5C0FCE621E63E1D90016DF0F /* SyncCodewordsView.swift in Sources */,
+				0A03FFB61FCDF0C400DF32C9 /* perl_groups.cc in Sources */,
 				67EBDA431847A8081DDCF90E /* FingerprintingProtection.swift in Sources */,
 				365D79EB4650B90378CCF45B /* HideEmptyImages.swift in Sources */,
 				A1CFE166EBD926880A69E052 /* LoginsHelper+1PW.swift in Sources */,
@@ -4403,6 +4621,7 @@
 				EB9CAB431DC2592700627A39 /* UIWebViewSwizzling.m in Sources */,
 				A4997544E81DF456966522E6 /* BraveShieldState.swift in Sources */,
 				F0EA069256DABEECB329C591 /* binding.gyp in Sources */,
+				0A03FF9C1FCDF0C400DF32C9 /* rune.cc in Sources */,
 				2F0860C25F7367CEED17E283 /* HttpsEverywhere.cpp in Sources */,
 				A2F643975578B7DA57C4B7A4 /* HttpsEverywhereObjC.mm in Sources */,
 				A026D2C7D56306D65820F5EA /* LICENSE in Sources */,
@@ -4417,7 +4636,9 @@
 				65D7C98408394E5F2E760894 /* LegacyJSContext.m in Sources */,
 				1F2948B4093DD581ADBB7FA4 /* PrivateBrowsing.swift in Sources */,
 				62859AF44506E17DCC0A2759 /* WebViewBackForward.swift in Sources */,
+				0A03FFDF1FCDF0C400DF32C9 /* filtered_re2.cc in Sources */,
 				C5A2E6F2033E5897F1F43AD7 /* WebViewDocScale.m in Sources */,
+				0A03FF9F1FCDF0C400DF32C9 /* pcre.cc in Sources */,
 				5B352CB4FE3A4ED634975490 /* WebViewProgress.swift in Sources */,
 				968634F419DEA85A0922394A /* WebViewScripting.swift in Sources */,
 				5C0FCE5C1E637C160016DF0F /* SyncPairCameraViewController.swift in Sources */,
@@ -4426,6 +4647,7 @@
 				D50043B62400690CFBBB5859 /* AdjustIntegration.swift in Sources */,
 				5E6571D452F3C000461D2481 /* AppDelegate.swift in Sources */,
 				19503FBC8FFDBFB991DC9387 /* CrashReporter.swift in Sources */,
+				0A03FFB41FCDF0C400DF32C9 /* regexp.cc in Sources */,
 				518DC47C3214F272D78DFBD9 /* DebugSettingsBundleOptions.swift in Sources */,
 				5C32C7B6034B41A9C822555E /* main.swift in Sources */,
 				D503AACFCAC42E22324494E2 /* QuickActions.swift in Sources */,
@@ -4441,6 +4663,7 @@
 				E2E956A6C13C602CE5A68623 /* BrowserLocationView.swift in Sources */,
 				75ECAD0AD57BB30A0C936C26 /* BrowserPrintPageRenderer.swift in Sources */,
 				F7786B0416321F41C642619E /* BrowserPrompts.swift in Sources */,
+				0A03FFBD1FCDF0C400DF32C9 /* compile.cc in Sources */,
 				B4C5925ABA9B07212E1596DF /* BrowserScrollController.swift in Sources */,
 				00A3303C9E57E842D703EE04 /* BrowserToolbar.swift in Sources */,
 				08A6B9B1A574E15F5AD1DDC2 /* BrowserTrayAnimators.swift in Sources */,
@@ -4454,6 +4677,7 @@
 				C1F07A6A18FC4630EA937E6B /* BrowserViewController+ReaderModeDelegate.swift in Sources */,
 				24F13EC5A582B77E0F00EB61 /* BrowserViewController+TabManagerDelegate.swift in Sources */,
 				969DAF9437DD60D2DE8021A0 /* BrowserViewController+ToolbarAndUrlbarDelegate.swift in Sources */,
+				0A03FFBC1FCDF0C400DF32C9 /* dfa.cc in Sources */,
 				EB009BB01E1BF44200680DB8 /* HashSet.cpp in Sources */,
 				2AC0D22C9C73296D030162EE /* BrowserViewController+WKNavigationDelegate.swift in Sources */,
 				10EAA024996482D72088EBEF /* BrowserViewController+WKUIDelegate.swift in Sources */,
@@ -4474,14 +4698,17 @@
 				B12BAB62656FE6E23B2F8FA7 /* PrintHelper.swift in Sources */,
 				9CF9F9970296253C177CD2E8 /* ReaderModeBarView.swift in Sources */,
 				5D0BD4041ED356B6003421CF /* SyncDevice.swift in Sources */,
+				0A03FFAF1FCDF0C400DF32C9 /* nfa.cc in Sources */,
 				209C9E2C166E53A1119E09CE /* ScreenshotHelper.swift in Sources */,
 				5DB199151E859F9100A851B6 /* SyncResponse.swift in Sources */,
 				48C6EB7A9F5866B0EAD90E90 /* SearchEngines.swift in Sources */,
 				F5723B6EE5165F5CBF544F6C /* SearchLoader.swift in Sources */,
 				2D0D3E1D9C7AA8872D5EB34D /* SearchSuggestClient.swift in Sources */,
 				E9736B8FFA056E24BE2EB834 /* SearchViewController.swift in Sources */,
+				0A03FFE01FCDF0C400DF32C9 /* tostring.cc in Sources */,
 				F9DDDE64CF5ACAD94F495B1D /* SessionData.swift in Sources */,
 				9BFE547FF9C37E82814BA9C6 /* SessionRestoreHandler.swift in Sources */,
+				0A03FFE61FCDF0C400DF32C9 /* bitstate.cc in Sources */,
 				715CCD78C38B066CA39D4E10 /* SessionRestoreHelper.swift in Sources */,
 				5C0FCE641E63EA170016DF0F /* SyncPairWordsViewController.swift in Sources */,
 				5CFC706D1D9D9F30008A7B7A /* BraveTermsViewController.swift in Sources */,
@@ -4490,6 +4717,7 @@
 				3D25335ED4A5C9DA042516E9 /* TabManager.swift in Sources */,
 				5C0FCE661E63EB8B0016DF0F /* SyncCameraView.swift in Sources */,
 				EA13B15D4D6AF3EAC2B3177D /* TabTrayController.swift in Sources */,
+				0A03FFB11FCDF0C400DF32C9 /* unicode_groups.cc in Sources */,
 				5C0FCE601E63E1790016DF0F /* SyncBarcodeView.swift in Sources */,
 				1A23068D5E66CD83B1512D15 /* URIFixup.swift in Sources */,
 				7A4740A67EFB857AA6E9944A /* URLBarView.swift in Sources */,
@@ -4534,8 +4762,10 @@
 				D719AFA2D991F2D6493368D1 /* ChevronView.swift in Sources */,
 				DACC149A83086DD5BA322C21 /* ErrorToast.swift in Sources */,
 				EB288679122425F037A1375C /* InnerStrokedView.swift in Sources */,
+				0A03FFAB1FCDF0C400DF32C9 /* set.cc in Sources */,
 				C1E4256758F62E1CC1D4F84E /* InsetButton.swift in Sources */,
 				BE99AC7563437EAA6F5413CA /* LoginTableViewCell.swift in Sources */,
+				0A03FFAE1FCDF0C400DF32C9 /* re2_fuzzer.cc in Sources */,
 				BCE000B5F9FF52DE27BE387B /* SearchInputView.swift in Sources */,
 				EB62B7FD1DB53F3D006FD479 /* Punycode.swift in Sources */,
 				9645840ABD3F26A5C2020472 /* SeparatorTableCell.swift in Sources */,
@@ -4557,7 +4787,10 @@
 				1610DE47378FA4C024E4F384 /* UIImageViewAligned.m in Sources */,
 				05CB8811A90FFA41ACBFA3E5 /* AboutUtils.swift in Sources */,
 				8B8862C9D4EECB136E146B2B /* DynamicFontHelper.swift in Sources */,
+				0A03FFED1FCDF0C400DF32C9 /* stringpiece.cc in Sources */,
 				5DA05E2D1EFC4315001D7EDE /* ErrorExtensions.swift in Sources */,
+				0A03FFE31FCDF0C400DF32C9 /* prefilter.cc in Sources */,
+				0A03FFB21FCDF0C400DF32C9 /* unicode_casefold.cc in Sources */,
 				C3424B76234256F7426F3A7D /* FaviconFetcher.swift in Sources */,
 				32AFA6803EED54948FC69908 /* MenuHelper.swift in Sources */,
 				8C0901558DCB4A138F977DCE /* Swizzling.m in Sources */,
@@ -4832,6 +5065,8 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/Client-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
+				USE_HEADERMAP = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -5429,6 +5664,8 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/Client-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
+				USE_HEADERMAP = YES;
 			};
 			name = Debug;
 		};
