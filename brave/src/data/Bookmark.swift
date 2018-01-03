@@ -7,7 +7,8 @@ import Foundation
 import Shared
 
 class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
-    
+
+    @NSManaged var isTopSitesFolder: Bool
     @NSManaged var isFolder: Bool
     @NSManaged var title: String?
     @NSManaged var customTitle: String?
