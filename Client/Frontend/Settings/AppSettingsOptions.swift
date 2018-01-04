@@ -152,12 +152,12 @@ class SyncDevicesSetting: Setting {
     
     override var accessoryType: UITableViewCellAccessoryType { return .disclosureIndicator }
     
-    override var accessibilityIdentifier: String? { return "SyncDevices" }
+    override var accessibilityIdentifier: String? { return "Sync" }
     
     init(settings: SettingsTableViewController) {
         self.profile = settings.profile
         
-        let clearTitle = Strings.SyncDevices
+        let clearTitle = Strings.Sync
         super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
     }
     

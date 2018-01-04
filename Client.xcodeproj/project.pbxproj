@@ -75,9 +75,9 @@
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
-		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
 		0A8053961FC59D82008D6822 /* DAU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053951FC59D82008D6822 /* DAU.swift */; };
 		0A8053981FC59D93008D6822 /* DauTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053971FC59D93008D6822 /* DauTest.swift */; };
+		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
 		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
 		0B742CCF1B32493E00EE9264 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B742CCC1B32491400EE9264 /* libsqlcipher.a */; };
 		0B8E0FF41A932BD500161DC3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8E0FF31A932BD500161DC3 /* ImageIO.framework */; };
@@ -275,6 +275,7 @@
 		5C10E0CF1EEF07F800203C93 /* PageMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C71EEF07F400203C93 /* PageMetadata.swift */; };
 		5C10E0D01EEF07F800203C93 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C81EEF07F400203C93 /* Metadata.swift */; };
 		5C10E0D11EEF07F800203C93 /* ExtensionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */; };
+		5C14DAE31FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C14DAE21FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift */; };
 		5C1A9E851F97D6060071495E /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1A9E841F97D6060071495E /* PopupView.swift */; };
 		5C2CD4481F72FA6C004AAB5D /* TopSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CD4471F72FA6C004AAB5D /* TopSite.swift */; };
 		5C32C7B6034B41A9C822555E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE1D74E40F9E392FFCE9F2F /* main.swift */; };
@@ -995,10 +996,10 @@
 		0A03FF951FCDF0C300DF32C9 /* set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = set.h; sourceTree = "<group>"; };
 		0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stringpiece.cc; sourceTree = "<group>"; };
 		0A03FF971FCDF0C300DF32C9 /* prog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prog.cc; sourceTree = "<group>"; };
-		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
 		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
+		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
 		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B5DA2C8E2A696FCBB8FC07F /* CompletionOps.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompletionOps.swift; path = ./Storage/CompletionOps.swift; sourceTree = "<group>"; };
 		0B742CC61B32491400EE9264 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ThirdParty/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
@@ -1248,6 +1249,7 @@
 		5C10E0C71EEF07F400203C93 /* PageMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageMetadata.swift; path = Storage/PageMetadata.swift; sourceTree = "<group>"; };
 		5C10E0C81EEF07F400203C93 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Metadata.swift; path = Storage/Metadata.swift; sourceTree = "<group>"; };
 		5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionUtils.swift; path = Storage/ExtensionUtils.swift; sourceTree = "<group>"; };
+		5C14DAE21FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncAddDeviceTypeViewController.swift; path = brave/src/frontend/sync/SyncAddDeviceTypeViewController.swift; sourceTree = "<group>"; };
 		5C1A9E841F97D6060071495E /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PopupView.swift; path = brave/src/frontend/popups/PopupView.swift; sourceTree = "<group>"; };
 		5C2CD4471F72FA6C004AAB5D /* TopSite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopSite.swift; path = brave/src/data/TopSite.swift; sourceTree = "<group>"; };
 		5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
@@ -2379,6 +2381,7 @@
 			isa = PBXGroup;
 			children = (
 				5C0FCE4C1E5FB3810016DF0F /* SyncWelcomeViewController.swift */,
+				5C14DAE21FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift */,
 				5C0FCE521E637B9D0016DF0F /* SyncAddDeviceViewController.swift */,
 				5C0FCE5B1E637C160016DF0F /* SyncPairCameraViewController.swift */,
 				5C0FCE631E63EA170016DF0F /* SyncPairWordsViewController.swift */,
@@ -3863,6 +3866,7 @@
 					};
 					EB0F42501C9A46D800676650 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 5D642W5D2P;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -3876,6 +3880,7 @@
 					};
 					F84B21BD1A090F8100AAB793 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 5D642W5D2P;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -4616,6 +4621,7 @@
 				907D2E87F3AB62A94DB2D9E7 /* InfoPlist.strings in Sources */,
 				CCCD5D311C1E3408F243DF5E /* ABPFilterLibWrapper.mm in Sources */,
 				5C44C0D21E384AE700B1FD81 /* DataController.swift in Sources */,
+				5C14DAE31FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift in Sources */,
 				3AAE8F176D74D5884854D830 /* AdBlocker.swift in Sources */,
 				5D48087C1F13C07D00E04833 /* IntExtensions.swift in Sources */,
 				EB9CAB431DC2592700627A39 /* UIWebViewSwizzling.m in Sources */,
@@ -5077,7 +5083,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = brave/Brave.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5D642W5D2P;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -5456,7 +5462,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5D642W5D2P;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = BraveShareTo/BraveShareToInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
@@ -5487,7 +5493,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5D642W5D2P;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -5675,7 +5681,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = brave/Brave.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5D642W5D2P;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
