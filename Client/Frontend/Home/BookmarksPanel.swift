@@ -549,6 +549,12 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     func tableView(_ tableView: UITableView, willSelectRowAtIndexPath indexPath: IndexPath) -> IndexPath? {
         return indexPath
     }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard let bookmark = frc?.object(at: indexPath) as? Bookmark else { return false }
+
+        return !bookmark.isTopSitesFolder
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
@@ -620,7 +626,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
     
     fileprivate func showEditBookmarkController(_ tableView: UITableView, indexPath:IndexPath) {
-        guard let item = frc?.object(at: indexPath) as? Bookmark else { return }
+        guard let item = frc?.object(at: indexPath) as? Bookmark, !item.isTopSitesFolder else { return }
         let nextController = BookmarkEditingViewController(bookmarksPanel: self, indexPath: indexPath, bookmark: item)
 
         nextController.completionBlock = { controller in
