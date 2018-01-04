@@ -77,6 +77,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         let dau = DAU(prefs: prefs)
         dau.sendPingToServer()
     }
+
+    private func isFirstLaunch() -> Bool{
+        guard let prefs = profile?.prefs else {
+            log.warning("Couldn't find profile to check for first launch")
+            return false
+        }
+
+        // Reusing dau logic for first launch check to avoid introducing another 'firstLaunch' flag
+        return prefs.arrayForKey(DAU.preferencesKey) == nil
+    }
     
     fileprivate func startApplication(_ application: UIApplication,  withLaunchOptions launchOptions: [AnyHashable: Any]?) -> Bool {
         log.debug("Setting UA…")
@@ -124,6 +134,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: AVAudioSessionCategoryOptions.mixWithOthers)
         } catch _ {
             log.error("Failed to assign AVAudioSession category to allow playing with silent switch on for aural progress bar")
+        }
+
+        if isFirstLaunch() {
+            Bookmark.topsitesInitialization()
         }
 
         let defaultRequest = URLRequest(url: UIConstants.DefaultHomePage as URL)

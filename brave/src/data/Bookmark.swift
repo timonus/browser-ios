@@ -145,6 +145,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.url = site?.location ?? bk.url
         bk.title = site?.title ?? bk.title
         bk.customTitle = site?.customTitle ?? bk.customTitle // TODO: Check against empty titles
+        bk.isTopSitesFolder = bookmark?.isTopSitesFolder ?? bk.isTopSitesFolder
         bk.isFolder = bookmark?.isFolder ?? bk.isFolder
         bk.syncUUID = root?.objectId ?? bk.syncUUID ?? Niceware.shared.uniqueSerialBytes(count: 16)
         bk.created = site?.creationNativeDate ?? Date()
@@ -187,7 +188,8 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
                        title: String?,
                        customTitle: String? = nil, // Folders only use customTitle
                        parentFolder:Bookmark? = nil,
-                       isFolder:Bool = false) -> Bookmark? {
+                       isFolder: Bool = false,
+                       isTopSitesFolder: Bool = false) -> Bookmark? {
         
         let site = SyncSite()
         site.title = title
@@ -195,6 +197,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         site.location = url?.absoluteString
         
         let bookmark = SyncBookmark()
+        bookmark.isTopSitesFolder = isTopSitesFolder
         bookmark.isFolder = isFolder
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
@@ -252,6 +255,26 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             print(fetchError)
         }
         return [Bookmark]()
+    }
+
+    /// Creates favourites folder and fills it with default bookmarks
+    class func topsitesInitialization() {
+        do {
+            if let topSitesFolder = Bookmark.add(url: nil, title: nil, customTitle: "Favourites", isFolder: true,
+                                                 isTopSitesFolder: true) {
+                // TODO: Different bookmarks depending on installation region
+                // FIXME: Save all bookmarks in one context instead of one by one?
+                try Bookmark.add(url: "https://m.facebook.com/".asURL(), title: "Facebook", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://m.youtube.com".asURL(), title: "Youtube", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.amazon.com/".asURL(), title: "Amazon", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.wikipedia.org/".asURL(), title: "Wikipedia", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://mobile.twitter.com/".asURL(), title: "Twitter", parentFolder: topSitesFolder)
+
+            }
+        } catch {
+            // TODO: Better error handling
+            print("top sites error")
+        }
     }
 }
 
