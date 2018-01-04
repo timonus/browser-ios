@@ -74,14 +74,24 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         fetchRequest.entity = Bookmark.entity(context: context)
         fetchRequest.fetchBatchSize = 20
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key:"order", ascending: true), NSSortDescriptor(key:"created", ascending: false)]
+
+        // We always want favourites folder to be on top, in the first section.
+        let topSitesSort = NSSortDescriptor(key:"isTopSitesFolder", ascending: false)
+        let orderSort = NSSortDescriptor(key:"order", ascending: true)
+        let createdSort = NSSortDescriptor(key:"created", ascending: false)
+        fetchRequest.sortDescriptors = [topSitesSort, orderSort, createdSort]
+
+        var sectionKeyPath: String? = nil
+
         if let parentFolder = parentFolder {
             fetchRequest.predicate = NSPredicate(format: "parentFolder == %@", parentFolder)
         } else {
             fetchRequest.predicate = NSPredicate(format: "parentFolder == nil")
+            sectionKeyPath = "isTopSitesFolder"
         }
 
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context,
+                                          sectionNameKeyPath: sectionKeyPath, cacheName: nil)
     }
     
     // Syncable
@@ -259,6 +269,8 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
 
     /// Creates favourites folder and fills it with default bookmarks
     class func topsitesInitialization() {
+        if Bookmark.getTopSitesFolder() != nil { return }
+
         do {
             if let topSitesFolder = Bookmark.add(url: nil, title: nil, customTitle: "Favourites", isFolder: true,
                                                  isTopSitesFolder: true) {
@@ -273,7 +285,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             }
         } catch {
             // TODO: Better error handling
-            print("top sites error")
+            print("top sites url error")
         }
     }
 }
@@ -330,6 +342,24 @@ extension Bookmark {
     // TODO: Remove
     static func getAllBookmarks(context: NSManagedObjectContext) -> [Bookmark] {
         return get(predicate: nil, context: context) ?? [Bookmark]()
+    }
+
+    class func getTopSitesFolder() -> Bookmark? {
+        let context = DataController.shared.mainThreadContext
+
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = Bookmark.entity(context: context)
+        fetchRequest.predicate = NSPredicate(format: "isTopSitesFolder == YES")
+
+        do {
+            let results = try context.fetch(fetchRequest) as? [Bookmark]
+            return results?.first
+        } catch {
+            let fetchError = error as NSError
+            print(fetchError)
+
+            return nil
+        }
     }
 }
 

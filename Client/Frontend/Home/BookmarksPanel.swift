@@ -413,7 +413,31 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return frc?.fetchedObjects?.count ?? 0
+        guard let sections = frc?.sections else { return 0 }
+
+        // This part is a bit confusing. Fetched results can return 1 or 2 sections.
+        // At top level, first section is always for top sites(favourites folder).
+        // If user didn't add any other bookmarks or the app was just installed, frc returns only 1 section, otherwise
+        // two sections are fetched, first for top sites and second for other bookmarks.
+        // At nested level, there is only one section, for regular bookmarks.
+        if sections.count == 2 || currentFolder != nil {
+            return sections[section].numberOfObjects
+        } else if sections.count == 1, section == 0 { // Top level favourites folder
+            return 1
+        }
+
+        return 0
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // Two sections happen only at top level(favourites folder + regular bookmarks)
+        // We can't rely on frc.sections.count to determine number of sections because it returns 1 at first app launch,
+        // making it hard to add another section when a custom bookmark is added.
+        // This causes some wacky logic in `numberOfRowsInSection`.
+        let sectionsInNestedFolder = 1
+        let sectionsAtTopLevel = 2
+
+        return currentFolder != nil ? sectionsInNestedFolder : sectionsAtTopLevel
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -555,7 +579,14 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
 
         return !bookmark.isTopSitesFolder
     }
-    
+
+    // Prevents dragging the top sites folder
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        let isTopSitesFolderPosition = tableView.numberOfSections == 2 && proposedDestinationIndexPath.section == 0
+
+        return isTopSitesFolderPosition ? sourceIndexPath : proposedDestinationIndexPath
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
 
