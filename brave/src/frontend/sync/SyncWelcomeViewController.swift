@@ -60,23 +60,23 @@ class SyncWelcomeViewController: UIViewController {
         descriptionLabel.text = Strings.BraveSyncWelcome
         scrollView.addSubview(descriptionLabel)
         
-        newToSyncButton = UIButton(type: .roundedRect)
-        newToSyncButton.translatesAutoresizingMaskIntoConstraints = false
-        newToSyncButton.setTitle(Strings.NewSyncCode, for: .normal)
-        newToSyncButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
-        newToSyncButton.setTitleColor(UIColor.white, for: .normal)
-        newToSyncButton.backgroundColor = BraveUX.DefaultBlue
-        newToSyncButton.layer.cornerRadius = 8
-        newToSyncButton.addTarget(self, action: #selector(SEL_newToSync), for: .touchUpInside)
-        scrollView.addSubview(newToSyncButton)
-        
         existingUserButton = UIButton(type: .roundedRect)
         existingUserButton.translatesAutoresizingMaskIntoConstraints = false
         existingUserButton.setTitle(Strings.ScanSyncCode, for: .normal)
-        existingUserButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        existingUserButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        existingUserButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
+        existingUserButton.setTitleColor(UIColor.white, for: .normal)
+        existingUserButton.backgroundColor = BraveUX.DefaultBlue
+        existingUserButton.layer.cornerRadius = 8
         existingUserButton.addTarget(self, action: #selector(SEL_existingUser), for: .touchUpInside)
         scrollView.addSubview(existingUserButton)
+        
+        newToSyncButton = UIButton(type: .roundedRect)
+        newToSyncButton.translatesAutoresizingMaskIntoConstraints = false
+        newToSyncButton.setTitle(Strings.NewSyncCode, for: .normal)
+        newToSyncButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+        newToSyncButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        newToSyncButton.addTarget(self, action: #selector(SEL_newToSync), for: .touchUpInside)
+        scrollView.addSubview(newToSyncButton)
         
         let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         spinner.startAnimating()
@@ -111,7 +111,7 @@ class SyncWelcomeViewController: UIViewController {
             make.right.equalTo(-30)
         }
         
-        newToSyncButton.snp.makeConstraints { (make) in
+        existingUserButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
             make.centerX.equalTo(self.scrollView)
             make.left.equalTo(16)
@@ -119,8 +119,8 @@ class SyncWelcomeViewController: UIViewController {
             make.height.equalTo(50)
         }
         
-        existingUserButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.newToSyncButton.snp.bottom).offset(8)
+        newToSyncButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.existingUserButton.snp.bottom).offset(8)
             make.centerX.equalTo(self.scrollView)
             make.bottom.equalTo(-10)
         }
@@ -162,9 +162,12 @@ class SyncWelcomeViewController: UIViewController {
             getDeviceName {
                 input in
                 
-                if let input = input {
-                    Sync.shared.initializeNewSyncGroup(deviceName: input)
-                }
+//                if let input = input {
+//                    Sync.shared.initializeNewSyncGroup(deviceName: input)
+//                }
+                let view = SyncAddDeviceViewController()
+                view.navigationItem.hidesBackButton = true
+                self.navigationController?.pushViewController(view, animated: true)
             }
             
         } else {

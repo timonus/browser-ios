@@ -108,7 +108,7 @@ class BraveSettingsView : AppSettingsTableViewController {
         settings += [
             SettingSection(title: NSAttributedString(string: Strings.General.uppercased()), children: generalSettings),
             
-            SettingSection(title: NSAttributedString(string: Strings.Sync.uppercased()), children:
+            SettingSection(title: NSAttributedString(string: Strings.OtherSettings.uppercased()), children:
                 [SyncDevicesSetting(settings: self)]
             ),
             SettingSection(title: NSAttributedString(string: Strings.Privacy.uppercased()), children:

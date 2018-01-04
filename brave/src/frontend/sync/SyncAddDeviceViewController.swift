@@ -33,27 +33,31 @@ class SyncAddDeviceViewController: UIViewController {
         containerView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
         scrollView.addSubview(containerView)
         
-        guard let syncSeed = Sync.shared.syncSeedArray else {
-            // TODO: Pop and error
-            return
-        }
+//        guard let syncSeed = Sync.shared.syncSeedArray else {
+//            // TODO: Pop and error
+//            return
+//        }
+//
+//        let qrSyncSeed = Niceware.shared.joinBytes(fromCombinedBytes: syncSeed)
+//        if qrSyncSeed.isEmpty {
+//            // Error
+//            return
+//        }
+//
+//        Niceware.shared.passphrase(fromBytes: syncSeed) { (words, error) in
+//            guard let words = words, error == nil else {
+//                return
+//            }
+//
+//            self.barcodeView = SyncBarcodeView(data: qrSyncSeed)
+//            self.codewordsView = SyncCodewordsView(data: words)
+//
+//            self.setupVisuals()
+//        }
         
-        let qrSyncSeed = Niceware.shared.joinBytes(fromCombinedBytes: syncSeed)
-        if qrSyncSeed.isEmpty {
-            // Error
-            return
-        }
-        
-        Niceware.shared.passphrase(fromBytes: syncSeed) { (words, error) in
-            guard let words = words, error == nil else {
-                return
-            }
-
-            self.barcodeView = SyncBarcodeView(data: qrSyncSeed)
-            self.codewordsView = SyncCodewordsView(data: words)
-            
-            self.setupVisuals()
-        }
+        self.barcodeView = SyncBarcodeView(data: "Sync with this unique code")
+        self.codewordsView = SyncCodewordsView(data: ["Poke","retro","cliche","yuccie","kitsch","roof-party","flexitarian","post","Hoodie","vexillologist","vinyl","iceland","coloring","book","star","guitar"])
+        self.setupVisuals()
     }
     
     func setupVisuals() {
