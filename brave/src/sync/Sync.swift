@@ -94,11 +94,11 @@ class Sync: JSInjector {
     fileprivate let prefFetchTimestamp = "sync-fetch-timestamp"
     
 //    #if DEBUG
-//    private let isDebug = true
-//    private let serverUrl = "https://sync-staging.brave.com"
+    fileprivate let isDebug = true
+    fileprivate let serverUrl = "https://sync-staging.brave.com"
 //    #else
-    fileprivate let isDebug = false
-    fileprivate let serverUrl = "https://sync.brave.com"
+//    fileprivate let isDebug = false
+//    fileprivate let serverUrl = "https://sync.brave.com"
 //    #endif
 
     fileprivate let apiVersion = 0
