@@ -2,7 +2,7 @@
   "commitish" : "3.8.2",
   "iOS" : [
     {
-      "hash" : "d5d03842535ea057f55cb3fc177e1f0418b28046bd0d2e91104fdd9629bc81bf",
+      "hash" : "64677d3dc38213921f2fa0eb029f01dd283a2d64032cb3a777249cb8c50285d1",
       "name" : "WebImage"
     }
   ]

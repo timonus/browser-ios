@@ -9,7 +9,6 @@ class SyncWelcomeViewController: UIViewController {
     
     var scrollView: UIScrollView!
     var graphic: UIImageView!
-    var bg: UIImageView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
     var newToSyncButton: UIButton!
@@ -31,12 +30,6 @@ class SyncWelcomeViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.alwaysBounceVertical = true
         view.addSubview(scrollView)
-        
-        bg = UIImageView(image: UIImage(named: "sync-gradient"))
-        bg.translatesAutoresizingMaskIntoConstraints = false
-        bg.contentMode = .scaleAspectFill
-        bg.clipsToBounds = true
-        scrollView.addSubview(bg)
         
         graphic = UIImageView(image: UIImage(named: "sync-art"))
         graphic.translatesAutoresizingMaskIntoConstraints = false
@@ -91,17 +84,14 @@ class SyncWelcomeViewController: UIViewController {
             make.edges.equalTo(self.view)
         }
         
-        bg.snp.makeConstraints { (make) in
-            make.top.equalTo(self.scrollView)
-            make.width.equalTo(self.scrollView)
-        }
-        
         graphic.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.bg).inset(UIEdgeInsetsMake(0, 19, 0, 0))
+            make.left.right.equalTo(0)
+            make.height.equalTo(187)
+            make.top.equalTo(50)
         }
         
         titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.bg.snp.bottom).offset(30)
+            make.top.equalTo(self.graphic.snp.bottom).offset(50)
             make.centerX.equalTo(self.scrollView)
         }
         
@@ -143,7 +133,7 @@ class SyncWelcomeViewController: UIViewController {
             }
             
             if Sync.shared.isInSyncGroup {
-                let view = SyncAddDeviceViewController()
+                let view = SyncAddDeviceTypeViewController()
                 view.navigationItem.hidesBackButton = true
                 navigationController?.pushViewController(view, animated: true)
             } else {
@@ -162,12 +152,9 @@ class SyncWelcomeViewController: UIViewController {
             getDeviceName {
                 input in
                 
-//                if let input = input {
-//                    Sync.shared.initializeNewSyncGroup(deviceName: input)
-//                }
-                let view = SyncAddDeviceViewController()
-                view.navigationItem.hidesBackButton = true
-                self.navigationController?.pushViewController(view, animated: true)
+                if let input = input {
+                    Sync.shared.initializeNewSyncGroup(deviceName: input)
+                }
             }
             
         } else {
