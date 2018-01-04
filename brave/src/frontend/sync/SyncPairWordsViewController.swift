@@ -161,8 +161,7 @@ class SyncPairWordsViewController: UIViewController {
                 return
             }
             
-            // Block Sync
-            // Sync.shared.initializeSync(seed: result)
+            Sync.shared.initializeSync(seed: result)
         }
     }
 }

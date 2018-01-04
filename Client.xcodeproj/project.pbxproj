@@ -313,6 +313,8 @@
 		5D75A1E71F1420F0003FB8C7 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD1641D1EDFB7090037ECCC /* SQLite.framework */; };
 		5D75A1E81F1420F0003FB8C7 /* SQLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD1641D1EDFB7090037ECCC /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA05E2D1EFC4315001D7EDE /* ErrorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */; };
+		5DB03ABD1FFE7D6D0088FBF4 /* fetch.js in Resources */ = {isa = PBXBuildFile; fileRef = 5DB03AA81FFE7D6D0088FBF4 /* fetch.js */; };
+		5DB03ABF1FFE82B20088FBF4 /* bundle.js in Resources */ = {isa = PBXBuildFile; fileRef = 5DB03ABE1FFE82B20088FBF4 /* bundle.js */; };
 		5DB199151E859F9100A851B6 /* SyncResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB199141E859F9100A851B6 /* SyncResponse.swift */; };
 		5DC5CFBE1F0D4126009553C4 /* GeometryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5CFBD1F0D4126009553C4 /* GeometryExtensions.swift */; };
 		5E5E76550DFB4EB71194132F /* LICENSE in Sources */ = {isa = PBXBuildFile; fileRef = 36C647DC00749BCC944D6EC6 /* LICENSE */; };
@@ -1291,6 +1293,8 @@
 		5D7443DA1F2BDB2B001653E9 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/BraveShareToInfoPlist.strings; sourceTree = "<group>"; };
 		5D84AB2CBD701CBBDC40620C /* ReadingListAuthenticator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReadingListAuthenticator.swift; path = ./ReadingList/ReadingListAuthenticator.swift; sourceTree = "<group>"; };
 		5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorExtensions.swift; path = Client/Extensions/ErrorExtensions.swift; sourceTree = "<group>"; };
+		5DB03AA81FFE7D6D0088FBF4 /* fetch.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fetch.js; sourceTree = "<group>"; };
+		5DB03ABE1FFE82B20088FBF4 /* bundle.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = bundle.js; sourceTree = "<group>"; };
 		5DB199141E859F9100A851B6 /* SyncResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncResponse.swift; sourceTree = "<group>"; };
 		5DC5CFBD1F0D4126009553C4 /* GeometryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeometryExtensions.swift; path = Client/Extensions/GeometryExtensions.swift; sourceTree = "<group>"; };
 		5DC93C70E9DA3485A2FD2BD3 /* Error.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Error.swift; path = ./ThirdParty/Result/Error.swift; sourceTree = "<group>"; };
@@ -3352,6 +3356,7 @@
 		EBDB7D4C1E1432E800D744C7 /* bundles */ = {
 			isa = PBXGroup;
 			children = (
+				5DB03ABE1FFE82B20088FBF4 /* bundle.js */,
 			);
 			name = bundles;
 			path = Carthage/Checkouts/sync/bundles;
@@ -3360,6 +3365,7 @@
 		EBDB7D511E14331900D744C7 /* polyfill */ = {
 			isa = PBXGroup;
 			children = (
+				5DB03AA81FFE7D6D0088FBF4 /* fetch.js */,
 			);
 			name = polyfill;
 			path = Carthage/Checkouts/sync/client/polyfill;
@@ -4196,6 +4202,7 @@
 				EB8F569B1DD13DF300679A78 /* FiraSans-Bold.ttf in Resources */,
 				EB8F569D1DD13DF300679A78 /* FiraSans-Book.ttf in Resources */,
 				4C8CFF069B42CD78C72CC4F4 /* HideEmptyImages.js in Resources */,
+				5DB03ABF1FFE82B20088FBF4 /* bundle.js in Resources */,
 				DDF18B7D90D1BF9E6072344C /* PageUnload.js in Resources */,
 				4305183B54F23C211BD5112A /* SafeBrowsingError.html in Resources */,
 				15172EAC2FF91D5014CAA0CB /* Licenses.html in Resources */,
@@ -4212,6 +4219,7 @@
 				4D68B2825D2CAD5FB6098D21 /* NetError.css in Resources */,
 				EB8F56991DD13DF300679A78 /* CharisSILI.ttf in Resources */,
 				6B06EE00444FA99CCD366C2B /* NetError.html in Resources */,
+				5DB03ABD1FFE7D6D0088FBF4 /* fetch.js in Resources */,
 				EBDB7D571E14337800D744C7 /* ios-sync.js in Resources */,
 				13657B6789F5024F64E16739 /* PrintHelper.js in Resources */,
 				9238CC0C5284146DC56706EF /* default.txt in Resources */,
