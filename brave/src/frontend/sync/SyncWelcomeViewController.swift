@@ -155,6 +155,8 @@ class SyncWelcomeViewController: UIViewController {
                 if let input = input {
                     Sync.shared.initializeNewSyncGroup(deviceName: input)
                 }
+//                let view = SyncAddDeviceTypeViewController()
+//                self.navigationController?.pushViewController(view, animated: true)
             }
             
         } else {
