@@ -3,6 +3,11 @@
 import UIKit
 import Shared
 
+enum DeviceType {
+    case mobile
+    case computer
+}
+
 class SyncAddDeviceViewController: UIViewController {
     
     var scrollView: UIScrollView!
@@ -13,11 +18,27 @@ class SyncAddDeviceViewController: UIViewController {
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
     var doneButton: UIButton!
+    var pageTitle: String = Strings.Sync
+    var deviceType: DeviceType = .mobile
+    
+    convenience init(title: String, type: DeviceType) {
+        self.init()
+        pageTitle = title
+        deviceType = type
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = Strings.Sync
+        title = pageTitle
         view.backgroundColor = SyncBackgroundColor
         
         scrollView = UIScrollView()
@@ -65,7 +86,7 @@ class SyncAddDeviceViewController: UIViewController {
         modeControl = UISegmentedControl(items: [Strings.QRCode, Strings.CodeWords])
         modeControl.translatesAutoresizingMaskIntoConstraints = false
         modeControl.tintColor = BraveUX.DefaultBlue
-        modeControl.selectedSegmentIndex = 0
+        modeControl.selectedSegmentIndex = deviceType == .mobile ? 0 : 1
         modeControl.addTarget(self, action: #selector(SEL_changeMode), for: .valueChanged)
         scrollView.addSubview(modeControl)
         
