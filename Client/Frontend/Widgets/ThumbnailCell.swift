@@ -77,14 +77,7 @@ struct ThumbnailCellUX {
     static let NearestNeighbordScalingThreshold: CGFloat = 24
 }
 
-@objc protocol ThumbnailCellDelegate {
-    func didRemoveThumbnail(_ thumbnailCell: ThumbnailCell)
-    func didLongPressThumbnail(_ thumbnailCell: ThumbnailCell)
-}
-
 class ThumbnailCell: UICollectionViewCell {
-    weak var delegate: ThumbnailCellDelegate?
-
     var imageInsets: UIEdgeInsets = UIEdgeInsets.zero
     var cellInsets: UIEdgeInsets = UIEdgeInsets.zero
 
@@ -146,10 +139,6 @@ class ThumbnailCell: UICollectionViewCell {
         }
     }
 
-    lazy var longPressGesture: UILongPressGestureRecognizer = {
-        return UILongPressGestureRecognizer(target: self, action: #selector(ThumbnailCell.SELdidLongPress))
-    }()
-
     lazy var textLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.setContentHuggingPriority(1000, for: UILayoutConstraintAxis.vertical)
@@ -178,20 +167,6 @@ class ThumbnailCell: UICollectionViewCell {
         imageWrapper.clipsToBounds = true
         return imageWrapper
     }()
-
-    lazy var removeButton: UIButton = {
-        let removeButton = UIButton()
-        removeButton.isExclusiveTouch = true
-        let removeButtonImage = UIImage(named: "remove_tile")
-        removeButton.setImage(removeButtonImage, for: .normal)
-        removeButton.addTarget(self, action: #selector(ThumbnailCell.SELdidRemove), for: UIControlEvents.touchUpInside)
-        removeButton.accessibilityLabel = Strings.Remove_page
-        removeButton.isHidden = true
-        removeButton.sizeToFit()
-        let buttonCenterX = floor(removeButton.bounds.width/2)
-        let buttonCenterY = floor(removeButton.bounds.height/2)
-        removeButton.center = CGPoint(x: buttonCenterX, y: buttonCenterY)
-        return removeButton    }()
 
     // TODO: Should be no longer needed
     lazy var backgroundImage: UIImageView = {
@@ -223,11 +198,9 @@ class ThumbnailCell: UICollectionViewCell {
         layer.rasterizationScale = UIScreen.main.scale
 
         isAccessibilityElement = true
-        addGestureRecognizer(longPressGesture)
 
         contentView.addSubview(imageView)
         contentView.addSubview(textLabel)
-        contentView.addSubview(removeButton)
 
         textLabel.snp.remakeConstraints { make in
             // TODO: relook at insets
@@ -246,7 +219,6 @@ class ThumbnailCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         backgroundImage.image = nil
-        removeButton.isHidden = true
         showBorder(false)
         backgroundColor = UIColor.clear
         textLabel.font = DynamicFontHelper.defaultHelper.DefaultSmallFont
@@ -256,40 +228,6 @@ class ThumbnailCell: UICollectionViewCell {
     fileprivate func updateSelectedHighlightedState() {
         let activated = isSelected || isHighlighted
         self.imageView.alpha = activated ? 0.7 : 1.0
-    }
-
-    func SELdidRemove() {
-        delegate?.didRemoveThumbnail(self)
-    }
-
-    func SELdidLongPress() {
-        delegate?.didLongPressThumbnail(self)
-    }
-
-    func toggleRemoveButton(_ show: Bool) {
-        // Only toggle if we change state
-        if removeButton.isHidden != show {
-            return
-        }
-
-        if show {
-            removeButton.isHidden = false
-        }
-
-        let scaleTransform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-        removeButton.transform = show ? scaleTransform : CGAffineTransform.identity
-        UIView.animate(withDuration: ThumbnailCellUX.RemoveButtonAnimationDuration,
-            delay: 0,
-            usingSpringWithDamping: ThumbnailCellUX.RemoveButtonAnimationDamping,
-            initialSpringVelocity: 0,
-            options: UIViewAnimationOptions.allowUserInteraction,
-            animations: {
-                self.removeButton.transform = show ? CGAffineTransform.identity : scaleTransform
-            }, completion: { _ in
-                if !show {
-                    self.removeButton.isHidden = true
-                }
-            })
     }
     
     func showBorder(_ show: Bool) {

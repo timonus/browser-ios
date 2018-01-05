@@ -157,7 +157,6 @@ class TopSitesPanel: UIViewController {
         braveShieldStatsView.autoresizingMask = [.flexibleWidth]
 
         self.dataSource.collectionView = self.collection
-        self.refreshTopSites(self.maxFrecencyLimit)
         
         privateTabMessageContainer.snp.makeConstraints { (make) -> Void in
             make.centerX.equalTo(collection)
@@ -267,7 +266,8 @@ class TopSitesPanel: UIViewController {
     func notificationReceived(_ notification: Notification) {
         switch notification.name {
         case NotificationFirefoxAccountChanged, NotificationProfileDidFinishSyncing, NotificationPrivateDataClearedHistory, NotificationDynamicFontChanged:
-            refreshTopSites(maxFrecencyLimit)
+            // TODO: delete these notifications?
+//            refreshTopSites(maxFrecencyLimit)
             break
         case NotificationPrivacyModeChanged:
             // TODO: This entire blockshould be abstracted
@@ -344,15 +344,6 @@ class TopSitesPanel: UIViewController {
     }
     
     //MARK: Private Helpers
-    fileprivate func updateDataSourceWithSites(_ result: [Site], completion: @escaping ()->()) {
-//        self.dataSource.setHistorySites(result) {
-//            completion()
-//        }
-    }
-
-    fileprivate func updateAllRemoveButtonStates() {
-        collection?.indexPathsForVisibleItems.forEach(updateRemoveButtonStateForIndexPath)
-    }
 
     fileprivate func topSitesQuery() -> Deferred<[Site]> {
         let result = Deferred<[Site]>()
@@ -376,59 +367,6 @@ class TopSitesPanel: UIViewController {
         return result
     }
 
-    fileprivate func deleteHistoryTileForSite(_ site: Site, atIndexPath indexPath: IndexPath) {
-        collection?.isUserInteractionEnabled = false
-
-        guard let url = URL(string: site.url) else { return }
-        let context = DataController.shared.workerContext
-        context.perform {
-            Domain.blockFromTopSites(url, context: context)
-            
-            postAsyncToMain {
-//                self.dataSource.sites = self.dataSource.sites.filter { $0 !== site }
-
-                // Update the UICollectionView.
-                self.deleteOrUpdateSites(indexPath) >>> {
-                    // Finally, requery to pull in the latest sites.
-                    self.topSitesQuery().uponQueue(DispatchQueue.main) { sites in
-                        self.updateDataSourceWithSites(sites) {
-                            self.collection?.isUserInteractionEnabled = true
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fileprivate func updateRemoveButtonStateForIndexPath(_ indexPath: IndexPath) {
-        // If we have a cell passed in, use it. If not, then use the indexPath to get it.
-        guard let cell = collection?.cellForItem(at: indexPath) as? ThumbnailCell else {
-            return
-        }
-
-//        cell.toggleRemoveButton(editingThumbnails)
-    }
-
-    fileprivate func refreshTopSites(_ frecencyLimit: Int) {
-            // Don't allow Sync or other notifications to change the data source if we're deleting a thumbnail.
-            if !(self.collection?.isUserInteractionEnabled ?? true) {
-                return
-            }
-
-            _ = self.reloadTopSitesWithLimit(frecencyLimit)
-    }
-
-    fileprivate func reloadTopSitesWithLimit(_ limit: Int) -> Success {
-        let result = Success()
-        topSitesQuery().uponQueue(DispatchQueue.main) { sites in
-            self.updateDataSourceWithSites(sites) {
-                self.collection?.reloadData()
-                result.fill(Maybe(success: ()))
-            }
-        }
-        return result
-    }
-
     fileprivate func deleteOrUpdateSites(_ indexPath: IndexPath) -> Success {
         guard let collection = self.collection else { return succeed() }
 
@@ -439,12 +377,10 @@ class TopSitesPanel: UIViewController {
 
             // If we have more items in our data source, replace the deleted site with a new one.
             let count = collection.numberOfItems(inSection: 0) - 1
-//            if count < self.dataSource.count() {
             if count < self.dataSource.favourites.count {
                 collection.insertItems(at: [ IndexPath(item: count, section: 0) ])
             }
         }, completion: { _ in
-            self.updateAllRemoveButtonStates()
             result.fill(Maybe(success: ()))
         })
 
@@ -491,7 +427,6 @@ class TopSitesPanel: UIViewController {
 extension TopSitesPanel: HomePanel {
     func endEditing() {
         (view.window as! BraveMainWindow).removeTouchFilter(self)
-//        editingThumbnails = false
         collection?.reloadData()
     }
 }
@@ -503,29 +438,6 @@ extension TopSitesPanel: UICollectionViewDelegate {
         guard let urlString = fav.url, let url = URL(string: urlString) else { return }
 
         homePanelDelegate?.homePanel(self, didSelectURL: url)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let thumbnailCell = cell as? ThumbnailCell {
-            thumbnailCell.delegate = self
-//            if editingThumbnails && indexPath.item < dataSource.count() && thumbnailCell.removeButton.isHidden {
-//                thumbnailCell.removeButton.isHidden = false
-//            }
-        }
-    }
-}
-
-extension TopSitesPanel: ThumbnailCellDelegate {
-    func didRemoveThumbnail(_ thumbnailCell: ThumbnailCell) {
-//        guard let indexPath = collection?.indexPath(for: thumbnailCell),
-//              let site = dataSource[indexPath.item] else { return }
-
-//        self.deleteHistoryTileForSite(site, atIndexPath: indexPath)
-    }
-
-    func didLongPressThumbnail(_ thumbnailCell: ThumbnailCell) {
-//        editingThumbnails = true
-        (view.window as! BraveMainWindow).addTouchFilter(self)
     }
 }
 
@@ -755,7 +667,6 @@ fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
         let domainURL = extractDomainURL(site.url)
         cell.textLabel.text = domainURL
         cell.accessibilityLabel = cell.textLabel.text
-        cell.removeButton.isHidden = !editing
         
         guard let topsiteUrl = URL(string: domainURL) else { return }
         
