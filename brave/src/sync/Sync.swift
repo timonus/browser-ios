@@ -573,56 +573,55 @@ extension Sync {
 extension Sync: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         
-        DispatchQueue.global(qos: .background).async {
+        // JS execution must be on main thread
         
-            print("😎 \(message.name) \(message.body)")
-            
-            let syncResponse = SyncResponse(object: message.body as? String ?? "")
-            guard let messageName = syncResponse.message else {
-                assert(false)
-                return
-            }
-
-            switch messageName {
-            case "get-init-data":
-    //            getInitData()
-                break
-            case "got-init-data":
-                self.gotInitData()
-            case "save-init-data" :
-                // A bit hacky, but this method's data is not very uniform
-                // (e.g. arg2 is [Int])
-                let data = JSON(parseJSON: message.body as? String ?? "")
-                self.saveInitData(data)
-            case "get-existing-objects":
-                self.getExistingObjects(syncResponse)
-            case "resolved-sync-records":
-                self.resolvedSyncRecords(syncResponse)
-            case "sync-debug":
-                let data = JSON(parseJSON: message.body as? String ?? "")
-                print("---- Sync Debug: \(data)")
-            case "sync-ready":
-                self.isSyncFullyInitialized.syncReady = true
-            case "fetch-sync-records":
-                self.isSyncFullyInitialized.fetchReady = true
-            case "send-sync-records":
-                self.isSyncFullyInitialized.sendRecordsReady = true
-            case "fetch-sync-devices":
-                self.isSyncFullyInitialized.fetchDevicesReady = true
-            case "resolve-sync-records":
-                self.isSyncFullyInitialized.resolveRecordsReady = true
-            case "delete-sync-user":
-                self.isSyncFullyInitialized.deleteUserReady = true
-            case "delete-sync-site-settings":
-                self.isSyncFullyInitialized.deleteSiteSettingsReady = true
-            case "delete-sync-category":
-                self.isSyncFullyInitialized.deleteCategoryReady = true
-            default:
-                print("\(messageName) not handled yet")
-            }
-
-            self.checkIsSyncReady()
+        print("😎 \(message.name) \(message.body)")
+        
+        let syncResponse = SyncResponse(object: message.body as? String ?? "")
+        guard let messageName = syncResponse.message else {
+            assert(false)
+            return
         }
+
+        switch messageName {
+        case "get-init-data":
+//            getInitData()
+            break
+        case "got-init-data":
+            self.gotInitData()
+        case "save-init-data" :
+            // A bit hacky, but this method's data is not very uniform
+            // (e.g. arg2 is [Int])
+            let data = JSON(parseJSON: message.body as? String ?? "")
+            self.saveInitData(data)
+        case "get-existing-objects":
+            self.getExistingObjects(syncResponse)
+        case "resolved-sync-records":
+            self.resolvedSyncRecords(syncResponse)
+        case "sync-debug":
+            let data = JSON(parseJSON: message.body as? String ?? "")
+            print("---- Sync Debug: \(data)")
+        case "sync-ready":
+            self.isSyncFullyInitialized.syncReady = true
+        case "fetch-sync-records":
+            self.isSyncFullyInitialized.fetchReady = true
+        case "send-sync-records":
+            self.isSyncFullyInitialized.sendRecordsReady = true
+        case "fetch-sync-devices":
+            self.isSyncFullyInitialized.fetchDevicesReady = true
+        case "resolve-sync-records":
+            self.isSyncFullyInitialized.resolveRecordsReady = true
+        case "delete-sync-user":
+            self.isSyncFullyInitialized.deleteUserReady = true
+        case "delete-sync-site-settings":
+            self.isSyncFullyInitialized.deleteSiteSettingsReady = true
+        case "delete-sync-category":
+            self.isSyncFullyInitialized.deleteCategoryReady = true
+        default:
+            print("\(messageName) not handled yet")
+        }
+
+        self.checkIsSyncReady()
     }
 }
 
