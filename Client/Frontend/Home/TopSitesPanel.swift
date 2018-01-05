@@ -39,8 +39,8 @@ class TopSitesPanel: UIViewController {
     fileprivate var privateTabInfoLabel: UILabel!
     fileprivate var privateTabLinkButton: UIButton!
     fileprivate var braveShieldStatsView: BraveShieldStatsView? = nil
-    fileprivate lazy var dataSource: TopSitesDataSource = {
-        return TopSitesDataSource()
+    fileprivate lazy var dataSource: FavouritesDataSource = {
+        return FavouritesDataSource()
     }()
     fileprivate lazy var layout: TopSitesLayout = { return TopSitesLayout() }()
 
@@ -50,20 +50,6 @@ class TopSitesPanel: UIViewController {
             self.calculateApproxThumbnailCountForOrientation(UIInterfaceOrientation.portrait)
         )
     }()
-
-    var editingThumbnails: Bool = false {
-        didSet {
-            if editingThumbnails != oldValue {
-                dataSource.editingThumbnails = editingThumbnails
-
-                if editingThumbnails {
-                    homePanelDelegate?.homePanelWillEnterEditingMode?(self)
-                }
-
-                updateAllRemoveButtonStates()
-            }
-        }
-    }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -359,9 +345,9 @@ class TopSitesPanel: UIViewController {
     
     //MARK: Private Helpers
     fileprivate func updateDataSourceWithSites(_ result: [Site], completion: @escaping ()->()) {
-        self.dataSource.setHistorySites(result) {
-            completion()
-        }
+//        self.dataSource.setHistorySites(result) {
+//            completion()
+//        }
     }
 
     fileprivate func updateAllRemoveButtonStates() {
@@ -399,7 +385,7 @@ class TopSitesPanel: UIViewController {
             Domain.blockFromTopSites(url, context: context)
             
             postAsyncToMain {
-                self.dataSource.sites = self.dataSource.sites.filter { $0 !== site }
+//                self.dataSource.sites = self.dataSource.sites.filter { $0 !== site }
 
                 // Update the UICollectionView.
                 self.deleteOrUpdateSites(indexPath) >>> {
@@ -420,7 +406,7 @@ class TopSitesPanel: UIViewController {
             return
         }
 
-        cell.toggleRemoveButton(editingThumbnails)
+//        cell.toggleRemoveButton(editingThumbnails)
     }
 
     fileprivate func refreshTopSites(_ frecencyLimit: Int) {
@@ -453,7 +439,8 @@ class TopSitesPanel: UIViewController {
 
             // If we have more items in our data source, replace the deleted site with a new one.
             let count = collection.numberOfItems(inSection: 0) - 1
-            if count < self.dataSource.count() {
+//            if count < self.dataSource.count() {
+            if count < self.dataSource.favourites.count {
                 collection.insertItems(at: [ IndexPath(item: count, section: 0) ])
             }
         }, completion: { _ in
@@ -474,6 +461,7 @@ class TopSitesPanel: UIViewController {
     - returns: Rough tile count we will be displaying for the passed in orientation
     */
     fileprivate func calculateApproxThumbnailCountForOrientation(_ orientation: UIInterfaceOrientation) -> Int {
+
         let size = UIScreen.main.bounds.size
         let portraitSize = CGSize(width: min(size.width, size.height), height: max(size.width, size.height))
 
@@ -503,44 +491,40 @@ class TopSitesPanel: UIViewController {
 extension TopSitesPanel: HomePanel {
     func endEditing() {
         (view.window as! BraveMainWindow).removeTouchFilter(self)
-        editingThumbnails = false
+//        editingThumbnails = false
         collection?.reloadData()
     }
 }
 
 extension TopSitesPanel: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if editingThumbnails {
-            return
-        }
+        let fav = dataSource.favourites[indexPath.row]
 
-        if let site = dataSource[indexPath.item] {
-            // We're gonna call Top Sites bookmarks for now.
-            let urlString = "\(URL(string: site.url)?.scheme ?? "")://\(URL(string: site.url)?.host ?? "")"
-            homePanelDelegate?.homePanel(self, didSelectURL: URL(string: urlString) ?? site.tileURL)
-        }
+        guard let urlString = fav.url, let url = URL(string: urlString) else { return }
+
+        homePanelDelegate?.homePanel(self, didSelectURL: url)
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let thumbnailCell = cell as? ThumbnailCell {
             thumbnailCell.delegate = self
-            if editingThumbnails && indexPath.item < dataSource.count() && thumbnailCell.removeButton.isHidden {
-                thumbnailCell.removeButton.isHidden = false
-            }
+//            if editingThumbnails && indexPath.item < dataSource.count() && thumbnailCell.removeButton.isHidden {
+//                thumbnailCell.removeButton.isHidden = false
+//            }
         }
     }
 }
 
 extension TopSitesPanel: ThumbnailCellDelegate {
     func didRemoveThumbnail(_ thumbnailCell: ThumbnailCell) {
-        guard let indexPath = collection?.indexPath(for: thumbnailCell),
-              let site = dataSource[indexPath.item] else { return }
+//        guard let indexPath = collection?.indexPath(for: thumbnailCell),
+//              let site = dataSource[indexPath.item] else { return }
 
-        self.deleteHistoryTileForSite(site, atIndexPath: indexPath)
+//        self.deleteHistoryTileForSite(site, atIndexPath: indexPath)
     }
 
     func didLongPressThumbnail(_ thumbnailCell: ThumbnailCell) {
-        editingThumbnails = true
+//        editingThumbnails = true
         (view.window as! BraveMainWindow).addTouchFilter(self)
     }
 }
@@ -698,6 +682,7 @@ class TopSitesLayout: UICollectionViewLayout {
     }
 }
 
+// TODO: Delete, keeping it for reference while working on new data source implementation.
 fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
     var editingThumbnails: Bool = false
     var suggestedSites = [SuggestedSite]()

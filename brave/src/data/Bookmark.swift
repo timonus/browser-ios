@@ -282,6 +282,38 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
                 try Bookmark.add(url: "https://www.wikipedia.org/".asURL(), title: "Wikipedia", parentFolder: topSitesFolder)
                 try Bookmark.add(url: "https://mobile.twitter.com/".asURL(), title: "Twitter", parentFolder: topSitesFolder)
 
+                /* Scrolling test, will remove it once fixed
+                try Bookmark.add(url: "https://m.facebook2.com/".asURL(), title: "Facebook2", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://m.youtube2.com".asURL(), title: "Youtube2", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.amazon2.com/".asURL(), title: "Amazon2", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.wikipedia2.org/".asURL(), title: "Wikipedia2", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://mobile.twitter2.com/".asURL(), title: "Twitter2", parentFolder: topSitesFolder)
+
+                try Bookmark.add(url: "https://m.facebook3.com/".asURL(), title: "Facebook3", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://m.youtube3.com".asURL(), title: "Youtube3", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.amazon3.com/".asURL(), title: "Amazon3", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.wikipedia3.org/".asURL(), title: "Wikipedia3", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://mobile.twitter3.com/".asURL(), title: "Twitter3", parentFolder: topSitesFolder)
+
+                try Bookmark.add(url: "https://m.facebook4.com/".asURL(), title: "Facebook4", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://m.youtube4.com".asURL(), title: "Youtube4", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.amazon4.com/".asURL(), title: "Amazon4", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.wikipedia4.org/".asURL(), title: "Wikipedia4", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://mobile.twitter4.com/".asURL(), title: "Twitter4", parentFolder: topSitesFolder)
+
+                try Bookmark.add(url: "https://m.facebook5.com/".asURL(), title: "Facebook5", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://m.youtube5.com".asURL(), title: "Youtube5", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.amazon5.com/".asURL(), title: "Amazon5", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.wikipedia5.org/".asURL(), title: "Wikipedia5", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://mobile.twitter5.com/".asURL(), title: "Twitter5", parentFolder: topSitesFolder)
+
+                try Bookmark.add(url: "https://m.facebook6.com/".asURL(), title: "Facebook6", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://m.youtube6.com".asURL(), title: "Youtube6", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.amazon6.com/".asURL(), title: "Amazon6", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://www.wikipedia6.org/".asURL(), title: "Wikipedia6", parentFolder: topSitesFolder)
+                try Bookmark.add(url: "https://mobile.twitter6.com/".asURL(), title: "Twitter6", parentFolder: topSitesFolder)
+                */
+
             }
         } catch {
             // TODO: Better error handling
