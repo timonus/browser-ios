@@ -120,32 +120,19 @@ class DataController: NSObject {
             return
         }
 
+        // TODO: Clean this up
         if context.hasChanges {
             do {
                 try context.save()
-
-                if context === DataController.shared.mainThreadContext {
-                    // Data has changed on main MOC. Let the existing worker threads continue as-is,
-                    // but create a new workerMOC (which is a copy of main MOC data) for next time a worker is used.
-                    // By design we only merge changes 'up' the stack from child-to-parent.
-//                    DataController.shared._workerContext = nil
-
-                    // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
-                    postAsyncToMain(0.1) {
-                        DataController.shared.writeContext.perform {
-                            if !DataController.shared.writeContext.hasChanges {
-                                return
-                            }
-                            do {
-                                try DataController.shared.writeContext.save()
-                            } catch {
-                                fatalError("Error saving DB to disk: \(error)")
-                            }
-                        }
+                
+                DataController.shared.writeContext.perform {
+                    if !DataController.shared.writeContext.hasChanges {
+                        return
                     }
-                } else {
-                    postAsyncToMain(0.1) {
-                        DataController.saveContext(context: DataController.shared.mainThreadContext)
+                    do {
+                        try DataController.shared.writeContext.save()
+                    } catch {
+                        fatalError("Error saving DB to disk: \(error)")
                     }
                 }
             } catch {
