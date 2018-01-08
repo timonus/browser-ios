@@ -129,9 +129,3 @@ class FavouritesDataSource: NSObject, UICollectionViewDataSource {
                                           context: DataController.shared.mainThreadContext) ?? []
     }
 }
-
-extension Bookmark {
-    func convertToSuggestedSite() -> Site? {
-        return nil
-    }
-}

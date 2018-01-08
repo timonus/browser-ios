@@ -27,11 +27,12 @@ struct TopSitesPanelUX {
     fileprivate static let WelcomeScreenPadding: CGFloat = 15
     fileprivate static let WelcomeScreenItemTextColor = UIColor.gray
     fileprivate static let WelcomeScreenItemWidth = 170
+    fileprivate static let iPhoneThumbnailSize = 90
+    fileprivate static let iPadThumbnailSize = 150
 }
 
 class TopSitesPanel: UIViewController {
     weak var homePanelDelegate: HomePanelDelegate?
-    fileprivate lazy var emptyStateOverlayView: UIView = self.createEmptyStateOverlayView()
     fileprivate var collection: TopSitesCollectionView? = nil
     fileprivate var privateTabMessageContainer: UIView!
     fileprivate var privateTabGraphic: UIImageView!
@@ -39,16 +40,18 @@ class TopSitesPanel: UIViewController {
     fileprivate var privateTabInfoLabel: UILabel!
     fileprivate var privateTabLinkButton: UIButton!
     fileprivate var braveShieldStatsView: BraveShieldStatsView? = nil
-    fileprivate lazy var dataSource: FavouritesDataSource = {
-        return FavouritesDataSource()
-    }()
-    fileprivate lazy var layout: TopSitesLayout = { return TopSitesLayout() }()
+    fileprivate lazy var dataSource: FavouritesDataSource = { return FavouritesDataSource() }()
+    fileprivate lazy var layout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
 
-    fileprivate lazy var maxFrecencyLimit: Int = {
-        return max(
-            self.calculateApproxThumbnailCountForOrientation(UIInterfaceOrientation.landscapeLeft),
-            self.calculateApproxThumbnailCountForOrientation(UIInterfaceOrientation.portrait)
-        )
+        // TODO: A bit larger thumbnails for iPhone horizontal? Currently it shows 7 sites.
+        let size = DeviceDetector.isIpad ? TopSitesPanelUX.iPadThumbnailSize : TopSitesPanelUX.iPhoneThumbnailSize
+        layout.itemSize = CGSize(width: size, height: size)
+        layout.minimumInteritemSpacing = 4
+        layout.minimumLineSpacing = 4
+
+        return layout
+
     }()
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -117,7 +120,7 @@ class TopSitesPanel: UIViewController {
         privateTabLinkButton.titleLabel?.lineBreakMode = .byWordWrapping
         privateTabLinkButton.addTarget(self, action: #selector(SEL_privateTabInfo), for: .touchUpInside)
         privateTabMessageContainer.addSubview(privateTabLinkButton)
-        
+
         let collection = TopSitesCollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collection.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
         collection.delegate = self
@@ -136,6 +139,7 @@ class TopSitesPanel: UIViewController {
                 make.edges.equalTo(self.view)
             }
         }
+
         self.collection = collection
         
         let braveShieldStatsView = BraveShieldStatsView(frame: CGRect.zero)
@@ -295,53 +299,6 @@ class TopSitesPanel: UIViewController {
             _ = t?.addTabAndSelect(URLRequest(url: url))
         }
     }
-
-    fileprivate func createEmptyStateOverlayView() -> UIView {
-        let overlayView = UIView()
-        overlayView.backgroundColor = UIColor.white
-        
-        let logoImageView = UIImageView(image: UIImage(named: "emptyTopSites"))
-        overlayView.addSubview(logoImageView)
-        
-        let titleLabel = UILabel()
-        titleLabel.font = DynamicFontHelper.defaultHelper.DeviceFont
-        titleLabel.text = Strings.TopSitesEmptyStateTitle
-        titleLabel.textAlignment = NSTextAlignment.center
-        titleLabel.textColor = TopSitesPanelUX.EmptyStateTitleTextColor
-        overlayView.addSubview(titleLabel)
-        
-        let descriptionLabel = UILabel()
-        descriptionLabel.text = Strings.TopSitesEmptyStateDescription
-        descriptionLabel.textAlignment = NSTextAlignment.center
-        descriptionLabel.font = DynamicFontHelper.defaultHelper.DeviceFontLight
-        descriptionLabel.textColor = TopSitesPanelUX.WelcomeScreenItemTextColor
-        descriptionLabel.numberOfLines = 2
-        descriptionLabel.adjustsFontSizeToFitWidth = true
-        overlayView.addSubview(descriptionLabel)
-        
-        logoImageView.snp.makeConstraints { make in
-            make.centerX.equalTo(overlayView)
-            
-            // Sets proper top constraint for iPhone 6 in portait and for iPad.
-            make.centerY.equalTo(overlayView).offset(HomePanelUX.EmptyTabContentOffset).priority(100)
-            
-            // Sets proper top constraint for iPhone 4, 5 in portrait.
-            make.top.greaterThanOrEqualTo(overlayView).offset(50)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(logoImageView.snp.bottom).offset(TopSitesPanelUX.EmptyStateTopPaddingInBetweenItems)
-            make.centerX.equalTo(logoImageView)
-        }
-        
-        descriptionLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(overlayView)
-            make.top.equalTo(titleLabel.snp.bottom).offset(TopSitesPanelUX.WelcomeScreenPadding)
-            make.width.equalTo(TopSitesPanelUX.WelcomeScreenItemWidth)
-        }
-        
-        return overlayView
-    }
     
     //MARK: Private Helpers
 
@@ -386,42 +343,6 @@ class TopSitesPanel: UIViewController {
 
         return result
     }
-
-    /**
-    Calculates an approximation of the number of tiles we want to display for the given orientation. This
-    method uses the screen's size as it's basis for the calculation instead of the collectionView's since the 
-    collectionView's bounds is determined until the next layout pass.
-
-    - parameter orientation: Orientation to calculate number of tiles for
-
-    - returns: Rough tile count we will be displaying for the passed in orientation
-    */
-    fileprivate func calculateApproxThumbnailCountForOrientation(_ orientation: UIInterfaceOrientation) -> Int {
-
-        let size = UIScreen.main.bounds.size
-        let portraitSize = CGSize(width: min(size.width, size.height), height: max(size.width, size.height))
-
-        func calculateRowsForSize(_ size: CGSize, columns: Int) -> Int {
-            let insets = ThumbnailCellUX.insetsForCollectionViewSize(size,
-                traitCollection:  traitCollection)
-            let thumbnailWidth = (size.width - insets.left - insets.right) / CGFloat(columns)
-            let thumbnailHeight = thumbnailWidth / CGFloat(ThumbnailCellUX.ImageAspectRatio)
-            return max(2, Int(size.height / thumbnailHeight))
-        }
-
-        let numberOfColumns: Int
-        let numberOfRows: Int
-
-        if UIInterfaceOrientationIsLandscape(orientation) {
-            numberOfColumns = 5
-            numberOfRows = calculateRowsForSize(CGSize(width: portraitSize.height, height: portraitSize.width), columns: numberOfColumns)
-        } else {
-            numberOfColumns = 4
-            numberOfRows = calculateRowsForSize(portraitSize, columns: numberOfColumns)
-        }
-
-        return numberOfColumns * numberOfRows
-    }
 }
 
 extension TopSitesPanel: HomePanel {
@@ -449,395 +370,6 @@ fileprivate class TopSitesCollectionView: UICollectionView {
     }
 }
 
-class TopSitesLayout: UICollectionViewLayout {
-
-    var thumbnailCount: Int {
-        assertIsMainThread("layout.thumbnailCount interacts with UIKit components - cannot call from background thread.")
-        let dataSource = self.collectionView?.dataSource as? FavouritesDataSource
-
-        return dataSource?.favourites.count ?? 0
-    }
-
-    fileprivate var thumbnailRows: Int {
-        assert(Thread.isMainThread, "Interacts with UIKit components - not thread-safe.")
-        let countDouble = Double(thumbnailCount)
-        let colsDouble = Double(thumbnailCols)
-        let rowsDouble = countDouble / colsDouble
-
-        return Int(rowsDouble.rounded(.up))
-    }
-
-    fileprivate var thumbnailCols: Int {
-        assert(Thread.isMainThread, "Interacts with UIKit components - not thread-safe.")
-
-        let size = collectionView?.bounds.size ?? CGSize.zero
-        let traitCollection = collectionView!.traitCollection
-        var cols = 0
-        if traitCollection.horizontalSizeClass == .compact {
-            // Landscape iPhone
-            if traitCollection.verticalSizeClass == .compact {
-                cols = 5
-            }
-            // Split screen iPad width
-            else if size.widthLargerOrEqualThanHalfIPad() {
-                cols = 4
-            }
-            // iPhone portrait
-            else {
-                cols = 3
-            }
-        } else {
-            // Portrait iPad
-            if size.height > size.width {
-                cols = 4;
-            }
-            // Landscape iPad
-            else {
-                cols = 5;
-            }
-        }
-        return cols + 1
-    }
-
-    fileprivate var width: CGFloat {
-        assertIsMainThread("layout.width interacts with UIKit components - cannot call from background thread.")
-        return self.collectionView?.frame.width ?? 0
-    }
-
-    // The width and height of the thumbnail here are the width and height of the tile itself, not the image inside the tile.
-    fileprivate var thumbnailWidth: CGFloat {
-        assertIsMainThread("layout.thumbnailWidth interacts with UIKit components - cannot call from background thread.")
-
-        let size = collectionView?.bounds.size ?? CGSize.zero
-        let insets = ThumbnailCellUX.insetsForCollectionViewSize(size,
-            traitCollection:  collectionView!.traitCollection)
-
-        return floor(width - insets.left - insets.right) / CGFloat(thumbnailCols)
-    }
-    // The tile's height is determined the aspect ratio of the thumbnails width. We also take into account
-    // some padding between the title and the image.
-    fileprivate var thumbnailHeight: CGFloat {
-        assertIsMainThread("layout.thumbnailHeight interacts with UIKit components - cannot call from background thread.")
-
-        return floor(thumbnailWidth / (CGFloat(ThumbnailCellUX.ImageAspectRatio) - 0.1))
-    }
-
-    // Used to calculate the height of the list.
-    fileprivate var count: Int {
-        if let dataSource = self.collectionView?.dataSource as? FavouritesDataSource {
-            return dataSource.collectionView(self.collectionView!, numberOfItemsInSection: 0)
-        }
-        return 0
-    }
-
-    fileprivate var topSectionHeight: CGFloat {
-        let maxRows = ceil(Float(count) / Float(thumbnailCols))
-        let rows = min(Int(maxRows), thumbnailRows)
-        let size = collectionView?.bounds.size ?? CGSize.zero
-        let insets = ThumbnailCellUX.insetsForCollectionViewSize(size,
-            traitCollection:  collectionView!.traitCollection)
-        return thumbnailHeight * CGFloat(rows) + insets.top + insets.bottom
-    }
-
-    fileprivate func getIndexAtPosition(_ y: CGFloat) -> Int {
-        if y < topSectionHeight {
-            let row = Int(y / thumbnailHeight)
-            return min(count - 1, max(0, row * thumbnailCols))
-        }
-        return min(count - 1, max(0, Int((y - topSectionHeight) / UIConstants.DefaultRowHeight + CGFloat(thumbnailCount))))
-    }
-
-    override var collectionViewContentSize : CGSize {
-        if count <= thumbnailCount {
-            return CGSize(width: width, height: topSectionHeight)
-        }
-
-        let bottomSectionHeight = CGFloat(count - thumbnailCount) * UIConstants.DefaultRowHeight
-        return CGSize(width: width, height: topSectionHeight + bottomSectionHeight)
-    }
-
-    fileprivate var layoutAttributes:[UICollectionViewLayoutAttributes]?
-
-    override func prepare() {
-        var layoutAttributes = [UICollectionViewLayoutAttributes]()
-        for section in 0..<(self.collectionView?.numberOfSections ?? 0) {
-            for item in 0..<(self.collectionView?.numberOfItems(inSection: section) ?? 0) {
-                let indexPath = IndexPath(item: item, section: section)
-                guard let attrs = self.layoutAttributesForItem(at: indexPath) else { continue }
-                layoutAttributes.append(attrs)
-            }
-        }
-        self.layoutAttributes = layoutAttributes
-    }
-
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        var attrs = [UICollectionViewLayoutAttributes]()
-        if let layoutAttributes = self.layoutAttributes {
-            for attr in layoutAttributes {
-                if rect.intersects(attr.frame) {
-                    attrs.append(attr)
-                }
-            }
-        }
-
-        return attrs
-    }
-
-    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attr = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-
-        // Set the top thumbnail frames.
-        let row = floor(Double(indexPath.item / thumbnailCols))
-        let col = indexPath.item % thumbnailCols
-        let size = collectionView?.bounds.size ?? CGSize.zero
-        let insets = ThumbnailCellUX.insetsForCollectionViewSize(size,
-            traitCollection:  collectionView!.traitCollection)
-        let x = insets.left + thumbnailWidth * CGFloat(col)
-        let y = insets.top + CGFloat(row) * thumbnailHeight
-        attr.frame = CGRect(x: ceil(x), y: ceil(y), width: thumbnailWidth, height: thumbnailHeight)
-
-        return attr
-    }
-}
-
-// TODO: Delete, keeping it for reference while working on new data source implementation.
-fileprivate class TopSitesDataSource: NSObject, UICollectionViewDataSource {
-    var editingThumbnails: Bool = false
-    var suggestedSites = [SuggestedSite]()
-    var sites = [Site]()
-    fileprivate var sitesInvalidated = true
-
-    weak var collectionView: UICollectionView?
-    fileprivate let BackgroundFadeInDuration: TimeInterval = 0.3
-
-    @objc func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // If there aren't enough data items to fill the grid, look for items in suggested sites.
-        // + 1 for new topsite button.
-        if let layout = collectionView.collectionViewLayout as? TopSitesLayout {
-            return min(count(), layout.thumbnailCount)// + 1
-        }
-        
-        return 0
-    }
-
-    fileprivate func setDefaultThumbnailBackgroundForCell(_ cell: ThumbnailCell) {
-        cell.imageView.image = FaviconFetcher.defaultFavicon
-    }
-    
-    fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
-        weak var weakSelf = self
-        FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
-            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = weakSelf?.collectionView?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
-            weakSelf?.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
-        }
-    }
-    
-    fileprivate func setCellImage(_ cell: ThumbnailCell, iconUrl: URL, cacheWithUrl: URL) {
-        weak var weakSelf = self
-        ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
-            if image != nil {
-                postAsyncToMain {
-                    cell.imageView.image = image
-                }
-            }
-            else {
-                postAsyncToMain {
-                    cell.imageView.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
-                        guard let img = img else {
-                            // avoid recheck to find an icon when none can be found, hack skips FaviconFetch
-                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
-                            weakSelf?.setDefaultThumbnailBackgroundForCell(cell)
-                            return
-                        }
-                        ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
-                    })
-                }
-            }
-        })
-    }
-
-    fileprivate func configureCell(_ cell: ThumbnailCell, atIndexPath indexPath: IndexPath, forSite site: Site, isEditing editing: Bool) {
-
-        // We always want to show the domain URL, not the title.
-        //
-        // Eventually we can do something more sophisticated — e.g., if the site only consists of one
-        // history item, show it, and otherwise use the longest common sub-URL (and take its title
-        // if you visited that exact URL), etc. etc. — but not yet.
-        //
-        // The obvious solution here and in collectionView:didSelectItemAtIndexPath: is for the cursor
-        // to return domain sites, not history sites -- that is, with the right icon, title, and URL --
-        // and for this code to just use what it gets.
-        //
-        // Instead we'll painstakingly re-extract those things here.
-
-        let domainURL = extractDomainURL(site.url)
-        cell.textLabel.text = domainURL
-        cell.accessibilityLabel = cell.textLabel.text
-        
-        guard let topsiteUrl = URL(string: domainURL) else { return }
-        
-        guard let icon = site.icon else {
-            if ImageCache.shared.hasImage(topsiteUrl, type: .square) {
-                ImageCache.shared.image(topsiteUrl, type: .square, callback: { (image) in
-                    postAsyncToMain {
-                        cell.imageView.image = image
-                    }
-                })
-            }
-            else {
-                downloadFaviconsAndUpdateForUrl(topsiteUrl, indexPath: indexPath)
-            }
-            return
-        }
-
-        
-        switch icon.type {
-        case .noneFound where Date().timeIntervalSince(icon.date) < FaviconFetcher.ExpirationTime:
-            setDefaultThumbnailBackgroundForCell(cell)
-        default:
-            if let iconUrl = URL(string: icon.url) {
-                setCellImage(cell, iconUrl: iconUrl, cacheWithUrl: topsiteUrl)
-            }
-        }
-    }
-
-    fileprivate func configureCell(_ cell: ThumbnailCell, atIndexPath indexPath: IndexPath, forSuggestedSite site: SuggestedSite) {
-        cell.textLabel.text = site.title.isEmpty ? URL(string: site.url)?.normalizedHostAndPath : site.title.lowercased()
-        cell.imageView.backgroundColor = site.backgroundColor
-        cell.imageView.contentMode = .scaleAspectFit
-        cell.imageView.layer.minificationFilter = kCAFilterTrilinear
-        cell.showBorder(!PrivateBrowsing.singleton.isOn)
-
-        cell.accessibilityLabel = cell.textLabel.text
-        
-        guard let iconUrl = site.wordmark.url.asURL,
-            let host = iconUrl.host else {
-                self.setDefaultThumbnailBackgroundForCell(cell)
-                return
-        }
-
-        if iconUrl.scheme == "asset" {
-            if let image = UIImage(named: host) {
-                // Images from assets folder.
-                UIGraphicsBeginImageContextWithOptions(image.size, false, 0)
-                image.draw(in: CGRect(origin: CGPoint(x: 3, y: 6), size: CGSize(width: image.size.width - 6, height: image.size.height - 6)))
-                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                cell.imageView.image = scaledImage
-            }
-            
-        }
-        else {
-            setDefaultThumbnailBackgroundForCell(cell)
-            setCellImage(cell, iconUrl: iconUrl, cacheWithUrl: iconUrl)
-        }
-    }
-
-    fileprivate func setHistorySites(_ historySites: [Site], completion: @escaping ()->()) {
-        self.sites = []
-
-        // We requery every time we do a deletion. If the query contains a top site that's
-        // bubbled up that wasn't there previously (e.g., a page just finished loading
-        // in the background), it will change the index of any following site currently
-        // displayed. This, in turn, would cause sites to shuffle around, and we would
-        // possibly have duplicates if a site that's already visible has been reindexed
-        // to a newly added position, post-deletion.
-        //
-        // The fix? Go through our existing set of sites on an update and append new sites
-        // to the end. This preserves the ordering of existing sites, meaning the last
-        // index, post-deletion, will always be a new site. Of course, this is temporary;
-        // whenever the panel is reloaded, our transient, ordered state will be lost. But
-        // that's OK: top sites change frequently anyway.
-        var historySites: [Site] = historySites
-        self.sites = self.sites.filter { site in
-            if let index = historySites.index(where: { extractDomainURL($0.url) == extractDomainURL(site.url) }) {
-                historySites.remove(at: index)
-                return true
-            }
-
-            return site is SuggestedSite
-        }
-
-        self.sites += historySites
-        
-        let prefs: Prefs? = getApp().profile?.prefs
-        if prefs?.boolForKey("ClearedBrowsingHistory") == false || prefs?.boolForKey("ClearedBrowsingHistory") == nil {
-            mergeBuiltInSuggestedSites { completion() }
-        }
-        else {
-            completion()
-        }
-    }
-
-    fileprivate func mergeBuiltInSuggestedSites(_ completion: @escaping ()->()) {
-        suggestedSites = SuggestedSites.asArray()
-        var blocked = [Domain]()
-
-        let context = DataController.shared.workerContext
-        context.perform {
-            blocked = Domain.blockedTopSites(context)
-            postAsyncToMain {
-                for domain in blocked {
-                    guard let extractUrl = domain.url else { continue }
-                    self.suggestedSites = self.suggestedSites.filter { self.extractDomainURL($0.url) != self.extractDomainURL(extractUrl) }
-                }
-
-                self.sites = self.sites.map { site in
-                    let domainURL = self.extractDomainURL(site.url)
-                    if let index = (self.suggestedSites.index { self.extractDomainURL($0.url) == domainURL }) {
-                        let suggestedSite = self.suggestedSites[index]
-                        self.suggestedSites.remove(at: index)
-                        return suggestedSite
-                    }
-                    return site
-                }
-                
-                self.sites += self.suggestedSites as [Site]
-                completion()
-            }
-        }
-    }
-
-    subscript(index: Int) -> Site? {
-        if count() == 0 {
-            return nil
-        }
-
-        return self.sites[index] as Site?
-    }
-
-    fileprivate func count() -> Int {
-        return PrivateBrowsing.singleton.isOn ? 0 : sites.count
-    }
-
-    fileprivate func extractDomainURL(_ url: String) -> String {
-        return URL(string: url)?.normalizedHost ?? url
-    }
-
-    @objc func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Display new Topsite button
-        if indexPath.row == self.sites.count {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewTopIdentifier, for: indexPath)
-            return cell
-        }
-        else {
-            // Cells for the top site thumbnails.
-            let site = self[indexPath.item]!
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ThumbnailIdentifier, for: indexPath) as! ThumbnailCell
-            
-            // TODO: Can be refactored, currently used primarily for title differences
-            if let site = site as? SuggestedSite {
-                configureCell(cell, atIndexPath: indexPath, forSuggestedSite: site)
-            } else {
-                configureCell(cell, atIndexPath: indexPath, forSite: site, isEditing: editingThumbnails)
-            }
-
-            cell.updateLayoutForCollectionViewSize(collectionView.bounds.size, traitCollection: collectionView.traitCollection, forSuggestedSite: false)
-            return cell
-        }
-    }
-}
-
 extension TopSitesPanel : WindowTouchFilter {
     func filterTouch(_ touch: UITouch) -> Bool {
         if (touch.view as? UIButton) == nil && touch.phase == .began {
@@ -846,4 +378,3 @@ extension TopSitesPanel : WindowTouchFilter {
         return false
     }
 }
-

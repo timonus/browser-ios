@@ -13,4 +13,6 @@ struct DeviceDetector {
     static var iPhoneX: Bool {
         return UIScreen.main.nativeBounds.height == 2436
     }
+
+    static let isIpad = UIDevice.current.userInterfaceIdiom == .pad
 }
