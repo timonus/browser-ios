@@ -143,19 +143,6 @@ class Sync: JSInjector {
     /// Notice:: seed will be ignored if the keychain already has one, a user must disconnect from existing sync group prior to joining a new one
     func initializeSync(seed: [Int]? = nil, deviceName: String? = nil) {
         
-        
-        // Temporary auto-removal of sync groups, as sync releasing is being held off
-        
-        if syncSeed != nil {
-            leaveSyncGroup()
-            
-            let alert = UIAlertController(title: "Sync Disabled", message: "Sync has been disabled, as it will not be included in the next couple of production builds. Your iOS device has been auto-removed from any sync groups.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            (UIApplication.shared.delegate as! AppDelegate).browserViewController.present(alert, animated: true, completion: nil)
-        }
-        // // //
-        
-        
         if let joinedSeed = seed, joinedSeed.count == Sync.SeedByteLength {
             // Always attempt seed write, setter prevents bad overwrites
             syncSeed = "\(joinedSeed)"
