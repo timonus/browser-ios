@@ -134,7 +134,6 @@ class SyncWelcomeViewController: UIViewController {
             
             if Sync.shared.isInSyncGroup {
                 let view = SyncAddDeviceTypeViewController()
-                view.navigationItem.hidesBackButton = true
                 navigationController?.pushViewController(view, animated: true)
             } else {
                 self.loadingView.isHidden = true
