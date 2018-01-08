@@ -453,12 +453,18 @@ class TopSitesLayout: UICollectionViewLayout {
 
     var thumbnailCount: Int {
         assertIsMainThread("layout.thumbnailCount interacts with UIKit components - cannot call from background thread.")
-        return thumbnailRows * thumbnailCols
+        let dataSource = self.collectionView?.dataSource as? FavouritesDataSource
+
+        return dataSource?.favourites.count ?? 0
     }
 
     fileprivate var thumbnailRows: Int {
         assert(Thread.isMainThread, "Interacts with UIKit components - not thread-safe.")
-        return 2 // max(2, Int((self.collectionView?.frame.height ?? self.thumbnailHeight) / self.thumbnailHeight))
+        let countDouble = Double(thumbnailCount)
+        let colsDouble = Double(thumbnailCols)
+        let rowsDouble = countDouble / colsDouble
+
+        return Int(rowsDouble.rounded(.up))
     }
 
     fileprivate var thumbnailCols: Int {
@@ -518,7 +524,7 @@ class TopSitesLayout: UICollectionViewLayout {
 
     // Used to calculate the height of the list.
     fileprivate var count: Int {
-        if let dataSource = self.collectionView?.dataSource as? TopSitesDataSource {
+        if let dataSource = self.collectionView?.dataSource as? FavouritesDataSource {
             return dataSource.collectionView(self.collectionView!, numberOfItemsInSection: 0)
         }
         return 0
