@@ -86,7 +86,7 @@ class SyncAddDeviceViewController: UIViewController {
         modeControl = UISegmentedControl(items: [Strings.QRCode, Strings.CodeWords])
         modeControl.translatesAutoresizingMaskIntoConstraints = false
         modeControl.tintColor = BraveUX.DefaultBlue
-        modeControl.selectedSegmentIndex = deviceType == .mobile ? 0 : 1
+        modeControl.selectedSegmentIndex = 0
         modeControl.addTarget(self, action: #selector(SEL_changeMode), for: .valueChanged)
         scrollView.addSubview(modeControl)
         
@@ -163,6 +163,10 @@ class SyncAddDeviceViewController: UIViewController {
             make.right.equalTo(-16)
             make.bottom.equalTo(-16)
             make.height.equalTo(50)
+        }
+        
+        if deviceType == .computer {
+            SEL_changeMode()
         }
     }
     
