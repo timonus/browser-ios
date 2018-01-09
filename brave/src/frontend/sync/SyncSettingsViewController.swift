@@ -76,7 +76,12 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // TODO: Delete device from sync chain.
+            guard let devices = Device.deviceSettings(profile: profile) else {
+                return;
+            }
+            
+            devices[indexPath.row].device.remove(save: true)
+            tableView.reloadData()
         }
     }
     
