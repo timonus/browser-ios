@@ -96,7 +96,7 @@ class SyncWelcomeViewController: UIViewController {
         }
         
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(7)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(8)
             make.left.equalTo(30)
             make.right.equalTo(-30)
         }
