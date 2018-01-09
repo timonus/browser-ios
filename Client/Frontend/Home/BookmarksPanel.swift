@@ -176,7 +176,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
 
     var editBookmarksToolbar:UIToolbar!
     var editBookmarksButton:UIBarButtonItem!
-    var addFolderButton:UIBarButtonItem!
+    var addFolderButton: UIBarButtonItem?
     weak var addBookmarksFolderOkAction: UIAlertAction?
   
     var isEditingIndividualBookmark:Bool = false
@@ -277,7 +277,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         updateEditBookmarksButton(editMode)
         resetCellLongpressGesture(tableView.isEditing)
         
-        addFolderButton.isEnabled = !editMode
+        addFolderButton?.isEnabled = !editMode
     }
     
     func updateEditBookmarksButton(_ tableIsEditing:Bool) {
@@ -300,9 +300,13 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
-        addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
-                                          style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
-        items.append(addFolderButton)
+        let isParentFolderNotTopSites = currentFolder != nil && !currentFolder!.isTopSitesFolder
+
+        if currentFolder == nil || currentFolder != nil && isParentFolderNotTopSites {
+            addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
+                                              style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
+            items.append(addFolderButton!)
+        }
         
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
 
