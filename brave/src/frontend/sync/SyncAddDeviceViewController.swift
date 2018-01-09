@@ -18,6 +18,7 @@ class SyncAddDeviceViewController: UIViewController {
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
     var doneButton: UIButton!
+    var enterWordsButton: UIButton!
     var pageTitle: String = Strings.Sync
     var deviceType: DeviceType = .mobile
     
@@ -94,7 +95,7 @@ class SyncAddDeviceViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
         titleLabel.textColor = UIColor.black
-        titleLabel.text = Strings.SyncAddDevice
+        titleLabel.text = deviceType == .mobile ? Strings.SyncAddMobile : Strings.SyncAddComputer
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
@@ -104,7 +105,7 @@ class SyncAddDeviceViewController: UIViewController {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.textAlignment = .center
-        descriptionLabel.text = Strings.SyncAddDeviceDescription
+        descriptionLabel.text = deviceType == .mobile ? Strings.SyncAddMobileDescription : Strings.SyncAddComputerDescription
         scrollView.addSubview(descriptionLabel)
         
         doneButton = UIButton(type: .roundedRect)
@@ -116,6 +117,14 @@ class SyncAddDeviceViewController: UIViewController {
         doneButton.layer.cornerRadius = 8
         doneButton.addTarget(self, action: #selector(SEL_done), for: .touchUpInside)
         scrollView.addSubview(doneButton)
+        
+        enterWordsButton = UIButton(type: .roundedRect)
+        enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
+        enterWordsButton.setTitle(Strings.ShowCodeWords, for: .normal)
+        enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+        enterWordsButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        enterWordsButton.addTarget(self, action: #selector(SEL_showCodewords), for: .touchUpInside)
+        scrollView.addSubview(enterWordsButton)
         
         edgesForExtendedLayout = UIRectEdge()
         
@@ -151,7 +160,7 @@ class SyncAddDeviceViewController: UIViewController {
         }
         
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(7)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(8)
             make.leftMargin.equalTo(30)
             make.rightMargin.equalTo(-30)
         }
@@ -165,31 +174,21 @@ class SyncAddDeviceViewController: UIViewController {
             make.height.equalTo(50)
         }
         
+        enterWordsButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.doneButton.snp.bottom).offset(8)
+            make.centerX.equalTo(self.scrollView)
+            //make.bottom.equalTo(-10)
+        }
+        
         if deviceType == .computer {
-            SEL_changeMode()
+            SEL_showCodewords()
         }
     }
     
-    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-        
-        if toInterfaceOrientation.isLandscape {
-            
-        }
-        else {
-            
-        }
-        
-        self.view.setNeedsUpdateConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    func SEL_showCodewords() {
+        modeControl.selectedSegmentIndex = 1
+        enterWordsButton.isHidden = true
+        SEL_changeMode()
     }
     
     func SEL_changeMode() {

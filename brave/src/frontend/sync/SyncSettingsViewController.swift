@@ -7,10 +7,10 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     
     private enum SyncSection: Int {
         
-        case devices, options
+        case devices, options, reset
         
         // To disable a section, just remove it from this enum, and it will no longer be loaded
-        static let allSections: [SyncSection] = [.options, .devices]
+        static let allSections: [SyncSection] = [.options, .devices, .reset]
         
         func settings(profile: Profile) -> SettingSection? {
             // TODO: move these prefKeys somewhere else
@@ -23,7 +23,8 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                 guard let devices = Device.deviceSettings(profile: profile) else {
                     return nil
                 }
-                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices)
+                
+                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices + [SettingSection(title: nil, children: [RemoveDeviceSetting(profile: profile)])])
             case .options:
                 let prefs = profile.prefs
                 return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercased()), children:
@@ -32,8 +33,8 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                     ,BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)
                     ]
                 )
-//            case .reset:
-//                return SettingSection(title: nil, children: [RemoveDeviceSetting(profile: profile)])
+            case .reset:
+                return SettingSection(title: nil, children: [RemoveDeviceSetting(profile: profile)])
             }
         }
         
@@ -68,6 +69,10 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return section == SyncSection.options.rawValue ? 40 : 20
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.section != 1
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -107,7 +112,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     }
     
     func SEL_addDevice() {
-        let view = SyncAddDeviceViewController()
+        let view = SyncAddDeviceTypeViewController()
         navigationController?.pushViewController(view, animated: true)
     }
 }
