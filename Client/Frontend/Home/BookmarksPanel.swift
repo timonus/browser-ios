@@ -420,13 +420,13 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         guard let sections = frc?.sections else { return 0 }
 
         // This part is a bit confusing. Fetched results can return 1 or 2 sections.
-        // At top level, first section is always for top sites(favourites folder).
+        // At top level, first section is always for top sites(favorites folder).
         // If user didn't add any other bookmarks or the app was just installed, frc returns only 1 section, otherwise
         // two sections are fetched, first for top sites and second for other bookmarks.
         // At nested level, there is only one section, for regular bookmarks.
         if sections.count == 2 || currentFolder != nil {
             return sections[section].numberOfObjects
-        } else if sections.count == 1, section == 0 { // Top level favourites folder
+        } else if sections.count == 1, section == 0 { // Top level favorites folder
             return 1
         }
 
@@ -434,7 +434,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        // Two sections happen only at top level(favourites folder + regular bookmarks)
+        // Two sections happen only at top level(favorites folder + regular bookmarks)
         // We can't rely on frc.sections.count to determine number of sections because it returns 1 at first app launch,
         // making it hard to add another section when a custom bookmark is added.
         // This causes some wacky logic in `numberOfRowsInSection`.

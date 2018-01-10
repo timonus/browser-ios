@@ -73,7 +73,7 @@
 		0A14A8BA1997EFDD9BF4F08A /* Favicons.js in Resources */ = {isa = PBXBuildFile; fileRef = 9C0FE62111208C1C3C2CF16A /* Favicons.js */; };
 		0A159C931FD017DB005A79BF /* DeviceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A159C921FD017DB005A79BF /* DeviceDetector.swift */; };
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
-		0A3AA90C1FFF8C3100855082 /* FavouritesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA90B1FFF8C3100855082 /* FavouritesDataSource.swift */; };
+		0A3AA90C1FFF8C3100855082 /* FavoritesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
 		0A8053961FC59D82008D6822 /* DAU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053951FC59D82008D6822 /* DAU.swift */; };
@@ -999,7 +999,7 @@
 		0A03FF971FCDF0C300DF32C9 /* prog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prog.cc; sourceTree = "<group>"; };
 		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
 		0A3316501FFD4C6B00BFC542 /* Model6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model6.xcdatamodel; sourceTree = "<group>"; };
-		0A3AA90B1FFF8C3100855082 /* FavouritesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesDataSource.swift; sourceTree = "<group>"; };
+		0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDataSource.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
 		0A8288BD20038A770058B23D /* FavouritesCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -1921,7 +1921,7 @@
 		0A3AA90A1FFF8BE300855082 /* favourites */ = {
 			isa = PBXGroup;
 			children = (
-				0A3AA90B1FFF8C3100855082 /* FavouritesDataSource.swift */,
+				0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */,
 				0A8288BD20038A770058B23D /* FavouritesCollectionViewLayout.swift */,
 			);
 			name = favourites;
@@ -4604,7 +4604,7 @@
 				42BB62D8A935B31499CE77E3 /* BraveTopViewController.swift in Sources */,
 				0A03FFE51FCDF0C400DF32C9 /* prefilter_tree.cc in Sources */,
 				5C0FCE4D1E5FB3810016DF0F /* SyncWelcomeViewController.swift in Sources */,
-				0A3AA90C1FFF8C3100855082 /* FavouritesDataSource.swift in Sources */,
+				0A3AA90C1FFF8C3100855082 /* FavoritesDataSource.swift in Sources */,
 				6287F57212354177AA5D5F28 /* BraveURLBarView.swift in Sources */,
 				F1D4718F1D777C7C007B443D /* OnePasswordExtension.m in Sources */,
 				D36C19A448AA81DB6DFD701D /* BraveUX.swift in Sources */,

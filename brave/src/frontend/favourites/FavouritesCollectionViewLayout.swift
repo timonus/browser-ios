@@ -5,11 +5,11 @@ import Shared
 
 // TODO: A simpler flow layout is currently used for top sites,
 // this class will be probably deleted after new topsites logic is fully implemented.
-class FavouritesCollectionViewLayout: UICollectionViewLayout {
+class FavoritesCollectionViewLayout: UICollectionViewLayout {
 
     var thumbnailCount: Int {
         assertIsMainThread("layout.thumbnailCount interacts with UIKit components - cannot call from background thread.")
-        let dataSource = self.collectionView?.dataSource as? FavouritesDataSource
+        let dataSource = self.collectionView?.dataSource as? FavoritesDataSource
 
         return dataSource?.frc?.fetchedObjects?.count ?? 0
     }
@@ -81,7 +81,7 @@ class FavouritesCollectionViewLayout: UICollectionViewLayout {
 
     // Used to calculate the height of the list.
     fileprivate var count: Int {
-        if let dataSource = self.collectionView?.dataSource as? FavouritesDataSource {
+        if let dataSource = self.collectionView?.dataSource as? FavoritesDataSource {
             return dataSource.collectionView(self.collectionView!, numberOfItemsInSection: 0)
         }
         return 0

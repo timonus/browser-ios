@@ -267,13 +267,14 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         return [Bookmark]()
     }
 
-    /// Creates favourites folder and fills it with default bookmarks
+    /// Creates favorites folder and fills it with default bookmarks
     class func favoritesInit() {
         if Bookmark.getFavoritesFolder() != nil { return }
 
         do {
-            if let favoritesFolder = Bookmark.add(url: nil, title: nil, customTitle: "Favourites", isFolder: true,
-                                                 isFavoritesFolder: true) {
+            
+            if let favoritesFolder = Bookmark.add(url: nil, title: nil, customTitle: Strings.FavoritesFolder,
+                                                  isFolder: true, isFavoritesFolder: true) {
                 // TODO: Different bookmarks depending on installation region
                 // FIXME: Save all bookmarks in one context instead of one by one?
                 try Bookmark.add(url: "https://m.facebook.com/".asURL(), title: "Facebook", parentFolder: favoritesFolder)

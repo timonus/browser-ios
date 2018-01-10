@@ -103,6 +103,7 @@ extension Strings {
     public static let Share = NSLocalizedString("Share", comment: "Accessibility Label for the browser toolbar Share button")
     public static let PasswordManager = NSLocalizedString("Password Manager", comment: "Accessibility Label for the browser toolbar Password Manager button")
     public static let Bookmark = NSLocalizedString("Bookmark", comment: "Accessibility Label for the browser toolbar Bookmark button")
+    public static let FavoritesFolder = NSLocalizedString("Favorites", comment: "Folder for storing favorite bookmarks.")
     public static let New_Tab = NSLocalizedString("New Tab", comment: "New Tab title")
 
     public static let Navigation_Toolbar = NSLocalizedString("Navigation Toolbar", comment: "Accessibility label for the navigation toolbar displayed at the bottom of the screen.")

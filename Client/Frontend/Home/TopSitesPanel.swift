@@ -40,7 +40,7 @@ class TopSitesPanel: UIViewController {
     fileprivate var privateTabInfoLabel: UILabel!
     fileprivate var privateTabLinkButton: UIButton!
     fileprivate var braveShieldStatsView: BraveShieldStatsView? = nil
-    fileprivate lazy var dataSource: FavouritesDataSource = { return FavouritesDataSource() }()
+    fileprivate lazy var dataSource: FavoritesDataSource = { return FavoritesDataSource() }()
     fileprivate lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
 
