@@ -8,7 +8,7 @@ import Shared
 
 class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
 
-    @NSManaged var isTopSitesFolder: Bool
+    @NSManaged var isFavoritesFolder: Bool
     @NSManaged var isFolder: Bool
     @NSManaged var title: String?
     @NSManaged var customTitle: String?
@@ -75,11 +75,11 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         fetchRequest.entity = Bookmark.entity(context: context)
         fetchRequest.fetchBatchSize = 20
 
-        // We always want favourites folder to be on top, in the first section.
-        let topSitesSort = NSSortDescriptor(key:"isTopSitesFolder", ascending: false)
+        // We always want favorites folder to be on top, in the first section.
+        let favoritesFolderSort = NSSortDescriptor(key:"isFavoritesFolder", ascending: false)
         let orderSort = NSSortDescriptor(key:"order", ascending: true)
         let createdSort = NSSortDescriptor(key:"created", ascending: false)
-        fetchRequest.sortDescriptors = [topSitesSort, orderSort, createdSort]
+        fetchRequest.sortDescriptors = [favoritesFolderSort, orderSort, createdSort]
 
         var sectionKeyPath: String? = nil
 
@@ -87,7 +87,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             fetchRequest.predicate = NSPredicate(format: "parentFolder == %@", parentFolder)
         } else {
             fetchRequest.predicate = NSPredicate(format: "parentFolder == nil")
-            sectionKeyPath = "isTopSitesFolder"
+            sectionKeyPath = "isFavoritesFolder"
         }
 
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context,
@@ -155,7 +155,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.url = site?.location ?? bk.url
         bk.title = site?.title ?? bk.title
         bk.customTitle = site?.customTitle ?? bk.customTitle // TODO: Check against empty titles
-        bk.isTopSitesFolder = bookmark?.isTopSitesFolder ?? bk.isTopSitesFolder
+        bk.isFavoritesFolder = bookmark?.isFavoritesFolder ?? bk.isFavoritesFolder
         bk.isFolder = bookmark?.isFolder ?? bk.isFolder
         bk.syncUUID = root?.objectId ?? bk.syncUUID ?? Niceware.shared.uniqueSerialBytes(count: 16)
         bk.created = site?.creationNativeDate ?? Date()
@@ -199,7 +199,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
                        customTitle: String? = nil, // Folders only use customTitle
                        parentFolder:Bookmark? = nil,
                        isFolder: Bool = false,
-                       isTopSitesFolder: Bool = false) -> Bookmark? {
+                       isFavoritesFolder: Bool = false) -> Bookmark? {
         
         let site = SyncSite()
         site.title = title
@@ -207,7 +207,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         site.location = url?.absoluteString
         
         let bookmark = SyncBookmark()
-        bookmark.isTopSitesFolder = isTopSitesFolder
+        bookmark.isFavoritesFolder = isFavoritesFolder
         bookmark.isFolder = isFolder
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
@@ -268,52 +268,19 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     }
 
     /// Creates favourites folder and fills it with default bookmarks
-    class func topsitesInitialization() {
-        if Bookmark.getTopSitesFolder() != nil { return }
+    class func favoritesInit() {
+        if Bookmark.getFavoritesFolder() != nil { return }
 
         do {
-            if let topSitesFolder = Bookmark.add(url: nil, title: nil, customTitle: "Favourites", isFolder: true,
-                                                 isTopSitesFolder: true) {
+            if let favoritesFolder = Bookmark.add(url: nil, title: nil, customTitle: "Favourites", isFolder: true,
+                                                 isFavoritesFolder: true) {
                 // TODO: Different bookmarks depending on installation region
                 // FIXME: Save all bookmarks in one context instead of one by one?
-                try Bookmark.add(url: "https://m.facebook.com/".asURL(), title: "Facebook", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://m.youtube.com".asURL(), title: "Youtube", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.amazon.com/".asURL(), title: "Amazon", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.wikipedia.org/".asURL(), title: "Wikipedia", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://mobile.twitter.com/".asURL(), title: "Twitter", parentFolder: topSitesFolder)
-
-                /* Scrolling test, will remove it once fixed
-                try Bookmark.add(url: "https://m.facebook2.com/".asURL(), title: "Facebook2", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://m.youtube2.com".asURL(), title: "Youtube2", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.amazon2.com/".asURL(), title: "Amazon2", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.wikipedia2.org/".asURL(), title: "Wikipedia2", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://mobile.twitter2.com/".asURL(), title: "Twitter2", parentFolder: topSitesFolder)
-
-                try Bookmark.add(url: "https://m.facebook3.com/".asURL(), title: "Facebook3", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://m.youtube3.com".asURL(), title: "Youtube3", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.amazon3.com/".asURL(), title: "Amazon3", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.wikipedia3.org/".asURL(), title: "Wikipedia3", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://mobile.twitter3.com/".asURL(), title: "Twitter3", parentFolder: topSitesFolder)
-
-                try Bookmark.add(url: "https://m.facebook4.com/".asURL(), title: "Facebook4", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://m.youtube4.com".asURL(), title: "Youtube4", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.amazon4.com/".asURL(), title: "Amazon4", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.wikipedia4.org/".asURL(), title: "Wikipedia4", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://mobile.twitter4.com/".asURL(), title: "Twitter4", parentFolder: topSitesFolder)
-
-                try Bookmark.add(url: "https://m.facebook5.com/".asURL(), title: "Facebook5", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://m.youtube5.com".asURL(), title: "Youtube5", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.amazon5.com/".asURL(), title: "Amazon5", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.wikipedia5.org/".asURL(), title: "Wikipedia5", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://mobile.twitter5.com/".asURL(), title: "Twitter5", parentFolder: topSitesFolder)
-
-                try Bookmark.add(url: "https://m.facebook6.com/".asURL(), title: "Facebook6", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://m.youtube6.com".asURL(), title: "Youtube6", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.amazon6.com/".asURL(), title: "Amazon6", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://www.wikipedia6.org/".asURL(), title: "Wikipedia6", parentFolder: topSitesFolder)
-                try Bookmark.add(url: "https://mobile.twitter6.com/".asURL(), title: "Twitter6", parentFolder: topSitesFolder)
-                */
-
+                try Bookmark.add(url: "https://m.facebook.com/".asURL(), title: "Facebook", parentFolder: favoritesFolder)
+                try Bookmark.add(url: "https://m.youtube.com".asURL(), title: "Youtube", parentFolder: favoritesFolder)
+                try Bookmark.add(url: "https://www.amazon.com/".asURL(), title: "Amazon", parentFolder: favoritesFolder)
+                try Bookmark.add(url: "https://www.wikipedia.org/".asURL(), title: "Wikipedia", parentFolder: favoritesFolder)
+                try Bookmark.add(url: "https://mobile.twitter.com/".asURL(), title: "Twitter", parentFolder: favoritesFolder)
             }
         } catch {
             // TODO: Better error handling
@@ -381,12 +348,12 @@ extension Bookmark {
         return get(predicate: nil, context: context) ?? [Bookmark]()
     }
 
-    class func getTopSitesFolder() -> Bookmark? {
+    class func getFavoritesFolder() -> Bookmark? {
         let context = DataController.shared.mainThreadContext
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Bookmark.entity(context: context)
-        fetchRequest.predicate = NSPredicate(format: "isTopSitesFolder == YES")
+        fetchRequest.predicate = NSPredicate(format: "isFavoritesFolder == YES")
 
         do {
             let results = try context.fetch(fetchRequest) as? [Bookmark]

@@ -136,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             log.error("Failed to assign AVAudioSession category to allow playing with silent switch on for aural progress bar")
         }
 
-        Bookmark.topsitesInitialization()
+        Bookmark.favoritesInit()
 
         let defaultRequest = URLRequest(url: UIConstants.DefaultHomePage as URL)
         let imageStore = DiskImageStore(files: profile.files, namespace: "TabManagerScreenshots", quality: UIConstants.ScreenshotQuality)

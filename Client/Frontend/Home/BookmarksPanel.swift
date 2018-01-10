@@ -300,9 +300,9 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
-        let isInsideOfTopSitesFolder = currentFolder?.isTopSitesFolder ?? false
+        let isInsideOfFavoritesFolder = currentFolder?.isFavoritesFolder ?? false
 
-        if !isInsideOfTopSitesFolder {
+        if !isInsideOfFavoritesFolder {
             addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
                                               style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
             items.append(addFolderButton!)
@@ -581,14 +581,14 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let bookmark = frc?.object(at: indexPath) as? Bookmark else { return false }
 
-        return !bookmark.isTopSitesFolder
+        return !bookmark.isFavoritesFolder
     }
 
     // Prevents dragging the top sites folder
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        let isTopSitesFolderPosition = tableView.numberOfSections == 2 && proposedDestinationIndexPath.section == 0
+        let isFavoritesFolderPosition = tableView.numberOfSections == 2 && proposedDestinationIndexPath.section == 0
 
-        return isTopSitesFolderPosition ? sourceIndexPath : proposedDestinationIndexPath
+        return isFavoritesFolderPosition ? sourceIndexPath : proposedDestinationIndexPath
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
@@ -661,7 +661,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
     
     fileprivate func showEditBookmarkController(_ tableView: UITableView, indexPath:IndexPath) {
-        guard let item = frc?.object(at: indexPath) as? Bookmark, !item.isTopSitesFolder else { return }
+        guard let item = frc?.object(at: indexPath) as? Bookmark, !item.isFavoritesFolder else { return }
         let nextController = BookmarkEditingViewController(bookmarksPanel: self, indexPath: indexPath, bookmark: item)
 
         nextController.completionBlock = { controller in
