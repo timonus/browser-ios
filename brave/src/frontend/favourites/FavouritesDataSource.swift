@@ -2,33 +2,88 @@
 
 import UIKit
 import Storage
+import CoreData
 
 class FavouritesDataSource: NSObject, UICollectionViewDataSource {
-    var favourites = [Bookmark]()
-
+    var frc: NSFetchedResultsController<NSFetchRequestResult>?
     weak var collectionView: UICollectionView?
 
     override init() {
         super.init()
-        reloadBookmarks()
+
+        guard let topSitesFolder = Bookmark.getTopSitesFolder() else { return }
+        frc = Bookmark.frc(parentFolder: topSitesFolder)
+        frc?.delegate = self
+
+        do {
+            try frc?.performFetch()
+        } catch {
+            print("Favorites fetch error")
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favourites.count
+        return frc?.fetchedObjects?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let fav = favourites[indexPath.row]
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Thumbnail", for: indexPath) as! ThumbnailCell
+        return configureCell(cell: cell, at: indexPath)
 
-        cell.textLabel.text = fav.title ?? fav.url
+    }
+
+    fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
+        weak var weakSelf = self
+        FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = weakSelf?.collectionView?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
+            weakSelf?.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+        }
+    }
+
+    fileprivate func setCellImage(_ cell: ThumbnailCell, iconUrl: URL, cacheWithUrl: URL) {
+        weak var weakSelf = self
+        ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
+            if image != nil {
+                postAsyncToMain {
+                    cell.imageView.image = image
+                }
+            }
+            else {
+                postAsyncToMain {
+                    cell.imageView.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
+                        guard let img = img else {
+                            // avoid recheck to find an icon when none can be found, hack skips FaviconFetch
+                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
+                            weakSelf?.setDefaultThumbnailBackgroundForCell(cell)
+                            return
+                        }
+                        ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
+                    })
+                }
+            }
+        })
+    }
+
+    fileprivate func setDefaultThumbnailBackgroundForCell(_ cell: ThumbnailCell) {
+        cell.imageView.image = FaviconFetcher.defaultFavicon
+    }
+
+    fileprivate func extractDomainURL(_ url: String) -> String {
+        return URL(string: url)?.normalizedHost ?? url
+    }
+
+    fileprivate func configureCell(cell: ThumbnailCell, at indexPath: IndexPath) -> UICollectionViewCell {
+        guard let fav = frc?.object(at: indexPath) as? Bookmark else { return UICollectionViewCell() }
+
+        cell.textLabel.text = fav.displayTitle ?? fav.url
         cell.accessibilityLabel = cell.textLabel.text
 
         guard let urlString = fav.url, let url = URL(string: urlString), let normalizedHost = url.normalizedHost else {
             print("url fetch error")
             return UICollectionViewCell()
         }
+
+        guard let collection = collectionView else { return UICollectionViewCell() }
 
 
         let suggestedSites = SuggestedSites.asArray()
@@ -78,54 +133,36 @@ class FavouritesDataSource: NSObject, UICollectionViewDataSource {
             }
         }
 
-        cell.updateLayoutForCollectionViewSize(collectionView.bounds.size, traitCollection: collectionView.traitCollection, forSuggestedSite: false)
+        cell.updateLayoutForCollectionViewSize(collection.bounds.size, traitCollection: collection.traitCollection, forSuggestedSite: false)
         return cell
     }
+}
 
-    fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
-        weak var weakSelf = self
-        FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
-            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL, let cell = weakSelf?.collectionView?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
-            weakSelf?.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+extension FavouritesDataSource: NSFetchedResultsControllerDelegate {
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+
+        switch type {
+        case .insert:
+            if let indexPath = indexPath {
+                collectionView?.insertItems(at: [indexPath])
+            }
+            break
+        case .delete:
+            if let indexPath = indexPath {
+                collectionView?.deleteItems(at: [indexPath])
+            }
+            break
+        case .update:
+            if let indexPath = indexPath, let cell = collectionView?.cellForItem(at: indexPath) as? ThumbnailCell {
+                _ = configureCell(cell: cell, at: indexPath)
+            }
+            if let newIndexPath = newIndexPath, let cell = collectionView?.cellForItem(at: newIndexPath) as? ThumbnailCell {
+                _ = configureCell(cell: cell, at: newIndexPath)
+            }
+            break
+        case .move:
+            break
         }
-    }
-
-    fileprivate func setCellImage(_ cell: ThumbnailCell, iconUrl: URL, cacheWithUrl: URL) {
-        weak var weakSelf = self
-        ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
-            if image != nil {
-                postAsyncToMain {
-                    cell.imageView.image = image
-                }
-            }
-            else {
-                postAsyncToMain {
-                    cell.imageView.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
-                        guard let img = img else {
-                            // avoid recheck to find an icon when none can be found, hack skips FaviconFetch
-                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
-                            weakSelf?.setDefaultThumbnailBackgroundForCell(cell)
-                            return
-                        }
-                        ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
-                    })
-                }
-            }
-        })
-    }
-
-    fileprivate func setDefaultThumbnailBackgroundForCell(_ cell: ThumbnailCell) {
-        cell.imageView.image = FaviconFetcher.defaultFavicon
-    }
-
-    fileprivate func extractDomainURL(_ url: String) -> String {
-        return URL(string: url)?.normalizedHost ?? url
-    }
-
-    private func reloadBookmarks() {
-        guard let topSitesFolder = Bookmark.getTopSitesFolder() else { return }
-
-        favourites = Bookmark.getChildren(forFolderUUID: topSitesFolder.syncUUID, ignoreFolders: true,
-                                          context: DataController.shared.mainThreadContext) ?? []
     }
 }

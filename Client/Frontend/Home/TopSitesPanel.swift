@@ -334,8 +334,10 @@ class TopSitesPanel: UIViewController {
 
             // If we have more items in our data source, replace the deleted site with a new one.
             let count = collection.numberOfItems(inSection: 0) - 1
-            if count < self.dataSource.favourites.count {
-                collection.insertItems(at: [ IndexPath(item: count, section: 0) ])
+            if let frcCount = self.dataSource.frc?.fetchedObjects?.count {
+                if count < frcCount {
+                    collection.insertItems(at: [ IndexPath(item: count, section: 0) ])
+                }
             }
         }, completion: { _ in
             result.fill(Maybe(success: ()))
@@ -354,7 +356,7 @@ extension TopSitesPanel: HomePanel {
 
 extension TopSitesPanel: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let fav = dataSource.favourites[indexPath.row]
+        let fav = dataSource.frc?.object(at: indexPath) as! Bookmark
 
         guard let urlString = fav.url, let url = URL(string: urlString) else { return }
 

@@ -223,6 +223,9 @@ class ThumbnailCell: UICollectionViewCell {
         backgroundColor = UIColor.clear
         textLabel.font = DynamicFontHelper.defaultHelper.DefaultSmallFont
         textLabel.textColor = PrivateBrowsing.singleton.isOn ? UIColor(rgb: 0xDBDBDB) : UIColor(rgb: 0x2D2D2D)
+        // FIXME: Why is there image and imageView.image? First one must be some legacy code but I'm not sure 100%
+        imageView.backgroundColor = UIColor.clear
+        imageView.image = nil
     }
     
     fileprivate func updateSelectedHighlightedState() {

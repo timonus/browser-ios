@@ -294,15 +294,15 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             }
         }
     }
-    
+
     func createEditBookmarksToolbar() {
         var items = [UIBarButtonItem]()
         
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
-        let isParentFolderNotTopSites = currentFolder != nil && !currentFolder!.isTopSitesFolder
+        let isInsideOfTopSitesFolder = currentFolder?.isTopSitesFolder ?? false
 
-        if currentFolder == nil || currentFolder != nil && isParentFolderNotTopSites {
+        if !isInsideOfTopSitesFolder {
             addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
                                               style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
             items.append(addFolderButton!)

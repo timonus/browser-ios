@@ -11,7 +11,7 @@ class FavouritesCollectionViewLayout: UICollectionViewLayout {
         assertIsMainThread("layout.thumbnailCount interacts with UIKit components - cannot call from background thread.")
         let dataSource = self.collectionView?.dataSource as? FavouritesDataSource
 
-        return dataSource?.favourites.count ?? 0
+        return dataSource?.frc?.fetchedObjects?.count ?? 0
     }
 
     fileprivate var thumbnailRows: Int {
@@ -150,3 +150,5 @@ class FavouritesCollectionViewLayout: UICollectionViewLayout {
         return attr
     }
 }
+
+
