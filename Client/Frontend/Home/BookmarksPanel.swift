@@ -516,7 +516,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             cell.textLabel?.font = UIFont.systemFont(ofSize: fontSize)
             cell.accessoryType = .none
         } else {
-            configCell(image: UIImage(named: "bookmarks_folder_hollow"))
+            let image = item.isFavoritesFolder ? UIImage(named: "favorites_folder") : UIImage(named: "bookmarks_folder_hollow")
+            configCell(image: image)
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
             cell.accessoryType = .disclosureIndicator
             if let twoLineCell = cell as? TwoLineTableViewCell {
