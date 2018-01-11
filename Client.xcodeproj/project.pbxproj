@@ -78,7 +78,6 @@
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
 		0A8053961FC59D82008D6822 /* DAU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053951FC59D82008D6822 /* DAU.swift */; };
 		0A8053981FC59D93008D6822 /* DauTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053971FC59D93008D6822 /* DauTest.swift */; };
-		0A8288BE20038A770058B23D /* FavouritesCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8288BD20038A770058B23D /* FavouritesCollectionViewLayout.swift */; };
 		0A82B80020067EFC00CE6397 /* FavoritesTileDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */; };
 		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
 		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
@@ -1003,7 +1002,6 @@
 		0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDataSource.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
-		0A8288BD20038A770058B23D /* FavouritesCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesCollectionViewLayout.swift; sourceTree = "<group>"; };
 		0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTileDecorator.swift; sourceTree = "<group>"; };
 		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
 		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -1924,7 +1922,6 @@
 			isa = PBXGroup;
 			children = (
 				0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */,
-				0A8288BD20038A770058B23D /* FavouritesCollectionViewLayout.swift */,
 				0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */,
 			);
 			name = favourites;
@@ -4643,7 +4640,6 @@
 				F0EA069256DABEECB329C591 /* binding.gyp in Sources */,
 				0A03FF9C1FCDF0C400DF32C9 /* rune.cc in Sources */,
 				2F0860C25F7367CEED17E283 /* HttpsEverywhere.cpp in Sources */,
-				0A8288BE20038A770058B23D /* FavouritesCollectionViewLayout.swift in Sources */,
 				A2F643975578B7DA57C4B7A4 /* HttpsEverywhereObjC.mm in Sources */,
 				A026D2C7D56306D65820F5EA /* LICENSE in Sources */,
 				16B5C378276A21598A9BFD31 /* Makefile in Sources */,
