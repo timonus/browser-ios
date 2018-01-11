@@ -77,16 +77,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         let dau = DAU(prefs: prefs)
         dau.sendPingToServer()
     }
-
-    private func isFirstLaunch() -> Bool{
-        guard let prefs = profile?.prefs else {
-            log.warning("Couldn't find profile to check for first launch")
-            return false
-        }
-
-        // Reusing dau logic for first launch check to avoid introducing another 'firstLaunch' flag
-        return prefs.arrayForKey(DAU.preferencesKey) == nil
-    }
     
     fileprivate func startApplication(_ application: UIApplication,  withLaunchOptions launchOptions: [AnyHashable: Any]?) -> Bool {
         log.debug("Setting UA…")
