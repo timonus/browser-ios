@@ -11,29 +11,16 @@ import Deferred
 
 private let log = Logger.browserLogger
 
-private let ThumbnailIdentifier = "Thumbnail"
-private let NewTopIdentifier = "NewTop"
-
-extension CGSize {
-    public func widthLargerOrEqualThanHalfIPad() -> Bool {
-        let halfIPadSize: CGFloat = 507
-        return width >= halfIPadSize
-    }
-}
-
 struct TopSitesPanelUX {
-    fileprivate static let EmptyStateTitleTextColor = UIColor.darkGray
-    fileprivate static let EmptyStateTopPaddingInBetweenItems: CGFloat = 15
-    fileprivate static let WelcomeScreenPadding: CGFloat = 15
-    fileprivate static let WelcomeScreenItemTextColor = UIColor.gray
-    fileprivate static let WelcomeScreenItemWidth = 170
-    fileprivate static let iPhoneThumbnailSize = 90
-    fileprivate static let iPadThumbnailSize = 150
+    static let iPadThumbnailSize = 150
+    static let iPhoneThumbnailSize = 90
+    static let statsHeight: CGFloat = 150.0
+    static let statsBottomMargin: CGFloat = 25.0
 }
 
-class TopSitesPanel: UIViewController {
+class TopSitesPanel: UIViewController, HomePanel {
     weak var homePanelDelegate: HomePanelDelegate?
-    fileprivate var collection: TopSitesCollectionView? = nil
+    fileprivate var collection: UICollectionView? = nil
     fileprivate var privateTabMessageContainer: UIView!
     fileprivate var privateTabGraphic: UIImageView!
     fileprivate var privateTabTitleLabel: UILabel!
@@ -51,16 +38,9 @@ class TopSitesPanel: UIViewController {
         layout.minimumLineSpacing = 4
 
         return layout
-
     }()
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        coordinator.animate(alongsideTransition: { context in
-            self.collection?.reloadData()
-        }, completion: nil)
-    }
+    private let ThumbnailIdentifier = "Thumbnail"
 
     override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.allButUpsideDown
@@ -68,8 +48,7 @@ class TopSitesPanel: UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.notificationReceived(_:)), name: NotificationPrivateDataClearedHistory, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.notificationReceived(_:)), name: NotificationPrivacyModeChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.privacyModeChanged), name: NotificationPrivacyModeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.updateIphoneConstraints), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
 
@@ -81,9 +60,6 @@ class TopSitesPanel: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
-        
-        let statsHeight: CGFloat = 150.0
-        let statsBottomMargin: CGFloat = 25.0
         
         privateTabMessageContainer = UIView()
         privateTabMessageContainer.isUserInteractionEnabled = true
@@ -118,19 +94,18 @@ class TopSitesPanel: UIViewController {
         privateTabLinkButton.titleLabel?.textColor = UIColor(white: 1, alpha: 0.25)
         privateTabLinkButton.titleLabel?.textAlignment = .center
         privateTabLinkButton.titleLabel?.lineBreakMode = .byWordWrapping
-        privateTabLinkButton.addTarget(self, action: #selector(SEL_privateTabInfo), for: .touchUpInside)
+        privateTabLinkButton.addTarget(self, action: #selector(showPrivateTabInfo), for: .touchUpInside)
         privateTabMessageContainer.addSubview(privateTabLinkButton)
 
-        let collection = TopSitesCollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        let collection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collection.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
         collection.delegate = self
         collection.dataSource = PrivateBrowsing.singleton.isOn ? nil : dataSource
         collection.register(ThumbnailCell.self, forCellWithReuseIdentifier: ThumbnailIdentifier)
-        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: NewTopIdentifier)
         collection.keyboardDismissMode = .onDrag
         collection.accessibilityIdentifier = "Top Sites View"
         // Entire site panel, including the stats view insets
-        collection.contentInset = UIEdgeInsetsMake(statsHeight, 0, 0, 0)
+        collection.contentInset = UIEdgeInsetsMake(TopSitesPanelUX.statsHeight, 0, 0, 0)
         view.addSubview(collection)
         collection.snp.makeConstraints { make -> Void in
             if #available(iOS 11.0, *) {
@@ -154,9 +129,9 @@ class TopSitesPanel: UIViewController {
         var statsViewFrame: CGRect = braveShieldStatsView.frame
         statsViewFrame.origin.x = 20
         // Offset the stats view from the inset set above
-        statsViewFrame.origin.y = -(statsHeight + statsBottomMargin)
+        statsViewFrame.origin.y = -(TopSitesPanelUX.statsHeight + TopSitesPanelUX.statsBottomMargin)
         statsViewFrame.size.width = collection.frame.width - statsViewFrame.minX * 2
-        statsViewFrame.size.height = statsHeight
+        statsViewFrame.size.height = TopSitesPanelUX.statsHeight
         braveShieldStatsView.frame = statsViewFrame
         braveShieldStatsView.autoresizingMask = [.flexibleWidth]
 
@@ -262,68 +237,33 @@ class TopSitesPanel: UIViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NotificationPrivateDataClearedHistory, object: nil)
         NotificationCenter.default.removeObserver(self, name: NotificationPrivacyModeChanged, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
 
-    func notificationReceived(_ notification: Notification) {
-        switch notification.name {
-        case NotificationFirefoxAccountChanged, NotificationProfileDidFinishSyncing, NotificationPrivateDataClearedHistory, NotificationDynamicFontChanged:
-            // TODO: delete these notifications?
-//            refreshTopSites(maxFrecencyLimit)
-            break
-        case NotificationPrivacyModeChanged:
-            // TODO: This entire blockshould be abstracted
-            //  to make code in this class DRY (duplicates from elsewhere)
-            collection?.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
-            privateTabMessageContainer.isHidden = !PrivateBrowsing.singleton.isOn
-            braveShieldStatsView?.timeStatView.color = PrivateBrowsing.singleton.isOn ? .white : .black
-            // Handling edge case when app starts in private only browsing mode and is switched back to normal mode.
-            if collection?.dataSource == nil && !PrivateBrowsing.singleton.isOn {
-                collection?.dataSource = dataSource
-            } else if PrivateBrowsing.singleton.isOn {
-                collection?.dataSource = nil
-            }
-            collection?.reloadData()
-            break
-        default:
-            // no need to do anything at all
-            log.warning("Received unexpected notification \(notification.name)")
-            break
+    func privacyModeChanged() {
+        let isPrivateBrowsing = PrivateBrowsing.singleton.isOn
+
+        // TODO: This entire blockshould be abstracted
+        //  to make code in this class DRY (duplicates from elsewhere)
+        collection?.backgroundColor = isPrivateBrowsing ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
+        privateTabMessageContainer.isHidden = !isPrivateBrowsing
+        braveShieldStatsView?.timeStatView.color = isPrivateBrowsing ? .white : .black
+        // Handling edge case when app starts in private only browsing mode and is switched back to normal mode.
+        if collection?.dataSource == nil && !isPrivateBrowsing {
+            collection?.dataSource = dataSource
+        } else if isPrivateBrowsing {
+            collection?.dataSource = nil
         }
+        collection?.reloadData()
     }
     
-    func SEL_privateTabInfo() {
+    func showPrivateTabInfo() {
         let url = URL(string: "https://github.com/brave/browser-laptop/wiki/What-a-Private-Tab-actually-does")!
-        postAsyncToMain(0) {
+        postAsyncToMain {
             let t = getApp().tabManager
             _ = t?.addTabAndSelect(URLRequest(url: url))
         }
-    }
-    
-    //MARK: Private Helpers
-
-    fileprivate func topSitesQuery() -> Deferred<[Site]> {
-        let result = Deferred<[Site]>()
-
-        let context = DataController.shared.workerContext
-        context.perform {
-            var sites = [Site]()
-
-            let domains = Domain.topSitesQuery(6, context: context)
-            for d in domains {
-                let s = Site(url: d.url ?? "", title: "")
-
-                if let url = d.favicon?.url {
-                    s.icon = Favicon(url: url, type: IconType.guess)
-                }
-                sites.append(s)
-            }
-            
-            result.fill(sites)
-        }
-        return result
     }
 
     fileprivate func deleteOrUpdateSites(_ indexPath: IndexPath) -> Success {
@@ -336,23 +276,14 @@ class TopSitesPanel: UIViewController {
 
             // If we have more items in our data source, replace the deleted site with a new one.
             let count = collection.numberOfItems(inSection: 0) - 1
-            if let frcCount = self.dataSource.frc?.fetchedObjects?.count {
-                if count < frcCount {
-                    collection.insertItems(at: [ IndexPath(item: count, section: 0) ])
-                }
+            if let frcCount = self.dataSource.frc?.fetchedObjects?.count, count < frcCount {
+                collection.insertItems(at: [ IndexPath(item: count, section: 0) ])
             }
         }, completion: { _ in
             result.fill(Maybe(success: ()))
         })
 
         return result
-    }
-}
-
-extension TopSitesPanel: HomePanel {
-    func endEditing() {
-        (view.window as! BraveMainWindow).removeTouchFilter(self)
-        collection?.reloadData()
     }
 }
 
@@ -363,22 +294,5 @@ extension TopSitesPanel: UICollectionViewDelegate {
         guard let urlString = fav.url, let url = URL(string: urlString) else { return }
 
         homePanelDelegate?.homePanel(self, didSelectURL: url)
-    }
-}
-
-fileprivate class TopSitesCollectionView: UICollectionView {
-    fileprivate override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // Hide the keyboard if this view is touched.
-        window?.rootViewController?.view.endEditing(true)
-        super.touchesBegan(touches, with: event)
-    }
-}
-
-extension TopSitesPanel : WindowTouchFilter {
-    func filterTouch(_ touch: UITouch) -> Bool {
-        if (touch.view as? UIButton) == nil && touch.phase == .began {
-            self.endEditing()
-        }
-        return false
     }
 }

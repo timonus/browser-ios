@@ -1918,14 +1918,14 @@
 			path = fuzzing;
 			sourceTree = "<group>";
 		};
-		0A3AA90A1FFF8BE300855082 /* favourites */ = {
+		0A3AA90A1FFF8BE300855082 /* favorites */ = {
 			isa = PBXGroup;
 			children = (
 				0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */,
 				0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */,
 			);
-			name = favourites;
-			path = brave/src/frontend/favourites;
+			name = favorites;
+			path = brave/src/frontend/favorites;
 			sourceTree = "<group>";
 		};
 		0A8053801FC59D6F008D6822 /* analytics */ = {
@@ -1939,7 +1939,7 @@
 		0A91879C13539EB0C45CEF59 /* frontend */ = {
 			isa = PBXGroup;
 			children = (
-				0A3AA90A1FFF8BE300855082 /* favourites */,
+				0A3AA90A1FFF8BE300855082 /* favorites */,
 				3DEE61BC5B8E404D11F5547F /* BraveBrowserBottomToolbar.swift */,
 				1CB8D9CB1F82F469000BEE18 /* BraveBrowserToolbarButtonActions.swift */,
 				5C39A9721F0FECF98A48015E /* BraveBrowserViewController.swift */,
