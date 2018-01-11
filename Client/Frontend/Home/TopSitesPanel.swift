@@ -282,6 +282,8 @@ class TopSitesPanel: UIViewController {
             // Handling edge case when app starts in private only browsing mode and is switched back to normal mode.
             if collection?.dataSource == nil && !PrivateBrowsing.singleton.isOn {
                 collection?.dataSource = dataSource
+            } else if PrivateBrowsing.singleton.isOn {
+                collection?.dataSource = nil
             }
             collection?.reloadData()
             break
