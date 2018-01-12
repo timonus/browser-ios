@@ -34,7 +34,7 @@ public enum SyncRecordType : String {
     //
     
     
-    // These are instances, and do not change, make lazy to cache value
+    // These are 'static', and do not change, would make actually lazy/static, but not allow for enums
     var fetchedModelType: SyncRecord.Type? {
         let map: [SyncRecordType : SyncRecord.Type] = [.bookmark : SyncBookmark.self, .prefs : SyncDevice.self]
         return map[self]

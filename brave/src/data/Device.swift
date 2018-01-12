@@ -19,15 +19,13 @@ class Device: NSManagedObject, Syncable {
     @NSManaged var deviceDisplayId: String?
     @NSManaged var syncDisplayUUID: String?
     @NSManaged var name: String?
+    
+    var recordType: SyncRecordType = .devices
 
     // Just a facade around the displayId, for easier access and better CD storage
     var deviceId: [Int]? {
         get { return SyncHelpers.syncUUID(fromString: deviceDisplayId) }
         set(value) { deviceDisplayId = SyncHelpers.syncDisplay(fromUUID: value) }
-    }
-    
-    static func entity(context: NSManagedObjectContext) -> NSEntityDescription {
-        return NSEntityDescription.entity(forEntityName: "Device", in: context)!
     }
     
     class func deviceSettings(profile: Profile) -> [SyncDeviceSetting]? {
@@ -49,7 +47,7 @@ class Device: NSManagedObject, Syncable {
         // No guard, let bleed through to allow 'empty' devices (e.g. local)
         let root = root as? SyncDevice
         
-        var device = Device(entity: Device.entity(context: context), insertInto: context)
+        let device = Device(entity: Device.entity(context: context), insertInto: context)
         
         device.created = root?.syncNativeTimestamp ?? Date()
         device.syncUUID = root?.objectId ?? Niceware.shared.uniqueSerialBytes(count: 16)

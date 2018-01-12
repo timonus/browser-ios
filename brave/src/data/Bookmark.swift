@@ -33,6 +33,8 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     
     @NSManaged var domain: Domain?
     
+    var recordType: SyncRecordType = .bookmark
+    
     var syncParentUUID: [Int]? {
         get { return SyncHelpers.syncUUID(fromString: syncParentDisplayUUID) }
         set(value) {
@@ -66,10 +68,6 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     
     func asDictionary(deviceId: [Int]?, action: Int?) -> [String: Any] {
         return SyncBookmark(record: self, deviceId: deviceId, action: action).dictionaryRepresentation()
-    }
-
-    static func entity(context:NSManagedObjectContext) -> NSEntityDescription {
-        return NSEntityDescription.entity(forEntityName: "Bookmark", in: context)!
     }
 
     class func frc(parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
