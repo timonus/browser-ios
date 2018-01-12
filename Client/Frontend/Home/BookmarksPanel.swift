@@ -411,7 +411,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
                 cell.addGestureRecognizer(lp)
             }
             
-            cell.imageView?.contentMode = .center
+            cell.imageView?.contentMode = .scaleAspectFit
             cell.imageView?.image = FaviconFetcher.defaultFavicon
             cell.imageView?.layer.cornerRadius = 6
             cell.imageView?.layer.masksToBounds = true
@@ -419,6 +419,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             if let image = image {
                 // folder or preset icon
                 cell.imageView?.image = image
+                cell.imageView?.contentMode = .center
             }
             else if let faviconMO = item.domain?.favicon, let urlString = faviconMO.url, let url = URL(string: urlString), let bookmarkUrlString = item.url, let bookmarkUrl = URL(string: bookmarkUrlString) {
                 // favicon object associated through domain relationship - set from cache or download
