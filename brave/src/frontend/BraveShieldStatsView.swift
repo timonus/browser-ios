@@ -5,28 +5,28 @@
 import Foundation
 import Shared
 
-class BraveShieldStatsView: UIView {
+class BraveShieldStatsView: UIView, Themeable {
     fileprivate let millisecondsPerItem: Int32 = 50
     fileprivate let line = UIView()
     
     lazy var adsStatView: StatView = {
         let statView = StatView(frame: CGRect.zero)
         statView.title = Strings.ShieldsAdStats
-        statView.color = UIColor(red: 254/255.0, green: 82/255.0, blue: 29/255.0, alpha: 1.0)
+        statView.color = BraveUX.BraveOrange
         return statView
     }()
 
     lazy var trackersStatView: StatView = {
         let statView = StatView(frame: CGRect.zero)
         statView.title = Strings.ShieldsTrackerStats
-        statView.color = UIColor(red: 243/255.0, green: 144/255.0, blue: 48/255.0, alpha: 1.0)
+        statView.color = BraveUX.Purple
         return statView
     }()
 
     lazy var httpsStatView: StatView = {
         let statView = StatView(frame: CGRect.zero)
         statView.title = Strings.ShieldsHttpsStats
-        statView.color = UIColor(red: 7/255.0, green: 150/255.0, blue: 250/255.0, alpha: 1.0)
+        statView.color = BraveUX.Green
         return statView
     }()
 
@@ -34,7 +34,7 @@ class BraveShieldStatsView: UIView {
         let statView = StatView(frame: CGRect.zero)
         statView.title = Strings.ShieldsTimeStats
         // Color dynamically set in controller: TopSitesPanel, should be abstracted
-        statView.color = PrivateBrowsing.singleton.isOn ? .white : .black
+        statView.color = PrivateBrowsing.singleton.isOn ? BraveUX.GreyA : BraveUX.GreyJ
         return statView
     }()
     
@@ -46,7 +46,7 @@ class BraveShieldStatsView: UIView {
         super.init(frame: frame)
         
         addSubview(line)
-        line.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+        line.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.GreyI : BraveUX.GreyB
         line.snp.makeConstraints { (make) -> Void in
             make.bottom.equalTo(0).offset(-0.5)
             make.height.equalTo(0.5)
@@ -90,6 +90,10 @@ class BraveShieldStatsView: UIView {
         timeStatView.stat = timeSaved
     }
     
+    func applyTheme(_ themeName: String) {
+        
+    }
+    
     var timeSaved: String {
         get {
             let estimatedMillisecondsSaved = (BraveGlobalShieldStats.singleton.adblock + BraveGlobalShieldStats.singleton.trackingProtection) * millisecondsPerItem
@@ -122,7 +126,7 @@ class BraveShieldStatsView: UIView {
 }
 
 class StatView: UIView {
-    var color: UIColor = UIColor.black {
+    var color: UIColor = BraveUX.GreyJ {
         didSet {
             statLabel.textColor = color
         }

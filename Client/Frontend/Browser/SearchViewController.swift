@@ -18,8 +18,8 @@ private enum SearchListSection: Int {
 }
 
 private struct SearchViewControllerUX {
-    static let SearchEngineScrollViewBackgroundColor = UIColor.white.withAlphaComponent(0.8).cgColor
-    static let SearchEngineScrollViewBorderColor = UIColor.black.withAlphaComponent(0.2).cgColor
+    static let SearchEngineScrollViewBackgroundColor = BraveUX.GreyB
+    static let SearchEngineScrollViewBorderColor = BraveUX.GreyE
 
     // TODO: This should use ToolbarHeight in BVC. Fix this when we create a shared theming file.
     static let EngineButtonHeight: Float = 44
@@ -45,7 +45,7 @@ private struct SearchViewControllerUX {
     static let PromptYesFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightBold)
     static let PromptNoFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
     static let PromptInsets = UIEdgeInsets(top: 15, left: 12, bottom: 15, right: 12)
-    static let PromptButtonColor = UIColor(rgb: 0x007aff)
+    static let PromptButtonColor = BraveUX.Blue
 }
 
 protocol SearchViewControllerDelegate: class {
@@ -76,7 +76,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
     
     lazy var searchButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "quickSearch"), for: .normal)
+        button.setImage(UIImage(named: "search"), for: .normal)
         button.imageView?.contentMode = UIViewContentMode.center
         button.layer.backgroundColor = SearchViewControllerUX.EngineButtonBackgroundColor
         button.addTarget(self, action: #selector(SearchViewController.SELdidClickSearchButton), for: UIControlEvents.touchUpInside)
@@ -260,7 +260,7 @@ class SearchViewController: SiteTableViewController, KeyboardHelperDelegate, Loa
         prompt.backgroundColor = SearchViewControllerUX.PromptColor
 
         let promptBottomBorder = UIView()
-        promptBottomBorder.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+        promptBottomBorder.backgroundColor = BraveUX.GreyE
         prompt.addSubview(promptBottomBorder)
 
         // Insert behind the tableView so the tableView slides on top of it
@@ -619,7 +619,7 @@ extension SearchViewController {
         case .findInPage:
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
             cell.textLabel?.text = String(format: Strings.FindInPage, searchQuery)
-            cell.imageView?.image = UIImage(named: "quickSearch")
+            cell.imageView?.image = UIImage(named: "search")
             return cell
         }
     }
@@ -813,8 +813,8 @@ fileprivate class SuggestionButton: InsetButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setTitleColor(UIColor.black, for: .normal)
-        setTitleColor(UIColor.black, for: UIControlState.highlighted)
+        setTitleColor(BraveUX.GreyJ, for: .normal)
+        setTitleColor(BraveUX.GreyJ, for: UIControlState.highlighted)
         titleLabel?.font = DynamicFontHelper.defaultHelper.DefaultMediumFont
         backgroundColor = SearchViewControllerUX.SuggestionBackgroundColor
         layer.borderColor = SearchViewControllerUX.SuggestionBorderColor.cgColor

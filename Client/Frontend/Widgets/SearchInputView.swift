@@ -58,7 +58,7 @@ class SearchInputView: UIView {
     }()
 
     lazy var searchIcon: UIImageView = {
-        return UIImageView(image: UIImage(named: "quickSearch"))
+        return UIImageView(image: UIImage(named: "search"))
     }()
 
     fileprivate lazy var closeButton: UIButton = {

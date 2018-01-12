@@ -14,12 +14,12 @@ protocol FindInPageBarDelegate: class {
 }
 
 private struct FindInPageUX {
-    static let ButtonColor = UIColor.black
-    static let MatchCountColor = UIColor.lightGray
+    static let ButtonColor = BraveUX.GreyJ
+    static let MatchCountColor = BraveUX.GreyD
     static let MatchCountFont = UIConstants.DefaultChromeFont
-    static let SearchTextColor = UIColor(rgb: 0xe66000)
+    static let SearchTextColor = BraveUX.BraveOrange
     static let SearchTextFont = UIConstants.DefaultChromeFont
-    static let TopBorderColor = UIColor(rgb: 0xEEEEEE)
+    static let TopBorderColor = BraveUX.GreyE
 }
 
 class FindInPageBar: UIView {
@@ -88,7 +88,7 @@ class FindInPageBar: UIView {
         addSubview(nextButton)
 
         let closeButton = UIButton()
-        closeButton.setImage(UIImage(named: "find_close"), for: .normal)
+        closeButton.setImage(UIImage(named: "close"), for: .normal)
         closeButton.setTitleColor(FindInPageUX.ButtonColor, for: .normal)
         closeButton.accessibilityLabel = Strings.Done
         closeButton.addTarget(self, action: #selector(FindInPageBar.SELdidPressClose(_:)), for: UIControlEvents.touchUpInside)

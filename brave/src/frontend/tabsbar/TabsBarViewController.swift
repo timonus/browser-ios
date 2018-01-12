@@ -25,7 +25,6 @@ protocol TabBarCellDelegate: class {
 class TabBarCell: UICollectionViewCell {
     let title = UILabel()
     let close = UIButton()
-    let separatorLine = UIView()
     let separatorLineRight = UIView()
     var currentIndex: Int = -1 {
         didSet {
@@ -48,7 +47,7 @@ class TabBarCell: UICollectionViewCell {
         
         close.addTarget(self, action: #selector(closeTab), for: .touchUpInside)
         
-        [close, title, separatorLine, separatorLineRight].forEach { contentView.addSubview($0) }
+        [close, title, separatorLineRight].forEach { contentView.addSubview($0) }
         
         title.textAlignment = .center
         title.snp.makeConstraints({ (make) in
@@ -57,26 +56,17 @@ class TabBarCell: UICollectionViewCell {
             make.right.equalTo(close.snp.left)
         })
         
-        close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        close.setImage(UIImage(named: "close")?.withRenderingMode(.alwaysTemplate), for: .normal)
         close.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
             make.right.equalTo(self).inset(2)
             make.width.equalTo(30)
         })
-        close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
+        close.tintColor = PrivateBrowsing.singleton.isOn ? BraveUX.GreyG : BraveUX.GreyI
 
         // Close button is a bit wider to increase tap area, this aligns 'X' image closer to the right.
         close.imageEdgeInsets.left = 6
         
-        separatorLine.backgroundColor = UIColor.black.withAlphaComponent(0.15)
-        separatorLine.snp.makeConstraints { (make) in
-            make.left.equalTo(self)
-            make.width.equalTo(0.5)
-            make.height.equalTo(self)
-            make.centerY.equalTo(self.snp.centerY)
-        }
-        
-        separatorLineRight.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         separatorLineRight.isHidden = true
         separatorLineRight.snp.makeConstraints { (make) in
             make.right.equalTo(self)
@@ -96,17 +86,19 @@ class TabBarCell: UICollectionViewCell {
         didSet(selected) {
             if selected {
                 title.font = UIFont.systemFont(ofSize: 12, weight: UIFontWeightSemibold)
-                title.textColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
+                title.textColor = PrivateBrowsing.singleton.isOn ? BraveUX.GreyA : BraveUX.GreyJ
                 close.isHidden = false
-                close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
+                close.tintColor = PrivateBrowsing.singleton.isOn ? BraveUX.GreyF : BraveUX.GreyI
+                separatorLineRight.isHidden = true
                 backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.DarkToolbarsBackgroundSolidColor : BraveUX.ToolbarsBackgroundSolidColor
             }
             else if currentIndex != getApp().tabManager.currentDisplayedIndex {
                 // prevent swipe and release outside- deselects cell.
                 title.font = UIFont.systemFont(ofSize: 12)
-                title.textColor = PrivateBrowsing.singleton.isOn ? UIColor(white: 1.0, alpha: 0.4) : UIColor(white: 0.0, alpha: 0.4)
+                title.textColor = PrivateBrowsing.singleton.isOn ? BraveUX.GreyG : BraveUX.GreyG
                 close.isHidden = true
-                close.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
+                separatorLineRight.isHidden = false
+                separatorLineRight.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.GreyJ : BraveUX.GreyD
                 backgroundColor = UIColor.clear
             }
         }
@@ -185,7 +177,7 @@ class TabsBarViewController: UIViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             plusButton.setImage(UIImage(named: "add")!.withRenderingMode(.alwaysTemplate), for: .normal)
             plusButton.imageEdgeInsets = UIEdgeInsetsMake(6, 10, 6, 10)
-            plusButton.tintColor = UIColor.black
+            plusButton.tintColor = BraveUX.GreyI
             plusButton.contentMode = .scaleAspectFit
             plusButton.addTarget(self, action: #selector(addTabPressed), for: .touchUpInside)
             plusButton.backgroundColor = UIColor(white: 0.0, alpha: 0.075)
@@ -269,8 +261,8 @@ class TabsBarViewController: UIViewController {
     
     func overflowIndicators() {
         // super lame place to put this, need to find a better solution.
-        plusButton.tintColor = PrivateBrowsing.singleton.isOn ? UIColor.white : UIColor.black
-        collectionView.backgroundColor = PrivateBrowsing.singleton.isOn ? UIColor(white: 0.0, alpha: 0.2) : UIColor(white: 0.0, alpha: 0.075)
+        plusButton.tintColor = PrivateBrowsing.singleton.isOn ? BraveUX.GreyF : BraveUX.GreyI
+        collectionView.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.Black : BraveUX.GreyB
         
         scrollHints()
         
@@ -340,7 +332,6 @@ extension TabsBarViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.browser = tab
         cell.title.text = tab.displayTitle
         cell.currentIndex = indexPath.row
-        cell.separatorLineRight.isHidden = (indexPath.row != tabList.count() - 1)
         debugPrint("index: \(getApp().tabManager.currentDisplayedIndex ?? -1)")
         return cell
     }

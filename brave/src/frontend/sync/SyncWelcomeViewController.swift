@@ -5,14 +5,21 @@ import Shared
 
 let SyncBackgroundColor = UIColor(rgb: 0xF8F8F8)
 
+class RoundInterfaceButton: UIButton {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = bounds.height / 2.0
+    }
+}
+
 class SyncWelcomeViewController: UIViewController {
     
     var scrollView: UIScrollView!
     var graphic: UIImageView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
-    var newToSyncButton: UIButton!
-    var existingUserButton: UIButton!
+    var newToSyncButton: RoundInterfaceButton!
+    var existingUserButton: RoundInterfaceButton!
     
     var loadingView = UIView()
     
@@ -39,35 +46,34 @@ class SyncWelcomeViewController: UIViewController {
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = UIColor.black
+        titleLabel.textColor = BraveUX.GreyJ
         titleLabel.text = Strings.BraveSync
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
-        descriptionLabel.textColor = UIColor(rgb: 0x696969)
+        descriptionLabel.textColor = BraveUX.GreyH
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = Strings.BraveSyncWelcome
         scrollView.addSubview(descriptionLabel)
         
-        existingUserButton = UIButton(type: .roundedRect)
+        existingUserButton = RoundInterfaceButton(type: .roundedRect)
         existingUserButton.translatesAutoresizingMaskIntoConstraints = false
         existingUserButton.setTitle(Strings.ScanSyncCode, for: .normal)
         existingUserButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         existingUserButton.setTitleColor(UIColor.white, for: .normal)
-        existingUserButton.backgroundColor = BraveUX.DefaultBlue
-        existingUserButton.layer.cornerRadius = 8
+        existingUserButton.backgroundColor = BraveUX.Blue
         existingUserButton.addTarget(self, action: #selector(SEL_existingUser), for: .touchUpInside)
         scrollView.addSubview(existingUserButton)
         
-        newToSyncButton = UIButton(type: .roundedRect)
+        newToSyncButton = RoundInterfaceButton(type: .roundedRect)
         newToSyncButton.translatesAutoresizingMaskIntoConstraints = false
         newToSyncButton.setTitle(Strings.NewSyncCode, for: .normal)
         newToSyncButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        newToSyncButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        newToSyncButton.setTitleColor(BraveUX.GreyH, for: .normal)
         newToSyncButton.addTarget(self, action: #selector(SEL_newToSync), for: .touchUpInside)
         scrollView.addSubview(newToSyncButton)
         

@@ -223,7 +223,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = BraveUX.BackgroundColorForSideToolbars
         navBar?.isTranslucent = false
-        navBar?.titleTextAttributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium), NSForegroundColorAttributeName : UIColor.black]
+        navBar?.titleTextAttributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium), NSForegroundColorAttributeName : BraveUX.GreyG]
         navBar?.clipsToBounds = true
         
         let width = self.view.bounds.size.width
@@ -300,9 +300,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
-        addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
-                                            style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
-        items.append(addFolderButton!)
+        addFolderButton = UIBarButtonItem(image: UIImage(named: "bookmarks_newfolder_icon")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
+        items.append(addFolderButton)
         
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
 
@@ -311,7 +310,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         items.append(editBookmarksButton)
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
         
-        items.forEach { $0.tintColor = BraveUX.DefaultBlue }
+        items.forEach { $0.tintColor = BraveUX.Blue }
         
         editBookmarksToolbar.items = items
         
@@ -412,7 +411,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
                 cell.addGestureRecognizer(lp)
             }
             
-            cell.imageView?.contentMode = .scaleAspectFit
+            cell.imageView?.contentMode = .center
             cell.imageView?.image = FaviconFetcher.defaultFavicon
             cell.imageView?.layer.cornerRadius = 6
             cell.imageView?.layer.masksToBounds = true
@@ -459,8 +458,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             cell.textLabel?.font = UIFont.systemFont(ofSize: fontSize)
             cell.accessoryType = .none
         } else {
-            let image = UIImage(named: "bookmarks_folder_hollow")
-            configCell(image: image)
+            configCell(image: UIImage(named: "bookmarks_folder_hollow"))
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
             cell.accessoryType = .disclosureIndicator
             if let twoLineCell = cell as? TwoLineTableViewCell {

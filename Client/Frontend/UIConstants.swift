@@ -9,19 +9,16 @@ public struct UIConstants {
     static let DefaultHomePage = URL(string: "\(WebServer.sharedInstance.base)/about/home/#panel=0")!
 
     static let AppBackgroundColor = UIColor.white
-    static let PrivateModePurple = UIColor(red: 207 / 255, green: 104 / 255, blue: 255 / 255, alpha: 1)
-    static let PrivateModeLocationBackgroundColor = UIColor(red: 31 / 255, green: 31 / 255, blue: 31 / 255, alpha: 1)
-    static let PrivateModeLocationBorderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
-    static let PrivateModeActionButtonTintColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1.0)
-    static let PrivateModeTextHighlightColor = UIColor(white: 0.5, alpha: 1)
-    static let PrivateModeReaderModeBackgroundColor = UIColor(red: 89 / 255, green: 89 / 255, blue: 89 / 255, alpha: 1)
+    static let PrivateModePurple = BraveUX.Purple
+    static let PrivateModeActionButtonTintColor = BraveUX.ActionButtonPrivateTintColor
+    static let PrivateModeTextHighlightColor = BraveUX.GreyC
+    static let PrivateModeReaderModeBackgroundColor = BraveUX.GreyJ
 
     static let ToolbarHeight: CGFloat = 44
     static let BottomToolbarHeight: CGFloat = {
         if BraveApp.isIPhoneX() {
             return 44 + 34 // 34 is the bottom inset on the iPhone X
         }
-        
         return 44
     }()
     static let DefaultRowHeight: CGFloat = 58
@@ -38,30 +35,30 @@ public struct UIConstants {
     static let PasscodeEntryFont = UIFont.systemFont(ofSize: PasscodeEntryFontSize, weight: UIFontWeightBold)
 
     // These highlight colors are currently only used on Snackbar buttons when they're pressed
-    static let HighlightColor = UIColor(red: 205/255, green: 223/255, blue: 243/255, alpha: 0.9)
-    static let HighlightText = UIColor(red: 42/255, green: 121/255, blue: 213/255, alpha: 1.0)
+    static let HighlightColor = BraveUX.Blue
+    static let HighlightText = BraveUX.Blue
 
     static let PanelBackgroundColor = UIColor.white
-    static let SeparatorColor = UIColor(rgb: 0xcccccc)
-    static let HighlightBlue = BraveUX.DefaultBlue
-    static let DestructiveRed = UIColor(red: 255/255, green: 64/255, blue: 0/255, alpha: 1.0)
-    static let BorderColor = UIColor.black.withAlphaComponent(0.3)
-    static let BorderColorDark = UIColor.black.withAlphaComponent(0.9)
-    static let BackgroundColor = UIColor(red: 0.21, green: 0.23, blue: 0.25, alpha: 1)
+    static let SeparatorColor = BraveUX.GreyC
+    static let HighlightBlue = BraveUX.Blue
+    static let DestructiveRed = BraveUX.Red
+    static let BorderColor = BraveUX.GreyE
+    static let BorderColorDark = BraveUX.GreyI
+    static let BackgroundColor = BraveUX.BraveOrange
 
     // settings
-    static let TableViewHeaderBackgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1.0)
-    static let TableViewHeaderTextColor = UIColor(red: 109/255, green: 109/255, blue: 109/255, alpha: 1.0)
-    static let TableViewRowTextColor = UIColor(red: 53.55/255, green: 53.55/255, blue: 53.55/255, alpha: 1.0)
-    static let TableViewDisabledRowTextColor = UIColor.lightGray
-    static let TableViewSeparatorColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0)
+    static let TableViewHeaderBackgroundColor = BraveUX.GreyA
+    static let TableViewHeaderTextColor = BraveUX.GreyH
+    static let TableViewRowTextColor = BraveUX.GreyJ
+    static let TableViewDisabledRowTextColor = BraveUX.GreyE
+    static let TableViewSeparatorColor = BraveUX.GreyC
     static let TableViewHeaderFooterHeight = CGFloat(44)
 
     // Brave Orange
     static let ControlTintColor = BraveUX.BraveOrange
 
     // Passcode dot gray
-    static let PasscodeDotColor = UIColor(rgb: 0x4A4A4A)
+    static let PasscodeDotColor = BraveUX.GreyG
 
     /// JPEG compression quality for persisted screenshots. Must be between 0-1.
     static let ScreenshotQuality: Float = 0.3

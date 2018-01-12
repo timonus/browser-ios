@@ -20,7 +20,7 @@ class AppSettingsTableViewController: SettingsTableViewController {
             style: UIBarButtonItemStyle.done,
             target: navigationController, action: #selector(SettingsNavigationController.SELdone))
         navigationItem.rightBarButtonItem?.accessibilityIdentifier = "AppSettingsTableViewController.navigationItem.leftBarButtonItem"
-        navigationItem.rightBarButtonItem?.tintColor = BraveUX.DefaultBlue
+        navigationItem.rightBarButtonItem?.tintColor = BraveUX.BraveOrange
 
         tableView.accessibilityIdentifier = "AppSettingsTableViewController.tableView"
     }

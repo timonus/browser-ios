@@ -104,7 +104,7 @@ class BraveApp {
             }
        #endif
         
-        UINavigationBar.appearance().tintColor = BraveUX.DefaultBlue
+        UINavigationBar.appearance().tintColor = BraveUX.BraveOrange
     }
     
     private class func checkMixpanelGUID() {
