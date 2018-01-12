@@ -220,7 +220,7 @@ class Sync: JSInjector {
             
             if let device = Device.currentDevice() {
                 // Not even verified if this works on the sync side.
-                self.sendSyncRecords(recordType: .prefs, action: .delete, records: [device])
+                self.sendSyncRecords(action: .delete, records: [device])
             }
             
             Device.deleteAll {}
@@ -281,7 +281,7 @@ class Sync: JSInjector {
             NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationSyncReady), object: nil)
             
             if let device = Device.currentDevice(), !device.isSynced {
-                self.sendSyncRecords(recordType: .prefs, action: .create, records: [device])
+                self.sendSyncRecords(action: .create, records: [device])
                 
                 // Currently just force this, should use network, but too error prone currently
                 Device.currentDevice()?.isSynced = true
@@ -304,7 +304,7 @@ class Sync: JSInjector {
                 // Sync local bookmarks, then proceed with fetching
                 // Pull all local bookmarks
                 // Insane .map required for mapping obj-c class to Swift, in order to use protocol instead of class for array param
-                self.sendSyncRecords(recordType: .bookmark, action: .create, records: Bookmark.getAllBookmarks(context: DataController.shared.workerContext).map{$0}) { error in
+                self.sendSyncRecords(action: .create, records: Bookmark.getAllBookmarks(context: DataController.shared.workerContext).map{$0}) { error in
                     startFetching()
                 }
             } else {
@@ -324,11 +324,13 @@ class Sync: JSInjector {
 // MARK: Native-initiated Message category
 extension Sync {
     // TODO: Rename
-    func sendSyncRecords(recordType: SyncRecordType, action: SyncActions, records: [Syncable], completion: ((Error?) -> Void)? = nil) {
+    func sendSyncRecords<T: Syncable>(action: SyncActions, records: [T], completion: ((Error?) -> Void)? = nil) {
         
         // Consider protecting against (isSynced && .create)
         
-        if records.isEmpty {
+        // Strong typing guarantees that all records are same subclass, so can infer type of all objects
+        // Protects against empty record set too
+        guard let recordType = records.first?.recordType else {
             completion?(nil)
             return
         }

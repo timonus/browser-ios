@@ -111,7 +111,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             DataController.saveContext(context: self.managedObjectContext)
         }
         
-        Sync.shared.sendSyncRecords(recordType: .bookmark, action: .update, records: [self])
+        Sync.shared.sendSyncRecords(action: .update, records: [self])
     }
 
     static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable? {
@@ -172,7 +172,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         if sendToSync {
             // Submit to server
-            Sync.shared.sendSyncRecords(recordType: .bookmark, action: .create, records: [bk])
+            Sync.shared.sendSyncRecords(action: .create, records: [bk])
         }
         
         return bk

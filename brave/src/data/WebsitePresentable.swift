@@ -109,7 +109,7 @@ extension Syncable /* where Self: NSManagedObject */ {
         
         // TODO: Make type dynamic
 
-        Sync.shared.sendSyncRecords(recordType: self.recordType, action: .delete, records: [self])
+        Sync.shared.sendSyncRecords(action: .delete, records: [self])
         
         // Should actually delay, and wait for server to refetch records to confirm deletion.
         // Force a sync resync instead, should not be slow
