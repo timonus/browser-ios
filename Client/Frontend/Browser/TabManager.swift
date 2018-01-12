@@ -525,7 +525,9 @@ class TabManager : NSObject {
 
         if let selected = selectedTab, selectedTab === tab {
             if let idx = tabs.displayedTabsForCurrentPrivateMode.index(of: selected) {
-                if idx - 1 >= 0 {
+                if idx + 1 < tabs.displayedTabsForCurrentPrivateMode.count {
+                    selectTab(tabs.displayedTabsForCurrentPrivateMode[idx + 1])
+                } else if idx - 1 >= 0 {
                     selectTab(tabs.displayedTabsForCurrentPrivateMode[idx - 1])
                 } else if tabs.displayedTabsForCurrentPrivateMode.last !== tab {
                     selectTab(tabs.displayedTabsForCurrentPrivateMode.last)
