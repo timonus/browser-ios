@@ -7,7 +7,7 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     var captureSession:AVCaptureSession?
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var cameraOverlayView: UIImageView!
-    var cameraAccessButton: UIButton!
+    var cameraAccessButton: RoundInterfaceButton!
     
     var scanCallback: ((_ data: String) -> Void)?
     var authorizedCallback: ((_ authorized: Bool) -> Void)?
@@ -20,7 +20,7 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
         cameraOverlayView.tintColor = UIColor.white
         addSubview(cameraOverlayView)
         
-        cameraAccessButton = UIButton(type: .roundedRect)
+        cameraAccessButton = RoundInterfaceButton(type: .roundedRect)
         cameraAccessButton.setTitle(Strings.GrantCameraAccess, for: .normal)
         cameraAccessButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightBold)
         cameraAccessButton.setTitleColor(UIColor.white, for: .normal)
@@ -48,7 +48,6 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
         cameraAccessFrame.origin.x = (bounds.width - cameraAccessFrame.width) / 2
         cameraAccessFrame.origin.y = (bounds.height - cameraAccessFrame.height) / 2
         cameraAccessButton.frame = cameraAccessFrame
-        cameraAccessButton.layer.cornerRadius = cameraAccessFrame.size.height / 2.0
     }
     
     func SEL_cameraAccess() {

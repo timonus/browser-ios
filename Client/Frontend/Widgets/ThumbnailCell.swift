@@ -10,11 +10,11 @@ struct ThumbnailCellUX {
     
     /// Ratio of width:height of the thumbnail image.
     static let ImageAspectRatio: Float = 1.0
-    static let BorderColor = UIColor.black.withAlphaComponent(0.15)
-    static let BorderWidth: CGFloat = 0.5
-    static let LabelColor = UIAccessibilityDarkerSystemColorsEnabled() ? UIColor.black : UIColor(rgb: 0x353535)
+    static let BorderColor = BraveUX.GreyJ
+    static let BorderWidth: CGFloat = 0
+    static let LabelColor = UIAccessibilityDarkerSystemColorsEnabled() ? BraveUX.GreyJ : BraveUX.GreyH
     static let LabelAlignment: NSTextAlignment = .center
-    static let SelectedOverlayColor = UIColor(white: 0.0, alpha: 0.25)
+    static let SelectedOverlayColor = BraveUX.Blue
     static let InsetSize: CGFloat = 10
     static let InsetSizeCompact: CGFloat = 3
     static let ImagePaddingWide: CGFloat = 4

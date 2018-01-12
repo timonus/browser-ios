@@ -5,13 +5,13 @@ import Shared
 class SyncCodewordsView: UIView, UITextFieldDelegate {
     var fields: [UITextField] = []
     
-    let DefaultBackgroundColor = UIColor(rgb: 0xcccccc)
+    let DefaultBackgroundColor = BraveUX.GreyC
     let SelectedBackgroundColor = UIColor.white
     
     let DefaultBorderWidth: CGFloat = 0.0
     let SelectedBorderWidth: CGFloat = 0.5
     
-    let DefaultBorderColor = UIColor(rgb: 0x696969).cgColor
+    let DefaultBorderColor = BraveUX.GreyH.cgColor
     
     var doneKeyCallback: (() -> Void)?
     
@@ -24,7 +24,7 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
             field.tag = i
             field.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightRegular)
             field.textAlignment = .center
-            field.textColor = UIColor.black
+            field.textColor = BraveUX.GreyJ
             field.keyboardAppearance = .dark
             field.autocapitalizationType = .none
             field.autocorrectionType = .no

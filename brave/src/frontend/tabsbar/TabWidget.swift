@@ -83,7 +83,7 @@ class TabWidget : UIView {
         
         [close, title, separatorLine].forEach { addSubview($0) }
 
-        close.setImage(UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        close.setImage(UIImage(named: "close")?.withRenderingMode(.alwaysTemplate), for: .normal)
         close.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
             make.left.equalTo(self).inset(4)

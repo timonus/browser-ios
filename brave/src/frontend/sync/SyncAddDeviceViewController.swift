@@ -17,8 +17,8 @@ class SyncAddDeviceViewController: UIViewController {
     var modeControl: UISegmentedControl!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
-    var doneButton: UIButton!
-    var enterWordsButton: UIButton!
+    var doneButton: RoundInterfaceButton!
+    var enterWordsButton: RoundInterfaceButton!
     var pageTitle: String = Strings.Sync
     var deviceType: DeviceType = .mobile
     
@@ -86,7 +86,7 @@ class SyncAddDeviceViewController: UIViewController {
         
         modeControl = UISegmentedControl(items: [Strings.QRCode, Strings.CodeWords])
         modeControl.translatesAutoresizingMaskIntoConstraints = false
-        modeControl.tintColor = BraveUX.DefaultBlue
+        modeControl.tintColor = BraveUX.BraveOrange
         modeControl.selectedSegmentIndex = 0
         modeControl.addTarget(self, action: #selector(SEL_changeMode), for: .valueChanged)
         scrollView.addSubview(modeControl)
@@ -94,35 +94,34 @@ class SyncAddDeviceViewController: UIViewController {
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = UIColor.black
+        titleLabel.textColor = BraveUX.GreyJ
         titleLabel.text = deviceType == .mobile ? Strings.SyncAddMobile : Strings.SyncAddComputer
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
-        descriptionLabel.textColor = UIColor(rgb: 0x696969)
+        descriptionLabel.textColor = BraveUX.GreyH
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = deviceType == .mobile ? Strings.SyncAddMobileDescription : Strings.SyncAddComputerDescription
         scrollView.addSubview(descriptionLabel)
         
-        doneButton = UIButton(type: .roundedRect)
+        doneButton = RoundInterfaceButton(type: .roundedRect)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.setTitle(Strings.Done, for: .normal)
         doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         doneButton.setTitleColor(UIColor.white, for: .normal)
-        doneButton.backgroundColor = BraveUX.DefaultBlue
-        doneButton.layer.cornerRadius = 8
+        doneButton.backgroundColor = BraveUX.GreyD
         doneButton.addTarget(self, action: #selector(SEL_done), for: .touchUpInside)
         scrollView.addSubview(doneButton)
         
-        enterWordsButton = UIButton(type: .roundedRect)
+        enterWordsButton = RoundInterfaceButton(type: .roundedRect)
         enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
         enterWordsButton.setTitle(Strings.ShowCodeWords, for: .normal)
         enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        enterWordsButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        enterWordsButton.setTitleColor(BraveUX.GreyH, for: .normal)
         enterWordsButton.addTarget(self, action: #selector(SEL_showCodewords), for: .touchUpInside)
         scrollView.addSubview(enterWordsButton)
         
