@@ -304,6 +304,7 @@
 		5D0BD4041ED356B6003421CF /* SyncDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0BD4031ED356B6003421CF /* SyncDevice.swift */; };
 		5D11B1831F0195A7007B1DF4 /* JSONSerializationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D11B1821F0195A7007B1DF4 /* JSONSerializationExtensions.swift */; };
 		5D11B1931F01A5F8007B1DF4 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D11B1921F01A5F8007B1DF4 /* UIViewExtensions.swift */; };
+		5D2029A22009726C004F6AC2 /* Syncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2029A12009726C004F6AC2 /* Syncable.swift */; };
 		5D27859A1E70D7EF0066EC15 /* JSInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2785991E70D7EF0066EC15 /* JSInjector.swift */; };
 		5D2785BE1E71D7050066EC15 /* NicewareTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D27858C1E70CC660066EC15 /* NicewareTest.swift */; };
 		5D2AE6F81E83F3EC00BC274C /* SyncBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2AE6F51E83F3EC00BC274C /* SyncBookmark.swift */; };
@@ -1286,6 +1287,7 @@
 		5D0BD4031ED356B6003421CF /* SyncDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDevice.swift; sourceTree = "<group>"; };
 		5D11B1821F0195A7007B1DF4 /* JSONSerializationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONSerializationExtensions.swift; path = Client/Extensions/JSONSerializationExtensions.swift; sourceTree = "<group>"; };
 		5D11B1921F01A5F8007B1DF4 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		5D2029A12009726C004F6AC2 /* Syncable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Syncable.swift; path = brave/src/data/Syncable.swift; sourceTree = "<group>"; };
 		5D27858C1E70CC660066EC15 /* NicewareTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicewareTest.swift; sourceTree = "<group>"; };
 		5D2785991E70D7EF0066EC15 /* JSInjector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSInjector.swift; sourceTree = "<group>"; };
 		5D2AE6F51E83F3EC00BC274C /* SyncBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncBookmark.swift; sourceTree = "<group>"; };
@@ -2479,6 +2481,7 @@
 				5C44C0DD1E3EE47B00B1FD81 /* History.swift */,
 				5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */,
 				5D448B471EA1572A00F1BA98 /* WebsitePresentable.swift */,
+				5D2029A12009726C004F6AC2 /* Syncable.swift */,
 				5C0293841E70D9AE00CA99D0 /* MigrateData.swift */,
 				5C2CD4471F72FA6C004AAB5D /* TopSite.swift */,
 			);
@@ -4781,6 +4784,7 @@
 				2FBCFA22FFA948467136AF65 /* ReaderModeHandlers.swift in Sources */,
 				5D11B1831F0195A7007B1DF4 /* JSONSerializationExtensions.swift in Sources */,
 				1C1BD844C67E5F9C40F06A40 /* ReaderModeStyleViewController.swift in Sources */,
+				5D2029A22009726C004F6AC2 /* Syncable.swift in Sources */,
 				52808425834F70D43948B2AB /* ReaderModeUtils.swift in Sources */,
 				B4AC7FC0F7D974AD0BA32C3A /* AppSettingsOptions.swift in Sources */,
 				A56B5847463CCB600331AE73 /* AppSettingsTableViewController.swift in Sources */,
