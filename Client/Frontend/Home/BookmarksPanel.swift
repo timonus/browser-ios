@@ -223,7 +223,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = BraveUX.BackgroundColorForSideToolbars
         navBar?.isTranslucent = false
-        navBar?.titleTextAttributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium), NSForegroundColorAttributeName : BraveUX.GreyG]
+        navBar?.titleTextAttributes = [NSFontAttributeName : UIFont.systemFont(ofSize: UIConstants.DefaultChromeSize, weight: UIFontWeightMedium), NSForegroundColorAttributeName : BraveUX.GreyJ]
         navBar?.clipsToBounds = true
         
         let width = self.view.bounds.size.width
@@ -305,8 +305,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
 
-        editBookmarksButton = UIBarButtonItem(title: Strings.Edit,
-                                              style: .plain, target: self, action: #selector(onEditBookmarksButton))
+        editBookmarksButton = UIBarButtonItem(image: UIImage(named: "edit")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(onEditBookmarksButton))
         items.append(editBookmarksButton)
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
         

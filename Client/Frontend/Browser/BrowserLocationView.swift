@@ -223,15 +223,16 @@ class BrowserLocationView: UIView {
 
         readerModeButton.snp.makeConstraints { make in
             make.right.equalTo(stopReloadButton.snp.left).inset(-6)
-            make.height.centerY.equalTo(self)
-            make.width.equalTo(20)
+            make.centerY.equalTo(self)
+            make.width.equalTo(18)
+            make.height.equalTo(17)
         }
 
         stopReloadButton.snp.makeConstraints { make in
             make.right.equalTo(self).inset(BrowserLocationViewUX.LocationContentInset)
             make.centerY.equalTo(self)
-            make.height.equalTo(15)
             make.width.equalTo(16)
+            make.height.equalTo(15)
         }
 
         urlTextField.snp.remakeConstraints { make in
