@@ -42,6 +42,7 @@ class TabMO: NSManagedObject {
         }
     }
 
+    // Currently required, because not `syncable`
     static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entity(forEntityName: "TabMO", in: context)!
     }

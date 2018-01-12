@@ -13,6 +13,7 @@ class FaviconMO: NSManagedObject {
     @NSManaged var type: Int16
     @NSManaged var domain: Domain?
 
+    // Necessary override due to bad classname, maybe not needed depending on future CD
     static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entity(forEntityName: "Favicon", in: context)!
     }

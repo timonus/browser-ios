@@ -10,14 +10,15 @@ import SwiftyJSON
     var url: String? { get }
 }
 
-protocol Syncable {
+protocol Syncable: class /* where Self: NSManagedObject */ {
     // Used to enforce CD conformity
     /* @NSManaged */ var syncDisplayUUID: String? { get set }
-    /* @NSManaged */ var created: Date? { get set}
+    /* @NSManaged */ var created: Date? { get set }
+    
+    // Primarily used for generic record deletion
+    var recordType: SyncRecordType { get }
 
     static func entity(context:NSManagedObjectContext) -> NSEntityDescription
-
-    var syncUUID: [Int]? { get }
     
     func asDictionary(deviceId: [Int]?, action: Int?) -> [String: Any]
     
@@ -26,8 +27,12 @@ protocol Syncable {
     @discardableResult static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable?
 }
 
-// ??
-extension Syncable where Self: Syncable {
+extension Syncable {
+    static func entity(context:NSManagedObjectContext) -> NSEntityDescription {
+        let className = String(describing: type(of: self))
+        return NSEntityDescription.entity(forEntityName: className, in: context)!
+    }
+    
     static func get(syncUUIDs: [[Int]]?, context: NSManagedObjectContext) -> [NSManagedObject]? {
         
         guard let syncUUIDs = syncUUIDs else {
@@ -72,7 +77,7 @@ extension Syncable {
     }
     
     // Maybe use 'self'?
-    static func get<T: NSManagedObject where T: Syncable>(predicate: NSPredicate?, context: NSManagedObjectContext?) -> [T]? {
+    static func get<T: Syncable>(predicate: NSPredicate?, context: NSManagedObjectContext?) -> [T]? {
         guard let context = context else {
             // error
             return nil
@@ -103,8 +108,11 @@ extension Syncable /* where Self: NSManagedObject */ {
         // Must happen before, otherwise bookmark is gone
         
         // TODO: Make type dynamic
-        Sync.shared.sendSyncRecords(recordType: .bookmark, action: .delete, records: [self])
+
+        Sync.shared.sendSyncRecords(recordType: self.recordType, action: .delete, records: [self])
         
+        // Should actually delay, and wait for server to refetch records to confirm deletion.
+        // Force a sync resync instead, should not be slow
         context.delete(s)
         if save {
             DataController.saveContext(context: context)
