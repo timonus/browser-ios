@@ -9,7 +9,7 @@ class SyncPairCameraViewController: UIViewController {
     var cameraView: SyncCameraView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
-    var enterWordsButton: UIButton!
+    var enterWordsButton: RoundInterfaceButton!
     
     // Kind of an odd mechanism for passing this info
     var deviceName: String?
@@ -93,25 +93,25 @@ class SyncPairCameraViewController: UIViewController {
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = UIColor.black
+        titleLabel.textColor = BraveUX.GreyJ
         titleLabel.text = Strings.SyncToDevice
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
-        descriptionLabel.textColor = UIColor(rgb: 0x696969)
+        descriptionLabel.textColor = BraveUX.GreyH
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = Strings.SyncToDeviceDescription
         scrollView.addSubview(descriptionLabel)
         
-        enterWordsButton = UIButton(type: .roundedRect)
+        enterWordsButton = RoundInterfaceButton(type: .roundedRect)
         enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
         enterWordsButton.setTitle(Strings.EnterCodeWords, for: .normal)
         enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        enterWordsButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        enterWordsButton.setTitleColor(BraveUX.GreyH, for: .normal)
         enterWordsButton.addTarget(self, action: #selector(SEL_enterWords), for: .touchUpInside)
         scrollView.addSubview(enterWordsButton)
         

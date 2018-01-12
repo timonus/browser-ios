@@ -223,7 +223,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = BraveUX.BackgroundColorForSideToolbars
         navBar?.isTranslucent = false
-        navBar?.titleTextAttributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium), NSForegroundColorAttributeName : UIColor.black]
+        navBar?.titleTextAttributes = [NSFontAttributeName : UIFont.systemFont(ofSize: UIConstants.DefaultChromeSize, weight: UIFontWeightMedium), NSForegroundColorAttributeName : BraveUX.GreyJ]
         navBar?.clipsToBounds = true
         
         let width = self.view.bounds.size.width
@@ -300,18 +300,16 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
-        addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
-                                          style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
+        addFolderButton = UIBarButtonItem(image: UIImage(named: "bookmarks_newfolder_icon")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
         items.append(addFolderButton)
         
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
 
-        editBookmarksButton = UIBarButtonItem(title: Strings.Edit,
-                                              style: .plain, target: self, action: #selector(onEditBookmarksButton))
+        editBookmarksButton = UIBarButtonItem(image: UIImage(named: "edit")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(onEditBookmarksButton))
         items.append(editBookmarksButton)
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
         
-        items.forEach { $0.tintColor = BraveUX.DefaultBlue }
+        items.forEach { $0.tintColor = BraveUX.Blue }
         
         editBookmarksToolbar.items = items
         
@@ -449,6 +447,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             if let image = image {
                 // folder or preset icon
                 cell.imageView?.image = image
+                cell.imageView?.contentMode = .center
             }
             else if let faviconMO = item.domain?.favicon, let urlString = faviconMO.url, let url = URL(string: urlString), let bookmarkUrlString = item.url, let bookmarkUrl = URL(string: bookmarkUrlString) {
                 // favicon object associated through domain relationship - set from cache or download

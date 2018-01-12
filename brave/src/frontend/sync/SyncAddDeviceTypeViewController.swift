@@ -12,14 +12,14 @@ class SyncDeviceTypeButton: UIControl {
     var pressed: Bool = false {
         didSet {
             if pressed {
-                label.textColor = BraveUX.DefaultBlue
+                label.textColor = BraveUX.Blue
                 if let anim = POPSpringAnimation(propertyNamed: kPOPLayerScaleXY) {
                     anim.toValue = NSValue(cgSize: CGSize(width: 0.9, height: 0.9))
                     layer.pop_add(anim, forKey: "size")
                 }
             }
             else {
-                label.textColor = UIColor.black
+                label.textColor = BraveUX.GreyJ
                 if let anim = POPSpringAnimation(propertyNamed: kPOPLayerScaleXY) {
                     anim.toValue = NSValue(cgSize: CGSize(width: 1.0, height: 1.0))
                     layer.pop_add(anim, forKey: "size")
@@ -34,19 +34,19 @@ class SyncDeviceTypeButton: UIControl {
         clipsToBounds = false
         backgroundColor = UIColor.white
         layer.cornerRadius = 12
-        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowColor = BraveUX.GreyJ.cgColor
         layer.shadowRadius = 3
         layer.shadowOpacity = 0.1
         layer.shadowOffset = CGSize(width: 0, height: 1)
         
         imageView.image = UIImage(named: image)
         imageView.contentMode = .center
-        imageView.tintColor = UIColor.black
+        imageView.tintColor = BraveUX.GreyJ
         addSubview(imageView)
         
         label.text = title
         label.font = UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightBold)
-        label.textColor = UIColor.black
+        label.textColor = BraveUX.GreyJ
         label.textAlignment = .center
         addSubview(label)
         

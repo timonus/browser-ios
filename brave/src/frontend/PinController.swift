@@ -242,7 +242,7 @@ class PinLockView: UIView {
         deleteButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
         deleteButton.setTitle(Strings.Delete, for: .normal)
         deleteButton.setTitleColor(PinUX.DefaultForegroundColor, for: .normal)
-        deleteButton.setTitleColor(UIColor.black, for: .highlighted)
+        deleteButton.setTitleColor(BraveUX.GreyJ, for: .highlighted)
         deleteButton.addTarget(self, action: #selector(SEL_delete(_:)), for: .touchUpInside)
         deleteButton.sizeToFit()
         addSubview(deleteButton)

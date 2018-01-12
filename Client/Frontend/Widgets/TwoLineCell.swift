@@ -10,7 +10,7 @@ struct TwoLineCellUX {
     static let BadgeSize: CGFloat = 16
     static let BadgeMargin: CGFloat = 16
     static let BorderFrameSize: CGFloat = 32
-    static let TextColor = UIAccessibilityDarkerSystemColorsEnabled() ? UIColor.black : UIColor(rgb: 0x333333)
+    static let TextColor = UIAccessibilityDarkerSystemColorsEnabled() ? BraveUX.GreyJ : BraveUX.GreyH
     static let DetailTextColor = UIAccessibilityDarkerSystemColorsEnabled() ? UIColor.darkGray : UIColor.gray
     static let DetailTextTopMargin: CGFloat = 5
 }
