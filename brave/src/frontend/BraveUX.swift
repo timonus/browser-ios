@@ -120,7 +120,7 @@ struct BraveUX {
     
     // Interesting: compontents of the url can be colored differently: http://www.foo.com
     // Base: http://www and Host: foo.com
-    static let LocationBarTextColor_URLBaseComponent = Green
+    static let LocationBarTextColor_URLBaseComponent = GreyG
     static let LocationBarTextColor_URLHostComponent = LocationBarTextColor
     
     static let TextFieldCornerRadius: CGFloat = 8.0

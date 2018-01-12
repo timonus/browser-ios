@@ -17,7 +17,7 @@ protocol AutocompleteTextFieldDelegate: class {
 }
 
 struct AutocompleteTextFieldUX {
-    static let HighlightColor = UIColor(rgb: 0xccdded)
+    static let HighlightColor = BraveUX.Blue.withAlphaComponent(0.2)
 }
 
 class AutocompleteTextField: UITextField, UITextFieldDelegate {

@@ -175,11 +175,11 @@ extension URL {
         var urlString = self.absoluteString
         // For http URLs, get rid of the trailing slash if the path is empty or '/'
         if (self.scheme == "http" || self.scheme == "https") && (self.path == "/") && urlString.endsWith("/") {
-            urlString = urlString.substring(to: urlString.characters.index(urlString.endIndex, offsetBy: -1))
+            urlString = urlString.substring(to: urlString.index(urlString.endIndex, offsetBy: -1))
         }
         // If it's basic http, strip out the string but leave anything else in
         if urlString.hasPrefix("http://") {
-            return urlString.substring(from: urlString.characters.index(urlString.startIndex, offsetBy: 7))
+            return urlString.substring(from: urlString.index(urlString.startIndex, offsetBy: 7))
         } else {
             return urlString
         }
@@ -220,7 +220,7 @@ extension URL {
             return host
         }
 
-        return publicSuffixFromHost(host, withAdditionalParts: 1)
+        return host
     }
 
     /**

@@ -23,7 +23,7 @@ protocol BrowserLocationViewDelegate {
 
 struct BrowserLocationViewUX {
     static let HostFontColor = BraveUX.GreyJ
-    static let BaseURLFontColor = BraveUX.Green
+    static let BaseURLFontColor = BraveUX.GreyG
     static let BaseURLPitch = 0.75
     static let HostPitch = 1.0
     static let LocationContentInset = 8
@@ -43,7 +43,7 @@ struct BrowserLocationViewUX {
         
         theme = Theme()
         theme.URLFontColor = BraveUX.LocationBarTextColor_URLBaseComponent
-        theme.hostFontColor = BraveUX.LocationBarTextColor_URLHostComponent
+        theme.hostFontColor = .white
         theme.textColor = .white
         theme.backgroundColor = BraveUX.LocationBarBackgroundColor_PrivateMode
         themes[Theme.PrivateMode] = theme
@@ -240,7 +240,7 @@ class BrowserLocationView: UIView {
             if lockImageView.isHidden {
                 make.left.equalTo(self).offset(BrowserLocationViewUX.LocationContentInset)
             } else {
-                make.left.equalTo(self.lockImageView.snp.right).offset(BrowserLocationViewUX.LocationContentInset)
+                make.left.equalTo(self.lockImageView.snp.right).offset(BrowserLocationViewUX.LocationContentInset-3)
             }
 
             if readerModeButton.isHidden {
@@ -286,8 +286,9 @@ class BrowserLocationView: UIView {
         if let httplessURL = url?.absoluteDisplayString, let baseDomain = url?.baseDomain {
             // Highlight the base domain of the current URL.
             let attributedString = NSMutableAttributedString(string: httplessURL)
-            let nsRange = NSMakeRange(0, httplessURL.characters.count)
+            let nsRange = NSMakeRange(0, httplessURL.count)
             attributedString.addAttribute(NSForegroundColorAttributeName, value: baseURLFontColor, range: nsRange)
+            attributedString.colorSubstring("https://", withColor: BraveUX.Green)
             attributedString.colorSubstring(baseDomain, withColor: hostFontColor)
             attributedString.addAttribute(UIAccessibilitySpeechAttributePitch, value: NSNumber(value: BrowserLocationViewUX.BaseURLPitch), range: nsRange)
             attributedString.pitchSubstring(baseDomain, withPitch: BrowserLocationViewUX.HostPitch)
@@ -296,9 +297,9 @@ class BrowserLocationView: UIView {
             // If we're unable to highlight the domain, just use the URL as is.
             urlTextField.text = url?.absoluteString
         }
-        postAsyncToMain(0.1) {
-            self.urlTextField.textColor = self.fullURLFontColor
-        }
+//        postAsyncToMain(0.1) {
+//            self.urlTextField.textColor = self.fullURLFontColor
+//        }
     }
 }
 
