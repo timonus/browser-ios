@@ -20,7 +20,8 @@ class Device: NSManagedObject, Syncable {
     @NSManaged var syncDisplayUUID: String?
     @NSManaged var name: String?
     
-    var recordType: SyncRecordType = .devices
+    // Device is subtype of prefs 🤢
+    var recordType: SyncRecordType = .prefs
 
     // Just a facade around the displayId, for easier access and better CD storage
     var deviceId: [Int]? {
