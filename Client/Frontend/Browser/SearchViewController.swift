@@ -613,6 +613,7 @@ extension SearchViewController {
                 cell.setLines(site.title, detailText: site.url)
                 cell.setRightBadge(isBookmark ? self.bookmarkedBadge : nil)
                 cell.imageView?.setIcon(site.icon, withPlaceholder: FaviconFetcher.defaultFavicon)
+                cell.imageView?.contentMode = .center
             }
 
             return cell
