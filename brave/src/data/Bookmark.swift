@@ -276,7 +276,6 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             if let favoritesFolder = Bookmark.add(url: nil, title: nil, customTitle: Strings.FavoritesFolder,
                                                   isFolder: true, isFavoritesFolder: true) {
                 // TODO: Different bookmarks depending on installation region
-                // FIXME: Save all bookmarks in one context instead of one by one?
                 try Bookmark.add(url: "https://m.facebook.com/".asURL(), title: "Facebook", parentFolder: favoritesFolder)
                 try Bookmark.add(url: "https://m.youtube.com".asURL(), title: "Youtube", parentFolder: favoritesFolder)
                 try Bookmark.add(url: "https://www.amazon.com/".asURL(), title: "Amazon", parentFolder: favoritesFolder)
@@ -285,7 +284,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             }
         } catch {
             // TODO: Better error handling
-            print("top sites url error")
+            print("favorites init url error")
         }
     }
 }
