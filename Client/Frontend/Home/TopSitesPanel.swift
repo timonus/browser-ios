@@ -90,9 +90,9 @@ class TopSitesPanel: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
-        
+
         let statsHeight: CGFloat = 150.0
         let statsBottomMargin: CGFloat = 25.0
         
@@ -133,7 +133,7 @@ class TopSitesPanel: UIViewController {
         privateTabMessageContainer.addSubview(privateTabLinkButton)
         
         let collection = TopSitesCollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collection.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
+        collection.backgroundColor = UIColor.clear
         collection.delegate = self
         collection.dataSource = PrivateBrowsing.singleton.isOn ? nil : dataSource
         collection.register(ThumbnailCell.self, forCellWithReuseIdentifier: ThumbnailIdentifier)
@@ -286,7 +286,7 @@ class TopSitesPanel: UIViewController {
         case NotificationPrivacyModeChanged:
             // TODO: This entire blockshould be abstracted
             //  to make code in this class DRY (duplicates from elsewhere)
-            collection?.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
+            view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
             privateTabMessageContainer.isHidden = !PrivateBrowsing.singleton.isOn
             braveShieldStatsView?.timeStatView.color = PrivateBrowsing.singleton.isOn ? .white : .black
             // Handling edge case when app starts in private only browsing mode and is switched back to normal mode.
