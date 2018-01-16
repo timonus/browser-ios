@@ -919,11 +919,20 @@ class BrowserViewController: UIViewController {
     
     func presentActivityViewController(_ url: URL, tab: Browser?, sourceView: UIView?, sourceRect: CGRect, arrowDirection: UIPopoverArrowDirection) {
         var activities = [UIActivity]()
-        
+
         let findInPageActivity = FindInPageActivity() { [unowned self] in
             self.updateFindInPageVisibility(true)
         }
         activities.append(findInPageActivity)
+
+        // We don't allow to have 2 same bookmarks.
+        let isBookmarked = Bookmark.contains(url: url, context: DataController.shared.mainThreadContext)
+        if !isBookmarked {
+            let addToFavoritesActivity = AddToFavoritesActivity() { [weak tab] in
+                Bookmark.addFavoriteBookmark(url: url, title: tab?.displayTitle)
+            }
+            activities.append(addToFavoritesActivity)
+        }
         
         //if let tab = tab where (tab.getHelper(name: ReaderMode.name()) as? ReaderMode)?.state != .Active { // needed for reader mode?
         let requestDesktopSiteActivity = RequestDesktopSiteActivity() { [weak tab] in

@@ -287,6 +287,15 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             print("favorites init url error")
         }
     }
+
+    class func addFavoriteBookmark(url: URL, title: String?) {
+        guard let favoritesFolder = Bookmark.getFavoritesFolder() else {
+            print("No favorites folder found")
+            return
+        }
+
+        Bookmark.add(url: url, title: title, parentFolder: favoritesFolder)
+    }
 }
 
 // TODO: Document well

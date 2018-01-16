@@ -263,6 +263,7 @@ extension Strings {
     public static let Clear = NSLocalizedString("Clear", comment: "Used as a button label in the dialog to Clear private data dialog")
     public static let Find_in_Page = NSLocalizedString("Find in Page", comment: "Share action title")
     public static let Open_Desktop_Site_tab = NSLocalizedString("Open Desktop Site tab", comment: "Share action title")
+    public static let Add_to_favorites = NSLocalizedString("Add to favorites", comment: "Add to favorites share action.")
     public static let Search_Input_Field = NSLocalizedString("Search Input Field", comment: "Accessibility label for the search input field in the Logins list")
 
     public static let Clear_Search = NSLocalizedString("Clear Search", comment: "")
