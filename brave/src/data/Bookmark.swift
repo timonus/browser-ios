@@ -6,6 +6,8 @@ import CoreData
 import Foundation
 import Shared
 
+private let log = Logger.browserLogger
+
 class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
 
     @NSManaged var isFavoritesFolder: Bool
@@ -283,14 +285,13 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
                 try Bookmark.add(url: "https://mobile.twitter.com/".asURL(), title: "Twitter", parentFolder: favoritesFolder)
             }
         } catch {
-            // TODO: Better error handling
-            print("favorites init url error")
+            log.error("Failed to initialize favorites folder with bookmarks")
         }
     }
 
     class func addFavoriteBookmark(url: URL, title: String?) {
         guard let favoritesFolder = Bookmark.getFavoritesFolder() else {
-            print("No favorites folder found")
+            log.error("No favorites folder found")
             return
         }
 
@@ -404,7 +405,7 @@ extension Bookmark {
             return results?.first
         } catch {
             let fetchError = error as NSError
-            print(fetchError)
+            log.error("getFavoritesFolder fetch error: \(fetchError)")
 
             return nil
         }

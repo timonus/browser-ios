@@ -3,6 +3,9 @@
 import UIKit
 import Storage
 import CoreData
+import Shared
+
+private let log = Logger.browserLogger
 
 class FavoritesDataSource: NSObject, UICollectionViewDataSource {
     var frc: NSFetchedResultsController<NSFetchRequestResult>?
@@ -18,7 +21,7 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
         do {
             try frc?.performFetch()
         } catch {
-            print("Favorites fetch error")
+            log.error("Favorites fetch error")
         }
     }
 
@@ -43,7 +46,7 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
         cell.accessibilityLabel = cell.textLabel.text
 
         guard let collection = collectionView, let urlString = fav.url, let url = URL(string: urlString) else {
-            print("url fetch error")
+            log.error("configureCell url is nil")
             return UICollectionViewCell()
         }
         

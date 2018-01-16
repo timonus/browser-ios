@@ -2,6 +2,9 @@
 
 import UIKit
 import Storage
+import Shared
+
+private let log = Logger.browserLogger
 
 enum FavoritesTileType {
     /// Predefinied tile color and custom icon, used for most popular websites.
@@ -45,9 +48,10 @@ struct FavoritesTileDecorator {
     func decorateTile() {
         switch tileType {
         case .preset:
-            // FIXME: Split it into separate guard clauses to give more specific error logs in case something is missing?
             guard let website = commonWebsite, let iconUrl = website.wordmark.url.asURL, let host = iconUrl.host,
                 iconUrl.scheme == "asset", let image = UIImage(named: host) else {
+                    // FIXME: Split it into separate guard clauses to give more specific error logs in case something is missing?
+                    log.warning("website, iconUrl, host, or image is nil, using default tile")
                     setDefaultTile()
                     return
             }
