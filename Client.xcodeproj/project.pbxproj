@@ -71,6 +71,7 @@
 		0A03FFED1FCDF0C400DF32C9 /* stringpiece.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */; };
 		0A03FFEE1FCDF0C400DF32C9 /* prog.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF971FCDF0C300DF32C9 /* prog.cc */; };
 		0A0F5D8B200E0F64006EB7F1 /* AddToFavoritesActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F5D8A200E0F64006EB7F1 /* AddToFavoritesActivity.swift */; };
+		0A0F5DA1200E2B3C006EB7F1 /* PreloadedFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F5DA0200E2B3C006EB7F1 /* PreloadedFavorites.swift */; };
 		0A14A8BA1997EFDD9BF4F08A /* Favicons.js in Resources */ = {isa = PBXBuildFile; fileRef = 9C0FE62111208C1C3C2CF16A /* Favicons.js */; };
 		0A159C931FD017DB005A79BF /* DeviceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A159C921FD017DB005A79BF /* DeviceDetector.swift */; };
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
@@ -999,6 +1000,7 @@
 		0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stringpiece.cc; sourceTree = "<group>"; };
 		0A03FF971FCDF0C300DF32C9 /* prog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prog.cc; sourceTree = "<group>"; };
 		0A0F5D8A200E0F64006EB7F1 /* AddToFavoritesActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToFavoritesActivity.swift; sourceTree = "<group>"; };
+		0A0F5DA0200E2B3C006EB7F1 /* PreloadedFavorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedFavorites.swift; sourceTree = "<group>"; };
 		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
 		0A3316501FFD4C6B00BFC542 /* Model6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model6.xcdatamodel; sourceTree = "<group>"; };
 		0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDataSource.swift; sourceTree = "<group>"; };
@@ -1925,6 +1927,7 @@
 			children = (
 				0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */,
 				0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */,
+				0A0F5DA0200E2B3C006EB7F1 /* PreloadedFavorites.swift */,
 			);
 			name = favorites;
 			path = brave/src/frontend/favorites;
@@ -4656,6 +4659,7 @@
 				B68CFF88E0641A0F8CA9C1BE /* BraveWebView.swift in Sources */,
 				65D7C98408394E5F2E760894 /* LegacyJSContext.m in Sources */,
 				1F2948B4093DD581ADBB7FA4 /* PrivateBrowsing.swift in Sources */,
+				0A0F5DA1200E2B3C006EB7F1 /* PreloadedFavorites.swift in Sources */,
 				62859AF44506E17DCC0A2759 /* WebViewBackForward.swift in Sources */,
 				0A03FFDF1FCDF0C400DF32C9 /* filtered_re2.cc in Sources */,
 				C5A2E6F2033E5897F1F43AD7 /* WebViewDocScale.m in Sources */,

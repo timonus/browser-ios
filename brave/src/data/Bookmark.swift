@@ -273,19 +273,12 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     class func favoritesInit() {
         if Bookmark.getFavoritesFolder() != nil { return }
 
-        do {
-            
-            if let favoritesFolder = Bookmark.add(url: nil, title: nil, customTitle: Strings.FavoritesFolder,
-                                                  isFolder: true, isFavoritesFolder: true) {
-                // TODO: Different bookmarks depending on installation region
-                try Bookmark.add(url: "https://m.facebook.com/".asURL(), title: "Facebook", parentFolder: favoritesFolder)
-                try Bookmark.add(url: "https://m.youtube.com".asURL(), title: "Youtube", parentFolder: favoritesFolder)
-                try Bookmark.add(url: "https://www.amazon.com/".asURL(), title: "Amazon", parentFolder: favoritesFolder)
-                try Bookmark.add(url: "https://www.wikipedia.org/".asURL(), title: "Wikipedia", parentFolder: favoritesFolder)
-                try Bookmark.add(url: "https://mobile.twitter.com/".asURL(), title: "Twitter", parentFolder: favoritesFolder)
+        if let favoritesFolder = Bookmark.add(url: nil, title: nil, customTitle: Strings.FavoritesFolder,
+                                              isFolder: true, isFavoritesFolder: true) {
+
+            PreloadedFavorites.getList().forEach { fav in
+                Bookmark.add(url: fav.url, title: fav.title, parentFolder: favoritesFolder)
             }
-        } catch {
-            log.error("Failed to initialize favorites folder with bookmarks")
         }
     }
 
