@@ -29,7 +29,11 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Thumbnail", for: indexPath) as! ThumbnailCell
         return configureCell(cell: cell, at: indexPath)
+    }
 
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        // Using the same reorder logic as in BookmarksPanel
+        Bookmark.reorderBookmarks(frc: frc, sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
     }
 
     fileprivate func configureCell(cell: ThumbnailCell, at indexPath: IndexPath) -> UICollectionViewCell {

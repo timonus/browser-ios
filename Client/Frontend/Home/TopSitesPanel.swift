@@ -120,6 +120,9 @@ class TopSitesPanel: UIViewController, HomePanel {
         
         self.view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
 
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
+        collection.addGestureRecognizer(longPressGesture)
+
         view.addSubview(collection)
         collection.dataSource = PrivateBrowsing.singleton.isOn ? nil : dataSource
         self.dataSource.collectionView = self.collection
@@ -144,6 +147,23 @@ class TopSitesPanel: UIViewController, HomePanel {
         collection.addSubview(privateTabMessageContainer)
 
         makeConstraints()
+    }
+
+    /// Handles long press gesture for UICollectionView cells reorder.
+    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            guard let selectedIndexPath = collection.indexPathForItem(at: gesture.location(in: collection)) else {
+                break
+            }
+            collection.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            collection.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case .ended:
+            collection.endInteractiveMovement()
+        default:
+            collection.cancelInteractiveMovement()
+        }
     }
 
     // MARK: - Constraints setup

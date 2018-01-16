@@ -296,6 +296,41 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
 
         Bookmark.add(url: url, title: title, parentFolder: favoritesFolder)
     }
+
+    class func reorderBookmarks(frc: NSFetchedResultsController<NSFetchRequestResult>?, sourceIndexPath: IndexPath,
+                                destinationIndexPath: IndexPath) {
+        let dest = frc?.object(at: destinationIndexPath) as! Bookmark
+        let src = frc?.object(at: sourceIndexPath) as! Bookmark
+        
+        if dest === src {
+            return
+        }
+        
+        // Warning, this could be a bottleneck, grabs ALL the bookmarks in the current folder
+        // But realistically, with a batch size of 20, and most reads around 1ms, a bottleneck here is an edge case.
+        // Optionally: grab the parent folder, and the on a bg thread iterate the bms and update their order. Seems like overkill.
+        var bms = frc?.fetchedObjects as! [Bookmark]
+        bms.remove(at: bms.index(of: src)!)
+        if sourceIndexPath.row > destinationIndexPath.row {
+            // insert before
+            bms.insert(src, at: bms.index(of: dest)!)
+        } else {
+            let end = bms.index(of: dest)! + 1
+            bms.insert(src, at: end)
+        }
+        
+        for i in 0..<bms.count {
+            bms[i].order = Int16(i)
+        }
+        
+        // I am stumped, I can't find the notification that animation is complete for moving.
+        // If I save while the animation is happening, the rows look screwed up (draw on top of each other).
+        // Adding a delay to let animation complete avoids this problem
+        postAsyncToMain(0.25) {
+            DataController.saveContext(context: frc?.managedObjectContext)
+        }
+
+    }
 }
 
 // TODO: Document well
