@@ -219,7 +219,6 @@ class Sync: JSInjector {
             // TODO: Update all records with originalSyncSeed
             
             if let device = Device.currentDevice() {
-                // Not even verified if this works on the sync side.
                 self.sendSyncRecords(action: .delete, records: [device])
             }
             
