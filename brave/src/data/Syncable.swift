@@ -104,8 +104,6 @@ extension Syncable /* where Self: NSManagedObject */ {
         
         // Must happen before, otherwise bookmark is gone
         
-        // TODO: Make type dynamic
-        
         Sync.shared.sendSyncRecords(action: .delete, records: [self])
         
         // Should actually delay, and wait for server to refetch records to confirm deletion.
