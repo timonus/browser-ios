@@ -290,7 +290,7 @@ class Sync: JSInjector {
             
             func startFetching() {
                 // Perform first fetch manually
-                self.fetch(type: .bookmark)
+                self.fetchWrapper()
                 
                 // Fetch timer to run on regular basis
                 fetchTimer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(Sync.fetchWrapper), userInfo: nil, repeats: true)
@@ -318,6 +318,7 @@ class Sync: JSInjector {
     // This can be removed and fetch called directly via scheduledTimerBlock
     func fetchWrapper() {
         self.fetch(type: .bookmark)
+        self.fetch(type: .devices)
     }
  }
 
