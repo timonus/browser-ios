@@ -282,7 +282,9 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         guard let favoritesFolder = Bookmark.getFavoritesFolder() else { return }
 
         sites.forEach { site in
-            _ = try? Bookmark.add(url: site.url.asURL(), title: site.title, parentFolder: favoritesFolder)
+            if let url = try? site.url.asURL() {
+                Bookmark.add(url: url, title: url.normalizedHost ?? site.url, parentFolder: favoritesFolder)
+            }
         }
     }
 

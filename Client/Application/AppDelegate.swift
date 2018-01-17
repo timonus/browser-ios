@@ -126,21 +126,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             log.error("Failed to assign AVAudioSession category to allow playing with silent switch on for aural progress bar")
         }
 
-        // Favorites initialization.
-        if Bookmark.getFavoritesFolder() == nil {
-            let isFirstLaunch = profile.prefs.arrayForKey(DAU.preferencesKey) == nil
-
-            Bookmark.add(url: nil, title: nil, customTitle: Strings.FavoritesFolder, isFolder: true, isFavoritesFolder: true)
-
-            if isFirstLaunch {
-                Bookmark.favoritesInit()
-            } else { // existing user, using Brave before the topsites to favorites change.
-                postAsyncToMain(1.5) {
-                    self.browserViewController.presentTopSitesToFavoritesChange()
-                }
-            }
-        }
-
         let defaultRequest = URLRequest(url: UIConstants.DefaultHomePage as URL)
         let imageStore = DiskImageStore(files: profile.files, namespace: "TabManagerScreenshots", quality: UIConstants.ScreenshotQuality)
 
@@ -167,6 +152,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
                 // TODO: Remove activity indicator.
             }
         })
+
+        // Favorites initialization.
+        if Bookmark.getFavoritesFolder() == nil {
+            let isFirstLaunch = profile.prefs.arrayForKey(DAU.preferencesKey) == nil
+
+            Bookmark.add(url: nil, title: nil, customTitle: Strings.FavoritesFolder, isFolder: true, isFavoritesFolder: true)
+
+            if isFirstLaunch {
+                Bookmark.favoritesInit()
+            } else { // existing user, using Brave before the topsites to favorites change.
+                postAsyncToMain(1.5) {
+                    self.browserViewController.presentTopSitesToFavoritesChange()
+                }
+            }
+        }
 
         log.debug("Adding observers…")
         NotificationCenter.default.addObserver(forName: NSNotification.Name.FSReadingListAddReadingListItem, object: nil, queue: nil) { (notification) -> Void in
