@@ -12,8 +12,6 @@ import Deferred
 private let log = Logger.browserLogger
 
 struct TopSitesPanelUX {
-    static let iPadThumbnailSize = 150
-    static let iPhoneThumbnailSize = 90
     static let statsHeight: CGFloat = 150.0
     static let statsBottomMargin: CGFloat = 25.0
 }
@@ -24,12 +22,8 @@ class TopSitesPanel: UIViewController, HomePanel {
     // MARK: - Favorites collection view properties
     fileprivate lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-
-        // TODO: A bit larger thumbnails for iPhone horizontal? Currently it shows 7 sites.
-        let size = DeviceDetector.isIpad ? TopSitesPanelUX.iPadThumbnailSize : TopSitesPanelUX.iPhoneThumbnailSize
-        layout.itemSize = CGSize(width: size, height: size)
-        layout.minimumInteritemSpacing = 4
-        layout.minimumLineSpacing = 4
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 6
 
         let view = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
@@ -147,6 +141,13 @@ class TopSitesPanel: UIViewController, HomePanel {
         collection.addSubview(privateTabMessageContainer)
 
         makeConstraints()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // This makes collection view layout to recalculate its cell size.
+        collection.collectionViewLayout.invalidateLayout()
     }
 
     /// Handles long press gesture for UICollectionView cells reorder.
@@ -304,12 +305,61 @@ class TopSitesPanel: UIViewController, HomePanel {
 }
 
 // MARK: - Delegates
-extension TopSitesPanel: UICollectionViewDelegate {
+extension TopSitesPanel: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let fav = dataSource.frc?.object(at: indexPath) as? Bookmark
 
         guard let urlString = fav?.url, let url = URL(string: urlString) else { return }
 
         homePanelDelegate?.homePanel(self, didSelectURL: url)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collection.frame.width
+        let padding: CGFloat = traitCollection.horizontalSizeClass == .compact ? 6 : 20
+
+        let cellWidth = floor(width - padding) / CGFloat(columnsPerRow)
+        // The tile's height is determined the aspect ratio of the thumbnails width. We also take into account
+        // some padding between the title and the image.
+        let cellHeight = floor(cellWidth / (CGFloat(ThumbnailCellUX.ImageAspectRatio) - 0.1))
+
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+
+    fileprivate var columnsPerRow: Int {
+        let size = collection.bounds.size
+        let traitCollection = collection.traitCollection
+        var cols = 0
+        if traitCollection.horizontalSizeClass == .compact {
+            // Landscape iPhone
+            if traitCollection.verticalSizeClass == .compact {
+                cols = 5
+            }
+                // Split screen iPad width
+            else if size.widthLargerOrEqualThanHalfIPad() {
+                cols = 4
+            }
+                // iPhone portrait
+            else {
+                cols = 3
+            }
+        } else {
+            // Portrait iPad
+            if size.height > size.width {
+                cols = 4;
+            }
+                // Landscape iPad
+            else {
+                cols = 5;
+            }
+        }
+        return cols + 1
+    }
+}
+
+extension CGSize {
+    public func widthLargerOrEqualThanHalfIPad() -> Bool {
+        let halfIPadSize: CGFloat = 507
+        return width >= halfIPadSize
     }
 }
