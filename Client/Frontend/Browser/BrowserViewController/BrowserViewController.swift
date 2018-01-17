@@ -12,6 +12,9 @@ import XCGLogger
 
 import ReadingList
 import MobileCoreServices
+import Shared
+import Storage
+import Deferred
 
 private let log = Logger.browserLogger
 
@@ -594,6 +597,50 @@ class BrowserViewController: UIViewController {
             return .flyUp
         }
         popup.showWithType(showType: .normal)
+    }
+
+    func presentTopSitesToFavoritesChange() {
+        // TODO: This is a temporary icon and text for the popup, will be replaced soon.
+        let popup = AlertPopupView(image: UIImage(named: "icon_top_fav"), title: "Top sites are now replaced with favorites bookmarks.", message: "You can now move tiles and arrange them however you like. Open bookmarks panel folder to modify your favorites.")
+
+        popup.addButton(title: "Use defaults") { () -> PopupViewDismissType in
+            // bookmarks init
+            Bookmark.favoritesInit()
+            NotificationCenter.default.post(name: NotificationTopSitesConversion, object: nil)
+            return .flyDown
+        }
+
+        popup.addDefaultButton(title: "Convert") { () -> PopupViewDismissType in
+            self.topSitesQuery().uponQueue(DispatchQueue.main) { sites in
+                Bookmark.convertToBookmarks(sites)
+                NotificationCenter.default.post(name: NotificationTopSitesConversion, object: nil)
+            }
+
+            return .flyDown
+        }
+        popup.showWithType(showType: .normal)
+    }
+
+    fileprivate func topSitesQuery() -> Deferred<[Site]> {
+        let result = Deferred<[Site]>()
+
+        let context = DataController.shared.workerContext
+        context.perform {
+            var sites = [Site]()
+
+            let domains = Domain.topSitesQuery(8, context: context)
+            for d in domains {
+                let s = Site(url: d.url ?? "", title: "")
+
+                if let url = d.favicon?.url {
+                    s.icon = Favicon(url: url, type: IconType.guess)
+                }
+                sites.append(s)
+            }
+
+            result.fill(sites)
+        }
+        return result
     }
 
     fileprivate func shouldShowWhatsNewTab() -> Bool {

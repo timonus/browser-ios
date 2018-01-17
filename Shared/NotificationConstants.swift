@@ -30,5 +30,6 @@ public let NotificationUserInfoKeyHasSyncableAccount = Notification.Name("Notifi
 // TODO: Should be moved outside of `Shared`
 // Fired when privacy mode changed
 public let NotificationPrivacyModeChanged = Notification.Name("PrivacyModeChangedNotification")
+public let NotificationTopSitesConversion = Notification.Name("NotificationTopSitesConversion")
 
 public let NotificationMainThreadContextSignificantlyChanged = Notification.Name("NotificationMainThreadContextSignificantlyChanged")

@@ -5,6 +5,7 @@ import UIKit
 import CoreData
 import Foundation
 import Shared
+import Storage
 
 private let log = Logger.browserLogger
 
@@ -269,16 +270,19 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         return [Bookmark]()
     }
 
-    /// Creates favorites folder and fills it with default bookmarks
     class func favoritesInit() {
-        if Bookmark.getFavoritesFolder() != nil { return }
+        guard let favoritesFolder = Bookmark.getFavoritesFolder() else { return }
 
-        if let favoritesFolder = Bookmark.add(url: nil, title: nil, customTitle: Strings.FavoritesFolder,
-                                              isFolder: true, isFavoritesFolder: true) {
+        PreloadedFavorites.getList().forEach { fav in
+            Bookmark.add(url: fav.url, title: fav.title, parentFolder: favoritesFolder)
+        }
+    }
 
-            PreloadedFavorites.getList().forEach { fav in
-                Bookmark.add(url: fav.url, title: fav.title, parentFolder: favoritesFolder)
-            }
+    class func convertToBookmarks(_ sites: [Site]) {
+        guard let favoritesFolder = Bookmark.getFavoritesFolder() else { return }
+
+        sites.forEach { site in
+            _ = try? Bookmark.add(url: site.url.asURL(), title: site.title, parentFolder: favoritesFolder)
         }
     }
 

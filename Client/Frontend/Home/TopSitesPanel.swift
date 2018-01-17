@@ -96,8 +96,13 @@ class TopSitesPanel: UIViewController, HomePanel {
     // MARK: - Init/lifecycle
     init() {
         super.init(nibName: nil, bundle: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(existingUserTopSitesConversion), name: NotificationTopSitesConversion, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.privateBrowsingModeChanged), name: NotificationPrivacyModeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(TopSitesPanel.updateIphoneConstraints), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+
+    func existingUserTopSitesConversion() {
+        collection.reloadData()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -105,6 +110,7 @@ class TopSitesPanel: UIViewController, HomePanel {
     }
 
     deinit {
+        NotificationCenter.default.removeObserver(self, name: NotificationTopSitesConversion, object: nil)
         NotificationCenter.default.removeObserver(self, name: NotificationPrivacyModeChanged, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
