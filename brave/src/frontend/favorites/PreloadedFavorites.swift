@@ -33,7 +33,7 @@ struct PreloadedFavorites {
             // But if we would like to, it is as easy as adding a region switch case and adding websites to the list.
 
             // try? list.append(FavoriteSite(url: "https://allegro.pl/".asURL(), title: "Allegro"))
-            // preloadedFavorites += appendPopularEnglishWebsites()
+            preloadedFavorites += appendPopularEnglishWebsites()
             break
         default:
             preloadedFavorites += appendPopularEnglishWebsites()
