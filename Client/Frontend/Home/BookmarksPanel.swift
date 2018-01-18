@@ -338,7 +338,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     func onAddBookmarksFolderButton() {
         
         let alert = UIAlertController.userTextInputAlert(title: Strings.NewFolder, message: Strings.EnterFolderName) {
-            input in
+            input, _ in
             if let input = input, !input.isEmpty {
                 self.addFolder(titled: input)
             }

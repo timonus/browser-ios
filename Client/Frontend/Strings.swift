@@ -273,6 +273,8 @@ extension Strings {
     public static let Show_Bookmarks = NSLocalizedString("Show Bookmarks", comment: "Button to show the bookmarks list")
     public static let Show_History =  NSLocalizedString("Show History", comment: "Button to show the history list")
     public static let Add_Bookmark = NSLocalizedString("Add Bookmark", comment: "Button to add a bookmark")
+    public static let Edit_Bookmark = NSLocalizedString("Edit Bookmark", comment: "Button to edit a bookmark")
+    public static let Remove_Bookmark = NSLocalizedString("Remove Bookmark", comment: "Button to remove a bookmark")
 }
 
 extension Strings {

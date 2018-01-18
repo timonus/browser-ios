@@ -81,15 +81,31 @@ extension UIAlertController {
      - parameter message: String to display as the alert message.
      - parameter startingText: String to prefill the textfield with.
      - parameter placeholder: String to use for the placeholder text on the text field.
+     - parameter keyboardType: Keyboard type of the text field.
+     - parameter startingText2: String to prefill the second optional textfield with.
+     - parameter placeholder2: String to use for the placeholder text on the second optional text field.
+     - parameter keyboardType2: Keyboard type of the text second optional field.
      - parameter forcedInput: Bool whether the user needs to enter _something_ in order to enable OK button.
-     - paramter callbackOnMain: Block to run on main thread when the user performs an action.
+     - parameter callbackOnMain: Block to run on main thread when the user performs an action.
      
      - returns: UIAlertController instance
      */
-    class func userTextInputAlert(title: String, message: String, startingText: String? = nil, placeholder: String? = Strings.Name, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) -> UIAlertController {
+    class func userTextInputAlert(title: String,
+                                  message: String,
+                                  startingText: String? = nil,
+                                  placeholder: String? = Strings.Name,
+                                  keyboardType: UIKeyboardType? = nil,
+                                  startingText2: String? = nil,
+                                  placeholder2: String? = Strings.Name,
+                                  keyboardType2: UIKeyboardType? = nil,
+                                  forcedInput: Bool = true,
+                                  callbackOnMain: @escaping (_ input: String?, _ input2: String?) -> ()) -> UIAlertController {
         // Returning alert, so no external, strong reference to initial instance
-        return UserTextInputAlert(title: title, message: message, startingText: startingText, placeholder: placeholder, forcedInput: forcedInput, callbackOnMain: callbackOnMain).alert
+        return UserTextInputAlert(title: title, message: message, startingText: startingText, placeholder: placeholder,
+                                  startingText2: startingText2, placeholder2: placeholder2, forcedInput: forcedInput,
+                                  callbackOnMain: callbackOnMain).alert
     }
+
 }
 
 // Not part of extension due to needing observing
@@ -98,23 +114,31 @@ class UserTextInputAlert {
     private weak var okAction: UIAlertAction!
     private(set) var alert: UIAlertController!
     
-    required init(title: String, message: String, startingText: String?, placeholder: String?, forcedInput: Bool = true, callbackOnMain: @escaping (_ input: String?) -> ()) {
+    required init(title: String, message: String,
+                  startingText: String?,
+                  placeholder: String?,
+                  keyboardType: UIKeyboardType? = nil,
+                  startingText2: String? = nil,
+                  placeholder2: String? = nil,
+                  keyboardType2: UIKeyboardType? = nil,
+                  forcedInput: Bool = true,
+                  callbackOnMain: @escaping (_ input: String?, _ input2: String?) -> ()) {
         
         alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        func actionSelected(input: String?) {
+        func actionSelected(input: String?, input2: String?) {
             postAsyncToMain {
-                callbackOnMain(input)
+                callbackOnMain(input, input2)
             }
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextFieldTextDidChange, object: alert.textFields?.first)
         }
         
         self.okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default) { (alertA: UIAlertAction!) in
-            actionSelected(input: self.alert.textFields?.first?.text)
+            actionSelected(input: self.alert.textFields?.first?.text, input2: self.alert.textFields?.last?.text)
         }
         
         let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel) { (alertA: UIAlertAction!) in
-            actionSelected(input: nil)
+            actionSelected(input: nil, input2: nil)
         }
         
         self.okAction.isEnabled = !forcedInput
@@ -131,16 +155,44 @@ class UserTextInputAlert {
             textField.autocorrectionType = .default
             textField.returnKeyType = .done
             textField.text = startingText
+            textField.keyboardType = keyboardType ?? .default
             
             if forcedInput {
                 NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(notification:)), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
             }
         }
+
+        // TODO: Abstract to an array of textfields to DRY?
+        if let text2 = startingText2 {
+            alert.addTextField {
+                textField in
+                textField.placeholder = placeholder2
+                textField.isSecureTextEntry = false
+                textField.keyboardAppearance = .dark
+                textField.autocapitalizationType = .words
+                textField.autocorrectionType = .default
+                textField.returnKeyType = .done
+                textField.text = text2
+                textField.keyboardType = keyboardType2 ?? .default
+
+                if forcedInput {
+                    NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(notification:)), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
+                }
+            }
+        }
     }
     
     @objc func notificationReceived(notification: NSNotification) {
-        if let textField = notification.object as? UITextField, let emptyText = textField.text?.isEmpty {
-            okAction.isEnabled = !emptyText
+        guard let textFields = alert.textFields, let firstText = textFields.first?.text  else { return }
+
+        switch textFields.count {
+        case 1:
+            okAction.isEnabled = !firstText.isEmpty
+        case 2:
+            guard let lastText = textFields.last?.text else { break }
+            okAction.isEnabled = !firstText.isEmpty && !lastText.isEmpty
+        default:
+            return
         }
     }
 }

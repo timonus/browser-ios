@@ -7,7 +7,7 @@ import Shared
 
 struct ThumbnailCellUX {
     // TODO: Clean up unused constants
-    
+
     /// Ratio of width:height of the thumbnail image.
     static let ImageAspectRatio: Float = 1.0
     static let BorderColor = UIColor.black.withAlphaComponent(0.15)
@@ -19,7 +19,7 @@ struct ThumbnailCellUX {
     static let InsetSizeCompact: CGFloat = 3
     static let ImagePaddingWide: CGFloat = 4
     static let ImagePaddingCompact: CGFloat = 2
-    
+
     // TODO: This is absurd, remove it
     static func insetsForCollectionViewSize(_ size: CGSize, traitCollection: UITraitCollection) -> UIEdgeInsets {
         let largeInsets = UIEdgeInsets(
@@ -77,7 +77,13 @@ struct ThumbnailCellUX {
     static let NearestNeighbordScalingThreshold: CGFloat = 24
 }
 
+@objc protocol ThumbnailCellDelegate {
+    func editThumbnail(_ thumbnailCell: ThumbnailCell)
+}
+
 class ThumbnailCell: UICollectionViewCell {
+    weak var delegate: ThumbnailCellDelegate?
+
     var imageInsets: UIEdgeInsets = UIEdgeInsets.zero
     var cellInsets: UIEdgeInsets = UIEdgeInsets.zero
 
@@ -168,6 +174,21 @@ class ThumbnailCell: UICollectionViewCell {
         return imageWrapper
     }()
 
+    lazy var editButton: UIButton = {
+        let editButton = UIButton()
+        editButton.isExclusiveTouch = true
+        let removeButtonImage = UIImage(named: "edit_tile")
+        editButton.setImage(removeButtonImage, for: .normal)
+        editButton.addTarget(self, action: #selector(ThumbnailCell.editButtonTapped), for: UIControlEvents.touchUpInside)
+        editButton.accessibilityLabel = Strings.Edit_Bookmark
+        editButton.isHidden = true
+        editButton.sizeToFit()
+        let xOffset: CGFloat = 5
+        let buttonCenterX = floor(editButton.bounds.width/2) + xOffset
+        let buttonCenterY = floor(editButton.bounds.height/2)
+        editButton.center = CGPoint(x: buttonCenterX, y: buttonCenterY)
+        return editButton    }()
+
     // TODO: Should be no longer needed
     lazy var backgroundImage: UIImageView = {
         let backgroundImage = UIImageView()
@@ -186,7 +207,7 @@ class ThumbnailCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet { updateSelectedHighlightedState() }
     }
-    
+
     override var isHighlighted: Bool {
         didSet { updateSelectedHighlightedState() }
     }
@@ -201,6 +222,7 @@ class ThumbnailCell: UICollectionViewCell {
 
         contentView.addSubview(imageView)
         contentView.addSubview(textLabel)
+        contentView.addSubview(editButton)
 
         textLabel.snp.remakeConstraints { make in
             // TODO: relook at insets
@@ -210,6 +232,24 @@ class ThumbnailCell: UICollectionViewCell {
 
         // Prevents the textLabel from getting squished in relation to other view priorities.
         textLabel.setContentCompressionResistancePriority(1000, for: UILayoutConstraintAxis.vertical)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(showEditMode), name: NotificationThumbnailEditOn,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideEditMode), name: NotificationThumbnailEditOff,
+                                               object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NotificationThumbnailEditOn, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NotificationThumbnailEditOff, object: nil)
+    }
+
+    func showEditMode() {
+        toggleRemoveButton(true)
+    }
+
+    func hideEditMode() {
+        toggleRemoveButton(false)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -219,20 +259,51 @@ class ThumbnailCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         backgroundImage.image = nil
+        editButton.isHidden = true
         showBorder(false)
         backgroundColor = UIColor.clear
         textLabel.font = DynamicFontHelper.defaultHelper.DefaultSmallFont
         textLabel.textColor = PrivateBrowsing.singleton.isOn ? UIColor(rgb: 0xDBDBDB) : UIColor(rgb: 0x2D2D2D)
-        // FIXME: Why is there image and imageView.image? First one must be some legacy code but I'm not sure 100%
+        // FIXME: Why is there image and imageView.image? First one must be some legacy code but I'm not sure 100
         imageView.backgroundColor = UIColor.clear
         imageView.image = nil
     }
-    
+
     fileprivate func updateSelectedHighlightedState() {
         let activated = isSelected || isHighlighted
         self.imageView.alpha = activated ? 0.7 : 1.0
     }
-    
+
+    func editButtonTapped() {
+        delegate?.editThumbnail(self)
+    }
+
+    func toggleRemoveButton(_ show: Bool) {
+        // Only toggle if we change state
+        if editButton.isHidden != show {
+            return
+        }
+
+        if show {
+            editButton.isHidden = false
+        }
+
+        let scaleTransform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        editButton.transform = show ? scaleTransform : CGAffineTransform.identity
+        UIView.animate(withDuration: ThumbnailCellUX.RemoveButtonAnimationDuration,
+                       delay: 0,
+                       usingSpringWithDamping: ThumbnailCellUX.RemoveButtonAnimationDamping,
+                       initialSpringVelocity: 0,
+                       options: UIViewAnimationOptions.allowUserInteraction,
+                       animations: {
+                        self.editButton.transform = show ? CGAffineTransform.identity : scaleTransform
+        }, completion: { _ in
+            if !show {
+                self.editButton.isHidden = true
+            }
+        })
+    }
+
     func showBorder(_ show: Bool) {
         imageView.layer.borderWidth = show ? ThumbnailCellUX.BorderWidth : 0
     }
@@ -243,7 +314,7 @@ class ThumbnailCell: UICollectionViewCell {
      - parameter size: Size of the container collection view
      */
     func updateLayoutForCollectionViewSize(_ size: CGSize, traitCollection: UITraitCollection, forSuggestedSite: Bool) {
-        
+
         // Find out if our image is going to have fractional pixel width.
         // If so, we inset by a tiny extra amount to get it down to an integer for better
         // image scaling.
@@ -251,7 +322,7 @@ class ThumbnailCell: UICollectionViewCell {
         let width = (parentWidth - imagePadding)
         let fractionalW = width - floor(width)
         let additionalW = fractionalW / 2
-        
+
         // TODO: Should not remade on every layout call
         imageView.snp.remakeConstraints { make in
             make.top.equalTo(self.contentView).inset(8)

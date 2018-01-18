@@ -31,5 +31,7 @@ public let NotificationUserInfoKeyHasSyncableAccount = Notification.Name("Notifi
 // Fired when privacy mode changed
 public let NotificationPrivacyModeChanged = Notification.Name("PrivacyModeChangedNotification")
 public let NotificationTopSitesConversion = Notification.Name("NotificationTopSitesConversion")
+public let NotificationThumbnailEditOn = Notification.Name("NotificationThumbnailEditOn")
+public let NotificationThumbnailEditOff = Notification.Name("NotificationThumbnailEditOff")
 
 public let NotificationMainThreadContextSignificantlyChanged = Notification.Name("NotificationMainThreadContextSignificantlyChanged")

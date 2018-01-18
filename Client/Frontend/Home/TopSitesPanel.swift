@@ -163,10 +163,14 @@ class TopSitesPanel: UIViewController, HomePanel {
             guard let selectedIndexPath = collection.indexPathForItem(at: gesture.location(in: collection)) else {
                 break
             }
+
+            dataSource.isEditing = true
             collection.beginInteractiveMovementForItem(at: selectedIndexPath)
         case .changed:
             collection.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
         case .ended:
+            // Allows user to tap anywhere to dimiss 'edit thumbnail' button.
+            (view.window as! BraveMainWindow).addTouchFilter(self)
             collection.endInteractiveMovement()
         default:
             collection.cancelInteractiveMovement()
@@ -283,6 +287,11 @@ class TopSitesPanel: UIViewController, HomePanel {
     }
 
 
+    func endEditing() {
+        (view.window as! BraveMainWindow).removeTouchFilter(self)
+        dataSource.isEditing = false
+    }
+
     // MARK: - Private browsing modde
     func privateBrowsingModeChanged() {
         let isPrivateBrowsing = PrivateBrowsing.singleton.isOn
@@ -332,6 +341,11 @@ extension TopSitesPanel: UICollectionViewDelegateFlowLayout {
         return CGSize(width: cellWidth, height: cellHeight)
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let thumbnailCell = cell as? ThumbnailCell else { return }
+        thumbnailCell.delegate = self
+    }
+
     fileprivate var columnsPerRow: Int {
         let size = collection.bounds.size
         let traitCollection = collection.traitCollection
@@ -360,6 +374,53 @@ extension TopSitesPanel: UICollectionViewDelegateFlowLayout {
             }
         }
         return cols + 1
+    }
+}
+
+extension TopSitesPanel : WindowTouchFilter {
+    func filterTouch(_ touch: UITouch) -> Bool {
+        // Allows user to tap anywhere to dimiss 'edit thumbnail' button.
+        if (touch.view as? UIButton) == nil && touch.phase == .began {
+            self.endEditing()
+        }
+        return false
+    }
+}
+
+extension TopSitesPanel: ThumbnailCellDelegate {
+    func editThumbnail(_ thumbnailCell: ThumbnailCell) {
+        guard let indexPath = collection.indexPath(for: thumbnailCell),
+            let fav = dataSource.frc?.fetchedObjects?[indexPath.item] as? Bookmark else { return }
+
+        let actionSheet = UIAlertController(title: fav.displayTitle, message: nil, preferredStyle: .actionSheet)
+
+        let deleteAction = UIAlertAction(title: Strings.Remove_Bookmark, style: .destructive) { _ in
+            fav.remove(save: true)
+        }
+
+        let editAction = UIAlertAction(title: Strings.Edit_Bookmark, style: .default) { _ in
+            guard let title = fav.displayTitle, let urlString = fav.url else { return }
+
+            let editPopup = UIAlertController.userTextInputAlert(title: Strings.Edit_Bookmark, message: urlString,
+                                                             startingText: title, startingText2: fav.url,
+                                                             placeholder2: urlString) { callbackTitle, callbackUrl in
+                if let cTitle = callbackTitle, !cTitle.isEmpty, let cUrl = callbackUrl, !cUrl.isEmpty {
+                    fav.update(customTitle: cTitle, url: cUrl, save: true)
+                }
+            }
+
+            self.present(editPopup, animated: true, completion: nil)
+        }
+
+        let cancelAction = UIAlertAction(title: Strings.Cancel, style: .cancel, handler: nil)
+
+        actionSheet.addAction(editAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+
+        self.present(actionSheet, animated: true) { _ in
+            self.dataSource.isEditing = false
+        }
     }
 }
 

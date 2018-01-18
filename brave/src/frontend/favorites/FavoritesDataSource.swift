@@ -11,6 +11,18 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
     var frc: NSFetchedResultsController<NSFetchRequestResult>?
     weak var collectionView: UICollectionView?
 
+    var isEditing: Bool = false {
+        didSet {
+            if isEditing != oldValue {
+                // We need to post notification here to inform all cells to show the edit button.
+                // collectionView.reloadData() can't be used, it stops InteractiveMovementForItem,
+                // requiring user to long press again if he wants to reorder a tile.
+                let name = isEditing ? NotificationThumbnailEditOn : NotificationThumbnailEditOff
+                NotificationCenter.default.post(name: name, object: nil)
+            }
+        }
+    }
+
     override init() {
         super.init()
 
@@ -44,6 +56,8 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
 
         cell.textLabel.text = fav.displayTitle ?? fav.url
         cell.accessibilityLabel = cell.textLabel.text
+
+        cell.toggleRemoveButton(isEditing)
 
         guard let collection = collectionView, let urlString = fav.url, let url = URL(string: urlString) else {
             log.error("configureCell url is nil")
