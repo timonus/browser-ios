@@ -56,9 +56,9 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
         cell.textLabel.text = fav.displayTitle ?? fav.url
         cell.accessibilityLabel = cell.textLabel.text
 
-        cell.toggleRemoveButton(isEditing)
+        cell.toggleEditButton(isEditing)
 
-        guard let collection = collectionView, let urlString = fav.url, let url = URL(string: urlString) else {
+        guard let urlString = fav.url, let url = URL(string: urlString) else {
             log.error("configureCell url is nil")
             return UICollectionViewCell()
         }
@@ -67,7 +67,6 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
         ftd.collection = collectionView
         ftd.decorateTile()
 
-        cell.updateLayoutForCollectionViewSize(collection.bounds.size, traitCollection: collection.traitCollection, forSuggestedSite: false)
         return cell
     }
 }
