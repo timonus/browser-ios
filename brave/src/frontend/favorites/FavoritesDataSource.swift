@@ -63,7 +63,8 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let ftd = FavoritesTileDecorator(url: url, cell: cell)
+        let ftd = FavoritesTileDecorator(url: url, cell: cell, indexPath: indexPath)
+        ftd.collection = collectionView
         ftd.decorateTile()
 
         cell.updateLayoutForCollectionViewSize(collection.bounds.size, traitCollection: collection.traitCollection, forSuggestedSite: false)

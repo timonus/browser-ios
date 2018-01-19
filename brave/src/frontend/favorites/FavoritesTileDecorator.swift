@@ -15,10 +15,12 @@ enum FavoritesTileType {
     case defaultTile
 }
 
-struct FavoritesTileDecorator {
+class FavoritesTileDecorator {
     let url: URL
     let normalizedHost: String
     let cell: ThumbnailCell
+    let indexPath: IndexPath
+    weak var collection: UICollectionView?
 
     /// Returns SuggestedSite for given tile or nil if no suggested sites found.
     var commonWebsite: SuggestedSite? {
@@ -39,9 +41,10 @@ struct FavoritesTileDecorator {
         }
     }
 
-    init(url: URL, cell: ThumbnailCell) {
+    init(url: URL, cell: ThumbnailCell, indexPath: IndexPath) {
         self.url = url
         self.cell = cell
+        self.indexPath = indexPath
         normalizedHost = url.normalizedHost ?? ""
     }
 
@@ -76,12 +79,56 @@ struct FavoritesTileDecorator {
             break
         case .defaultTile:
             setDefaultTile()
+
+            // attempt to resolove domain problem
+            let context = DataController.shared.mainThreadContext
+            if let domain = Domain.getOrCreateForUrl(url, context: context), let faviconMO = domain.favicon, let urlString = faviconMO.url, let iconUrl = URL(string: urlString) {
+                postAsyncToMain {
+                    self.setCellImage(self.cell, iconUrl: iconUrl, cacheWithUrl: self.url)
+                }
+            }
+            else {
+                // last resort - download the icon
+                downloadFaviconsAndUpdateForUrl(url, indexPath: indexPath)
+            }
             break
         }
     }
 
     private func setDefaultTile() {
         cell.imageView.image = FaviconFetcher.defaultFavicon
+    }
+
+    fileprivate func setCellImage(_ cell: ThumbnailCell, iconUrl: URL, cacheWithUrl: URL) {
+        ImageCache.shared.image(cacheWithUrl, type: .square, callback: { (image) in
+            if image != nil {
+                postAsyncToMain {
+                    cell.imageView.image = image
+                }
+            }
+            else {
+                postAsyncToMain {
+                    cell.imageView.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
+                        guard let img = img else {
+                            // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
+                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
+                            cell.imageView.image = FaviconFetcher.defaultFavicon
+                            return
+                        }
+                        ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)
+                    })
+                }
+            }
+        })
+    }
+
+    fileprivate func downloadFaviconsAndUpdateForUrl(_ url: URL, indexPath: IndexPath) {
+        weak var weakSelf = self
+        FaviconFetcher.getForURL(url).uponQueue(DispatchQueue.main) { result in
+            guard let favicons = result.successValue, favicons.count > 0, let foundIconUrl = favicons.first?.url.asURL,
+                let cell = weakSelf?.collection?.cellForItem(at: indexPath) as? ThumbnailCell else { return }
+            self.setCellImage(cell, iconUrl: foundIconUrl, cacheWithUrl: url)
+        }
     }
 
     private func extractDomainURL(_ url: String) -> String {
