@@ -48,4 +48,8 @@ struct FavoritesHelper {
     static func add(url: URL, title: String?) {
         Bookmark.add(url: url, title: title, isFavorite: true)
     }
+
+    static func isAlreadyAdded(_ url: URL) -> Bool{
+        return Bookmark.contains(url: url, getFavorites: true, context: DataController.shared.mainThreadContext)
+    }
 }

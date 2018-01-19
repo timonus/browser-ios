@@ -232,10 +232,10 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext)
     }
 
-    class func contains(url: URL, context: NSManagedObjectContext) -> Bool {
+    class func contains(url: URL, getFavorites: Bool = false, context: NSManagedObjectContext) -> Bool {
         var found = false
         context.performAndWait {
-            if let count = get(forUrl: url, countOnly: true, context: context) as? Int {
+            if let count = get(forUrl: url, countOnly: true, getFavorites: getFavorites, context: context) as? Int {
                 found = count > 0
             }
         }
@@ -305,10 +305,11 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
 // TODO: Document well
 // Getters
 extension Bookmark {
-    fileprivate static func get(forUrl url: URL, countOnly: Bool = false, context: NSManagedObjectContext) -> AnyObject? {
+    fileprivate static func get(forUrl url: URL, countOnly: Bool = false, getFavorites: Bool = false, context: NSManagedObjectContext) -> AnyObject? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Bookmark.entity(context: context)
-        fetchRequest.predicate = NSPredicate(format: "url == %@", url.absoluteString)
+        let isFavoritePredicate = getFavorites ? "YES" : "NO"
+        fetchRequest.predicate = NSPredicate(format: "url == %@ AND isFavorite == \(isFavoritePredicate)", url.absoluteString)
         do {
             if countOnly {
                 let count = try context.count(for: fetchRequest)

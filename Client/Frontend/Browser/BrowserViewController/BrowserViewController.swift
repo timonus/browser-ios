@@ -971,9 +971,8 @@ class BrowserViewController: UIViewController {
         }
         activities.append(findInPageActivity)
 
-        // We don't allow to have 2 same bookmarks.
-        let isBookmarked = Bookmark.contains(url: url, context: DataController.shared.mainThreadContext)
-        if !isBookmarked {
+        // We don't allow to have 2 same favorites.
+        if !FavoritesHelper.isAlreadyAdded(url) {
             let addToFavoritesActivity = AddToFavoritesActivity() { [weak tab] in
                 FavoritesHelper.add(url: url, title: tab?.displayTitle)
             }
