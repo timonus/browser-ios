@@ -300,13 +300,9 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
-        let isInsideOfFavoritesFolder = currentFolder?.isFavoritesFolder ?? false
-
-        if !isInsideOfFavoritesFolder {
-            addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
-                                              style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
-            items.append(addFolderButton!)
-        }
+        addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
+                                            style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
+        items.append(addFolderButton!)
         
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
 
@@ -388,31 +384,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = frc?.sections else { return 0 }
-
-        // This part is a bit confusing. Fetched results can return 1 or 2 sections.
-        // At top level, first section is always for favorites folder.
-        // If user didn't add any other bookmarks or the app was just installed, frc returns only 1 section, otherwise
-        // two sections are fetched, first for favorites and second for other bookmarks.
-        // At nested level, there is only one section, for regular bookmarks.
-        if sections.count == 2 || currentFolder != nil {
-            return sections[section].numberOfObjects
-        } else if sections.count == 1, section == 0 { // Top level favorites folder
-            return 1
-        }
-
-        return 0
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        // Two sections happen only at top level(favorites folder + regular bookmarks)
-        // We can't rely on frc.sections.count to determine number of sections because it returns 1 at first app launch,
-        // making it hard to add another section when a custom bookmark is added.
-        // This causes some wacky logic in `numberOfRowsInSection`.
-        let sectionsInNestedFolder = 1
-        let sectionsAtTopLevel = 2
-
-        return currentFolder != nil ? sectionsInNestedFolder : sectionsAtTopLevel
+        return frc?.fetchedObjects?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -487,7 +459,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             cell.textLabel?.font = UIFont.systemFont(ofSize: fontSize)
             cell.accessoryType = .none
         } else {
-            let image = item.isFavoritesFolder ? UIImage(named: "favorites_folder") : UIImage(named: "bookmarks_folder_hollow")
+            let image = UIImage(named: "bookmarks_folder_hollow")
             configCell(image: image)
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
             cell.accessoryType = .disclosureIndicator
@@ -553,14 +525,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let bookmark = frc?.object(at: indexPath) as? Bookmark else { return false }
 
-        return !bookmark.isFavoritesFolder
-    }
-
-    // Prevents dragging the favorites folder
-    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        let isFavoritesFolderPosition = tableView.numberOfSections == 2 && proposedDestinationIndexPath.section == 0
-
-        return isFavoritesFolderPosition ? sourceIndexPath : proposedDestinationIndexPath
+        return !bookmark.isFavorite
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
@@ -633,7 +598,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
     
     fileprivate func showEditBookmarkController(_ tableView: UITableView, indexPath:IndexPath) {
-        guard let item = frc?.object(at: indexPath) as? Bookmark, !item.isFavoritesFolder else { return }
+        guard let item = frc?.object(at: indexPath) as? Bookmark, !item.isFavorite else { return }
         let nextController = BookmarkEditingViewController(bookmarksPanel: self, indexPath: indexPath, bookmark: item)
 
         nextController.completionBlock = { controller in

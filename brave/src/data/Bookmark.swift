@@ -11,7 +11,8 @@ private let log = Logger.browserLogger
 
 class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
 
-    @NSManaged var isFavoritesFolder: Bool
+    // Favorite bookmarks are shown only on homepanel as a tile, they are not visible on bookmarks panel.
+    @NSManaged var isFavorite: Bool
     @NSManaged var isFolder: Bool
     @NSManaged var title: String?
     @NSManaged var customTitle: String?
@@ -78,23 +79,18 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         fetchRequest.entity = Bookmark.entity(context: context)
         fetchRequest.fetchBatchSize = 20
 
-        // We always want favorites folder to be on top, in the first section.
-        let favoritesFolderSort = NSSortDescriptor(key:"isFavoritesFolder", ascending: false)
         let orderSort = NSSortDescriptor(key:"order", ascending: true)
         let createdSort = NSSortDescriptor(key:"created", ascending: false)
-        fetchRequest.sortDescriptors = [favoritesFolderSort, orderSort, createdSort]
-
-        var sectionKeyPath: String? = nil
+        fetchRequest.sortDescriptors = [orderSort, createdSort]
 
         if let parentFolder = parentFolder {
-            fetchRequest.predicate = NSPredicate(format: "parentFolder == %@", parentFolder)
+            fetchRequest.predicate = NSPredicate(format: "parentFolder == %@ AND isFavorite == NO", parentFolder)
         } else {
-            fetchRequest.predicate = NSPredicate(format: "parentFolder == nil")
-            sectionKeyPath = "isFavoritesFolder"
+            fetchRequest.predicate = NSPredicate(format: "parentFolder == nil AND isFavorite == NO")
         }
 
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context,
-                                          sectionNameKeyPath: sectionKeyPath, cacheName: nil)
+                                          sectionNameKeyPath: nil, cacheName: nil)
     }
     
     // Syncable
@@ -158,7 +154,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.url = site?.location ?? bk.url
         bk.title = site?.title ?? bk.title
         bk.customTitle = site?.customTitle ?? bk.customTitle // TODO: Check against empty titles
-        bk.isFavoritesFolder = bookmark?.isFavoritesFolder ?? bk.isFavoritesFolder
+        bk.isFavorite = bookmark?.isFavorite ?? bk.isFavorite
         bk.isFolder = bookmark?.isFolder ?? bk.isFolder
         bk.syncUUID = root?.objectId ?? bk.syncUUID ?? Niceware.shared.uniqueSerialBytes(count: 16)
         bk.created = site?.creationNativeDate ?? Date()
@@ -202,7 +198,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
                        customTitle: String? = nil, // Folders only use customTitle
                        parentFolder:Bookmark? = nil,
                        isFolder: Bool = false,
-                       isFavoritesFolder: Bool = false) -> Bookmark? {
+                       isFavorite: Bool = false) -> Bookmark? {
         
         let site = SyncSite()
         site.title = title
@@ -210,7 +206,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         site.location = url?.absoluteString
         
         let bookmark = SyncBookmark()
-        bookmark.isFavoritesFolder = isFavoritesFolder
+        bookmark.isFavorite = isFavorite
         bookmark.isFolder = isFolder
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
@@ -268,33 +264,6 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             print(fetchError)
         }
         return [Bookmark]()
-    }
-
-    class func favoritesInit() {
-        guard let favoritesFolder = Bookmark.getFavoritesFolder() else { return }
-
-        PreloadedFavorites.getList().forEach { fav in
-            Bookmark.add(url: fav.url, title: fav.title, parentFolder: favoritesFolder)
-        }
-    }
-
-    class func convertToBookmarks(_ sites: [Site]) {
-        guard let favoritesFolder = Bookmark.getFavoritesFolder() else { return }
-
-        sites.forEach { site in
-            if let url = try? site.url.asURL() {
-                Bookmark.add(url: url, title: url.normalizedHost ?? site.url, parentFolder: favoritesFolder)
-            }
-        }
-    }
-
-    class func addFavoriteBookmark(url: URL, title: String?) {
-        guard let favoritesFolder = Bookmark.getFavoritesFolder() else {
-            log.error("No favorites folder found")
-            return
-        }
-
-        Bookmark.add(url: url, title: title, parentFolder: favoritesFolder)
     }
 
     class func reorderBookmarks(frc: NSFetchedResultsController<NSFetchRequestResult>?, sourceIndexPath: IndexPath,
@@ -390,24 +359,6 @@ extension Bookmark {
     // TODO: Remove
     static func getAllBookmarks(context: NSManagedObjectContext) -> [Bookmark] {
         return get(predicate: nil, context: context) ?? [Bookmark]()
-    }
-
-    class func getFavoritesFolder() -> Bookmark? {
-        let context = DataController.shared.mainThreadContext
-
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = Bookmark.entity(context: context)
-        fetchRequest.predicate = NSPredicate(format: "isFavoritesFolder == YES")
-
-        do {
-            let results = try context.fetch(fetchRequest) as? [Bookmark]
-            return results?.first
-        } catch {
-            let fetchError = error as NSError
-            log.error("getFavoritesFolder fetch error: \(fetchError)")
-
-            return nil
-        }
     }
 }
 

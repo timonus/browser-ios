@@ -153,19 +153,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             }
         })
 
-        // Favorites initialization.
-        if Bookmark.getFavoritesFolder() == nil {
+        let favoritesInit = profile.prefs.boolForKey(FavoritesHelper.initPrefsKey) ?? false
+        if !favoritesInit {
             let isFirstLaunch = profile.prefs.arrayForKey(DAU.preferencesKey) == nil
 
-            Bookmark.add(url: nil, title: nil, customTitle: Strings.FavoritesFolder, isFolder: true, isFavoritesFolder: true)
-
             if isFirstLaunch {
-                Bookmark.favoritesInit()
+                log.info("Favorites initialization, new user.")
+                FavoritesHelper.addDefaultFavorites()
             } else { // existing user, using Brave before the topsites to favorites change.
+                log.info("Favorites initialization, existing user.")
                 postAsyncToMain(1.5) {
                     self.browserViewController.presentTopSitesToFavoritesChange()
                 }
             }
+
+            profile.prefs.setBool(true, forKey: FavoritesHelper.initPrefsKey)
         }
 
         log.debug("Adding observers…")

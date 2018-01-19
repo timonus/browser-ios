@@ -15,7 +15,7 @@ final class SyncBookmark: SyncRecord {
     }
     
     // MARK: Properties
-    var isFavoritesFolder: Bool = false
+    var isFavorite: Bool = false
     var isFolder: Bool? = false
     var parentFolderObjectId: [Int]?
     var site: SyncSite?
@@ -50,7 +50,7 @@ final class SyncBookmark: SyncRecord {
         // TODO: Does this work?
         site.favicon = bm?.domain?.favicon?.url
 
-        self.isFavoritesFolder = bm?.isFavoritesFolder ?? false
+        self.isFavorite = bm?.isFavorite ?? false
         self.isFolder = bm?.isFolder
         self.parentFolderObjectId = bm?.syncParentUUID
         self.site = site

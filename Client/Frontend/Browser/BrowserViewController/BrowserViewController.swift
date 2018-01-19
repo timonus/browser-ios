@@ -604,15 +604,14 @@ class BrowserViewController: UIViewController {
         let popup = AlertPopupView(image: UIImage(named: "icon_top_fav"), title: "Top sites are now replaced with favorites bookmarks.", message: "You can now move tiles and arrange them however you like. Open bookmarks panel folder to modify your favorites.")
 
         popup.addButton(title: "Use defaults") { () -> PopupViewDismissType in
-            // bookmarks init
-            Bookmark.favoritesInit()
+            FavoritesHelper.addDefaultFavorites()
             NotificationCenter.default.post(name: NotificationTopSitesConversion, object: nil)
             return .flyDown
         }
 
         popup.addDefaultButton(title: "Convert") { () -> PopupViewDismissType in
             self.topSitesQuery().uponQueue(DispatchQueue.main) { sites in
-                Bookmark.convertToBookmarks(sites)
+                FavoritesHelper.convertToBookmarks(sites)
                 NotificationCenter.default.post(name: NotificationTopSitesConversion, object: nil)
             }
 
@@ -976,7 +975,7 @@ class BrowserViewController: UIViewController {
         let isBookmarked = Bookmark.contains(url: url, context: DataController.shared.mainThreadContext)
         if !isBookmarked {
             let addToFavoritesActivity = AddToFavoritesActivity() { [weak tab] in
-                Bookmark.addFavoriteBookmark(url: url, title: tab?.displayTitle)
+                FavoritesHelper.add(url: url, title: tab?.displayTitle)
             }
             activities.append(addToFavoritesActivity)
         }

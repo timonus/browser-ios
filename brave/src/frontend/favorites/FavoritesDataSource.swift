@@ -26,8 +26,7 @@ class FavoritesDataSource: NSObject, UICollectionViewDataSource {
     override init() {
         super.init()
 
-        guard let favoritesFolder = Bookmark.getFavoritesFolder() else { return }
-        frc = Bookmark.frc(parentFolder: favoritesFolder)
+        frc = FavoritesHelper.frc()
         frc?.delegate = self
 
         do {
