@@ -11,9 +11,6 @@ class SyncPairCameraViewController: UIViewController {
     var descriptionLabel: UILabel!
     var enterWordsButton: RoundInterfaceButton!
     
-    // Kind of an odd mechanism for passing this info
-    var deviceName: String?
-    
     fileprivate let prefs: Prefs = getApp().profile!.prefs
     fileprivate let prefKey: String = "CameraPermissionsSetting"
     
@@ -74,7 +71,7 @@ class SyncPairCameraViewController: UIViewController {
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                Sync.shared.initializeSync(seed: bytes, deviceName: self.deviceName)
+                Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
 
             } else {
                 self.cameraView.cameraOverlayError()
@@ -166,9 +163,7 @@ class SyncPairCameraViewController: UIViewController {
     }
     
     func SEL_enterWords() {
-        let pairWords = SyncPairWordsViewController()
-        pairWords.deviceName = self.deviceName
-        navigationController?.pushViewController(pairWords, animated: true)
+        navigationController?.pushViewController(SyncPairWordsViewController(), animated: true)
     }
 }
 

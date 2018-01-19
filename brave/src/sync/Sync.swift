@@ -277,7 +277,6 @@ class Sync: JSInjector {
             // Attempt to authorize device
             
             syncReadyLock = true
-            NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationSyncReady), object: nil)
             
             if let device = Device.currentDevice(), !device.isSynced {
                 self.sendSyncRecords(action: .create, records: [device])
@@ -286,6 +285,8 @@ class Sync: JSInjector {
                 Device.currentDevice()?.isSynced = true
                 DataController.saveContext(context: Device.currentDevice()?.managedObjectContext)
             }
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationSyncReady), object: nil)
             
             func startFetching() {
                 // Perform first fetch manually
@@ -355,7 +356,7 @@ extension Sync {
             let evaluate = "callbackList['send-sync-records'](null, '\(recordType.rawValue)',\(json))"
             self.webView.evaluateJavaScript(evaluate,
                                        completionHandler: { (result, error) in
-                                        if error != nil {
+                                        if let error = error {
                                             print(error)
                                         }
                                         

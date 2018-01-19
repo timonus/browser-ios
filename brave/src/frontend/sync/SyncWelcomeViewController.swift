@@ -21,8 +21,6 @@ class SyncWelcomeViewController: UIViewController {
     var newToSyncButton: RoundInterfaceButton!
     var existingUserButton: RoundInterfaceButton!
     
-    var loadingView = UIView()
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -77,13 +75,6 @@ class SyncWelcomeViewController: UIViewController {
         newToSyncButton.addTarget(self, action: #selector(SEL_newToSync), for: .touchUpInside)
         scrollView.addSubview(newToSyncButton)
         
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        spinner.startAnimating()
-        loadingView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
-        loadingView.isHidden = true
-        loadingView.addSubview(spinner)
-        view.addSubview(loadingView)
-        
         edgesForExtendedLayout = UIRectEdge()
         
         scrollView.snp.makeConstraints { (make) in
@@ -120,75 +111,13 @@ class SyncWelcomeViewController: UIViewController {
             make.centerX.equalTo(self.scrollView)
             make.bottom.equalTo(-10)
         }
-        
-        spinner.snp.makeConstraints { (make) in
-            make.center.equalTo(spinner.superview!)
-        }
-        
-        loadingView.snp.makeConstraints { (make) in
-            make.edges.equalTo(loadingView.superview!)
-        }
     }
     
     func SEL_newToSync() {
-        
-        func attemptPush() {
-            if navigationController?.topViewController is SyncAddDeviceViewController {
-                // Already showing
-                return
-            }
-            
-            if Sync.shared.isInSyncGroup {
-                let view = SyncAddDeviceTypeViewController()
-                navigationController?.pushViewController(view, animated: true)
-            } else {
-                self.loadingView.isHidden = true
-                let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-        
-        if !Sync.shared.isInSyncGroup {
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main) {
-                _ in attemptPush()
-            }
-            
-            getDeviceName {
-                input in
-                
-                if let input = input {
-                    Sync.shared.initializeNewSyncGroup(deviceName: input)
-                }
-//                let view = SyncAddDeviceTypeViewController()
-//                self.navigationController?.pushViewController(view, animated: true)
-            }
-            
-        } else {
-            attemptPush()
-        }
+        navigationController?.pushViewController(SyncAddDeviceTypeViewController(), animated: true)
     }
     
     func SEL_existingUser() {
-        getDeviceName {
-            input in
-            
-            if let input = input {
-                let view = SyncPairCameraViewController()
-                view.deviceName = input
-                self.navigationController?.pushViewController(view, animated: true)
-            }
-        }
+        self.navigationController?.pushViewController(SyncPairCameraViewController(), animated: true)
     }
-    
-    func getDeviceName(callback: @escaping (String?) -> ()) {
-        self.loadingView.isHidden = false
-
-        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.current.name, forcedInput: false) { input, _ in
-            callback(input)
-            self.loadingView.isHidden = true
-        }
-        self.present(alert, animated: true, completion: nil)
-    }
-    
 }
