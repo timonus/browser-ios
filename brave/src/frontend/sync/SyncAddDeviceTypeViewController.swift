@@ -9,6 +9,7 @@ class SyncDeviceTypeButton: UIControl {
     
     var imageView: UIImageView = UIImageView()
     var label: UILabel = UILabel()
+    var type: DeviceType!
     var pressed: Bool = false {
         didSet {
             if pressed {
@@ -28,7 +29,7 @@ class SyncDeviceTypeButton: UIControl {
         }
     }
     
-    convenience init(image: String, title: String) {
+    convenience init(image: String, title: String, type: DeviceType) {
         self.init(frame: CGRect.zero)
         
         clipsToBounds = false
@@ -49,6 +50,8 @@ class SyncDeviceTypeButton: UIControl {
         label.textColor = BraveUX.GreyJ
         label.textAlignment = .center
         addSubview(label)
+        
+        self.type = type
         
         imageView.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
@@ -86,9 +89,11 @@ class SyncDeviceTypeButton: UIControl {
 
 class SyncAddDeviceTypeViewController: UIViewController {
     
+    let loadingView = UIView()
     var scrollView: UIScrollView!
-    var mobileButton: SyncDeviceTypeButton = SyncDeviceTypeButton(image: "sync-mobile", title: "Add a Mobile Device")
-    var computerButton: SyncDeviceTypeButton = SyncDeviceTypeButton(image: "sync-computer", title: "Add a Computer")
+    // TODO: move strings to string file
+    var mobileButton: SyncDeviceTypeButton = SyncDeviceTypeButton(image: "sync-mobile", title: "Add a Mobile Device", type: .mobile)
+    var computerButton: SyncDeviceTypeButton = SyncDeviceTypeButton(image: "sync-computer", title: "Add a Computer", type: .computer)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,18 +127,67 @@ class SyncAddDeviceTypeViewController: UIViewController {
             make.height.equalTo(264)
         }
         
-        mobileButton.addTarget(self, action: #selector(SEL_addMobile), for: .touchUpInside)
-        computerButton.addTarget(self, action: #selector(SEL_addComputer), for: .touchUpInside)
+        mobileButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
+        computerButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
+    
+        // Loading View
+    
+        // This should be general, and abstracted
+    
+        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        spinner.startAnimating()
+        loadingView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
+        loadingView.isHidden = true
+        loadingView.addSubview(spinner)
+        view.addSubview(loadingView)
+    
+        spinner.snp.makeConstraints { (make) in
+            make.center.equalTo(spinner.superview!)
+        }
+    
+        loadingView.snp.makeConstraints { (make) in
+            make.edges.equalTo(loadingView.superview!)
+        }
     }
     
-    func SEL_addMobile() {
-        let view = SyncAddDeviceViewController(title: "Add a Mobile Device", type: .mobile)
-        navigationController?.pushViewController(view, animated: true)
+    func addDevice(sender: SyncDeviceTypeButton) {
+
+        weak var weakSelf = self
+        func attemptPush() {
+            weakSelf?.attemptPush(title: sender.label.text ?? "", type: sender.type)
+        }
+        
+        if Sync.shared.isInSyncGroup {
+            attemptPush()
+            return
+        }
+        
+        self.loadingView.isHidden = false
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
+                                               object: nil,
+                                               queue: OperationQueue.main,
+                                               using: { _ in attemptPush() })
+        
+        Sync.shared.initializeNewSyncGroup(deviceName: UIDevice.current.name)
     }
     
-    func SEL_addComputer() {
-        let view = SyncAddDeviceViewController(title: "Add a Computer", type: .computer)
-        navigationController?.pushViewController(view, animated: true)
+    func attemptPush(title: String, type: DeviceType) {
+        if navigationController?.topViewController != self {
+            // Only perform a movement if something isn't being shown on top of self
+            return
+        }
+        
+        if Sync.shared.isInSyncGroup {
+            // Setup sync group
+            let view = SyncAddDeviceViewController(title: title, type: type)
+            view.navigationItem.hidesBackButton = true
+            navigationController?.pushViewController(view, animated: true)
+        } else {
+            self.loadingView.isHidden = true
+            let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 
