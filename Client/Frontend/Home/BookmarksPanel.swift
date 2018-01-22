@@ -301,7 +301,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
         addFolderButton = UIBarButtonItem(image: UIImage(named: "bookmarks_newfolder_icon")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
-        items.append(addFolderButton)
+        items.append(addFolderButton!)
         
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
 
