@@ -126,7 +126,7 @@ class URLBarView: UIView {
 
     lazy var cancelButton: UIButton = {
         let cancelButton = InsetButton()
-        cancelButton.setTitleColor(UIColor.black, for: .normal)
+        cancelButton.setTitleColor(BraveUX.GreyG, for: .normal)
         let cancelTitle = Strings.Cancel
         cancelButton.setTitle(cancelTitle, for: UIControlState.normal)
         cancelButton.titleLabel?.font = UIConstants.DefaultChromeFont

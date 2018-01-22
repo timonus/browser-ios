@@ -11,7 +11,7 @@ import Storage        // For VisitType.
 private struct HomePanelViewControllerUX {
     // Height of the top panel switcher button toolbar.
     static let ButtonContainerHeight: CGFloat = 0
-    static let ButtonContainerBorderColor = UIColor.black.withAlphaComponent(0.1)
+    static let ButtonContainerBorderColor = BraveUX.Red
     static let BackgroundColor = UIConstants.PanelBackgroundColor
     static let EditDoneButtonRightPadding: CGFloat = -12
 }

@@ -280,6 +280,7 @@
 		5C10E0CF1EEF07F800203C93 /* PageMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C71EEF07F400203C93 /* PageMetadata.swift */; };
 		5C10E0D01EEF07F800203C93 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C81EEF07F400203C93 /* Metadata.swift */; };
 		5C10E0D11EEF07F800203C93 /* ExtensionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */; };
+		5C14DAE31FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C14DAE21FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift */; };
 		5C1A9E851F97D6060071495E /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1A9E841F97D6060071495E /* PopupView.swift */; };
 		5C2CD4481F72FA6C004AAB5D /* TopSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CD4471F72FA6C004AAB5D /* TopSite.swift */; };
 		5C32C7B6034B41A9C822555E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE1D74E40F9E392FFCE9F2F /* main.swift */; };
@@ -303,6 +304,7 @@
 		5D0BD4041ED356B6003421CF /* SyncDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0BD4031ED356B6003421CF /* SyncDevice.swift */; };
 		5D11B1831F0195A7007B1DF4 /* JSONSerializationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D11B1821F0195A7007B1DF4 /* JSONSerializationExtensions.swift */; };
 		5D11B1931F01A5F8007B1DF4 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D11B1921F01A5F8007B1DF4 /* UIViewExtensions.swift */; };
+		5D2029A22009726C004F6AC2 /* Syncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2029A12009726C004F6AC2 /* Syncable.swift */; };
 		5D27859A1E70D7EF0066EC15 /* JSInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2785991E70D7EF0066EC15 /* JSInjector.swift */; };
 		5D2785BE1E71D7050066EC15 /* NicewareTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D27858C1E70CC660066EC15 /* NicewareTest.swift */; };
 		5D2AE6F81E83F3EC00BC274C /* SyncBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2AE6F51E83F3EC00BC274C /* SyncBookmark.swift */; };
@@ -317,6 +319,8 @@
 		5D75A1E71F1420F0003FB8C7 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD1641D1EDFB7090037ECCC /* SQLite.framework */; };
 		5D75A1E81F1420F0003FB8C7 /* SQLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD1641D1EDFB7090037ECCC /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA05E2D1EFC4315001D7EDE /* ErrorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */; };
+		5DB03ABD1FFE7D6D0088FBF4 /* fetch.js in Resources */ = {isa = PBXBuildFile; fileRef = 5DB03AA81FFE7D6D0088FBF4 /* fetch.js */; };
+		5DB03ABF1FFE82B20088FBF4 /* bundle.js in Resources */ = {isa = PBXBuildFile; fileRef = 5DB03ABE1FFE82B20088FBF4 /* bundle.js */; };
 		5DB199151E859F9100A851B6 /* SyncResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB199141E859F9100A851B6 /* SyncResponse.swift */; };
 		5DC5CFBE1F0D4126009553C4 /* GeometryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5CFBD1F0D4126009553C4 /* GeometryExtensions.swift */; };
 		5E5E76550DFB4EB71194132F /* LICENSE in Sources */ = {isa = PBXBuildFile; fileRef = 36C647DC00749BCC944D6EC6 /* LICENSE */; };
@@ -1259,6 +1263,7 @@
 		5C10E0C71EEF07F400203C93 /* PageMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageMetadata.swift; path = Storage/PageMetadata.swift; sourceTree = "<group>"; };
 		5C10E0C81EEF07F400203C93 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Metadata.swift; path = Storage/Metadata.swift; sourceTree = "<group>"; };
 		5C10E0C91EEF07F400203C93 /* ExtensionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtensionUtils.swift; path = Storage/ExtensionUtils.swift; sourceTree = "<group>"; };
+		5C14DAE21FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncAddDeviceTypeViewController.swift; path = brave/src/frontend/sync/SyncAddDeviceTypeViewController.swift; sourceTree = "<group>"; };
 		5C1A9E841F97D6060071495E /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PopupView.swift; path = brave/src/frontend/popups/PopupView.swift; sourceTree = "<group>"; };
 		5C2CD4471F72FA6C004AAB5D /* TopSite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopSite.swift; path = brave/src/data/TopSite.swift; sourceTree = "<group>"; };
 		5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
@@ -1282,6 +1287,7 @@
 		5D0BD4031ED356B6003421CF /* SyncDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDevice.swift; sourceTree = "<group>"; };
 		5D11B1821F0195A7007B1DF4 /* JSONSerializationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONSerializationExtensions.swift; path = Client/Extensions/JSONSerializationExtensions.swift; sourceTree = "<group>"; };
 		5D11B1921F01A5F8007B1DF4 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		5D2029A12009726C004F6AC2 /* Syncable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Syncable.swift; path = brave/src/data/Syncable.swift; sourceTree = "<group>"; };
 		5D27858C1E70CC660066EC15 /* NicewareTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NicewareTest.swift; sourceTree = "<group>"; };
 		5D2785991E70D7EF0066EC15 /* JSInjector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSInjector.swift; sourceTree = "<group>"; };
 		5D2AE6F51E83F3EC00BC274C /* SyncBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncBookmark.swift; sourceTree = "<group>"; };
@@ -1300,6 +1306,8 @@
 		5D7443DA1F2BDB2B001653E9 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/BraveShareToInfoPlist.strings; sourceTree = "<group>"; };
 		5D84AB2CBD701CBBDC40620C /* ReadingListAuthenticator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReadingListAuthenticator.swift; path = ./ReadingList/ReadingListAuthenticator.swift; sourceTree = "<group>"; };
 		5DA05E2C1EFC4315001D7EDE /* ErrorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorExtensions.swift; path = Client/Extensions/ErrorExtensions.swift; sourceTree = "<group>"; };
+		5DB03AA81FFE7D6D0088FBF4 /* fetch.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fetch.js; sourceTree = "<group>"; };
+		5DB03ABE1FFE82B20088FBF4 /* bundle.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = bundle.js; sourceTree = "<group>"; };
 		5DB199141E859F9100A851B6 /* SyncResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncResponse.swift; sourceTree = "<group>"; };
 		5DC5CFBD1F0D4126009553C4 /* GeometryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeometryExtensions.swift; path = Client/Extensions/GeometryExtensions.swift; sourceTree = "<group>"; };
 		5DC93C70E9DA3485A2FD2BD3 /* Error.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Error.swift; path = ./ThirdParty/Result/Error.swift; sourceTree = "<group>"; };
@@ -2403,6 +2411,7 @@
 			isa = PBXGroup;
 			children = (
 				5C0FCE4C1E5FB3810016DF0F /* SyncWelcomeViewController.swift */,
+				5C14DAE21FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift */,
 				5C0FCE521E637B9D0016DF0F /* SyncAddDeviceViewController.swift */,
 				5C0FCE5B1E637C160016DF0F /* SyncPairCameraViewController.swift */,
 				5C0FCE631E63EA170016DF0F /* SyncPairWordsViewController.swift */,
@@ -2472,6 +2481,7 @@
 				5C44C0DD1E3EE47B00B1FD81 /* History.swift */,
 				5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */,
 				5D448B471EA1572A00F1BA98 /* WebsitePresentable.swift */,
+				5D2029A12009726C004F6AC2 /* Syncable.swift */,
 				5C0293841E70D9AE00CA99D0 /* MigrateData.swift */,
 				5C2CD4471F72FA6C004AAB5D /* TopSite.swift */,
 			);
@@ -3374,6 +3384,7 @@
 		EBDB7D4C1E1432E800D744C7 /* bundles */ = {
 			isa = PBXGroup;
 			children = (
+				5DB03ABE1FFE82B20088FBF4 /* bundle.js */,
 			);
 			name = bundles;
 			path = Carthage/Checkouts/sync/bundles;
@@ -3382,6 +3393,7 @@
 		EBDB7D511E14331900D744C7 /* polyfill */ = {
 			isa = PBXGroup;
 			children = (
+				5DB03AA81FFE7D6D0088FBF4 /* fetch.js */,
 			);
 			name = polyfill;
 			path = Carthage/Checkouts/sync/client/polyfill;
@@ -4216,6 +4228,7 @@
 				EB8F569B1DD13DF300679A78 /* FiraSans-Bold.ttf in Resources */,
 				EB8F569D1DD13DF300679A78 /* FiraSans-Book.ttf in Resources */,
 				4C8CFF069B42CD78C72CC4F4 /* HideEmptyImages.js in Resources */,
+				5DB03ABF1FFE82B20088FBF4 /* bundle.js in Resources */,
 				DDF18B7D90D1BF9E6072344C /* PageUnload.js in Resources */,
 				4305183B54F23C211BD5112A /* SafeBrowsingError.html in Resources */,
 				15172EAC2FF91D5014CAA0CB /* Licenses.html in Resources */,
@@ -4232,6 +4245,7 @@
 				4D68B2825D2CAD5FB6098D21 /* NetError.css in Resources */,
 				EB8F56991DD13DF300679A78 /* CharisSILI.ttf in Resources */,
 				6B06EE00444FA99CCD366C2B /* NetError.html in Resources */,
+				5DB03ABD1FFE7D6D0088FBF4 /* fetch.js in Resources */,
 				EBDB7D571E14337800D744C7 /* ios-sync.js in Resources */,
 				13657B6789F5024F64E16739 /* PrintHelper.js in Resources */,
 				9238CC0C5284146DC56706EF /* default.txt in Resources */,
@@ -4643,6 +4657,7 @@
 				907D2E87F3AB62A94DB2D9E7 /* InfoPlist.strings in Sources */,
 				CCCD5D311C1E3408F243DF5E /* ABPFilterLibWrapper.mm in Sources */,
 				5C44C0D21E384AE700B1FD81 /* DataController.swift in Sources */,
+				5C14DAE31FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift in Sources */,
 				3AAE8F176D74D5884854D830 /* AdBlocker.swift in Sources */,
 				5D48087C1F13C07D00E04833 /* IntExtensions.swift in Sources */,
 				EB9CAB431DC2592700627A39 /* UIWebViewSwizzling.m in Sources */,
@@ -4769,6 +4784,7 @@
 				2FBCFA22FFA948467136AF65 /* ReaderModeHandlers.swift in Sources */,
 				5D11B1831F0195A7007B1DF4 /* JSONSerializationExtensions.swift in Sources */,
 				1C1BD844C67E5F9C40F06A40 /* ReaderModeStyleViewController.swift in Sources */,
+				5D2029A22009726C004F6AC2 /* Syncable.swift in Sources */,
 				52808425834F70D43948B2AB /* ReaderModeUtils.swift in Sources */,
 				B4AC7FC0F7D974AD0BA32C3A /* AppSettingsOptions.swift in Sources */,
 				A56B5847463CCB600331AE73 /* AppSettingsTableViewController.swift in Sources */,
@@ -5085,6 +5101,7 @@
 					$SRCROOT/,
 					$SDKROOT/usr/include/libxml2,
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -5489,7 +5506,6 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = BraveShareTo/BraveShareToInfo.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(CUSTOM_BUNDLE_ID).$(PRODUCT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5529,7 +5545,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = BraveShareTo/BraveShareToInfo.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(CUSTOM_BUNDLE_ID).$(PRODUCT_NAME)";
@@ -5683,6 +5698,7 @@
 					$SRCROOT/,
 					$SDKROOT/usr/include/libxml2,
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (

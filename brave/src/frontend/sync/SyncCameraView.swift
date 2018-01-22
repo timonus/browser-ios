@@ -1,11 +1,13 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import AVFoundation
+import Shared
 
 class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     var captureSession:AVCaptureSession?
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var cameraOverlayView: UIImageView!
+    var cameraAccessButton: RoundInterfaceButton!
     
     var scanCallback: ((_ data: String) -> Void)?
     var authorizedCallback: ((_ authorized: Bool) -> Void)?
@@ -17,6 +19,16 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
         cameraOverlayView.contentMode = .center
         cameraOverlayView.tintColor = UIColor.white
         addSubview(cameraOverlayView)
+        
+        cameraAccessButton = RoundInterfaceButton(type: .roundedRect)
+        cameraAccessButton.setTitle(Strings.GrantCameraAccess, for: .normal)
+        cameraAccessButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightBold)
+        cameraAccessButton.setTitleColor(UIColor.white, for: .normal)
+        cameraAccessButton.backgroundColor = UIColor.clear
+        cameraAccessButton.addTarget(self, action: #selector(SEL_cameraAccess), for: .touchUpInside)
+        cameraAccessButton.layer.borderColor = UIColor.white.withAlphaComponent(0.4).cgColor
+        cameraAccessButton.layer.borderWidth = 1.5
+        addSubview(cameraAccessButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,6 +40,18 @@ class SyncCameraView: UIView, AVCaptureMetadataOutputObjectsDelegate {
             vpl.frame = bounds
         }
         cameraOverlayView.frame = bounds
+        
+        cameraAccessButton.sizeToFit()
+        var cameraAccessFrame = cameraAccessButton.frame
+        cameraAccessFrame.size.width = cameraAccessFrame.size.width + 50
+        cameraAccessFrame.size.height = cameraAccessFrame.size.height + 20
+        cameraAccessFrame.origin.x = (bounds.width - cameraAccessFrame.width) / 2
+        cameraAccessFrame.origin.y = (bounds.height - cameraAccessFrame.height) / 2
+        cameraAccessButton.frame = cameraAccessFrame
+    }
+    
+    func SEL_cameraAccess() {
+        startCapture()
     }
     
     func startCapture() {

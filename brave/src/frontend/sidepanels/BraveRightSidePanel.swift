@@ -108,8 +108,8 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
 
     fileprivate func setGrayTextColor(_ v: UIView) {
         if let label = v as? UILabel {
-            if label.textColor == UIColor.black {
-                label.textColor = UIColor(white: 88/255, alpha: 1.0)
+            if label.textColor == BraveUX.GreyJ {
+                label.textColor = BraveUX.GreyH
             }
         }
         v.subviews.forEach { setGrayTextColor($0) }
@@ -239,7 +239,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         togglesContainer.backgroundColor = containerBackgroundColor
         
         viewAsScrollView().isScrollEnabled = true
-        viewAsScrollView().bounces = false
+        viewAsScrollView().bounces = true
 
         func setupHeaderSection() {
             let heading = UILabel()
@@ -247,7 +247,7 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
             headerContainer.addSubview(shieldToggle)
             
             heading.text = Strings.Site_shield_settings
-            heading.textColor = UIColor.black
+            heading.textColor = BraveUX.GreyJ
             heading.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightMedium)
             
             heading.snp.makeConstraints { (make) in
@@ -382,10 +382,10 @@ class BraveRightSidePanelViewController : SidePanelBaseViewController {
         func setupStatsSection() {
             let statTitles = [Strings.Ads_and_Trackers, Strings.HTTPS_Upgrades, Strings.Scripts_Blocked, Strings.Fingerprinting_Methods]
             let statViews = [statAdsBlocked, statHttpsUpgrades, statScriptsBlocked, statFPBlocked]
-            let statColors = [UIColor(red:254/255.0, green:82/255.0, blue:29/255.0, alpha:1),
-                              UIColor(red:7/255.0, green:150/255.0, blue:250/255.0, alpha:1),
-                              UIColor(red:153/255.0, green:153/255.0, blue:153/255.0, alpha:1),
-                              UIColor(red:255/255.0, green:192/255.0, blue:0/255.0, alpha:1)]
+            let statColors = [BraveUX.BraveOrange,
+                              BraveUX.Green,
+                              BraveUX.Purple,
+                              BraveUX.GreyG]
 
             var prevTitle:UIView? = nil
             for (i, stat) in statViews.enumerated() {

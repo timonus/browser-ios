@@ -49,6 +49,7 @@ class History: NSManagedObject, WebsitePresentable {
     static let ThisWeek = getDate(-7)
     static let ThisMonth = getDate(-31)
 
+    // Currently required, because not `syncable`
     static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entity(forEntityName: "History", in: context)!
     }

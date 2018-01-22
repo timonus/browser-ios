@@ -300,7 +300,7 @@ class TopSitesPanel: UIViewController, HomePanel {
         //  to make code in this class DRY (duplicates from elsewhere)
         collection.backgroundColor = isPrivateBrowsing ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
         privateTabMessageContainer.isHidden = !isPrivateBrowsing
-        braveShieldStatsView.timeStatView.color = isPrivateBrowsing ? .white : .black
+        braveShieldStatsView.timeStatView.color = isPrivateBrowsing ? BraveUX.GreyA : BraveUX.GreyJ
         // Handling edge case when app starts in private only browsing mode and is switched back to normal mode.
         if collection.dataSource == nil && !isPrivateBrowsing {
             collection.dataSource = dataSource

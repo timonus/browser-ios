@@ -58,7 +58,7 @@ class PopupView: UIView, UIGestureRecognizerDelegate {
     fileprivate let kPopupBackgroundDismissTouchDuration: Double = 0.005
     fileprivate let kPopupDialogShakeAngle: CGFloat = 0.2
     fileprivate let kPopupDialogCornerRadius: CGFloat = 12.0
-    fileprivate let kPopupDialogButtonRadius: CGFloat = 8.0
+    fileprivate let kPopupDialogButtonRadius: CGFloat = 0.0
     fileprivate let kPopupDialogButtonPadding: CGFloat = 16.0
     fileprivate let kPopupDialogButtonSpacing: CGFloat = 16.0
     fileprivate let kPopupDialogButtonTextSize: CGFloat = 17.0
@@ -94,7 +94,7 @@ class PopupView: UIView, UIGestureRecognizerDelegate {
     var dialogButtons: Array<ButtonData> = []
     var dialogButtonsContainer: UIView!
     var dialogButtonDefaultTextColor: UIColor = UIColor.white
-    var dialogButtonDefaultBackgroundColor: UIColor = BraveUX.DefaultBlue
+    var dialogButtonDefaultBackgroundColor: UIColor = BraveUX.Blue
     var dialogButtonTextColor: UIColor = UIColor.white
     var dialogButtonBackgroundColor: UIColor = UIColor(rgb: 0xc7c7c7)
     
@@ -112,7 +112,7 @@ class PopupView: UIView, UIGestureRecognizerDelegate {
         
         overlayView = UIView(frame: bounds)
         overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        overlayView.backgroundColor = UIColor.black
+        overlayView.backgroundColor = BraveUX.GreyJ
         overlayView.alpha = kPopupBackgroundAlpha
         overlayView.addGestureRecognizer(touchRecognizer)
         addSubview(overlayView)
@@ -168,7 +168,7 @@ class PopupView: UIView, UIGestureRecognizerDelegate {
                     let defaultButton: Bool = buttonData.isDefault
                     button = UIButton(type: .system)
                     button!.titleLabel!.font = defaultButton ? defaultButtonFont : normalButtonFont
-                    button!.layer.cornerRadius = kPopupDialogButtonRadius
+                    button!.layer.cornerRadius = buttonFrame.height / 2.0 //kPopupDialogButtonRadius
                     button!.backgroundColor = defaultButton ? dialogButtonDefaultBackgroundColor : dialogButtonBackgroundColor
                     button!.setTitle(buttonData.title, for: .normal)
                     button!.setTitleColor(defaultButton ? dialogButtonDefaultTextColor : dialogButtonTextColor, for: .normal)

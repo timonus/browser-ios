@@ -23,6 +23,7 @@ class Domain: NSManagedObject {
     @NSManaged var historyItems: NSSet?
     @NSManaged var bookmarks: NSSet?
 
+    // Currently required, because not `syncable`
     static func entity(_ context: NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entity(forEntityName: "Domain", in: context)!
     }

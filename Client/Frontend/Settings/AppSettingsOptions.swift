@@ -152,12 +152,12 @@ class SyncDevicesSetting: Setting {
     
     override var accessoryType: UITableViewCellAccessoryType { return .disclosureIndicator }
     
-    override var accessibilityIdentifier: String? { return "SyncDevices" }
+    override var accessibilityIdentifier: String? { return "Sync" }
     
     init(settings: SettingsTableViewController) {
         self.profile = settings.profile
         
-        let clearTitle = Strings.SyncDevices
+        let clearTitle = Strings.Sync
         super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
     }
     
@@ -177,22 +177,24 @@ class SyncDeviceSetting: Setting {
     let profile: Profile
     
     var onTap: (()->Void)?
-    internal var displayTitle: String!
+    internal var device: Device
+    
+    internal var displayTitle: String {
+        return "\(device.deviceDisplayId ?? "") :: \(device.name ?? "")"
+    }
     
     override var accessoryType: UITableViewCellAccessoryType { return .none }
     
     override var accessibilityIdentifier: String? { return "SyncDevice" }
     
-    init(profile profile: Profile, title: String) {
+    init(profile: Profile, device: Device) {
         self.profile = profile
-        self.displayTitle = title
-        super.init(title: NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
+        self.device = device
+        super.init(title: NSAttributedString(string: self.displayTitle, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
     }
     
     override func onClick(_ navigationController: UINavigationController?) {
-        if onTap != nil {
-            onTap!()
-        }
+        onTap?()
     }
 }
 

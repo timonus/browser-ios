@@ -10,7 +10,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         case devices, options, reset
         
         // To disable a section, just remove it from this enum, and it will no longer be loaded
-        static let allSections: [SyncSection] = [.reset]
+        static let allSections: [SyncSection] = [.options, .devices, .reset]
         
         func settings(profile: Profile) -> SettingSection? {
             // TODO: move these prefKeys somewhere else
@@ -24,7 +24,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                     return nil
                 }
                 
-                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices)
+                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices + [SettingSection(title: nil, children: [RemoveDeviceSetting(profile: profile)])])
             case .options:
                 let prefs = profile.prefs
                 return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercased()), children:
@@ -51,8 +51,6 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         }
     }
     
-
-    
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = InsetLabel(frame: CGRect(x: 0, y: 5, width: tableView.frame.size.width, height: 60))
         footerView.leftInset = CGFloat(20)
@@ -73,6 +71,25 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         return section == SyncSection.options.rawValue ? 40 : 20
     }
     
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.section != 1
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.section == 1
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let devices = Device.deviceSettings(profile: profile) else {
+                return;
+            }
+            
+            devices[indexPath.row].device.remove(save: true)
+            tableView.reloadData()
+        }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -89,14 +106,13 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     }
     
     override func generateSettings() -> [SettingSection] {
-
         settings += SyncSection.allSyncSettings(profile: self.profile)
         
         return settings
     }
     
     func SEL_addDevice() {
-        let view = SyncAddDeviceViewController()
+        let view = SyncAddDeviceTypeViewController()
         navigationController?.pushViewController(view, animated: true)
     }
 }

@@ -3,6 +3,11 @@
 import UIKit
 import Shared
 
+enum DeviceType {
+    case mobile
+    case computer
+}
+
 class SyncAddDeviceViewController: UIViewController {
     
     var scrollView: UIScrollView!
@@ -12,12 +17,29 @@ class SyncAddDeviceViewController: UIViewController {
     var modeControl: UISegmentedControl!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
-    var doneButton: UIButton!
+    var doneButton: RoundInterfaceButton!
+    var enterWordsButton: RoundInterfaceButton!
+    var pageTitle: String = Strings.Sync
+    var deviceType: DeviceType = .mobile
+    
+    convenience init(title: String, type: DeviceType) {
+        self.init()
+        pageTitle = title
+        deviceType = type
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = Strings.Sync
+        title = pageTitle
         view.backgroundColor = SyncBackgroundColor
         
         scrollView = UIScrollView()
@@ -37,13 +59,13 @@ class SyncAddDeviceViewController: UIViewController {
             // TODO: Pop and error
             return
         }
-        
+
         let qrSyncSeed = Niceware.shared.joinBytes(fromCombinedBytes: syncSeed)
         if qrSyncSeed.isEmpty {
             // Error
             return
         }
-        
+
         Niceware.shared.passphrase(fromBytes: syncSeed) { (words, error) in
             guard let words = words, error == nil else {
                 return
@@ -51,7 +73,7 @@ class SyncAddDeviceViewController: UIViewController {
 
             self.barcodeView = SyncBarcodeView(data: qrSyncSeed)
             self.codewordsView = SyncCodewordsView(data: words)
-            
+
             self.setupVisuals()
         }
     }
@@ -64,7 +86,7 @@ class SyncAddDeviceViewController: UIViewController {
         
         modeControl = UISegmentedControl(items: [Strings.QRCode, Strings.CodeWords])
         modeControl.translatesAutoresizingMaskIntoConstraints = false
-        modeControl.tintColor = BraveUX.DefaultBlue
+        modeControl.tintColor = BraveUX.BraveOrange
         modeControl.selectedSegmentIndex = 0
         modeControl.addTarget(self, action: #selector(SEL_changeMode), for: .valueChanged)
         scrollView.addSubview(modeControl)
@@ -72,29 +94,36 @@ class SyncAddDeviceViewController: UIViewController {
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = UIColor.black
-        titleLabel.text = Strings.SyncAddDevice
+        titleLabel.textColor = BraveUX.GreyJ
+        titleLabel.text = deviceType == .mobile ? Strings.SyncAddMobile : Strings.SyncAddComputer
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
-        descriptionLabel.textColor = UIColor(rgb: 0x696969)
+        descriptionLabel.textColor = BraveUX.GreyH
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.textAlignment = .center
-        descriptionLabel.text = Strings.SyncAddDeviceDescription
+        descriptionLabel.text = deviceType == .mobile ? Strings.SyncAddMobileDescription : Strings.SyncAddComputerDescription
         scrollView.addSubview(descriptionLabel)
         
-        doneButton = UIButton(type: .roundedRect)
+        doneButton = RoundInterfaceButton(type: .roundedRect)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.setTitle(Strings.Done, for: .normal)
         doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         doneButton.setTitleColor(UIColor.white, for: .normal)
-        doneButton.backgroundColor = BraveUX.DefaultBlue
-        doneButton.layer.cornerRadius = 8
+        doneButton.backgroundColor = BraveUX.GreyD
         doneButton.addTarget(self, action: #selector(SEL_done), for: .touchUpInside)
         scrollView.addSubview(doneButton)
+        
+        enterWordsButton = RoundInterfaceButton(type: .roundedRect)
+        enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
+        enterWordsButton.setTitle(Strings.ShowCodeWords, for: .normal)
+        enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+        enterWordsButton.setTitleColor(BraveUX.GreyH, for: .normal)
+        enterWordsButton.addTarget(self, action: #selector(SEL_showCodewords), for: .touchUpInside)
+        scrollView.addSubview(enterWordsButton)
         
         edgesForExtendedLayout = UIRectEdge()
         
@@ -130,7 +159,7 @@ class SyncAddDeviceViewController: UIViewController {
         }
         
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(7)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(8)
             make.leftMargin.equalTo(30)
             make.rightMargin.equalTo(-30)
         }
@@ -143,28 +172,22 @@ class SyncAddDeviceViewController: UIViewController {
             make.bottom.equalTo(-16)
             make.height.equalTo(50)
         }
-    }
-    
-    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         
-        if toInterfaceOrientation.isLandscape {
-            
-        }
-        else {
-            
+        enterWordsButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.doneButton.snp.bottom).offset(8)
+            make.centerX.equalTo(self.scrollView)
+            //make.bottom.equalTo(-10)
         }
         
-        self.view.setNeedsUpdateConstraints()
+        if deviceType == .computer {
+            SEL_showCodewords()
+        }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    func SEL_showCodewords() {
+        modeControl.selectedSegmentIndex = 1
+        enterWordsButton.isHidden = true
+        SEL_changeMode()
     }
     
     func SEL_changeMode() {

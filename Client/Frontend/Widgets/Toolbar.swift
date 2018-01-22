@@ -29,7 +29,7 @@ class Toolbar : UIView {
     }
 
     fileprivate func drawLine(_ context: CGContext, width: CGFloat, start: CGPoint, end: CGPoint) {
-        context.setStrokeColor(UIColor.black.withAlphaComponent(0.15).cgColor)
+        context.setStrokeColor(BraveUX.GreyE.cgColor)
         context.setLineWidth(width)
         context.move(to: CGPoint(x: start.x, y: start.y))
         context.addLine(to: CGPoint(x: end.x, y: end.y))
@@ -91,8 +91,8 @@ class Toolbar : UIView {
 
     func addButtons(_ buttons: [UIButton]) {
         for button in buttons {
-            button.setTitleColor(UIColor.black, for: .normal)
-            button.setTitleColor(UIColor.gray, for: UIControlState.disabled)
+            button.setTitleColor(BraveUX.GreyG, for: .normal)
+            button.setTitleColor(BraveUX.GreyF, for: UIControlState.disabled)
             button.imageView?.contentMode = UIViewContentMode.scaleAspectFit
             addSubview(button)
         }

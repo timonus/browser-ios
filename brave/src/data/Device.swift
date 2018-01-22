@@ -19,6 +19,9 @@ class Device: NSManagedObject, Syncable {
     @NSManaged var deviceDisplayId: String?
     @NSManaged var syncDisplayUUID: String?
     @NSManaged var name: String?
+    
+    // Device is subtype of prefs 🤢
+    var recordType: SyncRecordType = .prefs
 
     // Just a facade around the displayId, for easier access and better CD storage
     var deviceId: [Int]? {
@@ -26,16 +29,11 @@ class Device: NSManagedObject, Syncable {
         set(value) { deviceDisplayId = SyncHelpers.syncDisplay(fromUUID: value) }
     }
     
-    static func entity(context: NSManagedObjectContext) -> NSEntityDescription {
-        return NSEntityDescription.entity(forEntityName: "Device", in: context)!
-    }
-    
     class func deviceSettings(profile: Profile) -> [SyncDeviceSetting]? {
         // Building settings off of device objects
         let deviceSettings: [SyncDeviceSetting]? = (Device.get(predicate: nil, context: DataController.shared.workerContext) as? [Device])?.map {
             // Even if no 'real' title, still want it to show up in list
-            let title = "\($0.deviceDisplayId ?? "") :: \($0.name ?? "")"
-            return SyncDeviceSetting(profile: profile, title: title)
+            return SyncDeviceSetting(profile: profile, device: $0)
         }
         return deviceSettings
     }
@@ -50,7 +48,7 @@ class Device: NSManagedObject, Syncable {
         // No guard, let bleed through to allow 'empty' devices (e.g. local)
         let root = root as? SyncDevice
         
-        var device = Device(entity: Device.entity(context: context), insertInto: context)
+        let device = Device(entity: Device.entity(context: context), insertInto: context)
         
         device.created = root?.syncNativeTimestamp ?? Date()
         device.syncUUID = root?.objectId ?? Niceware.shared.uniqueSerialBytes(count: 16)

@@ -22,8 +22,8 @@ protocol BrowserLocationViewDelegate {
 }
 
 struct BrowserLocationViewUX {
-    static let HostFontColor = UIColor.black
-    static let BaseURLFontColor = UIColor.gray
+    static let HostFontColor = BraveUX.GreyJ
+    static let BaseURLFontColor = BraveUX.GreyG
     static let BaseURLPitch = 0.75
     static let HostPitch = 1.0
     static let LocationContentInset = 8
@@ -43,7 +43,7 @@ struct BrowserLocationViewUX {
         
         theme = Theme()
         theme.URLFontColor = BraveUX.LocationBarTextColor_URLBaseComponent
-        theme.hostFontColor = BraveUX.LocationBarTextColor_URLHostComponent
+        theme.hostFontColor = .white
         theme.textColor = .white
         theme.backgroundColor = BraveUX.LocationBarBackgroundColor_PrivateMode
         themes[Theme.PrivateMode] = theme
@@ -134,7 +134,8 @@ class BrowserLocationView: UIView {
     }()
 
     fileprivate lazy var lockImageView: UIImageView = {
-        let lockImageView = UIImageView(image: UIImage(named: "lock_verified"))
+        let lockImageView = UIImageView(image: UIImage(named: "lock_verified")?.withRenderingMode(.alwaysTemplate))
+        lockImageView.tintColor = BraveUX.Green
         lockImageView.isHidden = true
         lockImageView.isAccessibilityElement = true
         lockImageView.contentMode = UIViewContentMode.center
@@ -222,14 +223,16 @@ class BrowserLocationView: UIView {
 
         readerModeButton.snp.makeConstraints { make in
             make.right.equalTo(stopReloadButton.snp.left).inset(-6)
-            make.height.centerY.equalTo(self)
-            make.width.equalTo(20)
+            make.centerY.equalTo(self)
+            make.width.equalTo(18)
+            make.height.equalTo(17)
         }
 
         stopReloadButton.snp.makeConstraints { make in
             make.right.equalTo(self).inset(BrowserLocationViewUX.LocationContentInset)
-            make.height.centerY.equalTo(self)
-            make.width.equalTo(20)
+            make.centerY.equalTo(self)
+            make.width.equalTo(16)
+            make.height.equalTo(15)
         }
 
         urlTextField.snp.remakeConstraints { make in
@@ -238,7 +241,7 @@ class BrowserLocationView: UIView {
             if lockImageView.isHidden {
                 make.left.equalTo(self).offset(BrowserLocationViewUX.LocationContentInset)
             } else {
-                make.left.equalTo(self.lockImageView.snp.right).offset(BrowserLocationViewUX.LocationContentInset)
+                make.left.equalTo(self.lockImageView.snp.right).offset(BrowserLocationViewUX.LocationContentInset-3)
             }
 
             if readerModeButton.isHidden {
@@ -284,8 +287,9 @@ class BrowserLocationView: UIView {
         if let httplessURL = url?.absoluteDisplayString, let baseDomain = url?.baseDomain {
             // Highlight the base domain of the current URL.
             let attributedString = NSMutableAttributedString(string: httplessURL)
-            let nsRange = NSMakeRange(0, httplessURL.characters.count)
+            let nsRange = NSMakeRange(0, httplessURL.count)
             attributedString.addAttribute(NSForegroundColorAttributeName, value: baseURLFontColor, range: nsRange)
+            attributedString.colorSubstring("https://", withColor: BraveUX.Green)
             attributedString.colorSubstring(baseDomain, withColor: hostFontColor)
             attributedString.addAttribute(UIAccessibilitySpeechAttributePitch, value: NSNumber(value: BrowserLocationViewUX.BaseURLPitch), range: nsRange)
             attributedString.pitchSubstring(baseDomain, withPitch: BrowserLocationViewUX.HostPitch)
@@ -294,9 +298,9 @@ class BrowserLocationView: UIView {
             // If we're unable to highlight the domain, just use the URL as is.
             urlTextField.text = url?.absoluteString
         }
-        postAsyncToMain(0.1) {
-            self.urlTextField.textColor = self.fullURLFontColor
-        }
+//        postAsyncToMain(0.1) {
+//            self.urlTextField.textColor = self.fullURLFontColor
+//        }
     }
 }
 
@@ -346,8 +350,8 @@ private class ReaderModeButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         tintColor = BraveUX.ActionButtonTintColor
-        setImage(UIImage(named: "reader.png")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        setImage(UIImage(named: "reader_active.png"), for: UIControlState.selected)
+        setImage(UIImage(named: "reader")!.withRenderingMode(.alwaysTemplate), for: .normal)
+        setImage(UIImage(named: "reader_active"), for: UIControlState.selected)
     }
     
     required init?(coder aDecoder: NSCoder) {

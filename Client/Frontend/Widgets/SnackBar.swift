@@ -26,7 +26,7 @@ class SnackButton : UIButton {
      */
     lazy var highlightImg: UIImage = {
         let size = CGSize(width: 1, height: 1)
-        return UIImage.createWithColor(size, color: BraveUX.DefaultBlue.withAlphaComponent(0.2))
+        return UIImage.createWithColor(size, color: BraveUX.Blue.withAlphaComponent(0.2))
     }()
 
     init(title: String, accessibilityIdentifier: String, callback: @escaping (_ bar: SnackBar) -> Void) {

@@ -33,6 +33,8 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     
     @NSManaged var domain: Domain?
     
+    var recordType: SyncRecordType = .bookmark
+    
     var syncParentUUID: [Int]? {
         get { return SyncHelpers.syncUUID(fromString: syncParentDisplayUUID) }
         set(value) {
@@ -66,10 +68,6 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     
     func asDictionary(deviceId: [Int]?, action: Int?) -> [String: Any] {
         return SyncBookmark(record: self, deviceId: deviceId, action: action).dictionaryRepresentation()
-    }
-
-    static func entity(context:NSManagedObjectContext) -> NSEntityDescription {
-        return NSEntityDescription.entity(forEntityName: "Bookmark", in: context)!
     }
 
     class func frc(parentFolder: Bookmark?) -> NSFetchedResultsController<NSFetchRequestResult> {
@@ -123,7 +121,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
             DataController.saveContext(context: self.managedObjectContext)
         }
         
-        Sync.shared.sendSyncRecords(recordType: .bookmark, action: .update, records: [self])
+        Sync.shared.sendSyncRecords(action: .update, records: [self])
     }
 
     static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable? {
@@ -185,7 +183,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         if sendToSync {
             // Submit to server
-            Sync.shared.sendSyncRecords(recordType: .bookmark, action: .create, records: [bk])
+            Sync.shared.sendSyncRecords(action: .create, records: [bk])
         }
         
         return bk
@@ -333,8 +331,19 @@ extension Bookmark {
         // New bookmarks are added with order 0, we are looking at created date then
         let sortRules = [NSSortDescriptor(key:"order", ascending: true), NSSortDescriptor(key:"created", ascending: false)]
         let sort = orderSort ? sortRules : nil
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = Bookmark.entity(context: context)
+        fetchRequest.predicate =  NSPredicate(format: "syncParentDisplayUUID == %@ and isFolder == %@", searchableUUID, ignoreFolders ? "true" : "false")
+        fetchRequest.sortDescriptors = sort
         
-        return get(predicate: NSPredicate(format: "syncParentDisplayUUID == %@ and isFolder == %@", searchableUUID, ignoreFolders ? "true" : "false"), context: context, sortDescriptors: sort)
+        do {
+            let results = try context.fetch(fetchRequest) as? [Bookmark]
+            return results
+        } catch {
+            let fetchError = error as NSError
+            print(fetchError)
+        }
+        return nil
     }
     
     static func get(parentSyncUUID parentUUID: [Int]?, context: NSManagedObjectContext?) -> Bookmark? {

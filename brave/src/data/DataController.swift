@@ -39,26 +39,23 @@ class DataController: NSObject {
         return write
     }()
     
-    fileprivate var _workerContext: NSManagedObjectContext?
-    var workerContext: NSManagedObjectContext {
-        if let context = _workerContext {
-            return context
-        }
+    lazy var workerContext: NSManagedObjectContext = {
     
         let worker = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         worker.undoManager = nil
         worker.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        worker.parent = self.mainThreadContext
+        worker.parent = self.writeContext
+        worker.automaticallyMergesChangesFromParent = true
         
-        _workerContext = worker
-        return self.workerContext
-    }
+        return worker
+    }()
     
     lazy var mainThreadContext: NSManagedObjectContext = {
         let main = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         main.undoManager = nil
         main.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         main.parent = self.writeContext
+        main.automaticallyMergesChangesFromParent = true
         
         return main
     }()
@@ -123,32 +120,19 @@ class DataController: NSObject {
             return
         }
 
+        // TODO: Clean this up
         if context.hasChanges {
             do {
                 try context.save()
-
-                if context === DataController.shared.mainThreadContext {
-                    // Data has changed on main MOC. Let the existing worker threads continue as-is,
-                    // but create a new workerMOC (which is a copy of main MOC data) for next time a worker is used.
-                    // By design we only merge changes 'up' the stack from child-to-parent.
-                    DataController.shared._workerContext = nil
-
-                    // ensure event loop complete, so that child-to-parent moc merge is complete (no cost, and docs are not clear on whether this is required)
-                    postAsyncToMain(0.1) {
-                        DataController.shared.writeContext.perform {
-                            if !DataController.shared.writeContext.hasChanges {
-                                return
-                            }
-                            do {
-                                try DataController.shared.writeContext.save()
-                            } catch {
-                                fatalError("Error saving DB to disk: \(error)")
-                            }
-                        }
+                
+                DataController.shared.writeContext.perform {
+                    if !DataController.shared.writeContext.hasChanges {
+                        return
                     }
-                } else {
-                    postAsyncToMain(0.1) {
-                        DataController.saveContext(context: DataController.shared.mainThreadContext)
+                    do {
+                        try DataController.shared.writeContext.save()
+                    } catch {
+                        fatalError("Error saving DB to disk: \(error)")
                     }
                 }
             } catch {

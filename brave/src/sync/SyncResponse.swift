@@ -4,11 +4,20 @@ import Foundation
 import Shared
 import SwiftyJSON
 
-// TODO: Make follow API convetion (e.g. super generic names)
-// TODO: Remove public declarations
+/*
+ * Due to sync's 'callbacks' running through the same function, parameters are reused
+ * for ever single function call, resulting in a complex web of peculiar naming.
+ *
+ * Direct key mappings are using to pluck the variable names from the data, and an attempt
+ * to make them more native feeling (e.g. descriptive names) has been made. In some cases
+ * variable names are still generic due to the extreme usage of them (i.e. no nice way to make non-generic)
+ *
+ * At some point a switch to fullblown generic names may need necessary, but this hybrid approach seemed best
+ * at the time of building it
+ */
 
 typealias SyncDefaultResponseType = SyncRecord
-public final class SyncResponse {
+final class SyncResponse {
     
     // MARK: Declaration for string constants to be used to decode and also serialize.
     fileprivate struct SerializationKeys {
@@ -21,24 +30,24 @@ public final class SyncResponse {
     
     // MARK: Properties
     // TODO: rename this property
-    public var rootElements: JSON? // arg2
-    public var message: String?
-    public var arg1: String?
-    public var lastFetchedTimestamp: Int? // arg3
-    public var isTruncated: Bool? // arg4
+    var rootElements: JSON? // arg2
+    var message: String?
+    var arg1: String?
+    var lastFetchedTimestamp: Int? // arg3
+    var isTruncated: Bool? // arg4
     
     /// Initiates the instance based on the object.
     ///
     /// - parameter object: The object of either Dictionary or Array kind that was passed.
     /// - returns: An initialized instance of the class.
-    public convenience init(object: String) {
+    convenience init(object: String) {
         self.init(json: JSON(parseJSON: object))
     }
     
     /// Initiates the instance based on the JSON that was passed.
     ///
     /// - parameter json: JSON object from SwiftyJSON.
-    public required init(json: JSON?) {
+    required init(json: JSON?) {
         rootElements = json?[SerializationKeys.arg2]
         
         message = json?[SerializationKeys.message].string

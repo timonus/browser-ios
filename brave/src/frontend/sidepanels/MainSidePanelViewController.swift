@@ -48,15 +48,15 @@ class MainSidePanelViewController : SidePanelBaseViewController {
         settingsButton.addTarget(self, action: #selector(onClickSettingsButton), for: .touchUpInside)
         settingsButton.accessibilityLabel = Strings.Settings
 
-        bookmarksButton.setImage(UIImage(named: "bookmarklist"), for: .normal)
+        bookmarksButton.setImage(UIImage(named: "bookmarklist")?.withRenderingMode(.alwaysTemplate), for: .normal)
         bookmarksButton.accessibilityLabel = Strings.Show_Bookmarks
         
-        historyButton.setImage(UIImage(named: "history"), for: .normal)
+        historyButton.setImage(UIImage(named: "history")?.withRenderingMode(.alwaysTemplate), for: .normal)
         historyButton.accessibilityLabel = Strings.Show_History
 
         addBookmarkButton.addTarget(self, action: #selector(onClickBookmarksButton), for: .touchUpInside)
-        addBookmarkButton.setImage(UIImage(named: "bookmark"), for: .normal)
-        addBookmarkButton.setImage(UIImage(named: "bookmarkMarked"), for: .selected)
+        addBookmarkButton.setImage(UIImage(named: "bookmark")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        addBookmarkButton.setImage(UIImage(named: "bookmarkMarked")?.withRenderingMode(.alwaysTemplate), for: .selected)
         addBookmarkButton.accessibilityLabel = Strings.Add_Bookmark
         
         pageButtons.keys.forEach { $0.addTarget(self, action: #selector(onClickPageButton), for: .touchUpInside) }

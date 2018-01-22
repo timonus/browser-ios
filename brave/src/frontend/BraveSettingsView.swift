@@ -108,9 +108,9 @@ class BraveSettingsView : AppSettingsTableViewController {
         settings += [
             SettingSection(title: NSAttributedString(string: Strings.General.uppercased()), children: generalSettings),
             
-//            SettingSection(title: NSAttributedString(string: Strings.Sync.uppercased()), children:
-//                [SyncDevicesSetting(settings: self)]
-//            ),
+            SettingSection(title: NSAttributedString(string: Strings.OtherSettings.uppercased()), children:
+                [SyncDevicesSetting(settings: self)]
+            ),
             SettingSection(title: NSAttributedString(string: Strings.Privacy.uppercased()), children:
                 [ClearPrivateDataSetting(settings: self), CookieSetting(profile: self.profile),
                     BoolSetting(prefs: prefs, prefKey: kPrefKeyPrivateBrowsingAlwaysOn, defaultValue: false, titleText: Strings.Private_Browsing_Only, statusText: nil, settingDidChange: { isOn in

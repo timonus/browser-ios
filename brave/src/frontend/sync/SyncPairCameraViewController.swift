@@ -9,11 +9,7 @@ class SyncPairCameraViewController: UIViewController {
     var cameraView: SyncCameraView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
-    var cameraAccessButton: UIButton!
-    var enterWordsButton: UIButton!
-    
-    // Kind of an odd mechanism for passing this info
-    var deviceName: String?
+    var enterWordsButton: RoundInterfaceButton!
     
     fileprivate let prefs: Prefs = getApp().profile!.prefs
     fileprivate let prefKey: String = "CameraPermissionsSetting"
@@ -39,6 +35,7 @@ class SyncPairCameraViewController: UIViewController {
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.alwaysBounceVertical = true
         view.addSubview(scrollView)
         
         cameraView = SyncCameraView()
@@ -74,8 +71,7 @@ class SyncPairCameraViewController: UIViewController {
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                // Block Sync
-                // Sync.shared.initializeSync(seed: bytes, deviceName: self.deviceName)
+                Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
 
             } else {
                 self.cameraView.cameraOverlayError()
@@ -85,12 +81,8 @@ class SyncPairCameraViewController: UIViewController {
         cameraView.authorizedCallback = { authorized in
             if authorized {
                 postAsyncToMain(0) {
-                    self.cameraAccessButton.isHidden = true
                     self.prefs.setBool(true, forKey: self.prefKey)
                 }
-            }
-            else {
-                // TODO: Show alert.
             }
         }
         scrollView.addSubview(cameraView)
@@ -98,35 +90,25 @@ class SyncPairCameraViewController: UIViewController {
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = UIColor.black
+        titleLabel.textColor = BraveUX.GreyJ
         titleLabel.text = Strings.SyncToDevice
         scrollView.addSubview(titleLabel)
         
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
-        descriptionLabel.textColor = UIColor(rgb: 0x696969)
+        descriptionLabel.textColor = BraveUX.GreyH
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = Strings.SyncToDeviceDescription
         scrollView.addSubview(descriptionLabel)
         
-        cameraAccessButton = UIButton(type: .roundedRect)
-        cameraAccessButton.translatesAutoresizingMaskIntoConstraints = false
-        cameraAccessButton.setTitle(Strings.GrantCameraAccess, for: .normal)
-        cameraAccessButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
-        cameraAccessButton.setTitleColor(UIColor.white, for: .normal)
-        cameraAccessButton.backgroundColor = BraveUX.DefaultBlue
-        cameraAccessButton.layer.cornerRadius = 8
-        cameraAccessButton.addTarget(self, action: #selector(SEL_cameraAccess), for: .touchUpInside)
-        scrollView.addSubview(cameraAccessButton)
-        
-        enterWordsButton = UIButton(type: .roundedRect)
+        enterWordsButton = RoundInterfaceButton(type: .roundedRect)
         enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
         enterWordsButton.setTitle(Strings.EnterCodeWords, for: .normal)
         enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        enterWordsButton.setTitleColor(UIColor(rgb: 0x696969), for: .normal)
+        enterWordsButton.setTitleColor(BraveUX.GreyH, for: .normal)
         enterWordsButton.addTarget(self, action: #selector(SEL_enterWords), for: .touchUpInside)
         scrollView.addSubview(enterWordsButton)
         
@@ -157,21 +139,12 @@ class SyncPairCameraViewController: UIViewController {
         }
         
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(7)
-            make.leftMargin.equalTo(30)
-            make.rightMargin.equalTo(-30)
-        }
-        
-        cameraAccessButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
-            make.centerX.equalTo(self.scrollView)
-            make.left.equalTo(16)
-            make.right.equalTo(-16)
-            make.height.equalTo(50)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(8)
+            make.left.right.equalTo(self.view).inset(30)
         }
         
         enterWordsButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.cameraAccessButton.snp.bottom).offset(8)
+            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
             make.centerX.equalTo(self.scrollView)
             make.bottom.equalTo(-10)
         }
@@ -189,15 +162,8 @@ class SyncPairCameraViewController: UIViewController {
         }
     }
     
-    func SEL_cameraAccess() {
-        // TODO: check if already has access before requiring button tap.
-        cameraView.startCapture()
-    }
-    
     func SEL_enterWords() {
-        let pairWords = SyncPairWordsViewController()
-        pairWords.deviceName = self.deviceName
-        navigationController?.pushViewController(pairWords, animated: true)
+        navigationController?.pushViewController(SyncPairWordsViewController(), animated: true)
     }
 }
 
