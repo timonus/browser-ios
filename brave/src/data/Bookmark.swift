@@ -331,8 +331,19 @@ extension Bookmark {
         // New bookmarks are added with order 0, we are looking at created date then
         let sortRules = [NSSortDescriptor(key:"order", ascending: true), NSSortDescriptor(key:"created", ascending: false)]
         let sort = orderSort ? sortRules : nil
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = Bookmark.entity(context: context)
+        fetchRequest.predicate =  NSPredicate(format: "syncParentDisplayUUID == %@ and isFolder == %@", searchableUUID, ignoreFolders ? "true" : "false")
+        fetchRequest.sortDescriptors = sort
         
-        return get(predicate: NSPredicate(format: "syncParentDisplayUUID == %@ and isFolder == %@", searchableUUID, ignoreFolders ? "true" : "false"), context: context, sortDescriptors: sort)
+        do {
+            let results = try context.fetch(fetchRequest) as? [Bookmark]
+            return results
+        } catch {
+            let fetchError = error as NSError
+            print(fetchError)
+        }
+        return nil
     }
     
     static func get(parentSyncUUID parentUUID: [Int]?, context: NSManagedObjectContext?) -> Bookmark? {
