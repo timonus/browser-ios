@@ -176,7 +176,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
 
     var editBookmarksToolbar:UIToolbar!
     var editBookmarksButton:UIBarButtonItem!
-    var addFolderButton:UIBarButtonItem!
+    var addFolderButton: UIBarButtonItem?
     weak var addBookmarksFolderOkAction: UIAlertAction?
   
     var isEditingIndividualBookmark:Bool = false
@@ -277,7 +277,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         updateEditBookmarksButton(editMode)
         resetCellLongpressGesture(tableView.isEditing)
         
-        addFolderButton.isEnabled = !editMode
+        addFolderButton?.isEnabled = !editMode
     }
     
     func updateEditBookmarksButton(_ tableIsEditing:Bool) {
@@ -294,15 +294,15 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             }
         }
     }
-    
+
     func createEditBookmarksToolbar() {
         var items = [UIBarButtonItem]()
         
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
 
         addFolderButton = UIBarButtonItem(title: Strings.NewFolder,
-                                          style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
-        items.append(addFolderButton)
+                                            style: .plain, target: self, action: #selector(onAddBookmarksFolderButton))
+        items.append(addFolderButton!)
         
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
 
@@ -334,7 +334,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     func onAddBookmarksFolderButton() {
         
         let alert = UIAlertController.userTextInputAlert(title: Strings.NewFolder, message: Strings.EnterFolderName) {
-            input in
+            input, _ in
             if let input = input, !input.isEmpty {
                 self.addFolder(titled: input)
             }
@@ -351,37 +351,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
 
     func tableView(_ tableView: UITableView, moveRowAtIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath) {
-
-        let dest = frc?.object(at: destinationIndexPath) as! Bookmark
-        let src = frc?.object(at: sourceIndexPath) as! Bookmark
-
-        if dest === src {
-            return
-        }
-
-        // Warning, this could be a bottleneck, grabs ALL the bookmarks in the current folder
-        // But realistically, with a batch size of 20, and most reads around 1ms, a bottleneck here is an edge case.
-        // Optionally: grab the parent folder, and the on a bg thread iterate the bms and update their order. Seems like overkill.
-        var bms = self.frc?.fetchedObjects as! [Bookmark]
-        bms.remove(at: bms.index(of: src)!)
-        if sourceIndexPath.row > destinationIndexPath.row {
-            // insert before
-            bms.insert(src, at: bms.index(of: dest)!)
-        } else {
-            let end = bms.index(of: dest)! + 1
-            bms.insert(src, at: end)
-        }
-
-        for i in 0..<bms.count {
-            bms[i].order = Int16(i)
-        }
-
-        // I am stumped, I can't find the notification that animation is complete for moving.
-        // If I save while the animation is happening, the rows look screwed up (draw on top of each other).
-        // Adding a delay to let animation complete avoids this problem
-        postAsyncToMain(0.25) {
-            DataController.saveContext(context: self.frc?.managedObjectContext)
-        }
+        // Using the same reorder logic as in FavoritesDataSource
+        Bookmark.reorderBookmarks(frc: frc, sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
     }
 
     func tableView(_ tableView: UITableView, canMoveRowAtIndexPath indexPath: IndexPath) -> Bool {
@@ -488,7 +459,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
             cell.textLabel?.font = UIFont.systemFont(ofSize: fontSize)
             cell.accessoryType = .none
         } else {
-            configCell(image: UIImage(named: "bookmarks_folder_hollow"))
+            let image = UIImage(named: "bookmarks_folder_hollow")
+            configCell(image: image)
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
             cell.accessoryType = .disclosureIndicator
             if let twoLineCell = cell as? TwoLineTableViewCell {
@@ -549,7 +521,13 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     func tableView(_ tableView: UITableView, willSelectRowAtIndexPath indexPath: IndexPath) -> IndexPath? {
         return indexPath
     }
-    
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard let bookmark = frc?.object(at: indexPath) as? Bookmark else { return false }
+
+        return !bookmark.isFavorite
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
 
@@ -620,7 +598,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
     
     fileprivate func showEditBookmarkController(_ tableView: UITableView, indexPath:IndexPath) {
-        guard let item = frc?.object(at: indexPath) as? Bookmark else { return }
+        guard let item = frc?.object(at: indexPath) as? Bookmark, !item.isFavorite else { return }
         let nextController = BookmarkEditingViewController(bookmarksPanel: self, indexPath: indexPath, bookmark: item)
 
         nextController.completionBlock = { controller in

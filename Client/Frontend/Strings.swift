@@ -103,6 +103,7 @@ extension Strings {
     public static let Share = NSLocalizedString("Share", comment: "Accessibility Label for the browser toolbar Share button")
     public static let PasswordManager = NSLocalizedString("Password Manager", comment: "Accessibility Label for the browser toolbar Password Manager button")
     public static let Bookmark = NSLocalizedString("Bookmark", comment: "Accessibility Label for the browser toolbar Bookmark button")
+    public static let FavoritesFolder = NSLocalizedString("Favorites", comment: "Folder for storing favorite bookmarks.")
     public static let New_Tab = NSLocalizedString("New Tab", comment: "New Tab title")
 
     public static let Navigation_Toolbar = NSLocalizedString("Navigation Toolbar", comment: "Accessibility label for the navigation toolbar displayed at the bottom of the screen.")
@@ -262,6 +263,7 @@ extension Strings {
     public static let Clear = NSLocalizedString("Clear", comment: "Used as a button label in the dialog to Clear private data dialog")
     public static let Find_in_Page = NSLocalizedString("Find in Page", comment: "Share action title")
     public static let Open_Desktop_Site_tab = NSLocalizedString("Open Desktop Site tab", comment: "Share action title")
+    public static let Add_to_favorites = NSLocalizedString("Add to favorites", comment: "Add to favorites share action.")
     public static let Search_Input_Field = NSLocalizedString("Search Input Field", comment: "Accessibility label for the search input field in the Logins list")
 
     public static let Clear_Search = NSLocalizedString("Clear Search", comment: "")
@@ -271,6 +273,8 @@ extension Strings {
     public static let Show_Bookmarks = NSLocalizedString("Show Bookmarks", comment: "Button to show the bookmarks list")
     public static let Show_History =  NSLocalizedString("Show History", comment: "Button to show the history list")
     public static let Add_Bookmark = NSLocalizedString("Add Bookmark", comment: "Button to add a bookmark")
+    public static let Edit_Bookmark = NSLocalizedString("Edit Bookmark", comment: "Button to edit a bookmark")
+    public static let Remove_Bookmark = NSLocalizedString("Remove Bookmark", comment: "Button to remove a bookmark")
 }
 
 extension Strings {

@@ -5,9 +5,14 @@ import UIKit
 import CoreData
 import Foundation
 import Shared
+import Storage
+
+private let log = Logger.browserLogger
 
 class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
-    
+
+    // Favorite bookmarks are shown only on homepanel as a tile, they are not visible on bookmarks panel.
+    @NSManaged var isFavorite: Bool
     @NSManaged var isFolder: Bool
     @NSManaged var title: String?
     @NSManaged var customTitle: String?
@@ -73,14 +78,19 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         
         fetchRequest.entity = Bookmark.entity(context: context)
         fetchRequest.fetchBatchSize = 20
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key:"order", ascending: true), NSSortDescriptor(key:"created", ascending: false)]
+
+        let orderSort = NSSortDescriptor(key:"order", ascending: true)
+        let createdSort = NSSortDescriptor(key:"created", ascending: false)
+        fetchRequest.sortDescriptors = [orderSort, createdSort]
+
         if let parentFolder = parentFolder {
-            fetchRequest.predicate = NSPredicate(format: "parentFolder == %@", parentFolder)
+            fetchRequest.predicate = NSPredicate(format: "parentFolder == %@ AND isFavorite == NO", parentFolder)
         } else {
-            fetchRequest.predicate = NSPredicate(format: "parentFolder == nil")
+            fetchRequest.predicate = NSPredicate(format: "parentFolder == nil AND isFavorite == NO")
         }
 
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:context,
+                                          sectionNameKeyPath: nil, cacheName: nil)
     }
     
     // Syncable
@@ -144,6 +154,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bk.url = site?.location ?? bk.url
         bk.title = site?.title ?? bk.title
         bk.customTitle = site?.customTitle ?? bk.customTitle // TODO: Check against empty titles
+        bk.isFavorite = bookmark?.isFavorite ?? bk.isFavorite
         bk.isFolder = bookmark?.isFolder ?? bk.isFolder
         bk.syncUUID = root?.objectId ?? bk.syncUUID ?? Niceware.shared.uniqueSerialBytes(count: 16)
         bk.created = site?.creationNativeDate ?? Date()
@@ -186,7 +197,8 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
                        title: String?,
                        customTitle: String? = nil, // Folders only use customTitle
                        parentFolder:Bookmark? = nil,
-                       isFolder:Bool = false) -> Bookmark? {
+                       isFolder: Bool = false,
+                       isFavorite: Bool = false) -> Bookmark? {
         
         let site = SyncSite()
         site.title = title
@@ -194,6 +206,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         site.location = url?.absoluteString
         
         let bookmark = SyncBookmark()
+        bookmark.isFavorite = isFavorite
         bookmark.isFolder = isFolder
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
@@ -219,10 +232,10 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         return self.add(rootObject: bookmark, save: true, context: DataController.shared.workerContext)
     }
 
-    class func contains(url: URL, context: NSManagedObjectContext) -> Bool {
+    class func contains(url: URL, getFavorites: Bool = false, context: NSManagedObjectContext) -> Bool {
         var found = false
         context.performAndWait {
-            if let count = get(forUrl: url, countOnly: true, context: context) as? Int {
+            if let count = get(forUrl: url, countOnly: true, getFavorites: getFavorites, context: context) as? Int {
                 found = count > 0
             }
         }
@@ -252,15 +265,51 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         }
         return [Bookmark]()
     }
+
+    class func reorderBookmarks(frc: NSFetchedResultsController<NSFetchRequestResult>?, sourceIndexPath: IndexPath,
+                                destinationIndexPath: IndexPath) {
+        let dest = frc?.object(at: destinationIndexPath) as! Bookmark
+        let src = frc?.object(at: sourceIndexPath) as! Bookmark
+        
+        if dest === src {
+            return
+        }
+        
+        // Warning, this could be a bottleneck, grabs ALL the bookmarks in the current folder
+        // But realistically, with a batch size of 20, and most reads around 1ms, a bottleneck here is an edge case.
+        // Optionally: grab the parent folder, and the on a bg thread iterate the bms and update their order. Seems like overkill.
+        var bms = frc?.fetchedObjects as! [Bookmark]
+        bms.remove(at: bms.index(of: src)!)
+        if sourceIndexPath.row > destinationIndexPath.row {
+            // insert before
+            bms.insert(src, at: bms.index(of: dest)!)
+        } else {
+            let end = bms.index(of: dest)! + 1
+            bms.insert(src, at: end)
+        }
+        
+        for i in 0..<bms.count {
+            bms[i].order = Int16(i)
+        }
+        
+        // I am stumped, I can't find the notification that animation is complete for moving.
+        // If I save while the animation is happening, the rows look screwed up (draw on top of each other).
+        // Adding a delay to let animation complete avoids this problem
+        postAsyncToMain(0.25) {
+            DataController.saveContext(context: frc?.managedObjectContext)
+        }
+
+    }
 }
 
 // TODO: Document well
 // Getters
 extension Bookmark {
-    fileprivate static func get(forUrl url: URL, countOnly: Bool = false, context: NSManagedObjectContext) -> AnyObject? {
+    fileprivate static func get(forUrl url: URL, countOnly: Bool = false, getFavorites: Bool = false, context: NSManagedObjectContext) -> AnyObject? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = Bookmark.entity(context: context)
-        fetchRequest.predicate = NSPredicate(format: "url == %@", url.absoluteString)
+        let isFavoritePredicate = getFavorites ? "YES" : "NO"
+        fetchRequest.predicate = NSPredicate(format: "url == %@ AND isFavorite == \(isFavoritePredicate)", url.absoluteString)
         do {
             if countOnly {
                 let count = try context.count(for: fetchRequest)
@@ -275,12 +324,17 @@ extension Bookmark {
         return nil
     }
     
-    static func getChildren(forFolderUUID syncUUID: [Int]?, ignoreFolders: Bool = false, context: NSManagedObjectContext) -> [Bookmark]? {
+    static func getChildren(forFolderUUID syncUUID: [Int]?, ignoreFolders: Bool = false, context: NSManagedObjectContext,
+                            orderSort: Bool = false) -> [Bookmark]? {
         guard let searchableUUID = SyncHelpers.syncDisplay(fromUUID: syncUUID) else {
             return nil
         }
+
+        // New bookmarks are added with order 0, we are looking at created date then
+        let sortRules = [NSSortDescriptor(key:"order", ascending: true), NSSortDescriptor(key:"created", ascending: false)]
+        let sort = orderSort ? sortRules : nil
         
-        return get(predicate: NSPredicate(format: "syncParentDisplayUUID == %@ and isFolder == %@", searchableUUID, ignoreFolders ? "true" : "false"), context: context)
+        return get(predicate: NSPredicate(format: "syncParentDisplayUUID == %@ and isFolder == %@", searchableUUID, ignoreFolders ? "true" : "false"), context: context, sortDescriptors: sort)
     }
     
     static func get(parentSyncUUID parentUUID: [Int]?, context: NSManagedObjectContext?) -> Bookmark? {

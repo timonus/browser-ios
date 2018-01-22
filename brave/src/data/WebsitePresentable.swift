@@ -72,7 +72,8 @@ extension Syncable {
     }
     
     // Maybe use 'self'?
-    static func get<T: NSManagedObject where T: Syncable>(predicate: NSPredicate?, context: NSManagedObjectContext?) -> [T]? {
+    static func get<T: NSManagedObject where T: Syncable>(predicate: NSPredicate?, context: NSManagedObjectContext?,
+                                                          sortDescriptors: [NSSortDescriptor]? = nil) -> [T]? {
         guard let context = context else {
             // error
             return nil
@@ -81,6 +82,9 @@ extension Syncable {
         
         fetchRequest.entity = T.entity(context: context)
         fetchRequest.predicate = predicate
+        if let sort = sortDescriptors {
+            fetchRequest.sortDescriptors = sort
+        }
         
         do {
             return try context.fetch(fetchRequest) as? [T]

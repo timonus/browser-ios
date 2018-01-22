@@ -153,6 +153,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             }
         })
 
+        let favoritesInit = profile.prefs.boolForKey(FavoritesHelper.initPrefsKey) ?? false
+        if !favoritesInit {
+            let isFirstLaunch = profile.prefs.arrayForKey(DAU.preferencesKey) == nil
+
+            if isFirstLaunch {
+                log.info("Favorites initialization, new user.")
+                FavoritesHelper.addDefaultFavorites()
+            } else { // existing user, using Brave before the topsites to favorites change.
+                log.info("Favorites initialization, existing user.")
+                postAsyncToMain(1.5) {
+                    self.browserViewController.presentTopSitesToFavoritesChange()
+                }
+            }
+
+            profile.prefs.setBool(true, forKey: FavoritesHelper.initPrefsKey)
+        }
+
         log.debug("Adding observers…")
         NotificationCenter.default.addObserver(forName: NSNotification.Name.FSReadingListAddReadingListItem, object: nil, queue: nil) { (notification) -> Void in
             if let userInfo = notification.userInfo, let url = userInfo["URL"] as? URL {

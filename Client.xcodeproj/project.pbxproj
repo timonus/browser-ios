@@ -70,14 +70,19 @@
 		0A03FFEC1FCDF0C400DF32C9 /* set.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF951FCDF0C300DF32C9 /* set.h */; };
 		0A03FFED1FCDF0C400DF32C9 /* stringpiece.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */; };
 		0A03FFEE1FCDF0C400DF32C9 /* prog.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0A03FF971FCDF0C300DF32C9 /* prog.cc */; };
+		0A0F5D8B200E0F64006EB7F1 /* AddToFavoritesActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F5D8A200E0F64006EB7F1 /* AddToFavoritesActivity.swift */; };
+		0A0F5DA1200E2B3C006EB7F1 /* PreloadedFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0F5DA0200E2B3C006EB7F1 /* PreloadedFavorites.swift */; };
 		0A14A8BA1997EFDD9BF4F08A /* Favicons.js in Resources */ = {isa = PBXBuildFile; fileRef = 9C0FE62111208C1C3C2CF16A /* Favicons.js */; };
 		0A159C931FD017DB005A79BF /* DeviceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A159C921FD017DB005A79BF /* DeviceDetector.swift */; };
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
+		0A3AA90C1FFF8C3100855082 /* FavoritesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
+		0A6365D92012011700371C27 /* FavoritesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6365D82012011700371C27 /* FavoritesHelper.swift */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
-		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
 		0A8053961FC59D82008D6822 /* DAU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053951FC59D82008D6822 /* DAU.swift */; };
 		0A8053981FC59D93008D6822 /* DauTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053971FC59D93008D6822 /* DauTest.swift */; };
+		0A82B80020067EFC00CE6397 /* FavoritesTileDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */; };
+		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
 		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
 		0B742CCF1B32493E00EE9264 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B742CCC1B32491400EE9264 /* libsqlcipher.a */; };
 		0B8E0FF41A932BD500161DC3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8E0FF31A932BD500161DC3 /* ImageIO.framework */; };
@@ -995,10 +1000,16 @@
 		0A03FF951FCDF0C300DF32C9 /* set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = set.h; sourceTree = "<group>"; };
 		0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stringpiece.cc; sourceTree = "<group>"; };
 		0A03FF971FCDF0C300DF32C9 /* prog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prog.cc; sourceTree = "<group>"; };
-		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
+		0A0F5D8A200E0F64006EB7F1 /* AddToFavoritesActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToFavoritesActivity.swift; sourceTree = "<group>"; };
+		0A0F5DA0200E2B3C006EB7F1 /* PreloadedFavorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedFavorites.swift; sourceTree = "<group>"; };
 		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
+		0A3316501FFD4C6B00BFC542 /* Model6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model6.xcdatamodel; sourceTree = "<group>"; };
+		0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDataSource.swift; sourceTree = "<group>"; };
+		0A6365D82012011700371C27 /* FavoritesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesHelper.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
+		0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTileDecorator.swift; sourceTree = "<group>"; };
+		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
 		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B5DA2C8E2A696FCBB8FC07F /* CompletionOps.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompletionOps.swift; path = ./Storage/CompletionOps.swift; sourceTree = "<group>"; };
 		0B742CC61B32491400EE9264 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ThirdParty/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
@@ -1913,6 +1924,18 @@
 			path = fuzzing;
 			sourceTree = "<group>";
 		};
+		0A3AA90A1FFF8BE300855082 /* favorites */ = {
+			isa = PBXGroup;
+			children = (
+				0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */,
+				0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */,
+				0A0F5DA0200E2B3C006EB7F1 /* PreloadedFavorites.swift */,
+				0A6365D82012011700371C27 /* FavoritesHelper.swift */,
+			);
+			name = favorites;
+			path = brave/src/frontend/favorites;
+			sourceTree = "<group>";
+		};
 		0A8053801FC59D6F008D6822 /* analytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -1924,6 +1947,7 @@
 		0A91879C13539EB0C45CEF59 /* frontend */ = {
 			isa = PBXGroup;
 			children = (
+				0A3AA90A1FFF8BE300855082 /* favorites */,
 				3DEE61BC5B8E404D11F5547F /* BraveBrowserBottomToolbar.swift */,
 				1CB8D9CB1F82F469000BEE18 /* BraveBrowserToolbarButtonActions.swift */,
 				5C39A9721F0FECF98A48015E /* BraveBrowserViewController.swift */,
@@ -2712,6 +2736,7 @@
 				A7213910FF51709F3F5E2C59 /* RequestDesktopSiteActivity.swift */,
 				CDB3BCCA0DFA377A04C8A79E /* ShareExtensionHelper.swift */,
 				6889A46373F182DFFDB59180 /* TitleActivityItemProvider.swift */,
+				0A0F5D8A200E0F64006EB7F1 /* AddToFavoritesActivity.swift */,
 			);
 			name = Share;
 			sourceTree = "<group>";
@@ -4520,6 +4545,7 @@
 				E89DEAF4A642EA060CAC3883 /* dbformat.cc in Sources */,
 				5D2AE6FA1E83F3EC00BC274C /* SyncSite.swift in Sources */,
 				0A03FFB51FCDF0C400DF32C9 /* onepass.cc in Sources */,
+				0A6365D92012011700371C27 /* FavoritesHelper.swift in Sources */,
 				A6A180ED09280A17C5C11B72 /* dumpfile.cc in Sources */,
 				252BFD86BA8B20F6B485D561 /* filename.cc in Sources */,
 				7823B137D3AA2D991BC8DC5C /* log_reader.cc in Sources */,
@@ -4588,6 +4614,7 @@
 				42BB62D8A935B31499CE77E3 /* BraveTopViewController.swift in Sources */,
 				0A03FFE51FCDF0C400DF32C9 /* prefilter_tree.cc in Sources */,
 				5C0FCE4D1E5FB3810016DF0F /* SyncWelcomeViewController.swift in Sources */,
+				0A3AA90C1FFF8C3100855082 /* FavoritesDataSource.swift in Sources */,
 				6287F57212354177AA5D5F28 /* BraveURLBarView.swift in Sources */,
 				F1D4718F1D777C7C007B443D /* OnePasswordExtension.m in Sources */,
 				D36C19A448AA81DB6DFD701D /* BraveUX.swift in Sources */,
@@ -4631,10 +4658,12 @@
 				512E10479437E91E0C460A9E /* SafeBrowsing.swift in Sources */,
 				D1C86DA5CC9837EE549A6AB9 /* TrackingProtection.swift in Sources */,
 				4BC045726236C11E7D507089 /* TrackingProtectionCpp.mm in Sources */,
+				0A82B80020067EFC00CE6397 /* FavoritesTileDecorator.swift in Sources */,
 				86D3B9819FCA03016E9B9C4B /* UrlProtocol.swift in Sources */,
 				B68CFF88E0641A0F8CA9C1BE /* BraveWebView.swift in Sources */,
 				65D7C98408394E5F2E760894 /* LegacyJSContext.m in Sources */,
 				1F2948B4093DD581ADBB7FA4 /* PrivateBrowsing.swift in Sources */,
+				0A0F5DA1200E2B3C006EB7F1 /* PreloadedFavorites.swift in Sources */,
 				62859AF44506E17DCC0A2759 /* WebViewBackForward.swift in Sources */,
 				0A03FFDF1FCDF0C400DF32C9 /* filtered_re2.cc in Sources */,
 				C5A2E6F2033E5897F1F43AD7 /* WebViewDocScale.m in Sources */,
@@ -4702,6 +4731,7 @@
 				209C9E2C166E53A1119E09CE /* ScreenshotHelper.swift in Sources */,
 				5DB199151E859F9100A851B6 /* SyncResponse.swift in Sources */,
 				48C6EB7A9F5866B0EAD90E90 /* SearchEngines.swift in Sources */,
+				0A0F5D8B200E0F64006EB7F1 /* AddToFavoritesActivity.swift in Sources */,
 				F5723B6EE5165F5CBF544F6C /* SearchLoader.swift in Sources */,
 				2D0D3E1D9C7AA8872D5EB34D /* SearchSuggestClient.swift in Sources */,
 				E9736B8FFA056E24BE2EB834 /* SearchViewController.swift in Sources */,
@@ -5808,13 +5838,14 @@
 		5D3892531E98108F00F959E6 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0A3316501FFD4C6B00BFC542 /* Model6.xcdatamodel */,
 				5C062FD91F76583900D51BC7 /* Model5.xcdatamodel */,
 				5C2D8B271F72D4F100B1C311 /* Model4.xcdatamodel */,
 				5D2F10651EC9E8AD00CF0E0D /* Model3.xcdatamodel */,
 				5D3892561E9810B400F959E6 /* Model2.xcdatamodel */,
 				5D3892541E98108F00F959E6 /* Model.xcdatamodel */,
 			);
-			currentVersion = 5C062FD91F76583900D51BC7 /* Model5.xcdatamodel */;
+			currentVersion = 0A3316501FFD4C6B00BFC542 /* Model6.xcdatamodel */;
 			name = Model.xcdatamodeld;
 			path = brave/src/data/Model.xcdatamodeld;
 			sourceTree = "<group>";

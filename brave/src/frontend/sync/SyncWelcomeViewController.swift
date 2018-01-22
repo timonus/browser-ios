@@ -187,8 +187,8 @@ class SyncWelcomeViewController: UIViewController {
     func getDeviceName(callback: @escaping (String?) -> ()) {
         self.loadingView.isHidden = false
 
-        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.current.name, forcedInput: false) {
-            callback($0)
+        let alert = UIAlertController.userTextInputAlert(title: Strings.NewDevice, message: Strings.DeviceFolderName, startingText: UIDevice.current.name, forcedInput: false) { input, _ in
+            callback(input)
             self.loadingView.isHidden = true
         }
         self.present(alert, animated: true, completion: nil)
