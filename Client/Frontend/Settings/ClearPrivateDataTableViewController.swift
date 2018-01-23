@@ -181,24 +181,31 @@ class ClearPrivateDataTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.section == SectionButton else { return }
         
-        getApp().profile?.prefs.setObject(self.toggles, forKey: TogglesPrefKey)
-        self.clearButtonEnabled = false
         tableView.deselectRow(at: indexPath, animated: false)
-
-        NotificationCenter.default.removeObserver(self)
-        NotificationCenter.default.addObserver(self, selector: #selector(allWebViewsKilled), name: NSNotification.Name(rawValue: kNotificationAllWebViewsDeallocated), object: nil)
-
-        if (BraveWebView.allocCounter == 0) {
-            allWebViewsKilled()
-        } else {
-            getApp().tabManager.removeAll()
-            postAsyncToMain(0.5, closure: {
-                if !self.gotNotificationDeathOfAllWebViews {
-                    getApp().tabManager.tabs.internalTabList.forEach { $0.deleteWebView(true) }
-                    self.allWebViewsKilled()
-                }
-            })
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let clearAction = UIAlertAction(title: Strings.ClearPrivateData, style: .destructive) { (_) in
+            getApp().profile?.prefs.setObject(self.toggles, forKey: TogglesPrefKey)
+            self.clearButtonEnabled = false
+            
+            NotificationCenter.default.removeObserver(self)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.allWebViewsKilled), name: NSNotification.Name(rawValue: kNotificationAllWebViewsDeallocated), object: nil)
+            
+            if (BraveWebView.allocCounter == 0) {
+                self.allWebViewsKilled()
+            } else {
+                getApp().tabManager.removeAll()
+                postAsyncToMain(0.5, closure: {
+                    if !self.gotNotificationDeathOfAllWebViews {
+                        getApp().tabManager.tabs.internalTabList.forEach { $0.deleteWebView(true) }
+                        self.allWebViewsKilled()
+                    }
+                })
+            }
         }
+        actionSheet.addAction(clearAction)
+        actionSheet.addAction(.init(title: Strings.Cancel, style: .cancel, handler: nil))
+        present(actionSheet, animated: true, completion: nil)
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
