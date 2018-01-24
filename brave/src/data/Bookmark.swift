@@ -209,7 +209,9 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
         bookmark.parentFolderObjectId = parentFolder?.syncUUID
         bookmark.site = site
         
-        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder, context: DataController.shared.mainThreadContext)
+        // Using worker context here, this propogates up, and merged into main.
+        // There is some odd issue with duplicates when using main thread
+        return self.add(rootObject: bookmark, save: true, sendToSync: true, parentFolder: parentFolder, context: DataController.shared.workerContext)
     }
     
     // TODO: Migration syncUUIDS still needs to be solved
