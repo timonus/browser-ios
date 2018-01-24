@@ -39,7 +39,6 @@ class ImageEntity: NSObject, FICEntity {
         let drawingBlock: FICEntityImageDrawingBlock = { (context, contextSize) in
             let contextBounds: CGRect = CGRect(x: 0, y: 0, width: contextSize.width, height: contextSize.height)
             context.clear(contextBounds)
-            context.interpolationQuality = .medium
             UIGraphicsPushContext(context)
             image.draw(in: contextBounds)
             UIGraphicsPopContext()

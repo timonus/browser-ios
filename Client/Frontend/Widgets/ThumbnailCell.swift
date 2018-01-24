@@ -92,6 +92,8 @@ class ThumbnailCell: UICollectionViewCell {
         textLabel.font = DynamicFontHelper.defaultHelper.DefaultSmallFont
         textLabel.textColor = ThumbnailCellUX.LabelColor
         textLabel.textAlignment = ThumbnailCellUX.LabelAlignment
+        textLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        textLabel.numberOfLines = 2
         return textLabel
     }()
 
@@ -109,16 +111,20 @@ class ThumbnailCell: UICollectionViewCell {
     lazy var editButton: UIButton = {
         let editButton = UIButton()
         editButton.isExclusiveTouch = true
-        let removeButtonImage = UIImage(named: "edit_tile")
+        let removeButtonImage = UIImage(named: "edit-small")?.withRenderingMode(.alwaysTemplate)
         editButton.setImage(removeButtonImage, for: .normal)
         editButton.addTarget(self, action: #selector(ThumbnailCell.editButtonTapped), for: UIControlEvents.touchUpInside)
         editButton.accessibilityLabel = Strings.Edit_Bookmark
         editButton.isHidden = true
-        editButton.sizeToFit()
+        editButton.backgroundColor = BraveUX.GreyC
+        editButton.tintColor = BraveUX.GreyI
+        editButton.frame.size = CGSize(width: 28, height: 28)
         let xOffset: CGFloat = 5
         let buttonCenterX = floor(editButton.bounds.width/2) + xOffset
         let buttonCenterY = floor(editButton.bounds.height/2)
         editButton.center = CGPoint(x: buttonCenterX, y: buttonCenterY)
+        editButton.layer.cornerRadius = editButton.bounds.width/2
+        editButton.layer.masksToBounds = true
         return editButton    }()
 
 

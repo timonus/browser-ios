@@ -64,7 +64,7 @@ class AlertPopupView: PopupView {
             dialogImage.frame = imageFrame
         }
         
-        let titleLabelSize: CGSize = titleLabel.sizeThatFits(CGSize(width: width - kPadding * 4.0, height: CGFloat.greatestFiniteMagnitude))
+        let titleLabelSize: CGSize = titleLabel.sizeThatFits(CGSize(width: width - kPadding * 3.0, height: CGFloat.greatestFiniteMagnitude))
         var titleLabelFrame: CGRect = titleLabel.frame
         titleLabelFrame.size = titleLabelSize
         titleLabelFrame.origin.x = rint((width - titleLabelSize.width) / 2.0)
@@ -75,12 +75,12 @@ class AlertPopupView: PopupView {
         var messageLabelFrame: CGRect = messageLabel.frame
         messageLabelFrame.size = messageLabelSize
         messageLabelFrame.origin.x = rint((width - messageLabelSize.width) / 2.0)
-        messageLabelFrame.origin.y = rint(titleLabelFrame.maxY + kPadding / 2.0)
+        messageLabelFrame.origin.y = rint(titleLabelFrame.maxY + kPadding * 1.5 / 2.0)
         messageLabel.frame = messageLabelFrame
         
         var containerViewFrame: CGRect = containerView.frame
         containerViewFrame.size.width = width
-        containerViewFrame.size.height = messageLabelFrame.maxY + kPadding
+        containerViewFrame.size.height = messageLabelFrame.maxY + kPadding * 1.5
         containerView.frame = containerViewFrame
     }
     

@@ -96,7 +96,7 @@ class FavoritesTileDecorator {
     }
 
     private func setDefaultTile() {
-        cell.imageView.image = FaviconFetcher.defaultFavicon
+        cell.imageView.image = ThumbnailCellUX.PlaceholderImage
     }
 
     fileprivate func setCellImage(_ cell: ThumbnailCell, iconUrl: URL, cacheWithUrl: URL) {
@@ -111,8 +111,8 @@ class FavoritesTileDecorator {
                     cell.imageView.sd_setImage(with: iconUrl, completed: { (img, err, type, url) in
                         guard let img = img else {
                             // avoid retrying to find an icon when none can be found, hack skips FaviconFetch
-                            ImageCache.shared.cache(FaviconFetcher.defaultFavicon, url: cacheWithUrl, type: .square, callback: nil)
-                            cell.imageView.image = FaviconFetcher.defaultFavicon
+                            ImageCache.shared.cache(ThumbnailCellUX.PlaceholderImage!, url: cacheWithUrl, type: .square, callback: nil)
+                            cell.imageView.image = ThumbnailCellUX.PlaceholderImage
                             return
                         }
                         ImageCache.shared.cache(img, url: cacheWithUrl, type: .square, callback: nil)

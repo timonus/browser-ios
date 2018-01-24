@@ -163,6 +163,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             } else { // existing user, using Brave before the topsites to favorites change.
                 log.info("Favorites initialization, existing user.")
                 postAsyncToMain(1.5) {
+                    self.browserViewController.tabManager.addAdjacentTabAndSelect()
                     self.browserViewController.presentTopSitesToFavoritesChange()
                 }
             }
