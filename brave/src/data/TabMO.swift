@@ -58,7 +58,7 @@ class TabMO: NSManagedObject {
     }
 
     @discardableResult class func add(_ tabInfo: SavedTab, context: NSManagedObjectContext) -> TabMO? {
-        let tab: TabMO? = getByID(tabInfo.id, context: context)
+        let tab: TabMO? = get(byId: tabInfo.id, context: context)
         if tab == nil {
             return nil
         }
@@ -108,8 +108,7 @@ class TabMO: NSManagedObject {
         }
     }
     
-    // TODO: Rename
-    class func getByID(_ id: String?, context: NSManagedObjectContext) -> TabMO? {
+    class func get(byId id: String?, context: NSManagedObjectContext) -> TabMO? {
         guard let id = id else { return nil }
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
@@ -190,7 +189,7 @@ class TabMO: NSManagedObject {
             
             log.debug("---stack: \(urls)")
         }
-        if let id = TabMO.getByID(tab.tabID, context: context)?.syncUUID {
+        if let id = TabMO.get(byId: tab.tabID, context: context)?.syncUUID {
             let title = tab.displayTitle != "" ? tab.displayTitle : urlOverride ?? ""
             if urlOverride == nil && tab.url == nil {
                 log.warning("Missing tab url, using empty string as a fallback. Should not happen.")

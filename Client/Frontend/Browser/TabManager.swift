@@ -184,7 +184,7 @@ class TabManager : NSObject {
         context.perform {
             for i in 0..<self.tabs.internalTabList.count {
                 let tab = self.tabs.internalTabList[i]
-                guard let managedObject = TabMO.getByID(tab.tabID, context: context) else { print("Error: Tab missing managed object"); continue }
+                guard let managedObject = TabMO.get(byId: tab.tabID, context: context) else { print("Error: Tab missing managed object"); continue }
                 managedObject.order = Int16(i)
             }
             DataController.saveContext(context: context)
@@ -392,7 +392,7 @@ class TabManager : NSObject {
     
     func restoreTab(_ tab: Browser) {
         // Tab was created with no active webview or session data. Restore tab data from CD and configure.
-        guard let savedTab = TabMO.getByID(tab.tabID, context: .mainThreadContext) else { return }
+        guard let savedTab = TabMO.get(byId: tab.tabID, context: .mainThreadContext) else { return }
         
         if let history = savedTab.urlHistorySnapshot as? [String], let tabUUID = savedTab.syncUUID, let url = savedTab.url {
             let data = SavedTab(id: tabUUID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
@@ -537,7 +537,7 @@ class TabManager : NSObject {
         tabs.removeTab(tab)
 
         let context = DataController.shared.mainThreadContext
-        if let tab = TabMO.getByID(tab.tabID, context: context) {
+        if let tab = TabMO.get(byId: tab.tabID, context: context) {
             DataController.remove(object: tab, context: context)
         }
         
