@@ -43,7 +43,7 @@ class DataController: NSObject {
     
         let worker = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         worker.undoManager = nil
-        worker.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        worker.mergePolicy = NSOverwriteMergePolicy
         worker.parent = self.writeContext
         worker.automaticallyMergesChangesFromParent = true
         
@@ -53,7 +53,7 @@ class DataController: NSObject {
     lazy var mainThreadContext: NSManagedObjectContext = {
         let main = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         main.undoManager = nil
-        main.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        main.mergePolicy = NSOverwriteMergePolicy
         main.parent = self.writeContext
         main.automaticallyMergesChangesFromParent = true
         
@@ -121,7 +121,11 @@ class DataController: NSObject {
         }
 
         // TODO: Clean this up
-        if context.hasChanges {
+        context.perform {
+            if !context.hasChanges {
+                return
+            }
+            
             do {
                 try context.save()
                 
@@ -139,5 +143,15 @@ class DataController: NSObject {
                 fatalError("Error saving DB: \(error)")
             }
         }
+    }
+}
+
+extension NSManagedObjectContext {
+    static var mainThreadContext: NSManagedObjectContext {
+        return DataController.shared.mainThreadContext
+    }
+    
+    static var workerThreadContext: NSManagedObjectContext {
+        return DataController.shared.workerContext
     }
 }
