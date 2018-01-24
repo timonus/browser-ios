@@ -24,7 +24,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                     return nil
                 }
                 
-                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices + [SettingSection(title: nil, children: [RemoveDeviceSetting(profile: profile)])])
+                return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices)
             case .options:
                 let prefs = profile.prefs
                 return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercased()), children:
