@@ -503,7 +503,7 @@ class TabManager : NSObject {
  
         // Ignore on restore.
         if !zombie && !PrivateBrowsing.singleton.isOn {
-            TabMO.preserveTab(tab: tab)
+            TabMO.preserve(tab: tab)
             saveTabOrder()
         }
     }
@@ -669,7 +669,7 @@ extension TabManager : WKCompatNavigationDelegate {
         if let tab = tabForWebView(webView), let url = tabForWebView(webView)?.url {
             if !ErrorPageHelper.isErrorPageURL(url) {
                 postAsyncToMain(0.25) {
-                    TabMO.preserveTab(tab: tab)
+                    TabMO.preserve(tab: tab)
                 }
             }
         }
