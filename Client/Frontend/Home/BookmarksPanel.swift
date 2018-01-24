@@ -729,23 +729,20 @@ extension BookmarksPanel : NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch (type) {
         case .update:
-            if let indexPath = indexPath, let cell = tableView.cellForRow(at: indexPath) {
-                configureCell(cell, atIndexPath: indexPath)
+            guard let indexPath = indexPath, let cell = tableView.cellForRow(at: indexPath) else {
+                return
             }
+            configureCell(cell, atIndexPath: indexPath)
        case .insert:
-            if let path = newIndexPath {
-                let objectIdHash = tableView.cellForRow(at: path)?.tag ?? 0
-                if objectIdHash != (anObject as AnyObject).objectID.hashValue {
-                    tableView.insertRows(at: [path], with: .automatic)
-                }
+            guard let path = newIndexPath else {
+                return
             }
-
+            tableView.insertRows(at: [path], with: .automatic)
         case .delete:
-            if let indexPath = indexPath {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+            guard let indexPath = indexPath else {
+                return
             }
-
-
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         case .move:
             break
         }
