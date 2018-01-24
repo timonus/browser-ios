@@ -356,7 +356,7 @@ class PasswordsClearable: Clearable {
 
 class BraveSupportLinkSetting: Setting {
     override var title: NSAttributedString? {
-        return NSAttributedString(string: Strings.Report_a_bug, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+        return NSAttributedString(string: Strings.Report_a_bug, attributes: [NSForegroundColorAttributeName: BraveUX.DefaultBlue])
     }
 
     override var url: URL? {
@@ -378,6 +378,8 @@ class BraveSupportLinkSetting: Setting {
 }
 
 class BravePrivacyPolicySetting: Setting {
+    override var accessoryType: UITableViewCellAccessoryType { return .disclosureIndicator }
+
     override var title: NSAttributedString? {
         return NSAttributedString(string: Strings.Privacy_Policy, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
@@ -392,6 +394,8 @@ class BravePrivacyPolicySetting: Setting {
 }
 
 class BraveTermsOfUseSetting: Setting {
+    override var accessoryType: UITableViewCellAccessoryType { return .disclosureIndicator }
+
     override var title: NSAttributedString? {
         return NSAttributedString(string: Strings.Terms_of_Use, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
