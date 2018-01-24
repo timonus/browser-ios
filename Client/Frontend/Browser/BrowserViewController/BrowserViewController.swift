@@ -600,10 +600,9 @@ class BrowserViewController: UIViewController {
     }
 
     func presentTopSitesToFavoritesChange() {
-        // TODO: This is a temporary icon and text for the popup, will be replaced soon.
-        let popup = AlertPopupView(image: UIImage(named: "icon_top_fav"), title: "Top sites are now replaced with favorites bookmarks.", message: "You can now move tiles and arrange them however you like. Open bookmarks panel folder to modify your favorites.")
+        let popup = AlertPopupView(image: UIImage(named: "icon_top_fav"), title: "Top sites are now favorites.", message: "You can now edit and arrange favorites however you like. Add favorites from the share menu when visiting a website.")
 
-        popup.addButton(title: "Use defaults") { () -> PopupViewDismissType in
+        popup.addButton(title: "Use Defaults") { () -> PopupViewDismissType in
             FavoritesHelper.addDefaultFavorites()
             NotificationCenter.default.post(name: NotificationTopSitesConversion, object: nil)
             return .flyDown

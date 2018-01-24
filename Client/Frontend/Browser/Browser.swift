@@ -365,12 +365,17 @@ class Browser: NSObject, BrowserWebViewDelegate {
     var title: String? {
         return webView?.title
     }
+    
+    var isHomePanel: Bool {
+        guard let url = webView?.URL else { return false }
+        return url.baseDomain == "localhost" && url.absoluteString.contains("about/home/#panel=0")
+    }
 
     var displayTitle: String {
         if let title = webView?.title, !title.isEmpty {
             return title.range(of: "localhost") == nil ? title : ""
         }
-        else if let url = webView?.URL, url.baseDomain == "localhost", url.absoluteString.contains("about/home/#panel=0") {
+        else if isHomePanel {
             return Strings.New_Tab
         }
 

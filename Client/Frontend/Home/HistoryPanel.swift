@@ -108,6 +108,7 @@ class HistoryPanel: SiteTableViewController, HomePanel {
         cell.backgroundColor = UIColor.clear
         cell.setLines(site.title, detailText: site.url)
         
+        cell.imageView?.contentMode = .center
         cell.imageView?.image = FaviconFetcher.defaultFavicon
         cell.imageView?.layer.cornerRadius = 6
         cell.imageView?.layer.masksToBounds = true
@@ -116,6 +117,7 @@ class HistoryPanel: SiteTableViewController, HomePanel {
             ImageCache.shared.image(url, type: .square, callback: { (image) in
                 if image == nil {
                     postAsyncToMain {
+                        cell.imageView?.contentMode = .scaleAspectFit
                         cell.imageView?.sd_setImage(with: url, completed: { (img, err, type, url) in
                             if let img = img, let url = url {
                                 ImageCache.shared.cache(img, url: url, type: .square, callback: nil)
@@ -125,6 +127,7 @@ class HistoryPanel: SiteTableViewController, HomePanel {
                 }
                 else {
                     postAsyncToMain {
+                        cell.imageView?.contentMode = .scaleAspectFit
                         cell.imageView?.image = image
                     }
                 }

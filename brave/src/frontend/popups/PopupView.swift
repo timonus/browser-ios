@@ -96,7 +96,7 @@ class PopupView: UIView, UIGestureRecognizerDelegate {
     var dialogButtonDefaultTextColor: UIColor = UIColor.white
     var dialogButtonDefaultBackgroundColor: UIColor = BraveUX.Blue
     var dialogButtonTextColor: UIColor = UIColor.white
-    var dialogButtonBackgroundColor: UIColor = UIColor(rgb: 0xc7c7c7)
+    var dialogButtonBackgroundColor: UIColor = BraveUX.GreyE
     
     var delegate: PopupViewDelegate?
     
