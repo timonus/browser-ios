@@ -89,7 +89,7 @@ class SyncAddDeviceViewController: UIViewController {
         modeControl.tintColor = BraveUX.BraveOrange
         modeControl.selectedSegmentIndex = 0
         modeControl.addTarget(self, action: #selector(SEL_changeMode), for: .valueChanged)
-        scrollView.addSubview(modeControl)
+        containerView.addSubview(modeControl)
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -113,7 +113,7 @@ class SyncAddDeviceViewController: UIViewController {
         doneButton.setTitle(Strings.Done, for: .normal)
         doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         doneButton.setTitleColor(UIColor.white, for: .normal)
-        doneButton.backgroundColor = BraveUX.GreyD
+        doneButton.backgroundColor = BraveUX.Blue
         doneButton.addTarget(self, action: #selector(SEL_done), for: .touchUpInside)
         scrollView.addSubview(doneButton)
         
@@ -132,13 +132,13 @@ class SyncAddDeviceViewController: UIViewController {
         }
         
         containerView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.scrollView)
+            make.top.equalTo(44)
             make.width.equalTo(self.scrollView)
             make.height.equalTo(295)
         }
         
         modeControl.snp.makeConstraints { (make) in
-            make.top.equalTo(self.containerView.snp.top).offset(10)
+            make.top.equalTo(10)
             make.left.equalTo(8)
             make.right.equalTo(-8)
         }
