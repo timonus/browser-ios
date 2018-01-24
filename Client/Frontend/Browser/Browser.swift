@@ -156,7 +156,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
         }
         
         guard let callback = callback else { return }
-        if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
+        if let tab = TabMO.getByID(tabID, context: .workerThreadContext), let url = tab.imageUrl {
             weak var weakSelf = self
             ImageCache.shared.image(url, type: .portrait, callback: { (image) in
                 if let image = image {
@@ -378,7 +378,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
             if let title = displayURL?.absoluteString {
                 return title
             }
-            else if let tab = TabMO.getByID(tabID) {
+            else if let tab = TabMO.getByID(tabID, context: .mainThreadContext) {
                 return tab.title ?? tab.url ?? ""
             }
             return ""
@@ -587,7 +587,7 @@ class Browser: NSObject, BrowserWebViewDelegate {
             screenshotUUID = UUID()
         }
         
-        if let tab = TabMO.getByID(tabID), let url = tab.imageUrl {
+        if let tab = TabMO.getByID(tabID, context: .workerThreadContext), let url = tab.imageUrl {
             if !PrivateBrowsing.singleton.isOn {
                 ImageCache.shared.cache(screenshot, url: url, type: .portrait, callback: {
                     debugPrint("Cached screenshot.")

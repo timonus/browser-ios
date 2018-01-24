@@ -392,7 +392,7 @@ class TabManager : NSObject {
     
     func restoreTab(_ tab: Browser) {
         // Tab was created with no active webview or session data. Restore tab data from CD and configure.
-        guard let savedTab = TabMO.getByID(tab.tabID) else { return }
+        guard let savedTab = TabMO.getByID(tab.tabID, context: .mainThreadContext) else { return }
         
         if let history = savedTab.urlHistorySnapshot as? [String], let tabUUID = savedTab.syncUUID, let url = savedTab.url {
             let data = SavedTab(id: tabUUID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
@@ -536,8 +536,9 @@ class TabManager : NSObject {
         }
         tabs.removeTab(tab)
 
-        if let tab = TabMO.getByID(tab.tabID) {
-            DataController.remove(object: tab)
+        let context = DataController.shared.mainThreadContext
+        if let tab = TabMO.getByID(tab.tabID, context: context) {
+            DataController.remove(object: tab, context: context)
         }
         
         // There's still some time between this and the webView being destroyed.

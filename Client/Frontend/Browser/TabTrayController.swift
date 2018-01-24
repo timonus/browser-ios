@@ -857,7 +857,7 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
         
         tabCell.placeholderFavicon.isHidden = tab.isScreenshotSet
         
-        if let tabMO = TabMO.getByID(tab.tabID), let urlString = tabMO.url, let url = URL(string: urlString) {
+        if let tabMO = TabMO.getByID(tab.tabID, context: .workerThreadContext), let urlString = tabMO.url, let url = URL(string: urlString) {
             weak var weakSelf = self
             if ImageCache.shared.hasImage(url, type: .square) {
                 // no relationship - check cache for icon which may have been stored recently for url.

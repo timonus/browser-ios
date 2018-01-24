@@ -57,7 +57,7 @@ class TabMO: NSManagedObject {
         return tab
     }
 
-    @discardableResult class func add(_ tabInfo: SavedTab, context: NSManagedObjectContext = DataController.shared.mainThreadContext) -> TabMO? {
+    @discardableResult class func add(_ tabInfo: SavedTab, context: NSManagedObjectContext) -> TabMO? {
         let tab: TabMO? = getByID(tabInfo.id, context: context)
         if tab == nil {
             return nil
@@ -108,7 +108,8 @@ class TabMO: NSManagedObject {
         }
     }
     
-    class func getByID(_ id: String?, context: NSManagedObjectContext = DataController.shared.mainThreadContext) -> TabMO? {
+    // TODO: Rename
+    class func getByID(_ id: String?, context: NSManagedObjectContext) -> TabMO? {
         guard let id = id else { return nil }
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()

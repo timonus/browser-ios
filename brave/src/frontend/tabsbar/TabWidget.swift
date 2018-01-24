@@ -77,7 +77,7 @@ class TabWidget : UIView {
         close.addTarget(self, action: #selector(clicked), for: .touchUpInside)
         title.addTarget(self, action: #selector(selected), for: .touchUpInside)
         
-        if let tab = TabMO.getByID(browser.tabID) {
+        if let tab = TabMO.getByID(browser.tabID, context: .mainThreadContext) {
             title.setTitle(tab.title, for: .normal)
         }
         

@@ -225,7 +225,7 @@ extension BrowserViewController: ContextMenuHelperDelegate {
                     guard let url = URL(string: urlString) else { continue }
                     guard let tabID = TabMO.freshTab().syncUUID else { continue }
                     let data = SavedTab(id: tabID, title: urlString, url: url.absoluteString, isSelected: false, order: -1, screenshot: nil, history: [url.absoluteString], historyIndex: 0)
-                    TabMO.add(data)
+                    TabMO.add(data, context: .mainThreadContext)
                     
                     postAsyncToMain {
                         let request = URLRequest(url: url)
