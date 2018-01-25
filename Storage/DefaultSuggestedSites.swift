@@ -36,6 +36,14 @@ open class DefaultSuggestedSites {
     open static let sites = [
         "default": [
             SuggestedSiteData(
+                url: "https://m.facebook.com/",
+                bgColor: "0x385185",
+                imageUrl: "asset://suggestedsites_facebook",
+                faviconUrl: "asset://defaultFavicon",
+                trackingId: 632,
+                title: NSLocalizedString("Facebook", comment: "Tile title for Facebook")
+            ),
+            SuggestedSiteData(
                 url: "https://m.youtube.com/",
                 bgColor: "0xcd201f",
                 imageUrl: "asset://suggestedsites_youtube",
