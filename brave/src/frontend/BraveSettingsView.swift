@@ -356,7 +356,7 @@ class PasswordsClearable: Clearable {
 
 class BraveSupportLinkSetting: Setting {
     override var title: NSAttributedString? {
-        return NSAttributedString(string: Strings.Report_a_bug, attributes: [NSForegroundColorAttributeName: BraveUX.DefaultBlue])
+        return NSAttributedString(string: Strings.Report_a_bug, attributes: [NSForegroundColorAttributeName: BraveUX.BraveOrange])
     }
 
     override var url: URL? {
