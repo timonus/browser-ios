@@ -51,7 +51,7 @@ class SyncCodewordsView: UIView, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        let spaceX: CGFloat = 18
+        let spaceX: CGFloat = 10
         let spaceY: CGFloat = 7
         var x: CGFloat = 0
         var y: CGFloat = 0

@@ -76,13 +76,16 @@
 		0A159C931FD017DB005A79BF /* DeviceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A159C921FD017DB005A79BF /* DeviceDetector.swift */; };
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
 		0A3AA90C1FFF8C3100855082 /* FavoritesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */; };
+		0A4932892019FC4800EB7DB8 /* ViewUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4932882019FC4800EB7DB8 /* ViewUtil.swift */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
 		0A6365D92012011700371C27 /* FavoritesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6365D82012011700371C27 /* FavoritesHelper.swift */; };
+		0A7C92BE201F3FDA0070BF98 /* SyncViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7C92BD201F3FDA0070BF98 /* SyncViewController.swift */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
 		0A8053961FC59D82008D6822 /* DAU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053951FC59D82008D6822 /* DAU.swift */; };
 		0A8053981FC59D93008D6822 /* DauTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053971FC59D93008D6822 /* DauTest.swift */; };
 		0A82B80020067EFC00CE6397 /* FavoritesTileDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */; };
 		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
+		0AD14640201BA3DA0052B5B3 /* SyncShowCodewords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */; };
 		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
 		0B742CCF1B32493E00EE9264 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B742CCC1B32491400EE9264 /* libsqlcipher.a */; };
 		0B8E0FF41A932BD500161DC3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8E0FF31A932BD500161DC3 /* ImageIO.framework */; };
@@ -1009,11 +1012,14 @@
 		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
 		0A3316501FFD4C6B00BFC542 /* Model6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model6.xcdatamodel; sourceTree = "<group>"; };
 		0A3AA90B1FFF8C3100855082 /* FavoritesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDataSource.swift; sourceTree = "<group>"; };
+		0A4932882019FC4800EB7DB8 /* ViewUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewUtil.swift; sourceTree = "<group>"; };
 		0A6365D82012011700371C27 /* FavoritesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesHelper.swift; sourceTree = "<group>"; };
+		0A7C92BD201F3FDA0070BF98 /* SyncViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncViewController.swift; path = brave/src/frontend/sync/SyncViewController.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
 		0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTileDecorator.swift; sourceTree = "<group>"; };
 		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
+		0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncShowCodewords.swift; path = brave/src/sync/SyncShowCodewords.swift; sourceTree = "<group>"; };
 		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B5DA2C8E2A696FCBB8FC07F /* CompletionOps.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompletionOps.swift; path = ./Storage/CompletionOps.swift; sourceTree = "<group>"; };
 		0B742CC61B32491400EE9264 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ThirdParty/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
@@ -2410,6 +2416,7 @@
 		5C0FCE4B1E5FB32F0016DF0F /* sync */ = {
 			isa = PBXGroup;
 			children = (
+				0A7C92BD201F3FDA0070BF98 /* SyncViewController.swift */,
 				5C0FCE4C1E5FB3810016DF0F /* SyncWelcomeViewController.swift */,
 				5C14DAE21FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift */,
 				5C0FCE521E637B9D0016DF0F /* SyncAddDeviceViewController.swift */,
@@ -2418,6 +2425,7 @@
 				5C0FCE5D1E6381B70016DF0F /* SyncSettingsViewController.swift */,
 				5C0FCE5F1E63E1790016DF0F /* SyncBarcodeView.swift */,
 				5C0FCE611E63E1D90016DF0F /* SyncCodewordsView.swift */,
+				0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */,
 				5C0FCE651E63EB8B0016DF0F /* SyncCameraView.swift */,
 			);
 			name = sync;
@@ -2494,6 +2502,7 @@
 				5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */,
 				0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */,
 				0A159C921FD017DB005A79BF /* DeviceDetector.swift */,
+				0A4932882019FC4800EB7DB8 /* ViewUtil.swift */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -4634,6 +4643,7 @@
 				D36C19A448AA81DB6DFD701D /* BraveUX.swift in Sources */,
 				EB00A68C1E1C079800680DB8 /* filter.cc in Sources */,
 				3EB8444F3C93E29BB8817AF7 /* HistorySwiper.swift in Sources */,
+				0A7C92BE201F3FDA0070BF98 /* SyncViewController.swift in Sources */,
 				86D123F20829658238ECF3A8 /* ODRefreshControl.m in Sources */,
 				778AC5C1DE79E2AE7550D92E /* PicklistSetting.swift in Sources */,
 				E9396A65893407CA10034653 /* BraveRightSidePanel.swift in Sources */,
@@ -4657,6 +4667,7 @@
 				907D2E87F3AB62A94DB2D9E7 /* InfoPlist.strings in Sources */,
 				CCCD5D311C1E3408F243DF5E /* ABPFilterLibWrapper.mm in Sources */,
 				5C44C0D21E384AE700B1FD81 /* DataController.swift in Sources */,
+				0A4932892019FC4800EB7DB8 /* ViewUtil.swift in Sources */,
 				5C14DAE31FF75EB800AF7248 /* SyncAddDeviceTypeViewController.swift in Sources */,
 				3AAE8F176D74D5884854D830 /* AdBlocker.swift in Sources */,
 				5D48087C1F13C07D00E04833 /* IntExtensions.swift in Sources */,
@@ -4836,6 +4847,7 @@
 				0A03FFED1FCDF0C400DF32C9 /* stringpiece.cc in Sources */,
 				5DA05E2D1EFC4315001D7EDE /* ErrorExtensions.swift in Sources */,
 				0A03FFE31FCDF0C400DF32C9 /* prefilter.cc in Sources */,
+				0AD14640201BA3DA0052B5B3 /* SyncShowCodewords.swift in Sources */,
 				0A03FFB21FCDF0C400DF32C9 /* unicode_casefold.cc in Sources */,
 				C3424B76234256F7426F3A7D /* FaviconFetcher.swift in Sources */,
 				32AFA6803EED54948FC69908 /* MenuHelper.swift in Sources */,

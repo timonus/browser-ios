@@ -3,9 +3,8 @@
 import UIKit
 import Shared
 
-class SyncPairCameraViewController: UIViewController {
-    
-    var scrollView: UIScrollView!
+class SyncPairCameraViewController: SyncViewController {
+
     var cameraView: SyncCameraView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -25,18 +24,25 @@ class SyncPairCameraViewController: UIViewController {
         super.viewDidLoad()
         
         title = Strings.Pair
-        view.backgroundColor = SyncBackgroundColor
         
         // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
             notification in
             self.navigationController?.popToRootViewController(animated: true)
         })
-        
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.alwaysBounceVertical = true
-        view.addSubview(scrollView)
+
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 4
+        view.addSubview(stackView)
+
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(self.topLayoutGuide.snp.bottom).offset(16)
+            make.left.right.equalTo(self.view).inset(16)
+            make.bottom.equalTo(self.view.safeArea.bottom).inset(16)
+        }
         
         cameraView = SyncCameraView()
         cameraView.translatesAutoresizingMaskIntoConstraints = false
@@ -85,15 +91,22 @@ class SyncPairCameraViewController: UIViewController {
                 }
             }
         }
-        scrollView.addSubview(cameraView)
+
+        stackView.addArrangedSubview(cameraView)
+
+        let titleDescriptionStackView = UIStackView()
+        titleDescriptionStackView.axis = .vertical
+        titleDescriptionStackView.spacing = 4
+        titleDescriptionStackView.alignment = .center
+        titleDescriptionStackView.setContentCompressionResistancePriority(250, for: .vertical)
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
         titleLabel.textColor = BraveUX.GreyJ
         titleLabel.text = Strings.SyncToDevice
-        scrollView.addSubview(titleLabel)
-        
+        titleDescriptionStackView.addArrangedSubview(titleLabel)
+
         descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
@@ -102,15 +115,21 @@ class SyncPairCameraViewController: UIViewController {
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = Strings.SyncToDeviceDescription
-        scrollView.addSubview(descriptionLabel)
-        
+        titleDescriptionStackView.addArrangedSubview(descriptionLabel)
+
+        let textStackView = UIStackView(arrangedSubviews: [UIView.spacer(.horizontal, amount: 16),
+                                                           titleDescriptionStackView,
+                                                           UIView.spacer(.horizontal, amount: 16)])
+
+        stackView.addArrangedSubview(textStackView)
+
         enterWordsButton = RoundInterfaceButton(type: .roundedRect)
         enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
         enterWordsButton.setTitle(Strings.EnterCodeWords, for: .normal)
         enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
         enterWordsButton.setTitleColor(BraveUX.GreyH, for: .normal)
         enterWordsButton.addTarget(self, action: #selector(SEL_enterWords), for: .touchUpInside)
-        scrollView.addSubview(enterWordsButton)
+        stackView.addArrangedSubview(enterWordsButton)
         
         loadingSpinner.startAnimating()
         
@@ -119,36 +138,18 @@ class SyncPairCameraViewController: UIViewController {
         loadingView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
         loadingView.isHidden = true
         loadingView.addSubview(loadingSpinner)
-        scrollView.addSubview(loadingView)
+        stackView.addArrangedSubview(loadingView)
         
         edgesForExtendedLayout = UIRectEdge()
-        
-        scrollView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
-        }
-        
+
         cameraView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.scrollView).offset(24)
-            make.size.equalTo(300)
-            make.centerX.equalTo(self.scrollView)
+            if DeviceDetector.isIpad {
+                make.size.equalTo(400)
+            } else {
+                make.size.equalTo(self.view.snp.width).multipliedBy(0.9)
+            }
         }
-        
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.cameraView.snp.bottom).offset(30)
-            make.centerX.equalTo(self.scrollView)
-        }
-        
-        descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(8)
-            make.left.right.equalTo(self.view).inset(30)
-        }
-        
-        enterWordsButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
-            make.centerX.equalTo(self.scrollView)
-            make.bottom.equalTo(-10)
-        }
-        
+
         loadingView.snp.makeConstraints { make in
             make.margins.equalTo(cameraView.snp.margins)
         }

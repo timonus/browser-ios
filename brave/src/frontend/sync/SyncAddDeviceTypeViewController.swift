@@ -87,46 +87,32 @@ class SyncDeviceTypeButton: UIControl {
     }
 }
 
-class SyncAddDeviceTypeViewController: UIViewController {
+class SyncAddDeviceTypeViewController: SyncViewController {
     
     let loadingView = UIView()
-    var scrollView: UIScrollView!
-    // TODO: move strings to string file
-    var mobileButton: SyncDeviceTypeButton = SyncDeviceTypeButton(image: "sync-mobile", title: "Add a Mobile Device", type: .mobile)
-    var computerButton: SyncDeviceTypeButton = SyncDeviceTypeButton(image: "sync-computer", title: "Add a Computer", type: .computer)
+    let mobileButton = SyncDeviceTypeButton(image: "sync-mobile", title: Strings.SyncAddMobileButton, type: .mobile)
+    let computerButton = SyncDeviceTypeButton(image: "sync-computer", title: Strings.SyncAddComputerButton, type: .computer)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = Strings.Sync
-        view.backgroundColor = SyncBackgroundColor
-        
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.alwaysBounceVertical = true
-        view.addSubview(scrollView)
-        
-        edgesForExtendedLayout = UIRectEdge()
-        
-        scrollView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
+
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 16
+        view.addSubview(stackView)
+
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(self.topLayoutGuide.snp.bottom).offset(16)
+            make.left.right.equalTo(self.view).inset(16)
+            make.bottom.equalTo(self.view.safeArea.bottom).inset(16)
         }
-        
-        scrollView.addSubview(mobileButton)
-        scrollView.addSubview(computerButton)
-        
-        mobileButton.snp.makeConstraints { (make) in
-            make.top.equalTo(20)
-            make.left.right.equalTo(self.view).inset(15)
-            make.height.equalTo(264)
-        }
-        
-        computerButton.snp.makeConstraints { (make) in
-            make.top.equalTo(mobileButton.snp.bottom).offset(20)
-            make.left.right.equalTo(self.view).inset(15)
-            make.height.equalTo(264)
-        }
-        
+
+        stackView.addArrangedSubview(mobileButton)
+        stackView.addArrangedSubview(computerButton)
+
         mobileButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
         computerButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
     

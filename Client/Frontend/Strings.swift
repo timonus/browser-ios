@@ -243,6 +243,8 @@ extension Strings {
     public static let SyncRemoveThisDeviceQuestionDesc = NSLocalizedString("This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.", comment: "Sync remove device?")
     public static let Pair = NSLocalizedString("Pair", comment: "Sync pair device settings section title")
     public static let SyncDeviceSettingsFooter = NSLocalizedString("Changing settings will only affect data that this device shares with others.", comment: "Sync device settings footer details")
+    public static let SyncAddMobileButton = NSLocalizedString("Add a Mobile Device", comment: "Add mobile device button title")
+    public static let SyncAddComputerButton = NSLocalizedString("Add a Computer", comment: "Add mobile device button title")
     public static let PinNew = NSLocalizedString("Enter New PIN", comment: "Browser Lock New Pin")
     public static let PinNewRe = NSLocalizedString("Re-Enter New PIN", comment: "Browser Lock Re-Enter New Pin")
     public static let PinSet = NSLocalizedString("Set PIN", comment: "Browser Lock Set Pin")

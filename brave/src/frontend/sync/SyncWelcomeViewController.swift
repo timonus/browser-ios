@@ -3,23 +3,89 @@
 import UIKit
 import Shared
 
-let SyncBackgroundColor = UIColor(rgb: 0xF8F8F8)
+class SyncWelcomeViewController: SyncViewController {
 
-class RoundInterfaceButton: UIButton {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        layer.cornerRadius = bounds.height / 2.0
-    }
-}
+    lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .fill
+        stackView.spacing = 8
+        return stackView
+    }()
 
-class SyncWelcomeViewController: UIViewController {
-    
-    var scrollView: UIScrollView!
-    var graphic: UIImageView!
-    var titleLabel: UILabel!
-    var descriptionLabel: UILabel!
-    var newToSyncButton: RoundInterfaceButton!
-    var existingUserButton: RoundInterfaceButton!
+    lazy var syncImage: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "sync-art"))
+        // Shrinking image a bit on smaller devices.
+        imageView.setContentCompressionResistancePriority(250, for: .vertical)
+        imageView.contentMode = .scaleAspectFit
+
+        return imageView
+    }()
+
+    lazy var textStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        return stackView
+    }()
+
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
+        label.textColor = BraveUX.GreyJ
+        label.text = Strings.BraveSync
+        label.textAlignment = .center
+        return label
+    }()
+
+    lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
+        label.textColor = BraveUX.GreyH
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .center
+        label.text = Strings.BraveSyncWelcome
+        label.setContentHuggingPriority(250, for: .horizontal)
+
+        return label
+    }()
+
+    lazy var buttonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        return stackView
+    }()
+
+    lazy var existingUserButton: RoundInterfaceButton = {
+        let button = RoundInterfaceButton(type: .roundedRect)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(Strings.ScanSyncCode, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = BraveUX.Blue
+        button.addTarget(self, action: #selector(existingUserAction), for: .touchUpInside)
+
+        button.snp.makeConstraints { make in
+            make.height.equalTo(50)
+        }
+
+        return button
+    }()
+
+    lazy var newToSyncButton: RoundInterfaceButton = {
+        let button = RoundInterfaceButton(type: .roundedRect)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(Strings.NewSyncCode, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+        button.setTitleColor(BraveUX.GreyH, for: .normal)
+        button.addTarget(self, action: #selector(newToSyncAction), for: .touchUpInside)
+        return button
+    }()
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -27,97 +93,41 @@ class SyncWelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = Strings.Sync
-        view.backgroundColor = SyncBackgroundColor
-        
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.alwaysBounceVertical = true
-        view.addSubview(scrollView)
-        
-        graphic = UIImageView(image: UIImage(named: "sync-art"))
-        graphic.translatesAutoresizingMaskIntoConstraints = false
-        graphic.contentMode = .center
-        scrollView.addSubview(graphic)
-        
-        titleLabel = UILabel()
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
-        titleLabel.textColor = BraveUX.GreyJ
-        titleLabel.text = Strings.BraveSync
-        scrollView.addSubview(titleLabel)
-        
-        descriptionLabel = UILabel()
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
-        descriptionLabel.textColor = BraveUX.GreyH
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.lineBreakMode = .byWordWrapping
-        descriptionLabel.textAlignment = .center
-        descriptionLabel.text = Strings.BraveSyncWelcome
-        scrollView.addSubview(descriptionLabel)
-        
-        existingUserButton = RoundInterfaceButton(type: .roundedRect)
-        existingUserButton.translatesAutoresizingMaskIntoConstraints = false
-        existingUserButton.setTitle(Strings.ScanSyncCode, for: .normal)
-        existingUserButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
-        existingUserButton.setTitleColor(UIColor.white, for: .normal)
-        existingUserButton.backgroundColor = BraveUX.Blue
-        existingUserButton.addTarget(self, action: #selector(SEL_existingUser), for: .touchUpInside)
-        scrollView.addSubview(existingUserButton)
-        
-        newToSyncButton = RoundInterfaceButton(type: .roundedRect)
-        newToSyncButton.translatesAutoresizingMaskIntoConstraints = false
-        newToSyncButton.setTitle(Strings.NewSyncCode, for: .normal)
-        newToSyncButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        newToSyncButton.setTitleColor(BraveUX.GreyH, for: .normal)
-        newToSyncButton.addTarget(self, action: #selector(SEL_newToSync), for: .touchUpInside)
-        scrollView.addSubview(newToSyncButton)
-        
-        edgesForExtendedLayout = UIRectEdge()
-        
-        scrollView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
+
+        view.addSubview(mainStackView)
+        mainStackView.snp.makeConstraints { make in
+            make.top.equalTo(self.topLayoutGuide.snp.bottom)
+            // This VC doesn't rotate, no need to check for left and right safe area constraints.
+            make.left.right.equalTo(self.view).inset(16)
+            make.bottom.equalTo(self.view.safeArea.bottom).inset(32)
         }
-        
-        graphic.snp.makeConstraints { (make) in
-            make.left.right.equalTo(0)
-            make.height.equalTo(187)
-            make.top.equalTo(50)
-        }
-        
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.graphic.snp.bottom).offset(50)
-            make.centerX.equalTo(self.scrollView)
-        }
-        
-        descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(8)
-            make.left.equalTo(30)
-            make.right.equalTo(-30)
-        }
-        
-        existingUserButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
-            make.centerX.equalTo(self.scrollView)
-            make.left.equalTo(16)
-            make.right.equalTo(-16)
-            make.height.equalTo(50)
-        }
-        
-        newToSyncButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.existingUserButton.snp.bottom).offset(8)
-            make.centerX.equalTo(self.scrollView)
-            make.bottom.equalTo(-10)
-        }
+
+        // Adding top margin to the image.
+        let syncImageStackView = UIStackView(arrangedSubviews: [UIView.spacer(.vertical, amount: 60), syncImage])
+        syncImageStackView.axis = .vertical
+        mainStackView.addArrangedSubview(syncImageStackView)
+
+        textStackView.addArrangedSubview(titleLabel)
+        // Side margins for description text.
+        let descriptionStackView = UIStackView(arrangedSubviews: [UIView.spacer(.horizontal, amount: 8),
+                                                                  descriptionLabel,
+                                                                  UIView.spacer(.horizontal, amount: 8)])
+
+        textStackView.addArrangedSubview(descriptionStackView)
+        mainStackView.addArrangedSubview(textStackView)
+
+        buttonsStackView.addArrangedSubview(existingUserButton)
+        buttonsStackView.addArrangedSubview(newToSyncButton)
+        mainStackView.addArrangedSubview(buttonsStackView)
     }
     
-    func SEL_newToSync() {
+    func newToSyncAction() {
         navigationController?.pushViewController(SyncAddDeviceTypeViewController(), animated: true)
     }
     
-    func SEL_existingUser() {
+    func existingUserAction() {
         self.navigationController?.pushViewController(SyncPairCameraViewController(), animated: true)
     }
 }

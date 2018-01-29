@@ -8,12 +8,19 @@ enum DeviceType {
     case computer
 }
 
-class SyncAddDeviceViewController: UIViewController {
-    
-    var scrollView: UIScrollView!
+class SyncAddDeviceViewController: SyncViewController {
+
+    lazy var stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .equalSpacing
+        stack.spacing = 4
+        return stack
+    }()
+
     var containerView: UIView!
     var barcodeView: SyncBarcodeView!
-    var codewordsView: SyncCodewordsView!
+    var codewordsView: SyncCodewordList!
     var modeControl: UISegmentedControl!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -40,12 +47,14 @@ class SyncAddDeviceViewController: UIViewController {
         super.viewDidLoad()
         
         title = pageTitle
-        view.backgroundColor = SyncBackgroundColor
-        
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
-        
+
+        view.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(self.topLayoutGuide.snp.bottom)
+            make.left.right.equalTo(self.view)
+            make.bottom.equalTo(self.view.safeArea.bottom).inset(24)
+        }
+
         containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.backgroundColor = UIColor.white
@@ -53,8 +62,7 @@ class SyncAddDeviceViewController: UIViewController {
         containerView.layer.shadowRadius = 0
         containerView.layer.shadowOpacity = 1.0
         containerView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
-        scrollView.addSubview(containerView)
-        
+
         guard let syncSeed = Sync.shared.syncSeedArray else {
             // TODO: Pop and error
             return
@@ -72,42 +80,60 @@ class SyncAddDeviceViewController: UIViewController {
             }
 
             self.barcodeView = SyncBarcodeView(data: qrSyncSeed)
-            self.codewordsView = SyncCodewordsView(data: words)
-
+            self.codewordsView = SyncCodewordList(words: words)
             self.setupVisuals()
         }
     }
     
     func setupVisuals() {
         containerView.addSubview(barcodeView)
-        
+
         codewordsView.isHidden = true
         containerView.addSubview(codewordsView)
-        
+
         modeControl = UISegmentedControl(items: [Strings.QRCode, Strings.CodeWords])
         modeControl.translatesAutoresizingMaskIntoConstraints = false
         modeControl.tintColor = BraveUX.BraveOrange
         modeControl.selectedSegmentIndex = 0
         modeControl.addTarget(self, action: #selector(SEL_changeMode), for: .valueChanged)
+
         containerView.addSubview(modeControl)
+        stackView.addArrangedSubview(containerView)
+
+        let titleDescriptionStackView = UIStackView()
+        titleDescriptionStackView.axis = .vertical
+        titleDescriptionStackView.spacing = 4
+        titleDescriptionStackView.alignment = .center
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
         titleLabel.textColor = BraveUX.GreyJ
         titleLabel.text = deviceType == .mobile ? Strings.SyncAddMobile : Strings.SyncAddComputer
-        scrollView.addSubview(titleLabel)
-        
+        titleDescriptionStackView.addArrangedSubview(titleLabel)
+
         descriptionLabel = UILabel()
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
         descriptionLabel.textColor = BraveUX.GreyH
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.lineBreakMode = .byTruncatingTail
         descriptionLabel.textAlignment = .center
         descriptionLabel.text = deviceType == .mobile ? Strings.SyncAddMobileDescription : Strings.SyncAddComputerDescription
-        scrollView.addSubview(descriptionLabel)
-        
+        descriptionLabel.adjustsFontSizeToFitWidth = true
+        descriptionLabel.minimumScaleFactor = 0.5
+        titleDescriptionStackView.addArrangedSubview(descriptionLabel)
+
+        let textStackView = UIStackView(arrangedSubviews: [UIView.spacer(.horizontal, amount: 32),
+                                                           titleDescriptionStackView,
+                                                           UIView.spacer(.horizontal, amount: 32)])
+        textStackView.setContentCompressionResistancePriority(100, for: .vertical)
+
+        stackView.addArrangedSubview(textStackView)
+
+        let doneEnterWordsStackView = UIStackView()
+        doneEnterWordsStackView.axis = .vertical
+        doneEnterWordsStackView.spacing = 4
+
         doneButton = RoundInterfaceButton(type: .roundedRect)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.setTitle(Strings.Done, for: .normal)
@@ -115,70 +141,53 @@ class SyncAddDeviceViewController: UIViewController {
         doneButton.setTitleColor(UIColor.white, for: .normal)
         doneButton.backgroundColor = BraveUX.Blue
         doneButton.addTarget(self, action: #selector(SEL_done), for: .touchUpInside)
-        scrollView.addSubview(doneButton)
-        
+
+        doneEnterWordsStackView.addArrangedSubview(doneButton)
+
         enterWordsButton = RoundInterfaceButton(type: .roundedRect)
         enterWordsButton.translatesAutoresizingMaskIntoConstraints = false
         enterWordsButton.setTitle(Strings.ShowCodeWords, for: .normal)
         enterWordsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
         enterWordsButton.setTitleColor(BraveUX.GreyH, for: .normal)
         enterWordsButton.addTarget(self, action: #selector(SEL_showCodewords), for: .touchUpInside)
-        scrollView.addSubview(enterWordsButton)
-        
-        edgesForExtendedLayout = UIRectEdge()
-        
-        scrollView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
-        }
-        
+
+        let buttonsStackView = UIStackView(arrangedSubviews: [UIView.spacer(.horizontal, amount: 16),
+                                                              doneEnterWordsStackView,
+                                                              UIView.spacer(.horizontal, amount: 16)])
+        buttonsStackView.setContentCompressionResistancePriority(1000, for: .vertical)
+
+
+        stackView.addArrangedSubview(buttonsStackView)
+
         containerView.snp.makeConstraints { (make) in
-            make.top.equalTo(44)
-            make.width.equalTo(self.scrollView)
-            make.height.equalTo(295)
+            make.height.equalTo(270)
         }
-        
+
         modeControl.snp.makeConstraints { (make) in
-            make.top.equalTo(10)
+            make.top.equalTo(self.containerView.snp.top).offset(10)
             make.left.equalTo(8)
             make.right.equalTo(-8)
         }
-        
+
         barcodeView.snp.makeConstraints { (make) in
-            make.top.equalTo(65)
+            make.top.equalTo(modeControl.snp.bottom).offset(16)
             make.centerX.equalTo(self.containerView)
             make.size.equalTo(BarcodeSize)
         }
-        
+
         codewordsView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.containerView).inset(UIEdgeInsetsMake(64, 0, 0, 0))
+            make.top.equalTo(modeControl.snp.bottom).offset(16)
+            make.left.right.bottom.equalTo(self.containerView).inset(16)
         }
-        
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.containerView.snp.bottom).offset(30)
-            make.centerX.equalTo(self.scrollView)
-        }
-        
-        descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(8)
-            make.leftMargin.equalTo(30)
-            make.rightMargin.equalTo(-30)
-        }
-        
+
         doneButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.descriptionLabel.snp.bottom).offset(30)
-            make.centerX.equalTo(self.scrollView)
-            make.left.equalTo(16)
-            make.right.equalTo(-16)
-            make.bottom.equalTo(-16)
-            make.height.equalTo(50)
+            make.height.equalTo(40)
         }
-        
+
         enterWordsButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.doneButton.snp.bottom).offset(8)
-            make.centerX.equalTo(self.scrollView)
-            //make.bottom.equalTo(-10)
+            make.height.equalTo(20)
         }
-        
+
         if deviceType == .computer {
             SEL_showCodewords()
         }

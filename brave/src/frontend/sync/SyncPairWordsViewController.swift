@@ -3,7 +3,7 @@
 import UIKit
 import Shared
 
-class SyncPairWordsViewController: UIViewController {
+class SyncPairWordsViewController: SyncViewController {
     
     var scrollView: UIScrollView!
     var containerView: UIView!
@@ -21,7 +21,6 @@ class SyncPairWordsViewController: UIViewController {
         super.viewDidLoad()
         
         title = Strings.Pair
-        view.backgroundColor = SyncBackgroundColor
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
