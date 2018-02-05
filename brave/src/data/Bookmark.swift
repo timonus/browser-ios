@@ -92,7 +92,7 @@ class Bookmark: NSManagedObject, WebsitePresentable, Syncable {
     }
     
     // Syncable
-    func update(syncRecord record: SyncRecord) {
+    func update(syncRecord record: SyncRecord?) {
         guard let bookmark = record as? SyncBookmark, let site = bookmark.site else { return }
         title = site.title
         customTitle = site.customTitle

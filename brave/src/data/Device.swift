@@ -46,14 +46,13 @@ class Device: NSManagedObject, Syncable {
     static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable? {
         
         // No guard, let bleed through to allow 'empty' devices (e.g. local)
-        guard let root = root as? SyncDevice else { return nil }
-        
+        let root = root as? SyncDevice
+
         let device = Device(entity: Device.entity(context: context), insertInto: context)
         
-        device.created = root.syncNativeTimestamp ?? Date()
-        device.syncUUID = root.objectId ?? Niceware.shared.uniqueSerialBytes(count: 16)
-        
-        // Sets any dynamic data
+        device.created = root?.syncNativeTimestamp ?? Date()
+        device.syncUUID = root?.objectId ?? Niceware.shared.uniqueSerialBytes(count: 16)
+
         device.update(syncRecord: root)
         
         if save {
@@ -67,7 +66,7 @@ class Device: NSManagedObject, Syncable {
         return add(rootObject: nil, save: save, sendToSync: false, context: context) as? Device
     }
     
-    func update(syncRecord record: SyncRecord) {
+    func update(syncRecord record: SyncRecord?) {
         guard let root = record as? SyncDevice else { return }
         self.name = root.name
         self.deviceId = root.deviceId

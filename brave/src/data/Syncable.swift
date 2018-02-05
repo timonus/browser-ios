@@ -17,7 +17,7 @@ protocol Syncable: class /* where Self: NSManagedObject */ {
     
     func asDictionary(deviceId: [Int]?, action: Int?) -> [String: Any]
     
-    func update(syncRecord record: SyncRecord)
+    func update(syncRecord record: SyncRecord?)
     
     @discardableResult static func add(rootObject root: SyncRecord?, save: Bool, sendToSync: Bool, context: NSManagedObjectContext) -> Syncable?
 }
