@@ -83,6 +83,13 @@ struct DAU {
             + firstLaunchParam(isFirstLaunch)
             // Must be after setting up the preferences
             + weekOfInstallationParam
+
+        // MARK: User referrals
+
+        if let referralCode = UserReferralProgram.getReferralCode(prefs: prefs) {
+            params += "&ref=\(referralCode)"
+            UrpLog.log("DAU ping with added ref, params: \(params)")
+        }
         
         let secsMonthYear = [Int(today.timeIntervalSince1970), todayComponents.month, todayComponents.year]
         prefs.setObject(secsMonthYear, forKey: DAU.preferencesKey)
@@ -103,7 +110,7 @@ struct DAU {
         
         return "&version=\(version)"
     }
-    
+
     /// All app versions for dau pings must be saved in x.x.x format where x are digits.
     static func shouldAppend0ToAppVersion(_ version: String) -> Bool {
         let correctAppVersionPattern = "^\\d+.\\d+$"
@@ -138,7 +145,7 @@ struct DAU {
             return "&daily=\(daily)&weekly=\(weekly)&monthly=\(monthly)"
         }
         
-        if isFirstLaunch {
+        if isFirstLaunch || kIsDevelomentBuild {
             return dauParams(true, true, true)
         }
         

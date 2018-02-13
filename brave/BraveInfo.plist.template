@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>URP_HOST</key>
+    <string>https://laptop-updates-staging.herokuapp.com</string>
+	<key>API_KEY</key>
+	<string>key</string>
 	<key>BuildID</key>
 	<string>$(MOZ_BUILD_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>

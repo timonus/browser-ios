@@ -153,6 +153,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             }
         })
 
+        // MARK: User referral program
+        if let urp = UserReferralProgram() {
+            let isFirstLaunch = self.getProfile(application).prefs.arrayForKey(DAU.preferencesKey) == nil
+            if isFirstLaunch {
+                urp.referralLookup()
+            } else {
+                urp.pingIfEnoughTimePassed()
+            }
+        } else {
+            log.error("Failed to initialize user referral program")
+            UrpLog.log("Failed to initialize user referral program")
+        }
+
         log.debug("Adding observers…")
         NotificationCenter.default.addObserver(forName: NSNotification.Name.FSReadingListAddReadingListItem, object: nil, queue: nil) { (notification) -> Void in
             if let userInfo = notification.userInfo, let url = userInfo["URL"] as? URL {

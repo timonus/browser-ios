@@ -1,4 +1,5 @@
 adblock-regions.txt
+*.cer
 
 *.mobileprovision
 *.playground

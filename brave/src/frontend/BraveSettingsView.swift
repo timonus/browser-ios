@@ -173,7 +173,7 @@ class BraveSettingsView : AppSettingsTableViewController {
         ]
         
         if kIsDevelomentBuild {
-            supportChildren = [LoadTabsDebugSettings(), CrashDebugSettings()]
+            supportChildren = [UrpDebugSetting(), LoadTabsDebugSettings(), CrashDebugSettings()]
             settings += [
                 SettingSection(title: NSAttributedString(string: "DEBUG - BETA ONLY"), children: supportChildren)
             ]
@@ -410,6 +410,17 @@ class BraveTermsOfUseSetting: Setting {
 }
 
 // MARK: - DEBUG
+
+class UrpDebugSetting: Setting, XMLParserDelegate {
+
+    override var title: NSAttributedString? {
+        return NSAttributedString(string: "URP logs", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+
+    override func onClick(_ navigationController: UINavigationController?) {
+        navigationController?.pushViewController(UrpLogsViewController(), animated: true)
+    }
+}
 
 class LoadTabsDebugSettings: Setting, XMLParserDelegate {
     
