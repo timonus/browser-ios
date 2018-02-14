@@ -131,6 +131,11 @@ class BraveScrollController: NSObject {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentSize" {
+            // There is no simple way to detect url changes without full-page-reload(pushState), observing contentSize is a workaround.
+            // This is UIWebView issue, on WKWebView 'URL' property is KVO compliant which would allow for easy check when url has changed.
+            // Be careful this line will break url history of sites like twitter, youtube, yahoonews.
+            tab?.webView?.contentSizeChanged()
+            
             if !checkScrollHeightIsLargeEnoughForScrolling() && !toolbarsShowing {
                 showToolbars(animated: true, completion: nil)
             }

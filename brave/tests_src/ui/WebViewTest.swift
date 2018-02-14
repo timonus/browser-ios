@@ -10,9 +10,7 @@ class WebViewTest: XCTestCase {
         let app = XCUIApplication()
         UITestUtils.loadSite(app, "nordølum.no")
         sleep(1)
-        let urlTextField = app.textFields["url"]
-        let value = urlTextField.value as? String
-        XCTAssert(value != nil && value!.contains("northernviking.net"))
+        XCTAssertTrue(getUrl(app).contains("northernviking.net"))
     }
 
     func testLongPress() {
@@ -99,5 +97,35 @@ class WebViewTest: XCTestCase {
             XCTAssert(str?.hasPrefix("ru ") ?? false)
             break
         }
+    }
+    
+    func testPushStateURL() {
+        UITestUtils.restart()
+        let app = XCUIApplication()
+        // Testing in landscape to catch full url, on portrait it's cut
+        XCUIDevice.shared().orientation = .landscapeLeft
+        UITestUtils.loadSite(app, "brianbondy.com")
+        sleep(1)
+        
+        let tapUrl = "brianbondy.com/other"
+        
+        // Home page url
+        XCTAssertFalse(getUrl(app).contains(tapUrl))
+        
+        // Tap 'Other' section, should change url
+        app.webViews.staticTexts["Other"].tap()
+        sleep(1)
+        XCTAssert(getUrl(app).contains(tapUrl))
+        
+        // Tap back, url should point to homepage url again
+        app.buttons["Back"].tap()
+        sleep(1)
+        XCTAssertFalse(getUrl(app).contains(tapUrl))
+        
+        XCUIDevice.shared().orientation = .portrait
+    }
+    
+    private func getUrl(_ app: XCUIApplication) -> String {
+        return app.textFields["url"].value as! String
     }
 }

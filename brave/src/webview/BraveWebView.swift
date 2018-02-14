@@ -217,21 +217,21 @@ class BraveWebView: UIWebView {
         braveShieldState = state
     }
 
-    var triggeredLocationCheckTimer = Timer()
+    var triggeredPushStateCheckTimer = Timer()
     // On page load, the contentSize of the webview is updated (**). If the webview has not been notified of a page change (i.e. shouldStartLoadWithRequest was never called) then 'loading' will be false, and we should check the page location using JS.
     // (** Not always updated, particularly on back/forward. For instance load duckduckgo.com, then google.com, and go back. No content size change detected.)
-    func contentSizeChangeDetected() {
-        if triggeredLocationCheckTimer.isValid {
+    func contentSizeChanged() {
+        if triggeredPushStateCheckTimer.isValid {
             return
         }
 
         // Add a time delay so that multiple calls are aggregated
-        triggeredLocationCheckTimer = Timer.scheduledTimer(timeInterval: 0.15, target: self, selector: #selector(timeoutCheckLocation), userInfo: nil, repeats: false)
+        triggeredPushStateCheckTimer = Timer.scheduledTimer(timeInterval: 0.15, target: self, selector: #selector(unloadPageIfPushStateHappened), userInfo: nil, repeats: false)
     }
 
     // Pushstate navigation may require this case (see brianbondy.com), as well as sites for which simple pushstate detection doesn't work:
     // youtube and yahoo news are examples of this (http://stackoverflow.com/questions/24297929/javascript-to-listen-for-url-changes-in-youtube-html5-player)
-    @objc func timeoutCheckLocation() {
+    @objc func unloadPageIfPushStateHappened() {
         assert(Thread.isMainThread)
 
         if URL?.isSpecialInternalUrl() ?? true {
