@@ -438,13 +438,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             if securityWindow != nil  {
                 securityViewController?.start()
                 // This could have been changed elsewhere, not the best approach.
-                securityViewController?.successCallback = { (success) in
-                    if success {
-                        postAsyncToMain {
-                            self.securityWindow?.isHidden = true
-                        }
-                    }
-                }
+                securityViewController?.successCallback = hideSecurityWindowIfCorrectPin(_:)
                 securityWindow?.isHidden = false
                 return
             }
@@ -458,11 +452,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             pinOverlay.rootViewController = vc
             securityWindow = pinOverlay
             pinOverlay.makeKeyAndVisible()
-            
-            vc.successCallback = { (success) in
-                postAsyncToMain {
-                    self.securityWindow?.isHidden = true
-                }
+
+            vc.successCallback = hideSecurityWindowIfCorrectPin(_:)
+        }
+    }
+
+    fileprivate func hideSecurityWindowIfCorrectPin(_ success: Bool) {
+        if success {
+            postAsyncToMain {
+                self.securityWindow?.isHidden = true
             }
         }
     }
