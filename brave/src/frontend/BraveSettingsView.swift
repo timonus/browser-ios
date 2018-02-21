@@ -453,7 +453,17 @@ class CrashDebugSettings: Setting, XMLParserDelegate, UIAlertViewDelegate {
     }
     
     override func onClick(_ navigationController: UINavigationController?) {
-        UIAlertView(title: "Trigger a crash for testing", message: "Force a crash?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK").show()
+        let alertController = UIAlertController(title: "Force crash?", message: nil, preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "Crash app", style: .destructive) { _ in
+            fatalError()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+
+        navigationController?.present(alertController, animated: true, completion: nil)
     }
     
     func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
