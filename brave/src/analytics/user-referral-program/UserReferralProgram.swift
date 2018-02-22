@@ -134,20 +134,20 @@ class UserReferralProgram {
     }
 
     /// Returns referral code and sets expiration day for its deletion from DAU pings(if needed).
-    class func getReferralCode(prefs: Prefs) -> String? {
-        if let referralCodeDeleteDate = prefs.objectForKey(ReferralData.PrefKeys.referralCodeDeleteDate) as TimeInterval?,
+    class func getReferralCode(prefs: Prefs?) -> String? {
+        if let referralCodeDeleteDate = prefs?.objectForKey(ReferralData.PrefKeys.referralCodeDeleteDate) as TimeInterval?,
             Date().timeIntervalSince1970 >= referralCodeDeleteDate {
-            prefs.removeObjectForKey(ReferralData.PrefKeys.referralCode)
-            prefs.removeObjectForKey(ReferralData.PrefKeys.referralCodeDeleteDate)
+            prefs?.removeObjectForKey(ReferralData.PrefKeys.referralCode)
+            prefs?.removeObjectForKey(ReferralData.PrefKeys.referralCodeDeleteDate)
             UrpLog.log("Enough time has passed, removing referral code data")
             return nil
-        } else if let referralCode = prefs.stringForKey(ReferralData.PrefKeys.referralCode) {
+        } else if let referralCode = prefs?.stringForKey(ReferralData.PrefKeys.referralCode) {
             // Appending ref code to dau ping if user used installed the app via user referral program.
-            if prefs.objectForKey(ReferralData.PrefKeys.referralCodeDeleteDate) as TimeInterval? == nil {
+            if prefs?.objectForKey(ReferralData.PrefKeys.referralCodeDeleteDate) as TimeInterval? == nil {
                 UrpLog.log("Setting new date for deleting referral code.")
                 let timeToDelete = kIsDevelomentBuild ? TimeInterval(20 * 60) : TimeInterval(90 * 24 * 60 * 60)
 
-                prefs.setObject(Date().timeIntervalSince1970 + timeToDelete, forKey: ReferralData.PrefKeys.referralCodeDeleteDate)
+                prefs?.setObject(Date().timeIntervalSince1970 + timeToDelete, forKey: ReferralData.PrefKeys.referralCodeDeleteDate)
             }
 
             return referralCode

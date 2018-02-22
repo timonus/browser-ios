@@ -173,7 +173,7 @@ class BraveSettingsView : AppSettingsTableViewController {
         ]
         
         if kIsDevelomentBuild {
-            supportChildren = [UrpDebugSetting(), LoadTabsDebugSettings(), CrashDebugSettings()]
+            supportChildren = [UrpDebugSetting(), LoadTabsDebugSettings(), CrashDebugSettings(), UserReferralSettings(prefs: profile?.prefs)]
             settings += [
                 SettingSection(title: NSAttributedString(string: "DEBUG - BETA ONLY"), children: supportChildren)
             ]
@@ -472,3 +472,17 @@ class CrashDebugSettings: Setting, XMLParserDelegate, UIAlertViewDelegate {
         }
     }
 }
+
+class UserReferralSettings: Setting {
+    
+    private weak var prefs: NSUserDefaultsPrefs?
+    init(prefs: NSUserDefaultsPrefs?) {
+        self.prefs = prefs
+    }
+    
+    override var title: NSAttributedString? {
+        return NSAttributedString(string: "URP Code: \(UserReferralProgram.getReferralCode(prefs: prefs) ?? "--")", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+}
+
+
