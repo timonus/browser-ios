@@ -34,7 +34,17 @@ struct BraveUX {
     // I am considering using DeviceInfo.isBlurSupported() to set this, and reduce heavy animations
     static var IsHighLoadAnimationAllowed = true
 
-    static let WidthOfSlideOut = 270
+    static var WidthOfSlideOut: Int {
+        let screenWidth = UIScreen.main.bounds.width
+        
+        // Panel width is 80% of screen width on all iPhones in portrait and on iPhone4s horizontal.
+        // 480 is magic number for iP4S screen height.
+        if screenWidth <= 480 {
+            return Int(UIScreen.main.bounds.width * 0.8)
+        } else {
+            return 350
+        }
+    }
 
     static let PullToReloadDistance = 100
 

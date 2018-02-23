@@ -19,7 +19,7 @@ struct URLBarViewUX {
     static let TextFieldCornerRadius: CGFloat = 6
     static let TextFieldBorderWidth: CGFloat = 0
     // offset from edge of tabs button
-    static let URLBarCurveOffset: CGFloat = 14
+    static let URLBarCurveOffset: CGFloat = 46
     static let URLBarCurveOffsetLeft: CGFloat = -10
     // buffer so we dont see edges when animation overshoots with spring
     static let URLBarCurveBounceBuffer: CGFloat = 8

@@ -326,11 +326,18 @@ extension BrowserLocationView: Themeable {
             log.error("Unable to apply unknown theme \(themeName)")
             return
         }
-        baseURLFontColor = theme.URLFontColor!
-        hostFontColor = theme.hostFontColor!
-        fullURLFontColor = theme.textColor!
-        stopReloadButton.tintColor = theme.textColor!
-        readerModeButton.tintColor = theme.textColor!
+        
+        guard let textColor = theme.textColor, let fontColor = theme.URLFontColor, let hostColor = theme.hostFontColor else {
+            log.warning("Theme \(themeName) is missing one of required color values")
+            return
+        }
+        
+        urlTextField.textColor = textColor
+        baseURLFontColor = fontColor
+        hostFontColor = hostColor
+        fullURLFontColor = textColor
+        stopReloadButton.tintColor = textColor
+        readerModeButton.tintColor = textColor
         backgroundColor = theme.backgroundColor
     }
 }

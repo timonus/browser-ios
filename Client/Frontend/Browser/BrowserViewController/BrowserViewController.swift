@@ -99,6 +99,9 @@ class BrowserViewController: UIViewController {
     }
 
     static var instanceAsserter = 0 // Brave: it is easy to get confused as to which fx classes are effectively singletons
+    
+    /// Flag to check if keyboard was triggered by find in page action.
+    fileprivate var showKeyboardFromFindInPage = false
 
     init(profile: Profile, tabManager: TabManager) {
         self.profile = profile
@@ -455,6 +458,20 @@ class BrowserViewController: UIViewController {
         log.debug("BVC viewDidLayoutSubviews…")
         super.viewDidLayoutSubviews()
         log.debug("BVC done.")
+
+        // Updating footer contraints in viewSafeAreaInsetsDidChange, doesn't work when view is loaded so we do it here.
+        if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+            footerBackground?.snp.updateConstraints { make in
+                make.bottom.equalTo(self.footer).inset(self.view.safeAreaInsets.bottom)
+            }
+        }
+    }
+    
+    override func viewSafeAreaInsetsDidChange() {
+        if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+            let keyboardHeight = keyboardState?.intersectionHeightForView(self.view) ?? 0
+            adjustFindInPageBar(safeArea: keyboardHeight == 0)
+        }
     }
 
     func loadQueuedTabs() {
@@ -626,16 +643,17 @@ class BrowserViewController: UIViewController {
         footerBackground?.snp.remakeConstraints { make in
             make.left.right.equalTo(self.footer)
             make.height.equalTo(UIConstants.ToolbarHeight) // Set this to toolbar height. Use BottomToolbarHeight for hiding footer
-            if #available(iOS 11.0, *) {
-                make.bottom.equalTo(self.footer).inset(self.view.safeAreaInsets.bottom)
-            } else {
-                make.bottom.equalTo(self.footer)
-            }
+            make.bottom.equalTo(self.footer)
         }
         urlBar.setNeedsUpdateConstraints()
         
         webViewContainer.snp.remakeConstraints { make in
-            make.left.right.equalTo(self.view)
+            if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+                make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
+                make.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
+            } else {
+                make.left.right.equalTo(self.view)
+            }
             make.top.equalTo(self.header.snp.bottom)
             
             let findInPageHeight = (findInPageBar == nil) ? 0 : UIConstants.ToolbarHeight
@@ -1000,6 +1018,9 @@ class BrowserViewController: UIViewController {
                 findInPageBar.layoutIfNeeded()
             }
 
+            // Workaround for #1297.
+            // We need to set this flag so `keyboardWillShow` notication won't show password manager button when not needed
+            showKeyboardFromFindInPage = true
             self.findInPageBar?.becomeFirstResponder()
         } else if let findInPageBar = self.findInPageBar {
             findInPageBar.endEditing(true)
@@ -1008,6 +1029,20 @@ class BrowserViewController: UIViewController {
             findInPageBar.removeFromSuperview()
             self.findInPageBar = nil
             updateViewConstraints()
+        }
+    }
+    
+    /// There is only one case when search bar needs additional bottom inset:
+    /// iPhoneX horizontal with keyboard hidden.
+    fileprivate func adjustFindInPageBar(safeArea: Bool) {
+        if #available(iOS 11, *), DeviceDetector.iPhoneX, let bar = findInPageBar {
+            bar.snp.updateConstraints { make in
+                if safeArea && BraveApp.isIPhoneLandscape() {
+                    make.bottom.equalTo(findInPageContainer).inset(self.view.safeAreaInsets.bottom)
+                } else {
+                    make.bottom.equalTo(findInPageContainer)
+                }
+            }
         }
     }
 
@@ -1155,15 +1190,22 @@ extension BrowserViewController: KeyboardHelperDelegate {
             self.snackBars.layoutIfNeeded()
         }
 
-
+        adjustFindInPageBar(safeArea: false)
 
         if let loginsHelper = tabManager.selectedTab?.getHelper(LoginsHelper) {
             // keyboardWillShowWithState is called during a hide (brilliant), and because PW button setup is async make sure to exit here if already showing the button, or the show code will be called after kb hide
             if !urlBar.pwdMgrButton.isHidden || loginsHelper.getKeyboardAccessory() != nil {
                 return
             }
-
-                loginsHelper.passwordManagerButtonSetup({ (shouldShow) in
+            
+            // Workaround for #1297. We don't want to check for password manager when find in page action is tapped.
+            // Both use keyboard notification so there is no easy way to distinguish between the two.
+            if showKeyboardFromFindInPage {
+                showKeyboardFromFindInPage = false
+                return
+            }
+            
+            loginsHelper.passwordManagerButtonSetup({ (shouldShow) in
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     self.urlBar.pwdMgrButton.isHidden = !shouldShow
                     
@@ -1182,6 +1224,8 @@ extension BrowserViewController: KeyboardHelperDelegate {
     func keyboardHelper(_ keyboardHelper: KeyboardHelper, keyboardWillHideWithState state: KeyboardState) {
         keyboardState = nil
         updateViewConstraints()
+        
+        adjustFindInPageBar(safeArea: true)
 
         UIView.animate(withDuration: state.animationDuration) {
             UIView.setAnimationCurve(state.animationCurve)

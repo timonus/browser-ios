@@ -153,6 +153,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             }
         })
 
+        // MARK: User referral program
+        if let urp = UserReferralProgram() {
+            let isFirstLaunch = self.getProfile(application).prefs.arrayForKey(DAU.preferencesKey) == nil
+            if isFirstLaunch {
+                urp.referralLookup()
+            } else {
+                urp.pingIfEnoughTimePassed()
+            }
+        } else {
+            log.error("Failed to initialize user referral program")
+            UrpLog.log("Failed to initialize user referral program")
+        }
+
         log.debug("Adding observers…")
         NotificationCenter.default.addObserver(forName: NSNotification.Name.FSReadingListAddReadingListItem, object: nil, queue: nil) { (notification) -> Void in
             if let userInfo = notification.userInfo, let url = userInfo["URL"] as? URL {
@@ -322,6 +335,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             return
         }
 
+        blurOverlayBehavior(.show)
+
         // We could load these here, but then we have to futz with the tab counter
         // and making NSURLRequests.
         self.browserViewController.loadQueuedTabs()
@@ -359,9 +374,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         print("Close database")
         shutdownProfileWhenNotActive()
         BraveGlobalShieldStats.singleton.save()
-        
-        let profile = getProfile(application)
-        requirePinIfNeeded(profile: profile)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -369,9 +381,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         
         self.launchTimer?.invalidate()
         self.launchTimer = nil
-        
-        let profile = getProfile(application)
-        requirePinIfNeeded(profile: profile)
+
+        blurOverlayBehavior(.hide)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -386,6 +397,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         let appProfile = getProfile(application)
         requirePinIfNeeded(profile: appProfile)
     }
+
+    private enum BlurLayoutBehavior { case show, hide }
+
+    /// Toggles blurry overview when app is not active.
+    /// If browser lock is enabled app switcher screenshot is not leaked.
+    private func blurOverlayBehavior(_ behavior: BlurLayoutBehavior) {
+        guard let profile = profile, profile.prefs.boolForKey(kPrefKeyBrowserLock) == true else { return }
+
+        switch behavior {
+        case .show:
+            UIView.animate(withDuration: 0.1, animations: { _ in
+                self.blurryLayout.alpha = 0
+            }, completion: { _ in
+                self.blurryLayout.removeFromSuperview()
+            })
+        case .hide:
+            window?.addSubview(blurryLayout)
+            UIView.animate(withDuration: 0.1, animations: { _ in
+                self.blurryLayout.alpha = 1
+            })
+        }
+    }
+
+    private lazy var blurryLayout: UIView = {
+        let view = UIView(frame: UIScreen.main.bounds)
+
+        let blur: UIVisualEffectView
+        blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        blur.frame = view.frame
+        view.addSubview(blur)
+        view.alpha = 0
+
+        return view
+    }()
     
     func requirePinIfNeeded(profile: Profile) {
         // Check for browserLock settings
@@ -393,13 +438,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             if securityWindow != nil  {
                 securityViewController?.start()
                 // This could have been changed elsewhere, not the best approach.
-                securityViewController?.successCallback = { (success) in
-                    if success {
-                        postAsyncToMain {
-                            self.securityWindow?.isHidden = true
-                        }
-                    }
-                }
+                securityViewController?.successCallback = hideSecurityWindowIfCorrectPin(_:)
                 securityWindow?.isHidden = false
                 return
             }
@@ -413,11 +452,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             pinOverlay.rootViewController = vc
             securityWindow = pinOverlay
             pinOverlay.makeKeyAndVisible()
-            
-            vc.successCallback = { (success) in
-                postAsyncToMain {
-                    self.securityWindow?.isHidden = true
-                }
+
+            vc.successCallback = hideSecurityWindowIfCorrectPin(_:)
+        }
+    }
+
+    fileprivate func hideSecurityWindowIfCorrectPin(_ success: Bool) {
+        if success {
+            postAsyncToMain {
+                self.securityWindow?.isHidden = true
             }
         }
     }

@@ -111,6 +111,16 @@ class BraveBrowserViewController : BrowserViewController {
     override func SELtappedTopArea() {
         scrollController.showToolbars(animated: true)
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        // There is an edge case when toolbar is hidden and this view will disappear,
+        // and after it appears again url bar will be misplaced(see issue 1336 for more details).
+        // Showing toolbar after view disappears solves this problem.
+        // Currently, BVC disappears in two cases:
+        // - opening settings menu
+        // - sharing a link using iMessage or mail.app, it doesn't disappear for other share extensions.
+        scrollController.showToolbars(animated: true)
+    }
 
     override func updateViewConstraints() {
         super.updateViewConstraints()

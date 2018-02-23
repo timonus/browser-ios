@@ -90,9 +90,9 @@ class TopSitesPanel: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
-        
+
         let statsHeight: CGFloat = 150.0
         let statsBottomMargin: CGFloat = 25.0
         
@@ -133,7 +133,7 @@ class TopSitesPanel: UIViewController {
         privateTabMessageContainer.addSubview(privateTabLinkButton)
         
         let collection = TopSitesCollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collection.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
+        collection.backgroundColor = UIColor.clear
         collection.delegate = self
         collection.dataSource = PrivateBrowsing.singleton.isOn ? nil : dataSource
         collection.register(ThumbnailCell.self, forCellWithReuseIdentifier: ThumbnailIdentifier)
@@ -220,6 +220,19 @@ class TopSitesPanel: UIViewController {
         }
     }
     
+    override func viewSafeAreaInsetsDidChange() {
+        // Not sure why but when a side panel is opened and you transition from portait to landscape
+        // top site cells are misaligned, this is a workaroud for this edge case. Happens only on iPhoneX.
+        if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+            collection?.snp.remakeConstraints { make -> Void in
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+                make.leading.equalTo(self.view.safeAreaLayoutGuide.snp.leading)
+                make.trailing.equalTo(self.view.safeAreaLayoutGuide.snp.trailing).offset(self.view.safeAreaInsets.right)
+            }
+        }
+    }
+    
     func updateIphoneConstraints() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             return
@@ -273,9 +286,13 @@ class TopSitesPanel: UIViewController {
         case NotificationPrivacyModeChanged:
             // TODO: This entire blockshould be abstracted
             //  to make code in this class DRY (duplicates from elsewhere)
-            collection?.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
+            view.backgroundColor = PrivateBrowsing.singleton.isOn ? BraveUX.BackgroundColorForTopSitesPrivate : BraveUX.BackgroundColorForBookmarksHistoryAndTopSites
             privateTabMessageContainer.isHidden = !PrivateBrowsing.singleton.isOn
             braveShieldStatsView?.timeStatView.color = PrivateBrowsing.singleton.isOn ? .white : .black
+            // Handling edge case when app starts in private only browsing mode and is switched back to normal mode.
+            if collection?.dataSource == nil && !PrivateBrowsing.singleton.isOn {
+                collection?.dataSource = dataSource
+            }
             collection?.reloadData()
             break
         default:

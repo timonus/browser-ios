@@ -23,12 +23,20 @@ class HttpsEverywhereTest: XCTestCase {
             }
         }
 
-        let urls = ["motherboard.vice.com", "thestar.com", "www.thestar.com", "apple.com", "xkcd.com"]
+        let urls = ["www.rabbitmq.com", "rabbitmq.com", "factorio.com", "cnn.com"]
 
         for url in urls {
             let redirected = HttpsEverywhere.singleton.tryRedirectingUrl(URL(string: "http://" + url)!)
             XCTAssert(redirected != nil && redirected!.scheme!.startsWith("https"), "failed:" + url)
         }
+        
+        // Special care for domains starting with a digit
+        // There was a bug that made http://4chan.org redirect to http://chan.org, eating digits in front of domain
+        let domainStartingWithDigit = URL(string: "http://4chan.org/")!
+        let redirected = HttpsEverywhere.singleton.tryRedirectingUrl(domainStartingWithDigit)
+        
+        XCTAssertNotNil(redirected)
+        XCTAssertEqual(redirected, URL(string: "https://4chan.org/"))
 
         let exceptions = ["m.slashdot.com"]
 

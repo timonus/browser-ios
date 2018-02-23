@@ -1,8 +1,5 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#if !NO_FABRIC
-    import Crashlytics
-#endif
 import Shared
 import MessageUI
 import SwiftyJSON
@@ -176,7 +173,7 @@ class BraveSettingsView : AppSettingsTableViewController {
         ]
         
         if kIsDevelomentBuild {
-            supportChildren = [LoadTabsDebugSettings(), CrashDebugSettings()]
+            supportChildren = [UrpDebugSetting(), LoadTabsDebugSettings(), CrashDebugSettings(), UserReferralSettings(prefs: profile?.prefs)]
             settings += [
                 SettingSection(title: NSAttributedString(string: "DEBUG - BETA ONLY"), children: supportChildren)
             ]
@@ -204,16 +201,35 @@ extension BraveSettingsView : PinViewControllerDelegate {
 
 class VersionSetting : Setting {
     let settings: SettingsTableViewController
+    private let appVersion: String
+    private let buildNumber: String
 
     init(settings: SettingsTableViewController) {
         self.settings = settings
+        appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
+        buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
         super.init(title: nil)
     }
 
     override var title: NSAttributedString? {
-        let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         return NSAttributedString(string: String(format: Strings.Version_template, appVersion, buildNumber), attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+    
+    override func onClick(_ navigationController: UINavigationController?) {
+        let device = UIDevice.current
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let version = String(format: Strings.Version_template, appVersion, buildNumber)
+        let iOSVersion = "\(device.systemName) \(UIDevice.current.systemVersion)"
+        
+        let deviceModel = String(format: Strings.Device_template, device.modelName, iOSVersion)
+        let copyDebugInfoAction = UIAlertAction(title: Strings.Copy_app_info_to_clipboard, style: .default) { _ in
+            UIPasteboard.general.strings = [version, deviceModel]
+        }
+        
+        actionSheet.addAction(copyDebugInfoAction)
+        actionSheet.addAction(UIAlertAction(title: Strings.Cancel, style: .cancel, handler: nil))
+        navigationController?.present(actionSheet, animated: true, completion: nil)
     }
 
     override func onConfigureCell(_ cell: UITableViewCell) {
@@ -340,7 +356,7 @@ class PasswordsClearable: Clearable {
 
 class BraveSupportLinkSetting: Setting {
     override var title: NSAttributedString? {
-        return NSAttributedString(string: Strings.Report_a_bug, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+        return NSAttributedString(string: Strings.Report_a_bug, attributes: [NSForegroundColorAttributeName: BraveUX.DefaultBlue])
     }
 
     override var url: URL? {
@@ -362,6 +378,8 @@ class BraveSupportLinkSetting: Setting {
 }
 
 class BravePrivacyPolicySetting: Setting {
+    override var accessoryType: UITableViewCellAccessoryType { return .disclosureIndicator }
+
     override var title: NSAttributedString? {
         return NSAttributedString(string: Strings.Privacy_Policy, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
@@ -376,6 +394,8 @@ class BravePrivacyPolicySetting: Setting {
 }
 
 class BraveTermsOfUseSetting: Setting {
+    override var accessoryType: UITableViewCellAccessoryType { return .disclosureIndicator }
+
     override var title: NSAttributedString? {
         return NSAttributedString(string: Strings.Terms_of_Use, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
@@ -390,6 +410,17 @@ class BraveTermsOfUseSetting: Setting {
 }
 
 // MARK: - DEBUG
+
+class UrpDebugSetting: Setting, XMLParserDelegate {
+
+    override var title: NSAttributedString? {
+        return NSAttributedString(string: "URP logs", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+
+    override func onClick(_ navigationController: UINavigationController?) {
+        navigationController?.pushViewController(UrpLogsViewController(), animated: true)
+    }
+}
 
 class LoadTabsDebugSettings: Setting, XMLParserDelegate {
     
@@ -422,16 +453,35 @@ class CrashDebugSettings: Setting, XMLParserDelegate, UIAlertViewDelegate {
     }
     
     override func onClick(_ navigationController: UINavigationController?) {
-        UIAlertView(title: "Trigger a crash for testing", message: "Force a crash?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK").show()
+        let alertController = UIAlertController(title: "Force crash?", message: nil, preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "Crash app", style: .destructive) { _ in
+            fatalError()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+
+        navigationController?.present(alertController, animated: true, completion: nil)
     }
     
     func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if buttonIndex == alertView.cancelButtonIndex {
             return
         }
-        #if !NO_FABRIC
-            Crashlytics.sharedInstance().crash()
-        #endif
+    }
+}
+
+class UserReferralSettings: Setting {
+    
+    private weak var prefs: NSUserDefaultsPrefs?
+    init(prefs: NSUserDefaultsPrefs?) {
+        self.prefs = prefs
+    }
+    
+    override var title: NSAttributedString? {
+        return NSAttributedString(string: "URP Code: \(UserReferralProgram.getReferralCode(prefs: prefs) ?? "--")", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
     }
 }
 

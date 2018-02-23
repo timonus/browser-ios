@@ -10,7 +10,10 @@ import AudioToolbox
 public let KeychainKeyPinLockInfo = "pinLockInfo"
 
 struct PinUX {
-    fileprivate static var ButtonSize: CGSize = CGSize(width: 80, height: 80)
+    fileprivate static var ButtonSize: CGSize {
+        let size = DeviceDetector.iPhone4s ? 60 : 80
+        return CGSize(width: size, height: size)
+    }
     fileprivate static let DefaultForegroundColor = UIColor(rgb: 0x4a4a4a)
     fileprivate static let DefaultBackgroundColor = UIColor(rgb: 0x4a4a4a).withAlphaComponent(0.1)
     fileprivate static let SelectedBackgroundColor = BraveUX.BraveOrange
@@ -250,7 +253,8 @@ class PinLockView: UIView {
     
     override func layoutSubviews() {
         let spaceX: CGFloat = (min(350, UIScreen.main.bounds.width) - PinUX.ButtonSize.width * 3) / 4
-        let spaceY: CGFloat = spaceX
+        // Special care for iPhone 4s to make all elements fit on screen.
+        let spaceY: CGFloat = DeviceDetector.iPhone4s ? spaceX - 20 : spaceX
         let w: CGFloat = PinUX.ButtonSize.width
         let h: CGFloat = PinUX.ButtonSize.height
         let frameWidth = spaceX * 2 + w * 3

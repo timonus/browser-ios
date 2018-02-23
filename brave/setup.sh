@@ -28,7 +28,12 @@ if [[ $app_id == com.brave.ios.browser* ]]; then
     echo "DEVELOPMENT_TEAM=$dev_team_id" >> xcconfig/local-def.xcconfig
     echo adding fabric
     echo "./Fabric.framework/run $(head -1 ~/.brave-fabric-keys) $(tail -1 ~/.brave-fabric-keys)" > build-system/.fabric-key-setup.sh
-    sed -e s/FABRIC_KEY_REMOVED/$(head -1 ~/.brave-fabric-keys)/  BraveInfo.plist.template | sed -e s/MIXPANEL_TOKEN_REMOVED/$(head -1 ~/.brave-mixpanel-key)/ > BraveInfo.plist
+
+    # using comma delimiter to escape forward slashes properly
+    sed -e s/FABRIC_KEY_REMOVED/$(head -1 ~/.brave-fabric-keys)/  BraveInfo.plist.template |
+    sed -e s/MIXPANEL_TOKEN_REMOVED/$(head -1 ~/.brave-mixpanel-key)/ |
+    sed -e s,https://laptop-updates-staging.herokuapp.com,$(head -1 ~/.brave-urp-host-key), |
+    sed -e s,\<string\>key\</string\>,\<string\>$(head -1 ~/.brave-api-key)\</string\>, > BraveInfo.plist
 else
     sed -i '' -e "s/KEYCHAIN_PLACEHOLDER/\$\(AppIdentifierPrefix\)$app_id/" Brave.entitlements
     >build-system/.fabric-key-setup.sh

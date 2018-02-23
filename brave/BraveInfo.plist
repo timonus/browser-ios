@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>URP_HOST</key>
+    <string>https://laptop-updates-staging.herokuapp.com</string>
+	<key>API_KEY</key>
+	<string>key</string>
 	<key>BuildID</key>
 	<string>$(MOZ_BUILD_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -37,12 +41,14 @@
 	<string>$(MOZ_BUILD_ID)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>dashlane-ext</string>
-		<string>itms-books</string>
+    <string>dashlane-ext</string>
+    <string>itms-books</string>
 		<string>org-appextension-feature-password-management</string>
 	</array>
-	<key>MIXPANEL_TOKEN</key>
-	<string>MIXPANEL_TOKEN_REMOVED</string>
+
+		<key>MIXPANEL_TOKEN</key>
+		<string>MIXPANEL_TOKEN_REMOVED</string>
+
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -67,10 +73,10 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Websites you visit may request your location.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Scan barcode for Brave sync.</string>
+        <string>Scan barcode for Brave sync.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>$(CUSTOM_BUNDLE_ID).browsing</string>
+    <string>$(CUSTOM_BUNDLE_ID).browsing</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>
@@ -140,8 +146,8 @@
 			<string></string>
 		</dict>
 	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>This app requires access to the photo library.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app requires access to the photo library.</string>
 </dict>

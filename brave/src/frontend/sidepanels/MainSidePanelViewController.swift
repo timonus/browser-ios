@@ -135,8 +135,15 @@ class MainSidePanelViewController : SidePanelBaseViewController {
         
         topButtonsView.snp.remakeConstraints {
             make in
-            make.top.equalTo(containerView).offset(spaceForStatusBar())
-            make.left.right.equalTo(containerView)
+            make.right.equalTo(containerView)
+            if #available(iOS 11.0, *), DeviceDetector.iPhoneX {
+                make.left.equalTo(containerView.safeAreaLayoutGuide.snp.left)
+                make.top.equalTo(containerView.safeAreaLayoutGuide.snp.top)
+            } else {
+                make.left.equalTo(containerView)
+                make.top.equalTo(containerView).offset(spaceForStatusBar())
+            }
+            
             make.height.equalTo(44.0 + 0.5)
         }
 

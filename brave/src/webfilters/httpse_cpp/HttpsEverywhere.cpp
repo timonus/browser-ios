@@ -7,6 +7,7 @@
 #include <regex>
 #include <iostream>
 #include "JsonCpp.h"
+#include "re2/re2.h"
 
 using json = nlohmann::json;
 
@@ -71,16 +72,30 @@ std::string HTTPSEverywhere::applyRedirectRule(std::string originalUrl, const st
             if (!from.is_null() && !to.is_null()) {
                 std::string f = from;
                 std::string t = to;
-                std::string result = std::regex_replace(originalUrl, std::regex(f), t);
-                if (startsWith(result, "https")) {
-                    //printf("upgrade %s\n", result.c_str());
-                    return result;
+                
+                t = correcttoRuleToRE2Engine(t);
+                
+                RE2 regExp(f);
+                std::string newUrl(originalUrl);
+                if (RE2::Replace(&newUrl, regExp, t) && newUrl != originalUrl) {
+                    return newUrl;
                 }
             }
         }
     }
 
     return "";
+}
+
+std::string HTTPSEverywhere::correcttoRuleToRE2Engine(const std::string& to) {
+    std::string correctedto(to);
+    size_t pos = to.find("$");
+    while (std::string::npos != pos) {
+        correctedto[pos] = '\\';
+        pos = correctedto.find("$");
+    }
+    
+    return correctedto;
 }
 
 static std::vector<std::string> split(const std::string &s, char delim) {

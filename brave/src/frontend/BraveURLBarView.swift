@@ -272,9 +272,17 @@ class BraveURLBarView : URLBarView {
             make.top.bottom.equalTo(leftSidePanelButton).inset(7)
         }
 
+        remakeLocationView()
+    }
+
+    private func remakeLocationView() {
         func pinLeftPanelButtonToLeft() {
             leftSidePanelButton.snp.remakeConstraints { make in
-                make.left.equalTo(self)
+                if #available(iOS 11, *) {
+                    make.left.equalTo(self.safeAreaLayoutGuide.snp.left)
+                } else {
+                    make.left.equalTo(self)
+                }
                 make.centerY.equalTo(self.locationContainer)
                 make.size.equalTo(UIConstants.ToolbarHeight)
             }
@@ -296,7 +304,12 @@ class BraveURLBarView : URLBarView {
                 if self.bottomToolbarIsHidden {
                     // Firefox is not referring to the bbackgrottom toolbar, it is asking is this class showing more tool buttons
                     make.leading.equalTo(self.leftSidePanelButton.snp.trailing)
-                    make.trailing.equalTo(self).inset(-(UIConstants.ToolbarHeight * (3 + (pwdMgrButton.isHidden == false ? 1 : 0))))
+                    let insetValue = -(UIConstants.ToolbarHeight * (3 + (pwdMgrButton.isHidden == false ? 1 : 0)))
+                    if #available(iOS 11, *) {
+                        make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).inset(insetValue)
+                    } else {
+                        make.trailing.equalTo(self).inset(insetValue)
+                    }
                     
                 } else {
                     make.left.right.equalTo(self).inset(UIConstants.ToolbarHeight)
@@ -331,7 +344,11 @@ class BraveURLBarView : URLBarView {
     override func setupConstraints() {
         backButton.snp.remakeConstraints { make in
             make.centerY.equalTo(self.locationContainer)
-            make.left.equalTo(self)
+            if #available(iOS 11, *) {
+                make.left.equalTo(self.safeAreaLayoutGuide.snp.left)
+            } else {
+                make.left.equalTo(self)
+            }
             make.size.equalTo(UIConstants.ToolbarHeight)
         }
 
@@ -353,7 +370,11 @@ class BraveURLBarView : URLBarView {
 
         cancelButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.locationContainer)
-            make.trailing.equalTo(self)
+            if #available(iOS 11, *) {
+                make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
+            } else {
+                make.trailing.equalTo(self)
+            }
         }
 
         shareButton.snp.remakeConstraints { make in
@@ -370,7 +391,12 @@ class BraveURLBarView : URLBarView {
 
         tabsButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.locationContainer)
-            make.trailing.equalTo(self)
+            make.right.equalTo(self)
+            if #available(iOS 11, *) {
+                make.right.equalTo(self.safeAreaLayoutGuide.snp.right)
+            } else {
+                make.right.equalTo(self)
+            }
             make.size.equalTo(UIConstants.ToolbarHeight)
         }
     }
