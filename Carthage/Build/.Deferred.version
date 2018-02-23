@@ -1,9 +1,0 @@
-{
-  "commitish" : "35b8927c1b94ce074e10793c57e1f80d0e2227fa",
-  "iOS" : [
-    {
-      "hash" : "1000a6c116e4707b9b77243a32c2883c3f38df00f784ce8548ca88e3b51aa4e9",
-      "name" : "Deferred"
-    }
-  ]
-}

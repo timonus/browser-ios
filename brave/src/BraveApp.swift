@@ -5,11 +5,16 @@ import Shared
 import Deferred
 
 var kIsDevelomentBuild: Bool = {
+    // Needed to avoid compiler warning when #if condition executes, so no early return
     var isDev = false
     
     #if DEBUG || BETA
         isDev = true
     #endif
+    
+    if let bid = Bundle.main.bundleIdentifier, bid.contains(".dev") {
+        isDev = true
+    }
     
     return isDev
 }()

@@ -173,7 +173,7 @@ class BraveSettingsView : AppSettingsTableViewController {
         ]
         
         if kIsDevelomentBuild {
-            supportChildren = [LoadTabsDebugSettings(), CrashDebugSettings()]
+            supportChildren = [UrpDebugSetting(), LoadTabsDebugSettings(), CrashDebugSettings(), UserReferralSettings(prefs: profile?.prefs)]
             settings += [
                 SettingSection(title: NSAttributedString(string: "DEBUG - BETA ONLY"), children: supportChildren)
             ]
@@ -411,6 +411,17 @@ class BraveTermsOfUseSetting: Setting {
 
 // MARK: - DEBUG
 
+class UrpDebugSetting: Setting, XMLParserDelegate {
+
+    override var title: NSAttributedString? {
+        return NSAttributedString(string: "URP logs", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+
+    override func onClick(_ navigationController: UINavigationController?) {
+        navigationController?.pushViewController(UrpLogsViewController(), animated: true)
+    }
+}
+
 class LoadTabsDebugSettings: Setting, XMLParserDelegate {
     
     override var title: NSAttributedString? {
@@ -442,7 +453,17 @@ class CrashDebugSettings: Setting, XMLParserDelegate, UIAlertViewDelegate {
     }
     
     override func onClick(_ navigationController: UINavigationController?) {
-        UIAlertView(title: "Trigger a crash for testing", message: "Force a crash?", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK").show()
+        let alertController = UIAlertController(title: "Force crash?", message: nil, preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "Crash app", style: .destructive) { _ in
+            fatalError()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+
+        navigationController?.present(alertController, animated: true, completion: nil)
     }
     
     func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
@@ -451,3 +472,17 @@ class CrashDebugSettings: Setting, XMLParserDelegate, UIAlertViewDelegate {
         }
     }
 }
+
+class UserReferralSettings: Setting {
+    
+    private weak var prefs: NSUserDefaultsPrefs?
+    init(prefs: NSUserDefaultsPrefs?) {
+        self.prefs = prefs
+    }
+    
+    override var title: NSAttributedString? {
+        return NSAttributedString(string: "URP Code: \(UserReferralProgram.getReferralCode(prefs: prefs) ?? "--")", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor])
+    }
+}
+
+

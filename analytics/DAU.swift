@@ -6,7 +6,6 @@ import Shared
 // TODO: Separate logger for this kind of work?
 private let log = Logger.browserLogger
 
-// Unit tests for DAU are located in brave/tests_src/unit/DauTest.swift.
 struct DAU {
     public static let preferencesKey = "dau_stat"
     public static let weekOfInstallationKeyPrefKey = "week_of_installation"
@@ -31,12 +30,14 @@ struct DAU {
     public func sendPingToServer() {
         guard let params = paramsAndPrefsSetup() else {
             log.debug("dau, no changes detected, no server ping")
+            print("bxx dau, no changes detected, no server ping")
             return
         }
         
         // Sending ping to server
         let fullUrl = baseUrl + params
         log.debug("send ping to server, url: \(fullUrl)")
+        print("bxx send ping to server, url: \(fullUrl)")
         
         guard let url = URL(string: fullUrl) else {
             if !BraveUX.IsRelease {
@@ -94,28 +95,10 @@ struct DAU {
         return "&channel=\(BraveUX.IsRelease ? "stable" : "beta")"
     }
     
+    // TODO: Add leading `.0` to so app version is always in format x.x.x.
+    // See issue #1337 for more info.
     var versionParam: String {
-        var version = AppInfo.appVersion
-        
-        if DAU.shouldAppend0ToAppVersion(version) {
-            version += ".0"
-        }
-        
-        return "&version=\(version)"
-    }
-    
-    /// All app versions for dau pings must be saved in x.x.x format where x are digits.
-    static func shouldAppend0ToAppVersion(_ version: String) -> Bool {
-        let correctAppVersionPattern = "^\\d+.\\d+$"
-        do {
-            let regex = try NSRegularExpression(pattern: correctAppVersionPattern, options: [])
-            let match = regex.firstMatch(in: version, options: [], range: NSRange(location: 0, length: version.count))
-            
-            return match != nil
-        } catch {
-            log.error("Version regex pattern error")
-            return false
-        }
+        return "&version=\(AppInfo.appVersion)"
     }
     
     func firstLaunchParam(_ isFirst: Bool) -> String {

@@ -170,6 +170,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
 
             profile.prefs.setBool(true, forKey: FavoritesHelper.initPrefsKey)
         }
+        
+        // MARK: User referral program
+        if let urp = UserReferralProgram() {
+            let isFirstLaunch = self.getProfile(application).prefs.arrayForKey(DAU.preferencesKey) == nil
+            if isFirstLaunch {
+                urp.referralLookup()
+            } else {
+                urp.pingIfEnoughTimePassed()
+            }
+        } else {
+            log.error("Failed to initialize user referral program")
+            UrpLog.log("Failed to initialize user referral program")
+        }
 
         log.debug("Adding observers…")
         NotificationCenter.default.addObserver(forName: NSNotification.Name.FSReadingListAddReadingListItem, object: nil, queue: nil) { (notification) -> Void in
@@ -443,13 +456,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             if securityWindow != nil  {
                 securityViewController?.start()
                 // This could have been changed elsewhere, not the best approach.
-                securityViewController?.successCallback = { (success) in
-                    if success {
-                        postAsyncToMain {
-                            self.securityWindow?.isHidden = true
-                        }
-                    }
-                }
+                securityViewController?.successCallback = hideSecurityWindowIfCorrectPin(_:)
                 securityWindow?.isHidden = false
                 return
             }
@@ -463,11 +470,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             pinOverlay.rootViewController = vc
             securityWindow = pinOverlay
             pinOverlay.makeKeyAndVisible()
-            
-            vc.successCallback = { (success) in
-                postAsyncToMain {
-                    self.securityWindow?.isHidden = true
-                }
+
+            vc.successCallback = hideSecurityWindowIfCorrectPin(_:)
+        }
+    }
+
+    fileprivate func hideSecurityWindowIfCorrectPin(_ success: Bool) {
+        if success {
+            postAsyncToMain {
+                self.securityWindow?.isHidden = true
             }
         }
     }

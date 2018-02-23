@@ -227,10 +227,6 @@ class AdBlocker {
             return false
         }
 
-        if !mainDocDomain.isEmpty && url.absoluteString.contains(mainDocDomain) {
-            return false // ignore top level doc
-        }
-
         // A cache entry is like: fifoOfCachedUrlChunks[0]["www.microsoft.com_http://some.url"] = true/false for blocking
         let key = "\(mainDocDomain)_" + stripLocalhostWebServer(url.absoluteString)
 

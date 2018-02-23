@@ -20,6 +20,10 @@
 		0857095CBFE00F31F190C638 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ABC3CB4B07DD065A185B /* BrowserViewController.swift */; };
 		08A6B9B1A574E15F5AD1DDC2 /* BrowserTrayAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F371D05B609063A51549E8 /* BrowserTrayAnimators.swift */; };
 		08BC96A6EFBA13BBE99C9A0F /* BraveUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8856E29DAA2D9EAC4F9A85 /* BraveUtil.swift */; };
+		0A02A948202B66FF00A1E754 /* UrpLogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02A947202B66FF00A1E754 /* UrpLogsViewController.swift */; };
+		0A03788F20211D1D00E52C13 /* ReferralData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03788C20211D1D00E52C13 /* ReferralData.swift */; };
+		0A03789020211D1D00E52C13 /* UserReferralProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03788D20211D1D00E52C13 /* UserReferralProgram.swift */; };
+		0A03789120211D1D00E52C13 /* UrpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03788E20211D1D00E52C13 /* UrpService.swift */; };
 		0A03FF991FCDF0C400DF32C9 /* mix.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF3F1FCDF0C300DF32C9 /* mix.h */; };
 		0A03FF9A1FCDF0C400DF32C9 /* sparse_array.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF401FCDF0C300DF32C9 /* sparse_array.h */; };
 		0A03FF9B1FCDF0C400DF32C9 /* flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A03FF411FCDF0C300DF32C9 /* flags.h */; };
@@ -86,6 +90,8 @@
 		0A82B80020067EFC00CE6397 /* FavoritesTileDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */; };
 		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
 		0AD14640201BA3DA0052B5B3 /* SyncShowCodewords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */; };
+		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
+		0AAF86A2202B914B00ECAE06 /* runtime_resources in Resources */ = {isa = PBXBuildFile; fileRef = 0AAF86A1202B914B00ECAE06 /* runtime_resources */; };
 		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
 		0B742CCF1B32493E00EE9264 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B742CCC1B32491400EE9264 /* libsqlcipher.a */; };
 		0B8E0FF41A932BD500161DC3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8E0FF31A932BD500161DC3 /* ImageIO.framework */; };
@@ -957,6 +963,10 @@
 		08373AAA053C26FAD1A95023 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = ./Storage/Info.plist; sourceTree = "<group>"; };
 		0994D8CB826BBAE3C446B125 /* Crasher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Crasher.h; path = ./Client/Application/Crasher.h; sourceTree = "<group>"; };
 		09B26BBAC8D68EFA2A333975 /* CharisSILR.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = CharisSILR.ttf; path = ./Client/Assets/Fonts/CharisSILR.ttf; sourceTree = "<group>"; };
+		0A02A947202B66FF00A1E754 /* UrpLogsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrpLogsViewController.swift; sourceTree = "<group>"; };
+		0A03788C20211D1D00E52C13 /* ReferralData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralData.swift; sourceTree = "<group>"; };
+		0A03788D20211D1D00E52C13 /* UserReferralProgram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReferralProgram.swift; sourceTree = "<group>"; };
+		0A03788E20211D1D00E52C13 /* UrpService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrpService.swift; sourceTree = "<group>"; };
 		0A03FF3F1FCDF0C300DF32C9 /* mix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mix.h; sourceTree = "<group>"; };
 		0A03FF401FCDF0C300DF32C9 /* sparse_array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sparse_array.h; sourceTree = "<group>"; };
 		0A03FF411FCDF0C300DF32C9 /* flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flags.h; sourceTree = "<group>"; };
@@ -1020,6 +1030,8 @@
 		0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTileDecorator.swift; sourceTree = "<group>"; };
 		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
 		0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncShowCodewords.swift; path = brave/src/sync/SyncShowCodewords.swift; sourceTree = "<group>"; };
+		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
+		0AAF86A1202B914B00ECAE06 /* runtime_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = runtime_resources; path = brave/runtime_resources; sourceTree = "<group>"; };
 		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B5DA2C8E2A696FCBB8FC07F /* CompletionOps.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompletionOps.swift; path = ./Storage/CompletionOps.swift; sourceTree = "<group>"; };
 		0B742CC61B32491400EE9264 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ThirdParty/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
@@ -1953,9 +1965,22 @@
 		0A8053801FC59D6F008D6822 /* analytics */ = {
 			isa = PBXGroup;
 			children = (
+				0A8D75D420160E5B005AD9DB /* user-referral-program */,
 				0A8053951FC59D82008D6822 /* DAU.swift */,
 			);
-			path = analytics;
+			name = analytics;
+			path = brave/src/analytics;
+			sourceTree = "<group>";
+		};
+		0A8D75D420160E5B005AD9DB /* user-referral-program */ = {
+			isa = PBXGroup;
+			children = (
+				0A03788C20211D1D00E52C13 /* ReferralData.swift */,
+				0A03788E20211D1D00E52C13 /* UrpService.swift */,
+				0A03788D20211D1D00E52C13 /* UserReferralProgram.swift */,
+				0A02A947202B66FF00A1E754 /* UrpLogsViewController.swift */,
+			);
+			path = "user-referral-program";
 			sourceTree = "<group>";
 		};
 		0A91879C13539EB0C45CEF59 /* frontend */ = {
@@ -2780,6 +2805,7 @@
 		9D9FA65B7AF80B044B65F8B2 /* brave */ = {
 			isa = PBXGroup;
 			children = (
+				0AAF86A1202B914B00ECAE06 /* runtime_resources */,
 				EBA6F13F1E39410E00F7B3D9 /* upload-to-app-store.applescript */,
 				EBA6F12E1E39312100F7B3D9 /* ad-hoc-export.applescript */,
 				AEC7CC1649CB3DF5D490AFD2 /* ThirdParty */,
@@ -4265,6 +4291,7 @@
 				EB8F56A01DD13DF300679A78 /* FiraSans-Medium.ttf in Resources */,
 				2210C35A6B7EB8745B0E93B9 /* SessionRestore.html in Resources */,
 				EB8F569E1DD13DF300679A78 /* FiraSans-Italic.ttf in Resources */,
+				0AAF86A2202B914B00ECAE06 /* runtime_resources in Resources */,
 				5D2B07EB1E6733B900244C39 /* niceware.js in Resources */,
 				59F67C0B4DAA5B488E2C83EF /* SpotlightHelper.js in Resources */,
 				EB8F56981DD13DF300679A78 /* CharisSILBI.ttf in Resources */,
@@ -4624,6 +4651,7 @@
 				5F05A9BDFA985F96C2CFCA35 /* testutil.cc in Sources */,
 				5D2AE6F81E83F3EC00BC274C /* SyncBookmark.swift in Sources */,
 				5D448B481EA1572A00F1BA98 /* WebsitePresentable.swift in Sources */,
+				0A03788F20211D1D00E52C13 /* ReferralData.swift in Sources */,
 				23699E7ECA45D2C23FFEB992 /* NSData+GZIP.m in Sources */,
 				736EF030429F5288A4EDE179 /* NSFileManager+Tar.m in Sources */,
 				676AF6C41649B4E23DA21306 /* BraveApp.swift in Sources */,
@@ -4650,6 +4678,7 @@
 				41C8C73403C41EA2B3504989 /* MainSidePanelViewController.swift in Sources */,
 				84A180A158F0E79DEC227E41 /* SidePanelBaseViewController.swift in Sources */,
 				0A03FFE41FCDF0C400DF32C9 /* simplify.cc in Sources */,
+				0A03789020211D1D00E52C13 /* UserReferralProgram.swift in Sources */,
 				C2527F8A70ACEA55C5BACA7F /* SwizzlingToHideSharePicker.m in Sources */,
 				A06E13ADC55EEF9339F0C366 /* TabsBarViewController.swift in Sources */,
 				038D1223149F0BDE7750CA80 /* TabWidget.swift in Sources */,
@@ -4657,6 +4686,7 @@
 				7F05CC97A91011D519E12402 /* BraveContextMenu.swift in Sources */,
 				B735CA1D323CBBD44E763DD9 /* BravePageUnloadHelper.swift in Sources */,
 				31CAC008CE6B2D73DBFC9A5E /* ElementAtPoint.swift in Sources */,
+				0A03789120211D1D00E52C13 /* UrpService.swift in Sources */,
 				5CD7F38E1E3EFBF100A12BB9 /* FaviconMO.swift in Sources */,
 				5C0FCE621E63E1D90016DF0F /* SyncCodewordsView.swift in Sources */,
 				0A03FFB61FCDF0C400DF32C9 /* perl_groups.cc in Sources */,
@@ -4790,6 +4820,7 @@
 				4FC607AE16C98EF4151E08A5 /* FSReadingList.m in Sources */,
 				BA7D7ADACEC12F432C93C025 /* ReadabilityBrowserHelper.swift in Sources */,
 				70584DD394CC47BC6EADEE10 /* ReadabilityService.swift in Sources */,
+				0A02A948202B66FF00A1E754 /* UrpLogsViewController.swift in Sources */,
 				4F31DDE7EBC23007AABA22BE /* ReaderMode.swift in Sources */,
 				BB63E86A4AC53F36D5B76263 /* ReaderModeCache.swift in Sources */,
 				2FBCFA22FFA948467136AF65 /* ReaderModeHandlers.swift in Sources */,

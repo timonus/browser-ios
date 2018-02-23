@@ -6,13 +6,13 @@ abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
 
-ad-block@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ad-block/-/ad-block-3.0.0.tgz#ce9909adf15e0b42473739a2a745976b4e2ca329"
+ad-block@^3.1.11:
+  version "3.1.11"
+  resolved "https://registry.yarnpkg.com/ad-block/-/ad-block-3.1.11.tgz#6eee213d572fbac5ad4672ea5f32a38d73118a22"
   dependencies:
-    bloom-filter-cpp "1.1.x"
+    bloom-filter-cpp "^1.1.6"
     cppunitlite "^1.0.0"
-    hashset-cpp "1.0.x"
+    hashset-cpp "^1.0.18"
     nan "^2.2.1"
 
 ajv@^4.9.1:
@@ -77,7 +77,7 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-bloom-filter-cpp@1.1.x:
+bloom-filter-cpp@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/bloom-filter-cpp/-/bloom-filter-cpp-1.1.6.tgz#ddf0305923adf6edac1bf409e6735e196d2cacbf"
 
@@ -236,9 +236,13 @@ has-unicode@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/has-unicode/-/has-unicode-2.0.1.tgz#e0e6fe6a28cf51138855e086d1691e771de2a8b9"
 
-hashset-cpp@1.0.x, hashset-cpp@^1.0.13:
+hashset-cpp@^1.0.13:
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/hashset-cpp/-/hashset-cpp-1.0.17.tgz#3c5911f0b7f8f2d0784c9cced4ea6969344e4c87"
+
+hashset-cpp@^1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/hashset-cpp/-/hashset-cpp-1.0.18.tgz#68d4fbf035f04909f68061fc51546a025ab314f4"
 
 hawk@~3.1.3:
   version "3.1.3"
