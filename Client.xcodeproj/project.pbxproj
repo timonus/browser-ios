@@ -89,9 +89,8 @@
 		0A8053981FC59D93008D6822 /* DauTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053971FC59D93008D6822 /* DauTest.swift */; };
 		0A82B80020067EFC00CE6397 /* FavoritesTileDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */; };
 		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
-		0AD14640201BA3DA0052B5B3 /* SyncShowCodewords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */; };
-		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
 		0AAF86A2202B914B00ECAE06 /* runtime_resources in Resources */ = {isa = PBXBuildFile; fileRef = 0AAF86A1202B914B00ECAE06 /* runtime_resources */; };
+		0AD14640201BA3DA0052B5B3 /* SyncShowCodewords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */; };
 		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
 		0B742CCF1B32493E00EE9264 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B742CCC1B32491400EE9264 /* libsqlcipher.a */; };
 		0B8E0FF41A932BD500161DC3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8E0FF31A932BD500161DC3 /* ImageIO.framework */; };
@@ -1029,9 +1028,8 @@
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
 		0A82B7FF20067EFC00CE6397 /* FavoritesTileDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTileDecorator.swift; sourceTree = "<group>"; };
 		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
-		0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncShowCodewords.swift; path = brave/src/sync/SyncShowCodewords.swift; sourceTree = "<group>"; };
-		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
 		0AAF86A1202B914B00ECAE06 /* runtime_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = runtime_resources; path = brave/runtime_resources; sourceTree = "<group>"; };
+		0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncShowCodewords.swift; path = brave/src/sync/SyncShowCodewords.swift; sourceTree = "<group>"; };
 		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B5DA2C8E2A696FCBB8FC07F /* CompletionOps.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompletionOps.swift; path = ./Storage/CompletionOps.swift; sourceTree = "<group>"; };
 		0B742CC61B32491400EE9264 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ThirdParty/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };

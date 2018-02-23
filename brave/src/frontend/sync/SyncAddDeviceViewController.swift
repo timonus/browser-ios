@@ -17,10 +17,18 @@ class SyncAddDeviceViewController: SyncViewController {
         stack.spacing = 4
         return stack
     }()
+    
+    lazy var codewordsView: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightMedium)
+        label.textColor = BraveUX.GreyJ
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
 
     var containerView: UIView!
     var barcodeView: SyncBarcodeView!
-    var codewordsView: SyncCodewordList!
     var modeControl: UISegmentedControl!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -80,7 +88,7 @@ class SyncAddDeviceViewController: SyncViewController {
             }
 
             self.barcodeView = SyncBarcodeView(data: qrSyncSeed)
-            self.codewordsView = SyncCodewordList(words: words)
+            self.codewordsView.text = words.joined(separator: " ")
             self.setupVisuals()
         }
     }
@@ -176,8 +184,8 @@ class SyncAddDeviceViewController: SyncViewController {
         }
 
         codewordsView.snp.makeConstraints { (make) in
-            make.top.equalTo(modeControl.snp.bottom).offset(16)
-            make.left.right.bottom.equalTo(self.containerView).inset(16)
+            make.top.equalTo(modeControl.snp.bottom).offset(22)
+            make.left.right.equalTo(self.containerView).inset(22)
         }
 
         doneButton.snp.makeConstraints { (make) in
