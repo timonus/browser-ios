@@ -101,11 +101,14 @@ class _SearchLoader<UnusedA, UnusedB>: Loader<[Site], SearchViewController> {
         }
 
         // If the pre-path component (including the scheme) starts with the query, just use it as is.
-        let prePathURL = (url as NSString).substring(with: match.rangeAt(0))
+        var prePathURL = (url as NSString).substring(with: match.rangeAt(0))
         if prePathURL.startsWith(query) {
+            // Trailing slashes in the autocompleteTextField cause issues with Swype keyboard.
+            if prePathURL.endsWith("/") {
+                prePathURL.remove(at: prePathURL.index(before: prePathURL.endIndex))
+            }
             return prePathURL
         }
-
         // Otherwise, find and use any matching domain.
         // To simplify the search, prepend a ".", and search the string for ".query".
         // For example, for http://en.m.wikipedia.org, domainWithDotPrefix will be ".en.m.wikipedia.org".
@@ -123,7 +126,7 @@ class _SearchLoader<UnusedA, UnusedB>: Loader<[Site], SearchViewController> {
             let from = domainWithDotPrefix.index(range.lowerBound, offsetBy: 1)
             let matchedDomain = domainWithDotPrefix.substring(from: from)
             if matchedDomain.contains(".") {
-                return matchedDomain + "/"
+                return matchedDomain
             }
         }
 
