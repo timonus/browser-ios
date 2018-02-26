@@ -27,7 +27,11 @@ class SyncPairCameraViewController: SyncViewController {
         // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
             notification in
-            self.navigationController?.popToRootViewController(animated: true)
+            if let viewController = self.navigationController?.viewControllers[1] {
+                self.navigationController?.popToViewController(viewController, animated: true)
+            } else {
+                self.navigationController?.popToRootViewController(animated: true)
+            }
         })
 
         let stackView = UIStackView()

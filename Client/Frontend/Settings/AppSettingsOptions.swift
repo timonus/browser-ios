@@ -180,7 +180,7 @@ class SyncDeviceSetting: Setting {
     internal var device: Device
     
     internal var displayTitle: String {
-        return "\(device.deviceDisplayId ?? "") :: \(device.name ?? "")"
+        return "\(device.name ?? "")"
     }
     
     override var accessoryType: UITableViewCellAccessoryType { return .none }

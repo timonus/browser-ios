@@ -402,8 +402,8 @@ extension Strings {
     
     public static let CodeWordInputHelp = NSLocalizedString("Using existing synced device, open Brave Settings and navigate to Settings > Sync. Choose “Add Device” then “Display code words instead”", comment: "Code words input help")
     
-    public static let PushSyncEnabled = NSLocalizedString("Push sync enabled", comment: "Push sync enabled cell title.")
-    public static let PushSyncFooter = NSLocalizedString("Disable push sync if you don't want to push bookmarks to other devices. Bookmarks will still be pulled.", comment: "Push sync settings footer details")
+    public static let PushSyncEnabled = NSLocalizedString("Enable Sync", comment: "Push sync enabled cell title.")
+    public static let PushSyncFooter = NSLocalizedString("Disable sync if you don't want to push bookmarks to other devices. Bookmarks will still be pulled.", comment: "Push sync settings footer details")
 }
 
 
