@@ -26,9 +26,27 @@ class SyncAddDeviceViewController: SyncViewController {
         label.numberOfLines = 0
         return label
     }()
+    
+    lazy var copyPasteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "copy_paste"), for: .normal)
+        button.addTarget(self, action: #selector(SEL_copy), for: .touchUpInside)
+        button.sizeToFit()
+        button.isHidden = true
+        return button
+    }()
+    
+    lazy var copiedlabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = BraveUX.GreyE
+        label.text = Strings.Copied
+        label.isHidden = true
+        return label
+    }()
 
     var containerView: UIView!
-    var barcodeView: SyncBarcodeView!
+    var qrCodeView: SyncQRCodeView!
     var modeControl: UISegmentedControl!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -36,6 +54,11 @@ class SyncAddDeviceViewController: SyncViewController {
     var enterWordsButton: RoundInterfaceButton!
     var pageTitle: String = Strings.Sync
     var deviceType: DeviceType = .mobile
+    var didCopy = false {
+        didSet {
+            copiedlabel.isHidden = !didCopy
+        }
+    }
     
     convenience init(title: String, type: DeviceType) {
         self.init()
@@ -87,14 +110,16 @@ class SyncAddDeviceViewController: SyncViewController {
                 return
             }
 
-            self.barcodeView = SyncBarcodeView(data: qrSyncSeed)
+            self.qrCodeView = SyncQRCodeView(data: qrSyncSeed)
             self.codewordsView.text = words.joined(separator: " ")
             self.setupVisuals()
         }
     }
     
     func setupVisuals() {
-        containerView.addSubview(barcodeView)
+        containerView.addSubview(qrCodeView)
+        containerView.addSubview(copyPasteButton)
+        containerView.addSubview(copiedlabel)
 
         codewordsView.isHidden = true
         containerView.addSubview(codewordsView)
@@ -117,7 +142,6 @@ class SyncAddDeviceViewController: SyncViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
         titleLabel.textColor = BraveUX.GreyJ
-        titleLabel.text = deviceType == .mobile ? Strings.SyncAddMobile : Strings.SyncAddComputer
         titleDescriptionStackView.addArrangedSubview(titleLabel)
 
         descriptionLabel = UILabel()
@@ -126,7 +150,6 @@ class SyncAddDeviceViewController: SyncViewController {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byTruncatingTail
         descriptionLabel.textAlignment = .center
-        descriptionLabel.text = deviceType == .mobile ? Strings.SyncAddMobileDescription : Strings.SyncAddComputerDescription
         descriptionLabel.adjustsFontSizeToFitWidth = true
         descriptionLabel.minimumScaleFactor = 0.5
         titleDescriptionStackView.addArrangedSubview(descriptionLabel)
@@ -177,7 +200,7 @@ class SyncAddDeviceViewController: SyncViewController {
             make.right.equalTo(-8)
         }
 
-        barcodeView.snp.makeConstraints { (make) in
+        qrCodeView.snp.makeConstraints { (make) in
             make.top.equalTo(modeControl.snp.bottom).offset(16)
             make.centerX.equalTo(self.containerView)
             make.size.equalTo(BarcodeSize)
@@ -186,6 +209,15 @@ class SyncAddDeviceViewController: SyncViewController {
         codewordsView.snp.makeConstraints { (make) in
             make.top.equalTo(modeControl.snp.bottom).offset(22)
             make.left.right.equalTo(self.containerView).inset(22)
+        }
+        
+        copyPasteButton.snp.makeConstraints { (make) in
+            make.bottom.right.equalTo(containerView).inset(24)
+        }
+        
+        copiedlabel.snp.makeConstraints { (make) in
+            make.right.equalTo(copyPasteButton.snp.left).offset(-8)
+            make.centerY.equalTo(copyPasteButton)
         }
 
         doneButton.snp.makeConstraints { (make) in
@@ -199,6 +231,19 @@ class SyncAddDeviceViewController: SyncViewController {
         if deviceType == .computer {
             SEL_showCodewords()
         }
+        
+        updateLabels()
+    }
+    
+    func updateLabels() {
+        if deviceType == .mobile {
+            titleLabel.text = modeControl.selectedSegmentIndex == 0 ? Strings.SyncAddDeviceScan : Strings.SyncAddDeviceWords
+            descriptionLabel.text = modeControl.selectedSegmentIndex == 0 ? Strings.SyncAddMobileScanDescription : Strings.SyncAddMobileWordsDescription
+        }
+        else if deviceType == .computer {
+            titleLabel.text = modeControl.selectedSegmentIndex == 0 ? Strings.SyncAddDeviceScan : Strings.SyncAddDeviceWords
+            descriptionLabel.text = modeControl.selectedSegmentIndex == 0 ? Strings.SyncAddComputerScanDescription : Strings.SyncAddComputerWordsDescription
+        }
     }
     
     func SEL_showCodewords() {
@@ -207,9 +252,21 @@ class SyncAddDeviceViewController: SyncViewController {
         SEL_changeMode()
     }
     
+    func SEL_copy() {
+        UIPasteboard.general.string = self.codewordsView.text
+        didCopy = true
+    }
+    
     func SEL_changeMode() {
-        barcodeView.isHidden = (modeControl.selectedSegmentIndex == 1)
+        qrCodeView.isHidden = (modeControl.selectedSegmentIndex == 1)
         codewordsView.isHidden = (modeControl.selectedSegmentIndex == 0)
+        copyPasteButton.isHidden = (modeControl.selectedSegmentIndex == 0)
+        
+        if copyPasteButton.isHidden {
+            copiedlabel.isHidden = true
+        }
+        
+        updateLabels()
     }
     
     func SEL_done() {

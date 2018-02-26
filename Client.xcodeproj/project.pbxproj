@@ -222,7 +222,7 @@
 		5C0FCE531E637B9D0016DF0F /* SyncAddDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0FCE521E637B9D0016DF0F /* SyncAddDeviceViewController.swift */; };
 		5C0FCE5C1E637C160016DF0F /* SyncPairCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0FCE5B1E637C160016DF0F /* SyncPairCameraViewController.swift */; };
 		5C0FCE5E1E6381B70016DF0F /* SyncSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0FCE5D1E6381B70016DF0F /* SyncSettingsViewController.swift */; };
-		5C0FCE601E63E1790016DF0F /* SyncBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0FCE5F1E63E1790016DF0F /* SyncBarcodeView.swift */; };
+		5C0FCE601E63E1790016DF0F /* SyncQRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0FCE5F1E63E1790016DF0F /* SyncQRCodeView.swift */; };
 		5C0FCE621E63E1D90016DF0F /* SyncCodewordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0FCE611E63E1D90016DF0F /* SyncCodewordsView.swift */; };
 		5C0FCE641E63EA170016DF0F /* SyncPairWordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0FCE631E63EA170016DF0F /* SyncPairWordsViewController.swift */; };
 		5C0FCE661E63EB8B0016DF0F /* SyncCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0FCE651E63EB8B0016DF0F /* SyncCameraView.swift */; };
@@ -1213,7 +1213,7 @@
 		5C0FCE521E637B9D0016DF0F /* SyncAddDeviceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncAddDeviceViewController.swift; path = brave/src/frontend/sync/SyncAddDeviceViewController.swift; sourceTree = "<group>"; };
 		5C0FCE5B1E637C160016DF0F /* SyncPairCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncPairCameraViewController.swift; path = brave/src/frontend/sync/SyncPairCameraViewController.swift; sourceTree = "<group>"; };
 		5C0FCE5D1E6381B70016DF0F /* SyncSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncSettingsViewController.swift; path = brave/src/frontend/sync/SyncSettingsViewController.swift; sourceTree = "<group>"; };
-		5C0FCE5F1E63E1790016DF0F /* SyncBarcodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncBarcodeView.swift; path = brave/src/frontend/sync/SyncBarcodeView.swift; sourceTree = "<group>"; };
+		5C0FCE5F1E63E1790016DF0F /* SyncQRCodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncQRCodeView.swift; path = brave/src/frontend/sync/SyncQRCodeView.swift; sourceTree = "<group>"; };
 		5C0FCE611E63E1D90016DF0F /* SyncCodewordsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncCodewordsView.swift; path = brave/src/frontend/sync/SyncCodewordsView.swift; sourceTree = "<group>"; };
 		5C0FCE631E63EA170016DF0F /* SyncPairWordsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncPairWordsViewController.swift; path = brave/src/frontend/sync/SyncPairWordsViewController.swift; sourceTree = "<group>"; };
 		5C0FCE651E63EB8B0016DF0F /* SyncCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncCameraView.swift; path = brave/src/frontend/sync/SyncCameraView.swift; sourceTree = "<group>"; };
@@ -2446,7 +2446,7 @@
 				5C0FCE5B1E637C160016DF0F /* SyncPairCameraViewController.swift */,
 				5C0FCE631E63EA170016DF0F /* SyncPairWordsViewController.swift */,
 				5C0FCE5D1E6381B70016DF0F /* SyncSettingsViewController.swift */,
-				5C0FCE5F1E63E1790016DF0F /* SyncBarcodeView.swift */,
+				5C0FCE5F1E63E1790016DF0F /* SyncQRCodeView.swift */,
 				5C0FCE611E63E1D90016DF0F /* SyncCodewordsView.swift */,
 				0AD1463F201BA3DA0052B5B3 /* SyncShowCodewords.swift */,
 				5C0FCE651E63EB8B0016DF0F /* SyncCameraView.swift */,
@@ -4802,7 +4802,7 @@
 				5C0FCE661E63EB8B0016DF0F /* SyncCameraView.swift in Sources */,
 				EA13B15D4D6AF3EAC2B3177D /* TabTrayController.swift in Sources */,
 				0A03FFB11FCDF0C400DF32C9 /* unicode_groups.cc in Sources */,
-				5C0FCE601E63E1790016DF0F /* SyncBarcodeView.swift in Sources */,
+				5C0FCE601E63E1790016DF0F /* SyncQRCodeView.swift in Sources */,
 				1A23068D5E66CD83B1512D15 /* URIFixup.swift in Sources */,
 				7A4740A67EFB857AA6E9944A /* URLBarView.swift in Sources */,
 				EB00A2F51E1BF4CC00680DB8 /* BloomFilter.cpp in Sources */,

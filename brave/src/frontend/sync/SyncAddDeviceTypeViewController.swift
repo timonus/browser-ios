@@ -96,7 +96,7 @@ class SyncAddDeviceTypeViewController: SyncViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = Strings.Sync
+        title = "Sync a Device"
 
         let stackView = UIStackView()
         stackView.axis = .vertical

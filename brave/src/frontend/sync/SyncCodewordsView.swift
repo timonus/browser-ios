@@ -2,132 +2,91 @@
 
 import Shared
 
-class SyncCodewordsView: UIView, UITextFieldDelegate {
-    var fields: [UITextField] = []
+class SyncCodewordsView: UIView, UITextViewDelegate {
+    lazy var field: UITextView = {
+        let textView = UITextView()
+        textView.autocapitalizationType = .none
+        textView.autocorrectionType = .yes
+        textView.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium)
+        textView.textColor = BraveUX.GreyJ
+        return textView
+    }()
     
-    let DefaultBackgroundColor = BraveUX.GreyC
-    let SelectedBackgroundColor = UIColor.white
+    lazy var placeholder: UILabel = {
+        let label = UILabel()
+        label.text = Strings.CodeWordInputHelp
+        label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightRegular)
+        label.textColor = BraveUX.GreyE
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
     
-    let DefaultBorderWidth: CGFloat = 0.0
-    let SelectedBorderWidth: CGFloat = 0.5
-    
-    let DefaultBorderColor = BraveUX.GreyH.cgColor
-    
-    var doneKeyCallback: (() -> Void)?
+    var wordCountChangeCallback: ((_ count: Int) -> Void)?
+    var currentWordCount = 0
     
     convenience init(data: [String]) {
         self.init()
         
-        for i in 0...15 {
-            let field = UITextField()
-            field.delegate = self
-            field.tag = i
-            field.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightRegular)
-            field.textAlignment = .center
-            field.textColor = BraveUX.GreyJ
-            field.keyboardAppearance = .dark
-            field.autocapitalizationType = .none
-            field.autocorrectionType = .no
-            field.returnKeyType = i < 15 ? .continue : .done
-            field.text = data.count > i ? data[i] : ""
-            field.backgroundColor = DefaultBackgroundColor
-            field.layer.cornerRadius = 4
-            field.layer.masksToBounds = true
-            field.layer.borderWidth = DefaultBorderWidth
-            field.layer.borderColor = DefaultBorderColor
-            field.placeholder = "\(i + 1)"
-            addSubview(field)
-            fields.append(field)
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(field)
+        addSubview(placeholder)
+        
+        setCodewords(data: data)
+        
+        field.snp.makeConstraints { (make) in
+            make.edges.equalTo(self).inset(20)
+        }
+
+        placeholder.snp.makeConstraints { (make) in
+            make.top.left.right.equalTo(field).inset(UIEdgeInsetsMake(8, 4, 0, 0))
         }
         
-        // Read-only if data passed.
-        if !data.isEmpty {
-            fields.forEach { $0.isEnabled = false }
-        }
+        field.delegate = self
+    }
+    
+    func setCodewords(data: [String]) {
+        field.text = data.count > 0 ? data.joined(separator: " ") : ""
+        
+        updateWordCount()
     }
     
     func codeWords() -> [String] {
-        return fields.map { $0.text?.withoutSpaces }.filter { $0?.characters.count ?? 0 > 0 }.flatMap { $0 }
+        let text = field.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        return text.components(separatedBy: " ")
     }
     
-    override func layoutSubviews() {
-        let spaceX: CGFloat = 10
-        let spaceY: CGFloat = 7
-        var x: CGFloat = 0
-        var y: CGFloat = 0
-        let w: CGFloat = (bounds.width - spaceX * 4) / 3
-        let h: CGFloat = 26
-        for i in 0..<fields.count {
-            x = x + spaceX
-            if x + w > bounds.width {
-                x = spaceX
-                y = y + h + spaceY
-            }
-            if i == fields.count - 1 {
-                // Center last.
-                x = (bounds.width - w) / 2
-            }
-            
-            let field = fields[i]
-            var fieldFrame = field.frame
-            fieldFrame.origin.x = x
-            fieldFrame.origin.y = y
-            fieldFrame.size.width = w
-            fieldFrame.size.height = h
-            field.frame = fieldFrame
-            
-            x = x + w
+    func wordCount() -> Int {
+        let words = field.text.components(separatedBy: " ")
+        var count = words.count
+        // Don't count if it's just a space (no characters entered for new word)
+        if count > 0, let last = words.last, last.count < 1 {
+            count -= 1
         }
+        return count
     }
     
-    override func sizeToFit() {
-        let field = fields[fields.count - 1]
-        var f = frame
-        f.size.width = bounds.width
-        f.size.height = field.frame.maxY
-        frame = f
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.layer.borderWidth = SelectedBorderWidth
-        textField.backgroundColor = SelectedBackgroundColor
+    func updateWordCount() {
+        placeholder.isHidden = (field.text.count != 0)
         
-        // Clear text, much easier to retype then attempt to edit inline
-        textField.text = nil
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.layer.borderWidth = DefaultBorderWidth
-        textField.backgroundColor = DefaultBackgroundColor
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.tag < fields.count - 1 {
-            let field = fields[textField.tag + 1]
-            field.becomeFirstResponder()
-        } else {
-            doneKeyCallback?()
+        let wordCount = self.wordCount()
+        if wordCount != currentWordCount {
+            currentWordCount = wordCount
+            wordCountChangeCallback?(wordCount)
         }
+    }
+    
+    @discardableResult override func becomeFirstResponder() -> Bool {
+        field.becomeFirstResponder()
         return true
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        guard let text = textField.text else {
-            return true
-        }
-        
-        // Filter out whitespace and apply change to current text
-        
-        let start = text.index(text.startIndex, offsetBy: range.location)
-        let end = text.index(text.startIndex, offsetBy: range.location + range.length)
-        let result = text.replacingCharacters(in: start..<end, with: string.withoutSpaces)
-
-        
-        // Manually apple text to have better control over what is being entered
-        //  Could use this for custom autocomplete for pre-defined keywords
-        textField.text = result
-        
-        return false
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return text != "\n"
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        updateWordCount()
     }
 }

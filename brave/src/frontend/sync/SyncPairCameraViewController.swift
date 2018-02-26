@@ -23,7 +23,7 @@ class SyncPairCameraViewController: SyncViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = Strings.Pair
+        title = Strings.ScanSyncCode
         
         // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {

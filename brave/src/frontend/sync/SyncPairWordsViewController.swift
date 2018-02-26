@@ -7,8 +7,25 @@ class SyncPairWordsViewController: SyncViewController {
     
     var scrollView: UIScrollView!
     var containerView: UIView!
-    var helpLabel: UILabel!
     var codewordsView: SyncCodewordsView!
+    
+    lazy var wordCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFontWeightRegular)
+        label.textColor = BraveUX.GreyE
+        label.text = "Word count: 0"
+        return label
+    }()
+    
+    lazy var copyPasteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "copy_paste"), for: .normal)
+        button.addTarget(self, action: #selector(SEL_paste), for: .touchUpInside)
+        button.sizeToFit()
+        return button
+    }()
+    
+    var useCameraButton: RoundInterfaceButton!
     
     var loadingView: UIView!
     let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
@@ -20,7 +37,7 @@ class SyncPairWordsViewController: SyncViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = Strings.Pair
+        title = Strings.SyncAddDeviceWords
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,17 +53,20 @@ class SyncPairWordsViewController: SyncViewController {
         scrollView.addSubview(containerView)
         
         codewordsView = SyncCodewordsView(data: [])
-        codewordsView.doneKeyCallback = {
-            self.checkCodes()
+        codewordsView.wordCountChangeCallback = { (count) in
+            self.wordCountLabel.text = String(format: Strings.WordCount, count)
         }
         containerView.addSubview(codewordsView)
+        containerView.addSubview(wordCountLabel)
+        containerView.addSubview(copyPasteButton)
         
-        helpLabel = UILabel()
-        helpLabel.translatesAutoresizingMaskIntoConstraints = false
-        helpLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
-        helpLabel.textColor = UIColor(rgb: 0x696969)
-        helpLabel.text = Strings.EnterCodeWordsBelow
-        scrollView.addSubview(helpLabel)
+        useCameraButton = RoundInterfaceButton(type: .roundedRect)
+        useCameraButton.translatesAutoresizingMaskIntoConstraints = false
+        useCameraButton.setTitle(Strings.UseCameraButton, for: .normal)
+        useCameraButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+        useCameraButton.setTitleColor(BraveUX.GreyH, for: .normal)
+        useCameraButton.addTarget(self, action: #selector(SEL_camera), for: .touchUpInside)
+        view.addSubview(useCameraButton)
         
         loadingSpinner.startAnimating()
         
@@ -56,7 +76,7 @@ class SyncPairWordsViewController: SyncViewController {
         loadingView.addSubview(loadingSpinner)
         view.addSubview(loadingView)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SEL_done))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: Strings.Confirm, style: .done, target: self, action: #selector(SEL_done))
         
         edgesForExtendedLayout = UIRectEdge()
         
@@ -74,13 +94,23 @@ class SyncPairWordsViewController: SyncViewController {
             make.width.equalTo(self.view)
         }
         
-        helpLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.containerView.snp.top).offset(10)
-            make.centerX.equalTo(self.scrollView)
+        codewordsView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.containerView).inset(UIEdgeInsetsMake(0, 0, 45, 0))
         }
         
-        codewordsView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.containerView).inset(UIEdgeInsetsMake(44, 0, 0, 0))
+        wordCountLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(codewordsView.snp.bottom)
+            make.left.equalTo(codewordsView).inset(24)
+        }
+        
+        copyPasteButton.snp.makeConstraints { (make) in
+            make.top.equalTo(codewordsView.snp.bottom)
+            make.right.equalTo(codewordsView).inset(24)
+        }
+        
+        useCameraButton.snp.makeConstraints { (make) in
+            make.top.equalTo(containerView.snp.bottom).offset(20)
+            make.centerX.equalTo(view)
         }
         
         loadingView.snp.makeConstraints { (make) in
@@ -95,13 +125,17 @@ class SyncPairWordsViewController: SyncViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Focus on first input field.
-        codewordsView.fields[0].becomeFirstResponder()
+        codewordsView.becomeFirstResponder()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    func SEL_paste() {
+        if let contents = UIPasteboard.general.string {
+            codewordsView.setCodewords(data: contents.components(separatedBy: " "))
+        }
+    }
+    
+    func SEL_camera() {
+        navigationController?.popViewController(animated: true)
     }
     
     func SEL_done() {
@@ -116,10 +150,10 @@ class SyncPairWordsViewController: SyncViewController {
                 // No alert
                 return
             }
-            let title = title ?? "Unable to Connect"
-            let message = message ?? "Unable to join sync group. Please check the entered words and try again."
+            let title = title ?? Strings.UnableToConnectTitle
+            let message = message ?? Strings.UnableToConnectDescription
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
         
@@ -132,7 +166,7 @@ class SyncPairWordsViewController: SyncViewController {
 
         // Maybe temporary validation, sync server has issues without this validation
         if codes.count < Sync.SeedByteLength / 2 {
-            alert(title: "Not Enough Words", message: "Please enter all of the words and try again.")
+            alert(title: Strings.NotEnoughWordsTitle, message: Strings.NotEnoughWordsDescription)
             return
         }
         
