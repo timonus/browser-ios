@@ -2,6 +2,7 @@
 
 import UIKit
 import Shared
+import AVFoundation
 
 class SyncPairCameraViewController: SyncViewController {
 
@@ -148,9 +149,37 @@ class SyncPairCameraViewController: SyncViewController {
             make.center.equalTo(loadingSpinner.superview!)
         }
     }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: nil) { _ in
+            self.cameraView.videoPreviewLayer?.connection.videoOrientation = AVCaptureVideoOrientation(ui: UIApplication.shared.statusBarOrientation)
+        }
+    }
     
     func SEL_enterWords() {
         navigationController?.pushViewController(SyncPairWordsViewController(), animated: true)
     }
 }
 
+extension AVCaptureVideoOrientation {
+    var uiInterfaceOrientation: UIInterfaceOrientation {
+        get {
+            switch self {
+            case .landscapeLeft:        return .landscapeLeft
+            case .landscapeRight:       return .landscapeRight
+            case .portrait:             return .portrait
+            case .portraitUpsideDown:   return .portraitUpsideDown
+            }
+        }
+    }
+
+    init(ui:UIInterfaceOrientation) {
+        switch ui {
+        case .landscapeRight:       self = .landscapeRight
+        case .landscapeLeft:        self = .landscapeLeft
+        case .portrait:             self = .portrait
+        case .portraitUpsideDown:   self = .portraitUpsideDown
+        default:                    self = .portrait
+        }
+    }
+}
