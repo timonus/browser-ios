@@ -6,17 +6,15 @@ import Shared
 class SyncSettingsViewController: AppSettingsTableViewController {
     
     private enum SyncSection: Int {
-        
-        case devices, options, reset
+        // Raw values correspond to table sections.
+        case pushSync, devices, actionButtons
         
         // To disable a section, just remove it from this enum, and it will no longer be loaded
-        static let allSections: [SyncSection] = [.options, .devices, .reset]
+        static let allSections: [SyncSection] = [.pushSync, .devices, .actionButtons]
         
         func settings(profile: Profile) -> SettingSection? {
-            // TODO: move these prefKeys somewhere else
+            // TODO: move prefKey somewhere else
             let syncPrefBookmarks = "syncBookmarksKey"
-            let syncPrefTabs = "syncTabsKey"
-            let syncPrefHistory = "syncHistoryKey"
             
             switch self {
             case .devices:
@@ -25,16 +23,14 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                 }
                 
                 return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices)
-            case .options:
+            case .pushSync:
                 let prefs = profile.prefs
                 return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercased()), children:
-                    [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true, titleText: Strings.Bookmarks)
-                    ,BoolSetting(prefs: prefs, prefKey: syncPrefTabs, defaultValue: true, titleText: Strings.Tabs)
-                    ,BoolSetting(prefs: prefs, prefKey: syncPrefHistory, defaultValue: true, titleText: Strings.History)
-                    ]
+                    [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true,
+                                 titleText: Strings.PushSyncEnabled)]
                 )
-            case .reset:
-                return SettingSection(title: nil, children: [RemoveDeviceSetting(profile: profile)])
+            case .actionButtons:
+                return SettingSection(title: nil, children: [AddDeviceSetting(), RemoveDeviceSetting(profile: profile)])
             }
         }
         
@@ -50,68 +46,111 @@ class SyncSettingsViewController: AppSettingsTableViewController {
             return settings
         }
     }
-    
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = InsetLabel(frame: CGRect(x: 0, y: 5, width: tableView.frame.size.width, height: 60))
-        footerView.leftInset = CGFloat(20)
-        footerView.rightInset = CGFloat(45)
-        footerView.numberOfLines = 0
-        footerView.lineBreakMode = .byWordWrapping
-        footerView.font = UIFont.systemFont(ofSize: 13)
-        footerView.textColor = UIColor(rgb: 0x696969)
-        
-        if section == SyncSection.options.rawValue {
-            footerView.text = Strings.SyncDeviceSettingsFooter
-        }
-        
-        return footerView
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = Strings.Sync
+
+        // Need to clear it, superclass adds 'Done' button.
+        navigationItem.rightBarButtonItem = nil
     }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == SyncSection.options.rawValue ? 40 : 20
-    }
-    
-    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.section != 1
-    }
-    
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.section == 1
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            guard let devices = Device.deviceSettings(profile: profile) else {
-                return;
-            }
-            
-            devices[indexPath.row].device.remove(save: true)
-            tableView.reloadData()
-        }
-    }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        title = Strings.Devices
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(SEL_addDevice))
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return section == SyncSection.pushSync.rawValue ? nil : super.tableView(tableView, viewForHeaderInSection: section)
+    }
+
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+
+        guard let syncSection = SyncSection(rawValue: section) else { return nil }
+
+        switch syncSection {
+        case .pushSync:
+            // TODO: Better/more user friendly text for explaining users what push sync does.
+            return Strings.PushSyncFooter
+        case .devices:
+            return Strings.SyncDeviceSettingsFooter
+        default:
+            return nil
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.section != SyncSection.devices.rawValue
     }
     
-    override func generateSettings() -> [SettingSection] {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section != SyncSection.devices.rawValue { return false }
+
+        // First cell is our own device, we don't want to allow swipe to delete it.
+        return indexPath.row != 0
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard let devices = Device.deviceSettings(profile: profile), editingStyle == .delete else { return }
+            
+        devices[indexPath.row].device.remove(save: true)
+
+        // To refresh device list, we need to repopulate all settings sections.
+        settings = []
+        generateSettings()
+        tableView.reloadData()
+    }
+
+    @discardableResult override func generateSettings() -> [SettingSection] {
         settings += SyncSection.allSyncSettings(profile: self.profile)
         
         return settings
     }
-    
-    func SEL_addDevice() {
+}
+
+// MARK: - Table buttons
+
+class RemoveDeviceSetting: Setting {
+    let profile: Profile
+
+    override var accessoryType: UITableViewCellAccessoryType { return .none }
+    override var accessibilityIdentifier: String? { return "RemoveDeviceSetting" }
+    override var textAlignment: NSTextAlignment { return .center }
+
+    init(profile: Profile) {
+        self.profile = profile
+        let clearTitle = Strings.SyncRemoveThisDevice
+        super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIColor.red, NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular)]))
+    }
+
+    override func onClick(_ navigationController: UINavigationController?) {
+        let alert = UIAlertController(title: Strings.SyncRemoveThisDeviceQuestion, message: Strings.SyncRemoveThisDeviceQuestionDesc, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: Strings.Remove, style: UIAlertActionStyle.destructive) { action in
+            Sync.shared.leaveSyncGroup()
+            navigationController?.popToRootViewController(animated: true)
+        })
+
+        navigationController?.present(alert, animated: true, completion: nil)
+    }
+}
+
+class AddDeviceSetting: Setting {
+    override var accessoryType: UITableViewCellAccessoryType { return .none }
+    override var accessibilityIdentifier: String? { return "AddDeviceSetting" }
+    override var textAlignment: NSTextAlignment { return .center }
+
+    init() {
+        let addDeviceString = Strings.SyncAddAnotherDevice
+
+        super.init(title: NSAttributedString(string: addDeviceString, attributes: [NSForegroundColorAttributeName: BraveUX.Blue, NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular)]))
+    }
+
+    override func onClick(_ navigationController: UINavigationController?) {
         let view = SyncAddDeviceTypeViewController()
         navigationController?.pushViewController(view, animated: true)
     }

@@ -2,6 +2,7 @@
 
 import UIKit
 import Shared
+import AVFoundation
 
 class SyncPairCameraViewController: SyncViewController {
 
@@ -11,8 +12,6 @@ class SyncPairCameraViewController: SyncViewController {
     var enterWordsButton: RoundInterfaceButton!
     
     fileprivate let prefs: Prefs = getApp().profile!.prefs
-    fileprivate let prefKey: String = "CameraPermissionsSetting"
-    
     var loadingView: UIView!
     let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
@@ -83,14 +82,6 @@ class SyncPairCameraViewController: SyncViewController {
                 self.cameraView.cameraOverlayError()
             }
         }
-        
-        cameraView.authorizedCallback = { authorized in
-            if authorized {
-                postAsyncToMain(0) {
-                    self.prefs.setBool(true, forKey: self.prefKey)
-                }
-            }
-        }
 
         stackView.addArrangedSubview(cameraView)
 
@@ -157,9 +148,11 @@ class SyncPairCameraViewController: SyncViewController {
         loadingSpinner.snp.makeConstraints { make in
             make.center.equalTo(loadingSpinner.superview!)
         }
-        
-        if prefs.boolForKey(prefKey) == true {
-            cameraView.startCapture()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: nil) { _ in
+            self.cameraView.videoPreviewLayer?.connection.videoOrientation = AVCaptureVideoOrientation(ui: UIApplication.shared.statusBarOrientation)
         }
     }
     
@@ -168,3 +161,25 @@ class SyncPairCameraViewController: SyncViewController {
     }
 }
 
+extension AVCaptureVideoOrientation {
+    var uiInterfaceOrientation: UIInterfaceOrientation {
+        get {
+            switch self {
+            case .landscapeLeft:        return .landscapeLeft
+            case .landscapeRight:       return .landscapeRight
+            case .portrait:             return .portrait
+            case .portraitUpsideDown:   return .portraitUpsideDown
+            }
+        }
+    }
+
+    init(ui:UIInterfaceOrientation) {
+        switch ui {
+        case .landscapeRight:       self = .landscapeRight
+        case .landscapeLeft:        self = .landscapeLeft
+        case .portrait:             self = .portrait
+        case .portraitUpsideDown:   self = .portraitUpsideDown
+        default:                    self = .portrait
+        }
+    }
+}

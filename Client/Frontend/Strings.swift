@@ -384,6 +384,7 @@ extension Strings {
     public static let SyncRemoveThisDeviceQuestionDesc = NSLocalizedString("This device will be disconnected from sync group and no longer receive or send sync data. All existing data will remain on device.", comment: "Sync remove device?")
     public static let Pair = NSLocalizedString("Pair", comment: "Sync pair device settings section title")
     public static let SyncDeviceSettingsFooter = NSLocalizedString("Changing settings will only affect data that this device shares with others.", comment: "Sync device settings footer details")
+    public static let SyncAddAnotherDevice = NSLocalizedString("Add another device", comment: "Add another device cell button.")
     public static let SyncAddMobileButton = NSLocalizedString("Add a Mobile Device", comment: "Add mobile device button title")
     public static let SyncAddComputerButton = NSLocalizedString("Add a Computer", comment: "Add mobile device button title")
     
@@ -400,6 +401,9 @@ extension Strings {
     public static let NotEnoughWordsDescription = NSLocalizedString("Please enter all of the words and try again.", comment: "Sync Alert")
     
     public static let CodeWordInputHelp = NSLocalizedString("Using existing synced device, open Brave Settings and navigate to Settings > Sync. Choose “Add Device” then “Display code words instead”", comment: "Code words input help")
+    
+    public static let PushSyncEnabled = NSLocalizedString("Push sync enabled", comment: "Push sync enabled cell title.")
+    public static let PushSyncFooter = NSLocalizedString("Disable push sync if you don't want to push bookmarks to other devices. Bookmarks will still be pulled.", comment: "Push sync settings footer details")
 }
 
 

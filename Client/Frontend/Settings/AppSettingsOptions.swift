@@ -198,34 +198,6 @@ class SyncDeviceSetting: Setting {
     }
 }
 
-class RemoveDeviceSetting: Setting {
-    let profile: Profile
-    
-    override var accessoryType: UITableViewCellAccessoryType { return .none }
-    
-    override var accessibilityIdentifier: String? { return "RemoveDeviceSetting" }
-    
-    override var textAlignment: NSTextAlignment { return .center }
-    
-    init(profile: Profile) {
-        self.profile = profile
-        let clearTitle = Strings.SyncRemoveThisDevice
-        super.init(title: NSAttributedString(string: clearTitle, attributes: [NSForegroundColorAttributeName: UIColor.red, NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular)]))
-    }
-    
-    override func onClick(_ navigationController: UINavigationController?) {
-        
-        let alert = UIAlertController(title: Strings.SyncRemoveThisDeviceQuestion, message: Strings.SyncRemoveThisDeviceQuestionDesc, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: Strings.Remove, style: UIAlertActionStyle.destructive) { action in
-            Sync.shared.leaveSyncGroup()
-            navigationController?.popToRootViewController(animated: true)
-        })
-        
-        navigationController?.present(alert, animated: true, completion: nil)
-    }
-}
-
 class ClearPrivateDataSetting: Setting {
     let profile: Profile
 
