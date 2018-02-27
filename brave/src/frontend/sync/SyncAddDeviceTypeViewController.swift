@@ -87,8 +87,9 @@ class SyncDeviceTypeButton: UIControl {
     }
 }
 
-class SyncAddDeviceTypeViewController: SyncViewController {
-    
+class SyncAddDeviceTypeViewController: SyncViewController, SyncSettingsScreen {
+    var popHandler: (() -> ())?
+
     let loadingView = UIView()
     let mobileButton = SyncDeviceTypeButton(image: "sync-mobile", title: Strings.SyncAddMobileButton, type: .mobile)
     let computerButton = SyncDeviceTypeButton(image: "sync-computer", title: Strings.SyncAddComputerButton, type: .computer)
@@ -161,6 +162,7 @@ class SyncAddDeviceTypeViewController: SyncViewController {
         if Sync.shared.isInSyncGroup {
             // Setup sync group
             let view = SyncAddDeviceViewController(title: title, type: type)
+            view.popHandler = popHandler
             view.navigationItem.hidesBackButton = true
             navigationController?.pushViewController(view, animated: true)
         } else {

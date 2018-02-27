@@ -8,7 +8,8 @@ enum DeviceType {
     case computer
 }
 
-class SyncAddDeviceViewController: SyncViewController {
+class SyncAddDeviceViewController: SyncViewController, SyncSettingsScreen {
+    var popHandler: (() -> ())?
 
     lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -274,19 +275,16 @@ class SyncAddDeviceViewController: SyncViewController {
     }
     
     func SEL_done() {
-        // At this point we're not sure if we started from welcome screen or sync settings vc
-        // SyncSettings may not be on the stack. Alternatively, chaining back to BraveSettings through
-        // references adds significantly more complexity and some loss of context clarity.
-        // The drawback is that this check is needed in two places. Durring add and after joining existing chain.
-        
-        if let syncSettingsView = navigationController?.viewControllers.first(where: { $0.isKind(of: SyncSettingsViewController.self) }) {
-            navigationController?.popToViewController(syncSettingsView, animated: true)
-        } else {
-            let syncSettingsView = SyncSettingsViewController(style: .grouped)
-            syncSettingsView.profile = getApp().profile
-            syncSettingsView.disableBackButton = true
-            navigationController?.pushViewController(syncSettingsView, animated: true)
-        }
+        popHandler?()
+
+//        if let handler = popHandler {
+//            handler()
+//        } else {
+//            let syncSettingsView = SyncSettingsViewController(style: .grouped)
+//            syncSettingsView.profile = getApp().profile
+//            syncSettingsView.disableBackButton = true
+//            navigationController?.pushViewController(syncSettingsView, animated: true)
+//        }
     }
 }
 

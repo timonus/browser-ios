@@ -3,6 +3,10 @@
 import UIKit
 import Shared
 
+protocol SyncSettingsScreen {
+    var popHandler: (() -> ())? { get set }
+}
+
 class SyncSettingsViewController: AppSettingsTableViewController {
     
     private enum SyncSection: Int {
@@ -180,6 +184,11 @@ class AddDeviceSetting: Setting {
 
     override func onClick(_ navigationController: UINavigationController?) {
         let view = SyncAddDeviceTypeViewController()
+        view.popHandler = {
+            if let settingsVC = navigationController?.childViewControllers[1] {
+                navigationController?.popToViewController(settingsVC, animated: true)
+            }
+        }
         navigationController?.pushViewController(view, animated: true)
     }
 }
