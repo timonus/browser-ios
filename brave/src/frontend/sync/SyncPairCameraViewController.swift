@@ -64,9 +64,7 @@ class SyncPairCameraViewController: SyncViewController {
                 }
                 
                 Scanner.Lock = true
-                DispatchQueue.main.async {
-                    self.cameraView.cameraOverlaySucess()
-                }
+                self.cameraView.cameraOverlaySucess()
                 
                 // Vibrate.
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))  

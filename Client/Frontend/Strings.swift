@@ -390,8 +390,6 @@ extension Strings {
     
     public static let Copied = NSLocalizedString("Copied!", comment: "Copied action complete title")
     
-    public static let UseCameraButton = NSLocalizedString("I'll use my camera...", comment: "Use camera button")
-    
     public static let WordCount = NSLocalizedString("Word count: %i", comment: "Word count title")
     
     public static let UnableToConnectTitle = NSLocalizedString("Unable to Connect", comment: "Sync Alert")

@@ -25,8 +25,6 @@ class SyncPairWordsViewController: SyncViewController {
         return button
     }()
     
-    var useCameraButton: RoundInterfaceButton!
-    
     var loadingView: UIView!
     let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
@@ -55,14 +53,6 @@ class SyncPairWordsViewController: SyncViewController {
         containerView.addSubview(codewordsView)
         containerView.addSubview(wordCountLabel)
         containerView.addSubview(copyPasteButton)
-        
-        useCameraButton = RoundInterfaceButton(type: .roundedRect)
-        useCameraButton.translatesAutoresizingMaskIntoConstraints = false
-        useCameraButton.setTitle(Strings.UseCameraButton, for: .normal)
-        useCameraButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
-        useCameraButton.setTitleColor(BraveUX.GreyH, for: .normal)
-        useCameraButton.addTarget(self, action: #selector(SEL_camera), for: .touchUpInside)
-        view.addSubview(useCameraButton)
         
         loadingSpinner.startAnimating()
         
@@ -104,11 +94,6 @@ class SyncPairWordsViewController: SyncViewController {
             make.right.equalTo(codewordsView).inset(24)
         }
         
-        useCameraButton.snp.makeConstraints { (make) in
-            make.top.equalTo(containerView.snp.bottom).offset(20)
-            make.centerX.equalTo(view)
-        }
-        
         loadingView.snp.makeConstraints { (make) in
             make.edges.equalTo(loadingView.superview!)
         }
@@ -129,10 +114,6 @@ class SyncPairWordsViewController: SyncViewController {
             // remove linebreaks and whitespace, split into codewords.
             codewordsView.setCodewords(data: contents.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: " "))
         }
-    }
-    
-    func SEL_camera() {
-        navigationController?.popViewController(animated: true)
     }
     
     func SEL_done() {
