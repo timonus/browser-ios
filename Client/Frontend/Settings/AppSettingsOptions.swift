@@ -168,7 +168,8 @@ class SyncDevicesSetting: Setting {
             settingsTableViewController.profile = getApp().profile
             navigationController?.pushViewController(settingsTableViewController, animated: true)
         } else {
-            navigationController?.pushViewController(SyncWelcomeViewController(), animated: true)
+            let view = SyncWelcomeViewController()
+            navigationController?.pushViewController(view, animated: true)
         }
     }
 }

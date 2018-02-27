@@ -54,6 +54,14 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         // Need to clear it, superclass adds 'Done' button.
         navigationItem.rightBarButtonItem = nil
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        settings = []
+        generateSettings()
+        tableView.reloadData()
+    }
 
     deinit {
         NotificationCenter.default.removeObserver(self)

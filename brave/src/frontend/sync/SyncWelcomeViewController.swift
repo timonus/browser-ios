@@ -87,10 +87,6 @@ class SyncWelcomeViewController: SyncViewController {
         return button
     }()
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -128,6 +124,6 @@ class SyncWelcomeViewController: SyncViewController {
     }
     
     func existingUserAction() {
-        self.navigationController?.pushViewController(SyncPairCameraViewController(), animated: true)
+        navigationController?.pushViewController(SyncPairCameraViewController(), animated: true)
     }
 }

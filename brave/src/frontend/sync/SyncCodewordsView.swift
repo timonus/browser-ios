@@ -58,7 +58,7 @@ class SyncCodewordsView: UIView, UITextViewDelegate {
     }
     
     func wordCount() -> Int {
-        let words = field.text.components(separatedBy: " ")
+        let words = codeWords()
         var count = words.count
         // Don't count if it's just a space (no characters entered for new word)
         if count > 0, let last = words.last, last.count < 1 {

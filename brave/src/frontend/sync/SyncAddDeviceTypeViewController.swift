@@ -158,11 +158,6 @@ class SyncAddDeviceTypeViewController: SyncViewController {
     }
     
     func attemptPush(title: String, type: DeviceType) {
-        if navigationController?.topViewController != self {
-            // Only perform a movement if something isn't being shown on top of self
-            return
-        }
-        
         if Sync.shared.isInSyncGroup {
             // Setup sync group
             let view = SyncAddDeviceViewController(title: title, type: type)

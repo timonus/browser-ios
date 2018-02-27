@@ -236,13 +236,15 @@ class SyncAddDeviceViewController: SyncViewController {
     }
     
     func updateLabels() {
+        let isFirstIndex = modeControl.selectedSegmentIndex == 0
+        
+        titleLabel.text = isFirstIndex ? Strings.SyncAddDeviceScan : Strings.SyncAddDeviceWords
+        
         if deviceType == .mobile {
-            titleLabel.text = modeControl.selectedSegmentIndex == 0 ? Strings.SyncAddDeviceScan : Strings.SyncAddDeviceWords
-            descriptionLabel.text = modeControl.selectedSegmentIndex == 0 ? Strings.SyncAddMobileScanDescription : Strings.SyncAddMobileWordsDescription
+            descriptionLabel.text = isFirstIndex ? Strings.SyncAddMobileScanDescription : Strings.SyncAddMobileWordsDescription
         }
         else if deviceType == .computer {
-            titleLabel.text = modeControl.selectedSegmentIndex == 0 ? Strings.SyncAddDeviceScan : Strings.SyncAddDeviceWords
-            descriptionLabel.text = modeControl.selectedSegmentIndex == 0 ? Strings.SyncAddComputerScanDescription : Strings.SyncAddComputerWordsDescription
+            descriptionLabel.text = isFirstIndex ? Strings.SyncAddComputerScanDescription : Strings.SyncAddComputerWordsDescription
         }
     }
     
@@ -258,9 +260,11 @@ class SyncAddDeviceViewController: SyncViewController {
     }
     
     func SEL_changeMode() {
-        qrCodeView.isHidden = (modeControl.selectedSegmentIndex == 1)
-        codewordsView.isHidden = (modeControl.selectedSegmentIndex == 0)
-        copyPasteButton.isHidden = (modeControl.selectedSegmentIndex == 0)
+        let isFirstIndex = modeControl.selectedSegmentIndex == 0
+        
+        qrCodeView.isHidden = !isFirstIndex
+        codewordsView.isHidden = isFirstIndex
+        copyPasteButton.isHidden = isFirstIndex
         
         if copyPasteButton.isHidden {
             copiedlabel.isHidden = true
@@ -273,10 +277,11 @@ class SyncAddDeviceViewController: SyncViewController {
         // Re-activate pop gesture in case it was removed
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        if let viewController = self.navigationController?.viewControllers[1] {
-            self.navigationController?.popToViewController(viewController, animated: true)
+        if let viewController = self.navigationController?.viewControllers[1], viewController.isKind(of: SyncSettingsViewController.self) {
+            navigationController?.popToViewController(viewController, animated: true)
         } else {
-            self.navigationController?.popToRootViewController(animated: true)
+            // Welcome screen is still on 1, need to have settings controller handle the switch.
+            NotificationCenter.default.post(name: NotificationPushToSyncSettings, object: nil)
         }
     }
 }

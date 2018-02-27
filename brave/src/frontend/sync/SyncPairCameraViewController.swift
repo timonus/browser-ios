@@ -22,17 +22,14 @@ class SyncPairCameraViewController: SyncViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = Strings.ScanSyncCode
-        
         // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
             notification in
-            if let viewController = self.navigationController?.viewControllers[1] {
-                self.navigationController?.popToViewController(viewController, animated: true)
-            } else {
-                self.navigationController?.popToRootViewController(animated: true)
-            }
+            NotificationCenter.default.post(name: NotificationPushToSyncSettings, object: nil)
+            NotificationCenter.default.removeObserver(self)
         })
+        
+        title = Strings.ScanSyncCode
 
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -66,7 +63,12 @@ class SyncPairCameraViewController: SyncViewController {
                 }
                 
                 Scanner.Lock = true
-                self.cameraView.cameraOverlaySucess()
+                DispatchQueue.main.async {
+                    self.cameraView.cameraOverlaySucess()
+                }
+                
+                // Vibrate.
+                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))  
                 
                 // Will be removed on pop
                 self.loadingView.isHidden = false
@@ -133,7 +135,7 @@ class SyncPairCameraViewController: SyncViewController {
         loadingView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
         loadingView.isHidden = true
         loadingView.addSubview(loadingSpinner)
-        stackView.addArrangedSubview(loadingView)
+        cameraView.addSubview(loadingView)
         
         edgesForExtendedLayout = UIRectEdge()
 
@@ -146,7 +148,7 @@ class SyncPairCameraViewController: SyncViewController {
         }
 
         loadingView.snp.makeConstraints { make in
-            make.margins.equalTo(cameraView.snp.margins)
+            make.left.right.top.bottom.equalTo(cameraView)
         }
         
         loadingSpinner.snp.makeConstraints { make in
