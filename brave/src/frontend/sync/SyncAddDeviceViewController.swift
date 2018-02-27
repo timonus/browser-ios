@@ -276,15 +276,6 @@ class SyncAddDeviceViewController: SyncViewController, SyncSettingsScreen {
     
     func SEL_done() {
         popHandler?()
-
-//        if let handler = popHandler {
-//            handler()
-//        } else {
-//            let syncSettingsView = SyncSettingsViewController(style: .grouped)
-//            syncSettingsView.profile = getApp().profile
-//            syncSettingsView.disableBackButton = true
-//            navigationController?.pushViewController(syncSettingsView, animated: true)
-//        }
     }
 }
 
