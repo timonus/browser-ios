@@ -3908,34 +3908,28 @@
 				TargetAttributes = {
 					288A2D851AB8B3260023ABC3 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 					};
 					2FCAE2191ABB51F800877008 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 					};
 					2FCAE2231ABB51F800877008 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0800;
 						TestTargetID = F84B21BD1A090F8100AAB793;
 					};
 					E4D567171ADECE2700F1EFE7 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 					};
 					E4D567211ADECE2700F1EFE7 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0800;
 						TestTargetID = F84B21BD1A090F8100AAB793;
 					};
 					E6F9650B1B2F1CF20034B023 = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = ULR7CC4V8L;
 					};
 					EB0F42501C9A46D800676650 = {
 						CreatedOnToolsVersion = 7.2;
@@ -3944,12 +3938,10 @@
 					};
 					EB53D0FA1D9C2BB20093077A = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 						TestTargetID = F84B21BD1A090F8100AAB793;
 					};
 					EB8E9B351C7CB4E1003AA90E = {
-						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 					};
 					F84B21BD1A090F8100AAB793 = {
