@@ -274,14 +274,18 @@ class SyncAddDeviceViewController: SyncViewController {
     }
     
     func SEL_done() {
-        // Re-activate pop gesture in case it was removed
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        // At this point we're not sure if we started from welcome screen or sync settings vc
+        // SyncSettings may not be on the stack. Alternatively, chaining back to BraveSettings through
+        // references adds significantly more complexity and some loss of context clarity.
+        // The drawback is that this check is needed in two places. Durring add and after joining existing chain.
         
-        if let viewController = self.navigationController?.viewControllers[1], viewController.isKind(of: SyncSettingsViewController.self) {
-            navigationController?.popToViewController(viewController, animated: true)
+        if let syncSettingsView = navigationController?.viewControllers.first(where: { $0.isKind(of: SyncSettingsViewController.self) }) {
+            navigationController?.popToViewController(syncSettingsView, animated: true)
         } else {
-            // Welcome screen is still on 1, need to have settings controller handle the switch.
-            NotificationCenter.default.post(name: NotificationPushToSyncSettings, object: nil)
+            let syncSettingsView = SyncSettingsViewController(style: .grouped)
+            syncSettingsView.profile = getApp().profile
+            syncSettingsView.disableBackButton = true
+            navigationController?.pushViewController(syncSettingsView, animated: true)
         }
     }
 }

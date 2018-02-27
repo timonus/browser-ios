@@ -29,19 +29,6 @@ class BraveSettingsView : AppSettingsTableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    override init(style: UITableViewStyle) {
-        super.init(style: style)
-        NotificationCenter.default.addObserver(forName: NotificationPushToSyncSettings, object: nil, queue: OperationQueue.main, using: { _ in self.pushSyncSettings() })
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -190,16 +177,6 @@ class BraveSettingsView : AppSettingsTableViewController {
     
         return settings
     }
-    
-    func pushSyncSettings() {
-        if Sync.shared.isInSyncGroup {
-            navigationController?.popToRootViewController(animated: true)
-            
-            let settingsTableViewController = SyncSettingsViewController(style: .grouped)
-            settingsTableViewController.profile = getApp().profile
-            navigationController?.pushViewController(settingsTableViewController, animated: true)
-        }
-    }
 }
 
 extension BraveSettingsView : PinViewControllerDelegate {
@@ -216,7 +193,6 @@ extension BraveSettingsView : PinViewControllerDelegate {
         }
     }
 }
-
 
 class VersionSetting : Setting {
     let settings: SettingsTableViewController

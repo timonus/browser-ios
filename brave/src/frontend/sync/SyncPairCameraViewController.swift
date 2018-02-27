@@ -15,19 +15,8 @@ class SyncPairCameraViewController: SyncViewController {
     var loadingView: UIView!
     let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
-            notification in
-            NotificationCenter.default.post(name: NotificationPushToSyncSettings, object: nil)
-            NotificationCenter.default.removeObserver(self)
-        })
         
         title = Strings.ScanSyncCode
 
@@ -37,6 +26,19 @@ class SyncPairCameraViewController: SyncViewController {
         stackView.alignment = .center
         stackView.spacing = 4
         view.addSubview(stackView)
+        
+        // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
+            notification in
+            if let syncSettingsView = self.navigationController?.viewControllers.first(where: { $0.isKind(of: SyncSettingsViewController.self) }) {
+                self.navigationController?.popToViewController(syncSettingsView, animated: true)
+            } else {
+                let syncSettingsView = SyncSettingsViewController(style: .grouped)
+                syncSettingsView.profile = getApp().profile
+                syncSettingsView.disableBackButton = true
+                self.navigationController?.pushViewController(syncSettingsView, animated: true)
+            }
+        })
 
         stackView.snp.makeConstraints { make in
             make.top.equalTo(self.topLayoutGuide.snp.bottom).offset(16)
@@ -50,7 +52,6 @@ class SyncPairCameraViewController: SyncViewController {
         cameraView.layer.cornerRadius = 4
         cameraView.layer.masksToBounds = true
         cameraView.scanCallback = { data in
-            
             
             // TODO: Check data against sync api
 

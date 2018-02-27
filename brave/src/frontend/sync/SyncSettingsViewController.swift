@@ -46,6 +46,15 @@ class SyncSettingsViewController: AppSettingsTableViewController {
             return settings
         }
     }
+    
+    lazy var refreshView: UIRefreshControl = {
+        let refresh = UIRefreshControl(frame: CGRect.zero)
+        refresh.tintColor = BraveUX.GreyE
+        refresh.addTarget(self, action: #selector(reloadDevicesAndSettings), for: .valueChanged)
+        return refresh
+    }()
+    
+    var disableBackButton: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,18 +62,21 @@ class SyncSettingsViewController: AppSettingsTableViewController {
 
         // Need to clear it, superclass adds 'Done' button.
         navigationItem.rightBarButtonItem = nil
+        
+        refreshControl = refreshView
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        settings = []
-        generateSettings()
-        tableView.reloadData()
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        if disableBackButton {
+            navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+            
+            navigationItem.setHidesBackButton(true, animated: false)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SEL_done))
+            
+            tableView.reloadData()
+        }
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -107,16 +119,24 @@ class SyncSettingsViewController: AppSettingsTableViewController {
             
         devices[indexPath.row].device.remove(save: true)
 
-        // To refresh device list, we need to repopulate all settings sections.
-        settings = []
-        generateSettings()
-        tableView.reloadData()
+        reloadDevicesAndSettings()
     }
 
     @discardableResult override func generateSettings() -> [SettingSection] {
         settings += SyncSection.allSyncSettings(profile: self.profile)
         
         return settings
+    }
+    
+    func reloadDevicesAndSettings() {
+        settings = []
+        generateSettings()
+        tableView.reloadData()
+        refreshControl?.endRefreshing()
+    }
+    
+    func SEL_done() {
+        navigationController?.popToRootViewController(animated: true)
     }
 }
 

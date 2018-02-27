@@ -35,5 +35,3 @@ public let NotificationThumbnailEditOn = Notification.Name("NotificationThumbnai
 public let NotificationThumbnailEditOff = Notification.Name("NotificationThumbnailEditOff")
 
 public let NotificationMainThreadContextSignificantlyChanged = Notification.Name("NotificationMainThreadContextSignificantlyChanged")
-
-public let NotificationPushToSyncSettings = Notification.Name("NotificationPushToSyncSettings")

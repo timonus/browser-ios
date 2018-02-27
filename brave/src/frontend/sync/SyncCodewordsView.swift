@@ -54,7 +54,7 @@ class SyncCodewordsView: UIView, UITextViewDelegate {
     
     func codeWords() -> [String] {
         let text = field.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        return text.components(separatedBy: " ")
+        return text.components(separatedBy: " ").filter { $0.count > 0 }
     }
     
     func wordCount() -> Int {
