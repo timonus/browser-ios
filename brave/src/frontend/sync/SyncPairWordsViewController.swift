@@ -112,7 +112,7 @@ class SyncPairWordsViewController: SyncViewController {
     func SEL_paste() {
         if let contents = UIPasteboard.general.string {
             // remove linebreaks and whitespace, split into codewords.
-            codewordsView.setCodewords(data: contents.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: " "))
+            codewordsView.setCodewords(data: contents.separatedBy(" "))
         }
     }
     

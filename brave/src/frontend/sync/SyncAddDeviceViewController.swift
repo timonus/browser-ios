@@ -266,7 +266,7 @@ class SyncAddDeviceViewController: SyncViewController {
         codewordsView.isHidden = isFirstIndex
         copyPasteButton.isHidden = isFirstIndex
         
-        if copyPasteButton.isHidden {
+        if isFirstIndex {
             copiedlabel.isHidden = true
         }
         
