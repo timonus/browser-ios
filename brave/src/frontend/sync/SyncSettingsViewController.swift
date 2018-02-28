@@ -3,10 +3,6 @@
 import UIKit
 import Shared
 
-protocol SyncSettingsScreen {
-    var popHandler: (() -> ())? { get set }
-}
-
 class SyncSettingsViewController: AppSettingsTableViewController {
     
     private enum SyncSection: Int {
@@ -16,7 +12,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         // To disable a section, just remove it from this enum, and it will no longer be loaded
         static let allSections: [SyncSection] = [.pushSync, .devices, .actionButtons]
         
-        func settings(profile: Profile) -> SettingSection? {
+        func settings(profile: Profile, owner: UIViewController) -> SettingSection? {
             // TODO: move prefKey somewhere else
             let syncPrefBookmarks = "syncBookmarksKey"
             
@@ -34,15 +30,18 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                                  titleText: Strings.PushSyncEnabled)]
                 )
             case .actionButtons:
-                return SettingSection(title: nil, children: [AddDeviceSetting(), RemoveDeviceSetting(profile: profile)])
+                return SettingSection(title: nil, children: [AddDeviceSetting(owner: owner), RemoveDeviceSetting(profile: profile)])
             }
         }
         
-        static func allSyncSettings(profile: Profile) -> [SettingSection] {
+        // TODO: Rather than this being `static` on the enum, it should probably just be
+        // attached directly to `owner` so it can pass in `self`, rather than passing an owner around
+        // In truth, this really just shouldn't be a standard settings view, this is gross
+        static func allSyncSettings(profile: Profile, owner: UIViewController) -> [SettingSection] {
             
             var settings = [SettingSection]()
             SyncSection.allSections.forEach {
-                if let section = $0.settings(profile: profile) {
+                if let section = $0.settings(profile: profile, owner: owner) {
                     settings.append(section)
                 }
             }
@@ -127,7 +126,7 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     }
 
     @discardableResult override func generateSettings() -> [SettingSection] {
-        settings += SyncSection.allSyncSettings(profile: self.profile)
+        settings += SyncSection.allSyncSettings(profile: self.profile, owner: self)
         
         return settings
     }
@@ -175,8 +174,13 @@ class AddDeviceSetting: Setting {
     override var accessoryType: UITableViewCellAccessoryType { return .none }
     override var accessibilityIdentifier: String? { return "AddDeviceSetting" }
     override var textAlignment: NSTextAlignment { return .center }
+    private var owner: UIViewController!
 
-    init() {
+    // An odd work around to the whole non-view settings mechanisms in place.
+    // Generally button actions would be controlled by the VC and not the literal UIView (as it is here)
+    // To 'simulate' a VC control, it is passed in here to be utilized in the navigation stack
+    init(owner: UIViewController) {
+        self.owner = owner
         let addDeviceString = Strings.SyncAddAnotherDevice
 
         super.init(title: NSAttributedString(string: addDeviceString, attributes: [NSForegroundColorAttributeName: BraveUX.Blue, NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular)]))
@@ -184,10 +188,8 @@ class AddDeviceSetting: Setting {
 
     override func onClick(_ navigationController: UINavigationController?) {
         let view = SyncAddDeviceTypeViewController()
-        view.popHandler = {
-            if let settingsVC = navigationController?.childViewControllers[1] {
-                navigationController?.popToViewController(settingsVC, animated: true)
-            }
+        view.syncCompletedHandler = { _, _ in
+            navigationController?.popToViewController(self.owner, animated: true)
         }
         navigationController?.pushViewController(view, animated: true)
     }

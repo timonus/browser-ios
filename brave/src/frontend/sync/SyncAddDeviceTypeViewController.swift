@@ -87,8 +87,8 @@ class SyncDeviceTypeButton: UIControl {
     }
 }
 
-class SyncAddDeviceTypeViewController: SyncViewController, SyncSettingsScreen {
-    var popHandler: (() -> ())?
+class SyncAddDeviceTypeViewController: SyncViewController {
+    var syncCompletedHandler: ((String, DeviceType) -> ())?
 
     let loadingView = UIView()
     let mobileButton = SyncDeviceTypeButton(image: "sync-mobile", title: Strings.SyncAddMobileButton, type: .mobile)
@@ -160,17 +160,14 @@ class SyncAddDeviceTypeViewController: SyncViewController, SyncSettingsScreen {
     
     func attemptPush(title: String, type: DeviceType) {
         if Sync.shared.isInSyncGroup {
-            // Setup sync group
-            let view = SyncAddDeviceViewController(title: title, type: type)
-            view.popHandler = popHandler
-            view.navigationItem.hidesBackButton = true
-            navigationController?.pushViewController(view, animated: true)
-        } else {
-            self.loadingView.isHidden = true
-            let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            syncCompletedHandler?(title, type)
+            return
         }
+        
+        self.loadingView.isHidden = true
+        let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

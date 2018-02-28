@@ -8,8 +8,8 @@ enum DeviceType {
     case computer
 }
 
-class SyncAddDeviceViewController: SyncViewController, SyncSettingsScreen {
-    var popHandler: (() -> ())?
+class SyncAddDeviceViewController: SyncViewController {
+    var doneHandler: (() -> ())?
 
     lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -61,6 +61,7 @@ class SyncAddDeviceViewController: SyncViewController, SyncSettingsScreen {
         }
     }
     
+    // Pass in doneHandler here
     convenience init(title: String, type: DeviceType) {
         self.init()
         pageTitle = title
@@ -275,14 +276,7 @@ class SyncAddDeviceViewController: SyncViewController, SyncSettingsScreen {
     }
     
     func SEL_done() {
-        if let handler = popHandler {
-            handler()
-        } else {
-            let syncSettingsView = SyncSettingsViewController(style: .grouped)
-            syncSettingsView.profile = getApp().profile
-            syncSettingsView.disableBackButton = true
-            navigationController?.pushViewController(syncSettingsView, animated: true)
-        }
+        doneHandler?()
     }
 }
 

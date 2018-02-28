@@ -4,9 +4,9 @@ import UIKit
 import Shared
 import AVFoundation
 
-class SyncPairCameraViewController: SyncViewController, SyncSettingsScreen {
-    var popHandler: (() -> ())?
-
+class SyncPairCameraViewController: SyncViewController {
+    
+    var doneHandler: (() -> ())?
     var cameraView: SyncCameraView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -28,19 +28,10 @@ class SyncPairCameraViewController: SyncViewController, SyncSettingsScreen {
         stackView.spacing = 4
         view.addSubview(stackView)
         
-        // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
-            notification in
-
-            if let handler = self.popHandler {
-                handler()
-            } else {
-                let syncSettingsView = SyncSettingsViewController(style: .grouped)
-                syncSettingsView.profile = getApp().profile
-                syncSettingsView.disableBackButton = true
-                self.navigationController?.pushViewController(syncSettingsView, animated: true)
-            }
-        })
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
+                                               object: nil,
+                                               queue: OperationQueue.main,
+                                               using: { _ in self.doneHandler?() })
 
         stackView.snp.makeConstraints { make in
             make.top.equalTo(self.topLayoutGuide.snp.bottom).offset(16)
