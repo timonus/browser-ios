@@ -126,10 +126,10 @@ class SyncWelcomeViewController: SyncViewController {
     }
     
     func newToSyncAction() {
-        let addDevice = SyncAddDeviceTypeViewController()
+        let addDevice = SyncSelectDeviceTypeViewController()
         addDevice.syncInitHandler = { (title, type) in
             weak var weakSelf = self
-            func attemptPush() {
+            func pushAddDeviceVC() {
                 guard Sync.shared.isInSyncGroup else {
                     addDevice.disableNavigationPrevention()
                     let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
@@ -137,9 +137,7 @@ class SyncWelcomeViewController: SyncViewController {
                     addDevice.present(alert, animated: true, completion: nil)
                     return
                 }
-                
-                // Successful!
-                
+
                 let view = SyncAddDeviceViewController(title: title, type: type)
                 view.doneHandler = self.pushSettings
                 view.navigationItem.hidesBackButton = true
@@ -147,16 +145,12 @@ class SyncWelcomeViewController: SyncViewController {
             }
             
             if Sync.shared.isInSyncGroup {
-                attemptPush()
+                pushAddDeviceVC()
                 return
             }
 
             addDevice.enableNavigationPrevention()
-            
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
-                                                   object: nil,
-                                                   queue: OperationQueue.main,
-                                                   using: { _ in attemptPush() })
+            self.addSyncReadyNotificationObserver { pushAddDeviceVC() }
             
             Sync.shared.initializeNewSyncGroup(deviceName: UIDevice.current.name)
         }
@@ -170,17 +164,25 @@ class SyncWelcomeViewController: SyncViewController {
         pairCamera.syncHandler = { bytes in
             pairCamera.enableNavigationPrevention()
             Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
-            
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
-                                                   object: nil,
-                                                   queue: OperationQueue.main,
-                                                   using: { _ in
-                                                    pairCamera.disableNavigationPrevention()
-                                                    self.pushSettings()
-                                                    })
+
+            self.addSyncReadyNotificationObserver {
+                pairCamera.disableNavigationPrevention()
+                self.pushSettings()
+            }
         }
         
         navigationController?.pushViewController(pairCamera, animated: true)
+    }
+
+    private func addSyncReadyNotificationObserver(completion: @escaping () -> ()) {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
+                                               object: nil,
+                                               queue: OperationQueue.main,
+                                               using: { notification in
+                                                completion()
+                                                // This is a one-time notification, removing it immediately.
+                                                NotificationCenter.default.removeObserver(notification)
+        })
     }
     
     private func pushSettings() {

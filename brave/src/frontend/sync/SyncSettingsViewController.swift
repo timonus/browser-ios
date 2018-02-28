@@ -187,7 +187,7 @@ class AddDeviceSetting: Setting {
     }
 
     override func onClick(_ navigationController: UINavigationController?) {
-        let view = SyncAddDeviceTypeViewController()
+        let view = SyncSelectDeviceTypeViewController()
         view.syncInitHandler = { title, type in
             let view = SyncAddDeviceViewController(title: title, type: type)
             view.doneHandler = {

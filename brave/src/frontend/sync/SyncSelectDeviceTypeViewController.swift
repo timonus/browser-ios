@@ -87,7 +87,7 @@ class SyncDeviceTypeButton: UIControl {
     }
 }
 
-class SyncAddDeviceTypeViewController: SyncViewController {
+class SyncSelectDeviceTypeViewController: SyncViewController {
     var syncInitHandler: ((String, DeviceType) -> ())?
 
     let loadingView = UIView()
@@ -142,7 +142,7 @@ class SyncAddDeviceTypeViewController: SyncViewController {
     }
 }
 
-extension SyncAddDeviceTypeViewController: NavigationPrevention {
+extension SyncSelectDeviceTypeViewController: NavigationPrevention {
     func enableNavigationPrevention() {
         navigationItem.hidesBackButton = true
         loadingView.isHidden = false
