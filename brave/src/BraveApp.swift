@@ -270,6 +270,15 @@ class BraveApp {
         }
         return 20
     }
+    
+    @objc class func clearClipboard(_ userInfo: Any? = nil) {
+        if userInfo == nil {
+            Timer.scheduledTimer(timeInterval: 30.0, target: BraveApp.self, selector: #selector(BraveApp.clearClipboard(_:)), userInfo: true, repeats: false)
+            return
+        }
+        
+        UIPasteboard.general.string = ""
+    }
 
     static var isPasswordManagerInstalled: Bool?
 
