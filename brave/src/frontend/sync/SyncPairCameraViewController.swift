@@ -6,7 +6,7 @@ import AVFoundation
 
 class SyncPairCameraViewController: SyncViewController {
     
-    var doneHandler: (() -> ())?
+    var syncHandler: (([Int]?) -> ())?
     var cameraView: SyncCameraView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -27,11 +27,6 @@ class SyncPairCameraViewController: SyncViewController {
         stackView.alignment = .center
         stackView.spacing = 4
         view.addSubview(stackView)
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
-                                               object: nil,
-                                               queue: OperationQueue.main,
-                                               using: { _ in self.doneHandler?() })
 
         stackView.snp.makeConstraints { make in
             make.top.equalTo(self.topLayoutGuide.snp.bottom).offset(16)
@@ -74,7 +69,7 @@ class SyncPairCameraViewController: SyncViewController {
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
+                self.syncHandler?(bytes)
 
             } else {
                 self.cameraView.cameraOverlayError()
@@ -155,7 +150,9 @@ class SyncPairCameraViewController: SyncViewController {
     }
     
     func SEL_enterWords() {
-        navigationController?.pushViewController(SyncPairWordsViewController(), animated: true)
+        let wordsVC = SyncPairWordsViewController()
+        wordsVC.syncHandler = self.syncHandler
+        navigationController?.pushViewController(wordsVC, animated: true)
     }
 }
 

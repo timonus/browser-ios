@@ -121,31 +121,66 @@ class SyncWelcomeViewController: SyncViewController {
     
     func newToSyncAction() {
         let addDevice = SyncAddDeviceTypeViewController()
-        addDevice.syncCompletedHandler = pushSpecificDeviceAddition
+        addDevice.syncInitHandler = { (title, type) in
+            weak var weakSelf = self
+            func attemptPush() {
+                guard Sync.shared.isInSyncGroup else {
+                    addDevice.loadingView.isHidden = true
+                    let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
+                    addDevice.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                // Successful!
+                
+                let view = SyncAddDeviceViewController(title: title, type: type)
+                view.doneHandler = {
+                    let settings = SyncSettingsViewController()
+                    settings.disableBackButton = true
+                    self.navigationController?.pushViewController(settings, animated: true)
+                }
+                
+                view.navigationItem.hidesBackButton = true
+                weakSelf?.navigationController?.pushViewController(view, animated: true)
+            }
+            
+            if Sync.shared.isInSyncGroup {
+                attemptPush()
+                return
+            }
+
+            addDevice.loadingView.isHidden = false
+            
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
+                                                   object: nil,
+                                                   queue: OperationQueue.main,
+                                                   using: { _ in attemptPush() })
+            
+            Sync.shared.initializeNewSyncGroup(deviceName: UIDevice.current.name)
+        }
+
         navigationController?.pushViewController(addDevice, animated: true)
     }
     
     func existingUserAction() {
         let pairCamera = SyncPairCameraViewController()
         
-        pairCamera.doneHandler = {
-            let settings = SyncSettingsViewController()
-            settings.disableBackButton = true
-            self.navigationController?.pushViewController(settings, animated: true)
+        pairCamera.syncHandler = { bytes in
+            Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
+            
+            func syncJoinedHandler() {
+                let settings = SyncSettingsViewController()
+                settings.disableBackButton = true
+                self.navigationController?.pushViewController(settings, animated: true)
+            }
+            
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
+                                                   object: nil,
+                                                   queue: OperationQueue.main,
+                                                   using: { _ in syncJoinedHandler() })
         }
         
         navigationController?.pushViewController(pairCamera, animated: true)
-    }
-    
-    func pushSpecificDeviceAddition(title: String, type: DeviceType) {
-        let view = SyncAddDeviceViewController(title: title, type: type)
-        view.doneHandler = {
-            let settings = SyncSettingsViewController()
-            settings.disableBackButton = true
-            self.navigationController?.pushViewController(settings, animated: true)
-        }
-        
-        view.navigationItem.hidesBackButton = true
-        navigationController?.pushViewController(view, animated: true)
     }
 }

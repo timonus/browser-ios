@@ -88,7 +88,7 @@ class SyncDeviceTypeButton: UIControl {
 }
 
 class SyncAddDeviceTypeViewController: SyncViewController {
-    var syncCompletedHandler: ((String, DeviceType) -> ())?
+    var syncInitHandler: ((String, DeviceType) -> ())?
 
     let loadingView = UIView()
     let mobileButton = SyncDeviceTypeButton(image: "sync-mobile", title: Strings.SyncAddMobileButton, type: .mobile)
@@ -138,36 +138,7 @@ class SyncAddDeviceTypeViewController: SyncViewController {
     }
     
     func addDevice(sender: SyncDeviceTypeButton) {
-
-        weak var weakSelf = self
-        func attemptPush() {
-            weakSelf?.attemptPush(title: sender.label.text ?? "", type: sender.type)
-        }
-        
-        if Sync.shared.isInSyncGroup {
-            attemptPush()
-            return
-        }
-        
-        self.loadingView.isHidden = false
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
-                                               object: nil,
-                                               queue: OperationQueue.main,
-                                               using: { _ in attemptPush() })
-        
-        Sync.shared.initializeNewSyncGroup(deviceName: UIDevice.current.name)
-    }
-    
-    func attemptPush(title: String, type: DeviceType) {
-        if Sync.shared.isInSyncGroup {
-            syncCompletedHandler?(title, type)
-            return
-        }
-        
-        self.loadingView.isHidden = true
-        let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        syncInitHandler?(sender.label.text ?? "", sender.type)
     }
 }
 

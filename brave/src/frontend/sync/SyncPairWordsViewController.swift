@@ -5,6 +5,7 @@ import Shared
 
 class SyncPairWordsViewController: SyncViewController {
     
+    var syncHandler: (([Int]?) -> ())?
     var scrollView: UIScrollView!
     var containerView: UIView!
     var codewordsView: SyncCodewordsView!
@@ -169,7 +170,7 @@ class SyncPairWordsViewController: SyncViewController {
                 return
             }
             
-            Sync.shared.initializeSync(seed: result)
+            self.syncHandler?(result)
         }
     }
 }
