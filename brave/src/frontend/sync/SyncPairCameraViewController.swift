@@ -31,7 +31,15 @@ class SyncPairCameraViewController: SyncViewController, SyncSettingsScreen {
         // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
             notification in
-            self.popHandler?()
+
+            if let handler = self.popHandler {
+                handler()
+            } else {
+                let syncSettingsView = SyncSettingsViewController(style: .grouped)
+                syncSettingsView.profile = getApp().profile
+                syncSettingsView.disableBackButton = true
+                self.navigationController?.pushViewController(syncSettingsView, animated: true)
+            }
         })
 
         stackView.snp.makeConstraints { make in

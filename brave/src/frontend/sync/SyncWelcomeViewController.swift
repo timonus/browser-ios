@@ -120,26 +120,10 @@ class SyncWelcomeViewController: SyncViewController {
     }
     
     func newToSyncAction() {
-        let addDeviceTypeViewController = SyncAddDeviceTypeViewController()
-        addDeviceTypeViewController.popHandler = {
-            self.pushSyncSettingsViewController()
-        }
-        navigationController?.pushViewController(addDeviceTypeViewController, animated: true)
+        navigationController?.pushViewController(SyncAddDeviceTypeViewController(), animated: true)
     }
     
     func existingUserAction() {
-        let pairCameraViewController = SyncPairCameraViewController()
-        pairCameraViewController.popHandler = {
-            self.pushSyncSettingsViewController()
-        }
-
-        navigationController?.pushViewController(pairCameraViewController, animated: true)
-    }
-
-    fileprivate func pushSyncSettingsViewController() {
-        let syncSettingsView = SyncSettingsViewController(style: .grouped)
-        syncSettingsView.profile = getApp().profile
-        syncSettingsView.disableBackButton = true
-        self.navigationController?.pushViewController(syncSettingsView, animated: true)
+        navigationController?.pushViewController(SyncPairCameraViewController(), animated: true)
     }
 }
