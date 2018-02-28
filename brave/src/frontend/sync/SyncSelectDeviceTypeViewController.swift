@@ -87,8 +87,9 @@ class SyncDeviceTypeButton: UIControl {
     }
 }
 
-class SyncAddDeviceTypeViewController: SyncViewController {
-    
+class SyncSelectDeviceTypeViewController: SyncViewController {
+    var syncInitHandler: ((String, DeviceType) -> ())?
+
     let loadingView = UIView()
     let mobileButton = SyncDeviceTypeButton(image: "sync-mobile", title: Strings.SyncAddMobileButton, type: .mobile)
     let computerButton = SyncDeviceTypeButton(image: "sync-computer", title: Strings.SyncAddComputerButton, type: .computer)
@@ -117,7 +118,7 @@ class SyncAddDeviceTypeViewController: SyncViewController {
         computerButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
     
         // Loading View
-    
+
         // This should be general, and abstracted
     
         let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
@@ -135,40 +136,21 @@ class SyncAddDeviceTypeViewController: SyncViewController {
             make.edges.equalTo(loadingView.superview!)
         }
     }
-    
-    func addDevice(sender: SyncDeviceTypeButton) {
 
-        weak var weakSelf = self
-        func attemptPush() {
-            weakSelf?.attemptPush(title: sender.label.text ?? "", type: sender.type)
-        }
-        
-        if Sync.shared.isInSyncGroup {
-            attemptPush()
-            return
-        }
-        
-        self.loadingView.isHidden = false
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
-                                               object: nil,
-                                               queue: OperationQueue.main,
-                                               using: { _ in attemptPush() })
-        
-        Sync.shared.initializeNewSyncGroup(deviceName: UIDevice.current.name)
+    func addDevice(sender: SyncDeviceTypeButton) {
+        syncInitHandler?(sender.label.text ?? "", sender.type)
     }
-    
-    func attemptPush(title: String, type: DeviceType) {
-        if Sync.shared.isInSyncGroup {
-            // Setup sync group
-            let view = SyncAddDeviceViewController(title: title, type: type)
-            view.navigationItem.hidesBackButton = true
-            navigationController?.pushViewController(view, animated: true)
-        } else {
-            self.loadingView.isHidden = true
-            let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+}
+
+extension SyncSelectDeviceTypeViewController: NavigationPrevention {
+    func enableNavigationPrevention() {
+        navigationItem.hidesBackButton = true
+        loadingView.isHidden = false
+    }
+
+    func disableNavigationPrevention() {
+        navigationItem.hidesBackButton = false
+        loadingView.isHidden = true
     }
 }
 

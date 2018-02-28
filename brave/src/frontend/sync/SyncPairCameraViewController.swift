@@ -5,7 +5,8 @@ import Shared
 import AVFoundation
 
 class SyncPairCameraViewController: SyncViewController {
-
+    
+    var syncHandler: (([Int]?) -> ())?
     var cameraView: SyncCameraView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -26,19 +27,6 @@ class SyncPairCameraViewController: SyncViewController {
         stackView.alignment = .center
         stackView.spacing = 4
         view.addSubview(stackView)
-        
-        // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
-            notification in
-            if let syncSettingsView = self.navigationController?.viewControllers.first(where: { $0.isKind(of: SyncSettingsViewController.self) }) {
-                self.navigationController?.popToViewController(syncSettingsView, animated: true)
-            } else {
-                let syncSettingsView = SyncSettingsViewController(style: .grouped)
-                syncSettingsView.profile = getApp().profile
-                syncSettingsView.disableBackButton = true
-                self.navigationController?.pushViewController(syncSettingsView, animated: true)
-            }
-        })
 
         stackView.snp.makeConstraints { make in
             make.top.equalTo(self.topLayoutGuide.snp.bottom).offset(16)
@@ -68,20 +56,16 @@ class SyncPairCameraViewController: SyncViewController {
                 
                 // Vibrate.
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))  
-                
-                // Will be removed on pop
-                self.loadingView.isHidden = false
-                
+
                 // Forced timeout
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(25.0) * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
                     Scanner.Lock = false
-                    self.loadingView.isHidden = true
                     self.cameraView.cameraOverlayError()
                 })
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
+                self.syncHandler?(bytes)
 
             } else {
                 self.cameraView.cameraOverlayError()
@@ -162,7 +146,23 @@ class SyncPairCameraViewController: SyncViewController {
     }
     
     func SEL_enterWords() {
-        navigationController?.pushViewController(SyncPairWordsViewController(), animated: true)
+        let wordsVC = SyncPairWordsViewController()
+        wordsVC.syncHandler = self.syncHandler
+        navigationController?.pushViewController(wordsVC, animated: true)
+    }
+}
+
+extension SyncPairCameraViewController: NavigationPrevention {
+    func enableNavigationPrevention() {
+        loadingView.isHidden = false
+        navigationItem.hidesBackButton = true
+        enterWordsButton.isEnabled = false
+    }
+
+    func disableNavigationPrevention() {
+        loadingView.isHidden = true
+        navigationItem.hidesBackButton = false
+        enterWordsButton.isEnabled = true
     }
 }
 
