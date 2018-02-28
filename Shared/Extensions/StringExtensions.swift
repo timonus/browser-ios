@@ -44,7 +44,8 @@ public extension String {
     }
     
     func separatedBy(_ string: String) -> [String] {
-        return self.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: string)
+        let cleaned = self.replacingOccurrences(of: "\n", with: " ")
+        return cleaned.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: string)
     }
 
     /**

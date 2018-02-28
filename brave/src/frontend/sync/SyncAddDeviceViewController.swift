@@ -31,7 +31,6 @@ class SyncAddDeviceViewController: SyncViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "copy_paste"), for: .normal)
         button.addTarget(self, action: #selector(SEL_copy), for: .touchUpInside)
-        button.sizeToFit()
         button.isHidden = true
         return button
     }()
@@ -212,7 +211,9 @@ class SyncAddDeviceViewController: SyncViewController {
         }
         
         copyPasteButton.snp.makeConstraints { (make) in
-            make.bottom.right.equalTo(containerView).inset(24)
+            make.size.equalTo(45)
+            make.right.equalTo(containerView).inset(15)
+            make.bottom.equalTo(containerView).inset(15)
         }
         
         copiedlabel.snp.makeConstraints { (make) in

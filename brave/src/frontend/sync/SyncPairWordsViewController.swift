@@ -21,7 +21,6 @@ class SyncPairWordsViewController: SyncViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "copy_paste"), for: .normal)
         button.addTarget(self, action: #selector(SEL_paste), for: .touchUpInside)
-        button.sizeToFit()
         return button
     }()
     
@@ -90,8 +89,9 @@ class SyncPairWordsViewController: SyncViewController {
         }
         
         copyPasteButton.snp.makeConstraints { (make) in
-            make.top.equalTo(codewordsView.snp.bottom)
-            make.right.equalTo(codewordsView).inset(24)
+            make.size.equalTo(45)
+            make.right.equalTo(containerView).inset(15)
+            make.bottom.equalTo(containerView).inset(15)
         }
         
         loadingView.snp.makeConstraints { (make) in
@@ -169,7 +169,7 @@ class SyncPairWordsViewController: SyncViewController {
                 return
             }
             
-            Sync.shared.initializeSync(seed: result)
+            Sync.shared.initializeSync(seed: result, deviceName: UIDevice.current.name)
         }
     }
 }
