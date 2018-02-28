@@ -258,6 +258,8 @@ class SyncAddDeviceViewController: SyncViewController {
     func SEL_copy() {
         UIPasteboard.general.string = self.codewordsView.text
         didCopy = true
+        
+        BraveApp.clearClipboard()
     }
     
     func SEL_changeMode() {

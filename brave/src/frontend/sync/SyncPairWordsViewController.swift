@@ -113,7 +113,7 @@ class SyncPairWordsViewController: SyncViewController {
         if let contents = UIPasteboard.general.string {
             // remove linebreaks and whitespace, split into codewords.
             codewordsView.setCodewords(data: contents.separatedBy(" "))
-            UIPasteboard.general.string = ""
+            BraveApp.clearClipboard()
         }
     }
     
