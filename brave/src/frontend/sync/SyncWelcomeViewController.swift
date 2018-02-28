@@ -135,12 +135,7 @@ class SyncWelcomeViewController: SyncViewController {
                 // Successful!
                 
                 let view = SyncAddDeviceViewController(title: title, type: type)
-                view.doneHandler = {
-                    let settings = SyncSettingsViewController()
-                    settings.disableBackButton = true
-                    self.navigationController?.pushViewController(settings, animated: true)
-                }
-                
+                view.doneHandler = self.pushSettings
                 view.navigationItem.hidesBackButton = true
                 weakSelf?.navigationController?.pushViewController(view, animated: true)
             }
@@ -169,18 +164,19 @@ class SyncWelcomeViewController: SyncViewController {
         pairCamera.syncHandler = { bytes in
             Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
             
-            func syncJoinedHandler() {
-                let settings = SyncSettingsViewController()
-                settings.disableBackButton = true
-                self.navigationController?.pushViewController(settings, animated: true)
-            }
-            
             NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
                                                    object: nil,
                                                    queue: OperationQueue.main,
-                                                   using: { _ in syncJoinedHandler() })
+                                                   using: { _ in self.pushSettings() })
         }
         
         navigationController?.pushViewController(pairCamera, animated: true)
+    }
+    
+    private func pushSettings() {
+        let settings = SyncSettingsViewController(style: .grouped)
+        settings.profile = getApp().profile
+        settings.disableBackButton = true
+        self.navigationController?.pushViewController(settings, animated: true)
     }
 }
