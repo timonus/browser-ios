@@ -67,7 +67,7 @@ class SyncWelcomeViewController: SyncViewController {
         button.setTitle(Strings.ScanSyncCode, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = BraveUX.Blue
+        button.backgroundColor = BraveUX.BraveOrange
         button.addTarget(self, action: #selector(existingUserAction), for: .touchUpInside)
 
         button.snp.makeConstraints { make in

@@ -309,7 +309,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         items.append(editBookmarksButton)
         items.append(UIBarButtonItem.createFixedSpaceItem(5))
         
-        items.forEach { $0.tintColor = BraveUX.Blue }
+        items.forEach { $0.tintColor = BraveUX.BraveOrange }
         
         editBookmarksToolbar.items = items
         

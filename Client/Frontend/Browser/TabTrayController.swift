@@ -891,10 +891,10 @@ fileprivate class TabManagerDataSource: NSObject, UICollectionViewDataSource {
         // TODO: Move most view logic here instead of `init` or `prepareForReuse`
         // If the current tab add heightlighting
         if getApp().tabManager.selectedTab == tab {
-            tabCell.backgroundHolder.layer.borderColor = BraveUX.Blue.withAlphaComponent(0.75).cgColor
+            tabCell.backgroundHolder.layer.borderColor = BraveUX.BraveOrange.withAlphaComponent(0.75).cgColor
             tabCell.backgroundHolder.layer.borderWidth = 1
             tabCell.shadowView.layer.shadowRadius = 5
-            tabCell.shadowView.layer.shadowColor = BraveUX.Blue.cgColor
+            tabCell.shadowView.layer.shadowColor = BraveUX.BraveOrange.cgColor
             tabCell.shadowView.layer.shadowOpacity = 1.0
             tabCell.shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
             tabCell.shadowView.layer.shadowPath = UIBezierPath(roundedRect: tabCell.bounds, cornerRadius: tabCell.backgroundHolder.layer.cornerRadius).cgPath

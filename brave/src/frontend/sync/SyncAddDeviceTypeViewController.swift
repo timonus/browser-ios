@@ -13,7 +13,7 @@ class SyncDeviceTypeButton: UIControl {
     var pressed: Bool = false {
         didSet {
             if pressed {
-                label.textColor = BraveUX.Blue
+                label.textColor = BraveUX.BraveOrange
                 if let anim = POPSpringAnimation(propertyNamed: kPOPLayerScaleXY) {
                     anim.toValue = NSValue(cgSize: CGSize(width: 0.9, height: 0.9))
                     layer.pop_add(anim, forKey: "size")
