@@ -188,8 +188,12 @@ class AddDeviceSetting: Setting {
 
     override func onClick(_ navigationController: UINavigationController?) {
         let view = SyncAddDeviceTypeViewController()
-        view.syncInitHandler = { _, _ in
-            navigationController?.popToViewController(self.owner, animated: true)
+        view.syncInitHandler = { title, type in
+            let view = SyncAddDeviceViewController(title: title, type: type)
+            view.doneHandler = {
+                navigationController?.popToViewController(self.owner, animated: true)
+            }
+            navigationController?.pushViewController(view, animated: true)
         }
         navigationController?.pushViewController(view, animated: true)
     }
