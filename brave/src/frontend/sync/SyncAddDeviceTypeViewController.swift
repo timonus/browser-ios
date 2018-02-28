@@ -118,7 +118,7 @@ class SyncAddDeviceTypeViewController: SyncViewController {
         computerButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
     
         // Loading View
-    
+
         // This should be general, and abstracted
     
         let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
@@ -136,9 +136,21 @@ class SyncAddDeviceTypeViewController: SyncViewController {
             make.edges.equalTo(loadingView.superview!)
         }
     }
-    
+
     func addDevice(sender: SyncDeviceTypeButton) {
         syncInitHandler?(sender.label.text ?? "", sender.type)
+    }
+}
+
+extension SyncAddDeviceTypeViewController: NavigationPrevention {
+    func enableNavigationPrevention() {
+        navigationItem.hidesBackButton = true
+        loadingView.isHidden = false
+    }
+
+    func disableNavigationPrevention() {
+        navigationItem.hidesBackButton = false
+        loadingView.isHidden = true
     }
 }
 

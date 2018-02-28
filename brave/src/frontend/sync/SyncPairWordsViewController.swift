@@ -136,11 +136,6 @@ class SyncPairWordsViewController: SyncViewController {
             self.present(alert, animated: true, completion: nil)
         }
         
-        func loading(_ isLoading: Bool = true) {
-            self.loadingView.isHidden = !isLoading
-            navigationItem.rightBarButtonItem?.isEnabled = !isLoading
-        }
-        
         let codes = self.codewordsView.codeWords()
 
         // Maybe temporary validation, sync server has issues without this validation
@@ -150,11 +145,11 @@ class SyncPairWordsViewController: SyncViewController {
         }
         
         self.view.endEditing(true)
-        loading()
+        enableNavigationPrevention()
         
         // forced timeout
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(25.0) * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
-            loading(false)
+            self.disableNavigationPrevention()
             alert()
         })
         
@@ -166,11 +161,26 @@ class SyncPairWordsViewController: SyncViewController {
                 }
                 
                 alert(message: errorText)
-                loading(false)
+                self.disableNavigationPrevention()
                 return
             }
             
             self.syncHandler?(result)
         }
+    }
+}
+
+extension SyncPairWordsViewController: NavigationPrevention {
+    func enableNavigationPrevention() {
+        loadingView.isHidden = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.hidesBackButton = true
+    }
+
+    func disableNavigationPrevention() {
+        loadingView.isHidden = true
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        navigationItem.hidesBackButton = false
+
     }
 }

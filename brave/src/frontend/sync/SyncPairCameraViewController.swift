@@ -56,14 +56,10 @@ class SyncPairCameraViewController: SyncViewController {
                 
                 // Vibrate.
                 AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))  
-                
-                // Will be removed on pop
-                self.loadingView.isHidden = false
-                
+
                 // Forced timeout
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(25.0) * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
                     Scanner.Lock = false
-                    self.loadingView.isHidden = true
                     self.cameraView.cameraOverlayError()
                 })
                 
@@ -153,6 +149,20 @@ class SyncPairCameraViewController: SyncViewController {
         let wordsVC = SyncPairWordsViewController()
         wordsVC.syncHandler = self.syncHandler
         navigationController?.pushViewController(wordsVC, animated: true)
+    }
+}
+
+extension SyncPairCameraViewController: NavigationPrevention {
+    func enableNavigationPrevention() {
+        loadingView.isHidden = false
+        navigationItem.hidesBackButton = true
+        enterWordsButton.isEnabled = false
+    }
+
+    func disableNavigationPrevention() {
+        loadingView.isHidden = true
+        navigationItem.hidesBackButton = false
+        enterWordsButton.isEnabled = true
     }
 }
 

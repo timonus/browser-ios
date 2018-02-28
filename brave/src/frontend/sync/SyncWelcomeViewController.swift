@@ -3,6 +3,12 @@
 import UIKit
 import Shared
 
+/// Sometimes during heavy operations we want to prevent user from navigating back, changing screen etc.
+protocol NavigationPrevention {
+    func enableNavigationPrevention()
+    func disableNavigationPrevention()
+}
+
 class SyncWelcomeViewController: SyncViewController {
 
     lazy var mainStackView: UIStackView = {
@@ -125,7 +131,7 @@ class SyncWelcomeViewController: SyncViewController {
             weak var weakSelf = self
             func attemptPush() {
                 guard Sync.shared.isInSyncGroup else {
-                    addDevice.loadingView.isHidden = true
+                    addDevice.disableNavigationPrevention()
                     let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
                     addDevice.present(alert, animated: true, completion: nil)
@@ -145,7 +151,7 @@ class SyncWelcomeViewController: SyncViewController {
                 return
             }
 
-            addDevice.loadingView.isHidden = false
+            addDevice.enableNavigationPrevention()
             
             NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
                                                    object: nil,
@@ -162,12 +168,16 @@ class SyncWelcomeViewController: SyncViewController {
         let pairCamera = SyncPairCameraViewController()
         
         pairCamera.syncHandler = { bytes in
+            pairCamera.enableNavigationPrevention()
             Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
             
             NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
                                                    object: nil,
                                                    queue: OperationQueue.main,
-                                                   using: { _ in self.pushSettings() })
+                                                   using: { _ in
+                                                    pairCamera.disableNavigationPrevention()
+                                                    self.pushSettings()
+                                                    })
         }
         
         navigationController?.pushViewController(pairCamera, animated: true)
