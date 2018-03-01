@@ -219,7 +219,7 @@ class SyncAddDeviceViewController: SyncViewController {
         }
         
         copiedlabel.snp.makeConstraints { (make) in
-            make.right.equalTo(copyPasteButton.snp.left).offset(-8)
+            make.right.equalTo(copyPasteButton.snp.left)
             make.centerY.equalTo(copyPasteButton)
         }
 
