@@ -1,9 +1,0 @@
-{
-  "commitish" : "4.4.0",
-  "iOS" : [
-    {
-      "hash" : "c8a822061bb3f1a5923792e52d315feb34f3c0bcd1b0181de8cb78700de0ace0",
-      "name" : "Alamofire"
-    }
-  ]
-}

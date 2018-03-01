@@ -60,24 +60,14 @@ MozBuildID.xcconfig
 *.pyc
 =======
 
-# CocoaPods
-#
-# We recommend against adding the Pods directory to your .gitignore. However
-# you should judge for yourself, the pros and cons are mentioned at:
-# http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
-#
-# Pods/
 
-# Carthage
-#
-# Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
+# Both Carthage subfolders (Build/ & Checkouts/) have benefits to including in source control.
+# Due to Brave's large amount of PRs and branching, including these makes reviews increasing difficult
+# Hence, removing the literal Carthage and node_modules directories from git 
+# More info: https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md
 
-# Carthage builds _and_ node_modules are now included
-# Adds weight, but since running dependency updates is so infrequent, and can have hidden issues (e.g. random crashes)
-#   the downsides are outweighted by the benefit for now
-# Carthage/Build
-# node_modules/
+Carthage/
+node_modules/
 
 ABPFilterParserData.dat
 Client/Configuration

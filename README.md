@@ -31,7 +31,7 @@ git clone https://github.com/brave/browser-ios.git # this will download git if i
 <strong> 6. Run the following commands: </strong>
 ```
 cd browser-ios
-
+./checkout.sh # this pulls Carthage dependencies
 (cd brave && ./setup.sh your.fake.appid) # put in a fake unique app id if you want to build to device
 open Client.xcodeproj
 ```
