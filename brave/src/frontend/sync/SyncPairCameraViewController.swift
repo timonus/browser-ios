@@ -5,7 +5,8 @@ import Shared
 import AVFoundation
 
 class SyncPairCameraViewController: SyncViewController {
-
+    
+    var syncHandler: (([Int]?) -> ())?
     var cameraView: SyncCameraView!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -15,20 +16,10 @@ class SyncPairCameraViewController: SyncViewController {
     var loadingView: UIView!
     let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = Strings.Pair
-        
-        // Start observing, this will handle child vc popping too for successful sync (e.g. pair words)
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady), object: nil, queue: OperationQueue.main, using: {
-            notification in
-            self.navigationController?.popToRootViewController(animated: true)
-        })
+        title = Strings.ScanSyncCode
 
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -50,7 +41,6 @@ class SyncPairCameraViewController: SyncViewController {
         cameraView.layer.masksToBounds = true
         cameraView.scanCallback = { data in
             
-            
             // TODO: Check data against sync api
 
             // TODO: Functional, but needs some cleanup
@@ -64,19 +54,18 @@ class SyncPairCameraViewController: SyncViewController {
                 Scanner.Lock = true
                 self.cameraView.cameraOverlaySucess()
                 
-                // Will be removed on pop
-                self.loadingView.isHidden = false
-                
+                // Vibrate.
+                AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))  
+
                 // Forced timeout
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(25.0) * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
                     Scanner.Lock = false
-                    self.loadingView.isHidden = true
                     self.cameraView.cameraOverlayError()
                 })
                 
                 // If multiple calls get in here due to race conditions it isn't a big deal
                 
-                Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
+                self.syncHandler?(bytes)
 
             } else {
                 self.cameraView.cameraOverlayError()
@@ -129,7 +118,7 @@ class SyncPairCameraViewController: SyncViewController {
         loadingView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
         loadingView.isHidden = true
         loadingView.addSubview(loadingSpinner)
-        stackView.addArrangedSubview(loadingView)
+        cameraView.addSubview(loadingView)
         
         edgesForExtendedLayout = UIRectEdge()
 
@@ -142,7 +131,7 @@ class SyncPairCameraViewController: SyncViewController {
         }
 
         loadingView.snp.makeConstraints { make in
-            make.margins.equalTo(cameraView.snp.margins)
+            make.left.right.top.bottom.equalTo(cameraView)
         }
         
         loadingSpinner.snp.makeConstraints { make in
@@ -157,7 +146,23 @@ class SyncPairCameraViewController: SyncViewController {
     }
     
     func SEL_enterWords() {
-        navigationController?.pushViewController(SyncPairWordsViewController(), animated: true)
+        let wordsVC = SyncPairWordsViewController()
+        wordsVC.syncHandler = self.syncHandler
+        navigationController?.pushViewController(wordsVC, animated: true)
+    }
+}
+
+extension SyncPairCameraViewController: NavigationPrevention {
+    func enableNavigationPrevention() {
+        loadingView.isHidden = false
+        navigationItem.hidesBackButton = true
+        enterWordsButton.isEnabled = false
+    }
+
+    func disableNavigationPrevention() {
+        loadingView.isHidden = true
+        navigationItem.hidesBackButton = false
+        enterWordsButton.isEnabled = true
     }
 }
 

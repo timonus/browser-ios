@@ -42,6 +42,11 @@ public extension String {
             self as CFString,
             "[]." as CFString) as String
     }
+    
+    func separatedBy(_ string: String) -> [String] {
+        let cleaned = self.replacingOccurrences(of: "\n", with: " ")
+        return cleaned.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: string)
+    }
 
     /**
     Ellipsizes a String only if it's longer than `maxLength`

@@ -3,6 +3,12 @@
 import UIKit
 import Shared
 
+/// Sometimes during heavy operations we want to prevent user from navigating back, changing screen etc.
+protocol NavigationPrevention {
+    func enableNavigationPrevention()
+    func disableNavigationPrevention()
+}
+
 class SyncWelcomeViewController: SyncViewController {
 
     lazy var mainStackView: UIStackView = {
@@ -67,7 +73,7 @@ class SyncWelcomeViewController: SyncViewController {
         button.setTitle(Strings.ScanSyncCode, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightBold)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = BraveUX.Blue
+        button.backgroundColor = BraveUX.BraveOrange
         button.addTarget(self, action: #selector(existingUserAction), for: .touchUpInside)
 
         button.snp.makeConstraints { make in
@@ -86,10 +92,6 @@ class SyncWelcomeViewController: SyncViewController {
         button.addTarget(self, action: #selector(newToSyncAction), for: .touchUpInside)
         return button
     }()
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,10 +126,69 @@ class SyncWelcomeViewController: SyncViewController {
     }
     
     func newToSyncAction() {
-        navigationController?.pushViewController(SyncAddDeviceTypeViewController(), animated: true)
+        let addDevice = SyncSelectDeviceTypeViewController()
+        addDevice.syncInitHandler = { (title, type) in
+            weak var weakSelf = self
+            func pushAddDeviceVC() {
+                guard Sync.shared.isInSyncGroup else {
+                    addDevice.disableNavigationPrevention()
+                    let alert = UIAlertController(title: Strings.SyncUnsuccessful, message: Strings.SyncUnableCreateGroup, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
+                    addDevice.present(alert, animated: true, completion: nil)
+                    return
+                }
+
+                let view = SyncAddDeviceViewController(title: title, type: type)
+                view.doneHandler = self.pushSettings
+                view.navigationItem.hidesBackButton = true
+                weakSelf?.navigationController?.pushViewController(view, animated: true)
+            }
+            
+            if Sync.shared.isInSyncGroup {
+                pushAddDeviceVC()
+                return
+            }
+
+            addDevice.enableNavigationPrevention()
+            self.addSyncReadyNotificationObserver { pushAddDeviceVC() }
+            
+            Sync.shared.initializeNewSyncGroup(deviceName: UIDevice.current.name)
+        }
+
+        navigationController?.pushViewController(addDevice, animated: true)
     }
     
     func existingUserAction() {
-        self.navigationController?.pushViewController(SyncPairCameraViewController(), animated: true)
+        let pairCamera = SyncPairCameraViewController()
+        
+        pairCamera.syncHandler = { bytes in
+            pairCamera.enableNavigationPrevention()
+            Sync.shared.initializeSync(seed: bytes, deviceName: UIDevice.current.name)
+
+            self.addSyncReadyNotificationObserver {
+                pairCamera.disableNavigationPrevention()
+                self.pushSettings()
+            }
+        }
+        
+        navigationController?.pushViewController(pairCamera, animated: true)
+    }
+
+    private func addSyncReadyNotificationObserver(completion: @escaping () -> ()) {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationSyncReady),
+                                               object: nil,
+                                               queue: OperationQueue.main,
+                                               using: { notification in
+                                                completion()
+                                                // This is a one-time notification, removing it immediately.
+                                                NotificationCenter.default.removeObserver(notification)
+        })
+    }
+    
+    private func pushSettings() {
+        let settings = SyncSettingsViewController(style: .grouped)
+        settings.profile = getApp().profile
+        settings.disableBackButton = true
+        self.navigationController?.pushViewController(settings, animated: true)
     }
 }

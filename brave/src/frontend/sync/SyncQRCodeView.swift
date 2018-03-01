@@ -2,7 +2,7 @@
 
 let BarcodeSize: CGFloat = 200.0
 
-class SyncBarcodeView: UIImageView {
+class SyncQRCodeView: UIImageView {
     
     convenience init(data: String) {
         self.init(frame: CGRect.zero)

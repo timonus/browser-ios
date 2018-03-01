@@ -14,11 +14,12 @@ struct BraveUX {
     
     static let ReaderModeBarHeight = 28
     
-    static let BraveOrange = UIColor(rgb: 0xFF3F3F)
+    static let BraveOrange = UIColor(rgb: 0xfb542b)
     
-    static let Blue = UIColor(rgb: 0x00BCD6)
-    static let Purple = UIColor(rgb: 0x7D7BDC)
-    static let Green = UIColor(rgb: 0x02B999)
+    static let Blue = UIColor(rgb: 0x424acb)
+    static let LightBlue = UIColor(rgb: 0x4A90E2)
+    static let Purple = UIColor(rgb: 0x8236b9)
+    static let Green = UIColor(rgb: 0x1bc760)
     static let Red = UIColor(rgb: 0xE2052A)
     
     static let White = UIColor.white
@@ -133,7 +134,7 @@ struct BraveUX {
     static let ActionButtonPrivateTintColor = GreyG
     
     // The toolbar button color when (for the Selected state).
-    static let ActionButtonSelectedTintColor = Blue
+    static let ActionButtonSelectedTintColor = LightBlue
     
     static let AutocompleteTextFieldHighlightColor = Blue
     

@@ -29,11 +29,7 @@ class BraveSettingsView : AppSettingsTableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
@@ -197,7 +193,6 @@ extension BraveSettingsView : PinViewControllerDelegate {
         }
     }
 }
-
 
 class VersionSetting : Setting {
     let settings: SettingsTableViewController

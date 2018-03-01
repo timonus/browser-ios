@@ -5,22 +5,33 @@ import Shared
 
 class SyncPairWordsViewController: SyncViewController {
     
+    var syncHandler: (([Int]?) -> ())?
     var scrollView: UIScrollView!
     var containerView: UIView!
-    var helpLabel: UILabel!
     var codewordsView: SyncCodewordsView!
+    
+    lazy var wordCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFontWeightRegular)
+        label.textColor = BraveUX.GreyE
+        label.text = String(format: Strings.WordCount, 0)
+        return label
+    }()
+    
+    lazy var copyPasteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "copy_paste"), for: .normal)
+        button.addTarget(self, action: #selector(SEL_paste), for: .touchUpInside)
+        return button
+    }()
     
     var loadingView: UIView!
     let loadingSpinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = Strings.Pair
+        title = Strings.SyncAddDeviceWords
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,17 +47,12 @@ class SyncPairWordsViewController: SyncViewController {
         scrollView.addSubview(containerView)
         
         codewordsView = SyncCodewordsView(data: [])
-        codewordsView.doneKeyCallback = {
-            self.checkCodes()
+        codewordsView.wordCountChangeCallback = { (count) in
+            self.wordCountLabel.text = String(format: Strings.WordCount, count)
         }
         containerView.addSubview(codewordsView)
-        
-        helpLabel = UILabel()
-        helpLabel.translatesAutoresizingMaskIntoConstraints = false
-        helpLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)
-        helpLabel.textColor = UIColor(rgb: 0x696969)
-        helpLabel.text = Strings.EnterCodeWordsBelow
-        scrollView.addSubview(helpLabel)
+        containerView.addSubview(wordCountLabel)
+        containerView.addSubview(copyPasteButton)
         
         loadingSpinner.startAnimating()
         
@@ -56,7 +62,7 @@ class SyncPairWordsViewController: SyncViewController {
         loadingView.addSubview(loadingSpinner)
         view.addSubview(loadingView)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SEL_done))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: Strings.Confirm, style: .done, target: self, action: #selector(SEL_done))
         
         edgesForExtendedLayout = UIRectEdge()
         
@@ -74,13 +80,19 @@ class SyncPairWordsViewController: SyncViewController {
             make.width.equalTo(self.view)
         }
         
-        helpLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.containerView.snp.top).offset(10)
-            make.centerX.equalTo(self.scrollView)
+        codewordsView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.containerView).inset(UIEdgeInsetsMake(0, 0, 45, 0))
         }
         
-        codewordsView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.containerView).inset(UIEdgeInsetsMake(44, 0, 0, 0))
+        wordCountLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(codewordsView.snp.bottom)
+            make.left.equalTo(codewordsView).inset(24)
+        }
+        
+        copyPasteButton.snp.makeConstraints { (make) in
+            make.size.equalTo(45)
+            make.right.equalTo(containerView).inset(15)
+            make.bottom.equalTo(containerView).inset(15)
         }
         
         loadingView.snp.makeConstraints { (make) in
@@ -95,13 +107,16 @@ class SyncPairWordsViewController: SyncViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Focus on first input field.
-        codewordsView.fields[0].becomeFirstResponder()
+        codewordsView.becomeFirstResponder()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    func SEL_paste() {
+        if let contents = UIPasteboard.general.string, !contents.isEmpty {
+            // remove linebreaks and whitespace, split into codewords.
+            codewordsView.setCodewords(data: contents.separatedBy(" "))
+
+            UIPasteboard.general.clear()
+        }
     }
     
     func SEL_done() {
@@ -116,32 +131,27 @@ class SyncPairWordsViewController: SyncViewController {
                 // No alert
                 return
             }
-            let title = title ?? "Unable to Connect"
-            let message = message ?? "Unable to join sync group. Please check the entered words and try again."
+            let title = title ?? Strings.UnableToConnectTitle
+            let message = message ?? Strings.UnableToConnectDescription
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: Strings.OK, style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-        }
-        
-        func loading(_ isLoading: Bool = true) {
-            self.loadingView.isHidden = !isLoading
-            navigationItem.rightBarButtonItem?.isEnabled = !isLoading
         }
         
         let codes = self.codewordsView.codeWords()
 
         // Maybe temporary validation, sync server has issues without this validation
         if codes.count < Sync.SeedByteLength / 2 {
-            alert(title: "Not Enough Words", message: "Please enter all of the words and try again.")
+            alert(title: Strings.NotEnoughWordsTitle, message: Strings.NotEnoughWordsDescription)
             return
         }
         
         self.view.endEditing(true)
-        loading()
+        enableNavigationPrevention()
         
         // forced timeout
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(25.0) * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {
-            loading(false)
+            self.disableNavigationPrevention()
             alert()
         })
         
@@ -153,11 +163,26 @@ class SyncPairWordsViewController: SyncViewController {
                 }
                 
                 alert(message: errorText)
-                loading(false)
+                self.disableNavigationPrevention()
                 return
             }
             
-            Sync.shared.initializeSync(seed: result)
+            self.syncHandler?(result)
         }
+    }
+}
+
+extension SyncPairWordsViewController: NavigationPrevention {
+    func enableNavigationPrevention() {
+        loadingView.isHidden = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.hidesBackButton = true
+    }
+
+    func disableNavigationPrevention() {
+        loadingView.isHidden = true
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        navigationItem.hidesBackButton = false
+
     }
 }
