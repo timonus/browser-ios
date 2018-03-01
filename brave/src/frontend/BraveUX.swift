@@ -134,7 +134,7 @@ struct BraveUX {
     static let ActionButtonPrivateTintColor = GreyG
     
     // The toolbar button color when (for the Selected state).
-    static let ActionButtonSelectedTintColor = BraveOrange
+    static let ActionButtonSelectedTintColor = LightBlue
     
     static let AutocompleteTextFieldHighlightColor = Blue
     
