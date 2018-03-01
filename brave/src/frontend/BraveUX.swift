@@ -17,6 +17,7 @@ struct BraveUX {
     static let BraveOrange = UIColor(rgb: 0xfb542b)
     
     static let Blue = UIColor(rgb: 0x424acb)
+    static let LightBlue = UIColor(rgb: 0x4A90E2)
     static let Purple = UIColor(rgb: 0x8236b9)
     static let Green = UIColor(rgb: 0x1bc760)
     static let Red = UIColor(rgb: 0xE2052A)
