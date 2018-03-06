@@ -358,7 +358,7 @@ extension Strings {
     public static let BraveSync = NSLocalizedString("Brave Sync", comment: "Brave sync page title")
     public static let BraveSyncWelcome = NSLocalizedString("Brave Sync allows you to sync bookmarks, tabs, history and other data privately between your Brave Browsers on your various devices. \r\rSimply scan the code from your sync chain that you created on another device. Or start a new sync chain. ", comment: "Sync settings welcome")
     public static let NewSyncCode = NSLocalizedString("Start a new sync chain", comment: "New sync code button title")
-    public static let ScanSyncCode = NSLocalizedString("Scan a sync code", comment: "Scan sync code button title")
+    public static let ScanSyncCode = NSLocalizedString("Scan or enter sync code", comment: "Scan sync code button title")
     public static let Scan = NSLocalizedString("Scan", comment: "Scan sync code title")
     public static let SyncAddDevice = NSLocalizedString("Add Device", comment: "Add device to sync")
     public static let SyncAddDeviceScan = NSLocalizedString("Scan this sync code", comment: "Add mobile device to sync with scan")
