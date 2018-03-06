@@ -212,8 +212,16 @@ class TabsBarViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
+        // ensure the selected tab is visible after rotations
+        if let index = getApp().tabManager.currentDisplayedIndex {
+            let indexPath = IndexPath(item: index, section: 0)
+            // since bouncing is disabled, centering horizontally
+            // will not overshoot the edges for the bookend tabs
+            collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+        }
+        
         postAsyncToMain(0.1) {
-            self.collectionView.reloadData()
+            self.reloadDataAndRestoreSelectedTab()
         }
     }
     
@@ -232,6 +240,10 @@ class TabsBarViewController: UIViewController {
         }
         overflowIndicators()
         
+        reloadDataAndRestoreSelectedTab()
+    }
+    
+    func reloadDataAndRestoreSelectedTab() {
         collectionView.reloadData()
         
         if let selectedTab = getApp().tabManager.selectedTab {
