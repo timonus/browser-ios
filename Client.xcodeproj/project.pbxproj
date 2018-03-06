@@ -304,6 +304,9 @@
 		5C82452C1E68E95600D3CA09 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C82452B1E68E95600D3CA09 /* AVFoundation.framework */; };
 		5C94B8ED1F58A87800DE5FEE /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */; };
 		5C94B8EE1F58B20300DE5FEE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FA16B1A83E17800EE869C /* CoreGraphics.framework */; };
+		5CB7CCB5204F5C8300BFCD9B /* OnionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB7CCB4204F5C8300BFCD9B /* OnionManager.swift */; };
+		5CB7CCB8204F5D0600BFCD9B /* Iobfs4proxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB7CCB6204F5D0500BFCD9B /* Iobfs4proxy.framework */; };
+		5CB7CCB9204F5D0600BFCD9B /* Tor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB7CCB7204F5D0600BFCD9B /* Tor.framework */; };
 		5CD7F38E1E3EFBF100A12BB9 /* FaviconMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD7F38D1E3EFBF100A12BB9 /* FaviconMO.swift */; };
 		5CD7F3901E3FB7FA00A12BB9 /* TabMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */; };
 		5CDC06291FC64EDA00E54C95 /* AlertPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC06281FC64EDA00E54C95 /* AlertPopupView.swift */; };
@@ -1293,6 +1296,9 @@
 		5C78D3E31F69DF5100E0C73B /* PinController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinController.swift; path = brave/src/frontend/PinController.swift; sourceTree = "<group>"; };
 		5C82452B1E68E95600D3CA09 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5C94B8EC1F58A87800DE5FEE /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = brave/src/util/ImageCache.swift; sourceTree = "<group>"; };
+		5CB7CCB4204F5C8300BFCD9B /* OnionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnionManager.swift; path = brave/ThirdParty/OnionBrowser/OnionManager.swift; sourceTree = "<group>"; };
+		5CB7CCB6204F5D0500BFCD9B /* Iobfs4proxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Iobfs4proxy.framework; path = Carthage/Build/iOS/Iobfs4proxy.framework; sourceTree = "<group>"; };
+		5CB7CCB7204F5D0600BFCD9B /* Tor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tor.framework; path = Carthage/Build/iOS/Tor.framework; sourceTree = "<group>"; };
 		5CD164121EDFB7080037ECCC /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ThirdParty/SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		5CD7F38D1E3EFBF100A12BB9 /* FaviconMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FaviconMO.swift; path = brave/src/data/FaviconMO.swift; sourceTree = "<group>"; };
 		5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabMO.swift; path = brave/src/data/TabMO.swift; sourceTree = "<group>"; };
@@ -1736,6 +1742,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CB7CCB8204F5D0600BFCD9B /* Iobfs4proxy.framework in Frameworks */,
+				5CB7CCB9204F5D0600BFCD9B /* Tor.framework in Frameworks */,
 				5C94B8EE1F58B20300DE5FEE /* CoreGraphics.framework in Frameworks */,
 				5D75A1E71F1420F0003FB8C7 /* SQLite.framework in Frameworks */,
 				5C82452C1E68E95600D3CA09 /* AVFoundation.framework in Frameworks */,
@@ -2548,6 +2556,14 @@
 			name = PodFiles;
 			sourceTree = "<group>";
 		};
+		5CB7CCB3204F5C6D00BFCD9B /* OnionBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				5CB7CCB4204F5C8300BFCD9B /* OnionManager.swift */,
+			);
+			name = OnionBrowser;
+			sourceTree = "<group>";
+		};
 		5CD164131EDFB7080037ECCC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2761,6 +2777,8 @@
 		928B373CD06CCFB1407180F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5CB7CCB6204F5D0500BFCD9B /* Iobfs4proxy.framework */,
+				5CB7CCB7204F5D0600BFCD9B /* Tor.framework */,
 				5C82452B1E68E95600D3CA09 /* AVFoundation.framework */,
 				5C6F1B1C1E67433F008B0ADD /* CoreImage.framework */,
 				5C44C0C21E38479200B1FD81 /* CoreData.framework */,
@@ -2949,6 +2967,7 @@
 				0A03FF281FCDF03F00DF32C9 /* re2 */,
 				F1D471871D777C7C007B443D /* OnePassword */,
 				BB67FBA7FC78E3187AF22B8B /* leveldb */,
+				5CB7CCB3204F5C6D00BFCD9B /* OnionBrowser */,
 				8FD32DFF23D2E6882260066D /* NSData+GZIP.h */,
 				33FB8F3ADE3F46C30830F3C8 /* NSData+GZIP.m */,
 				2F847EB375FCD6228AC6F2A3 /* NSFileManager+Tar.h */,
@@ -3908,44 +3927,54 @@
 				TargetAttributes = {
 					288A2D851AB8B3260023ABC3 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 					};
 					2FCAE2191ABB51F800877008 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 					};
 					2FCAE2231ABB51F800877008 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0800;
 						TestTargetID = F84B21BD1A090F8100AAB793;
 					};
 					E4D567171ADECE2700F1EFE7 = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 					};
 					E4D567211ADECE2700F1EFE7 = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0800;
 						TestTargetID = F84B21BD1A090F8100AAB793;
 					};
 					E6F9650B1B2F1CF20034B023 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = ULR7CC4V8L;
 					};
 					EB0F42501C9A46D800676650 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					EB53D0FA1D9C2BB20093077A = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 						TestTargetID = F84B21BD1A090F8100AAB793;
 					};
 					EB8E9B351C7CB4E1003AA90E = {
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 					};
 					F84B21BD1A090F8100AAB793 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = ULR7CC4V8L;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -4817,6 +4846,7 @@
 				D80CA0E8B90013CF5092C6A0 /* LoginListViewController.swift in Sources */,
 				4FC607AE16C98EF4151E08A5 /* FSReadingList.m in Sources */,
 				BA7D7ADACEC12F432C93C025 /* ReadabilityBrowserHelper.swift in Sources */,
+				5CB7CCB5204F5C8300BFCD9B /* OnionManager.swift in Sources */,
 				70584DD394CC47BC6EADEE10 /* ReadabilityService.swift in Sources */,
 				0A02A948202B66FF00A1E754 /* UrpLogsViewController.swift in Sources */,
 				4F31DDE7EBC23007AABA22BE /* ReaderMode.swift in Sources */,
@@ -5165,6 +5195,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = brave/Brave.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -5759,6 +5793,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = brave/Brave.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",

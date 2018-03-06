@@ -86,6 +86,30 @@ class TopSitesPanel: UIViewController, HomePanel {
         view.addTarget(self, action: #selector(showPrivateTabInfo), for: .touchUpInside)
         return view
     }()
+    
+    fileprivate lazy var privateTorTabSwitch: UISwitch = {
+        let torSwitch = UISwitch()
+        torSwitch.onTintColor = BraveUX.BraveOrange
+        torSwitch.tintColor = BraveUX.GreyG
+        torSwitch.isOn = true
+        torSwitch.addTarget(self, action: #selector(SEL_tor(_:)), for: .valueChanged)
+        return torSwitch
+    }()
+    
+    fileprivate lazy var privateTorTabLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Enable Tor"
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+        label.textColor = BraveUX.GreyC
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    fileprivate lazy var privateTorSwitchContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = BraveUX.Red
+        return view
+    }()
 
     fileprivate lazy var braveShieldStatsView: BraveShieldStatsView = {
         let view = BraveShieldStatsView(frame: CGRect.zero)
@@ -139,11 +163,15 @@ class TopSitesPanel: UIViewController, HomePanel {
         braveShieldStatsView.frame = statsViewFrame
 
         collection.addSubview(braveShieldStatsView)
+        
+        privateTorSwitchContainer.addSubview(privateTorTabSwitch)
+        privateTorSwitchContainer.addSubview(privateTorTabLabel)
 
         privateTabMessageContainer.addSubview(privateTabGraphic)
         privateTabMessageContainer.addSubview(privateTabTitleLabel)
         privateTabMessageContainer.addSubview(privateTabInfoLabel)
         privateTabMessageContainer.addSubview(privateTabLinkButton)
+        privateTabMessageContainer.addSubview(privateTorSwitchContainer)
         collection.addSubview(privateTabMessageContainer)
 
         makeConstraints()
@@ -227,8 +255,22 @@ class TopSitesPanel: UIViewController, HomePanel {
                 make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(10)
                 make.left.equalTo(0)
                 make.right.equalTo(0)
-                make.bottom.equalTo(0)
             }
+            
+            privateTorTabSwitch.snp.makeConstraints({ (make) -> Void in
+                make.left.top.equalTo(0)
+            })
+            
+            privateTorTabLabel.snp.makeConstraints({ (make) -> Void in
+                make.centerY.equalTo(privateTorTabSwitch)
+                make.left.equalTo(privateTorTabSwitch.snp.right).offset(10)
+            })
+            
+            privateTorSwitchContainer.snp.makeConstraints({ (make) -> Void in
+                make.centerX.equalTo(self.privateTabMessageContainer)
+                make.top.equalTo(privateTabLinkButton.snp.bottom).offset(30)
+                make.bottom.equalTo(0)
+            })
         } else {
             updateIphoneConstraints()
         }
@@ -280,6 +322,20 @@ class TopSitesPanel: UIViewController, HomePanel {
             make.top.equalTo(self.privateTabInfoLabel.snp.bottom).offset(offset)
             make.left.equalTo(32)
             make.right.equalTo(-32)
+        }
+        
+        privateTorTabSwitch.snp.remakeConstraints { make in
+            make.left.top.equalTo(0)
+        }
+        
+        privateTorTabLabel.snp.remakeConstraints { make in
+            make.centerY.equalTo(privateTorTabSwitch)
+            make.left.equalTo(privateTorTabSwitch.snp.right).offset(10)
+        }
+        
+        privateTorSwitchContainer.snp.remakeConstraints { make in
+            make.centerX.equalTo(self.privateTabMessageContainer)
+            make.top.equalTo(privateTabLinkButton.snp.bottom).offset(30)
             make.bottom.equalTo(-8)
         }
         
@@ -315,6 +371,17 @@ class TopSitesPanel: UIViewController, HomePanel {
         postAsyncToMain {
             let t = getApp().tabManager
             _ = t?.addTabAndSelect(URLRequest(url: url))
+        }
+    }
+}
+
+extension TopSitesPanel {
+    @objc func SEL_tor(_ sender: UISwitch?) {
+        guard let sender = sender else { return }
+        if sender.isOn {
+            
+        } else {
+            
         }
     }
 }

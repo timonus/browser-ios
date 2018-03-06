@@ -16,3 +16,5 @@ github "iziz/libPhoneNumber-iOS"            "0.9.2"
 github "diracdeltas/niceware" "v1.0.4"
 github "path/FastImageCache" "master"
 github "facebook/pop"
+binary "https://cdn.tig.as/files/Tor.json" == 31.9.2
+binary "https://cdn.tig.as/files/Iobfs4proxy.json" == 1.0
