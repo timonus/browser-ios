@@ -53,7 +53,7 @@ class TabBarCell: UICollectionViewCell {
         title.snp.makeConstraints({ (make) in
             make.top.bottom.equalTo(self)
             make.left.equalTo(self).inset(16)
-            make.right.equalTo(close.snp.left)
+            make.right.equalTo(self).inset(16)
         })
         
         close.setImage(UIImage(named: "close")?.withRenderingMode(.alwaysTemplate), for: .normal)

@@ -307,6 +307,11 @@
 		5CB7CCB5204F5C8300BFCD9B /* OnionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB7CCB4204F5C8300BFCD9B /* OnionManager.swift */; };
 		5CB7CCB8204F5D0600BFCD9B /* Iobfs4proxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB7CCB6204F5D0500BFCD9B /* Iobfs4proxy.framework */; };
 		5CB7CCB9204F5D0600BFCD9B /* Tor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB7CCB7204F5D0600BFCD9B /* Tor.framework */; };
+		5CB7CCD820505C0100BFCD9B /* Client-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CB7CCD720505C0100BFCD9B /* Client-Bridging-Header.h */; };
+		5CB7CCDD20505D8F00BFCD9B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB7CCD920505D8F00BFCD9B /* Reachability.m */; };
+		5CB7CCDE20505D8F00BFCD9B /* Ipv6Tester.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CB7CCDA20505D8F00BFCD9B /* Ipv6Tester.h */; };
+		5CB7CCDF20505D8F00BFCD9B /* Ipv6Tester.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB7CCDB20505D8F00BFCD9B /* Ipv6Tester.m */; };
+		5CB7CCE020505D8F00BFCD9B /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CB7CCDC20505D8F00BFCD9B /* Reachability.h */; };
 		5CD7F38E1E3EFBF100A12BB9 /* FaviconMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD7F38D1E3EFBF100A12BB9 /* FaviconMO.swift */; };
 		5CD7F3901E3FB7FA00A12BB9 /* TabMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */; };
 		5CDC06291FC64EDA00E54C95 /* AlertPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDC06281FC64EDA00E54C95 /* AlertPopupView.swift */; };
@@ -1299,6 +1304,11 @@
 		5CB7CCB4204F5C8300BFCD9B /* OnionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnionManager.swift; path = brave/ThirdParty/OnionBrowser/OnionManager.swift; sourceTree = "<group>"; };
 		5CB7CCB6204F5D0500BFCD9B /* Iobfs4proxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Iobfs4proxy.framework; path = Carthage/Build/iOS/Iobfs4proxy.framework; sourceTree = "<group>"; };
 		5CB7CCB7204F5D0600BFCD9B /* Tor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tor.framework; path = Carthage/Build/iOS/Tor.framework; sourceTree = "<group>"; };
+		5CB7CCD720505C0100BFCD9B /* Client-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Client-Bridging-Header.h"; sourceTree = "<group>"; };
+		5CB7CCD920505D8F00BFCD9B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = brave/ThirdParty/OnionBrowser/Reachability.m; sourceTree = "<group>"; };
+		5CB7CCDA20505D8F00BFCD9B /* Ipv6Tester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ipv6Tester.h; path = brave/ThirdParty/OnionBrowser/Ipv6Tester.h; sourceTree = "<group>"; };
+		5CB7CCDB20505D8F00BFCD9B /* Ipv6Tester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Ipv6Tester.m; path = brave/ThirdParty/OnionBrowser/Ipv6Tester.m; sourceTree = "<group>"; };
+		5CB7CCDC20505D8F00BFCD9B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = brave/ThirdParty/OnionBrowser/Reachability.h; sourceTree = "<group>"; };
 		5CD164121EDFB7080037ECCC /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ThirdParty/SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		5CD7F38D1E3EFBF100A12BB9 /* FaviconMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FaviconMO.swift; path = brave/src/data/FaviconMO.swift; sourceTree = "<group>"; };
 		5CD7F38F1E3FB7FA00A12BB9 /* TabMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabMO.swift; path = brave/src/data/TabMO.swift; sourceTree = "<group>"; };
@@ -2560,6 +2570,10 @@
 			isa = PBXGroup;
 			children = (
 				5CB7CCB4204F5C8300BFCD9B /* OnionManager.swift */,
+				5CB7CCDA20505D8F00BFCD9B /* Ipv6Tester.h */,
+				5CB7CCDB20505D8F00BFCD9B /* Ipv6Tester.m */,
+				5CB7CCDC20505D8F00BFCD9B /* Reachability.h */,
+				5CB7CCD920505D8F00BFCD9B /* Reachability.m */,
 			);
 			name = OnionBrowser;
 			sourceTree = "<group>";
@@ -2821,6 +2835,7 @@
 		9D9FA65B7AF80B044B65F8B2 /* brave */ = {
 			isa = PBXGroup;
 			children = (
+				5CB7CCD720505C0100BFCD9B /* Client-Bridging-Header.h */,
 				0AAF86A1202B914B00ECAE06 /* runtime_resources */,
 				EBA6F13F1E39410E00F7B3D9 /* upload-to-app-store.applescript */,
 				EBA6F12E1E39312100F7B3D9 /* ad-hoc-export.applescript */,
@@ -3662,6 +3677,7 @@
 				07A2E57EFF8E47EB72D8FEE3 /* merger.h in Headers */,
 				678B238DB54F5D618481FEBE /* two_level_iterator.h in Headers */,
 				0A03FFE11FCDF0C400DF32C9 /* unicode_casefold.h in Headers */,
+				5CB7CCDE20505D8F00BFCD9B /* Ipv6Tester.h in Headers */,
 				0A5B1B5CA22425374E4B314C /* arena.h in Headers */,
 				2FB8E866E0695CDCE39D4AD3 /* coding.h in Headers */,
 				EE651A235D2355ECC0865F46 /* crc32c.h in Headers */,
@@ -3675,6 +3691,7 @@
 				2693462AAD80728B82279A60 /* random.h in Headers */,
 				0A03FF9B1FCDF0C400DF32C9 /* flags.h in Headers */,
 				E39C2782941C47224F91EAF6 /* testharness.h in Headers */,
+				5CB7CCE020505D8F00BFCD9B /* Reachability.h in Headers */,
 				0A03FFEB1FCDF0C400DF32C9 /* re2.h in Headers */,
 				EB009BB11E1BF44200680DB8 /* HashSet.h in Headers */,
 				EF875F2BA5E1EB136ADE64CA /* testutil.h in Headers */,
@@ -3683,6 +3700,7 @@
 				ECFAE4736B3C8EE254C6E149 /* ODRefreshControl.h in Headers */,
 				0A03FFEA1FCDF0C400DF32C9 /* bitmap256.h in Headers */,
 				F1D4718E1D777C7C007B443D /* OnePasswordExtension.h in Headers */,
+				5CB7CCD820505C0100BFCD9B /* Client-Bridging-Header.h in Headers */,
 				0A03FFBA1FCDF0C400DF32C9 /* prefilter_tree.h in Headers */,
 				EB009BAF1E1BF44200680DB8 /* HashItem.h in Headers */,
 				E8A10AA61C5538355063C087 /* SwizzlingToHideSharePicker.h in Headers */,
@@ -4363,6 +4381,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/libPhoneNumberiOS.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/FastImageCache.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/pop.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Tor.framework",
 			);
 			name = "Copy Carthage Dependencies";
 			outputPaths = (
@@ -4768,6 +4787,7 @@
 				989986E4AD89740E7F458CD3 /* NSAttributedStringExtensions.swift in Sources */,
 				4FCC90F45C8CC749A62A5F4D /* UIAlertControllerExtensions.swift in Sources */,
 				E2D33EC35C1599109A588B7E /* UIImageViewExtensions.swift in Sources */,
+				5CB7CCDD20505D8F00BFCD9B /* Reachability.m in Sources */,
 				B0247C5844D0AEA9CC20D3EF /* UIPasteboardExtensions.swift in Sources */,
 				1AD5A92B8D7E128A09DCB480 /* AboutHomeHandler.swift in Sources */,
 				0D29C95CC4DEDD0CAFB40E8C /* BackForwardListViewController.swift in Sources */,
@@ -4851,6 +4871,7 @@
 				0A02A948202B66FF00A1E754 /* UrpLogsViewController.swift in Sources */,
 				4F31DDE7EBC23007AABA22BE /* ReaderMode.swift in Sources */,
 				BB63E86A4AC53F36D5B76263 /* ReaderModeCache.swift in Sources */,
+				5CB7CCDF20505D8F00BFCD9B /* Ipv6Tester.m in Sources */,
 				2FBCFA22FFA948467136AF65 /* ReaderModeHandlers.swift in Sources */,
 				5D11B1831F0195A7007B1DF4 /* JSONSerializationExtensions.swift in Sources */,
 				1C1BD844C67E5F9C40F06A40 /* ReaderModeStyleViewController.swift in Sources */,
@@ -5195,6 +5216,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = brave/Brave.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -5793,6 +5815,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = brave/Brave.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

@@ -4,7 +4,7 @@ import Shared
 
 private let _singleton = PrivateBrowsing()
 
-class PrivateBrowsing {
+class PrivateBrowsing: OnionManagerDelegate {
     class var singleton: PrivateBrowsing {
         return _singleton
     }
@@ -104,11 +104,28 @@ class PrivateBrowsing {
 
         NotificationCenter.default.addObserver(self, selector: #selector(PrivateBrowsing.cookiesChanged(_:)), name: NSNotification.Name.NSHTTPCookieManagerCookiesChanged, object: nil)
 
-        webkitDirLocker(true)
+//      webkitDirLocker(true)
 
         UserDefaults.standard.set(true, forKey: "WebKitPrivateBrowsingEnabled")
         
         NotificationCenter.default.post(name: NotificationPrivacyModeChanged, object: nil)
+        
+        
+        let onionManager = OnionManager.singleton
+        onionManager.setBridgeConfiguration(bridgesId: 0, customBridges: nil)
+        onionManager.startTor(delegate: self)
+    }
+    
+    func torConnProgress(_ progress: Int) {
+        
+    }
+    
+    func torConnFinished() {
+        webkitDirLocker(true)
+    }
+    
+    func torConnError() {
+        
     }
 
     fileprivate var exitDeferred = Deferred<Void>()

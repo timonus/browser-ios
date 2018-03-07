@@ -29,16 +29,10 @@ let IPV4V6_V4ONLY = 1
 let IPV4V6_V6ONLY = 2
 let IPV4V6_FORCEDUAL = 3
 
-let TOR_IPV6_CONN_FALSE 0
-let TOR_IPV6_CONN_DUAL 1
-let TOR_IPV6_CONN_ONLY 2
-let TOR_IPV6_CONN_UNKNOWN 99
-
-class Ipv6Tester: NSObject {
-    var ipv6_status: Int
-
-    
-}
+let TOR_IPV6_CONN_FALSE = 0
+let TOR_IPV6_CONN_DUAL = 1
+let TOR_IPV6_CONN_ONLY = 2
+let TOR_IPV6_CONN_UNKNOWN = 99
 
 class ObfsThread: Thread {
     var obfs4SocksPort: UInt = 0

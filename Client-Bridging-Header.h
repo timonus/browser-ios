@@ -29,3 +29,7 @@
 #import "FLEXManager.h"
 #endif
 #endif
+
+#import "Ipv6Tester.h"
+#import "Reachability.h"
+#import <Tor/Tor.h>
