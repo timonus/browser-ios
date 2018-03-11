@@ -70,10 +70,10 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
             }
         }
         
-        let longPress = UILongPressGestureRecognizer(target: self,
-                                                     action: #selector(longPressForPrivateTab(gestureRecognizer:)))
-        longPress.minimumPressDuration = 0.2
-        addTabButton.addGestureRecognizer(longPress)
+//        let longPress = UILongPressGestureRecognizer(target: self,
+//                                                     action: #selector(longPressForPrivateTab(gestureRecognizer:)))
+//        longPress.minimumPressDuration = 0.2
+//        addTabButton.addGestureRecognizer(longPress)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -156,7 +156,7 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
             make.centerX.equalTo(self)
         }
 
-        addTabButton.snp.remakeConstraints { make in
+        searchButton.snp.remakeConstraints { make in
             common(make)
             make.left.equalTo(shareButton.snp.right)
         }

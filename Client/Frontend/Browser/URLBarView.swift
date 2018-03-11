@@ -155,10 +155,10 @@ class URLBarView: UIView {
     lazy var backButton: UIButton = { return UIButton() }()
     
     // Required solely for protocol conforming
-    lazy var addTabButton = { return UIButton() }()
+    lazy var searchButton = { return UIButton() }()
 
     var actionButtons: [UIButton] {
-        return [self.shareButton, self.forwardButton, self.backButton, self.pwdMgrButton, self.addTabButton]
+        return [self.shareButton, self.forwardButton, self.backButton, self.pwdMgrButton, self.searchButton]
     }
 
     // Used to temporarily store the cloned button so we can respond to layout changes during animation

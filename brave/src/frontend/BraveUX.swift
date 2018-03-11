@@ -103,7 +103,7 @@ struct BraveUX {
     // Setting this to clearColor() and setting LocationContainerBackgroundColor to a definitive color
     //  with transparency (e.g. allwhile 0.3 alpha) is how to make a non-opaque URL bar (e.g. for blurring).
     // Not currently needed since top bar is entirely opaque
-    static let LocationBarBackgroundColor = GreyB
+    static let LocationBarBackgroundColor = White
     static let LocationContainerBackgroundColor = LocationBarBackgroundColor
     
     // Editing colors same as standard coloring
@@ -113,10 +113,10 @@ struct BraveUX {
     // LocationBar Private Coloring
     // TODO: Add text coloring
     // See comment for LocationBarBackgroundColor is semi-transparent location bar is desired
-    static let LocationBarBackgroundColor_PrivateMode = Black
+    static let LocationBarBackgroundColor_PrivateMode = GreyJ
     static let LocationContainerBackgroundColor_PrivateMode = LocationBarBackgroundColor_PrivateMode
     
-    static let LocationBarEditModeBackgroundColor_Private = Black
+    static let LocationBarEditModeBackgroundColor_Private = GreyJ
     static let LocationBarEditModeTextColor_Private = GreyA
     
     // Interesting: compontents of the url can be colored differently: http://www.foo.com
@@ -142,7 +142,7 @@ struct BraveUX {
     static let BottomToolbarNumberButtonsToRightOfBackForward = 3
     static let BackForwardButtonLeftOffset = CGFloat(10)
     
-    static let ProgressBarColor = GreyC
+    static let ProgressBarColor = GreyB
     static let ProgressBarDarkColor = GreyI
     
     static let TabTrayCellCornerRadius = CGFloat(6.0)

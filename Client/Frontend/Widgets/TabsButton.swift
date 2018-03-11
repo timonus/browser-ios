@@ -188,26 +188,34 @@ class TabsButton: UIControl {
         let cancelAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.cancel, handler: nil)
         actionSheetController.addAction(cancelAction)
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            if !PrivateBrowsing.singleton.isOn {
-                let newPrivateTabAction = UIAlertAction(title: Strings.NewPrivateTabTitle,
-                                                        style: .default,
-                                                        handler: respondToNewPrivateTab(action:))
-                actionSheetController.addAction(newPrivateTabAction)
-            }
-            
-            let newTabAction = UIAlertAction(title: Strings.NewTabTitle,
-                                             style: .default,
-                                             handler: respondToNewTab(action:))
-            actionSheetController.addAction(newTabAction)
-            
-            if let presenter = actionSheetController.popoverPresentationController {
-                presenter.sourceView = self
-                presenter.sourceRect = self.bounds
-            }
+
+        var newPrivateTabAction: UIAlertAction? = nil
+        if !PrivateBrowsing.singleton.isOn {
+            newPrivateTabAction = UIAlertAction(title: Strings.NewPrivateTabTitle,
+                                                    style: .default,
+                                                    handler: respondToNewPrivateTab(action:))
         }
-        actionSheetController.addAction(closeAllTabsAction)
-        actionSheetController.addAction(closeTabAction)
+        
+        let newTabAction = UIAlertAction(title: Strings.NewTabTitle,
+                                         style: .default,
+                                         handler: respondToNewTab(action:))
+    
+        if let presenter = actionSheetController.popoverPresentationController {
+            presenter.sourceView = self
+            presenter.sourceRect = self.bounds
+        }
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            actionSheetController.addAction(newTabAction)
+            if newPrivateTabAction != nil { actionSheetController.addAction(newPrivateTabAction!) }
+            actionSheetController.addAction(closeTabAction)
+            actionSheetController.addAction(closeAllTabsAction)
+        } else {
+            actionSheetController.addAction(closeAllTabsAction)
+            actionSheetController.addAction(closeTabAction)
+            if newPrivateTabAction != nil { actionSheetController.addAction(newPrivateTabAction!) }
+            actionSheetController.addAction(newTabAction)
+        }
         
         getApp().browserViewController.present(actionSheetController, animated: true, completion: nil)
     }
