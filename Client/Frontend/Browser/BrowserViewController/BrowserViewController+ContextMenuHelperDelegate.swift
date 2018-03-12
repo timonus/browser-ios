@@ -100,9 +100,8 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         return UIAlertAction(title: Strings.Share_Image, style: UIAlertActionStyle.default) {
             [weak self] action in
             guard let browserController = self else { return }
-            browserController.getImage(url) {
-                image in
-                let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            browserController.getData(url) { data in
+                let controller = UIActivityViewController(activityItems: [data], applicationActivities: nil)
                 browserController.presentActivityViewController(controller: controller,
                                                                 tab: tab,
                                                                 sourceView: browserController.view,
@@ -117,7 +116,11 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         let saveImageTitle = Strings.Save_Image
         return UIAlertAction(title: saveImageTitle, style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
             if photoAuthorizeStatus == PHAuthorizationStatus.authorized || photoAuthorizeStatus == PHAuthorizationStatus.notDetermined {
-                self.getImage(url) { UIImageWriteToSavedPhotosAlbum($0, nil, nil, nil) }
+                self.getData(url) { data in
+                    PHPhotoLibrary.shared().performChanges({
+                        PHAssetCreationRequest.forAsset().addResource(with: .photo, data: data, options: nil)
+                    }, completionHandler: nil)
+                }
             } else {
                 let accessDenied = UIAlertController(title: Strings.Brave_would_like_to_access_your_photos, message: Strings.This_allows_you_to_save_the_image_to_your_CameraRoll, preferredStyle: UIAlertControllerStyle.alert)
                 let dismissAction = UIAlertAction(title: Strings.Cancel, style: UIAlertActionStyle.default, handler: nil)
@@ -237,13 +240,12 @@ extension BrowserViewController: ContextMenuHelperDelegate {
         }
     }
     
-    fileprivate func getImage(_ url: URL, success: @escaping (UIImage) -> ()) {
+    private func getData(_ url: URL, success: @escaping (Data) -> ()) {
         Alamofire.request(url)
             .validate(statusCode: 200..<300)
             .response { response in
-                if let data = response.data,
-                    let image = UIImage.dataIsGIF(data) ? UIImage.imageFromGIFDataThreadSafe(data) : UIImage.imageFromDataThreadSafe(data) {
-                    success(image)
+                if let data = response.data {
+                    success(data)
                 }
         }
     }
