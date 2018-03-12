@@ -47,7 +47,18 @@ echo GENERATED_BUILD_ID=`date +"%y.%m.%d.%H"` >> xcconfig/build-id.xcconfig
 
 npm update
 
-node -e "require('./node_modules/ad-block/lib/regions.js').forEach((x) =>{ if (x.lang) {console.log(x.lang + ',' + x.uuid)} } )" > adblock-regions.txt
+## setup adblock regional filters
+if ! g++ build-system/get_adblock_regions.cpp -Inode_modules/ad-block/lists/ -std=c++11 -o get_adblock_regions; then
+    echo "Error: could not setup adblock region file."
+    exit 1
+fi
+
+./get_adblock_regions && rm get_adblock_regions
+
+if [ ! -e adblock-regions.txt ]; then
+    echo "Error: adblock region file does not exist."
+    exit 1
+fi
 
 ## setup sync
 (cd ../Carthage/Checkouts/sync && brew install yarn; yarn install && yarn run build)
