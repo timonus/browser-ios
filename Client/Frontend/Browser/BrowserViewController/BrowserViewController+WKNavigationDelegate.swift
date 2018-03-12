@@ -6,14 +6,10 @@ private let log = Logger.browserLogger
 extension BrowserViewController: WKCompatNavigationDelegate {
 
     func webViewDidStartProvisionalNavigation(_ webView: UIWebView, url: URL?) {
-        #if !BRAVE
-            if tabManager.selectedTab?.webView !== webView {
-                return
-            }
-        #else
-            // remove the open in overlay view if it is present
-            removeOpenInView()
-        #endif
+        if tabManager.selectedTab?.webView !== webView {
+            return
+        }
+        
         updateFindInPageVisibility(false)
 
         // If we are going to navigate to a new page, hide the reader mode button. Unless we
@@ -24,6 +20,8 @@ extension BrowserViewController: WKCompatNavigationDelegate {
                 urlBar.updateReaderModeState(ReaderModeState.Unavailable)
             }
 
+            // remove the open in overlay view if it is present
+            removeOpenInView()
         }
     }
 
