@@ -397,6 +397,7 @@ class TabManager : NSObject {
         if let history = savedTab.urlHistorySnapshot as? [String], let tabUUID = savedTab.syncUUID, let url = savedTab.url {
             let data = SavedTab(id: tabUUID, title: savedTab.title ?? "", url: url, isSelected: savedTab.isSelected, order: savedTab.order, screenshot: nil, history: history, historyIndex: savedTab.urlHistoryCurrentIndex)
             if let webView = tab.webView {
+                tab.navigationDelegate = navDelegate
                 tab.restore(webView, restorationData: data)
             }
         }
