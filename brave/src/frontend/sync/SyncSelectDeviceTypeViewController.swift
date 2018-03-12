@@ -63,6 +63,9 @@ class SyncDeviceTypeButton: UIControl {
             make.centerX.equalTo(self)
             make.width.equalTo(self)
         }
+
+        // Prevents bug where user can tap on two device types at once.
+        isExclusiveTouch = true
     }
     
     override init(frame: CGRect) {
