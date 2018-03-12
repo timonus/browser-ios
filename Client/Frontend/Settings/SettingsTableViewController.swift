@@ -37,9 +37,8 @@ class Setting : NSObject {
     // Called when the cell is setup. Call if you need the default behaviour.
     func onConfigureCell(_ cell: UITableViewCell) {
         cell.detailTextLabel?.attributedText = status
-        cell.detailTextLabel?.numberOfLines = 2
+        cell.detailTextLabel?.numberOfLines = 1
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
-        cell.detailTextLabel?.lineBreakMode = .byWordWrapping
         cell.textLabel?.attributedText = title
         cell.textLabel?.textAlignment = textAlignment
         cell.textLabel?.numberOfLines = 0
