@@ -44,7 +44,14 @@ class BraveScrollController: NSObject {
     fileprivate var isZoomedOut: Bool = false
     fileprivate var lastZoomedScale: CGFloat = 0
     fileprivate var isUserZoom: Bool = false
+    fileprivate var isDragging: Bool = false
     fileprivate var adjustWithScroll: Bool = false
+    fileprivate var adjustWithDrag: Bool = false {
+        didSet {
+            dragStartY = scrollView?.contentOffset.y ?? 0
+        }
+    }
+    fileprivate var dragStartY: CGFloat = 0
     fileprivate var previousScrollOffset: CGFloat = 0
     
     fileprivate var isTransitionIncomplete: Bool! {
@@ -339,10 +346,13 @@ extension BraveScrollController: UIScrollViewDelegate {
                 hideToolbars(animated: true)
             }
         }
+        
+        adjustWithDrag = false
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         adjustWithScroll = false
+        adjustWithDrag = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -351,9 +361,13 @@ extension BraveScrollController: UIScrollViewDelegate {
             return
         }
         
-        if adjustWithScroll {
+        if adjustWithScroll  {
             let delta = scrollView.contentOffset.y - previousScrollOffset
             scrollWithDelta(delta)
+            previousScrollOffset = scrollView.contentOffset.y
+        }
+        else if adjustWithDrag && dragStartY - offset > topScrollHeight {
+            adjustWithScroll = true
             previousScrollOffset = scrollView.contentOffset.y
         }
     }
