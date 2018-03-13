@@ -16,9 +16,13 @@ protocol BraveBrowserToolbarButtonActions {
 extension BraveBrowserToolbarButtonActions {
     func respondToNewTab(action: UIAlertAction) {
         getApp().tabManager.addTabAndSelect()
+        let app = UIApplication.shared.delegate as! AppDelegate
+        app.browserViewController.urlBar.browserLocationViewDidTapLocation(app.browserViewController.urlBar.locationView)
     }
     
     func respondToNewPrivateTab(action: UIAlertAction) {
         getApp().browserViewController.switchBrowsingMode(toPrivate: true)
+        let app = UIApplication.shared.delegate as! AppDelegate
+        app.browserViewController.urlBar.browserLocationViewDidTapLocation(app.browserViewController.urlBar.locationView)
     }
 }

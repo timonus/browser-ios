@@ -80,6 +80,8 @@ open class BrowserToolbarHelper: NSObject {
         toolbar.pwdMgrButton.addTarget(self, action: #selector(BrowserToolbarHelper.SELdidClickPwdMgr), for: UIControlEvents.touchUpInside)
 
         setTintColor(buttonTintColor, forButtons: toolbar.actionButtons)
+        
+        
     }
 
     func SELdidClickBack() {

@@ -175,7 +175,7 @@ class TabsButton: UIControl {
     
     func tabsButtonHold() {
         let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        let closeAllTitle = String(format: Strings.CloseAllTabsTitle, getApp().tabManager.tabCount)
+        let closeAllTitle = String(format: Strings.CloseAllTabsTitle, getApp().tabManager.tabs.displayedTabsForCurrentPrivateMode.count)
         let closeAllTabsAction =  UIAlertAction(title: closeAllTitle, style: UIAlertActionStyle.destructive) { (action: UIAlertAction) in
             getApp().tabManager.removeAll(createTabIfNoneLeft: true, restricted: true)
         }
@@ -214,8 +214,8 @@ class TabsButton: UIControl {
         } else {
             actionSheetController.addAction(closeAllTabsAction)
             actionSheetController.addAction(closeTabAction)
-            if newPrivateTabAction != nil { actionSheetController.addAction(newPrivateTabAction!) }
-            actionSheetController.addAction(newTabAction)
+//            if newPrivateTabAction != nil { actionSheetController.addAction(newPrivateTabAction!) }
+//            actionSheetController.addAction(newTabAction)
         }
         
         getApp().browserViewController.present(actionSheetController, animated: true, completion: nil)

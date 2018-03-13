@@ -70,10 +70,10 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
             }
         }
         
-//        let longPress = UILongPressGestureRecognizer(target: self,
-//                                                     action: #selector(longPressForPrivateTab(gestureRecognizer:)))
-//        longPress.minimumPressDuration = 0.2
-//        addTabButton.addGestureRecognizer(longPress)
+        let longPress = UILongPressGestureRecognizer(target: self,
+                                                     action: #selector(longPressForSearchInNewTab(gestureRecognizer:)))
+        longPress.minimumPressDuration = 0.2
+        searchButton.addGestureRecognizer(longPress)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -92,7 +92,7 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
                                   clonedTabsButton: &instance.clonedTabsButton, count: count, animated: animated)
     }
     
-    func longPressForPrivateTab(gestureRecognizer: UILongPressGestureRecognizer) {
+    func longPressForSearchInNewTab(gestureRecognizer: UILongPressGestureRecognizer) {
         let alertController = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)

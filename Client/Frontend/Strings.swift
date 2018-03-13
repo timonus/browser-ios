@@ -49,6 +49,8 @@ extension Strings {
     public static let SelectLocationBarTitle = NSLocalizedString("Select Location Bar", comment: "")
     public static let NewTabTitle = NSLocalizedString("New Tab", comment: "")
     public static let NewPrivateTabTitle = NSLocalizedString("New Private Tab", comment: "")
+    public static let SearchNewTabTitle = NSLocalizedString("Search in New Tab", comment: "")
+    public static let SearchNewPrivateTabTitle = NSLocalizedString("Search in New Private Tab", comment: "")
     public static let CloseAllTabsTitle = NSLocalizedString("Close All %i Tabs", comment: "")
     public static let CloseTabTitle = NSLocalizedString("Close Tab", comment: "")
     public static let ShowNextTabTitle = NSLocalizedString("Show Next Tab", comment: "")
