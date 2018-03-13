@@ -57,13 +57,17 @@ extension Strings {
 
 extension Strings {
 
+    public static let Allow = NSLocalizedString("Allow", comment: "")
+    public static let DontAllow = NSLocalizedString("Don't Allow", comment: "")
     public static let NewFolder = NSLocalizedString("New Folder", comment: "Title for new folder popup")
     public static let EnterFolderName = NSLocalizedString("Enter folder name", comment: "Description for new folder popup")
     public static let Edit = NSLocalizedString("Edit", comment: "")
     
     public static let NewDevice = NSLocalizedString("Device Name", comment: "Title for new device popup")
     public static let DeviceFolderName = NSLocalizedString("Please enter a name for this device", comment: "Description for new device popup")
-    
+
+    public static let RequestSwitchAppsTitle = NSLocalizedString("Allow link to switch apps?", comment: "")
+    public static let RequestSwitchAppsMessage = NSLocalizedString("%@ will launch an external application", comment: "")
     public static let SyncUnsuccessful = NSLocalizedString("Unsuccessful", comment: "")
     public static let SyncUnableCreateGroup = NSLocalizedString("Unable to create new sync group.", comment: "Description on popup when setting up a sync group fails")
 
