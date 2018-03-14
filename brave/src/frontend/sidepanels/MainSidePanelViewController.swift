@@ -46,17 +46,21 @@ class MainSidePanelViewController : SidePanelBaseViewController {
 
         settingsButton.setImage(UIImage(named: "settings")?.withRenderingMode(.alwaysTemplate), for: .normal)
         settingsButton.addTarget(self, action: #selector(onClickSettingsButton), for: .touchUpInside)
+        settingsButton.contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10)
         settingsButton.accessibilityLabel = Strings.Settings
 
         bookmarksButton.setImage(UIImage(named: "bookmarklist")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        bookmarksButton.contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10)
         bookmarksButton.accessibilityLabel = Strings.Show_Bookmarks
         
         historyButton.setImage(UIImage(named: "history")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        historyButton.contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10)
         historyButton.accessibilityLabel = Strings.Show_History
 
         addBookmarkButton.addTarget(self, action: #selector(onClickBookmarksButton), for: .touchUpInside)
         addBookmarkButton.setImage(UIImage(named: "bookmark")?.withRenderingMode(.alwaysTemplate), for: .normal)
         addBookmarkButton.setImage(UIImage(named: "bookmarkMarked")?.withRenderingMode(.alwaysTemplate), for: .selected)
+        addBookmarkButton.contentEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10)
         addBookmarkButton.accessibilityLabel = Strings.Add_Bookmark
         
         pageButtons.keys.forEach { $0.addTarget(self, action: #selector(onClickPageButton), for: .touchUpInside) }
