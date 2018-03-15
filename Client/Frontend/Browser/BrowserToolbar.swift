@@ -103,7 +103,6 @@ open class BrowserToolbarHelper: NSObject {
     
     func SELdidClickSearch() {
         let app = UIApplication.shared.delegate as! AppDelegate
-//        app.tabManager.addTabAndSelect()
         app.browserViewController.urlBar.browserLocationViewDidTapLocation(app.browserViewController.urlBar.locationView)
     }
     

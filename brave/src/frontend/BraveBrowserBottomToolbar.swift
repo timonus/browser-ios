@@ -70,10 +70,10 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
             }
         }
         
-        let longPress = UILongPressGestureRecognizer(target: self,
-                                                     action: #selector(longPressForSearchInNewTab(gestureRecognizer:)))
-        longPress.minimumPressDuration = 0.2
-        searchButton.addGestureRecognizer(longPress)
+//        let longPress = UILongPressGestureRecognizer(target: self,
+//                                                     action: #selector(longPressForSearchInNewTab(gestureRecognizer:)))
+//        longPress.minimumPressDuration = 0.2
+//        searchButton.addGestureRecognizer(longPress)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -92,32 +92,32 @@ class BraveBrowserBottomToolbar : BrowserToolbar {
                                   clonedTabsButton: &instance.clonedTabsButton, count: count, animated: animated)
     }
     
-    func longPressForSearchInNewTab(gestureRecognizer: UILongPressGestureRecognizer) {
-        let alertController = UIAlertController(title: nil,
-                                                message: nil,
-                                                preferredStyle: .actionSheet)
-        
-        let cancelAction = UIAlertAction(title: Strings.Cancel,
-                                         style: .cancel,
-                                         handler: nil)
-        alertController.addAction(cancelAction)
-        
-        if !PrivateBrowsing.singleton.isOn {
-            let newPrivateTabAction = UIAlertAction(title: Strings.NewPrivateTabTitle,
-                                                    style: .default,
-                                                    handler: respondToNewPrivateTab(action:))
-            alertController.addAction(newPrivateTabAction)
-        }
-        
-        
-        
-        let newTabAction = UIAlertAction(title: Strings.NewTabTitle,
-                                         style: .default,
-                                         handler: respondToNewTab(action:))
-        alertController.addAction(newTabAction)
-        
-        getApp().browserViewController.present(alertController, animated: true, completion: nil)
-    }
+//    func longPressForSearchInNewTab(gestureRecognizer: UILongPressGestureRecognizer) {
+//        let alertController = UIAlertController(title: nil,
+//                                                message: nil,
+//                                                preferredStyle: .actionSheet)
+//
+//        let cancelAction = UIAlertAction(title: Strings.Cancel,
+//                                         style: .cancel,
+//                                         handler: nil)
+//        alertController.addAction(cancelAction)
+//
+//        if !PrivateBrowsing.singleton.isOn {
+//            let newPrivateTabAction = UIAlertAction(title: Strings.NewPrivateTabTitle,
+//                                                    style: .default,
+//                                                    handler: respondToNewPrivateTab(action:))
+//            alertController.addAction(newPrivateTabAction)
+//        }
+//
+//
+//
+//        let newTabAction = UIAlertAction(title: Strings.NewTabTitle,
+//                                         style: .default,
+//                                         handler: respondToNewTab(action:))
+//        alertController.addAction(newTabAction)
+//
+//        getApp().browserViewController.present(alertController, animated: true, completion: nil)
+//    }
 
     func setAlphaOnAllExceptTabButton(_ alpha: CGFloat) {
         actionButtons.forEach { $0.alpha = alpha }

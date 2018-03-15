@@ -214,8 +214,8 @@ class TabsButton: UIControl {
         } else {
             actionSheetController.addAction(closeAllTabsAction)
             actionSheetController.addAction(closeTabAction)
-//            if newPrivateTabAction != nil { actionSheetController.addAction(newPrivateTabAction!) }
-//            actionSheetController.addAction(newTabAction)
+            if newPrivateTabAction != nil { actionSheetController.addAction(newPrivateTabAction!) }
+            actionSheetController.addAction(newTabAction)
         }
         
         getApp().browserViewController.present(actionSheetController, animated: true, completion: nil)

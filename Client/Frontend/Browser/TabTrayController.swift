@@ -649,7 +649,10 @@ class TabTrayController: UIViewController {
             }
         }, completion: { finished in
             if finished {
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: {
+                    let app = UIApplication.shared.delegate as! AppDelegate
+                    app.browserViewController.urlBar.browserLocationViewDidTapLocation(app.browserViewController.urlBar.locationView)
+                })
             }
         })
     }
