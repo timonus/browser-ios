@@ -394,11 +394,11 @@ extension TopSitesPanel: ThumbnailCellDelegate {
 
         let actionSheet = UIAlertController(title: fav.displayTitle, message: nil, preferredStyle: .actionSheet)
 
-        let deleteAction = UIAlertAction(title: Strings.Remove_Bookmark, style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: Strings.Remove_Favorite, style: .destructive) { _ in
             fav.remove(save: true)
         }
 
-        let editAction = UIAlertAction(title: Strings.Edit_Bookmark, style: .default) { _ in
+        let editAction = UIAlertAction(title: Strings.Edit_Favorite, style: .default) { _ in
             guard let title = fav.displayTitle, let urlString = fav.url else { return }
 
             let editPopup = UIAlertController.userTextInputAlert(title: Strings.Edit_Bookmark, message: urlString,

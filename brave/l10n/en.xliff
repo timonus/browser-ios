@@ -2,7 +2,7 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
   <file original="BraveShareTo/BraveShareToInfo.plist" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -15,7 +15,7 @@
   </file>
   <file original="ReadingList/Info.plist" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="CFBundleName">
@@ -25,7 +25,7 @@
   </file>
   <file original="brave/Info.plist" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="CFBundleName">
@@ -35,7 +35,7 @@
   </file>
   <file original="brave/Localizable.strings" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="%@ search">
@@ -69,6 +69,22 @@
       <trans-unit id="Add Tab">
         <source>Add Tab</source>
         <note>Accessibility label for the Add Tab button in the Tab Tray.</note>
+      </trans-unit>
+      <trans-unit id="Add a Computer">
+        <source>Add a Computer</source>
+        <note>Add mobile device button title</note>
+      </trans-unit>
+      <trans-unit id="Add a Mobile Device">
+        <source>Add a Mobile Device</source>
+        <note>Add mobile device button title</note>
+      </trans-unit>
+      <trans-unit id="Add another device">
+        <source>Add another device</source>
+        <note>Add another device cell button.</note>
+      </trans-unit>
+      <trans-unit id="Add to Favorites">
+        <source>Add to Favorites</source>
+        <note>Add to favorites share action.</note>
       </trans-unit>
       <trans-unit id="Add to Reading List">
         <source>Add to Reading List</source>
@@ -195,6 +211,12 @@ Blocked</source>
         <source>Brave Sync</source>
         <note>Brave sync page title</note>
       </trans-unit>
+      <trans-unit id="Brave Sync allows you to sync bookmarks, tabs, history and other data privately between your Brave Browsers on your various devices. \r\rSimply scan the code from your sync chain that you created on another device. Or start a new sync chain. ">
+        <source>Brave Sync allows you to sync bookmarks, tabs, history and other data privately between your Brave Browsers on your various devices. 
+
+Simply scan the code from your sync chain that you created on another device. Or start a new sync chain. </source>
+        <note>Sync settings welcome</note>
+      </trans-unit>
       <trans-unit id="Brave blocks ads.\nBrave stops trackers.\nBrave is designed for speed and efficiency.">
         <source>Brave blocks ads.
 Brave stops trackers.
@@ -278,8 +300,8 @@ and here's why...</source>
         <source>Close</source>
         <note>Accessibility label for action denoting closing a tab in tab list (tray)</note>
       </trans-unit>
-      <trans-unit id="Close All Tabs">
-        <source>Close All Tabs</source>
+      <trans-unit id="Close All %i Tabs">
+        <source>Close All %i Tabs</source>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Close Private Tabs">
@@ -298,6 +320,10 @@ and here's why...</source>
         <source>Code Words</source>
         <note>Code words section title</note>
       </trans-unit>
+      <trans-unit id="Confirm">
+        <source>Confirm</source>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
       <trans-unit id="Cookie Control">
         <source>Cookie Control</source>
         <note>Cookie settings option title</note>
@@ -305,6 +331,10 @@ and here's why...</source>
       <trans-unit id="Cookies">
         <source>Cookies</source>
         <note>Settings item for clearing cookies</note>
+      </trans-unit>
+      <trans-unit id="Copied!">
+        <source>Copied!</source>
+        <note>Copied action complete title</note>
       </trans-unit>
       <trans-unit id="Copy">
         <source>Copy</source>
@@ -321,6 +351,10 @@ and here's why...</source>
       <trans-unit id="Copy Link">
         <source>Copy Link</source>
         <note>Context menu item for copying a link URL to the clipboard</note>
+      </trans-unit>
+      <trans-unit id="Copy app info to clipboard.">
+        <source>Copy app info to clipboard.</source>
+        <note>Copy app info to clipboard action sheet action.</note>
       </trans-unit>
       <trans-unit id="Could not add page to Reading List. Maybe it's already there?">
         <source>Could not add page to Reading List. Maybe it's already there?</source>
@@ -350,6 +384,10 @@ and here's why...</source>
         <source>Desktop Bookmarks</source>
         <note>The folder name for the virtual folder that contains all desktop bookmarks.</note>
       </trans-unit>
+      <trans-unit id="Device %@ (%@)">
+        <source>Device %1$@ (%2$@)</source>
+        <note>Current device model and iOS version copied to clipboard.</note>
+      </trans-unit>
       <trans-unit id="Device Name">
         <source>Device Name</source>
         <note>Title for new device popup</note>
@@ -361,6 +399,10 @@ and here's why...</source>
       <trans-unit id="Devices &amp; Settings">
         <source>Devices &amp; Settings</source>
         <note>Sync you browser settings across devices.</note>
+      </trans-unit>
+      <trans-unit id="Disable sync if you don't want to push bookmarks to other devices. Bookmarks will still be pulled.">
+        <source>Disable sync if you don't want to push bookmarks to other devices. Bookmarks will still be pulled.</source>
+        <note>Push sync settings footer details</note>
       </trans-unit>
       <trans-unit id="Don't block cookies">
         <source>Don't block cookies</source>
@@ -382,9 +424,25 @@ and here's why...</source>
         <source>Edit</source>
         <note>No comment provided by engineer.</note>
       </trans-unit>
+      <trans-unit id="Edit Bookmark">
+        <source>Edit Bookmark</source>
+        <note>Button to edit a bookmark</note>
+      </trans-unit>
+      <trans-unit id="Edit Favorite">
+        <source>Edit Favorite</source>
+        <note>Button to edit a favorite</note>
+      </trans-unit>
       <trans-unit id="Enable">
         <source>Enable</source>
         <note>Browser Lock feature callout enable action.</note>
+      </trans-unit>
+      <trans-unit id="Enable Camera">
+        <source>Enable Camera</source>
+        <note>Grand camera access</note>
+      </trans-unit>
+      <trans-unit id="Enable Sync">
+        <source>Enable Sync</source>
+        <note>Push sync enabled cell title.</note>
       </trans-unit>
       <trans-unit id="Enter New PIN">
         <source>Enter New PIN</source>
@@ -410,6 +468,10 @@ and here's why...</source>
         <source>Enter folder name</source>
         <note>Description for new folder popup</note>
       </trans-unit>
+      <trans-unit id="Enter the sync code">
+        <source>Enter the sync code</source>
+        <note>Add device to sync with code words</note>
+      </trans-unit>
       <trans-unit id="Est. Time \rSaved">
         <source>Est. Time 
 Saved</source>
@@ -418,6 +480,10 @@ Saved</source>
       <trans-unit id="Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.">
         <source>Even though sites you visit in private tabs are not saved locally, they do not make you anonymous or invisible to your ISP, your employer, or to the sites you are visiting.</source>
         <note>Private tab details</note>
+      </trans-unit>
+      <trans-unit id="Favorites">
+        <source>Favorites</source>
+        <note>Folder for storing favorite bookmarks.</note>
       </trans-unit>
       <trans-unit id="Find">
         <source>Find</source>
@@ -456,10 +522,6 @@ Protection</source>
         <source>General</source>
         <note>General settings section title</note>
       </trans-unit>
-      <trans-unit id="Get a new sync code">
-        <source>Get a new sync code</source>
-        <note>New sync code button title</note>
-      </trans-unit>
       <trans-unit id="Get ready to experience a Faster, Safer, Better Web.">
         <source>Get ready to experience a Faster, Safer, Better Web.</source>
         <note>Shown in intro screens</note>
@@ -467,10 +529,6 @@ Protection</source>
       <trans-unit id="Go Back">
         <source>Go Back</source>
         <note>Label for button to go back from the error page</note>
-      </trans-unit>
-      <trans-unit id="Grant camera access">
-        <source>Grant camera access</source>
-        <note>Grand camera access</note>
       </trans-unit>
       <trans-unit id="HTTPS Everywhere">
         <source>HTTPS Everywhere</source>
@@ -617,6 +675,10 @@ Upgrades</source>
         <source>No tabs</source>
         <note>Message spoken by VoiceOver to indicate that there are no tabs in the Tabs Tray</note>
       </trans-unit>
+      <trans-unit id="Not Enough Words">
+        <source>Not Enough Words</source>
+        <note>Sync Alert</note>
+      </trans-unit>
       <trans-unit id="Not Now">
         <source>Not Now</source>
         <note>Browser Lock feature callout not now action.</note>
@@ -640,6 +702,18 @@ Upgrades</source>
       <trans-unit id="On">
         <source>On</source>
         <note>Toggled ON accessibility value</note>
+      </trans-unit>
+      <trans-unit id="On your computer, navigate to Brave Settings &gt; Sync &gt; Scan. \n\nCapture the QR Code (above) with your second device, or enter code words if no camera is available.">
+        <source>On your computer, navigate to Brave Settings &gt; Sync &gt; Scan. 
+
+Capture the QR Code (above) with your second device, or enter code words if no camera is available.</source>
+        <note>Sync add device description</note>
+      </trans-unit>
+      <trans-unit id="On your computer, navigate to Brave Settings &gt; Sync. Choose “Enter a Sync Chain Code.” \n\nEnter the code words above, including spaces.">
+        <source>On your computer, navigate to Brave Settings &gt; Sync. Choose “Enter a Sync Chain Code.” 
+
+Enter the code words above, including spaces.</source>
+        <note>Sync add device description</note>
       </trans-unit>
       <trans-unit id="Open &amp; Fill">
         <source>Open &amp; Fill</source>
@@ -681,6 +755,10 @@ Upgrades</source>
         <source>Open in…</source>
         <note>String indicating that the file can be opened in another application on the device</note>
       </trans-unit>
+      <trans-unit id="Other Settings">
+        <source>Other Settings</source>
+        <note>Other settings sectiont title</note>
+      </trans-unit>
       <trans-unit id="PIN">
         <source>PIN</source>
         <note>Setting to change browser lock pin</note>
@@ -712,6 +790,10 @@ Upgrades</source>
       <trans-unit id="Please enter a name for this device">
         <source>Please enter a name for this device</source>
         <note>Description for new device popup</note>
+      </trans-unit>
+      <trans-unit id="Please enter all of the words and try again.">
+        <source>Please enter all of the words and try again.</source>
+        <note>Sync Alert</note>
       </trans-unit>
       <trans-unit id="Previous in-page result">
         <source>Previous in-page result</source>
@@ -785,6 +867,14 @@ Upgrades</source>
         <source>Remove</source>
         <note>Action button for deleting_history_entries_in_the_history_panel.</note>
       </trans-unit>
+      <trans-unit id="Remove Bookmark">
+        <source>Remove Bookmark</source>
+        <note>Button to remove a bookmark</note>
+      </trans-unit>
+      <trans-unit id="Remove Favorite">
+        <source>Remove Favorite</source>
+        <note>Button to remove a favorite</note>
+      </trans-unit>
       <trans-unit id="Remove from Reading List">
         <source>Remove from Reading List</source>
         <note>Name for button removing current article from reading list in reader mode</note>
@@ -841,9 +931,17 @@ Upgrades</source>
         <source>Saved Logins</source>
         <note>Settings item for clearing passwords and login data</note>
       </trans-unit>
-      <trans-unit id="Scan or enter code">
-        <source>Scan or enter code</source>
+      <trans-unit id="Scan">
+        <source>Scan</source>
+        <note>Scan sync code title</note>
+      </trans-unit>
+      <trans-unit id="Scan or enter sync code">
+        <source>Scan or enter sync code</source>
         <note>Scan sync code button title</note>
+      </trans-unit>
+      <trans-unit id="Scan this sync code">
+        <source>Scan this sync code</source>
+        <note>Add mobile device to sync with scan</note>
       </trans-unit>
       <trans-unit id="Scripts Blocked">
         <source>Scripts Blocked</source>
@@ -859,6 +957,14 @@ Upgrades</source>
       </trans-unit>
       <trans-unit id="Search Settings">
         <source>Search Settings</source>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search in New Private Tab">
+        <source>Search in New Private Tab</source>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="Search in New Tab">
+        <source>Search in New Tab</source>
         <note>No comment provided by engineer.</note>
       </trans-unit>
       <trans-unit id="Search in page">
@@ -969,6 +1075,10 @@ Upgrades</source>
         <source>Show Tour</source>
         <note>Show the on-boarding screen again from the settings</note>
       </trans-unit>
+      <trans-unit id="Show code words instead">
+        <source>Show code words instead</source>
+        <note>Show code words instead</note>
+      </trans-unit>
       <trans-unit id="Show in landscape only">
         <source>Show in landscape only</source>
         <note>tabs bar show/hide option</note>
@@ -985,6 +1095,10 @@ Upgrades</source>
         <source>Start Browsing</source>
         <note>No comment provided by engineer.</note>
       </trans-unit>
+      <trans-unit id="Start a new sync chain">
+        <source>Start a new sync chain</source>
+        <note>New sync code button title</note>
+      </trans-unit>
       <trans-unit id="Stop">
         <source>Stop</source>
         <note>Accessibility Label for the browser toolbar Stop button</note>
@@ -1000,10 +1114,6 @@ Upgrades</source>
       <trans-unit id="Sync">
         <source>Sync</source>
         <note>Sync settings section title</note>
-      </trans-unit>
-      <trans-unit id="Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.">
-        <source>Sync browser data between your devices securely using Brave Sync, no account creation required. Tap below to get started.</source>
-        <note>Sync settings welcome</note>
       </trans-unit>
       <trans-unit id="Sync on this device">
         <source>Sync on this device</source>
@@ -1102,9 +1212,17 @@ Blocked</source>
         <source>URL</source>
         <note>Bookmark URL</note>
       </trans-unit>
+      <trans-unit id="Unable to Connect">
+        <source>Unable to Connect</source>
+        <note>Sync Alert</note>
+      </trans-unit>
       <trans-unit id="Unable to create new sync group.">
         <source>Unable to create new sync group.</source>
         <note>Description on popup when setting up a sync group fails</note>
+      </trans-unit>
+      <trans-unit id="Unable to join sync group. Please check the entered words and try again.">
+        <source>Unable to join sync group. Please check the entered words and try again.</source>
+        <note>Sync Alert</note>
       </trans-unit>
       <trans-unit id="Unsorted Bookmarks">
         <source>Unsorted Bookmarks</source>
@@ -1142,13 +1260,25 @@ Blocked</source>
         <source>Use your fingerprint to unlock Brave.</source>
         <note>Unlock Brave with fingerprint.</note>
       </trans-unit>
-      <trans-unit id="Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.">
-        <source>Using a second device navigate to Brave Settings &gt; Sync. Capture the QR Code (above) with second device, or enter code words if no camera is available.</source>
+      <trans-unit id="Using a second phone or tablet, navigate to Brave Settings &gt; Sync &gt; Scan. \n\nCapture the QR Code (above) with your second device, or enter code words if no camera is available.">
+        <source>Using a second phone or tablet, navigate to Brave Settings &gt; Sync &gt; Scan. 
+
+Capture the QR Code (above) with your second device, or enter code words if no camera is available.</source>
+        <note>Sync add device description</note>
+      </trans-unit>
+      <trans-unit id="Using a second phone or tablet, navigate to Brave Settings &gt; Sync. Choose “Enter a Sync Chain Code.” \n\nEnter the code words above, including spaces.">
+        <source>Using a second phone or tablet, navigate to Brave Settings &gt; Sync. Choose “Enter a Sync Chain Code.” 
+
+Enter the code words above, including spaces.</source>
         <note>Sync add device description</note>
       </trans-unit>
       <trans-unit id="Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.">
         <source>Using existing synced device open Brave Settings and navigate to “Devices &amp; Settings”, tap ‘+’ to add a new device and reveal sync code.</source>
         <note>Sync to existing device description</note>
+      </trans-unit>
+      <trans-unit id="Using existing synced device, open Brave Settings and navigate to Settings &gt; Sync. Choose “Add Device” then “Display code words instead”">
+        <source>Using existing synced device, open Brave Settings and navigate to Settings &gt; Sync. Choose “Add Device” then “Display code words instead”</source>
+        <note>Code words input help</note>
       </trans-unit>
       <trans-unit id="Version %@ (%@)">
         <source>Version %1$@ (%2$@)</source>
@@ -1185,6 +1315,10 @@ Blocked</source>
       <trans-unit id="With Browser Lock, you will need to enter a PIN in order to access Brave.">
         <source>With Browser Lock, you will need to enter a PIN in order to access Brave.</source>
         <note>Browser Lock feature callout message.</note>
+      </trans-unit>
+      <trans-unit id="Word count: %i">
+        <source>Word count: %i</source>
+        <note>Word count title</note>
       </trans-unit>
       <trans-unit id="Yes">
         <source>Yes</source>
@@ -1270,7 +1404,7 @@ Blocked</source>
   </file>
   <file original="brave/Shared.strings" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="%@ on %@">
@@ -1281,7 +1415,7 @@ Blocked</source>
   </file>
   <file original="Storage/BookmarkPanel.strings" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="Desktop Bookmarks">
@@ -1292,7 +1426,7 @@ Blocked</source>
   </file>
   <file original="Storage/Info.plist" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="CFBundleName">
@@ -1302,7 +1436,7 @@ Blocked</source>
   </file>
   <file original="Storage/Localizable.strings" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="Amazon">
@@ -1329,7 +1463,7 @@ Blocked</source>
   </file>
   <file original="Storage/Storage.strings" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="Bookmarks Menu">
@@ -1357,7 +1491,7 @@ Blocked</source>
   </file>
   <file original="brave/BraveInfo.plist" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="CFBundleDisplayName">
@@ -1382,7 +1516,7 @@ Blocked</source>
   </file>
   <file original="brave/Localizable.strings" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="Accept &amp; Continue">
@@ -1405,7 +1539,7 @@ Blocked</source>
   </file>
   <file original="brave/OnePasswordExtension.strings" source-language="en" datatype="plaintext">
     <header>
-      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.0" build-num="9A235"/>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="9.2" build-num="9C40b"/>
     </header>
     <body>
       <trans-unit id="1Password Extension was cancelled by the user">
