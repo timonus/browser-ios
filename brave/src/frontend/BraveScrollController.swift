@@ -366,7 +366,7 @@ extension BraveScrollController: UIScrollViewDelegate {
             scrollWithDelta(delta)
             previousScrollOffset = scrollView.contentOffset.y
         }
-        else if adjustWithDrag && dragStartY - offset > topScrollHeight {
+        else if adjustWithDrag && dragStartY - offset > topScrollHeight * 2 {
             adjustWithScroll = true
             previousScrollOffset = scrollView.contentOffset.y
         }
