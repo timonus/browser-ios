@@ -360,7 +360,7 @@ extension Strings {
     public static let CodeWords = NSLocalizedString("Code Words", comment: "Code words section title")
     public static let Sync = NSLocalizedString("Sync", comment: "Sync settings section title")
     public static let BraveSync = NSLocalizedString("Brave Sync", comment: "Brave sync page title")
-    public static let BraveSyncWelcome = NSLocalizedString("Brave Sync allows you to sync bookmarks, tabs, history and other data privately between your Brave Browsers on your various devices. \r\rSimply scan the code from your sync chain that you created on another device. Or start a new sync chain. ", comment: "Sync settings welcome")
+    public static let BraveSyncWelcome = NSLocalizedString("Brave Sync allows you to sync bookmarks data privately between your Brave Browsers on your various devices. \r\rSimply scan the code from your sync chain that you created on another device. Or start a new sync chain. ", comment: "Sync settings welcome")
     public static let NewSyncCode = NSLocalizedString("Start a new sync chain", comment: "New sync code button title")
     public static let ScanSyncCode = NSLocalizedString("Scan or enter sync code", comment: "Scan sync code button title")
     public static let Scan = NSLocalizedString("Scan", comment: "Scan sync code title")
