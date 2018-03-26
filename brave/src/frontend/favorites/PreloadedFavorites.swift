@@ -12,11 +12,12 @@ struct PreloadedFavorites {
     static func getList() -> [FavoriteSite] {
         func appendPopularEnglishWebsites() -> [FavoriteSite] {
             var list = [FavoriteSite]()
-            try? list.append(FavoriteSite(url: "https://m.facebook.com/".asURL(), title: "Facebook"))
             try? list.append(FavoriteSite(url: "https://m.youtube.com".asURL(), title: "Youtube"))
             try? list.append(FavoriteSite(url: "https://www.amazon.com/".asURL(), title: "Amazon"))
             try? list.append(FavoriteSite(url: "https://www.wikipedia.org/".asURL(), title: "Wikipedia"))
             try? list.append(FavoriteSite(url: "https://mobile.twitter.com/".asURL(), title: "Twitter"))
+            try? list.append(FavoriteSite(url: "https://reddit.com/".asURL(), title: "Reddit"))
+            try? list.append(FavoriteSite(url: "https://coinmarketcap.com/".asURL(), title: "CoinMarketCap"))
 
             return list
         }
