@@ -32,6 +32,7 @@ class TopSitesPanel: UIViewController, HomePanel {
         let thumbnailIdentifier = "Thumbnail"
         view.register(ThumbnailCell.self, forCellWithReuseIdentifier: thumbnailIdentifier)
         view.keyboardDismissMode = .onDrag
+        view.alwaysBounceVertical = true
         view.accessibilityIdentifier = "Top Sites View"
         // Entire site panel, including the stats view insets
         view.contentInset = UIEdgeInsetsMake(TopSitesPanelUX.statsHeight, 0, 0, 0)
