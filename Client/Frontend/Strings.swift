@@ -376,7 +376,6 @@ extension Strings {
     public static let SyncAddComputerScanDescription = NSLocalizedString("On your computer, navigate to Brave Settings > Sync > Scan. \n\nCapture the QR Code (above) with your second device, or enter code words if no camera is available.", comment: "Sync add device description")
     public static let SyncAddComputerWordsDescription = NSLocalizedString("On your computer, navigate to Brave Settings > Sync. Choose “Enter a Sync Chain Code.” \n\nEnter the code words above, including spaces.", comment: "Sync add device description")
     
-    public static let SyncOnDevice = NSLocalizedString("Sync on this device", comment: "Sync device settings section title")
     public static let EnterCodeWords = NSLocalizedString("Enter code words", comment: "Sync enter code words")
     public static let ShowCodeWords = NSLocalizedString("Show code words instead", comment: "Show code words instead")
     public static let SyncDevices = NSLocalizedString("Devices & Settings", comment: "Sync you browser settings across devices.")
@@ -403,9 +402,6 @@ extension Strings {
     public static let NotEnoughWordsDescription = NSLocalizedString("Please enter all of the words and try again.", comment: "Sync Alert")
     
     public static let CodeWordInputHelp = NSLocalizedString("Using existing synced device, open Brave Settings and navigate to Settings > Sync. Choose “Add Device” then “Display code words instead”", comment: "Code words input help")
-    
-    public static let PushSyncEnabled = NSLocalizedString("Enable Sync", comment: "Push sync enabled cell title.")
-    public static let PushSyncFooter = NSLocalizedString("Disable sync if you don't want to push bookmarks to other devices. Bookmarks will still be pulled.", comment: "Push sync settings footer details")
 }
 
 

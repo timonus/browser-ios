@@ -7,10 +7,10 @@ class SyncSettingsViewController: AppSettingsTableViewController {
     
     private enum SyncSection: Int {
         // Raw values correspond to table sections.
-        case pushSync, devices, actionButtons
+        case devices, actionButtons
         
         // To disable a section, just remove it from this enum, and it will no longer be loaded
-        static let allSections: [SyncSection] = [.pushSync, .devices, .actionButtons]
+        static let allSections: [SyncSection] = [.devices, .actionButtons]
         
         func settings(profile: Profile, owner: UIViewController) -> SettingSection? {
             // TODO: move prefKey somewhere else
@@ -23,12 +23,6 @@ class SyncSettingsViewController: AppSettingsTableViewController {
                 }
                 
                 return SettingSection(title: NSAttributedString(string: Strings.Devices.uppercased()), children: devices)
-            case .pushSync:
-                let prefs = profile.prefs
-                return SettingSection(title: NSAttributedString(string: Strings.SyncOnDevice.uppercased()), children:
-                    [BoolSetting(prefs: prefs, prefKey: syncPrefBookmarks, defaultValue: true,
-                                 titleText: Strings.PushSyncEnabled)]
-                )
             case .actionButtons:
                 return SettingSection(title: nil, children: [AddDeviceSetting(owner: owner), RemoveDeviceSetting(profile: profile)])
             }
@@ -82,18 +76,10 @@ class SyncSettingsViewController: AppSettingsTableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return section == SyncSection.pushSync.rawValue ? nil : super.tableView(tableView, viewForHeaderInSection: section)
-    }
-
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-
         guard let syncSection = SyncSection(rawValue: section) else { return nil }
 
         switch syncSection {
-        case .pushSync:
-            // TODO: Better/more user friendly text for explaining users what push sync does.
-            return Strings.PushSyncFooter
         case .devices:
             return Strings.SyncDeviceSettingsFooter
         default:
