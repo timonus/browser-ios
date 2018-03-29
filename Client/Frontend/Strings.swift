@@ -402,6 +402,8 @@ extension Strings {
     public static let NotEnoughWordsDescription = NSLocalizedString("Please enter all of the words and try again.", comment: "Sync Alert")
     
     public static let CodeWordInputHelp = NSLocalizedString("Using existing synced device, open Brave Settings and navigate to Settings > Sync. Choose “Add Device” then “Display code words instead”", comment: "Code words input help")
+    public static let CopyToClipboard = NSLocalizedString("Copy to Clipboard", comment: "Copy codewords title")
+    public static let CopiedToClipboard = NSLocalizedString("Copied to Clipboard!", comment: "Copied codewords title")
 }
 
 

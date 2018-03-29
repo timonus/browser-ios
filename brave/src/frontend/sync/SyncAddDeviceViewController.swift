@@ -30,23 +30,16 @@ class SyncAddDeviceViewController: SyncViewController {
     
     lazy var copyPasteButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "copy_paste"), for: .normal)
+        button.setTitle(Strings.CopyToClipboard, for: .normal)
         button.addTarget(self, action: #selector(SEL_copy), for: .touchUpInside)
+        button.setTitleColor(BraveUX.BraveOrange, for: .normal)
+        button.contentEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
         button.isHidden = true
         return button
     }()
-    
-    lazy var copiedlabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = BraveUX.GreyE
-        label.text = Strings.Copied
-        label.isHidden = true
-        return label
-    }()
-
+    var controlContainerView: UIView!
     var containerView: UIView!
-    var qrCodeView: SyncQRCodeView!
+    var qrCodeView: SyncQRCodeView?
     var modeControl: UISegmentedControl!
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -56,7 +49,11 @@ class SyncAddDeviceViewController: SyncViewController {
     var deviceType: DeviceType = .mobile
     var didCopy = false {
         didSet {
-            copiedlabel.isHidden = !didCopy
+            if didCopy {
+                copyPasteButton.setTitle(Strings.CopiedToClipboard, for: .normal)
+            } else {
+                copyPasteButton.setTitle(Strings.CopyToClipboard, for: .normal)
+            }
         }
     }
 
@@ -88,14 +85,15 @@ class SyncAddDeviceViewController: SyncViewController {
             make.left.right.equalTo(self.view)
             make.bottom.equalTo(self.view.safeArea.bottom).inset(24)
         }
+        
+        controlContainerView = UIView()
+        controlContainerView.translatesAutoresizingMaskIntoConstraints = false
 
         containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.backgroundColor = UIColor.white
-        containerView.layer.shadowColor = UIColor(rgb: 0xC8C7CC).cgColor
-        containerView.layer.shadowRadius = 0
-        containerView.layer.shadowOpacity = 1.0
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
+        containerView.layer.cornerRadius = 8
+        containerView.layer.masksToBounds = true
 
         guard let syncSeed = Sync.shared.syncSeedArray else {
             // TODO: Pop and error
@@ -112,33 +110,37 @@ class SyncAddDeviceViewController: SyncViewController {
             guard let words = words, error == nil else {
                 return
             }
-
+            
             self.qrCodeView = SyncQRCodeView(data: qrSyncSeed)
+            self.containerView.addSubview(self.qrCodeView!)
+            
+            self.qrCodeView!.snp.makeConstraints { (make) in
+                make.top.bottom.equalTo(0).inset(22)
+                make.centerX.equalTo(self.containerView)
+                make.size.equalTo(BarcodeSize)
+            }
+            
             self.codewordsView.text = words.joined(separator: " ")
-            self.setupVisuals()
+            
+            self.SEL_changeMode()
         }
+        
+        self.setupVisuals()
     }
     
     func setupVisuals() {
-        containerView.addSubview(qrCodeView)
-        containerView.addSubview(copyPasteButton)
-        containerView.addSubview(copiedlabel)
-
-        codewordsView.isHidden = true
-        containerView.addSubview(codewordsView)
-
         modeControl = UISegmentedControl(items: [Strings.QRCode, Strings.CodeWords])
         modeControl.translatesAutoresizingMaskIntoConstraints = false
         modeControl.tintColor = BraveUX.BraveOrange
         modeControl.selectedSegmentIndex = 0
         modeControl.addTarget(self, action: #selector(SEL_changeMode), for: .valueChanged)
-
-        containerView.addSubview(modeControl)
-        stackView.addArrangedSubview(containerView)
-
+        modeControl.isHidden = deviceType == .computer
+        controlContainerView.addSubview(modeControl)
+        stackView.addArrangedSubview(controlContainerView)
+        
         let titleDescriptionStackView = UIStackView()
         titleDescriptionStackView.axis = .vertical
-        titleDescriptionStackView.spacing = 4
+        titleDescriptionStackView.spacing = 2
         titleDescriptionStackView.alignment = .center
         
         titleLabel = UILabel()
@@ -163,6 +165,17 @@ class SyncAddDeviceViewController: SyncViewController {
         textStackView.setContentCompressionResistancePriority(100, for: .vertical)
 
         stackView.addArrangedSubview(textStackView)
+        
+        codewordsView.isHidden = true
+        containerView.addSubview(codewordsView)
+        
+        stackView.addArrangedSubview(containerView)
+        
+        let copyPasteStackView = UIStackView()
+        copyPasteStackView.axis = .vertical
+        copyPasteStackView.spacing = 1
+        copyPasteStackView.addArrangedSubview(copyPasteButton)
+        stackView.addArrangedSubview(copyPasteStackView)
 
         let doneEnterWordsStackView = UIStackView()
         doneEnterWordsStackView.axis = .vertical
@@ -192,37 +205,25 @@ class SyncAddDeviceViewController: SyncViewController {
 
 
         stackView.addArrangedSubview(buttonsStackView)
-
-        containerView.snp.makeConstraints { (make) in
-            make.height.equalTo(270)
+        
+        controlContainerView.snp.makeConstraints { (make) in
+            make.top.equalTo(0)
+            make.left.right.equalTo(self.view)
+            make.height.greaterThanOrEqualTo(44)
         }
 
         modeControl.snp.makeConstraints { (make) in
-            make.top.equalTo(self.containerView.snp.top).offset(10)
-            make.left.equalTo(8)
-            make.right.equalTo(-8)
+            make.top.equalTo(0).offset(10)
+            make.left.right.equalTo(self.controlContainerView).inset(8)
         }
-
-        qrCodeView.snp.makeConstraints { (make) in
-            make.top.equalTo(modeControl.snp.bottom).offset(16)
-            make.centerX.equalTo(self.containerView)
-            make.size.equalTo(BarcodeSize)
+        
+        containerView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(self.view).inset(22)
         }
 
         codewordsView.snp.makeConstraints { (make) in
-            make.top.equalTo(modeControl.snp.bottom).offset(22)
+            make.top.bottom.equalTo(self.containerView).inset(8)
             make.left.right.equalTo(self.containerView).inset(22)
-        }
-        
-        copyPasteButton.snp.makeConstraints { (make) in
-            make.size.equalTo(45)
-            make.right.equalTo(containerView).inset(15)
-            make.bottom.equalTo(containerView).inset(15)
-        }
-        
-        copiedlabel.snp.makeConstraints { (make) in
-            make.right.equalTo(copyPasteButton.snp.left)
-            make.centerY.equalTo(copyPasteButton)
         }
 
         doneButton.snp.makeConstraints { (make) in
@@ -270,14 +271,10 @@ class SyncAddDeviceViewController: SyncViewController {
     func SEL_changeMode() {
         let isFirstIndex = modeControl.selectedSegmentIndex == 0
         
-        qrCodeView.isHidden = !isFirstIndex
+        qrCodeView?.isHidden = !isFirstIndex
         codewordsView.isHidden = isFirstIndex
         copyPasteButton.isHidden = isFirstIndex
-        
-        if isFirstIndex {
-            copiedlabel.isHidden = true
-        }
-        
+
         updateLabels()
     }
     
