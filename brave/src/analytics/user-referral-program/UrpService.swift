@@ -27,19 +27,10 @@ struct UrpService {
 
         guard let hostUrl = try? host.asURL(), let normalizedHost = hostUrl.normalizedHost else { return nil }
 
-        guard let certPath = Bundle.main.paths(forResourcesOfType: "cer", inDirectory: "runtime_resources").first,
-            let localCertificate = NSData(contentsOfFile: certPath), let certificate = SecCertificateCreateWithData(nil, localCertificate) else {
-                log.error("Failed to load certificate from bundle")
-                UrpLog.log("Failed to load certificate from bundle")
-
-                return nil
-        }
-
-
         // Certificate pinning
         let serverTrustPolicies: [String: ServerTrustPolicy] = [
             normalizedHost: .pinCertificates(
-                certificates: [certificate],
+                certificates: ServerTrustPolicy.certificates(),
                 validateCertificateChain: true,
                 validateHost: true
             )
