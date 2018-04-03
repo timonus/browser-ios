@@ -77,12 +77,14 @@
 		0A14A8BA1997EFDD9BF4F08A /* Favicons.js in Resources */ = {isa = PBXBuildFile; fileRef = 9C0FE62111208C1C3C2CF16A /* Favicons.js */; };
 		0A159C931FD017DB005A79BF /* DeviceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A159C921FD017DB005A79BF /* DeviceDetector.swift */; };
 		0A2551764195AA45DBDDF655 /* memtable.cc in Sources */ = {isa = PBXBuildFile; fileRef = 03E632C3081928FF6C86DEE4 /* memtable.cc */; };
+		0A59F2CB207406D900B0779F /* GlobalSign_r3.cer in Resources */ = {isa = PBXBuildFile; fileRef = 0A59F2C9207406D900B0779F /* GlobalSign_r3.cer */; };
+		0A59F2CC207406D900B0779F /* GlobalSign_r1.cer in Resources */ = {isa = PBXBuildFile; fileRef = 0A59F2CA207406D900B0779F /* GlobalSign_r1.cer */; };
+		0A59F2E620740AEB00B0779F /* DigiCertHighAssurance.cer in Resources */ = {isa = PBXBuildFile; fileRef = 0A59F2E520740AEB00B0779F /* DigiCertHighAssurance.cer */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
 		0A8053961FC59D82008D6822 /* DAU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053951FC59D82008D6822 /* DAU.swift */; };
 		0A8053981FC59D93008D6822 /* DauTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053971FC59D93008D6822 /* DauTest.swift */; };
 		0A8E36AD1FBF5691007FB1C4 /* DeviceModelDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */; };
-		0AAF86A2202B914B00ECAE06 /* runtime_resources in Resources */ = {isa = PBXBuildFile; fileRef = 0AAF86A1202B914B00ECAE06 /* runtime_resources */; };
 		0AFA59701FA09D6B00E9F2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */; };
 		0B742CCF1B32493E00EE9264 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B742CCC1B32491400EE9264 /* libsqlcipher.a */; };
 		0B8E0FF41A932BD500161DC3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8E0FF31A932BD500161DC3 /* ImageIO.framework */; };
@@ -1005,10 +1007,12 @@
 		0A03FF961FCDF0C300DF32C9 /* stringpiece.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stringpiece.cc; sourceTree = "<group>"; };
 		0A03FF971FCDF0C300DF32C9 /* prog.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prog.cc; sourceTree = "<group>"; };
 		0A159C921FD017DB005A79BF /* DeviceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
+		0A59F2C9207406D900B0779F /* GlobalSign_r3.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = GlobalSign_r3.cer; sourceTree = "<group>"; };
+		0A59F2CA207406D900B0779F /* GlobalSign_r1.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = GlobalSign_r1.cer; sourceTree = "<group>"; };
+		0A59F2E520740AEB00B0779F /* DigiCertHighAssurance.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = DigiCertHighAssurance.cer; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
 		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
-		0AAF86A1202B914B00ECAE06 /* runtime_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = runtime_resources; path = brave/runtime_resources; sourceTree = "<group>"; };
 		0AFA596F1FA09D6B00E9F2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B5DA2C8E2A696FCBB8FC07F /* CompletionOps.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompletionOps.swift; path = ./Storage/CompletionOps.swift; sourceTree = "<group>"; };
 		0B742CC61B32491400EE9264 /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ThirdParty/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
@@ -1923,6 +1927,16 @@
 			path = fuzzing;
 			sourceTree = "<group>";
 		};
+		0A59F2C8207406CC00B0779F /* Certificates */ = {
+			isa = PBXGroup;
+			children = (
+				0A59F2CA207406D900B0779F /* GlobalSign_r1.cer */,
+				0A59F2C9207406D900B0779F /* GlobalSign_r3.cer */,
+				0A59F2E520740AEB00B0779F /* DigiCertHighAssurance.cer */,
+			);
+			path = Certificates;
+			sourceTree = "<group>";
+		};
 		0A8053801FC59D6F008D6822 /* analytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -2759,7 +2773,7 @@
 		9D9FA65B7AF80B044B65F8B2 /* brave */ = {
 			isa = PBXGroup;
 			children = (
-				0AAF86A1202B914B00ECAE06 /* runtime_resources */,
+				0A59F2C8207406CC00B0779F /* Certificates */,
 				EBA6F13F1E39410E00F7B3D9 /* upload-to-app-store.applescript */,
 				EBA6F12E1E39312100F7B3D9 /* ad-hoc-export.applescript */,
 				AEC7CC1649CB3DF5D490AFD2 /* ThirdParty */,
@@ -4202,6 +4216,7 @@
 				EB8F566F1DD0FC2800679A78 /* Readability.js in Resources */,
 				E428294E231DA4CAE65470A6 /* Brave.entitlements in Resources */,
 				B8D29DA8868D10CA43DFF30F /* adInfo-divquerytemplate.js in Resources */,
+				0A59F2CB207406D900B0779F /* GlobalSign_r3.cer in Resources */,
 				EB8F569C1DD13DF300679A78 /* FiraSans-BoldItalic.ttf in Resources */,
 				886E3B0001BC705ACFC4AD45 /* adInfo-wrapper.js in Resources */,
 				507ACE2A12D675DAF9C79198 /* adInfo.js in Resources */,
@@ -4217,9 +4232,11 @@
 				4C8CFF069B42CD78C72CC4F4 /* HideEmptyImages.js in Resources */,
 				DDF18B7D90D1BF9E6072344C /* PageUnload.js in Resources */,
 				4305183B54F23C211BD5112A /* SafeBrowsingError.html in Resources */,
+				0A59F2CC207406D900B0779F /* GlobalSign_r1.cer in Resources */,
 				15172EAC2FF91D5014CAA0CB /* Licenses.html in Resources */,
 				4134197C39A4456007BCF42B /* CertError.css in Resources */,
 				0A03FFB31FCDF0C400DF32C9 /* unicode.py in Resources */,
+				0A59F2E620740AEB00B0779F /* DigiCertHighAssurance.cer in Resources */,
 				E37145E30F71657D57F6747C /* CertError.html in Resources */,
 				EB8F56A31DD13DF300679A78 /* FiraSans-UltraLight.ttf in Resources */,
 				0A03FFAC1FCDF0C400DF32C9 /* make_unicode_casefold.py in Resources */,
@@ -4241,7 +4258,6 @@
 				EB8F56A01DD13DF300679A78 /* FiraSans-Medium.ttf in Resources */,
 				2210C35A6B7EB8745B0E93B9 /* SessionRestore.html in Resources */,
 				EB8F569E1DD13DF300679A78 /* FiraSans-Italic.ttf in Resources */,
-				0AAF86A2202B914B00ECAE06 /* runtime_resources in Resources */,
 				5D2B07EB1E6733B900244C39 /* niceware.js in Resources */,
 				59F67C0B4DAA5B488E2C83EF /* SpotlightHelper.js in Resources */,
 				EB8F56981DD13DF300679A78 /* CharisSILBI.ttf in Resources */,
