@@ -81,6 +81,7 @@
 		0A59F2CC207406D900B0779F /* GlobalSign_r1.cer in Resources */ = {isa = PBXBuildFile; fileRef = 0A59F2CA207406D900B0779F /* GlobalSign_r1.cer */; };
 		0A59F2E620740AEB00B0779F /* DigiCertHighAssurance.cer in Resources */ = {isa = PBXBuildFile; fileRef = 0A59F2E520740AEB00B0779F /* DigiCertHighAssurance.cer */; };
 		0A5B1B5CA22425374E4B314C /* arena.h in Headers */ = {isa = PBXBuildFile; fileRef = C38C829D7A278B0AE23070C8 /* arena.h */; };
+		0A7D73992076BAAD00BD66E3 /* CustomHeaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7D73982076BAAD00BD66E3 /* CustomHeaderData.swift */; };
 		0A7F5B77B9A8F11B77C97932 /* SiteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EC7836B7D80B31285DCC6 /* SiteTableViewController.swift */; };
 		0A8053961FC59D82008D6822 /* DAU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053951FC59D82008D6822 /* DAU.swift */; };
 		0A8053981FC59D93008D6822 /* DauTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8053971FC59D93008D6822 /* DauTest.swift */; };
@@ -1010,6 +1011,7 @@
 		0A59F2C9207406D900B0779F /* GlobalSign_r3.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = GlobalSign_r3.cer; sourceTree = "<group>"; };
 		0A59F2CA207406D900B0779F /* GlobalSign_r1.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = GlobalSign_r1.cer; sourceTree = "<group>"; };
 		0A59F2E520740AEB00B0779F /* DigiCertHighAssurance.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = DigiCertHighAssurance.cer; sourceTree = "<group>"; };
+		0A7D73982076BAAD00BD66E3 /* CustomHeaderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHeaderData.swift; sourceTree = "<group>"; };
 		0A8053951FC59D82008D6822 /* DAU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAU.swift; sourceTree = "<group>"; };
 		0A8053971FC59D93008D6822 /* DauTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DauTest.swift; sourceTree = "<group>"; };
 		0A8E36AC1FBF5691007FB1C4 /* DeviceModelDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModelDetector.swift; sourceTree = "<group>"; };
@@ -1951,6 +1953,7 @@
 			isa = PBXGroup;
 			children = (
 				0A03788C20211D1D00E52C13 /* ReferralData.swift */,
+				0A7D73982076BAAD00BD66E3 /* CustomHeaderData.swift */,
 				0A03788E20211D1D00E52C13 /* UrpService.swift */,
 				0A03788D20211D1D00E52C13 /* UserReferralProgram.swift */,
 				0A02A947202B66FF00A1E754 /* UrpLogsViewController.swift */,
@@ -4721,6 +4724,7 @@
 				C1F07A6A18FC4630EA937E6B /* BrowserViewController+ReaderModeDelegate.swift in Sources */,
 				24F13EC5A582B77E0F00EB61 /* BrowserViewController+TabManagerDelegate.swift in Sources */,
 				969DAF9437DD60D2DE8021A0 /* BrowserViewController+ToolbarAndUrlbarDelegate.swift in Sources */,
+				0A7D73992076BAAD00BD66E3 /* CustomHeaderData.swift in Sources */,
 				0A03FFBC1FCDF0C400DF32C9 /* dfa.cc in Sources */,
 				EB009BB01E1BF44200680DB8 /* HashSet.cpp in Sources */,
 				2AC0D22C9C73296D030162EE /* BrowserViewController+WKNavigationDelegate.swift in Sources */,
@@ -5122,6 +5126,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = brave/Brave.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -5500,6 +5505,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = BraveShareTo/BraveShareToInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
@@ -5530,6 +5536,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -5717,6 +5724,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = brave/Brave.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",

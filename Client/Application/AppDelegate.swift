@@ -157,8 +157,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         if let urp = UserReferralProgram() {
             let isFirstLaunch = self.getProfile(application).prefs.arrayForKey(DAU.preferencesKey) == nil
             if isFirstLaunch {
-                urp.referralLookup()
+                urp.referralLookup { url in
+                    guard let url = url else { return }
+                    postAsyncToMain(1) { try? self.browserViewController.openURLInNewTab(url.asURL()) }
+                }
             } else {
+                urp.getCustomHeaders()
                 urp.pingIfEnoughTimePassed()
             }
         } else {

@@ -80,6 +80,22 @@ struct UrpService {
             completion(json["finalized"].boolValue, nil)
         }
     }
+
+    func fetchCustomHeaders(completion: @escaping ([CustomHeaderData], UrpError?) -> ()) {
+        guard var endPoint = try? host.asURL() else {
+            completion([], .endpointError)
+            return
+        }
+        endPoint.appendPathComponent("promo/custom-headers")
+
+        let params = [UrpService.apiKeyParam : apiKey]
+
+        sessionManager.request(endPoint, parameters: params).responseJSON { response in
+            let json = JSON(response.data as Any)
+            let customHeaders = CustomHeaderData.customHeaders(from: json)
+            completion(customHeaders, nil)
+        }
+    }
 }
 
 extension SessionManager {

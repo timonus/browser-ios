@@ -11,14 +11,25 @@ struct ReferralData {
         static let downloadId = "downloadIdPrefsKey"
         static let referralCode = "referralCodePrefsKey"
         static let referralCodeDeleteDate = "referralCodeDeleteTimePrefsKey"
+        static let offerPage = "offerPagePrefsKey"
     }
 
     let downloadId: String
     let referralCode: String
+    let offerPage: String?
 
-    init(downloadId: String, code: String) {
+    let customHeaders: [CustomHeaderData]?
+
+    func isExtendedUrp() -> Bool {
+        return offerPage != nil
+    }
+
+    init(downloadId: String, code: String, offerPage: String? = nil, customHeaders: [CustomHeaderData]? = nil) {
         self.downloadId = downloadId
         self.referralCode = code
+
+        self.offerPage = offerPage
+        self.customHeaders = customHeaders
     }
 
     init?(json: JSON) {
@@ -29,5 +40,11 @@ struct ReferralData {
 
         self.downloadId = downloadId
         self.referralCode = code
+        self.offerPage = json["offer_page_url"].string
+
+        var headers = [CustomHeaderData]()
+        headers.append(contentsOf: CustomHeaderData.customHeaders(from: json["headers"]))
+
+        self.customHeaders = headers.count > 0 ? headers : nil
     }
 }
