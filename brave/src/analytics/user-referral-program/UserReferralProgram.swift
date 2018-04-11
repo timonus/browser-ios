@@ -30,6 +30,8 @@ class UserReferralProgram {
 
         guard let urpService = UrpService(host: host, apiKey: apiKey) else { return nil }
 
+        UrpLog.log("URP init, host: \(host), api key: \(apiKey)")
+
         self.prefs = prefs
         self.service = urpService
     }
@@ -178,24 +180,24 @@ class UserReferralProgram {
         }
     }
 
-    class func addCustomHeaders(to request: URLRequest) -> URLRequest {
-
+    /// Checks if a custom header should be added to the request and returns its value and field.
+    class func shouldAddCustomHeader(for request: URLRequest) -> (value: String, field: String)? {
         guard let prefs = BraveApp.getPrefs(), let customHeadersAsData: Data = prefs.objectForKey(CustomHeaderData.prefsKey) as Any? as? Data,
             let customHeaders = NSKeyedUnarchiver.unarchiveObject(with: customHeadersAsData) as? [CustomHeaderData],
-            let hostUrl = request.url?.host else { return request }
-
-        var newRequest = request
+            let hostUrl = request.url?.host else { return nil }
 
         for customHeader in customHeaders {
-            innerLoop: for domain in customHeader.domainList {
+            // There could be an egde case when we would have two domains withing different domain groups, that would
+            // cause to return only the first domain-header it approaches.
+            for domain in customHeader.domainList {
                 if hostUrl.contains(domain) {
-                    UrpLog.log("Adding custom header: [\(customHeader.headerField): \(customHeader.headerValue)] for domain: \(domain)")
-                    newRequest.addValue(customHeader.headerValue, forHTTPHeaderField: customHeader.headerField)
-                    break innerLoop
+                    if let allFields = request.allHTTPHeaderFields, !allFields.keys.contains(customHeader.headerField) {
+                        return (customHeader.headerValue, customHeader.headerField)
+                    }
                 }
             }
         }
 
-        return newRequest
+        return nil
     }
 }

@@ -374,8 +374,6 @@ class BraveWebView: UIWebView {
     override func loadRequest(_ request: URLRequest) {
         clearLoadCompletedHtmlProperty()
 
-        let mutatedRequest = UserReferralProgram.addCustomHeaders(to: request)
-
         guard let internalWebView = value(forKeyPath: "documentView.webView") else { return }
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: internalProgressChangedNotification), object: internalWebView)
         NotificationCenter.default.addObserver(self, selector: #selector(BraveWebView.internalProgressNotification(_:)), name: NSNotification.Name(rawValue: internalProgressChangedNotification), object: internalWebView)
@@ -383,7 +381,7 @@ class BraveWebView: UIWebView {
         if let url = request.url, let host = url.normalizedHost {
             internalSetBraveShieldStateForDomain(host)
         }
-        super.loadRequest(mutatedRequest)
+        super.loadRequest(request)
     }
 
     enum LoadCompleteHtmlPropertyOption {
@@ -756,7 +754,6 @@ extension BraveWebView: UIWebViewDelegate {
 
         return true
     }
-
 
     func webViewDidStartLoad(_ webView: UIWebView) {
         backForwardList.update()

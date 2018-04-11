@@ -20,6 +20,10 @@ class URLProtocol: Foundation.URLProtocol {
     static var testShieldState: BraveShieldState?
 
     override class func canInit(with request: URLRequest) -> Bool {
+        if UserReferralProgram.shouldAddCustomHeader(for: request) != nil {
+            return true
+        }
+
         //print("Request #\(requestCount++): URL = \(request.mainDocumentURL?.absoluteString)")
         if let scheme = request.url?.scheme, !scheme.startsWith("http") {
             return false
@@ -197,6 +201,11 @@ class URLProtocol: Foundation.URLProtocol {
         if let url = request.url?.absoluteString, disableJavascript && (url.contains(".js?") || url.contains(".js#") || url.endsWith(".js")) {
             returnEmptyResponse()
             return
+        }
+
+        if let customHeader = UserReferralProgram.shouldAddCustomHeader(for: request) {
+            UrpLog.log("Adding custom header: [\(customHeader.field): \(customHeader.value)] for domain: \(request.url?.absoluteString ?? "404")")
+            newRequest.addValue(customHeader.value, forHTTPHeaderField: customHeader.field)
         }
 
         self.connection = NSURLConnection(request: newRequest as URLRequest, delegate: self)
