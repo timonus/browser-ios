@@ -4,12 +4,18 @@ import CoreData
 import SnapKit
 import Shared
 
-class MainSidePanelViewController : SidePanelBaseViewController {
+protocol MainSidePanelViewControllerDelegate {
+    func openSyncSetup() -> Void
+}
+
+class MainSidePanelViewController : SidePanelBaseViewController, MainSidePanelViewControllerDelegate {
 
     let bookmarksPanel = BookmarksPanel(folder: nil)
     fileprivate var bookmarksNavController:UINavigationController!
     
     let history = HistoryPanel()
+    
+    var syncSetupViewController: SyncWelcomeViewController?
 
     var bookmarksButton = UIButton()
     var historyButton = UIButton()
@@ -31,6 +37,8 @@ class MainSidePanelViewController : SidePanelBaseViewController {
 
     override func setupUIElements() {
         super.setupUIElements()
+        
+        bookmarksPanel.delegate = self
         
         bookmarksNavController = UINavigationController(rootViewController: bookmarksPanel)
         bookmarksNavController.view.backgroundColor = UIColor.white
@@ -91,6 +99,14 @@ class MainSidePanelViewController : SidePanelBaseViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if bookmarksButton.isSelected {
+            bookmarksPanel.reloadData()
+        }
+    }
+    
     func onClickSettingsButton() {
         if getApp().profile == nil {
             return
@@ -102,6 +118,21 @@ class MainSidePanelViewController : SidePanelBaseViewController {
         let controller = SettingsNavigationController(rootViewController: settingsTableViewController)
         controller.modalPresentationStyle = UIModalPresentationStyle.formSheet
         present(controller, animated: true, completion: nil)
+    }
+    
+    func openSyncSetup() {
+        if !Sync.shared.isInSyncGroup {
+            syncSetupViewController = SyncWelcomeViewController()
+            syncSetupViewController!.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SEL_closeSync))
+            
+            let settingsNavController = SettingsNavigationController(rootViewController: syncSetupViewController!)
+            settingsNavController.modalPresentationStyle = UIModalPresentationStyle.formSheet
+            present(settingsNavController, animated: true, completion: nil)
+        }
+    }
+    
+    func SEL_closeSync() {
+        syncSetupViewController?.dismiss(animated: true)
     }
 
     //For this function to be called there *must* be a selected tab and URL

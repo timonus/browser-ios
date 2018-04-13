@@ -79,7 +79,7 @@ class Device: NSManagedObject, Syncable {
         if sharedCurrentDevice == nil {
             let context = DataController.shared.workerContext
             // Create device
-            let predicate = NSPredicate(format: "isCurrentDevice = %@", true as CVarArg)
+            let predicate = NSPredicate(format: "isCurrentDevice = true")
             // Should only ever be one current device!
             var localDevice: Device? = get(predicate: predicate, context: context)?.first
             

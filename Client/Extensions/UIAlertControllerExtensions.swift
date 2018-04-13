@@ -133,7 +133,7 @@ class UserTextInputAlert {
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextFieldTextDidChange, object: alert.textFields?.first)
         }
         
-        self.okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default) { (alertA: UIAlertAction!) in
+        let okAction = UIAlertAction(title: Strings.OK, style: UIAlertActionStyle.default) { (alertA: UIAlertAction!) in
             actionSelected(input: self.alert.textFields?.first?.text, input2: self.alert.textFields?.last?.text)
         }
         
@@ -141,10 +141,12 @@ class UserTextInputAlert {
             actionSelected(input: nil, input2: nil)
         }
         
-        self.okAction.isEnabled = !forcedInput
+        okAction.isEnabled = !forcedInput
         
-        alert.addAction(self.okAction)
+        alert.addAction(okAction)
         alert.addAction(cancelAction)
+        
+        self.okAction = okAction
         
         alert.addTextField {
             textField in

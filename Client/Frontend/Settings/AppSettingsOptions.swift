@@ -191,7 +191,7 @@ class SyncDeviceSetting: Setting {
     init(profile: Profile, device: Device) {
         self.profile = profile
         self.device = device
-        super.init(title: NSAttributedString(string: self.displayTitle, attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
+        super.init(title: NSAttributedString(string: device.name ?? "This device", attributes: [NSForegroundColorAttributeName: UIConstants.TableViewRowTextColor]))
     }
     
     override func onClick(_ navigationController: UINavigationController?) {

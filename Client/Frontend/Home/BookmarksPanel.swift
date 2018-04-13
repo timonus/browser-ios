@@ -180,6 +180,8 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     weak var addBookmarksFolderOkAction: UIAlertAction?
   
     var isEditingIndividualBookmark:Bool = false
+    
+    var delegate: MainSidePanelViewControllerDelegate?
 
     var currentFolder: Bookmark? = nil
 
@@ -505,7 +507,36 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return nil
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightRegular)
+        label.textAlignment = .center
+        
+        if !Sync.shared.isInSyncGroup {
+            label.textColor = BraveUX.LightBlue
+            label.numberOfLines = 2
+            label.text = "Sync your bookmarks \racross devices"
+        } else {
+            label.textColor = BraveUX.GreyG
+            label.numberOfLines = 1
+            label.text = "Last synced 34m ago"
+        }
+        
+        let view = UIView()
+        view.backgroundColor = BraveUX.White
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowColor = BraveUX.GreyD.cgColor
+        view.layer.shadowRadius = 1
+        view.layer.shadowOpacity = 1
+        
+        let headerTapGesture = UITapGestureRecognizer(target: self, action: #selector(SEL_tapSyncHeader(_:)))
+        view.addSubview(label)
+        view.addGestureRecognizer(headerTapGesture)
+        
+        label.snp.makeConstraints { (make) in
+            make.margins.equalTo(view)
+        }
+        
+        return view
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -513,7 +544,7 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0
+        return !Sync.shared.isInSyncGroup ? 58 : 28
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAtIndexPath indexPath: IndexPath) -> IndexPath? {
@@ -605,7 +636,10 @@ class BookmarksPanel: SiteTableViewController, HomePanel {
         self.isEditingIndividualBookmark = true
         self.navigationController?.pushViewController(nextController, animated: true)
     }
-
+    
+    func SEL_tapSyncHeader(_ gesture: UITapGestureRecognizer?) {
+        delegate?.openSyncSetup()
+    }
 }
 
 private protocol BookmarkFolderTableViewHeaderDelegate {
