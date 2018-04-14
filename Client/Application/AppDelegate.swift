@@ -273,7 +273,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         return shouldPerformAdditionalDelegateHandling
     }
 
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    // Note: annotation is explicitly marked as Any? instead of Any because of an issue leading to a crash in some versions of Xcode.
+    // For context, see here https://bit.ly/2H04dOw (Swift contributor commenting on source of mysterious crash) and here https://bit.ly/2HDSAhz (workaround)
+    // This'll trigger a benign warning until this version of openURL is no longer needed (newer method was added in iOS 10).
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any?) -> Bool {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
         }
